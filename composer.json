@@ -2,6 +2,7 @@
     "name": "umi/framework",
     "description": "UMI.Framework",
     "type": "library",
+    "license": "BSD-3-Clause",
     "minimum-stability": "stable",
     "autoload": {
         "psr-0": {
