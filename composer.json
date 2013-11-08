@@ -1,0 +1,16 @@
+{
+    "name": "umi/framework",
+    "description": "UMI.Framework",
+    "type": "library",
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-0": {
+            "umi\\": "library/"
+        }
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "psr/log": "1.*",
+        "twig/twig": "1.*"
+    }
+}

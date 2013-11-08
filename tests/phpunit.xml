@@ -1,0 +1,13 @@
+<phpunit bootstrap="./bootstrap.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnFailure="false"
+         backupGlobals="false">
+    <filter>
+        <blacklist>
+            <directory>phpdoc</directory>
+        </blacklist>
+    </filter>
+</phpunit>
