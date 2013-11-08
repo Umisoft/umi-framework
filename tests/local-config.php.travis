@@ -1,0 +1,33 @@
+<?php
+use umi\dbal\toolbox\IDbalTools;
+
+return [
+    'settings' => [
+        IDbalTools::ALIAS => [
+            'servers' => [
+                [
+                    'id'     => 'mysqlMaster',
+                    'type'   => 'master',
+                    'driver' => [
+                        'type'    => 'mysql',
+                        'options' => [
+                            'dsn'      => 'mysql:dbname=myapp_test;host=localhost',
+                            'user'     => 'travis',
+                            'password' => ''
+                        ]
+                    ]
+                ],
+                [
+                    'id'     => 'sqliteMaster',
+                    'type'   => 'master',
+                    'driver' => [
+                        'type'    => 'sqlite',
+                        'options' => [
+                            'dsn' => 'sqlite::memory:'
+                        ]
+                    ]
+                ]
+            ]
+        ],
+    ]
+];
