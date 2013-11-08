@@ -194,6 +194,9 @@ body {
 	background-image: -o-radial-gradient(circle farthest-side, #00b8f0 0%, #0073a8 30%, #004ca8 55%, #002c61 90%);
 	background-image: radial-gradient(circle farthest-side, #00b8f0 0%, #0073a8 30%, #004ca8 55%, #002c61 90%);
 	font-family: tahoma;
+	font-weight: 300;
+	overflow: hidden;
+	position: relative;
 }
 
 .text-center {
