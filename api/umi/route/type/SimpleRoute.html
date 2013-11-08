@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\route\type\SimpleRoute | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/route/type.html">umi\route\type</a>\SimpleRoute</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>SimpleRoute</strong>        extends <a href="../../../umi/route/type/RegexpRoute.html"><abbr title="umi\route\type\RegexpRoute">RegexpRoute</abbr></a>        implements
+        <a href="../../../umi/route/type/IRoute.html"><abbr title="umi\route\type\IRoute">IRoute</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
+
+            <div class="description">
+            <p>Правило маршрутизатора на основе simple выражений.</p>
+            <p>Примеры:
+   {module}/{controller}/{action}
+   {module:string}/{controller:integer}/{action:string}</p>
+        </div>
+    
+    
+            <h2>Properties</h2>
+
+            <table>
+                    <tr>
+                <td class="type" id="property_route">
+                    public                                                                                string
+                </td>
+                <td class="last">$route правило маршрутизатора</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_defaults">
+                    public                                                                                array
+                </td>
+                <td class="last">$defaults параметры по-умолчанию</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_types">
+                    public                                                                                array
+                </td>
+                <td class="last">$types типы параметров маршрутизатора. [ integer =&gt; целое число float =&gt; число с плавающей точкой string =&gt; строка(до управляющего символа - /) text =&gt; строка(до конца URL, игнорирует управляющий символ) ]</td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    int|bool
+                </td>
+                <td class="last">
+                    <a href="#method_match">match</a>(string $url)
+                    <p>Проверяет соответствие части URL и правила маршрутизатора.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_assemble">assemble</a>(array $params = array(), array $options = array(&#039;forceDefaults&#039; =&gt; false))
+                    <p>{@inheritdoc]</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_match">
+        <div class="location">at line 46</div>
+        <code>            public            int|bool
+    <strong>match</strong>(string $url)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет соответствие части URL и правила маршрутизатора.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$url</td>
+                <td>часть адреса URL</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int|bool</td>
+            <td>длину совпадения, либо false, если совпадения нет</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_assemble">
+        <div class="location">at line 56</div>
+        <code>            public            string
+    <strong>assemble</strong>(array $params = array(), array $options = array(&#039;forceDefaults&#039; =&gt; false))</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc]</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$params</td>
+                <td>параметры URL</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции сборки</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>часть URL</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

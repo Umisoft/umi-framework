@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\dbal\driver\IIndexScheme | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/dbal/driver.html">umi\dbal\driver</a>\IIndexScheme</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IIndexScheme</strong></p>
+
+            <div class="description">
+            <p>Интерфейс схемы индекса таблицы БД.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsDeleted">setIsDeleted</a>($isDeleted = true)
+                    <p>Устанавливает/снимает флаг "схема удалена"</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsDeleted">getIsDeleted</a>()
+                    <p>Проверяет, является ли схема удаленной</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsNew">getIsNew</a>()
+                    <p>Проверяет, является ли схема новой</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsNew">setIsNew</a>($isNew = true)
+                    <p>Устанавливает/снимает флаг "новая схема"</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsModified">getIsModified</a>()
+                    <p>Проверяет, была ли изменена схема индекса</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsModified">setIsModified</a>($isModified = true)
+                    <p>Устанавливает/снимает флаг "схема изменена"</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getName">getName</a>()
+                    <p>Возвращает имя индекса</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsUnique">getIsUnique</a>()
+                    <p>Возвращает уникальность индекса</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsUnique">setIsUnique</a>(bool $isUnique = true)
+                    <p>Выставляет уникальность индекса</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setType">setType</a>(string|null $type)
+                    <p>Выставляет тип индекса или сбрасывает его</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getType">getType</a>()
+                    <p>Возвращает тип индекса</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addColumn">addColumn</a>(string $name, null|int $length = null)
+                    <p>Добавляет к индексу столбец или изменяет существующий</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_deleteColumn">deleteColumn</a>(string $name)
+                    <p>Удаляет столбец из индекса</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getColumns">getColumns</a>()
+                    <p>Возвращает столбцы индекса</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_setIsDeleted">
+        <div class="location">at line 23</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>setIsDeleted</strong>($isDeleted = true)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает/снимает флаг "схема удалена"</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$isDeleted</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsDeleted">
+        <div class="location">at line 29</div>
+        <code>            public            bool
+    <strong>getIsDeleted</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, является ли схема удаленной</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsNew">
+        <div class="location">at line 35</div>
+        <code>            public            bool
+    <strong>getIsNew</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, является ли схема новой</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsNew">
+        <div class="location">at line 43</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>setIsNew</strong>($isNew = true)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает/снимает флаг "новая схема"</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$isNew</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsModified">
+        <div class="location">at line 49</div>
+        <code>            public            bool
+    <strong>getIsModified</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, была ли изменена схема индекса</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsModified">
+        <div class="location">at line 57</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>setIsModified</strong>($isModified = true)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает/снимает флаг "схема изменена"</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$isModified</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getName">
+        <div class="location">at line 63</div>
+        <code>            public            string
+    <strong>getName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя индекса</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsUnique">
+        <div class="location">at line 69</div>
+        <code>            public            bool
+    <strong>getIsUnique</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает уникальность индекса</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsUnique">
+        <div class="location">at line 76</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>setIsUnique</strong>(bool $isUnique = true)</code>
+    </h3>
+    <div class="details">
+        <p>Выставляет уникальность индекса</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>bool</td>
+                <td>$isUnique</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setType">
+        <div class="location">at line 83</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>setType</strong>(string|null $type)</code>
+    </h3>
+    <div class="details">
+        <p>Выставляет тип индекса или сбрасывает его</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string|null</td>
+                <td>$type</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getType">
+        <div class="location">at line 89</div>
+        <code>            public            string
+    <strong>getType</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает тип индекса</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addColumn">
+        <div class="location">at line 97</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>addColumn</strong>(string $name, null|int $length = null)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет к индексу столбец или изменяет существующий</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>столбец</td>
+            </tr>
+                    <tr>
+                <td>null|int</td>
+                <td>$length</td>
+                <td>длина</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_deleteColumn">
+        <div class="location">at line 104</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>deleteColumn</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет столбец из индекса</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>столбец</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getColumns">
+        <div class="location">at line 110</div>
+        <code>            public            array
+    <strong>getColumns</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает столбцы индекса</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

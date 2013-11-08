@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\authentication\Authentication | </title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../traits.html">Traits</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../umi/authentication.html">umi\authentication</a>\Authentication</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>Authentication</strong>        implements
+        <a href="../../umi/authentication/IAuthentication.html"><abbr title="umi\authentication\IAuthentication">IAuthentication</abbr></a>, <a href="../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>, <a href="../../umi/authentication/result/IAuthenticationResultAware.html"><abbr title="umi\authentication\result\IAuthenticationResultAware">IAuthenticationResultAware</abbr></a></p>
+
+            <div class="description">
+            <p>Класс менеджера аутентификации.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a> $adapter, <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a> $storage)
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getStorage">getStorage</a>()
+                    <p>Возвращает хранилище авторизации.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/authentication/result/IAuthResult.html"><abbr title="umi\authentication\result\IAuthResult">IAuthResult</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_authenticate">authenticate</a>(<a href="../../umi/authentication/provider/IAuthProvider.html"><abbr title="umi\authentication\provider\IAuthProvider">IAuthProvider</abbr></a> $provider)
+                    <p>Производит авторизацию.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_isAuthenticated">isAuthenticated</a>()
+                    <p>Возвращает статус авторизации.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="umi\authentication\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_forget">forget</a>()
+                    <p>Стирает авторизационные данные.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 45</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a> $adapter, <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a> $storage)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a></td>
+                <td>$adapter</td>
+                <td>адаптер авторизации</td>
+            </tr>
+                    <tr>
+                <td><a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a></td>
+                <td>$storage</td>
+                <td>хранилище авторизации</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getStorage">
+        <div class="location">at line 55</div>
+        <code>            public            <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
+    <strong>getStorage</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает хранилище авторизации.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_authenticate">
+        <div class="location">at line 63</div>
+        <code>            public            <a href="../../umi/authentication/result/IAuthResult.html"><abbr title="umi\authentication\result\IAuthResult">IAuthResult</abbr></a>
+    <strong>authenticate</strong>(<a href="../../umi/authentication/provider/IAuthProvider.html"><abbr title="umi\authentication\provider\IAuthProvider">IAuthProvider</abbr></a> $provider)</code>
+    </h3>
+    <div class="details">
+        <p>Производит авторизацию.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../umi/authentication/provider/IAuthProvider.html"><abbr title="umi\authentication\provider\IAuthProvider">IAuthProvider</abbr></a></td>
+                <td>$provider</td>
+                <td>провайдер авторизации</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/authentication/result/IAuthResult.html"><abbr title="umi\authentication\result\IAuthResult">IAuthResult</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isAuthenticated">
+        <div class="location">at line 97</div>
+        <code>            public            bool
+    <strong>isAuthenticated</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает статус авторизации.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_forget">
+        <div class="location">at line 105</div>
+        <code>            public            <abbr title="umi\authentication\$this">$this</abbr>
+    <strong>forget</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Стирает авторизационные данные.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="umi\authentication\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

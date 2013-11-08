@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\config\toolbox\factory\ConfigEntityFactory | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/config/toolbox/factory.html">umi\config\toolbox\factory</a>\ConfigEntityFactory</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>ConfigEntityFactory</strong>        implements
+        <a href="../../../../umi/config/entity/factory/IConfigEntityFactory.html"><abbr title="umi\config\entity\factory\IConfigEntityFactory">IConfigEntityFactory</abbr></a>, <a href="../../../../umi/toolkit/factory/IFactory.html"><abbr title="umi\toolkit\factory\IFactory">IFactory</abbr></a></p>
+
+            <div class="description">
+            <p>Фабрика сущностей конфигурации.</p>
+            <p>
+</p>
+        </div>
+    
+    
+            <h2>Properties</h2>
+
+            <table>
+                    <tr>
+                <td class="type" id="property_valueClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$valueClass класс для значения конфигурации</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_configSourceClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$configSourceClass класс &quot;источника&quot; конфигурации</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_separateConfigClasses">
+                    public                                                                                array
+                </td>
+                <td class="last">$separateConfigClasses классы отдельных конфигураций</td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createValue">createValue</a>()
+                    <p>Создает значение в конфигурации.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createConfigSource">createConfigSource</a>(string $alias, array $source)
+                    <p>Создает конфигурацию, на основе источника данных.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/config/entity/ISeparateConfigSource.html"><abbr title="umi\config\entity\ISeparateConfigSource">ISeparateConfigSource</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createSeparateConfigSource">createSeparateConfigSource</a>(string $type, string $alias)
+                    <p>Создает отдельную конфигурацию.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_createValue">
+        <div class="location">at line 43</div>
+        <code>            public            <a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a>
+    <strong>createValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Создает значение в конфигурации.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createConfigSource">
+        <div class="location">at line 55</div>
+        <code>            public            <a href="../../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
+    <strong>createConfigSource</strong>(string $alias, array $source)</code>
+    </h3>
+    <div class="details">
+        <p>Создает конфигурацию, на основе источника данных.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$alias</td>
+                <td>символическое имя конфигурации</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$source</td>
+                <td>конфигурация</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createSeparateConfigSource">
+        <div class="location">at line 67</div>
+        <code>            public            <a href="../../../../umi/config/entity/ISeparateConfigSource.html"><abbr title="umi\config\entity\ISeparateConfigSource">ISeparateConfigSource</abbr></a>
+    <strong>createSeparateConfigSource</strong>(string $type, string $alias)</code>
+    </h3>
+    <div class="details">
+        <p>Создает отдельную конфигурацию.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>тип отдельной конфигурации</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$alias</td>
+                <td>символическое имя конфигурации</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/config/entity/ISeparateConfigSource.html"><abbr title="umi\config\entity\ISeparateConfigSource">ISeparateConfigSource</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

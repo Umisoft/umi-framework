@@ -1,0 +1,1894 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\dbal\driver\mysql\MySqlTable | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/dbal/driver/mysql.html">umi\dbal\driver\mysql</a>\MySqlTable</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>MySqlTable</strong>        extends <a href="../../../../umi/dbal/driver/BaseTableScheme.html"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a>        implements
+        <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></p>
+
+            <div class="description">
+            <p>Таблица MySQL базы данных.</p>
+            <p>Инкапсулирует логику работы с MySQL-таблицой</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(string $tableName, <a href="../../../../umi/dbal/driver/IDbDriver.html"><abbr title="umi\dbal\driver\IDbDriver">IDbDriver</abbr></a> $driver, <a href="../../../../umi/dbal/driver/ITableFactory.html"><abbr title="umi\dbal\driver\ITableFactory">ITableFactory</abbr></a> $tableFactory)
+                    <p>Конструктор</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method___construct"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getName">getName</a>()
+                    <p>Возвращает имя таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getName"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsModified">getIsModified</a>()
+                    <p>Проверяет, была ли изменена схема таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIsModified"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsNew">getIsNew</a>()
+                    <p>Проверяет, является ли схема новой.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIsNew"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsDeleted">getIsDeleted</a>()
+                    <p>Проверяет, является ли схема удаленной.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIsDeleted"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsModified">setIsModified</a>(bool $isModified = true)
+                    <p>Устанавливает/снимает флаг "схема изменена".</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setIsModified"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsNew">setIsNew</a>(bool $isNew = true)
+                    <p>Устанавливает/снимает флаг "новая схема".</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setIsNew"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsDeleted">setIsDeleted</a>(bool $isDeleted = true)
+                    <p>Устанавливает/снимает флаг "удаленная схема".</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setIsDeleted"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCollation">getCollation</a>()
+                    <p>Возвращает collation таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getCollation"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCharset">getCharset</a>()
+                    <p>Возвращает charset таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getCharset"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getEngine">getEngine</a>()
+                    <p>Возвращает engine таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getEngine"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getComment">getComment</a>()
+                    <p>Возвращает комметарий к таблице.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getComment"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setCollation">setCollation</a>(string $collation)
+                    <p>Устанавливает collation таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setCollation"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setComment">setComment</a>(string $comment)
+                    <p>Устанавливает комментарий для таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setComment"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setCharset">setCharset</a>(string $charset)
+                    <p>Устанавливает charset таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setCharset"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setEngine">setEngine</a>(string $engine)
+                    <p>Устанавливает engine таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setEngine"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addColumn">addColumn</a>(string $name, string $type, array $options = array())
+                    <p>Добавляет новый столбец в таблицу или возвращает существующий, при этом меняет тип столбца, если он отличается от текущего.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_addColumn"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_deleteColumn">deleteColumn</a>(string $name)
+                    <p>Удаляет столбец.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_deleteColumn"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getNewColumns">getNewColumns</a>()
+                    <p>Возвращает список новых столбцов.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getNewColumns"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getModifiedColumns">getModifiedColumns</a>()
+                    <p>Возвращает список измененных столбцов.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getModifiedColumns"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getDeletedColumns">getDeletedColumns</a>()
+                    <p>Возвращает список удаленных столбцов.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getDeletedColumns"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_reload">reload</a>()
+                    <p>Загружает / обновляет схему из БД.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_reload"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>[]
+                </td>
+                <td class="last">
+                    <a href="#method_getIndexes">getIndexes</a>()
+                    <p>Возвращает массив индексов таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIndexes"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IConstraintScheme.html"><abbr title="umi\dbal\driver\IConstraintScheme">IConstraintScheme</abbr></a>[]
+                </td>
+                <td class="last">
+                    <a href="#method_getConstraints">getConstraints</a>()
+                    <p>Возвращает внешние ключи таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getConstraints"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>|null
+                </td>
+                <td class="last">
+                    <a href="#method_getPrimaryKey">getPrimaryKey</a>()
+                    <p>Возвращает первичный ключ таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getPrimaryKey"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_deletePrimaryKey">deletePrimaryKey</a>()
+                    <p>Удаляет первичный ключ.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_deletePrimaryKey"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setPrimaryKey">setPrimaryKey</a>(string $columnName)
+                    <p>Устанавливает первичный ключ для таблицы или получает текущий.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setPrimaryKey"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getIndex">getIndex</a>(string $name)
+                    <p>Возвращает индекс таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIndex"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addIndex">addIndex</a>(string $name)
+                    <p>Добавляет индекс в таблицу или возвращает существующий.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_addIndex"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_deleteIndex">deleteIndex</a>(string $name)
+                    <p>Удаляет индекс.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_deleteIndex"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIndexExists">getIndexExists</a>(string $name)
+                    <p>Проверяет, существует ли индекс.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIndexExists"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getNewIndexes">getNewIndexes</a>()
+                    <p>Возвращает список новых индексов.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getNewIndexes"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getModifiedIndexes">getModifiedIndexes</a>()
+                    <p>Возвращает список измененных индексов.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getModifiedIndexes"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getDeletedIndexes">getDeletedIndexes</a>()
+                    <p>Возвращает массив удаленных индексов.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getDeletedIndexes"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IConstraintScheme.html"><abbr title="umi\dbal\driver\IConstraintScheme">IConstraintScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getConstraint">getConstraint</a>(string $name)
+                    <p>Возвращает внешний ключ таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getConstraint"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IConstraintScheme.html"><abbr title="umi\dbal\driver\IConstraintScheme">IConstraintScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addConstraint">addConstraint</a>(string $name, string $columnName, string $referenceTableName, string $referenceColumnName, string $onDeleteAction = null, string $onUpdateAction = null)
+                    <p>Добавляет новый внешний ключ или получает существующий с таким именем.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_addConstraint"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_deleteConstraint">deleteConstraint</a>(string $name)
+                    <p>Удаляет внешний ключ.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_deleteConstraint"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getConstraintExists">getConstraintExists</a>(string $name)
+                    <p>Проверяет существует ли внешний ключ.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getConstraintExists"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getNewConstraints">getNewConstraints</a>()
+                    <p>Возвращает список новых внешних ключей.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getNewConstraints"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getDeletedConstraints">getDeletedConstraints</a>()
+                    <p>Возвращает список удаленных внешних ключей.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getDeletedConstraints"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getModifiedConstraints">getModifiedConstraints</a>()
+                    <p>Возвращает список измененных внешних ключей.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getModifiedConstraints"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getMigrationQueries">getMigrationQueries</a>()
+                    <p>Возвращает запрос для создания/изменения схемы таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getMigrationQueries"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getColumn">getColumn</a>(string $name)
+                    <p>Возвращает схему столбца таблицы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getColumn"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getColumnExists">getColumnExists</a>(string $name)
+                    <p>Проверяет существует ли столбец.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getColumnExists"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>[]
+                </td>
+                <td class="last">
+                    <a href="#method_getColumns">getColumns</a>()
+                    <p>Возвращает список схем всех столбцов таблицы</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getColumns"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a></small></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method___construct"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 144</div>
+        <code>            public            
+    <strong>__construct</strong>(string $tableName, <a href="../../../../umi/dbal/driver/IDbDriver.html"><abbr title="umi\dbal\driver\IDbDriver">IDbDriver</abbr></a> $driver, <a href="../../../../umi/dbal/driver/ITableFactory.html"><abbr title="umi\dbal\driver\ITableFactory">ITableFactory</abbr></a> $tableFactory)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$tableName</td>
+                <td>имя таблицы</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../../umi/dbal/driver/IDbDriver.html"><abbr title="umi\dbal\driver\IDbDriver">IDbDriver</abbr></a></td>
+                <td>$driver</td>
+                <td>драйвер БД для схемы</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../../umi/dbal/driver/ITableFactory.html"><abbr title="umi\dbal\driver\ITableFactory">ITableFactory</abbr></a></td>
+                <td>$tableFactory</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getName">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getName"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 154</div>
+        <code>            public            string
+    <strong>getName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsModified">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIsModified"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 162</div>
+        <code>            public            bool
+    <strong>getIsModified</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, была ли изменена схема таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsNew">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIsNew"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 170</div>
+        <code>            public            bool
+    <strong>getIsNew</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, является ли схема новой.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsDeleted">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIsDeleted"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 178</div>
+        <code>            public            bool
+    <strong>getIsDeleted</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, является ли схема удаленной.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsModified">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setIsModified"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 186</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>setIsModified</strong>(bool $isModified = true)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает/снимает флаг "схема изменена".</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>bool</td>
+                <td>$isModified</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsNew">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setIsNew"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 196</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>setIsNew</strong>(bool $isNew = true)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает/снимает флаг "новая схема".</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>bool</td>
+                <td>$isNew</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsDeleted">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setIsDeleted"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 206</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>setIsDeleted</strong>(bool $isDeleted = true)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает/снимает флаг "удаленная схема".</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>bool</td>
+                <td>$isDeleted</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCollation">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getCollation"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 216</div>
+        <code>            public            string
+    <strong>getCollation</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает collation таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCharset">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getCharset"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 224</div>
+        <code>            public            string
+    <strong>getCharset</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает charset таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEngine">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getEngine"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 232</div>
+        <code>            public            string
+    <strong>getEngine</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает engine таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getComment">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getComment"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 240</div>
+        <code>            public            string
+    <strong>getComment</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает комметарий к таблице.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setCollation">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setCollation"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 248</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>setCollation</strong>(string $collation)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает collation таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$collation</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setComment">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setComment"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 259</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>setComment</strong>(string $comment)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает комментарий для таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$comment</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setCharset">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setCharset"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 270</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>setCharset</strong>(string $charset)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает charset таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$charset</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setEngine">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setEngine"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 281</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>setEngine</strong>(string $engine)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает engine таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$engine</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addColumn">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_addColumn"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 292</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+    <strong>addColumn</strong>(string $name, string $type, array $options = array())</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет новый столбец в таблицу или возвращает существующий, при этом меняет тип столбца, если он отличается от текущего.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя столбца</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>абстрактный тип столбца</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>список параметров столбца</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_deleteColumn">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_deleteColumn"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 311</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>deleteColumn</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет столбец.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя столбца</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException,">NonexistentEntityException,</abbr></td>
+                <td>если столбец не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNewColumns">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getNewColumns"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 322</div>
+        <code>            public            
+    <strong>getNewColumns</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список новых столбцов.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getModifiedColumns">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getModifiedColumns"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 338</div>
+        <code>            public            
+    <strong>getModifiedColumns</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список измененных столбцов.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDeletedColumns">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getDeletedColumns"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 354</div>
+        <code>            public            
+    <strong>getDeletedColumns</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список удаленных столбцов.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_reload">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_reload"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 370</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>reload</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Загружает / обновляет схему из БД.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIndexes">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIndexes"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 387</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>[]
+    <strong>getIndexes</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает массив индексов таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>[]</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getConstraints">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getConstraints"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 401</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IConstraintScheme.html"><abbr title="umi\dbal\driver\IConstraintScheme">IConstraintScheme</abbr></a>[]
+    <strong>getConstraints</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает внешние ключи таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IConstraintScheme.html"><abbr title="umi\dbal\driver\IConstraintScheme">IConstraintScheme</abbr></a>[]</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPrimaryKey">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getPrimaryKey"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 415</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>|null
+    <strong>getPrimaryKey</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает первичный ключ таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>|null</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_deletePrimaryKey">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_deletePrimaryKey"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 429</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>deletePrimaryKey</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет первичный ключ.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если первичного ключа нет</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setPrimaryKey">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_setPrimaryKey"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 445</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>setPrimaryKey</strong>(string $columnName)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает первичный ключ для таблицы или получает текущий.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$columnName</td>
+                <td>имя столбца [@param string $columnName,... ]</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIndex">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIndex"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 474</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>getIndex</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает индекс таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя индекса</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если индекса с таким именем не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addIndex">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_addIndex"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 493</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a>
+    <strong>addIndex</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет индекс в таблицу или возвращает существующий.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IIndexScheme.html"><abbr title="umi\dbal\driver\IIndexScheme">IIndexScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_deleteIndex">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_deleteIndex"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 507</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>deleteIndex</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет индекс.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>индекса</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если индекса с таким именем не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIndexExists">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getIndexExists"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 518</div>
+        <code>            public            bool
+    <strong>getIndexExists</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, существует ли индекс.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя внешнего ключа</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNewIndexes">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getNewIndexes"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 528</div>
+        <code>            public            
+    <strong>getNewIndexes</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список новых индексов.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getModifiedIndexes">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getModifiedIndexes"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 544</div>
+        <code>            public            
+    <strong>getModifiedIndexes</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список измененных индексов.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDeletedIndexes">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getDeletedIndexes"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 560</div>
+        <code>            public            
+    <strong>getDeletedIndexes</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает массив удаленных индексов.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getConstraint">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getConstraint"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 576</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IConstraintScheme.html"><abbr title="umi\dbal\driver\IConstraintScheme">IConstraintScheme</abbr></a>
+    <strong>getConstraint</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает внешний ключ таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя внешнего ключа</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IConstraintScheme.html"><abbr title="umi\dbal\driver\IConstraintScheme">IConstraintScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если внешнего ключа с таким именем не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addConstraint">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_addConstraint"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 591</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IConstraintScheme.html"><abbr title="umi\dbal\driver\IConstraintScheme">IConstraintScheme</abbr></a>
+    <strong>addConstraint</strong>(string $name, string $columnName, string $referenceTableName, string $referenceColumnName, string $onDeleteAction = null, string $onUpdateAction = null)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет новый внешний ключ или получает существующий с таким именем.</p>
+        <p>При этом можно изменить параметры внешнего ключа.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя внешнего ключа</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$columnName</td>
+                <td>имя столбца, на которого действует ограничение внешнего ключа</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$referenceTableName</td>
+                <td>имя связанной таблицы, значения которой являются ограничениями внешнего ключа</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$referenceColumnName</td>
+                <td>имя столбца связанной таблицы, значения которого являются ограничениями внешнего ключа</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$onDeleteAction</td>
+                <td>действие при удалении строк из связанной таблицы</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$onUpdateAction</td>
+                <td>действие при обновлении строк из связанной таблицы</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IConstraintScheme.html"><abbr title="umi\dbal\driver\IConstraintScheme">IConstraintScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_deleteConstraint">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_deleteConstraint"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 620</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a>
+    <strong>deleteConstraint</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет внешний ключ.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя внешнего ключа</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/ITableScheme.html"><abbr title="umi\dbal\driver\ITableScheme">ITableScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если ключа с таким именем не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getConstraintExists">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getConstraintExists"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 631</div>
+        <code>            public            bool
+    <strong>getConstraintExists</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет существует ли внешний ключ.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя внешнего ключа</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNewConstraints">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getNewConstraints"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 641</div>
+        <code>            public            
+    <strong>getNewConstraints</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список новых внешних ключей.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDeletedConstraints">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getDeletedConstraints"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 656</div>
+        <code>            public            
+    <strong>getDeletedConstraints</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список удаленных внешних ключей.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getModifiedConstraints">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getModifiedConstraints"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 672</div>
+        <code>            public            
+    <strong>getModifiedConstraints</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список измененных внешних ключей.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getMigrationQueries">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getMigrationQueries"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 688</div>
+        <code>            public            array
+    <strong>getMigrationQueries</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает запрос для создания/изменения схемы таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>запросы для миграции</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getColumn">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getColumn"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 704</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+    <strong>getColumn</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает схему столбца таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя столбца</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException,">NonexistentEntityException,</abbr></td>
+                <td>если столбец не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getColumnExists">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getColumnExists"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 719</div>
+        <code>            public            bool
+    <strong>getColumnExists</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет существует ли столбец.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя столбца</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getColumns">
+        <div class="location">in <a href="../../../../umi/dbal/driver/BaseTableScheme.html#method_getColumns"><abbr title="umi\dbal\driver\BaseTableScheme">BaseTableScheme</abbr></a> at line 727</div>
+        <code>            public            <a href="../../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>[]
+    <strong>getColumns</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список схем всех столбцов таблицы</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>[]</td>
+            <td>массив вида array(columnName => IColumnScheme, ...)</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

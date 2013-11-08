@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\hmvc\toolbox\factory\MVCLayerFactory | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/hmvc/toolbox/factory.html">umi\hmvc\toolbox\factory</a>\MVCLayerFactory</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>MVCLayerFactory</strong>        implements
+        <a href="../../../../umi/hmvc/IMVCLayerFactory.html"><abbr title="umi\hmvc\IMVCLayerFactory">IMVCLayerFactory</abbr></a>, <a href="../../../../umi/toolkit/factory/IFactory.html"><abbr title="umi\toolkit\factory\IFactory">IFactory</abbr></a></p>
+
+            <div class="description">
+            <p>Фабрика MVC слоев компонента.</p>
+            <p>Фабрика для создания сервиса отображения и фабрик моделей и контроллеров.</p>
+        </div>
+    
+    
+            <h2>Properties</h2>
+
+            <table>
+                    <tr>
+                <td class="type" id="property_modelFactoryClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$modelFactoryClass класс фабрики моделей</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_viewClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$viewClass класс сервиса отображения</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_controllerFactoryClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$controllerFactoryClass класс фабрики контроллеров</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_viewExtensionFactoryClass">
+                    public                                                                                
+                </td>
+                <td class="last"></td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/hmvc/controller/IControllerFactory.html"><abbr title="umi\hmvc\controller\IControllerFactory">IControllerFactory</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createControllerFactory">createControllerFactory</a>(array $options)
+                    <p>Создает фабрику контроллеров.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/hmvc/model/IModelFactory.html"><abbr title="umi\hmvc\model\IModelFactory">IModelFactory</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createModelFactory">createModelFactory</a>(array $options)
+                    <p>Создает фабрику моделей.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/hmvc/view/IView.html"><abbr title="umi\hmvc\view\IView">IView</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createView">createView</a>(array $options)
+                    <p>Создает слой отображения.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_createViewExtensionFactory">createViewExtensionFactory</a>()
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_createControllerFactory">
+        <div class="location">at line 43</div>
+        <code>            public            <a href="../../../../umi/hmvc/controller/IControllerFactory.html"><abbr title="umi\hmvc\controller\IControllerFactory">IControllerFactory</abbr></a>
+    <strong>createControllerFactory</strong>(array $options)</code>
+    </h3>
+    <div class="details">
+        <p>Создает фабрику контроллеров.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции фабрики</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/hmvc/controller/IControllerFactory.html"><abbr title="umi\hmvc\controller\IControllerFactory">IControllerFactory</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createModelFactory">
+        <div class="location">at line 55</div>
+        <code>            public            <a href="../../../../umi/hmvc/model/IModelFactory.html"><abbr title="umi\hmvc\model\IModelFactory">IModelFactory</abbr></a>
+    <strong>createModelFactory</strong>(array $options)</code>
+    </h3>
+    <div class="details">
+        <p>Создает фабрику моделей.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции фабрики</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/hmvc/model/IModelFactory.html"><abbr title="umi\hmvc\model\IModelFactory">IModelFactory</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createView">
+        <div class="location">at line 67</div>
+        <code>            public            <a href="../../../../umi/hmvc/view/IView.html"><abbr title="umi\hmvc\view\IView">IView</abbr></a>
+    <strong>createView</strong>(array $options)</code>
+    </h3>
+    <div class="details">
+        <p>Создает слой отображения.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/hmvc/view/IView.html"><abbr title="umi\hmvc\view\IView">IView</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createViewExtensionFactory">
+        <div class="location">at line 85</div>
+        <code>            public            
+    <strong>createViewExtensionFactory</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

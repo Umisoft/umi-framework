@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\collection\ICommonHierarchy | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/orm/collection.html">umi\orm\collection</a>\ICommonHierarchy</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>ICommonHierarchy</strong>        implements
+        <a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></p>
+
+            <div class="description">
+            <p>Общая иерархия - особая коллекция разнотипных иерархически связанных объектов.</p>
+            <p>Иерархия предназначена для построения общих деревьев разнотипных объектов, а также является
+поставщиком и генератором идентификаторов для объектов связанных с ней иерархических коллекций (ILinkedHierarchicCollection).
+Иерархия может содержать общий набор полей для связанных с ней коллекций (денормализация),
+что обеспечивает быструю иерархическую выборку разнотипных объектов.
+Значения общих полей дублируются в иерархию автоматически.
+Наиболее наглядное практическое применение - построение общей структуры сайта.
+Общая иерархия доступна только на выборки и возвращает набор объектов с частично загруженными (общими) свойствами.
+Каждый объект принадлежит собственной иерархической коллекции, при попытке обратиться к уникальным свойствам объекта,
+он будет догружен из соответсвующей коллекции.</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    int
+                </td>
+                <td class="last">
+                    <a href="#method_getMaxOrder">getMaxOrder</a>(<a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $branch = null)
+                    <p>Возвращает максимальный порядок в указанной ветке.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getMaxOrder"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_move">move</a>(<a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $object, <a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $branch = null, <a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $previousSibling = null)
+                    <p>Перемещает объект по иерархии после указанного объекта.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_move"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_changeSlug">changeSlug</a>(<a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $object, string $slug)
+                    <p>Изменяет последнюю часть ЧПУ у объекта.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_changeSlug"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_selectAncestry">selectAncestry</a>(<a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $object)
+                    <p>Возвращает селектор для выбора родителей страницы</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_selectAncestry"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getParentField">getParentField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о родителе объекта</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getParentField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getMPathField">getMPathField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о "предках" объекта</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getMPathField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getHierarchyOrderField">getHierarchyOrderField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о иерархическом порядке</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getHierarchyOrderField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getHierarchyLevelField">getHierarchyLevelField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации об уровне вложенности в иерархии</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getHierarchyLevelField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getHierarchyChildCountField">getHierarchyChildCountField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о количестве детей</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getHierarchyChildCountField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getSlugField">getSlugField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения последней части ЧПУ</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getSlugField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getURIField">getURIField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения URI</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getURIField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_add">add</a>(<a href="../../../umi/orm/collection/ILinkedHierarchicCollection.html"><abbr title="umi\orm\collection\ILinkedHierarchicCollection">ILinkedHierarchicCollection</abbr></a> $linkedCollection, string $slug, string $typeName = IObjectType::BASE, <a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $branch = null)
+                    <p>Добавляет иерархический объект в коллекцию и возвращает его экземпляр.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getMaxOrder">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getMaxOrder"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 32</div>
+        <code>            public            int
+    <strong>getMaxOrder</strong>(<a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $branch = null)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает максимальный порядок в указанной ветке.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a></td>
+                <td>$branch</td>
+                <td>если ветка не указана, вернет максимальный порядок в корне</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_move">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_move"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 43</div>
+        <code>            public            <a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a>
+    <strong>move</strong>(<a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $object, <a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $branch = null, <a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $previousSibling = null)</code>
+    </h3>
+    <div class="details">
+        <p>Перемещает объект по иерархии после указанного объекта.</p>
+        <p>Если ветка не указана объект перемещается в корень.
+Если предшественник не указан, объект перемещается в начало ветки.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a></td>
+                <td>$object</td>
+                <td>перемещаемый объект</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a></td>
+                <td>$branch</td>
+                <td>ветка, в которую будет перемещен объект</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a></td>
+                <td>$previousSibling</td>
+                <td>объект, предшествующий перемещаемому</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_changeSlug">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_changeSlug"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 55</div>
+        <code>            public            <a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a>
+    <strong>changeSlug</strong>(<a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $object, string $slug)</code>
+    </h3>
+    <div class="details">
+        <p>Изменяет последнюю часть ЧПУ у объекта.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a></td>
+                <td>$object</td>
+                <td>изменяемый объект</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$slug</td>
+                <td>последняя часть ЧПУ</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_selectAncestry">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_selectAncestry"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 62</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>selectAncestry</strong>(<a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает селектор для выбора родителей страницы</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getParentField">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getParentField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 69</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getParentField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о родителе объекта</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getMPathField">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getMPathField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 76</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getMPathField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о "предках" объекта</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getHierarchyOrderField">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getHierarchyOrderField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 83</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getHierarchyOrderField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о иерархическом порядке</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getHierarchyLevelField">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getHierarchyLevelField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 90</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getHierarchyLevelField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации об уровне вложенности в иерархии</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getHierarchyChildCountField">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getHierarchyChildCountField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 97</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getHierarchyChildCountField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о количестве детей</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSlugField">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getSlugField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 104</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getSlugField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения последней части ЧПУ</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getURIField">
+        <div class="location">in <a href="../../../umi/orm/collection/IHierarchicCollection.html#method_getURIField"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a> at line 111</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getURIField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения URI</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_add">
+        <div class="location">at line 40</div>
+        <code>            public            <a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a>
+    <strong>add</strong>(<a href="../../../umi/orm/collection/ILinkedHierarchicCollection.html"><abbr title="umi\orm\collection\ILinkedHierarchicCollection">ILinkedHierarchicCollection</abbr></a> $linkedCollection, string $slug, string $typeName = IObjectType::BASE, <a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a> $branch = null)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет иерархический объект в коллекцию и возвращает его экземпляр.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/collection/ILinkedHierarchicCollection.html"><abbr title="umi\orm\collection\ILinkedHierarchicCollection">ILinkedHierarchicCollection</abbr></a></td>
+                <td>$linkedCollection</td>
+                <td>коллекция, которой принадлежит объект</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$slug</td>
+                <td>последняя часть ЧПУ</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$typeName</td>
+                <td>имя типа</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a></td>
+                <td>$branch</td>
+                <td>ветка, в которую добавляется объект</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IHierarchicObject.html"><abbr title="umi\orm\object\IHierarchicObject">IHierarchicObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если тип не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

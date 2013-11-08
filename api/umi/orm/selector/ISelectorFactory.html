@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\selector\ISelectorFactory | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/orm/selector.html">umi\orm\selector</a>\ISelectorFactory</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>ISelectorFactory</strong></p>
+
+            <div class="description">
+            <p>Фабрика для селекторов.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createSelector">createSelector</a>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $objectsCollection)
+                    <p>Создает экземпляр селектора</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createEmptySelector">createEmptySelector</a>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $objectsCollection)
+                    <p>Создает экземпляр селектора с пустым результатом выборки.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createManyToManySelector">createManyToManySelector</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, <a href="../../../umi/orm/metadata/field/relation/ManyToManyRelationField.html"><abbr title="umi\orm\metadata\field\relation\ManyToManyRelationField">ManyToManyRelationField</abbr></a> $manyToManyRelationField, <a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $targetCollection)
+                    <p>Создает селектор для связи ManyToMany</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createFieldConditionGroup">createFieldConditionGroup</a>(string $mode = IFieldConditionGroup::MODE_AND, <a href="../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a> $parentGroup = null)
+                    <p>Создает группу выражений селектора</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createFieldCondition">createFieldCondition</a>(<a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a> $selector, <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a> $field, string $collectionAlias, string $placeholder, string $localeId = null)
+                    <p>Создает выражение селектора</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_createSelector">
+        <div class="location">at line 29</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>createSelector</strong>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $objectsCollection)</code>
+    </h3>
+    <div class="details">
+        <p>Создает экземпляр селектора</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a></td>
+                <td>$objectsCollection</td>
+                <td>коллекция объектов, для которой создается селектор</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createEmptySelector">
+        <div class="location">at line 36</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>createEmptySelector</strong>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $objectsCollection)</code>
+    </h3>
+    <div class="details">
+        <p>Создает экземпляр селектора с пустым результатом выборки.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a></td>
+                <td>$objectsCollection</td>
+                <td>коллекция объектов, для которой создается селектор</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createManyToManySelector">
+        <div class="location">at line 45</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>createManyToManySelector</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, <a href="../../../umi/orm/metadata/field/relation/ManyToManyRelationField.html"><abbr title="umi\orm\metadata\field\relation\ManyToManyRelationField">ManyToManyRelationField</abbr></a> $manyToManyRelationField, <a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $targetCollection)</code>
+    </h3>
+    <div class="details">
+        <p>Создает селектор для связи ManyToMany</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/metadata/field/relation/ManyToManyRelationField.html"><abbr title="umi\orm\metadata\field\relation\ManyToManyRelationField">ManyToManyRelationField</abbr></a></td>
+                <td>$manyToManyRelationField</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a></td>
+                <td>$targetCollection</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createFieldConditionGroup">
+        <div class="location">at line 57</div>
+        <code>            public            <a href="../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>
+    <strong>createFieldConditionGroup</strong>(string $mode = IFieldConditionGroup::MODE_AND, <a href="../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a> $parentGroup = null)</code>
+    </h3>
+    <div class="details">
+        <p>Создает группу выражений селектора</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$mode</td>
+                <td>режим сложения составных выражений</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a></td>
+                <td>$parentGroup</td>
+                <td>родительская группа выражений</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createFieldCondition">
+        <div class="location">at line 71</div>
+        <code>            public            <a href="../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a>
+    <strong>createFieldCondition</strong>(<a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a> $selector, <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a> $field, string $collectionAlias, string $placeholder, string $localeId = null)</code>
+    </h3>
+    <div class="details">
+        <p>Создает выражение селектора</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+                <td>$selector</td>
+                <td>селектор, к которому относится выражение</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+                <td>$field</td>
+                <td>поле типа данных</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$collectionAlias</td>
+                <td>алиас для коллекции</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$placeholder</td>
+                <td>уникальный плейсхолдер для поля</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$localeId</td>
+                <td>идентификатор локали (для локализованных полей)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

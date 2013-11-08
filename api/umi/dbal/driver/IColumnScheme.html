@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\dbal\driver\IColumnScheme | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/dbal/driver.html">umi\dbal\driver</a>\IColumnScheme</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IColumnScheme</strong></p>
+
+            <div class="description">
+            <p>Интерфейс схемы столбца таблицы БД.</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>TYPE_INT</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_DECIMAL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_REAL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_BOOL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_SERIAL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_RELATION</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_VARCHAR</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_CHAR</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_TEXT</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_BLOB</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_TIMESTAMP</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_DATE</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_TIME</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_DATETIME</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SIZE_NUMERIC_BIG</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SIZE_NUMERIC_NORMAL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SIZE_NUMERIC_MEDIUM</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SIZE_NUMERIC_SMALL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SIZE_NUMERIC_TINY</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SIZE_TEXT_LONG</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SIZE_TEXT_MEDIUM</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SIZE_TEXT_NORMAL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SIZE_TEXT_TINY</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_TYPE</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_SIZE</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_LENGTH</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_DECIMALS</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_UNSIGNED</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_ZEROFILL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_NULLABLE</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_AUTOINCREMENT</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_PRIMARY_KEY</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_COMMENT</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_COLLATION</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_DEFAULT_VALUE</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getName">getName</a>()
+                    <p>Возвращает имя столбца</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setType">setType</a>(string $type, array $options = array())
+                    <p>Устанавливает тип столбца, сбрасывая все установленные опции.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setOption">setOption</a>(string $name, mixed $value)
+                    <p>Устанавливает свойство столбца</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsNullable">getIsNullable</a>()
+                    <p>Может ли значение столбца быть NULL</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCollation">getCollation</a>()
+                    <p>Возвращает способ сравнения столбца</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getInternalType">getInternalType</a>()
+                    <p>Возвращает внутренний тип данных столбца, в синтаксисе конкретного драйвера БД, используется для построения запросов к БД</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    int
+                </td>
+                <td class="last">
+                    <a href="#method_getLength">getLength</a>()
+                    <p>Возвращает длину столбца</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    int
+                </td>
+                <td class="last">
+                    <a href="#method_getDecimals">getDecimals</a>()
+                    <p>Возвращает количество цифр после запятой для столбцов с плавющей точкой</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsUnsigned">getIsUnsigned</a>()
+                    <p>Возвращает для числовых столбцов признак хранения числа без знака</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsZerofill">getIsZerofill</a>()
+                    <p>Возвращает для числовых стобцов признак заполнения нулями</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getDefaultValue">getDefaultValue</a>()
+                    <p>Возвращает значение столбца "по умолчанию"</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getComment">getComment</a>()
+                    <p>Возвращает комментарий к колонке</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsPk">getIsPk</a>()
+                    <p>Проверяет, является ли столбец Primary Key</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsAutoIncrement">getIsAutoIncrement</a>()
+                    <p>Проверяет, является ли столбец Auto Increment</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsModified">getIsModified</a>()
+                    <p>Проверяет, была ли изменена схема</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsModified">setIsModified</a>($isModified = true)
+                    <p>Установливает/снимает флаг "схема изменена"</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsDeleted">setIsDeleted</a>($isDeleted = true)
+                    <p>Установливает/снимает флаг "схема удалена"</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsDeleted">getIsDeleted</a>()
+                    <p>Проверяет, является ли схема удаленной</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsNew">getIsNew</a>()
+                    <p>Проверяет, является ли схема новой</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIsNew">setIsNew</a>($isNew = true)
+                    <p>Устанавливает/снимает флаг "новая схема"</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getName">
+        <div class="location">at line 65</div>
+        <code>            public            string
+    <strong>getName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя столбца</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setType">
+        <div class="location">at line 74</div>
+        <code>            public            
+    <strong>setType</strong>(string $type, array $options = array())</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает тип столбца, сбрасывая все установленные опции.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>тип столбца</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>список параметров столбца</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setOption">
+        <div class="location">at line 82</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+    <strong>setOption</strong>(string $name, mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает свойство столбца</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsNullable">
+        <div class="location">at line 88</div>
+        <code>            public            bool
+    <strong>getIsNullable</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Может ли значение столбца быть NULL</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCollation">
+        <div class="location">at line 94</div>
+        <code>            public            string
+    <strong>getCollation</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает способ сравнения столбца</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getInternalType">
+        <div class="location">at line 101</div>
+        <code>            public            string
+    <strong>getInternalType</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает внутренний тип данных столбца, в синтаксисе конкретного драйвера БД, используется для построения запросов к БД</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getLength">
+        <div class="location">at line 107</div>
+        <code>            public            int
+    <strong>getLength</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает длину столбца</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDecimals">
+        <div class="location">at line 113</div>
+        <code>            public            int
+    <strong>getDecimals</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает количество цифр после запятой для столбцов с плавющей точкой</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsUnsigned">
+        <div class="location">at line 119</div>
+        <code>            public            bool
+    <strong>getIsUnsigned</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает для числовых столбцов признак хранения числа без знака</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsZerofill">
+        <div class="location">at line 125</div>
+        <code>            public            bool
+    <strong>getIsZerofill</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает для числовых стобцов признак заполнения нулями</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDefaultValue">
+        <div class="location">at line 131</div>
+        <code>            public            mixed
+    <strong>getDefaultValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает значение столбца "по умолчанию"</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getComment">
+        <div class="location">at line 137</div>
+        <code>            public            string
+    <strong>getComment</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает комментарий к колонке</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsPk">
+        <div class="location">at line 143</div>
+        <code>            public            bool
+    <strong>getIsPk</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, является ли столбец Primary Key</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsAutoIncrement">
+        <div class="location">at line 149</div>
+        <code>            public            bool
+    <strong>getIsAutoIncrement</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, является ли столбец Auto Increment</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsModified">
+        <div class="location">at line 155</div>
+        <code>            public            bool
+    <strong>getIsModified</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, была ли изменена схема</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsModified">
+        <div class="location">at line 163</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+    <strong>setIsModified</strong>($isModified = true)</code>
+    </h3>
+    <div class="details">
+        <p>Установливает/снимает флаг "схема изменена"</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$isModified</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsDeleted">
+        <div class="location">at line 171</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+    <strong>setIsDeleted</strong>($isDeleted = true)</code>
+    </h3>
+    <div class="details">
+        <p>Установливает/снимает флаг "схема удалена"</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$isDeleted</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsDeleted">
+        <div class="location">at line 177</div>
+        <code>            public            bool
+    <strong>getIsDeleted</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, является ли схема удаленной</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsNew">
+        <div class="location">at line 183</div>
+        <code>            public            bool
+    <strong>getIsNew</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, является ли схема новой</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsNew">
+        <div class="location">at line 191</div>
+        <code>            public            <a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a>
+    <strong>setIsNew</strong>($isNew = true)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает/снимает флаг "новая схема"</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$isNew</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/driver/IColumnScheme.html"><abbr title="umi\dbal\driver\IColumnScheme">IColumnScheme</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
