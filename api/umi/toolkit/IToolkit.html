@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\toolkit\IToolkit | </title>
+                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../traits.html">Traits</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../umi/toolkit.html">umi\toolkit</a>\IToolkit</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IToolkit</strong></p>
+
+            <div class="description">
+            <p>Тулкит.</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>ALIAS</td>
+                <td class="last">
+                    <p><em>Короткий alias</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_hasToolbox">hasToolbox</a>(string $toolboxName)
+                    <p>Проверяет, зарегистрирован ли набор инструментов</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_registerToolbox">registerToolbox</a>(array $toolboxConfig)
+                    <p>Регистрирует набор инструментов</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    object|<a href="../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getToolbox">getToolbox</a>(string $toolboxName)
+                    <p>Возвращает экземляр набора инструментов {@deprecated}</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_registerToolboxes">registerToolboxes</a>(array $config)
+                    <p>Регистрирует несколько наборов инструментов, используя конфигурацию</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_registerToolboxAliases">registerToolboxAliases</a>(string $toolboxName, array $aliases)
+                    <p>Регистрирует список коротких алиасов для набора инструментов</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_hasService">hasService</a>(string $serviceInterfaceName)
+                    <p>Проверяет, зарегистрирован ли сервис</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_register">register</a>(string $serviceInterfaceName, callable $builder)
+                    <p>Регистрирует сервис.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_hasInjector">hasInjector</a>(string $servicingInterfaceName)
+                    <p>Проверяет, зарегистрирован ли инжектор для указанного интерфейса.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_registerInjector">registerInjector</a>(string $servicingInterfaceName, callable $injector)
+                    <p>Регистрирует инжектор для указанного интерфейса.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setSettings">setSettings</a>(array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $settings)
+                    <p>Устанавливает настройки тулкита.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    callable[]
+                </td>
+                <td class="last">
+                    <a href="#method_getInjectors">getInjectors</a>(array $interfaceNames)
+                    <p>Возвращает список инжекторов, которые могут обслужить объект, имплементирующий указанный набор интерфейсов.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    object
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(string $serviceInterfaceName, null|string $concreteClassName = null)
+                    <p>Возвращает экземпляр сервиса.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    null|callable
+                </td>
+                <td class="last">
+                    <a href="#method_findServiceBuilderByContracts">findServiceBuilderByContracts</a>(array $contracts)
+                    <p>Возвращает билдер сервиса, который подходит под первый из указанных контрактов</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_reset">reset</a>()
+                    <p>Сбрасывает все созданные ранее инструменты.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_hasToolbox">
+        <div class="location">at line 35</div>
+        <code>            public            bool
+    <strong>hasToolbox</strong>(string $toolboxName)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, зарегистрирован ли набор инструментов</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$toolboxName</td>
+                <td>имя набора нструментов</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_registerToolbox">
+        <div class="location">at line 44</div>
+        <code>            public            <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+    <strong>registerToolbox</strong>(array $toolboxConfig)</code>
+    </h3>
+    <div class="details">
+        <p>Регистрирует набор инструментов</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$toolboxConfig</td>
+                <td>конфигурация набора инструментов</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>если нет обязательного аргумента конфигурации</td>
+            </tr>
+                    <tr>
+                <td><abbr title="AlreadyRegisteredException">AlreadyRegisteredException</abbr></td>
+                <td>если набор инструментов либо какой-либо из обслуживаемых сервисов был зарегистрирован ранее</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getToolbox">
+        <div class="location">at line 55</div>
+        <code>            public            object|<a href="../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a>
+    <strong>getToolbox</strong>(string $toolboxName)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает экземляр набора инструментов {@deprecated}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$toolboxName</td>
+                <td>интерфейс набора инструментов, либо алиас</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>object|<a href="../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NotRegisteredException">NotRegisteredException</abbr></td>
+                <td>если набор инструментов не зарегистрирован</td>
+            </tr>
+                    <tr>
+                <td><a href="http://php.net/DomainException"><abbr title="DomainException">DomainException</abbr></a></td>
+                <td>если экземпляр набора инструментов не соответсвует интерфейсу</td>
+            </tr>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если зарегистрированный интерфейс не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_registerToolboxes">
+        <div class="location">at line 64</div>
+        <code>            public            <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+    <strong>registerToolboxes</strong>(array $config)</code>
+    </h3>
+    <div class="details">
+        <p>Регистрирует несколько наборов инструментов, используя конфигурацию</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td>конфигурации наборов инструментов</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="AlreadyRegisteredException">AlreadyRegisteredException</abbr></td>
+                <td>если какой-либо набор инструментов уже зарегистрирован</td>
+            </tr>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>если конфигурация не валидна</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_registerToolboxAliases">
+        <div class="location">at line 74</div>
+        <code>            public            <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+    <strong>registerToolboxAliases</strong>(string $toolboxName, array $aliases)</code>
+    </h3>
+    <div class="details">
+        <p>Регистрирует список коротких алиасов для набора инструментов</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$toolboxName</td>
+                <td>интерфейс набора инструментов, либо алиас</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$aliases</td>
+                <td>список коротких алиасов, для обращения к набору инструментов</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NotRegisteredException">NotRegisteredException</abbr></td>
+                <td>если набор инструментов не зарегистрирован</td>
+            </tr>
+                    <tr>
+                <td><abbr title="AlreadyRegisteredException">AlreadyRegisteredException</abbr></td>
+                <td>если алиас был зарегистрирован ранее</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasService">
+        <div class="location">at line 81</div>
+        <code>            public            bool
+    <strong>hasService</strong>(string $serviceInterfaceName)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, зарегистрирован ли сервис</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$serviceInterfaceName</td>
+                <td>имя интерфейса сервиса</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_register">
+        <div class="location">at line 102</div>
+        <code>            public            <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+    <strong>register</strong>(string $serviceInterfaceName, callable $builder)</code>
+    </h3>
+    <div class="details">
+        <p>Регистрирует сервис.</p>
+        <p>Каждый раз при обращении к сервису через IToolkit::get(), будет
+вызван билдер для получения экземпляра сервиса.
+Пример:
+<code>
+ $toolkit->register('umi\mail\IMail', function($concreteClassName, IToolkit $toolkit) {
+     if ($concreteClassName) {
+         return new $concreteClassName();
+     } else {
+         return new MyDefaultMail();
+     }
+ }
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$serviceInterfaceName</td>
+                <td>интерфейс сервиса</td>
+            </tr>
+                    <tr>
+                <td>callable</td>
+                <td>$builder</td>
+                <td>билдер сервиса, создающий его экземпляр.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="AlreadyRegisteredException">AlreadyRegisteredException</abbr></td>
+                <td>если сервис с указанным интерфейсом был зарегистрирован ранее</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasInjector">
+        <div class="location">at line 109</div>
+        <code>            public            bool
+    <strong>hasInjector</strong>(string $servicingInterfaceName)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, зарегистрирован ли инжектор для указанного интерфейса.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$servicingInterfaceName</td>
+                <td>имя обслуживаемого интерфейса</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_registerInjector">
+        <div class="location">at line 128</div>
+        <code>            public            <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+    <strong>registerInjector</strong>(string $servicingInterfaceName, callable $injector)</code>
+    </h3>
+    <div class="details">
+        <p>Регистрирует инжектор для указанного интерфейса.</p>
+        <p>Инжектор может внедрять известные ему зависимости в объект.
+Пример:
+<code>
+ $toolkit->registerInjector('umi\logger\ILoggerAware', function($object, IToolkit $toolkit) {
+     if ($object instanceof umi\logger\ILoggerAware) {
+         $loggerService = $toolkit->get('Psr\Log\LoggerInterface');
+         $object->setLogger($loggerService);
+     }
+ }
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$servicingInterfaceName</td>
+                <td>имя обслуживаемого интерфейса</td>
+            </tr>
+                    <tr>
+                <td>callable</td>
+                <td>$injector</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="AlreadyRegisteredException">AlreadyRegisteredException</abbr></td>
+                <td>если инжектор для указанного интерфейса был зарегистрирован ранее</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setSettings">
+        <div class="location">at line 136</div>
+        <code>            public            <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+    <strong>setSettings</strong>(array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $settings)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает настройки тулкита.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a></td>
+                <td>$settings</td>
+                <td>конфигурация в формате ['toolboxName' => [конфигурация], ...]</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>если конфигурация не валидна</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getInjectors">
+        <div class="location">at line 144</div>
+        <code>            public            callable[]
+    <strong>getInjectors</strong>(array $interfaceNames)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список инжекторов, которые могут обслужить объект, имплементирующий указанный набор интерфейсов.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$interfaceNames</td>
+                <td>список имен интерфейсов</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>callable[]</td>
+            <td>список инжекторов</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_get">
+        <div class="location">at line 153</div>
+        <code>            public            object
+    <strong>get</strong>(string $serviceInterfaceName, null|string $concreteClassName = null)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает экземпляр сервиса.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$serviceInterfaceName</td>
+                <td>имя интерфейса сервиса</td>
+            </tr>
+                    <tr>
+                <td>null|string</td>
+                <td>$concreteClassName</td>
+                <td>класс конкретной реализации сервиса, может быть учтен при получении экземпляра сервиса.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>object</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_findServiceBuilderByContracts">
+        <div class="location">at line 160</div>
+        <code>            public            null|callable
+    <strong>findServiceBuilderByContracts</strong>(array $contracts)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает билдер сервиса, который подходит под первый из указанных контрактов</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$contracts</td>
+                <td>список контрактов</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>null|callable</td>
+            <td>билдер сервиса, либо null если билдер не найден</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_reset">
+        <div class="location">at line 166</div>
+        <code>            public            <a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a>
+    <strong>reset</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Сбрасывает все созданные ранее инструменты.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

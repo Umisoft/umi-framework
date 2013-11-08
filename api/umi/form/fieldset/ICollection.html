@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\form\fieldset\ICollection | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/form/fieldset.html">umi\form\fieldset</a>\ICollection</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>ICollection</strong>        implements
+        <a href="../../../umi/form/fieldset/IFieldset.html"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a></p>
+
+            <div class="description">
+            <p>Интерфейс коллекции.</p>
+            <p>Коллекция - это группа полей, содержащая один элемент.
+Размер коллекции автоматически изменяется,
+в зависимости от установленных в нее данных.</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/form/IFormEntity.html"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a>|<a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a>|<a href="../../../umi/form/fieldset/IFieldset.html"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getElement">getElement</a>(string $name)
+                    <p>Возвращает заданный элемент по имени.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/fieldset/IFieldset.html#method_getElement"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/form/fieldset/IFieldset.html"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setData">setData</a>(array $data)
+                    <p>Устанавливает данные в форму.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/fieldset/IFieldset.html#method_setData"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getData">getData</a>()
+                    <p>Возвращает данные установленные в форму.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/fieldset/IFieldset.html#method_getData"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/form/IFormEntity.html"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getEmptyEntity">getEmptyEntity</a>()
+                    <p>Возвращает пустой элемент коллекции.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getElement">
+        <div class="location">in <a href="../../../umi/form/fieldset/IFieldset.html#method_getElement"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a> at line 27</div>
+        <code>            public            <a href="../../../umi/form/IFormEntity.html"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a>|<a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a>|<a href="../../../umi/form/fieldset/IFieldset.html"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a>
+    <strong>getElement</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает заданный элемент по имени.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя элемента</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/form/IFormEntity.html"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a>|<a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a>|<a href="../../../umi/form/fieldset/IFieldset.html"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a></td>
+            <td>элемент</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setData">
+        <div class="location">in <a href="../../../umi/form/fieldset/IFieldset.html#method_setData"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a> at line 34</div>
+        <code>            public            <a href="../../../umi/form/fieldset/IFieldset.html"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a>
+    <strong>setData</strong>(array $data)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает данные в форму.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$data</td>
+                <td>данные</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/form/fieldset/IFieldset.html"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getData">
+        <div class="location">in <a href="../../../umi/form/fieldset/IFieldset.html#method_getData"><abbr title="umi\form\fieldset\IFieldset">IFieldset</abbr></a> at line 40</div>
+        <code>            public            array
+    <strong>getData</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает данные установленные в форму.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEmptyEntity">
+        <div class="location">at line 26</div>
+        <code>            public            <a href="../../../umi/form/IFormEntity.html"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a>
+    <strong>getEmptyEntity</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает пустой элемент коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/form/IFormEntity.html"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

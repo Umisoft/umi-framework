@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\toolbox\factory\CollectionFactory | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/orm/toolbox/factory.html">umi\orm\toolbox\factory</a>\CollectionFactory</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>CollectionFactory</strong>        implements
+        <a href="../../../../umi/orm/collection/ICollectionFactory.html"><abbr title="umi\orm\collection\ICollectionFactory">ICollectionFactory</abbr></a>, <a href="../../../../umi/toolkit/factory/IFactory.html"><abbr title="umi\toolkit\factory\IFactory">IFactory</abbr></a>, <a href="../../../../umi/orm/collection/ICollectionManagerAware.html"><abbr title="umi\orm\collection\ICollectionManagerAware">ICollectionManagerAware</abbr></a></p>
+
+            <div class="description">
+            <p>Фабрика коллекий объектов.</p>
+            <p>
+</p>
+        </div>
+    
+    
+            <h2>Properties</h2>
+
+            <table>
+                    <tr>
+                <td class="type" id="property_defaultSimpleCollectionClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$defaultSimpleCollectionClass имя класса простой коллекции по умолчанию</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_defaultHierarchicCollectionClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$defaultHierarchicCollectionClass имя класса иерархической коллекции по умолчанию</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_defaultLinkedHierarchicCollectionClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$defaultLinkedHierarchicCollectionClass имя класса связанной иерархической коллекции по умолчанию</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_defaultCommonHierarchyClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$defaultCommonHierarchyClass имя класса общей иерархии по умолчанию</td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../../../umi/orm/selector/ISelectorFactory.html"><abbr title="umi\orm\selector\ISelectorFactory">ISelectorFactory</abbr></a> $selectorFactory)
+                    <p>Конструктор</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_create">create</a>(string $collectionName, <a href="../../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a> $metadata, array $config)
+                    <p>Создает экземпляр простой коллекции объектов.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 59</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../../../umi/orm/selector/ISelectorFactory.html"><abbr title="umi\orm\selector\ISelectorFactory">ISelectorFactory</abbr></a> $selectorFactory)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/orm/selector/ISelectorFactory.html"><abbr title="umi\orm\selector\ISelectorFactory">ISelectorFactory</abbr></a></td>
+                <td>$selectorFactory</td>
+                <td>фабрика селекторов</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_create">
+        <div class="location">at line 67</div>
+        <code>            public            <a href="../../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a>
+    <strong>create</strong>(string $collectionName, <a href="../../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a> $metadata, array $config)</code>
+    </h3>
+    <div class="details">
+        <p>Создает экземпляр простой коллекции объектов.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$collectionName</td>
+                <td>имя коллекции.</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a></td>
+                <td>$metadata</td>
+                <td>метаданные коллекции</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td>конфигурация коллекции.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

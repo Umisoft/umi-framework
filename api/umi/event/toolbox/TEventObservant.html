@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\event\toolbox\TEventObservant | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Trait</div>
+    <h1><a href="../../../umi/event/toolbox.html">umi\event\toolbox</a>\TEventObservant</h1>
+    </div>
+        <div class="content">
+                <p>    trait
+    <strong>TEventObservant</strong></p>
+
+            <div class="description">
+            <p>Трейт для поддержки событий.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <abbr title="umi\event\toolbox\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_setEventManager">setEventManager</a>(<a href="../../../umi/event/IEventManager.html"><abbr title="umi\event\IEventManager">IEventManager</abbr></a> $eventManager)
+                    <p>Устанавливает менеджер событий</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getEventManager">getEventManager</a>()
+                    <p>Возвращает менеджер событий</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="umi\event\toolbox\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_subscribeTo">subscribeTo</a>(<a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> $target)
+                    <p>Подписаться на события другого IEventObservant</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="umi\event\toolbox\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_fireEvent">fireEvent</a>(string $eventType, array $params = array(), array $tags = array())
+                    <p>Генерирует новое событие</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="umi\event\toolbox\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_bindEvent">bindEvent</a>(string $eventType, callable $eventHandler, array $tags = array())
+                    <p>Устанавливает обработчик события.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="umi\event\toolbox\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_unbindEvent">unbindEvent</a>(string $eventType, callable $eventHandler = null)
+                    <p>Удаляет обработчик(и) события указанного типа</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="umi\event\toolbox\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_bindLocalEvents">bindLocalEvents</a>()
+                    <p>Устанавливает локальные обработчики событий</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_setEventManager">
+        <div class="location">at line 30</div>
+        <code>            public            <abbr title="umi\event\toolbox\$this">$this</abbr>
+    <strong>setEventManager</strong>(<a href="../../../umi/event/IEventManager.html"><abbr title="umi\event\IEventManager">IEventManager</abbr></a> $eventManager)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает менеджер событий</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/event/IEventManager.html"><abbr title="umi\event\IEventManager">IEventManager</abbr></a></td>
+                <td>$eventManager</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="umi\event\toolbox\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEventManager">
+        <div class="location">at line 42</div>
+        <code>            public            
+    <strong>getEventManager</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает менеджер событий</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_subscribeTo">
+        <div class="location">at line 56</div>
+        <code>            public            <abbr title="umi\event\toolbox\$this">$this</abbr>
+    <strong>subscribeTo</strong>(<a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> $target)</code>
+    </h3>
+    <div class="details">
+        <p>Подписаться на события другого IEventObservant</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></td>
+                <td>$target</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="umi\event\toolbox\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fireEvent">
+        <div class="location">at line 73</div>
+        <code>            public            <abbr title="umi\event\toolbox\$this">$this</abbr>
+    <strong>fireEvent</strong>(string $eventType, array $params = array(), array $tags = array())</code>
+    </h3>
+    <div class="details">
+        <p>Генерирует новое событие</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$eventType</td>
+                <td>тип события (уникальный строковый идентификатор)</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$params</td>
+                <td>список параметров события array('paramName' => 'paramVal', 'relParam' => &amp;$var) Параметр может передаваться по ссылке.</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$tags</td>
+                <td>тэги, с которыми происходит событиею Тэги позволяют подписаться на события, которые происходят с конкретными объектами.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="umi\event\toolbox\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_bindEvent">
+        <div class="location">at line 88</div>
+        <code>            public            <abbr title="umi\event\toolbox\$this">$this</abbr>
+    <strong>bindEvent</strong>(string $eventType, callable $eventHandler, array $tags = array())</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает обработчик события.</p>
+        <p>Тэги позволяют подписаться на события, которые происходят с конкретными объектами.
+Если тэги не указаны, обработчик будет вызван для всех объектов, поднимающих события.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$eventType</td>
+                <td>тип события (уникальный строковый идентификатор)</td>
+            </tr>
+                    <tr>
+                <td>callable</td>
+                <td>$eventHandler</td>
+                <td>callable обработчик события</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$tags</td>
+                <td>тэги, с которыми должно происходить событие, на которое устанавливается обработчик</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="umi\event\toolbox\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_unbindEvent">
+        <div class="location">at line 101</div>
+        <code>            public            <abbr title="umi\event\toolbox\$this">$this</abbr>
+    <strong>unbindEvent</strong>(string $eventType, callable $eventHandler = null)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет обработчик(и) события указанного типа</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$eventType</td>
+                <td>тип события (уникальный строковый идентификатор)</td>
+            </tr>
+                    <tr>
+                <td>callable</td>
+                <td>$eventHandler</td>
+                <td>конкретный обработчик события, если null, будут удалены все обработчики событий указанного типа</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="umi\event\toolbox\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_bindLocalEvents">
+        <div class="location">at line 111</div>
+        <code>            public            <abbr title="umi\event\toolbox\$this">$this</abbr>
+    <strong>bindLocalEvents</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает локальные обработчики событий</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="umi\event\toolbox\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

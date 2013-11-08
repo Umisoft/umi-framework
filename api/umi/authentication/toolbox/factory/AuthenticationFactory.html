@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\authentication\toolbox\factory\AuthenticationFactory | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/authentication/toolbox/factory.html">umi\authentication\toolbox\factory</a>\AuthenticationFactory</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>AuthenticationFactory</strong>        implements
+        <a href="../../../../umi/authentication/IAuthenticationFactory.html"><abbr title="umi\authentication\IAuthenticationFactory">IAuthenticationFactory</abbr></a>, <a href="../../../../umi/toolkit/factory/IFactory.html"><abbr title="umi\toolkit\factory\IFactory">IFactory</abbr></a></p>
+
+            <div class="description">
+            <p>Фабрика сущностей аутентификации.</p>
+            <p>
+</p>
+        </div>
+    
+    
+            <h2>Properties</h2>
+
+            <table>
+                    <tr>
+                <td class="type" id="property_managerClass">
+                    public                                                                                string
+                </td>
+                <td class="last">$managerClass класс менеджера аутентификации</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_storageClasses">
+                    public                                                                                array
+                </td>
+                <td class="last">$storageClasses классы хранилищ аутентификации</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_adapterClasses">
+                    public                                                                                array
+                </td>
+                <td class="last">$adapterClasses классы адаптеров аутентификации</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_providerClasses">
+                    public                                                                                array
+                </td>
+                <td class="last">$providerClasses классы провайдеров аутентификации</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_manager">
+                    public                                                                                array
+                </td>
+                <td class="last">$manager опции менеджера аутентификации</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_adapter">
+                    public                                                                                array
+                </td>
+                <td class="last">$adapter адаптер аутентификации по умолчанию</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_storage">
+                    public                                                                                array
+                </td>
+                <td class="last">$storage хранилище аутентификации по умолчанию</td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createStorage">createStorage</a>(array $config = array())
+                    <p>Возвращает сконфигурированный storage</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createAdapter">createAdapter</a>(array $config = array())
+                    <p>Возвращает сконфигурированный адаптер</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/authentication/provider/IAuthProvider.html"><abbr title="umi\authentication\provider\IAuthProvider">IAuthProvider</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createProvider">createProvider</a>(string $type, array $options = array())
+                    <p>Возвращает сконфигурированный провайдер</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/authentication/IAuthentication.html"><abbr title="umi\authentication\IAuthentication">IAuthentication</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createManager">createManager</a>(array $config = array())
+                    <p>Возвращает менеджер авторизации</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_createStorage">
+        <div class="location">at line 73</div>
+        <code>            public            <a href="../../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
+    <strong>createStorage</strong>(array $config = array())</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает сконфигурированный storage</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td>конфигурация хранилища</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createAdapter">
+        <div class="location">at line 96</div>
+        <code>            public            <a href="../../../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a>
+    <strong>createAdapter</strong>(array $config = array())</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает сконфигурированный адаптер</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td>конфигурация адаптера</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createProvider">
+        <div class="location">at line 120</div>
+        <code>            public            <a href="../../../../umi/authentication/provider/IAuthProvider.html"><abbr title="umi\authentication\provider\IAuthProvider">IAuthProvider</abbr></a>
+    <strong>createProvider</strong>(string $type, array $options = array())</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает сконфигурированный провайдер</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>тип провайдера</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/authentication/provider/IAuthProvider.html"><abbr title="umi\authentication\provider\IAuthProvider">IAuthProvider</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createManager">
+        <div class="location">at line 140</div>
+        <code>            public            <a href="../../../../umi/authentication/IAuthentication.html"><abbr title="umi\authentication\IAuthentication">IAuthentication</abbr></a>
+    <strong>createManager</strong>(array $config = array())</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает менеджер авторизации</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td>конфигруация менеджера</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/authentication/IAuthentication.html"><abbr title="umi\authentication\IAuthentication">IAuthentication</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

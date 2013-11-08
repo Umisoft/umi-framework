@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\log\type\OutputLogger | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/log/type.html">umi\log\type</a>\OutputLogger</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>OutputLogger</strong>        extends <a href="../../../umi/log/type/BaseLogger.html"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></p>
+
+            <div class="description">
+            <p>Класс логированния с использованием output буффера.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/log/ILogger.html"><abbr title="umi\log\ILogger">ILogger</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setMinLevel">setMinLevel</a>(int $minLevel)
+                    <p>Устанавливает минимальный уровень логгирования.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_setMinLevel"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/log/ILogger.html"><abbr title="umi\log\ILogger">ILogger</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setMessageFormat">setMessageFormat</a>(string $format)
+                    <p>Устанавливает формат сообщения.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_setMessageFormat"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_emergency">emergency</a>($message, array $placeholders = array())
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_emergency"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_alert">alert</a>($message, array $placeholders = array())
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_alert"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_critical">critical</a>($message, array $placeholders = array())
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_critical"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_error">error</a>($message, array $placeholders = array())
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_error"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_warning">warning</a>($message, array $placeholders = array())
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_warning"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_notice">notice</a>($message, array $placeholders = array())
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_notice"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_info">info</a>($message, array $placeholders = array())
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_info"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_debug">debug</a>($message, array $placeholders = array())
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_debug"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_log">log</a>($level, $message, array $placeholders = array())
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/log/type/BaseLogger.html#method_log"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a></small></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_setMinLevel">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_setMinLevel"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 50</div>
+        <code>            public            <a href="../../../umi/log/ILogger.html"><abbr title="umi\log\ILogger">ILogger</abbr></a>
+    <strong>setMinLevel</strong>(int $minLevel)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает минимальный уровень логгирования.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>int</td>
+                <td>$minLevel</td>
+                <td>минимальный уровень логгирования</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/log/ILogger.html"><abbr title="umi\log\ILogger">ILogger</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setMessageFormat">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_setMessageFormat"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 60</div>
+        <code>            public            <a href="../../../umi/log/ILogger.html"><abbr title="umi\log\ILogger">ILogger</abbr></a>
+    <strong>setMessageFormat</strong>(string $format)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает формат сообщения.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$format</td>
+                <td>формат сообщения</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/log/ILogger.html"><abbr title="umi\log\ILogger">ILogger</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_emergency">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_emergency"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 79</div>
+        <code>            public            
+    <strong>emergency</strong>($message, array $placeholders = array())</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$placeholders</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_alert">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_alert"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 87</div>
+        <code>            public            
+    <strong>alert</strong>($message, array $placeholders = array())</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$placeholders</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_critical">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_critical"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 95</div>
+        <code>            public            
+    <strong>critical</strong>($message, array $placeholders = array())</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$placeholders</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_error">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_error"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 103</div>
+        <code>            public            
+    <strong>error</strong>($message, array $placeholders = array())</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$placeholders</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_warning">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_warning"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 111</div>
+        <code>            public            
+    <strong>warning</strong>($message, array $placeholders = array())</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$placeholders</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_notice">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_notice"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 119</div>
+        <code>            public            
+    <strong>notice</strong>($message, array $placeholders = array())</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$placeholders</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_info">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_info"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 127</div>
+        <code>            public            
+    <strong>info</strong>($message, array $placeholders = array())</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$placeholders</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_debug">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_debug"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 135</div>
+        <code>            public            
+    <strong>debug</strong>($message, array $placeholders = array())</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$placeholders</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_log">
+        <div class="location">in <a href="../../../umi/log/type/BaseLogger.html#method_log"><abbr title="umi\log\type\BaseLogger">BaseLogger</abbr></a> at line 143</div>
+        <code>final            public            
+    <strong>log</strong>($level, $message, array $placeholders = array())</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$level</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$placeholders</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

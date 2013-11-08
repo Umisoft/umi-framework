@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\selector\condition\IFieldConditionGroup | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../../umi/orm/selector/condition.html">umi\orm\selector\condition</a>\IFieldConditionGroup</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IFieldConditionGroup</strong></p>
+
+            <div class="description">
+            <p>Группа условий выборки по значениям полей для селектора.</p>
+            <p>Группа может состоять из вложенных групп и ограничений IFieldCondition
+Составные группы и простые выражения складываются по OR, AND, XOR
+в зависимости от указанного режима группы.</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>MODE_AND</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>MODE_OR</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>MODE_XOR</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    null|<a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getParentGroup">getParentGroup</a>()
+                    <p>Возвращает родительскую группу.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addCondition">addCondition</a>(<a href="../../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a> $condition)
+                    <p>Добавляет ограничение по значению поля.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addGroup">addGroup</a>(<a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a> $group)
+                    <p>Добавляет дочернюю группу выражений.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>[]
+                </td>
+                <td class="last">
+                    <a href="#method_getGroups">getGroups</a>()
+                    <p>Возвращает список дочерних групп.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_applyConditions">applyConditions</a>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $selectBuilder)
+                    <p>Применяет условия группы к ISelectBuilder</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getParentGroup">
+        <div class="location">at line 31</div>
+        <code>            public            null|<a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>
+    <strong>getParentGroup</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает родительскую группу.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>null|<a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addCondition">
+        <div class="location">at line 38</div>
+        <code>            public            <a href="../../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a>
+    <strong>addCondition</strong>(<a href="../../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a> $condition)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет ограничение по значению поля.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a></td>
+                <td>$condition</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addGroup">
+        <div class="location">at line 45</div>
+        <code>            public            <a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>
+    <strong>addGroup</strong>(<a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a> $group)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет дочернюю группу выражений.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a></td>
+                <td>$group</td>
+                <td>группа</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getGroups">
+        <div class="location">at line 51</div>
+        <code>            public            <a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>[]
+    <strong>getGroups</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список дочерних групп.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>[]</td>
+            <td>массив из IFieldConditionGroup</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_applyConditions">
+        <div class="location">at line 59</div>
+        <code>            public            <a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a>
+    <strong>applyConditions</strong>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $selectBuilder)</code>
+    </h3>
+    <div class="details">
+        <p>Применяет условия группы к ISelectBuilder</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a></td>
+                <td>$selectBuilder</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/condition/IFieldConditionGroup.html"><abbr title="umi\orm\selector\condition\IFieldConditionGroup">IFieldConditionGroup</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\selector\ISelector | </title>
+                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
+                            </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/orm/selector.html">umi\orm\selector</a>\ISelector</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>ISelector</strong>        implements
+        <a href="http://php.net/IteratorAggregate"><abbr title="IteratorAggregate">IteratorAggregate</abbr></a></p>
+
+            <div class="description">
+            <p>Инструмент для формирования выборок объектов из коллекции, а так же связанных объектов.</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>ORDER_ASC</td>
+                <td class="last">
+                    <p><em>Сортировка по возрастанию</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ORDER_DESC</td>
+                <td class="last">
+                    <p><em>Сортировка по убыванию</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>PLACEHOLDER_PREFIX</td>
+                <td class="last">
+                    <p><em>Префикс для плейсхолдера</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>PLACEHOLDER_SEPARATOR</td>
+                <td class="last">
+                    <p><em>Разделитель для плейсхолдера</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>FIELD_SEPARATOR</td>
+                <td class="last">
+                    <p><em>Разделитель для доступа к связанным полям</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ALIAS_SEPARATOR</td>
+                <td class="last">
+                    <p><em>Разделитель для алиасов.</em></p>
+                    <p>Не может быть "." так как это стандартный разделитель для полей в mysql</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>BRIDGE_ALIAS_POSTFIX</td>
+                <td class="last">
+                    <p><em>Постфикс для алиаса bridge - таблицы</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>ASTERISK</td>
+                <td class="last">
+                    <p><em>Постфикс для имен полей и типов, означающий выборку всех дочерних элементов</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_resetResult">resetResult</a>()
+                    <p>Сбрасывает результаты выборки для того, чтобы селектор можно было использовать повторно.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_types">types</a>(array $typeNames)
+                    <p>Уточняет выбираемые типы данных.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_fields">fields</a>(array $fieldNames = array())
+                    <p>Уточняет массив имен полей для выборки.<br /> Если поля не уточнены, будут загружены все поля объекта для указанных типов.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_with">with</a>(string $relationFieldPath, array $fieldNames = array())
+                    <p>Загрузить связанную через belongs-to сущность вместе с объектом (одним запросом).</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_withLocalization">withLocalization</a>(bool $withLocalization = true)
+                    <p>Устанавливает режим загрузки всех локализованных свойств объектов.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_begin">begin</a>(string $mode = IFieldConditionGroup::MODE_AND)
+                    <p>Начинает новую группу выражений.<br /> Группы выражений можно вкладывать друг в друга.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_end">end</a>()
+                    <p>Завершает текущую группу выражений.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_where">where</a>(string $fieldPath, null|string $localeId = null)
+                    <p>Добавляет условие выборки по полю коллекции.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_orderBy">orderBy</a>(string $fieldPath, string $direction = self::ORDER_ASC)
+                    <p>Добавляет условие сортировки.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_limit">limit</a>(int $limit, int|null $offset = null)
+                    <p>Ограничивает выборку.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getSelectBuilder">getSelectBuilder</a>()
+                    <p>Формирует и возвращает билдер Select-запросов по установленным условиям для селектора.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_result">result</a>()
+                    <p>Возвращает удовлетворяющий условиям набор объектов.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/objectset/IObjectSet.html"><abbr title="umi\orm\objectset\IObjectSet">IObjectSet</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getResult">getResult</a>()
+                    <p>Возвращает удовлетворяющий условиям набор объектов.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    int
+                </td>
+                <td class="last">
+                    <a href="#method_getTotal">getTotal</a>()
+                    <p>Формирует билдер Select-запросов по установленным условиям для селектора и возвращает количество объектов, удовлетворяющих выборке, без учета limit.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_resetResult">
+        <div class="location">at line 63</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>resetResult</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Сбрасывает результаты выборки для того, чтобы селектор можно было использовать повторно.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_types">
+        <div class="location">at line 73</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>types</strong>(array $typeNames)</code>
+    </h3>
+    <div class="details">
+        <p>Уточняет выбираемые типы данных.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$typeNames</td>
+                <td>массив имен типов. Если после имени типа будет указан asterisk (<em>), будут выбраны так же все дочерние типы. Пример: 'notebook</em>' - будет выбран тип notebook и все дочерние от него, '*' - будут выбран все типы, включая базовый)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если какого-либо из указанных типов не существует в коллекции</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fields">
+        <div class="location">at line 82</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>fields</strong>(array $fieldNames = array())</code>
+    </h3>
+    <div class="details">
+        <p>Уточняет массив имен полей для выборки.<br /> Если поля не уточнены, будут загружены все поля объекта для указанных типов.</p>
+        <p><br /></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$fieldNames</td>
+                <td>имена полей (Ex: array('login', 'profile'))</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если какое-либо из указанных полей не существует в коллекции</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_with">
+        <div class="location">at line 91</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>with</strong>(string $relationFieldPath, array $fieldNames = array())</code>
+    </h3>
+    <div class="details">
+        <p>Загрузить связанную через belongs-to сущность вместе с объектом (одним запросом).</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$relationFieldPath</td>
+                <td>путь к полю, через которое связанна сущность (Ex: city.country).</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$fieldNames</td>
+                <td>уточняющий список имен полей связанной сущности, которые нужно загрузить. Если не указан, будут загружены все поля связанной сущности.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если какое-либо из указанных полей не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_withLocalization">
+        <div class="location">at line 101</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>withLocalization</strong>(bool $withLocalization = true)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает режим загрузки всех локализованных свойств объектов.</p>
+        <p>По умолчанию выключено. Загружаются только свойства для текущей локали,
+при попытке обратиться к локализованному свойству происходит ленивая загрузка
+всех локализованных свойств объекта.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>bool</td>
+                <td>$withLocalization</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_begin">
+        <div class="location">at line 110</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>begin</strong>(string $mode = IFieldConditionGroup::MODE_AND)</code>
+    </h3>
+    <div class="details">
+        <p>Начинает новую группу выражений.<br /> Группы выражений можно вкладывать друг в друга.</p>
+        <p><br />
+Группа становится текущей до вызова ISelector::end().</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$mode</td>
+                <td>режим сложения выражений внутри группы (AND, OR, XOR)</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_end">
+        <div class="location">at line 117</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>end</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Завершает текущую группу выражений.</p>
+        <p>Текущей становится родительская группа.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_where">
+        <div class="location">at line 127</div>
+        <code>            public            <a href="../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a>
+    <strong>where</strong>(string $fieldPath, null|string $localeId = null)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет условие выборки по полю коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$fieldPath</td>
+                <td>имя поля, либо путь к связанному полю (Ex: profile.lname)</td>
+            </tr>
+                    <tr>
+                <td>null|string</td>
+                <td>$localeId</td>
+                <td>идентификатор локали, для локализованных полей. Если для локализованного поля $localeId не указан, будет взята текущая локаль</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если поле не существует в коллекции</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_orderBy">
+        <div class="location">at line 136</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>orderBy</strong>(string $fieldPath, string $direction = self::ORDER_ASC)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет условие сортировки.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$fieldPath</td>
+                <td>имя поля, либо путь к связанному полю (Ex: profile.lname)</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$direction</td>
+                <td>направление сортировки, ASC по умолчанию</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если поле не существует в коллекции</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_limit">
+        <div class="location">at line 144</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>limit</strong>(int $limit, int|null $offset = null)</code>
+    </h3>
+    <div class="details">
+        <p>Ограничивает выборку.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>int</td>
+                <td>$limit</td>
+                <td>выбираемое кол-во объектов</td>
+            </tr>
+                    <tr>
+                <td>int|null</td>
+                <td>$offset</td>
+                <td>смещение</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSelectBuilder">
+        <div class="location">at line 151</div>
+        <code>            public            <a href="../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a>
+    <strong>getSelectBuilder</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Формирует и возвращает билдер Select-запросов по установленным условиям для селектора.</p>
+        <p>Билдер можно дополнить низкоуровнеми условиями для сложных запросов.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_result">
+        <div class="location">at line 158</div>
+        <code>            public            
+    <strong>result</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает удовлетворяющий условиям набор объектов.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getResult">
+        <div class="location">at line 164</div>
+        <code>            public            <a href="../../../umi/orm/objectset/IObjectSet.html"><abbr title="umi\orm\objectset\IObjectSet">IObjectSet</abbr></a>
+    <strong>getResult</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает удовлетворяющий условиям набор объектов.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/objectset/IObjectSet.html"><abbr title="umi\orm\objectset\IObjectSet">IObjectSet</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTotal">
+        <div class="location">at line 171</div>
+        <code>            public            int
+    <strong>getTotal</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Формирует билдер Select-запросов по установленным условиям для селектора и возвращает количество объектов, удовлетворяющих выборке, без учета limit.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
