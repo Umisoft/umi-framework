@@ -19,26 +19,12 @@ class RouteAwareTests extends AwareTestCase
         $this->awareClassTest(
             'utest\route\mock\toolbox\MockRouteAware',
             'umi\route\exception\RequiredDependencyException',
-            'Router factory is not injected in class "utest\route\mock\toolbox\MockRouteAware".'
+            'Route factory is not injected in class "utest\route\mock\toolbox\MockRouteAware".'
         );
 
         $this->successfulInjectionTest(
             'utest\route\mock\toolbox\MockRouteAware',
-            'umi\route\IRouterFactory'
-        );
-    }
-
-    public function testRouteFactoryAware()
-    {
-        $this->awareClassTest(
-            'utest\route\mock\toolbox\MockRouteFactoryAware',
-            'umi\route\exception\RequiredDependencyException',
-            'Route factory is not injected in class "utest\route\mock\toolbox\MockRouteFactoryAware".'
-        );
-
-        $this->successfulInjectionTest(
-            'utest\route\mock\toolbox\MockRouteFactoryAware',
-            'umi\route\type\factory\IRouteFactory'
+            'umi\route\IRouteFactory'
         );
     }
 }

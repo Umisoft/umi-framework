@@ -24,9 +24,10 @@ class RegexpRouteTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->route = new RegexpRoute();
-        $this->route->route = 'regexp/(?P<name>\d+)';
-        $this->route->defaults = ['name' => 0];
+        $this->route = new RegexpRoute([
+            RegexpRoute::OPTION_ROUTE => 'regexp/(?P<name>\d+)',
+            RegexpRoute::OPTION_DEFAULTS => ['name' => 0]
+        ]);
     }
 
     /**
@@ -52,7 +53,9 @@ class RegexpRouteTest extends TestCase
      */
     public function assemblingWithoutParam()
     {
-        $this->route->defaults = [];
+        $this->route = new RegexpRoute([
+            RegexpRoute::OPTION_ROUTE => 'regexp/(?P<name>\d+)'
+        ]);
         $this->route->assemble();
     }
 
@@ -70,7 +73,7 @@ class RegexpRouteTest extends TestCase
 
         $this->assertFalse($this->route->match('regexp/NaN'), 'Ожидается, что URL не подходит');
         $this->assertEquals(
-            $this->route->defaults,
+            ['name' => 0],
             $this->route->getParams(),
             'Ожидается, что параметры по умолчанию не будут изменены'
         );

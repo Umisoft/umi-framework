@@ -27,9 +27,10 @@ class SimpleRouteTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->route = new SimpleRoute();
-        $this->route->route = 'regexp/{name:integer}';
-        $this->route->defaults = ['name' => 0];
+        $this->route = new SimpleRoute([
+            SimpleRoute::OPTION_ROUTE => 'regexp/{name:integer}',
+            SimpleRoute::OPTION_DEFAULTS => ['name' => 0]
+        ]);
     }
 
     /**
@@ -54,45 +55,48 @@ class SimpleRouteTest extends TestCase
         $this->assertEquals(6, $this->route->match('regexp'));
         $this->assertEquals(['name' => 0], $this->route->getParams());
 
-        $this->route->route = '/{lang:string}/{param:string}';
-        $this->route->defaults = ['lang' => 'en'];
+        $route = new SimpleRoute([
+            SimpleRoute::OPTION_ROUTE => '/{lang:string}/{param:string}',
+            SimpleRoute::OPTION_DEFAULTS => ['lang' => 'en']
+        ]);
 
-        $this->assertEquals(6, $this->route->match('/param'), 'Ожидается, что роут подойдет.');
+        $this->assertEquals(6, $route->match('/param'), 'Ожидается, что роут подойдет.');
         $this->assertEquals(
             ['lang' => 'en', 'param' => 'param'],
-            $this->route->getParams(),
+            $route->getParams(),
             'Ожидается, что параметры по умолчанию будут подставлены.'
         );
 
-        $this->assertEquals(9, $this->route->match('/ru/param'), 'Ожидается, что роут подойдет.');
+        $this->assertEquals(9, $route->match('/ru/param'), 'Ожидается, что роут подойдет.');
         $this->assertEquals(
             ['lang' => 'ru', 'param' => 'param'],
-            $this->route->getParams(),
+            $route->getParams(),
             'Ожидается, что параметр по умолчанию будет заменен.'
         );
 
-        $this->assertFalse($this->route->match('//param'), 'Ожидается, что роут не подойдет.');
+        $this->assertFalse($route->match('//param'), 'Ожидается, что роут не подойдет.');
     }
 
     public function testParamsWithoutType()
     {
-        $this->route->route = '/{lang}';
-        $this->route->defaults = [];
+        $route = new SimpleRoute([
+            SimpleRoute::OPTION_ROUTE => '/{lang}',
+        ]);
 
         $this->assertEquals(
             '/123',
-            $this->route->assemble(['lang' => '123']),
+            $route->assemble(['lang' => '123']),
             'Ожидается, что параметр будет установлен при ассемблировании.'
         );
         $this->assertEquals(
             5,
-            $this->route->match('/name'),
+            $route->match('/name'),
             'Ожидается, что роут подойдет.'
         );
 
         $this->assertEquals(
             ['lang' => 'name'],
-            $this->route->getParams(),
+            $route->getParams(),
             'Ожидается, что параметры будут установлены.'
         );
     }
@@ -112,7 +116,10 @@ class SimpleRouteTest extends TestCase
      */
     public function assemblingWithoutParam()
     {
-        $this->route->defaults = [];
+        $this->route = new SimpleRoute([
+            SimpleRoute::OPTION_ROUTE => 'regexp/{name:integer}'
+        ]);
+
         $this->route->assemble();
     }
 
@@ -122,7 +129,9 @@ class SimpleRouteTest extends TestCase
      */
     public function wrongRoutePartType()
     {
-        $this->route->route = 'regexp/{name:int}';
+        $this->route = new SimpleRoute([
+            SimpleRoute::OPTION_ROUTE => 'regexp/{name:int}'
+        ]);
         $this->route->assemble(['name' => 12]);
     }
 
@@ -140,7 +149,7 @@ class SimpleRouteTest extends TestCase
 
         $this->assertNotEquals(10, $this->route->match('regexp/NaN'), 'Ожидается, что URL не подходит полностью.');
         $this->assertEquals(
-            $this->route->defaults,
+            ['name' => 0],
             $this->route->getParams(),
             'Ожидается, что параметры по умолчанию не будут изменены'
         );

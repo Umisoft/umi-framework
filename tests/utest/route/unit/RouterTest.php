@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -13,6 +12,7 @@ use umi\route\exception\RuntimeException;
 use umi\route\IRouter;
 use umi\route\Router;
 use umi\route\type\FixedRoute;
+use umi\route\type\IRoute;
 use utest\TestCase;
 
 /**
@@ -31,23 +31,30 @@ class RouterTest extends TestCase
 
     public function setUpFixtures()
     {
-        $first = new FixedRoute();
-        $first->route = '/first/route';
-        $first->defaults = ['matched' => 'first'];
+        $first = new FixedRoute(
+            [
+                IRoute::OPTION_ROUTE    => '/first/route',
+                IRoute::OPTION_DEFAULTS => ['matched' => 'first']
+            ]
+        );
 
-        $third = new FixedRoute();
-        $third->route = '/third';
-        $third->defaults = ['more' => 'third'];
+        $third = new FixedRoute(
+            [
+                IRoute::OPTION_ROUTE    => '/third',
+                IRoute::OPTION_DEFAULTS => ['more' => 'third']
+            ]
+        );
 
-        $second = new FixedRoute(['third' => $third]);
-        $second->route = '/second/route';
-        $second->defaults = ['matched' => 'second'];
+        $second = new FixedRoute(
+            [
+                IRoute::OPTION_ROUTE    => '/second/route',
+                IRoute::OPTION_DEFAULTS => ['matched' => 'second']
+            ], ['third' => $third]);
 
-        $empty = new FixedRoute();
-        $empty->route = '';
-        $empty->defaults = [
-            'matched' => 'empty'
-        ];
+        $empty = new FixedRoute([
+            IRoute::OPTION_ROUTE    => '',
+            IRoute::OPTION_DEFAULTS => ['matched' => 'empty']
+        ]);
 
         $this->router = new Router([
             'first'  => $first,
@@ -175,7 +182,9 @@ class RouterTest extends TestCase
 
     public function testBaseUrl()
     {
-        $this->assertInstanceOf('umi\route\IRouter', $this->router->setBaseUrl('testUrl'));
+        $this->assertSame($this->router, $this->router->setBaseUrl('testUrl'));
         $this->assertEquals('testUrl', $this->router->getBaseUrl());
+
+        $this->assertEquals($this->router->getBaseUrl(), $this->router->assemble(''));
     }
 }
