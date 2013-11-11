@@ -16,7 +16,7 @@ interface IRouteAware
 {
     /**
      * Устанавливает фабрику для создания маршрутеризатора.
-     * @param IRouterFactory $factory фабрика
+     * @param IRouteFactory $factory фабрика
      */
-    public function setRouterFactory(IRouterFactory $factory);
+    public function setRouteFactory(IRouteFactory $factory);
 }

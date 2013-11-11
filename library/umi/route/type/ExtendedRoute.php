@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -22,23 +21,32 @@ use umi\route\exception\RuntimeException;
  */
 class ExtendedRoute extends SimpleRoute
 {
+    const OPTION_RULES = 'rules';
+    const OPTION_DEFAULT_RULE = 'defaultRule';
+
     /**
      * @var array $rules правила переменных маршрутизатора
      */
-    public $rules = [];
+    protected $rules = [];
     /**
      * @var string $defaultRule правило по-умолчанию
      */
-    public $defaultRule = '[^/]+';
+    protected $defaultRule = '[^/]+';
+
+    public function __construct(array $options = [], array $subroutes = [])
+    {
+        $this->rules = isset($options[self::OPTION_RULES]) ? $options[self::OPTION_RULES] : [];
+        $this->defaultRule = isset($options[self::OPTION_DEFAULT_RULE]) ? $options[self::OPTION_DEFAULT_RULE] : $this->defaultRule;
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function assemble(array $params = [], array $options = [])
+    public function assemble(array $params = [])
     {
         return preg_replace_callback(
             '#(/?)\{(\S+?)\}#',
-            function (array $matches) use ($params, $options) {
+            function (array $matches) use ($params) {
                 $name = $matches[2];
                 $rule = $this->getRule($name);
 
@@ -53,9 +61,7 @@ class ExtendedRoute extends SimpleRoute
                         ));
                     }
 
-                    if ($this->getOption($name, $this->defaults) == $param &&
-                        !$this->getOption(self::OPTION_FORCE_DEFAULT, $options)
-                    ) {
+                    if ($this->getOption($name, $this->defaults) == $param) {
                         return '';
                     }
 

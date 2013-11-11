@@ -26,6 +26,6 @@ interface IRouteTools extends IToolbox
      * Возвращает фабрику для создания маршрутизатора.
      * @return IRouterFactory
      */
-    public function getRouterFactory();
+    public function getRouteFactory();
 
 }

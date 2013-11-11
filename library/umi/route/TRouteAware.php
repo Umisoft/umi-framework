@@ -17,15 +17,15 @@ use umi\route\exception\RequiredDependencyException;
 trait TRouteAware
 {
     /**
-     * @var IRouterFactory $_routerFactory фабрика
+     * @var IRouteFactory $_routerFactory фабрика
      */
     private $_routerFactory;
 
     /**
      * Устанавливает фабрику для создания маршрутеризатора.
-     * @param IRouterFactory $routerFactory фабрика
+     * @param IRouteFactory $routerFactory фабрика
      */
-    public final function setRouterFactory(IRouterFactory $routerFactory)
+    public final function setRouteFactory(IRouteFactory $routerFactory)
     {
         $this->_routerFactory = $routerFactory;
     }
@@ -43,7 +43,7 @@ trait TRouteAware
 
     /**
      * Возвращает фабрику для создания маршрутеризаторов.
-     * @return IRouterFactory
+     * @return IRouteFactory
      * @throws RequiredDependencyException
      */
     private final function getRouterFactory()

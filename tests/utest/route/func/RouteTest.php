@@ -31,7 +31,7 @@ class RouteTest extends TestCase
         $routeTools = $this->getTestToolkit()
             ->getToolbox(IRouteTools::ALIAS);
 
-        $this->router = $routeTools->getRouterFactory()
+        $this->router = $routeTools->getRouteFactory()
             ->createRouter(require 'routes.php');
     }
 
