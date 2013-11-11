@@ -173,6 +173,9 @@ h1 {
 	width: 100%;
 	content: '';
 }
+.buttons-group iframe {
+	margin: 0 5px;
+}
 
 @media print, screen and (max-width: 960px) {
 
