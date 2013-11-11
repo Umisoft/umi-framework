@@ -14,13 +14,10 @@ namespace umi\route\type;
  */
 interface IRoute
 {
+    /** Опция для установки маршрута. */
     const OPTION_ROUTE = 'route';
+    /** Опция для установки значений по умолчанию */
     const OPTION_DEFAULTS = 'defaults';
-
-    /**
-     * Опция, для принудительного выставления в ассемблируемый путь параметров по умолчанию.
-     */
-    const OPTION_FORCE_DEFAULT = 'forceDefault';
 
     /**
      * Проверяет соответствие части URL и правила маршрутизатора.
