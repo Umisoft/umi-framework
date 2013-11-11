@@ -21,7 +21,6 @@ use umi\route\type\IRoute;
  */
 class Router implements IRouter, ILocalizable
 {
-
     use TLocalizable;
 
     /**
@@ -41,7 +40,7 @@ class Router implements IRouter, ILocalizable
      * Конструктор.
      * @param IRoute[] $routes массив правил маршрутеризации
      */
-    public function __construct(array $routes)
+    public function __construct(array $routes = [])
     {
         $this->routes = $routes;
     }

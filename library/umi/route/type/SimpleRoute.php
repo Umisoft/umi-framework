@@ -23,6 +23,12 @@ use umi\route\exception\RuntimeException;
  */
 class SimpleRoute extends RegexpRoute implements IRoute, ILocalizable
 {
+    const TYPE_INTEGER = 'integer';
+    const TYPE_FLOAT = 'float';
+    const TYPE_STRING = 'string';
+    const TYPE_TEXT = 'text';
+    const TYPE_GUID = 'guid';
+
     /**
      * @var array $types типы параметров маршрутизатора.
      * [
@@ -32,12 +38,12 @@ class SimpleRoute extends RegexpRoute implements IRoute, ILocalizable
      *  text => строка(до конца URL, игнорирует управляющий символ)
      * ]
      */
-    public $types = [
-        'integer' => '\d+',
-        'guid'    => '\S{8}-\S{4}-\S{4}-\S{4}-\S{12}',
-        'float'   => '[0-9]+[.]?[0-9]*',
-        'string'  => '[^/]+',
-        'text'    => '.+',
+    protected $types = [
+        self::TYPE_INTEGER => '\d+',
+        self::TYPE_GUID    => '\S{8}-\S{4}-\S{4}-\S{4}-\S{12}',
+        self::TYPE_FLOAT   => '[0-9]+[.]?[0-9]*',
+        self::TYPE_STRING  => '[^/]+',
+        self::TYPE_TEXT    => '.+',
     ];
 
     /**
@@ -53,11 +59,12 @@ class SimpleRoute extends RegexpRoute implements IRoute, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function assemble(array $params = [], array $options = ['forceDefaults' => false])
+    public function assemble(array $params = [])
     {
+
         return preg_replace_callback(
             '#(/?)\{(\S+?)(:(\S+?))?\}#',
-            function (array $matches) use ($params, $options) {
+            function (array $matches) use ($params) {
                 $name = $matches[2];
                 $type = isset($matches[4]) ? $matches[4] : 'string';
 
@@ -72,9 +79,7 @@ class SimpleRoute extends RegexpRoute implements IRoute, ILocalizable
                         ));
                     }
 
-                    if ($this->getOption($name, $this->defaults) == $param &&
-                        !$this->getOption(self::OPTION_FORCE_DEFAULT, $options)
-                    ) {
+                    if ($this->getOption($name, $this->defaults) == $param) {
                         return '';
                     }
 
