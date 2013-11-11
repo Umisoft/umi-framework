@@ -23,20 +23,19 @@ use umi\route\exception\RuntimeException;
  */
 class SimpleRoute extends RegexpRoute implements IRoute, ILocalizable
 {
+    /** Тип параметра - целое число */
     const TYPE_INTEGER = 'integer';
+    /** Тип параметра - число с плавающей точкой */
     const TYPE_FLOAT = 'float';
+    /** Тип параметра - строка(до управляющего символа - /) */
     const TYPE_STRING = 'string';
+    /** Тип параметра - строка(до конца URL, игнорирует управляющий символ) */
     const TYPE_TEXT = 'text';
+    /** Тип параметра - GUID */
     const TYPE_GUID = 'guid';
 
     /**
      * @var array $types типы параметров маршрутизатора.
-     * [
-     *  integer => целое число
-     *  float => число с плавающей точкой
-     *  string => строка(до управляющего символа - /)
-     *  text => строка(до конца URL, игнорирует управляющий символ)
-     * ]
      */
     protected $types = [
         self::TYPE_INTEGER => '\d+',

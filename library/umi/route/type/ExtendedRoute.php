@@ -21,7 +21,9 @@ use umi\route\exception\RuntimeException;
  */
 class ExtendedRoute extends SimpleRoute
 {
+    /** Опция для установки правил для параметров маршрута */
     const OPTION_RULES = 'rules';
+    /** Опция для установки правила маршрута по-умолчанию. */
     const OPTION_DEFAULT_RULE = 'defaultRule';
 
     /**
@@ -35,7 +37,7 @@ class ExtendedRoute extends SimpleRoute
 
     public function __construct(array $options = [], array $subroutes = [])
     {
-        $this->rules = isset($options[self::OPTION_RULES]) ? $options[self::OPTION_RULES] : [];
+        $this->rules = isset($options[self::OPTION_RULES]) ? $options[self::OPTION_RULES] : $this->rules;
         $this->defaultRule = isset($options[self::OPTION_DEFAULT_RULE]) ? $options[self::OPTION_DEFAULT_RULE] : $this->defaultRule;
     }
 

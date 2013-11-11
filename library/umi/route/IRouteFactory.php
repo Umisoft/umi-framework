@@ -14,8 +14,9 @@ namespace umi\route;
  */
 interface IRouteFactory
 {
-
+    /** Опция для установки типа создаваемого маршрута */
     const OPTION_TYPE = 'type';
+    /** Опция для установки дочерних маршрутов */
     const OPTION_SUBROUTES = 'subroutes';
 
     /** Тип правила маршрутизатора - фиксированный(статический) маршрут. */
