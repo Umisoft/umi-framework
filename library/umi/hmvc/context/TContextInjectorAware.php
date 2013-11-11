@@ -10,7 +10,8 @@
 namespace umi\hmvc\context;
 
 /**
- * Class TContextInjectorAware
+ * Трейт для поддержки внедрения контекстно зависимых объектов.
+ * {@internal} 
  */
 trait TContextInjectorAware
 {
