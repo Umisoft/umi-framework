@@ -39,6 +39,8 @@ class ExtendedRoute extends SimpleRoute
     {
         $this->rules = isset($options[self::OPTION_RULES]) ? $options[self::OPTION_RULES] : $this->rules;
         $this->defaultRule = isset($options[self::OPTION_DEFAULT_RULE]) ? $options[self::OPTION_DEFAULT_RULE] : $this->defaultRule;
+
+        parent::__construct($options, $subroutes);
     }
 
     /**
@@ -63,7 +65,7 @@ class ExtendedRoute extends SimpleRoute
                         ));
                     }
 
-                    if ($this->getOption($name, $this->defaults) == $param) {
+                    if ($this->getDefaultOption($name) == $param) {
                         return '';
                     }
 
@@ -126,11 +128,10 @@ class ExtendedRoute extends SimpleRoute
     /**
      * Возвращает значение массива по ключу, либо NULL.
      * @param string $option ключ массива
-     * @param array $options массив
      * @return string
      */
-    private function getOption($option, array $options)
+    private function getDefaultOption($option)
     {
-        return array_key_exists($option, $options) ? $options[$option] : null;
+        return isset($this->defaults[$option]) ? $this->defaults : null;
     }
 }

@@ -19,7 +19,7 @@ trait TRouteAware
     /**
      * @var IRouteFactory $_routerFactory фабрика
      */
-    private $_routerFactory;
+    private $_routeFactory;
 
     /**
      * Устанавливает фабрику для создания маршрутеризатора.
@@ -27,7 +27,7 @@ trait TRouteAware
      */
     public final function setRouteFactory(IRouteFactory $routerFactory)
     {
-        $this->_routerFactory = $routerFactory;
+        $this->_routeFactory = $routerFactory;
     }
 
     /**
@@ -48,13 +48,13 @@ trait TRouteAware
      */
     private final function getRouterFactory()
     {
-        if (!$this->_routerFactory) {
+        if (!$this->_routeFactory) {
             throw new RequiredDependencyException(sprintf(
-                'Router factory is not injected in class "%s".',
+                'Route factory is not injected in class "%s".',
                 get_class($this)
             ));
         }
 
-        return $this->_routerFactory;
+        return $this->_routeFactory;
     }
 }

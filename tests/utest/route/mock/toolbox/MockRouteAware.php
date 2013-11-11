@@ -15,7 +15,6 @@ use utest\IMockAware;
 
 class MockRouteAware implements IRouteAware, IMockAware
 {
-
     use TRouteAware;
 
     /**
@@ -23,6 +22,6 @@ class MockRouteAware implements IRouteAware, IMockAware
      */
     public function getService()
     {
-        return $this->_routerFactory;
+        return $this->_routeFactory;
     }
 }
