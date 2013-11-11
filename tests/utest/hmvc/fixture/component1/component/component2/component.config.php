@@ -9,7 +9,7 @@
 
 namespace utest\hmvc\fixture\component1\component\component2;
 
-use umi\route\type\factory\IRouteFactory;
+use umi\route\IRouteFactory;
 use umi\templating\engine\ITemplateEngineFactory;
 
 return [

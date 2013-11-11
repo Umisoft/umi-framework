@@ -11,7 +11,7 @@ namespace utest\hmvc\unit\component;
 
 use umi\hmvc\component\IComponent;
 use umi\hmvc\exception\OutOfBoundsException;
-use umi\route\type\factory\IRouteFactory;
+use umi\route\IRouteFactory;
 use umi\templating\engine\ITemplateEngineFactory;
 use utest\hmvc\HMVCTestCase;
 

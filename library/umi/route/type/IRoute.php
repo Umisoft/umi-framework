@@ -14,10 +14,10 @@ namespace umi\route\type;
  */
 interface IRoute
 {
-    /**
-     * Опция, для принудительного выставления в ассемблируемый путь параметров по умолчанию.
-     */
-    const OPTION_FORCE_DEFAULT = 'forceDefault';
+    /** Опция для установки маршрута. */
+    const OPTION_ROUTE = 'route';
+    /** Опция для установки значений по умолчанию */
+    const OPTION_DEFAULTS = 'defaults';
 
     /**
      * Проверяет соответствие части URL и правила маршрутизатора.
@@ -29,10 +29,9 @@ interface IRoute
     /**
      * Собирает часть URL из параметров.
      * @param array $params параметры URL
-     * @param array $options опции сборки
      * @return string часть URL
      */
-    public function assemble(array $params = [], array $options = []);
+    public function assemble(array $params = []);
 
     /**
      * Возвращает параметры, расширенные параметрами по умолчанию.

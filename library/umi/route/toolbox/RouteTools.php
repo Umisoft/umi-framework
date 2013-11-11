@@ -10,8 +10,7 @@
 namespace umi\route\toolbox;
 
 use umi\route\IRouteAware;
-use umi\route\type\factory\IRouteFactory;
-use umi\route\type\factory\IRouteFactoryAware;
+use umi\route\IRouteFactory;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
@@ -19,17 +18,12 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class RouteTools implements IRouteTools
 {
-
     use TToolbox;
 
     /**
      * @var string $routeFactory класс фабрики правил маршрутеризации
      */
     public $routeFactoryClass = 'umi\route\toolbox\factory\RouteFactory';
-    /**
-     * @var string $routeFactory класс фабрики правил маршрутеризации
-     */
-    public $routerFactoryClass = 'umi\route\toolbox\factory\RouterFactory';
 
     /**
      * Конструктор.
@@ -39,13 +33,7 @@ class RouteTools implements IRouteTools
         $this->registerFactory(
             'route',
             $this->routeFactoryClass,
-            ['umi\route\type\factory\IRouteFactory']
-        );
-
-        $this->registerFactory(
-            'router',
-            $this->routerFactoryClass,
-            ['umi\route\IRouterFactory']
+            ['umi\route\IRouteFactory']
         );
     }
 
@@ -55,10 +43,6 @@ class RouteTools implements IRouteTools
     public function injectDependencies($object)
     {
         if ($object instanceof IRouteAware) {
-            $object->setRouterFactory($this->getRouterFactory());
-        }
-
-        if ($object instanceof IRouteFactoryAware) {
             $object->setRouteFactory($this->getRouteFactory());
         }
     }
@@ -66,16 +50,7 @@ class RouteTools implements IRouteTools
     /**
      * {@inheritdoc}
      */
-    public function getRouterFactory()
-    {
-        return $this->getFactory('router');
-    }
-
-    /**
-     * Возвращает фабрику правил маршрутизатора.
-     * @return IRouteFactory
-     */
-    protected function getRouteFactory()
+    public function getRouteFactory()
     {
         return $this->getFactory('route');
     }

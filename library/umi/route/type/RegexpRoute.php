@@ -22,7 +22,6 @@ use umi\route\exception\RuntimeException;
  */
 class RegexpRoute extends BaseRoute implements ILocalizable
 {
-
     use TLocalizable;
 
     /**
@@ -41,7 +40,7 @@ class RegexpRoute extends BaseRoute implements ILocalizable
     /**
      * {@inheritdoc]
      */
-    public function assemble(array $params = [], array $options = [])
+    public function assemble(array $params = [])
     {
         //TODO: change that!!!!
         $this->assembleParams = $params + $this->defaults;

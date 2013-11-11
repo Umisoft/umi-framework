@@ -17,17 +17,17 @@ use umi\route\exception\RequiredDependencyException;
 trait TRouteAware
 {
     /**
-     * @var IRouterFactory $_routerFactory фабрика
+     * @var IRouteFactory $_routerFactory фабрика
      */
-    private $_routerFactory;
+    private $_routeFactory;
 
     /**
      * Устанавливает фабрику для создания маршрутеризатора.
-     * @param IRouterFactory $routerFactory фабрика
+     * @param IRouteFactory $routerFactory фабрика
      */
-    public final function setRouterFactory(IRouterFactory $routerFactory)
+    public final function setRouteFactory(IRouteFactory $routerFactory)
     {
-        $this->_routerFactory = $routerFactory;
+        $this->_routeFactory = $routerFactory;
     }
 
     /**
@@ -43,18 +43,18 @@ trait TRouteAware
 
     /**
      * Возвращает фабрику для создания маршрутеризаторов.
-     * @return IRouterFactory
+     * @return IRouteFactory
      * @throws RequiredDependencyException
      */
     private final function getRouterFactory()
     {
-        if (!$this->_routerFactory) {
+        if (!$this->_routeFactory) {
             throw new RequiredDependencyException(sprintf(
-                'Router factory is not injected in class "%s".',
+                'Route factory is not injected in class "%s".',
                 get_class($this)
             ));
         }
 
-        return $this->_routerFactory;
+        return $this->_routeFactory;
     }
 }

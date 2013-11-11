@@ -17,11 +17,11 @@ abstract class BaseRoute implements IRoute
     /**
      * @var string $route правило маршрутизатора
      */
-    public $route;
+    protected $route;
     /**
      * @var array $defaults параметры по-умолчанию
      */
-    public $defaults = [];
+    protected $defaults = [];
     /**
      * @var IRoute[] $subroutes дочерние правила маршрутизатора
      */
@@ -33,10 +33,14 @@ abstract class BaseRoute implements IRoute
 
     /**
      * Конструктор.
+     * @param array $options опции маршрута
      * @param IRoute[] $subroutes дочерние правила маршрутизатора
      */
-    public function __construct(array $subroutes = [])
+    public function __construct(array $options = [], array $subroutes = [])
     {
+        $this->route = isset($options[self::OPTION_ROUTE]) ? $options[self::OPTION_ROUTE] : null;
+        $this->defaults = isset($options[self::OPTION_DEFAULTS]) ? $options[self::OPTION_DEFAULTS] : [];
+
         $this->subroutes = $subroutes;
     }
 
@@ -51,7 +55,7 @@ abstract class BaseRoute implements IRoute
     /**
      * {@inheritdoc}
      */
-    public function getSubRoutes()
+    public final function getSubRoutes()
     {
         return $this->subroutes;
     }

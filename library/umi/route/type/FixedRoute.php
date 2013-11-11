@@ -27,7 +27,7 @@ class FixedRoute extends BaseRoute implements IRoute
     /**
      * {@inheritdoc}
      */
-    public function assemble(array $params = [], array $options = [])
+    public function assemble(array $params = [])
     {
         return $this->route;
     }
