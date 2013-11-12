@@ -26,7 +26,7 @@ class TemplateEngineFactory implements ITemplateEngineFactory, IFactory
      */
     public $engineClasses = [
         self::PHP_ENGINE  => 'umi\templating\engine\php\PhpTemplateEngine',
-        self::TWIG_ENGINE => 'umi\templating\engine\php\TwigTemplateEngine',
+        self::TWIG_ENGINE => 'umi\templating\engine\twig\TwigTemplateEngine',
     ];
 
     /**
