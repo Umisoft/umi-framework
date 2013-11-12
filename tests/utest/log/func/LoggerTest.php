@@ -10,7 +10,6 @@
 namespace utest\log\func;
 
 use Psr\Log\LoggerInterface;
-use umi\log\toolbox\ILogTools;
 use umi\log\toolbox\LogTools;
 use utest\TestCase;
 
@@ -34,23 +33,22 @@ class LoggerTest extends TestCase
         $this->getTestToolkit()
             ->registerToolbox(
             [
-                'toolboxInterface'    => 'umi\log\toolbox\ILogTools',
-                'defaultClass'        => 'umi\log\toolbox\LogTools',
+                'name'    => LogTools::NAME,
+                'class'        => 'umi\log\toolbox\LogTools',
                 'servicingInterfaces' => [
                     'umi\log\ILoggerAware',
-                ],
-                'aliases'             => [ILogTools::ALIAS]
+                ]
             ]
         );
 
         $this->tools = $this->getTestToolkit()
-            ->getToolbox(ILogTools::ALIAS);
+            ->getToolbox(LogTools::NAME);
         $this->fsLogFile = __DIR__ . DIRECTORY_SEPARATOR . 'testLog';
     }
 
     public function testBaseFunctionality()
     {
-        $this->tools->type = ILogTools::TYPE_FILE;
+        $this->tools->type = LogTools::TYPE_FILE;
         $this->tools->messageFormat = "{level} | {message}";
         $this->tools->options = [
             'filename' => $this->fsLogFile,
@@ -77,7 +75,7 @@ class LoggerTest extends TestCase
 
     public function testMinLogLevel()
     {
-        $this->tools->type = ILogTools::TYPE_FILE;
+        $this->tools->type = LogTools::TYPE_FILE;
         $this->tools->messageFormat = "{level} | {message}";
         $this->tools->minLevel = 'error';
         $this->tools->options = [

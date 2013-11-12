@@ -14,7 +14,7 @@ use umi\config\entity\IConfig;
 use umi\config\io\IConfigIO;
 use umi\dbal\cluster\IDbCluster;
 use umi\dbal\cluster\server\IMasterServer;
-use umi\dbal\toolbox\IDbalTools;
+use umi\dbal\toolbox\DbalTools;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\IToolkit;
 use umi\toolkit\prototype\IPrototypeFactory;
@@ -109,7 +109,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             /**
              * @var IConfigIO $configIO
              */
-            $configIO = $this->toolkit->get('umi\config\io\IConfigIO');
+            $configIO = $this->toolkit->getService('umi\config\io\IConfigIO');
             $this->config = $configIO->read(self::CONFIG_TESTS);
 
             if (!$this->config->has('settings')) {
@@ -155,7 +155,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
          * @var IConfigIO $configIO
          */
         $configIO = $this->getTestToolkit()
-            ->get('umi\config\io\IConfigIO');
+            ->getService('umi\config\io\IConfigIO');
 
         /**
          * @var IConfig $config
@@ -175,7 +175,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
          * @var IDbCluster $dbCluster
          */
         $dbCluster = $this->getTestToolkit()
-            ->getToolbox(IDbalTools::ALIAS)
+            ->getToolbox(DbalTools::NAME)
             ->getCluster();
 
         return $dbCluster;

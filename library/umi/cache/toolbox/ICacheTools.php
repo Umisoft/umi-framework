@@ -17,25 +17,4 @@ use umi\toolkit\toolbox\IToolbox;
 interface ICacheTools extends IToolbox
 {
 
-    /**
-     * Короткий alias
-     */
-    const ALIAS = 'cache';
-
-    /**
-     * Кеширование с помощью APC
-     */
-    const TYPE_APC = 'apc';
-    /**
-     * Кеширование в простой таблице БД
-     */
-    const TYPE_DB = 'db';
-    /**
-     * Кеширование с помощью Memcached
-     */
-    const TYPE_MEMCACHED = 'memcached';
-    /**
-     * Кеширование с помощью XCache
-     */
-    const TYPE_XCACHE = 'xcache';
 }

@@ -28,13 +28,6 @@ interface IToolkit
     const ALIAS = 'toolkit';
 
     /**
-     * Проверяет, зарегистрирован ли набор инструментов
-     * @param string $toolboxName имя набора нструментов
-     * @return bool
-     */
-    public function hasToolbox($toolboxName);
-
-    /**
      * Регистрирует набор инструментов
      * @param array $toolboxConfig конфигурация набора инструментов
      * @throws InvalidArgumentException если нет обязательного аргумента конфигурации
@@ -42,6 +35,13 @@ interface IToolkit
      * @return self
      */
     public function registerToolbox(array $toolboxConfig);
+
+    /**
+     * Проверяет, зарегистрирован ли набор инструментов
+     * @param string $toolboxName имя набора нструментов
+     * @return bool
+     */
+    public function hasToolbox($toolboxName);
 
     /**
      * Возвращает экземляр набора инструментов
@@ -64,29 +64,12 @@ interface IToolkit
     public function registerToolboxes(array $config);
 
     /**
-     * Регистрирует список коротких алиасов для набора инструментов
-     * @param string $toolboxName интерфейс набора инструментов, либо алиас
-     * @param array $aliases список коротких алиасов, для обращения к набору инструментов
-     * @throws NotRegisteredException если набор инструментов не зарегистрирован
-     * @throws AlreadyRegisteredException если алиас был зарегистрирован ранее
-     * @return self
-     */
-    public function registerToolboxAliases($toolboxName, array $aliases);
-
-    /**
-     * Проверяет, зарегистрирован ли сервис
-     * @param string $serviceInterfaceName имя интерфейса сервиса
-     * @return bool
-     */
-    public function hasService($serviceInterfaceName);
-
-    /**
      * Регистрирует сервис.
-     * Каждый раз при обращении к сервису через IToolkit::get(), будет
+     * Каждый раз при обращении к сервису через IToolkit::getService(), будет
      * вызван билдер для получения экземпляра сервиса.
      * Пример:
      * <code>
-     *  $toolkit->register('umi\mail\IMail', function($concreteClassName, IToolkit $toolkit) {
+     *  $toolkit->registerService('umi\mail\IMail', function($concreteClassName, IToolkit $toolkit) {
      *      if ($concreteClassName) {
      *          return new $concreteClassName();
      *      } else {
@@ -99,14 +82,30 @@ interface IToolkit
      * @throws AlreadyRegisteredException если сервис с указанным интерфейсом был зарегистрирован ранее
      * @return self
      */
-    public function register($serviceInterfaceName, callable $builder);
+    public function registerService($serviceInterfaceName, callable $builder);
 
     /**
-     * Проверяет, зарегистрирован ли инжектор для указанного интерфейса.
-     * @param string $servicingInterfaceName имя обслуживаемого интерфейса
+     * Проверяет, зарегистрирован ли сервис
+     * @param string $serviceInterfaceName имя интерфейса сервиса
      * @return bool
      */
-    public function hasInjector($servicingInterfaceName);
+    public function hasService($serviceInterfaceName);
+
+    /**
+     * Возвращает экземпляр сервиса.
+     * @param string $serviceInterfaceName имя интерфейса сервиса
+     * @param null|string $concreteClassName класс конкретной реализации сервиса, может быть учтен при
+     * получении экземпляра сервиса.
+     * @return object
+     */
+    public function getService($serviceInterfaceName, $concreteClassName = null);
+
+    /**
+     * Возвращает билдер сервиса, который подходит под первый из указанных контрактов
+     * @param array $contracts список контрактов
+     * @return null|callable билдер сервиса, либо null если билдер не найден
+     */
+    public function findServiceBuilderByContracts(array $contracts);
 
     /**
      * Регистрирует инжектор для указанного интерфейса.
@@ -128,12 +127,11 @@ interface IToolkit
     public function registerInjector($servicingInterfaceName, callable $injector);
 
     /**
-     * Устанавливает настройки тулкита.
-     * @param array|Traversable $settings конфигурация в формате ['toolboxName' => [конфигурация], ...]
-     * @throws InvalidArgumentException если конфигурация не валидна
-     * @return self
+     * Проверяет, зарегистрирован ли инжектор для указанного интерфейса.
+     * @param string $servicingInterfaceName имя обслуживаемого интерфейса
+     * @return bool
      */
-    public function setSettings($settings);
+    public function hasInjector($servicingInterfaceName);
 
     /**
      * Возвращает список инжекторов, которые могут обслужить объект,
@@ -144,20 +142,12 @@ interface IToolkit
     public function getInjectors(array $interfaceNames);
 
     /**
-     * Возвращает экземпляр сервиса.
-     * @param string $serviceInterfaceName имя интерфейса сервиса
-     * @param null|string $concreteClassName класс конкретной реализации сервиса, может быть учтен при
-     * получении экземпляра сервиса.
-     * @return object
+     * Устанавливает настройки тулкита.
+     * @param array|Traversable $settings конфигурация в формате ['toolboxName' => [конфигурация], ...]
+     * @throws InvalidArgumentException если конфигурация не валидна
+     * @return self
      */
-    public function get($serviceInterfaceName, $concreteClassName = null);
-
-    /**
-     * Возвращает билдер сервиса, который подходит под первый из указанных контрактов
-     * @param array $contracts список контрактов
-     * @return null|callable билдер сервиса, либо null если билдер не найден
-     */
-    public function findServiceBuilderByContracts(array $contracts);
+    public function setSettings($settings);
 
     /**
      * Сбрасывает все созданные ранее инструменты.

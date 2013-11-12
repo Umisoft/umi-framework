@@ -18,11 +18,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IEventTools extends IToolbox
 {
     /**
-     * Короткий alias
-     */
-    const ALIAS = 'event';
-
-    /**
      * Создает и возвращает новый менеджер событий
      * @return IEventManager
      */

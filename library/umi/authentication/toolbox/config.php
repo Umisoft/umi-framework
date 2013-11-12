@@ -13,11 +13,10 @@ namespace umi\authentication\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\authentication\toolbox\IAuthenticationTools',
-    'defaultClass'        => 'umi\authentication\toolbox\AuthenticationTools',
+    'name'  => AuthenticationTools::NAME,
+    'class' => __NAMESPACE__ . '\AuthenticationTools',
     'servicingInterfaces' => [
         'umi\authentication\IAuthenticationAware',
         'umi\authentication\result\IAuthenticationResultAware',
-    ],
-    'aliases'             => [IAuthenticationTools::ALIAS]
+    ]
 ];

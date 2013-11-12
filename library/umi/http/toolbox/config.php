@@ -13,8 +13,8 @@ namespace umi\http\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => __NAMESPACE__ . '\IHttpTools',
-    'defaultClass'        => __NAMESPACE__ . '\HttpTools',
+    'name'  => HttpTools::NAME,
+    'class' => __NAMESPACE__ . '\HttpTools',
     'servicingInterfaces' => [
         'umi\http\IHttpFactory',
         'umi\http\IHttpAware',
@@ -24,6 +24,5 @@ return [
     'services'            => [
         'umi\http\request\IRequest',
         'umi\http\response\IResponse',
-    ],
-    'aliases'             => [IHttpTools::ALIAS]
+    ]
 ];

@@ -17,23 +17,6 @@ use umi\toolkit\toolbox\IToolbox;
  */
 interface ILogTools extends IToolbox
 {
-    /**
-     * Короткий alias
-     */
-    const ALIAS = 'log';
-
-    /**
-     * Заглушка, используется в случае когда логгер выключен
-     */
-    const TYPE_NULL = 'null';
-    /**
-     * Логирование, основаное на файле
-     */
-    const TYPE_FILE = 'file';
-    /**
-     * Логирование в буффер вывода
-     */
-    const TYPE_OUTPUT = 'output';
 
     /**
      * Возвращает экземпляр логгера

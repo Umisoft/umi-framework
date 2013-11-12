@@ -17,6 +17,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class PaginationTools implements IPaginationTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'pagination';
 
     use TToolbox;
 

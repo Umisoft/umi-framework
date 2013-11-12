@@ -10,7 +10,7 @@
 namespace utest\validation\func;
 
 use umi\route\IRouter;
-use umi\route\toolbox\IRouteTools;
+use umi\route\toolbox\RouteTools;
 use utest\TestCase;
 
 /**
@@ -26,10 +26,10 @@ class RouteTest extends TestCase
     public function setUpFixtures()
     {
         /**
-         * @var IRouteTools $routeTools
+         * @var RouteTools $routeTools
          */
         $routeTools = $this->getTestToolkit()
-            ->getToolbox(IRouteTools::ALIAS);
+            ->getToolbox(RouteTools::NAME);
 
         $this->router = $routeTools->getRouterFactory()
             ->createRouter(require 'routes.php');

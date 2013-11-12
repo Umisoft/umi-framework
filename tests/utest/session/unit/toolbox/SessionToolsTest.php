@@ -9,7 +9,7 @@
 
 namespace utest\session\unit\toolbox;
 
-use umi\session\toolbox\ISessionTools;
+use umi\session\toolbox\SessionTools;
 use utest\TestCase;
 
 /**
@@ -18,14 +18,14 @@ use utest\TestCase;
 class SessionToolsTest extends TestCase
 {
     /**
-     * @var ISessionTools $sessionTools
+     * @var SessionTools $sessionTools
      */
     protected $sessionTools;
 
     public function setUpFixtures()
     {
         $this->sessionTools = $this->getTestToolkit()
-            ->getToolbox(ISessionTools::ALIAS);
+            ->getToolbox(SessionTools::NAME);
     }
 
     public function testGetManager()

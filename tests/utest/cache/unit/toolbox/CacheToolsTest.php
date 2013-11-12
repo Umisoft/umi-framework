@@ -10,7 +10,6 @@
 namespace utest\cache\unit\toolbox;
 
 use umi\cache\toolbox\CacheTools;
-use umi\cache\toolbox\ICacheTools;
 use umi\dbal\cluster\server\IServer;
 use umi\dbal\driver\IColumnScheme;
 use utest\cache\mock\MockCacheAware;
@@ -43,8 +42,8 @@ class CacheToolsTest extends TestCase
          * @var CacheTools $cacheTools
          */
         $cacheTools = $this->getTestToolkit()
-            ->getToolbox(ICacheTools::ALIAS);
-        $cacheTools->type = ICacheTools::TYPE_DB;
+            ->getToolbox(CacheTools::NAME);
+        $cacheTools->type = CacheTools::TYPE_DB;
 
         $cacheTools->options = [
             'table'    => [
@@ -111,7 +110,7 @@ class CacheToolsTest extends TestCase
          * @var CacheTools $cacheTools
          */
         $cacheTools = $this->getTestToolkit()
-            ->getToolbox(ICacheTools::ALIAS);
+            ->getToolbox(CacheTools::NAME);
         $cacheTools->type = null;
 
         $cachingService = new MockCacheAware();

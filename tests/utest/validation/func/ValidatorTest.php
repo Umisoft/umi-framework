@@ -12,7 +12,7 @@ namespace utest\validation\func;
 use umi\validation\IValidator;
 use umi\validation\IValidatorFactory;
 use umi\validation\toolbox\factory\ValidatorFactory;
-use umi\validation\toolbox\IValidationTools;
+use umi\validation\toolbox\ValidationTools;
 use utest\TestCase;
 
 /**
@@ -31,10 +31,10 @@ class ValidatorTest extends TestCase
     public function setUpFixtures()
     {
         /**
-         * @var IValidationTools $validationTools
+         * @var ValidationTools $validationTools
          */
         $validationTools = $this->getTestToolkit()
-            ->getToolbox(IValidationTools::ALIAS);
+            ->getToolbox(ValidationTools::NAME);
 
         $this->factory = $validationTools->getValidatorFactory();
     }

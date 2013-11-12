@@ -26,6 +26,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class ORMTools implements IORMTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'orm';
 
     use TToolbox;
 

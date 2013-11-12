@@ -19,10 +19,6 @@ use umi\toolkit\toolbox\IToolbox;
  */
 interface IHMVCTools extends IToolbox
 {
-    /**
-     * Короткий alias для доступа.
-     */
-    const ALIAS = 'hmvc';
 
     /**
      * Возвращает фабрику для создания MVC компонентов.

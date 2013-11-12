@@ -18,11 +18,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IRbacTools extends IToolbox
 {
     /**
-     * Короткий alias.
-     */
-    const ALIAS = 'rbac';
-
-    /**
      * Возвращает фабрику ролей.
      * @return IRoleFactory
      */

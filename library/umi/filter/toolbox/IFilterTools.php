@@ -18,11 +18,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IFilterTools extends IToolbox
 {
     /**
-     * Короткий alias
-     */
-    const ALIAS = 'filter';
-
-    /**
      * Возвращает фабрику фильтров.
      * @return IFilterFactory
      */

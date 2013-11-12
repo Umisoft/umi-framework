@@ -18,11 +18,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IFormTools extends IToolbox
 {
     /**
-     * Короткий alias
-     */
-    const ALIAS = 'form';
-
-    /**
      * Возвращает фабрику элементов формы.
      * @return IEntityFactory
      */

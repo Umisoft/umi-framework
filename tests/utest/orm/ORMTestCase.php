@@ -15,7 +15,7 @@ use umi\orm\collection\ICollectionManager;
 use umi\orm\manager\IObjectManager;
 use umi\orm\metadata\IMetadataManager;
 use umi\orm\persister\IObjectPersister;
-use umi\orm\toolbox\IORMTools;
+use umi\orm\toolbox\ORMTools;
 use utest\TestCase;
 
 /**
@@ -87,10 +87,10 @@ abstract class ORMTestCase extends TestCase
         $dbDriver = $cluster->getDbDriver();
 
         /**
-         * @var IORMTools $ormTools
+         * @var ORMTools $ormTools
          */
         $ormTools = $this->getTestToolkit()
-            ->getToolbox(IORMTools::ALIAS);
+            ->getToolbox(ORMTools::NAME);
         $this->objectManager = $ormTools->getObjectManager();
         $this->metadataManager = $ormTools->getMetadataManager();
         $this->collectionManager = $ormTools->getCollectionManager();

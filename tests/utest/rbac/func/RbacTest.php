@@ -9,7 +9,7 @@
 
 namespace utest\rbac\func;
 
-use umi\rbac\toolbox\IRbacTools;
+use umi\rbac\toolbox\RbacTools;
 use utest\TestCase;
 
 /**
@@ -19,14 +19,14 @@ use utest\TestCase;
 class RbacTest extends TestCase
 {
     /**
-     * @var IRbacTools $tools инструменты Rbac
+     * @var RbacTools $tools инструменты Rbac
      */
     protected $tools;
 
     public function setUpFixtures()
     {
         $this->tools = $this->getTestToolkit()
-            ->getToolbox(IRbacTools::ALIAS);
+            ->getToolbox(RbacTools::NAME);
     }
 
     /**

@@ -17,6 +17,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class RbacTools implements IRbacTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'rbac';
 
     use TToolbox;
 

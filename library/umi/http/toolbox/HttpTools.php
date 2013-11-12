@@ -21,6 +21,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class HttpTools implements IHttpTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'http';
 
     use TToolbox;
 

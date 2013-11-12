@@ -22,11 +22,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IConfigTools extends IToolbox
 {
     /**
-     * Короткое имя для доступа.
-     */
-    const ALIAS = 'config';
-
-    /**
      * Возвращает фабрику сущностей конфигурации.
      * @return IConfigEntityFactory
      */

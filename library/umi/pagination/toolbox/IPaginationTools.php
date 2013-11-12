@@ -18,11 +18,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IPaginationTools extends IToolbox
 {
     /**
-     * Короткий alias.
-     */
-    const ALIAS = 'pagination';
-
-    /**
      * Возвращает фабрику пагинаторов.
      * @return IPaginatorFactory
      */

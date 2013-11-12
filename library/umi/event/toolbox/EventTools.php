@@ -16,6 +16,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class EventTools implements IEventTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'event';
 
     use TToolbox;
 

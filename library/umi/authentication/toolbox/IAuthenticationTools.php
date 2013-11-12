@@ -17,10 +17,6 @@ use umi\toolkit\toolbox\IToolbox;
  */
 interface IAuthenticationTools extends IToolbox
 {
-    /**
-     * Короткий alias
-     */
-    const ALIAS = 'authentication';
 
     /**
      * Возвращает фабрику объектов аутентификациию

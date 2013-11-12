@@ -18,6 +18,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class AuthenticationTools implements IAuthenticationTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'authentication';
 
     use TToolbox;
 

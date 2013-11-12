@@ -19,6 +19,23 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class LogTools implements ILogTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'log';
+
+    /**
+     * Заглушка, используется в случае когда логгер выключен
+     */
+    const TYPE_NULL = 'null';
+    /**
+     * Логирование, основаное на файле
+     */
+    const TYPE_FILE = 'file';
+    /**
+     * Логирование в буффер вывода
+     */
+    const TYPE_OUTPUT = 'output';
 
     use TToolbox;
 

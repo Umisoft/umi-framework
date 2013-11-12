@@ -13,7 +13,7 @@ use umi\templating\engine\ITemplateEngine;
 use umi\templating\engine\php\PhpTemplateEngine;
 use umi\templating\extension\adapter\ExtensionAdapter;
 use umi\templating\toolbox\factory\ExtensionFactory;
-use umi\templating\toolbox\ITemplatingTools;
+use umi\templating\toolbox\TemplatingTools;
 use utest\TestCase;
 
 /**
@@ -92,11 +92,11 @@ class PhpTemplateEngineTest extends TestCase
 
     /**
      * Возвращает набор инструментов для работы с отображением.
-     * @return ITemplatingTools
+     * @return TemplatingTools
      */
     protected final function getViewTools()
     {
-        return $this->toolkit()
-            ->getToolbox(ITemplatingTools::ALIAS);
+        return $this->getTestToolkit()
+            ->getToolbox(TemplatingTools::NAME);
     }
 }

@@ -7,17 +7,11 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\i18n\toolbox;
-
-use umi\toolkit\toolbox\IToolbox;
+namespace utest\toolkit\mock;
 
 /**
- * Набор инструментов для поддержки локализации.
+ * Неправильный набор инструментов для тестов
  */
-interface I18nToolsInterface extends IToolbox
+class WrongTools
 {
-    /**
-     * Короткий alias
-     */
-    const ALIAS = 'i18n';
 }

@@ -18,10 +18,6 @@ use umi\toolkit\toolbox\IToolbox;
  */
 interface ISyntaxTools extends IToolbox
 {
-    /**
-     * Короткий алиас для доступа.
-     */
-    const ALIAS = 'syntax';
 
     /**
      * Возвращает фабрику токенов.

@@ -21,6 +21,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class SessionTools implements ISessionTools
 {
+    /**
+     * Имя набора инструментов.
+     */
+    const NAME = 'session';
 
     use TToolbox;
 
@@ -61,8 +65,8 @@ class SessionTools implements ISessionTools
                 return $this->getSession();
         }
         throw new UnsupportedServiceException($this->translate(
-            'Toolbox "{alias}" does not support service "{interface}".',
-            ['alias' => self::ALIAS, 'interface' => $serviceInterfaceName]
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
         ));
     }
 

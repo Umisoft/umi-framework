@@ -17,6 +17,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class FormTools implements IFormTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'form';
 
     use TToolbox;
 

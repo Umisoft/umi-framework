@@ -13,8 +13,8 @@ namespace umi\hmvc\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\hmvc\toolbox\IHMVCTools',
-    'defaultClass'        => 'umi\hmvc\toolbox\HMVCTools',
+    'name'    => HMVCTools::NAME,
+    'class'        => __NAMESPACE__ . '\HMVCTools',
     'servicingInterfaces' => [
         'umi\hmvc\IMVCLayerAware',
         'umi\hmvc\component\IComponentAware',
@@ -22,6 +22,5 @@ return [
         'umi\hmvc\component\response\IComponentResponseAware',
         'umi\hmvc\component\request\IComponentRequestAware',
         'umi\hmvc\view\template\IViewExtensionFactoryAware',
-    ],
-    'aliases'             => [IHMVCTools::ALIAS]
+    ]
 ];

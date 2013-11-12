@@ -18,11 +18,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IDbalTools extends IToolbox
 {
     /**
-     * Короткий alias
-     */
-    const ALIAS = 'db';
-
-    /**
      * Возвращает кластер БД
      * @return IDbCluster
      */

@@ -11,7 +11,7 @@ namespace utest\session\func;
 
 use umi\session\exception\RuntimeException;
 use umi\session\ISessionManager;
-use umi\session\toolbox\ISessionTools;
+use umi\session\toolbox\SessionTools;
 use utest\session\SessionTestCase;
 
 /**
@@ -21,17 +21,17 @@ class SessionTest extends SessionTestCase
 {
 
     /**
-     * @var ISessionTools $sessionTools
+     * @var SessionTools $sessionTools
      */
     protected $sessionTools;
 
     public function setUp()
     {
         /**
-         * @var ISessionTools $sessionTools
+         * @var SessionTools $sessionTools
          */
         $sessionTools = $this->getTestToolkit()
-            ->getToolbox(ISessionTools::ALIAS);
+            ->getToolbox(SessionTools::NAME);
         $sessionTools->getSession()
             ->setStorage('null');
 

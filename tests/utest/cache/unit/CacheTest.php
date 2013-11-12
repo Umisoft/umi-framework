@@ -82,11 +82,6 @@ class CacheTest extends TestCase
             ->dropTable($this->tableName);
     }
 
-    public function testMemLeaks()
-    {
-
-    }
-
     public function testCacheSimple()
     {
         /**

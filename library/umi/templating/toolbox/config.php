@@ -13,11 +13,10 @@ namespace umi\templating\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => __NAMESPACE__ . '\ITemplatingTools',
-    'defaultClass'        => __NAMESPACE__ . '\TemplatingTools',
+    'name'    => TemplatingTools::NAME,
+    'class'        => __NAMESPACE__ . '\TemplatingTools',
     'servicingInterfaces' => [
         'umi\templating\engine\ITemplateEngineAware',
         'umi\templating\extension\IExtensionAware',
-    ],
-    'aliases'             => [ITemplatingTools::ALIAS]
+    ]
 ];

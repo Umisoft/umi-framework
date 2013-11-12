@@ -21,11 +21,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IORMTools extends IToolbox
 {
     /**
-     * Короткий alias
-     */
-    const ALIAS = 'orm';
-
-    /**
      * Возвращает менеджер объектов
      * @return IObjectManager
      */

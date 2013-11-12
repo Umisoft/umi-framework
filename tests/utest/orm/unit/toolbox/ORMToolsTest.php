@@ -9,7 +9,7 @@
 
 namespace utest\orm\unit\toolbox;
 
-use umi\orm\toolbox\IORMTools;
+use umi\orm\toolbox\ORMTools;
 use utest\TestCase;
 
 /**
@@ -21,10 +21,10 @@ class ORMToolsTest extends TestCase
     public function testORMServices()
     {
         /**
-         * @var IORMTools $ormTools
+         * @var ORMTools $ormTools
          */
         $ormTools = $this->getTestToolkit()
-            ->getToolbox(IORMTools::ALIAS);
+            ->getToolbox(ORMTools::NAME);
         $this->resolveOptionalDependencies($ormTools);
 
         $objectManager = $ormTools->getObjectManager();

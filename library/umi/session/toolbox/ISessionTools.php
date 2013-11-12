@@ -19,11 +19,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface ISessionTools extends IToolbox
 {
     /**
-     * Короткий alias
-     */
-    const ALIAS = 'session';
-
-    /**
      * Возвращает менеджер сессии.
      * @return ISessionManager
      */

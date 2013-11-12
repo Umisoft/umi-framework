@@ -18,11 +18,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IRouteTools extends IToolbox
 {
     /**
-     * Короткий alias
-     */
-    const ALIAS = 'route';
-
-    /**
      * Возвращает фабрику для создания маршрутизатора.
      * @return IRouterFactory
      */

@@ -13,13 +13,12 @@ namespace umi\orm\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\orm\toolbox\IORMTools',
-    'defaultClass'        => 'umi\orm\toolbox\ORMTools',
+    'name'    => ORMTools::NAME,
+    'class'        => __NAMESPACE__ . '\ORMTools',
     'servicingInterfaces' => [
         'umi\orm\collection\ICollectionManagerAware',
         'umi\orm\manager\IObjectManagerAware',
         'umi\orm\metadata\IMetadataManagerAware',
         'umi\orm\persister\IObjectPersisterAware'
-    ],
-    'aliases'             => ['orm', 'ormTools']
+    ]
 ];

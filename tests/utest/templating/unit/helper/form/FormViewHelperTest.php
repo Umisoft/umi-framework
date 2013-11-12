@@ -10,7 +10,7 @@
 namespace utest\templating\unit\helper;
 
 use umi\form\IForm;
-use umi\form\toolbox\IFormTools;
+use umi\form\toolbox\FormTools;
 use umi\templating\exception\InvalidArgumentException;
 use umi\templating\extension\helper\type\form\FormHelper;
 use umi\templating\extension\helper\type\form\FormHelperCollection;
@@ -34,10 +34,10 @@ class FormHelperTest extends TestCase
     {
         $this->helper = new FormHelper();
         /**
-         * @var IFormTools $formTools
+         * @var FormTools $formTools
          */
         $formTools = $this->getTestToolkit()
-            ->getToolbox(IFormTools::ALIAS);
+            ->getToolbox(FormTools::NAME);
 
         $this->form = $formTools->getEntityFactory()
             ->createForm(

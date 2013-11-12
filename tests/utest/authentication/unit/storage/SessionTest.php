@@ -11,6 +11,7 @@ namespace utest\authentication\unit\storage;
 
 use umi\authentication\storage\SessionStorage;
 use umi\session\toolbox\ISessionTools;
+use umi\session\toolbox\SessionTools;
 use umi\toolkit\Toolkit;
 use utest\TestCase;
 
@@ -74,11 +75,11 @@ class SessionTest extends TestCase
     }
 
     /**
-     * @return ISessionTools
+     * @return SessionTools
      */
     private function getSessionTools()
     {
         return $this->getTestToolkit()
-            ->getToolbox(ISessionTools::ALIAS);
+            ->getToolbox(SessionTools::NAME);
     }
 }

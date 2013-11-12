@@ -13,7 +13,7 @@ use umi\http\request\Request;
 use umi\session\entity\ns\ISessionNamespace;
 use umi\session\entity\ns\SessionNamespace;
 use umi\session\ISessionManager;
-use umi\session\toolbox\ISessionTools;
+use umi\session\toolbox\SessionTools;
 use utest\session\SessionTestCase;
 
 /**
@@ -39,10 +39,10 @@ class SessionNamespaceTest extends SessionTestCase
         $this->resolveOptionalDependencies($request);
 
         /**
-         * @var ISessionTools $sessionTools
+         * @var SessionTools $sessionTools
          */
         $sessionTools = $this->getTestToolkit()
-            ->getToolbox(ISessionTools::ALIAS);
+            ->getToolbox(SessionTools::NAME);
 
         $this->session = new SessionNamespace('test');
         $this->resolveOptionalDependencies($this->session);

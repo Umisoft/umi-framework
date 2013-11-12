@@ -18,11 +18,6 @@ use umi\toolkit\toolbox\IToolbox;
 interface IHttpTools extends IToolbox
 {
     /**
-     * Короткий alias
-     */
-    const ALIAS = 'http';
-
-    /**
      * Возвращает фабрику HTTP сущностей.
      * @return IHttpFactory
      */

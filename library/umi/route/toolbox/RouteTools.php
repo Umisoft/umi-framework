@@ -19,6 +19,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class RouteTools implements IRouteTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'route';
 
     use TToolbox;
 

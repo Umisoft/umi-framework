@@ -17,10 +17,6 @@ use umi\validation\IValidatorFactory;
  */
 interface IValidationTools extends IToolbox
 {
-    /**
-     * Короткий alias
-     */
-    const ALIAS = 'validation';
 
     /**
      * Возвращает фабрику для создания валидаторов.

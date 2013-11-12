@@ -17,6 +17,10 @@ use umi\validation\IValidationAware;
  */
 class ValidationTools implements IValidationTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'validation';
 
     use TToolbox;
 

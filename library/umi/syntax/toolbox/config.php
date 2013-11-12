@@ -13,11 +13,10 @@ namespace umi\syntax\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\syntax\toolbox\ISyntaxTools',
-    'defaultClass'        => 'umi\syntax\toolbox\SyntaxTools',
+    'name'    => SyntaxTools::NAME,
+    'class'        => __NAMESPACE__ . '\SyntaxTools',
     'servicingInterfaces' => [
         'umi\syntax\token\ITokenAware',
         'umi\syntax\ISyntaxAware'
-    ],
-    'aliases'             => [ISyntaxTools::ALIAS]
+    ]
 ];

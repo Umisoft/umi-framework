@@ -18,6 +18,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class SyntaxTools implements ISyntaxTools
 {
+    /**
+     * Имя набора инструментов.
+     */
+    const NAME = 'syntax';
 
     use TToolbox;
 

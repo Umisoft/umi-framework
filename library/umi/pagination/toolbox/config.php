@@ -13,10 +13,9 @@ namespace umi\pagination\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\pagination\toolbox\IPaginationTools',
-    'defaultClass'        => 'umi\pagination\toolbox\PaginationTools',
+    'name'    => PaginationTools::NAME,
+    'class'        => __NAMESPACE__ . '\PaginationTools',
     'servicingInterfaces' => [
         'umi\pagination\IPaginationAware'
-    ],
-    'aliases'             => [IPaginationTools::ALIAS]
+    ]
 ];

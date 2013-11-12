@@ -23,6 +23,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class ConfigTools implements IConfigTools
 {
+    /**
+     * Имя набора инструментов.
+     */
+    const NAME = 'config';
 
     use TToolbox;
 
@@ -93,8 +97,8 @@ class ConfigTools implements IConfigTools
                 return $this->getConfigIO();
         }
         throw new UnsupportedServiceException($this->translate(
-            'Toolbox "{alias}" does not support service "{interface}".',
-            ['alias' => self::ALIAS, 'interface' => $serviceInterfaceName]
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
         ));
     }
 

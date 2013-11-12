@@ -25,6 +25,11 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class HMVCTools implements IHMVCTools
 {
+    /**
+     * Имя набора инструментов.
+     */
+    const NAME = 'hmvc';
+
     use TToolbox;
 
     /**

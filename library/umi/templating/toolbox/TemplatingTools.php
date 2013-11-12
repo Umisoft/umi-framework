@@ -19,6 +19,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class TemplatingTools implements ITemplatingTools
 {
+
+    /** Имя набора инструментов */
+    const NAME = 'templating';
+
     use TToolbox;
 
     /**

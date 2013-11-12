@@ -13,10 +13,9 @@ namespace umi\cache\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\cache\toolbox\ICacheTools',
-    'defaultClass'        => 'umi\cache\toolbox\CacheTools',
+    'name'    => CacheTools::NAME,
+    'class'        => __NAMESPACE__ . '\CacheTools',
     'servicingInterfaces' => [
         'umi\cache\ICacheAware'
-    ],
-    'aliases'             => [ICacheTools::ALIAS]
+    ]
 ];

@@ -13,8 +13,8 @@ namespace umi\i18n\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\i18n\toolbox\I18nToolsInterface',
-    'defaultClass'        => 'umi\i18n\toolbox\I18nTools',
+    'name'    => I18nTools::NAME,
+    'class'        => __NAMESPACE__ . '\I18nTools',
     'servicingInterfaces' => [
         'umi\i18n\ILocalizable',
         'umi\i18n\ILocalesAware'
@@ -22,6 +22,5 @@ return [
     'services'            => [
         'umi\i18n\ILocalesService',
         'umi\i18n\translator\ITranslator'
-    ],
-    'aliases'             => [I18nToolsInterface::ALIAS]
+    ]
 ];

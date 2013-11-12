@@ -17,6 +17,10 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class FilterTools implements IFilterTools
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'filter';
 
     use TToolbox;
 

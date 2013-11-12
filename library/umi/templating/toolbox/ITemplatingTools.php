@@ -16,8 +16,6 @@ use umi\toolkit\toolbox\IToolbox;
  */
 interface ITemplatingTools extends IToolbox
 {
-    /** Короткий алиас для доступа */
-    const ALIAS = 'templating';
 
     /**
      * Возвращает фабрику для шаблонизаторов.

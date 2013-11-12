@@ -11,11 +11,11 @@ namespace utest\form\unit\element;
 
 use umi\filter\IFilterCollection;
 use umi\filter\IFilterFactory;
-use umi\filter\toolbox\IFilterTools;
+use umi\filter\toolbox\FilterTools;
 use umi\form\element\IElement;
 use umi\validation\IValidatorCollection;
 use umi\validation\IValidatorFactory;
-use umi\validation\toolbox\IValidationTools;
+use umi\validation\toolbox\ValidationTools;
 use utest\TestCase;
 
 /**
@@ -136,10 +136,10 @@ abstract class BaseElementTest extends TestCase
     protected function getValidatorCollection(array $conf)
     {
         /**
-         * @var IValidationTools $tools
+         * @var ValidationTools $tools
          */
         $tools = $this->getTestToolkit()
-            ->getToolbox(IValidationTools::ALIAS);
+            ->getToolbox(ValidationTools::NAME);
 
         return $tools->getValidatorFactory()
             ->createValidatorCollection($conf);
@@ -152,10 +152,10 @@ abstract class BaseElementTest extends TestCase
     protected function getFilterCollection(array $conf)
     {
         /**
-         * @var IFilterTools $tools
+         * @var FilterTools $tools
          */
         $tools = $this->getTestToolkit()
-            ->getToolbox(IFilterTools::ALIAS);
+            ->getToolbox(FilterTools::NAME);
 
         return $tools->getFilterFactory()
             ->createFilterCollection($conf);

@@ -11,7 +11,7 @@ namespace utest\filter\func;
 
 use umi\filter\IFilter;
 use umi\filter\IFilterFactory;
-use umi\filter\toolbox\IFilterTools;
+use umi\filter\toolbox\FilterTools;
 use utest\TestCase;
 
 /**
@@ -21,7 +21,7 @@ class FilterTest extends TestCase
 {
 
     /**
-     * @var IFilterTools $filterTools инструменты для фильтрации
+     * @var FilterTools $filterTools инструменты для фильтрации
      */
     protected $filterTools = null;
 
@@ -31,7 +31,7 @@ class FilterTest extends TestCase
     public function setUpFixtures()
     {
         $this->filterTools = $this->getTestToolkit()
-            ->getToolbox(IFilterTools::ALIAS);
+            ->getToolbox(FilterTools::NAME);
     }
 
     /**
