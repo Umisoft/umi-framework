@@ -12,7 +12,7 @@ namespace utest\authentication\func;
 use umi\authentication\IAuthentication;
 use umi\authentication\IAuthenticationFactory;
 use umi\authentication\provider\SimpleProvider;
-use umi\authentication\toolbox\AuthenticationTools;
+use umi\authentication\toolbox\factory\AuthenticationFactory;
 use umi\toolkit\factory\TFactory;
 use utest\TestCase;
 
@@ -29,12 +29,10 @@ class AuthTest extends TestCase
 
     public function setUpFixtures()
     {
-        /**
-         * @var AuthenticationTools $authTools
-         */
-        $authTools = $this->getTestToolkit()
-            ->getToolbox(AuthenticationTools::NAME);
-        $this->auth = $authTools->getAuthenticationFactory()
+        $authenticationFactory = new AuthenticationFactory();
+        $this->resolveOptionalDependencies($authenticationFactory);
+
+        $this->auth = $authenticationFactory
             ->createManager(
             [
                 'adapter' => [

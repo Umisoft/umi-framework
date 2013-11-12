@@ -9,7 +9,8 @@
 
 namespace utest\rbac\func;
 
-use umi\rbac\toolbox\RbacTools;
+use umi\rbac\IRoleFactory;
+use umi\rbac\toolbox\factory\RoleFactory;
 use utest\TestCase;
 
 /**
@@ -19,14 +20,14 @@ use utest\TestCase;
 class RbacTest extends TestCase
 {
     /**
-     * @var RbacTools $tools инструменты Rbac
+     * @var IRoleFactory $roleFactory
      */
-    protected $tools;
+    protected $roleFactory;
 
     public function setUpFixtures()
     {
-        $this->tools = $this->getTestToolkit()
-            ->getToolbox(RbacTools::NAME);
+        $this->roleFactory = new RoleFactory();
+        $this->resolveOptionalDependencies($this->roleFactory);
     }
 
     /**
@@ -34,13 +35,9 @@ class RbacTest extends TestCase
      */
     public function testBasic()
     {
-        $role1 = $this->tools->getRoleFactory()
-            ->createRole(['post.edit']);
-        $role2 = $this->tools->getRoleFactory()
-            ->createRole(['post.view']);
-
-        $role = $this->tools->getRoleFactory()
-            ->createRole(['post.delete'], [$role1, $role2]);
+        $role1 = $this->roleFactory->createRole(['post.edit']);
+        $role2 = $this->roleFactory->createRole(['post.view']);
+        $role = $this->roleFactory->createRole(['post.delete'], [$role1, $role2]);
 
         $this->assertTrue(
             $role->hasPermission('post.view'),

@@ -11,7 +11,7 @@ namespace utest\filter\func;
 
 use umi\filter\IFilter;
 use umi\filter\IFilterFactory;
-use umi\filter\toolbox\FilterTools;
+use umi\filter\toolbox\factory\FilterFactory;
 use utest\TestCase;
 
 /**
@@ -21,17 +21,17 @@ class FilterTest extends TestCase
 {
 
     /**
-     * @var FilterTools $filterTools инструменты для фильтрации
+     * @var IFilterFactory $filterFactory
      */
-    protected $filterTools = null;
+    protected $filterFactory;
 
     /**
      * Создание инструментария фильтрации данных
      */
     public function setUpFixtures()
     {
-        $this->filterTools = $this->getTestToolkit()
-            ->getToolbox(FilterTools::NAME);
+        $this->filterFactory = new FilterFactory();
+        $this->resolveOptionalDependencies($this->filterFactory);
     }
 
     /**
@@ -39,7 +39,8 @@ class FilterTest extends TestCase
      */
     public function testSingleFilter()
     {
-        $filter = $this->filterTools->getFilterFactory()
+
+        $filter = $this->filterFactory
             ->createFilter(IFilterFactory::TYPE_STRING_TRIM);
 
         $this->assertEquals(
@@ -54,7 +55,8 @@ class FilterTest extends TestCase
      */
     public function testMultipleFilter()
     {
-        $filter = $this->filterTools->getFilterFactory()
+
+        $filter = $this->filterFactory
             ->createFilterCollection(
             [
                 IFilterFactory::TYPE_STRING_TRIM => [],
@@ -73,7 +75,7 @@ class FilterTest extends TestCase
         /**
          * @var IFilter $filter
          */
-        $filter = $this->filterTools->getFilterFactory()
+        $filter = $this->filterFactory
             ->createFilterCollection(
             [
                 IFilterFactory::TYPE_STRING_TRIM => [],

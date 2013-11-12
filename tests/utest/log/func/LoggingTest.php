@@ -14,11 +14,10 @@ use umi\log\toolbox\LogTools;
 use utest\TestCase;
 
 /**
- * Тестирование логгеров
+ * Тестирование логгирования
  */
-class LoggerTest extends TestCase
+class LoggingTest extends TestCase
 {
-
     /**
      * @var LogTools $factory
      */
@@ -30,19 +29,8 @@ class LoggerTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->getTestToolkit()
-            ->registerToolbox(
-            [
-                'name'    => LogTools::NAME,
-                'class'        => 'umi\log\toolbox\LogTools',
-                'servicingInterfaces' => [
-                    'umi\log\ILoggerAware',
-                ]
-            ]
-        );
-
-        $this->tools = $this->getTestToolkit()
-            ->getToolbox(LogTools::NAME);
+        $this->tools = new LogTools();
+        $this->resolveOptionalDependencies($this->tools);
         $this->fsLogFile = __DIR__ . DIRECTORY_SEPARATOR . 'testLog';
     }
 
@@ -57,7 +45,7 @@ class LoggerTest extends TestCase
         /**
          * @var LoggerInterface $logger
          */
-        $logger = $this->tools->getLogger();
+        $logger = $this->tools->getService('umi\log\ILogger', null);
 
         $logger->info(
             'Logged from {function}',
@@ -85,7 +73,7 @@ class LoggerTest extends TestCase
         /**
          * @var LoggerInterface $logger
          */
-        $logger = $this->tools->getLogger();
+        $logger = $this->tools->getService('umi\log\ILogger', null);
 
         $logger->info(
             'Info from {function}',

@@ -9,14 +9,17 @@
 
 namespace umi\syntax\toolbox;
 
+use umi\syntax\IParserFactory;
 use umi\syntax\ISyntaxAware;
 use umi\syntax\token\ITokenAware;
+use umi\syntax\token\ITokenFactory;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов для работы с синтакисом.
  */
-class SyntaxTools implements ISyntaxTools
+class SyntaxTools implements IToolbox
 {
     /**
      * Имя набора инструментов.
@@ -67,17 +70,19 @@ class SyntaxTools implements ISyntaxTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику парсеров.
+     * @return IParserFactory
      */
-    public function getParserFactory()
+    protected function getParserFactory()
     {
         return $this->getFactory('parser');
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику токенов.
+     * @return ITokenFactory
      */
-    public function getTokenFactory()
+    protected function getTokenFactory()
     {
         return $this->getFactory('token');
     }

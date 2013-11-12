@@ -10,7 +10,7 @@
 namespace umi\templating\extension\adapter;
 
 /**
- * Interface IExtensionFactory
+ * Фабрика адаптеров для подключения расширений шаблонизаторов.
  */
 interface IExtensionAdapterFactory
 {

@@ -11,15 +11,18 @@ namespace umi\session\toolbox;
 
 use umi\session\entity\factory\ISessionEntityFactory;
 use umi\session\entity\factory\ISessionEntityFactoryAware;
+use umi\session\ISession;
 use umi\session\ISessionAware;
+use umi\session\ISessionManager;
 use umi\session\ISessionManagerAware;
 use umi\toolkit\exception\UnsupportedServiceException;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов для работы с сессиями.
  */
-class SessionTools implements ISessionTools
+class SessionTools implements IToolbox
 {
     /**
      * Имя набора инструментов.
@@ -71,9 +74,10 @@ class SessionTools implements ISessionTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает менеджер сессии.
+     * @return ISessionManager
      */
-    public function getManager()
+    protected function getManager()
     {
         return $this->createSingleInstance(
             $this->managerClass,
@@ -83,9 +87,10 @@ class SessionTools implements ISessionTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает сервис сессии.
+     * @return ISession
      */
-    public function getSession()
+    protected function getSession()
     {
         return $this->createSingleInstance(
             $this->serviceClass,

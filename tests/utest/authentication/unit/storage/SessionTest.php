@@ -10,8 +10,7 @@
 namespace utest\authentication\unit\storage;
 
 use umi\authentication\storage\SessionStorage;
-use umi\session\toolbox\ISessionTools;
-use umi\session\toolbox\SessionTools;
+use umi\session\ISession;
 use umi\toolkit\Toolkit;
 use utest\TestCase;
 
@@ -32,8 +31,11 @@ class SessionTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->storage = new SessionStorage([], $this->getSessionTools()
-            ->getSession());
+        /**
+         * @var ISession $session
+         */
+        $session = $this->getTestToolkit()->getService('umi\session\ISession');
+        $this->storage = new SessionStorage([], $session);
         $this->resolveOptionalDependencies($this->storage);
     }
 
@@ -58,28 +60,19 @@ class SessionTest extends TestCase
 
     public function testOptions()
     {
-        $storage = new SessionStorage([
-            'namespace' => 'auth'
-        ], $this->getSessionTools()
-            ->getSession());
-
+        /**
+         * @var ISession $session
+         */
+        $session = $this->getTestToolkit()->getService('umi\session\ISession');
+        $storage = new SessionStorage(['namespace' => 'auth'], $session);
         $this->resolveOptionalDependencies($storage);
+
         $storage->setIdentity(1);
 
-        $ns = $this->getSessionTools()
-            ->getSession()
+        $ns = $session
             ->getNamespace('auth')
             ->toArray();
 
         $this->assertNotEmpty($ns, 'Ожидается, что пространство имен не пустое.');
-    }
-
-    /**
-     * @return SessionTools
-     */
-    private function getSessionTools()
-    {
-        return $this->getTestToolkit()
-            ->getToolbox(SessionTools::NAME);
     }
 }

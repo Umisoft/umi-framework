@@ -175,8 +175,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
          * @var IDbCluster $dbCluster
          */
         $dbCluster = $this->getTestToolkit()
-            ->getToolbox(DbalTools::NAME)
-            ->getCluster();
+            ->getService('umi\dbal\cluster\IDbCluster');
 
         return $dbCluster;
     }

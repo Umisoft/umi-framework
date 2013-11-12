@@ -16,7 +16,7 @@ use utest\TestCase;
 /**
  * Тестирование инструментария для работы с базами данных
  */
-class DbToolsTest extends TestCase
+class DbalToolsTest extends TestCase
 {
 
     /**
@@ -32,18 +32,17 @@ class DbToolsTest extends TestCase
 
     public function testGetService()
     {
-
-        $dbCluster = $this->dbal->getCluster();
+        $dbCluster = $this->dbal->getService('umi\dbal\cluster\IDbCluster', null);
         $this->assertInstanceOf('umi\dbal\cluster\IDbCluster', $dbCluster);
         $this->assertTrue($dbCluster === $this->dbal->getService('umi\dbal\cluster\IDbCluster', null));
     }
 
-    public function  testDbToolsServerConfig1()
+    public function  testDbalToolsServerConfig1()
     {
         $this->dbal->servers = ['wrongServerConfig' => 'wrongServerConfig'];
         $e = null;
         try {
-            $this->dbal->getCluster();
+            $this->dbal->getService('umi\dbal\cluster\IDbCluster', null);
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -58,12 +57,12 @@ class DbToolsTest extends TestCase
         );
     }
 
-    public function  testDbToolsServerConfig2()
+    public function  testDbalToolsServerConfig2()
     {
         $this->dbal->servers = ['wrongServerConfig' => []];
         $e = null;
         try {
-            $this->dbal->getCluster();
+            $this->dbal->getService('umi\dbal\cluster\IDbCluster', null);
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -78,7 +77,7 @@ class DbToolsTest extends TestCase
         );
     }
 
-    public function  testDbToolsServerConfig3()
+    public function  testDbalToolsServerConfig3()
     {
         $this->dbal->servers = [
             'wrongServerConfig' => [
@@ -88,7 +87,7 @@ class DbToolsTest extends TestCase
         ];
         $e = null;
         try {
-            $this->dbal->getCluster();
+            $this->dbal->getService('umi\dbal\cluster\IDbCluster', null);
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -99,7 +98,7 @@ class DbToolsTest extends TestCase
         $this->assertEquals('Cannot find driver configuration.', $e->getMessage(), 'Неверный текст исключения');
     }
 
-    public function  testDbToolsServerConfig4()
+    public function  testDbalToolsServerConfig4()
     {
         $this->dbal->servers = [
             'wrongServerConfig' => [
@@ -110,7 +109,7 @@ class DbToolsTest extends TestCase
         ];
         $e = null;
         try {
-            $this->dbal->getCluster();
+            $this->dbal->getService('umi\dbal\cluster\IDbCluster', null);
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -125,7 +124,7 @@ class DbToolsTest extends TestCase
         );
     }
 
-    public function  testDbToolsServerConfig5()
+    public function  testDbalToolsServerConfig5()
     {
         $this->dbal->servers = [
             'wrongServerConfig' => [
@@ -138,7 +137,7 @@ class DbToolsTest extends TestCase
         ];
         $e = null;
         try {
-            $this->dbal->getCluster();
+            $this->dbal->getService('umi\dbal\cluster\IDbCluster', null);
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -153,7 +152,7 @@ class DbToolsTest extends TestCase
         );
     }
 
-    public function  testDbToolsServerConfig6()
+    public function  testDbalToolsServerConfig6()
     {
         $this->dbal->servers = [
             'wrongServerConfig' => [
@@ -167,7 +166,7 @@ class DbToolsTest extends TestCase
         ];
         $e = null;
         try {
-            $this->dbal->getCluster();
+            $this->dbal->getService('umi\dbal\cluster\IDbCluster', null);
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -182,9 +181,8 @@ class DbToolsTest extends TestCase
         );
     }
 
-    public function  testDbToolsServerConfig7()
+    public function  testDbalToolsServerConfig7()
     {
-
         $this->dbal->servers = [
             'wrongServerConfig' => [
                 'id'     => 'wrongServerId',
@@ -198,14 +196,13 @@ class DbToolsTest extends TestCase
 
         $this->assertInstanceOf(
             'umi\dbal\cluster\IDbCluster',
-            $this->dbal->getCluster(),
-            'Ожидается, что IDbTools::getCluster() вернет IDbCluster'
+            $this->dbal->getService('umi\dbal\cluster\IDbCluster', null),
+            'Ожидается, что IDbTools может вернуть сервис IDbCluster'
         );
     }
 
-    public function  testDbToolsServerConfig8()
+    public function  testDbalToolsServerConfig8()
     {
-
         $servers = [
             'wrongServerConfig' => [
                 'id'     => 'wrongServerId',
@@ -221,8 +218,8 @@ class DbToolsTest extends TestCase
 
         $this->assertInstanceOf(
             'umi\dbal\cluster\IDbCluster',
-            $this->dbal->getCluster(),
-            'Ожидается, что IDbTools::getCluster() вернет IDbCluster'
+            $this->dbal->getService('umi\dbal\cluster\IDbCluster', null),
+            'Ожидается, что IDbTools может вернуть сервис IDbCluster'
         );
     }
 }

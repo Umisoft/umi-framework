@@ -9,13 +9,15 @@
 
 namespace umi\form\toolbox;
 
+use umi\form\IEntityFactory;
 use umi\form\IFormAware;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов для работы с формами.
  */
-class FormTools implements IFormTools
+class FormTools implements IToolbox
 {
     /**
      * Имя набора инструментов
@@ -48,9 +50,10 @@ class FormTools implements IFormTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику элементов формы.
+     * @return IEntityFactory
      */
-    public function getEntityFactory()
+    protected function getEntityFactory()
     {
         return $this->getFactory('entity');
     }

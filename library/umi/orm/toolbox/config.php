@@ -20,5 +20,11 @@ return [
         'umi\orm\manager\IObjectManagerAware',
         'umi\orm\metadata\IMetadataManagerAware',
         'umi\orm\persister\IObjectPersisterAware'
+    ],
+    'services' => [
+        'umi\orm\collection\ICollectionManager',
+        'umi\orm\manager\IObjectManager',
+        'umi\orm\metadata\IMetadataManager',
+        'umi\orm\persister\IObjectPersister'
     ]
 ];

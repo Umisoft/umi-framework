@@ -11,8 +11,7 @@ namespace utest\hmvc;
 
 use umi\hmvc\component\Component;
 use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\toolbox\HMVCTools;
-use umi\hmvc\toolbox\IHMVCTools;
+use umi\hmvc\toolbox\factory\ComponentRequestFactory;
 use utest\TestCase;
 
 /**
@@ -29,13 +28,10 @@ class HMVCTestCase extends TestCase
      */
     protected function getRequest($url, array $params = [])
     {
-        /**
-         * @var HMVCTools $mvcTools
-         */
-        $mvcTools = $this->getTestToolkit()
-            ->getToolbox(HMVCTools::NAME);
+        $componentRequestFactory = new ComponentRequestFactory();
+        $this->resolveOptionalDependencies($componentRequestFactory);
 
-        return $mvcTools->getComponentRequestFactory()
+        return $componentRequestFactory
             ->createComponentRequest($url)
             ->setRouteParams($params);
     }

@@ -14,7 +14,7 @@ use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
 
 /**
- * Class ExtensionAdapterFactory
+ * Фабрика адаптеров для подключения расширений шаблонизаторов.
  */
 class ExtensionAdapterFactory implements IExtensionAdapterFactory, IFactory
 {

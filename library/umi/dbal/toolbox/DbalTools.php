@@ -19,12 +19,13 @@ use umi\dbal\driver\IDbDriver;
 use umi\dbal\driver\IDbDriverFactory;
 use umi\dbal\exception\InvalidArgumentException;
 use umi\toolkit\exception\UnsupportedServiceException;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Инструменты для работы с БД.
  */
-class DbalTools implements IDbalTools
+class DbalTools implements IToolbox
 {
     /**
      * Имя набора инструментов
@@ -99,9 +100,7 @@ class DbalTools implements IDbalTools
     {
         switch ($serviceInterfaceName) {
             case 'umi\dbal\cluster\IDbCluster':
-            {
                 return $this->getCluster();
-            }
         }
         throw new UnsupportedServiceException($this->translate(
             'Toolbox "{name}" does not support service "{interface}".',
@@ -120,9 +119,10 @@ class DbalTools implements IDbalTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает кластер БД
+     * @return IDbCluster
      */
-    public function getCluster()
+    protected function getCluster()
     {
         if (null != ($instance = $this->getSingleInstance($this->dbClusterClass))) {
             return $instance;

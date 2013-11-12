@@ -13,12 +13,13 @@ use umi\cache\engine\ICacheEngine;
 use umi\cache\exception\OutOfBoundsException;
 use umi\cache\ICache;
 use umi\cache\ICacheAware;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов кеширования.
  */
-class CacheTools implements ICacheTools
+class CacheTools implements IToolbox
 {
     /**
      * Имя набора инструмента

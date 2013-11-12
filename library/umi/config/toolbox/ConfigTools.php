@@ -9,19 +9,25 @@
 
 namespace umi\config\toolbox;
 
+use umi\config\cache\IConfigCacheEngine;
 use umi\config\cache\IConfigCacheEngineAware;
+use umi\config\entity\factory\IConfigEntityFactory;
 use umi\config\entity\factory\IConfigEntityFactoryAware;
 use umi\config\exception\OutOfBoundsException;
 use umi\config\io\IConfigAliasResolverAware;
+use umi\config\io\IConfigIO;
 use umi\config\io\IConfigIOAware;
+use umi\config\io\reader\IReader;
+use umi\config\io\writer\IWriter;
 use umi\i18n\TLocalesAware;
 use umi\toolkit\exception\UnsupportedServiceException;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов для работы с конфигурацией.
  */
-class ConfigTools implements IConfigTools
+class ConfigTools implements IToolbox
 {
     /**
      * Имя набора инструментов.
@@ -123,9 +129,10 @@ class ConfigTools implements IConfigTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает сервис ввода-вывода для конфигурации.
+     * @return IConfigIO
      */
-    public function getConfigIO()
+    protected function getConfigIO()
     {
         return $this->createSingleInstance(
             $this->ioServiceClass,
@@ -135,9 +142,11 @@ class ConfigTools implements IConfigTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает объект reader'а конфигурации.
+     * @return IReader
+     * @throws OutOfBoundsException если необходимый reader не доступен
      */
-    public function getReader()
+    protected function getReader()
     {
         if (!isset($this->readers[$this->type])) {
             throw new OutOfBoundsException($this->translate(
@@ -154,9 +163,11 @@ class ConfigTools implements IConfigTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает объект writer'а конфигурации.
+     * @throws OutOfBoundsException если необходимый writer не доступен
+     * @return IWriter
      */
-    public function getWriter()
+    protected function getWriter()
     {
         if (!isset($this->writers[$this->type])) {
             throw new OutOfBoundsException($this->translate(
@@ -173,17 +184,19 @@ class ConfigTools implements IConfigTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику сущностей конфигурации.
+     * @return IConfigEntityFactory
      */
-    public function getConfigEntityFactory()
+    protected function getConfigEntityFactory()
     {
         return $this->getFactory('entity');
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает сервис кэширования конфигурации.
+     * @return IConfigCacheEngine
      */
-    public function getConfigCacheEngine()
+    protected function getConfigCacheEngine()
     {
         return $this->createSingleInstance(
             $this->cacheServiceClass,

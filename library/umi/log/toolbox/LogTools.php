@@ -12,12 +12,14 @@ namespace umi\log\toolbox;
 use umi\log\exception\OutOfBoundsException;
 use umi\log\ILogger;
 use umi\log\ILoggerAware;
+use umi\toolkit\exception\UnsupportedServiceException;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов логирования.
  */
-class LogTools implements ILogTools
+class LogTools implements IToolbox
 {
     /**
      * Имя набора инструментов
@@ -67,6 +69,21 @@ class LogTools implements ILogTools
     /**
      * {@inheritdoc}
      */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\log\ILogger':
+                return $this->getLogger();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function injectDependencies($object)
     {
         if ($object instanceof ILoggerAware) {
@@ -75,9 +92,11 @@ class LogTools implements ILogTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает экземпляр логгера
+     * @throws OutOfBoundsException если задан несуществующий тип логгера
+     * @return ILogger
      */
-    public function getLogger()
+    protected function getLogger()
     {
         if (!isset($this->loggerClasses[$this->type])) {
             throw new OutOfBoundsException($this->translate(

@@ -10,12 +10,14 @@
 namespace umi\filter\toolbox;
 
 use umi\filter\IFilterAware;
+use umi\filter\IFilterFactory;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов для фильтрации.
  */
-class FilterTools implements IFilterTools
+class FilterTools implements IToolbox
 {
     /**
      * Имя набора инструментов
@@ -44,18 +46,19 @@ class FilterTools implements IFilterTools
     /**
      * {@inheritdoc}
      */
-    public function getFilterFactory()
-    {
-        return $this->getFactory('filter');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function injectDependencies($object)
     {
         if ($object instanceof IFilterAware) {
             $object->setFilterFactory($this->getFilterFactory());
         }
+    }
+
+    /**
+     * Возвращает фабрику фильтров.
+     * @return IFilterFactory
+     */
+    protected function getFilterFactory()
+    {
+        return $this->getFactory('filter');
     }
 }

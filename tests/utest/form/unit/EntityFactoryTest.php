@@ -88,4 +88,27 @@ class EntityFactoryTest extends TestCase
         );
         $this->assertEquals('test1', $element->getName(), 'Ожидается, что имя элемента будет установлено.');
     }
+
+    /**
+     * Тест создания формы.
+     */
+    public function testFormCreation()
+    {
+        $form = $this->factory
+            ->createForm(
+                [
+                    'action' => '/',
+                    'elements' => [
+                        'test' => []
+                    ]
+                ]
+            );
+
+        $this->assertInstanceOf('umi\form\Form', $form, 'Ожидается, что форма будет создана.');
+        $this->assertInstanceOf(
+            'umi\form\element\Text',
+            $form->getElement('test'),
+            'Ожидается, что форма будет содержать элемент.'
+        );
+    }
 }

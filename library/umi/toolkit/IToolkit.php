@@ -23,9 +23,9 @@ use umi\toolkit\toolbox\IToolbox;
 interface IToolkit
 {
     /**
-     * Короткий alias
+     * Имя набора инструментов
      */
-    const ALIAS = 'toolkit';
+    const NAME = 'toolkit';
 
     /**
      * Регистрирует набор инструментов

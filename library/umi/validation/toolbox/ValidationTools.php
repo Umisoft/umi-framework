@@ -9,13 +9,15 @@
 
 namespace umi\validation\toolbox;
 
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 use umi\validation\IValidationAware;
+use umi\validation\IValidatorFactory;
 
 /**
  * Набор инструментов валидации.
  */
-class ValidationTools implements IValidationTools
+class ValidationTools implements IToolbox
 {
     /**
      * Имя набора инструментов
@@ -52,9 +54,10 @@ class ValidationTools implements IValidationTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику для создания валидаторов.
+     * @return IValidatorFactory
      */
-    public function getValidatorFactory()
+    protected function getValidatorFactory()
     {
         return $this->getFactory('validator');
     }
