@@ -15,7 +15,7 @@ namespace umi\validation\toolbox;
 return [
     'name'    => ValidationTools::NAME,
     'class'        => __NAMESPACE__ . '\ValidationTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\validation\IValidationAware'
     ],
     'services' => [

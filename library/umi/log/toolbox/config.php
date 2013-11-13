@@ -15,7 +15,7 @@ namespace umi\log\toolbox;
 return [
     'name'     => LogTools::NAME,
     'class'    => __NAMESPACE__ . '\LogTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\log\ILoggerAware',
     ],
     'services' => [

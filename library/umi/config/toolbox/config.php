@@ -15,7 +15,7 @@ namespace umi\config\toolbox;
 return [
     'name'  => ConfigTools::NAME,
     'class' => __NAMESPACE__ . '\ConfigTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\config\entity\factory\IConfigEntityFactoryAware',
         'umi\config\io\IConfigIOAware',
         'umi\config\io\IConfigAliasResolverAware',

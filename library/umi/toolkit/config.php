@@ -15,7 +15,7 @@ namespace umi\toolkit;
 return [
     'toolboxInterface'    => 'umi\toolkit\IToolkit',
     'defaultClass'        => 'umi\toolkit\ToolboxManager',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\toolkit\IToolkit'
     ]
 ];

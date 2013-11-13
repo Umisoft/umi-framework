@@ -15,7 +15,7 @@ namespace umi\cache\toolbox;
 return [
     'name'    => CacheTools::NAME,
     'class'        => __NAMESPACE__ . '\CacheTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\cache\ICacheAware'
     ]
 ];

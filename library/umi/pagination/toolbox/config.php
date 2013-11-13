@@ -15,7 +15,7 @@ namespace umi\pagination\toolbox;
 return [
     'name'    => PaginationTools::NAME,
     'class'        => __NAMESPACE__ . '\PaginationTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\pagination\IPaginationAware'
     ],
     'services' => [
