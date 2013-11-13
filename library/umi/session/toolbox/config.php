@@ -13,8 +13,8 @@ namespace umi\session\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\session\toolbox\ISessionTools',
-    'defaultClass'        => 'umi\session\toolbox\SessionTools',
+    'name'    => SessionTools::NAME,
+    'class'        => __NAMESPACE__ . '\SessionTools',
     'servicingInterfaces' => [
         'umi\session\ISessionAware',
         'umi\session\ISessionManagerAware',
@@ -23,6 +23,5 @@ return [
     'services'            => [
         'umi\session\ISessionManager',
         'umi\session\ISession'
-    ],
-    'aliases'             => [ISessionTools::ALIAS]
+    ]
 ];

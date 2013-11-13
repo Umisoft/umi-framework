@@ -16,7 +16,7 @@ use utest\TestCase;
 /**
  * Тесты инструментов логирования
  */
-class LoggerToolsTests extends TestCase
+class LogToolsTests extends TestCase
 {
     /**
      * @var LogTools $loggerTools
@@ -32,14 +32,14 @@ class LoggerToolsTests extends TestCase
     public function testArrayConfigLogger()
     {
         $this->loggerTools->options = [];
-        $logger = $this->loggerTools->getLogger();
+        $logger = $this->loggerTools->getService('umi\log\ILogger', null);
         $this->assertInstanceOf(
             'umi\log\ILogger',
             $logger,
-            "Ожидается, что ILoggerTools::getLogger() вернет LoggerInterface"
+            'Ожидается, что ILoggerTools::getLogger() вернет ILogger'
         );
         $this->assertTrue(
-            $logger === $this->loggerTools->getLogger(),
+            $logger === $this->loggerTools->getService('umi\log\ILogger', null),
             'Ожидается, что у инструментария логирования только один логер'
         );
     }
@@ -51,6 +51,6 @@ class LoggerToolsTests extends TestCase
     public function testWrongConfig()
     {
         $this->loggerTools->type = 'WrongConfig';
-        $this->loggerTools->getLogger();
+        $this->loggerTools->getService('umi\log\ILogger', null);;
     }
 }

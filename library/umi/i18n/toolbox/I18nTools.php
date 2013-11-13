@@ -14,13 +14,18 @@ use umi\i18n\ILocalesService;
 use umi\i18n\ILocalizable;
 use umi\i18n\translator\ITranslator;
 use umi\toolkit\exception\UnsupportedServiceException;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов для поддержки локализации.
  */
-class I18nTools implements I18nToolsInterface
+class I18nTools implements IToolbox
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'i18n';
 
     use TToolbox;
 
@@ -74,8 +79,8 @@ class I18nTools implements I18nToolsInterface
             }
         }
         throw new UnsupportedServiceException($this->translate(
-            'Toolbox "{alias}" does not support service "{interface}".',
-            ['alias' => self::ALIAS, 'interface' => $serviceInterfaceName]
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
         ));
     }
 

@@ -13,13 +13,35 @@ use umi\cache\engine\ICacheEngine;
 use umi\cache\exception\OutOfBoundsException;
 use umi\cache\ICache;
 use umi\cache\ICacheAware;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов кеширования.
  */
-class CacheTools implements ICacheTools
+class CacheTools implements IToolbox
 {
+    /**
+     * Имя набора инструмента
+     */
+    const NAME = 'cache';
+
+    /**
+     * Кеширование с помощью APC
+     */
+    const TYPE_APC = 'apc';
+    /**
+     * Кеширование в простой таблице БД
+     */
+    const TYPE_DB = 'db';
+    /**
+     * Кеширование с помощью Memcached
+     */
+    const TYPE_MEMCACHED = 'memcached';
+    /**
+     * Кеширование с помощью XCache
+     */
+    const TYPE_XCACHE = 'xcache';
 
     use TToolbox;
 

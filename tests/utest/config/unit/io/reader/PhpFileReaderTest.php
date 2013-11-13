@@ -34,7 +34,7 @@ class PhpFileReaderTest extends TestCase
          * @var IConfigIO $configIO
          */
         $configIO = $this->getTestToolkit()
-            ->get('umi\config\io\IConfigIO');
+            ->getService('umi\config\io\IConfigIO');
         $configIO->registerAlias(
             '~/test',
             __DIR__ . '/data/php/master',

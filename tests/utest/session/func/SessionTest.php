@@ -11,31 +11,17 @@ namespace utest\session\func;
 
 use umi\session\exception\RuntimeException;
 use umi\session\ISessionManager;
-use umi\session\toolbox\ISessionTools;
 use utest\session\SessionTestCase;
 
 /**
- * Тестирование логгеров
+ * Тестирование сессий
  */
 class SessionTest extends SessionTestCase
 {
 
-    /**
-     * @var ISessionTools $sessionTools
-     */
-    protected $sessionTools;
-
     public function setUp()
     {
-        /**
-         * @var ISessionTools $sessionTools
-         */
-        $sessionTools = $this->getTestToolkit()
-            ->getToolbox(ISessionTools::ALIAS);
-        $sessionTools->getSession()
-            ->setStorage('null');
-
-        $this->sessionTools = $sessionTools;
+        $this->getTestToolkit()->getService('umi\session\ISession')->setStorage('null');
     }
 
     /**
@@ -44,15 +30,15 @@ class SessionTest extends SessionTestCase
      */
     public function unregisteredSession()
     {
-        $this->sessionTools->getSession()
+        $this->getTestToolkit()->getService('umi\session\ISession', null)
             ->getNamespace('test');
     }
 
     public function testMockSession()
     {
-        $session = $this->sessionTools->getSession();
-
+        $session = $this->getTestToolkit()->getService('umi\session\ISession', null);
         $session->registerNamespace('test');
+
         $ns = $session->getNamespace('test');
 
         $this->assertNull($ns['key'], 'Ожидается, что значения не существует');
@@ -62,18 +48,15 @@ class SessionTest extends SessionTestCase
 
         $this->assertEquals('value', $ns['key'], 'Ожидается, что массив сессии по прежнему доступен');
 
-        $this->sessionTools->getManager()
-            ->start();
+        $this->getTestToolkit()->getService('umi\session\ISessionManager', null)->start();
 
         $this->assertEquals('value', $ns['key'], 'Ожидается, что значение по прежнему существует');
         $this->assertEquals(
             ISessionManager::STATUS_ACTIVE,
-            $this->sessionTools->getManager()
-                ->getStatus()
+            $this->getTestToolkit()->getService('umi\session\ISessionManager', null)->getStatus()
         );
 
-        $this->sessionTools->getManager()
-            ->destroy();
+        $this->getTestToolkit()->getService('umi\session\ISessionManager', null)->destroy();
         $this->assertEmpty($ns['key'], 'Ожидается, что пространство имен очищено');
     }
 
@@ -83,7 +66,7 @@ class SessionTest extends SessionTestCase
      */
     public function wrongValidator()
     {
-        $session = $this->sessionTools->getSession();
+        $session = $this->getTestToolkit()->getService('umi\session\ISession', null);
 
         $session->registerNamespace(
             'ns_test',

@@ -13,7 +13,6 @@ use umi\templating\engine\ITemplateEngine;
 use umi\templating\engine\php\PhpTemplateEngine;
 use umi\templating\extension\adapter\ExtensionAdapter;
 use umi\templating\toolbox\factory\ExtensionFactory;
-use umi\templating\toolbox\ITemplatingTools;
 use utest\TestCase;
 
 /**
@@ -88,15 +87,5 @@ class PhpTemplateEngineTest extends TestCase
             $response,
             'Ожидается, что mock будет вызван.'
         );
-    }
-
-    /**
-     * Возвращает набор инструментов для работы с отображением.
-     * @return ITemplatingTools
-     */
-    protected final function getViewTools()
-    {
-        return $this->toolkit()
-            ->getToolbox(ITemplatingTools::ALIAS);
     }
 }

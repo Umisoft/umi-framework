@@ -11,21 +11,31 @@ namespace umi\orm\toolbox;
 
 use umi\dbal\cluster\IDbCluster;
 use umi\orm\collection\ICollectionFactory;
+use umi\orm\collection\ICollectionManager;
 use umi\orm\collection\ICollectionManagerAware;
+use umi\orm\manager\IObjectManager;
 use umi\orm\manager\IObjectManagerAware;
 use umi\orm\metadata\IMetadataFactory;
+use umi\orm\metadata\IMetadataManager;
 use umi\orm\metadata\IMetadataManagerAware;
 use umi\orm\object\IObjectFactory;
 use umi\orm\objectset\IObjectSetFactory;
+use umi\orm\persister\IObjectPersister;
 use umi\orm\persister\IObjectPersisterAware;
 use umi\orm\selector\ISelectorFactory;
+use umi\toolkit\exception\UnsupportedServiceException;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Инструментарий ORM.
  */
-class ORMTools implements IORMTools
+class ORMTools implements IToolbox
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'orm';
 
     use TToolbox;
 
@@ -125,6 +135,27 @@ class ORMTools implements IORMTools
     /**
      * {@inheritdoc}
      */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\orm\collection\ICollectionManager':
+                return $this->getCollectionManager();
+            case 'umi\orm\persister\IObjectPersister':
+                return $this->getObjectPersister();
+            case 'umi\orm\manager\IObjectManager':
+                return $this->getObjectManager();
+            case 'umi\orm\metadata\IMetadataManager':
+                return $this->getMetadataManager();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function injectDependencies($object)
     {
         if ($object instanceof IObjectManagerAware) {
@@ -142,7 +173,8 @@ class ORMTools implements IORMTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает менеджер объектов
+     * @return IObjectManager
      */
     public function getObjectManager()
     {
@@ -158,9 +190,10 @@ class ORMTools implements IORMTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает менеджер метаданных
+     * @return IMetadataManager
      */
-    public function getMetadataManager()
+    protected function getMetadataManager()
     {
         if (null != ($instance = $this->getSingleInstance($this->metadataManagerClass))) {
             return $instance;
@@ -175,9 +208,10 @@ class ORMTools implements IORMTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает менеджер метаданных
+     * @return ICollectionManager
      */
-    public function getCollectionManager()
+    protected function getCollectionManager()
     {
         if (null != ($instance = $this->getSingleInstance($this->collectionManagerClass))) {
             return $instance;
@@ -192,9 +226,10 @@ class ORMTools implements IORMTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает синхронизатор объектов
+     * @return IObjectPersister
      */
-    public function getObjectPersister()
+    protected function getObjectPersister()
     {
         return $this->createSingleInstance(
             $this->objectPersisterClass,

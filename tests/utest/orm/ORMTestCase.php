@@ -15,7 +15,6 @@ use umi\orm\collection\ICollectionManager;
 use umi\orm\manager\IObjectManager;
 use umi\orm\metadata\IMetadataManager;
 use umi\orm\persister\IObjectPersister;
-use umi\orm\toolbox\IORMTools;
 use utest\TestCase;
 
 /**
@@ -87,14 +86,28 @@ abstract class ORMTestCase extends TestCase
         $dbDriver = $cluster->getDbDriver();
 
         /**
-         * @var IORMTools $ormTools
+         * @var IObjectManager $objectManager
          */
-        $ormTools = $this->getTestToolkit()
-            ->getToolbox(IORMTools::ALIAS);
-        $this->objectManager = $ormTools->getObjectManager();
-        $this->metadataManager = $ormTools->getMetadataManager();
-        $this->collectionManager = $ormTools->getCollectionManager();
-        $this->objectPersister = $ormTools->getObjectPersister();
+        $objectManager = $this->getTestToolkit()->getService('umi\orm\manager\IObjectManager');
+        $this->objectManager = $objectManager;
+
+        /**
+         * @var IMetadataManager $metadataManager
+         */
+        $metadataManager = $this->getTestToolkit()->getService('umi\orm\metadata\IMetadataManager');
+        $this->metadataManager = $metadataManager;
+
+        /**
+         * @var ICollectionManager $collectionManager
+         */
+        $collectionManager = $this->getTestToolkit()->getService('umi\orm\collection\ICollectionManager');
+        $this->collectionManager = $collectionManager;
+
+        /**
+         * @var IObjectPersister $objectPersister
+         */
+        $objectPersister = $this->getTestToolkit()->getService('umi\orm\persister\IObjectPersister');
+        $this->objectPersister = $objectPersister;
 
         foreach ($collections as $collectionName) {
             $metadata = $this->metadataManager->getMetadata($collectionName);

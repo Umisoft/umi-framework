@@ -23,7 +23,6 @@ class ConfigToolsTest extends TestCase
     public function setUpFixtures()
     {
         $this->tools = new ConfigTools();
-
         $this->resolveOptionalDependencies($this->tools);
     }
 
@@ -34,7 +33,7 @@ class ConfigToolsTest extends TestCase
     public function wrongReader()
     {
         $this->tools->type = 'wrong';
-        $this->tools->getConfigIO();
+        $this->tools->getService('umi\config\io\IConfigIO', $this->tools->ioServiceClass);
     }
 
     /**
@@ -44,6 +43,6 @@ class ConfigToolsTest extends TestCase
     public function wrongWriter()
     {
         $this->tools->type = 'wrong';
-        $this->tools->getConfigIO();
+        $this->tools->getService('umi\config\io\IConfigIO', $this->tools->ioServiceClass);
     }
 }

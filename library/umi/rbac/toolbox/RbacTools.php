@@ -10,13 +10,19 @@
 namespace umi\rbac\toolbox;
 
 use umi\rbac\IRbacAware;
+use umi\rbac\IRoleFactory;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Инструменты для Rbac политики доступа.
  */
-class RbacTools implements IRbacTools
+class RbacTools implements IToolbox
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'rbac';
 
     use TToolbox;
 
@@ -48,9 +54,10 @@ class RbacTools implements IRbacTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику ролей.
+     * @return IRoleFactory
      */
-    public function getRoleFactory()
+    protected function getRoleFactory()
     {
         return $this->getFactory('role');
     }

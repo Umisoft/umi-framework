@@ -9,8 +9,8 @@
 
 namespace umi\tests\configuration;
 
-use umi\config\toolbox\IConfigTools;
-use umi\i18n\toolbox\I18nToolsInterface;
+use umi\config\toolbox\ConfigTools;
+use umi\i18n\toolbox\I18nTools;
 
 $libraryPath = realpath(__DIR__ . '/../../library/umi');
 
@@ -25,7 +25,6 @@ return [
         require($libraryPath . '/i18n/toolbox/config.php'),
         require($libraryPath . '/authentication/toolbox/config.php'),
         require($libraryPath . '/dbal/toolbox/config.php'),
-        require($libraryPath . '/cache/toolbox/config.php'),
         require($libraryPath . '/filter/toolbox/config.php'),
         require($libraryPath . '/form/toolbox/config.php'),
         require($libraryPath . '/http/toolbox/config.php'),
@@ -39,12 +38,12 @@ return [
         require($libraryPath . '/templating/toolbox/config.php'),
     ],
     'settings' => [
-        IConfigTools::ALIAS       => [
+        ConfigTools::NAME       => [
             'aliases' => [
                 '~' => [TESTS_CONFIGURATION, TESTS_CONFIGURATION . '/local']
             ]
         ],
-        I18nToolsInterface::ALIAS => [
+        I18nTools::NAME => [
             'defaultLocale' => 'en-US',
             'currentLocale' => 'ru-RU'
         ]

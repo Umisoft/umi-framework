@@ -13,10 +13,9 @@ namespace umi\event\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\event\toolbox\IEventTools',
-    'defaultClass'        => 'umi\event\toolbox\EventTools',
+    'name'    => EventTools::NAME,
+    'class'        => __NAMESPACE__ . '\EventTools',
     'servicingInterfaces' => [
         'umi\event\toolbox\IEventObservant',
-    ],
-    'aliases'             => [IEventTools::ALIAS, 'eventTools']
+    ]
 ];

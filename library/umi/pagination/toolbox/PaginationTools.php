@@ -10,13 +10,19 @@
 namespace umi\pagination\toolbox;
 
 use umi\pagination\IPaginationAware;
+use umi\pagination\IPaginatorFactory;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Инструменты работы с пагинатором.
  */
-class PaginationTools implements IPaginationTools
+class PaginationTools implements IToolbox
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'pagination';
 
     use TToolbox;
 
@@ -44,9 +50,10 @@ class PaginationTools implements IPaginationTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику пагинаторов.
+     * @return IPaginatorFactory
      */
-    public function getPaginatorFactory()
+    protected function getPaginatorFactory()
     {
         return $this->getFactory('paginator');
     }

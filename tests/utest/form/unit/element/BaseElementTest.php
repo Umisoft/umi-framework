@@ -11,11 +11,11 @@ namespace utest\form\unit\element;
 
 use umi\filter\IFilterCollection;
 use umi\filter\IFilterFactory;
-use umi\filter\toolbox\IFilterTools;
+use umi\filter\toolbox\factory\FilterFactory;
 use umi\form\element\IElement;
 use umi\validation\IValidatorCollection;
 use umi\validation\IValidatorFactory;
-use umi\validation\toolbox\IValidationTools;
+use umi\validation\toolbox\factory\ValidatorFactory;
 use utest\TestCase;
 
 /**
@@ -135,14 +135,9 @@ abstract class BaseElementTest extends TestCase
      */
     protected function getValidatorCollection(array $conf)
     {
-        /**
-         * @var IValidationTools $tools
-         */
-        $tools = $this->getTestToolkit()
-            ->getToolbox(IValidationTools::ALIAS);
-
-        return $tools->getValidatorFactory()
-            ->createValidatorCollection($conf);
+        $validatorFactory = new ValidatorFactory();
+        $this->resolveOptionalDependencies($validatorFactory);
+        return $validatorFactory->createValidatorCollection($conf);
     }
 
     /**
@@ -151,13 +146,8 @@ abstract class BaseElementTest extends TestCase
      */
     protected function getFilterCollection(array $conf)
     {
-        /**
-         * @var IFilterTools $tools
-         */
-        $tools = $this->getTestToolkit()
-            ->getToolbox(IFilterTools::ALIAS);
-
-        return $tools->getFilterFactory()
-            ->createFilterCollection($conf);
+        $filterFactory = new FilterFactory();
+        $this->resolveOptionalDependencies($filterFactory);
+        return $filterFactory->createFilterCollection($conf);
     }
 }

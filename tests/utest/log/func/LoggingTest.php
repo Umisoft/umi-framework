@@ -9,17 +9,15 @@
 
 namespace utest\log\func;
 
-use Psr\Log\LoggerInterface;
-use umi\log\toolbox\ILogTools;
+use umi\log\ILogger;
 use umi\log\toolbox\LogTools;
 use utest\TestCase;
 
 /**
- * Тестирование логгеров
+ * Тестирование логгирования
  */
-class LoggerTest extends TestCase
+class LoggingTest extends TestCase
 {
-
     /**
      * @var LogTools $factory
      */
@@ -31,35 +29,30 @@ class LoggerTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->getTestToolkit()
-            ->registerToolbox(
-            [
-                'toolboxInterface'    => 'umi\log\toolbox\ILogTools',
-                'defaultClass'        => 'umi\log\toolbox\LogTools',
-                'servicingInterfaces' => [
-                    'umi\log\ILoggerAware',
-                ],
-                'aliases'             => [ILogTools::ALIAS]
-            ]
+        $this->getTestToolkit()->registerToolbox(
+            require(__DIR__ . '/../../../../library/umi/log/toolbox/config.php')
         );
-
-        $this->tools = $this->getTestToolkit()
-            ->getToolbox(ILogTools::ALIAS);
         $this->fsLogFile = __DIR__ . DIRECTORY_SEPARATOR . 'testLog';
     }
 
     public function testBaseFunctionality()
     {
-        $this->tools->type = ILogTools::TYPE_FILE;
-        $this->tools->messageFormat = "{level} | {message}";
-        $this->tools->options = [
-            'filename' => $this->fsLogFile,
-        ];
+        $this->getTestToolkit()->setSettings(
+            [
+                LogTools::NAME => [
+                    'type' => LogTools::TYPE_FILE,
+                    'messageFormat' => '{level} | {message}',
+                    'options' => [
+                        'filename' => $this->fsLogFile
+                    ]
+                ]
+            ]
+        );
 
         /**
-         * @var LoggerInterface $logger
+         * @var ILogger $logger
          */
-        $logger = $this->tools->getLogger();
+        $logger = $this->getTestToolkit()->getService('umi\log\ILogger');
 
         $logger->info(
             'Logged from {function}',
@@ -77,17 +70,23 @@ class LoggerTest extends TestCase
 
     public function testMinLogLevel()
     {
-        $this->tools->type = ILogTools::TYPE_FILE;
-        $this->tools->messageFormat = "{level} | {message}";
-        $this->tools->minLevel = 'error';
-        $this->tools->options = [
-            'filename' => $this->fsLogFile,
-        ];
+        $this->getTestToolkit()->setSettings(
+            [
+                LogTools::NAME => [
+                    'type' => LogTools::TYPE_FILE,
+                    'messageFormat' => '{level} | {message}',
+                    'minLevel' => 'error',
+                    'options' => [
+                        'filename' => $this->fsLogFile
+                    ]
+                ]
+            ]
+        );
 
         /**
-         * @var LoggerInterface $logger
+         * @var ILogger $logger
          */
-        $logger = $this->tools->getLogger();
+        $logger = $this->getTestToolkit()->getService('umi\log\ILogger');
 
         $logger->info(
             'Info from {function}',

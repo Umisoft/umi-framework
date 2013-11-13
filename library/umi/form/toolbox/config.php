@@ -13,10 +13,9 @@ namespace umi\form\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\form\toolbox\IFormTools',
-    'defaultClass'        => 'umi\form\toolbox\FormTools',
+    'name'    => FormTools::NAME,
+    'class'        => __NAMESPACE__ . '\FormTools',
     'servicingInterfaces' => [
         'umi\form\IFormAware'
-    ],
-    'aliases'             => [IFormTools::ALIAS]
+    ]
 ];

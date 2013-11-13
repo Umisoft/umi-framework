@@ -13,10 +13,9 @@ namespace umi\rbac\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\rbac\toolbox\IRbacTools',
-    'defaultClass'        => 'umi\rbac\toolbox\RbacTools',
+    'name'    => RbacTools::NAME,
+    'class'        => __NAMESPACE__ . '\RbacTools',
     'servicingInterfaces' => [
         'umi\rbac\IRbacAware'
-    ],
-    'aliases'             => [IRbacTools::ALIAS]
+    ]
 ];
