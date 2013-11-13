@@ -1,9 +1,9 @@
 <?php
-use umi\dbal\toolbox\IDbalTools;
+use umi\dbal\toolbox\DbalTools;
 
 return [
     'settings' => [
-        IDbalTools::ALIAS => [
+        DbalTools::NAME => [
             'servers' => [
                 [
                     'id'     => 'mysqlMaster',
