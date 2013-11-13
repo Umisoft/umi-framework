@@ -11,11 +11,7 @@ namespace umi\toolkit;
 
 use Traversable;
 use umi\toolkit\exception\AlreadyRegisteredException;
-use umi\toolkit\exception\DomainException;
 use umi\toolkit\exception\InvalidArgumentException;
-use umi\toolkit\exception\NotRegisteredException;
-use umi\toolkit\exception\RuntimeException;
-use umi\toolkit\toolbox\IToolbox;
 
 /**
  * Тулкит.
@@ -101,26 +97,26 @@ interface IToolkit
      * Инжектор может внедрять известные ему зависимости в объект.
      * Пример:
      * <code>
-     *  $toolkit->registerInjector('umi\logger\ILoggerAware', function($object, IToolkit $toolkit) {
+     *  $toolkit->registerAwareInterface('umi\logger\ILoggerAware', function($object, IToolkit $toolkit) {
      *      if ($object instanceof umi\logger\ILoggerAware) {
      *          $loggerService = $toolkit->get('Psr\Log\LoggerInterface');
      *          $object->setLogger($loggerService);
      *      }
      *  }
      * </code>
-     * @param string $servicingInterfaceName имя обслуживаемого интерфейса
+     * @param string $awareInterfaceName имя обслуживаемого интерфейса
      * @param callable $injector
      * @throws AlreadyRegisteredException если инжектор для указанного интерфейса был зарегистрирован ранее
      * @return self
      */
-    public function registerInjector($servicingInterfaceName, callable $injector);
+    public function registerAwareInterface($awareInterfaceName, callable $injector);
 
     /**
      * Проверяет, зарегистрирован ли инжектор для указанного интерфейса.
-     * @param string $servicingInterfaceName имя обслуживаемого интерфейса
+     * @param string $awareInterfaceName имя обслуживаемого интерфейса
      * @return bool
      */
-    public function hasInjector($servicingInterfaceName);
+    public function hasAwareInterface($awareInterfaceName);
 
     /**
      * Возвращает список инжекторов, которые могут обслужить объект,

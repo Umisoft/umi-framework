@@ -15,7 +15,7 @@ namespace umi\form\toolbox;
 return [
     'name'    => FormTools::NAME,
     'class'        => __NAMESPACE__ . '\FormTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\form\IFormAware'
     ],
     'services'            => [

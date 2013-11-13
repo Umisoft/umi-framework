@@ -263,7 +263,7 @@ class FactoryTest extends TestCase implements IFactory
             [
                 'name'    => 'MockTools',
                 'class'        => 'utest\toolkit\mock\MockTools',
-                'servicingInterfaces' => [
+                'awareInterfaces' => [
                     'utest\toolkit\mock\MockServicingInterface',
                     'utest\toolkit\mock\IMockService'
                 ]
@@ -294,7 +294,7 @@ class FactoryTest extends TestCase implements IFactory
             [
                 'name'    => 'MockTools',
                 'class'        => 'utest\toolkit\mock\MockTools',
-                'servicingInterfaces' => [
+                'awareInterfaces' => [
                     'utest\toolkit\mock\MockServicingInterface'
                 ]
             ]

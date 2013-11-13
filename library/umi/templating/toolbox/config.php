@@ -15,7 +15,7 @@ namespace umi\templating\toolbox;
 return [
     'name'    => TemplatingTools::NAME,
     'class'        => __NAMESPACE__ . '\TemplatingTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\templating\engine\ITemplateEngineAware',
         'umi\templating\extension\IExtensionAware',
     ],

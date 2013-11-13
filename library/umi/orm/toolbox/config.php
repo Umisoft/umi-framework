@@ -15,7 +15,7 @@ namespace umi\orm\toolbox;
 return [
     'name'    => ORMTools::NAME,
     'class'        => __NAMESPACE__ . '\ORMTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\orm\collection\ICollectionManagerAware',
         'umi\orm\manager\IObjectManagerAware',
         'umi\orm\metadata\IMetadataManagerAware',

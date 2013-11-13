@@ -15,7 +15,7 @@ namespace umi\event\toolbox;
 return [
     'name'    => EventTools::NAME,
     'class'        => __NAMESPACE__ . '\EventTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\event\toolbox\IEventObservant',
     ]
 ];

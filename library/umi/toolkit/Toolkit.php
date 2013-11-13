@@ -69,7 +69,7 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
      */
     public function __construct()
     {
-        $this->registerInjector(
+        $this->registerAwareInterface(
             'umi\toolkit\IToolkitAware',
             function (IToolkitAware $object) {
                 $object->setToolkit($this);
@@ -136,9 +136,9 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
             ['name' => $toolboxName, 'class' => $toolboxClass]
         );
 
-        $servicingInterfaces = [];
-        if (isset($toolboxConfig['servicingInterfaces']) && is_array($toolboxConfig['servicingInterfaces'])) {
-            $servicingInterfaces = $toolboxConfig['servicingInterfaces'];
+        $awareInterfaces = [];
+        if (isset($toolboxConfig['awareInterfaces']) && is_array($toolboxConfig['awareInterfaces'])) {
+            $awareInterfaces = $toolboxConfig['awareInterfaces'];
         }
 
         $services = [];
@@ -156,7 +156,7 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
         $this->registeredToolboxes[$toolboxName] = $toolboxClass;
 
         $this->registerToolboxServices($toolboxName, $services);
-        $this->registerToolboxInjectors($toolboxName, $servicingInterfaces);
+        $this->registerToolboxAwareInterfaces($toolboxName, $awareInterfaces);
 
         return $this;
     }
@@ -212,27 +212,27 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function hasInjector($servicingInterfaceName)
+    public function hasAwareInterface($awareInterfaceName)
     {
-        return array_key_exists($servicingInterfaceName, $this->injectors);
+        return array_key_exists($awareInterfaceName, $this->injectors);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function registerInjector($servicingInterfaceName, callable $injector)
+    public function registerAwareInterface($awareInterfaceName, callable $injector)
     {
-        if ($this->hasInjector($servicingInterfaceName)) {
+        if ($this->hasAwareInterface($awareInterfaceName)) {
             throw new AlreadyRegisteredException($this->translate(
                 'Cannot register injector. Injector for "{interface}" already registered.',
-                ['interface' => $servicingInterfaceName]
+                ['interface' => $awareInterfaceName]
             ));
         }
         $this->trace(
             'Registering injector for "{interface}".',
-            ['interface' => $servicingInterfaceName]
+            ['interface' => $awareInterfaceName]
         );
-        $this->injectors[$servicingInterfaceName] = $injector;
+        $this->injectors[$awareInterfaceName] = $injector;
 
         return $this;
     }
@@ -403,11 +403,11 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     /**
      * Регистрирует интерфейсы, которые умеет обслуживать указанный набор инструментов
      * @param string $toolboxName набор инструментов
-     * @param array $servicingInterfaces конфигурация публично доступных aware-интерфейсов
+     * @param array $awareInterfaces конфигурация публично доступных aware-интерфейсов
      * @throws AlreadyRegisteredException если какой-либо из интерфейсов был зарегистрирован ранее
      * @throws InvalidArgumentException если конфигурация интерфейса не верна
      */
-    protected function registerToolboxInjectors($toolboxName, array $servicingInterfaces)
+    protected function registerToolboxAwareInterfaces($toolboxName, array $awareInterfaces)
     {
         $injector = function ($object) use ($toolboxName) {
             $this->trace(
@@ -421,8 +421,8 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
                 ->injectDependencies($object);
         };
 
-        foreach ($servicingInterfaces as $interface) {
-            $this->registerInjector($interface, $injector);
+        foreach ($awareInterfaces as $interface) {
+            $this->registerAwareInterface($interface, $injector);
         }
     }
 
