@@ -13,11 +13,10 @@ namespace umi\route\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\route\toolbox\IRouteTools',
-    'defaultClass'        => 'umi\route\toolbox\RouteTools',
+    'name'    => RouteTools::NAME,
+    'class'        => __NAMESPACE__ . '\RouteTools',
     'servicingInterfaces' => [
         'umi\route\type\factory\IRouteFactoryAware',
         'umi\route\IRouteAware',
-    ],
-    'aliases'             => [IRouteTools::ALIAS]
+    ]
 ];

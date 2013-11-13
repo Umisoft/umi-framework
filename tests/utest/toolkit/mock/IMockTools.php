@@ -9,13 +9,8 @@
 
 namespace utest\toolkit\mock;
 
-/**
- * Набор инструментов для тестов
- */
+
 interface IMockTools
 {
-    /**
-     * Имя набора инструментов
-     */
-    const ALIAS = 'mock';
+
 }

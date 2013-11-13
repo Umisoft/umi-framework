@@ -10,17 +10,23 @@
 namespace umi\http\toolbox;
 
 use umi\http\IHttpAware;
+use umi\http\IHttpFactory;
 use umi\http\request\param\IParamCollectionAware;
 use umi\http\request\param\IParamCollectionFactory;
 use umi\http\response\header\IHeaderCollectionAware;
 use umi\http\response\header\IHeaderCollectionFactory;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов для работы с HTTP запросом и ответом.
  */
-class HttpTools implements IHttpTools
+class HttpTools implements IToolbox
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'http';
 
     use TToolbox;
 
@@ -63,9 +69,10 @@ class HttpTools implements IHttpTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику HTTP сущностей.
+     * @return IHttpFactory
      */
-    public function getHttpFactory()
+    protected function getHttpFactory()
     {
         return $this->getFactory('http');
     }

@@ -13,10 +13,12 @@ namespace umi\log\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\log\toolbox\ILogTools',
-    'defaultClass'        => 'umi\log\toolbox\LogTools',
+    'name'     => LogTools::NAME,
+    'class'    => __NAMESPACE__ . '\LogTools',
     'servicingInterfaces' => [
         'umi\log\ILoggerAware',
     ],
-    'aliases'             => [ILogTools::ALIAS]
+    'services' => [
+        'umi\log\ILogger'
+    ]
 ];

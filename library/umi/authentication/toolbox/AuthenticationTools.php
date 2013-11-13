@@ -10,14 +10,20 @@
 namespace umi\authentication\toolbox;
 
 use umi\authentication\IAuthenticationAware;
+use umi\authentication\IAuthenticationFactory;
 use umi\authentication\result\IAuthenticationResultAware;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Инструменты аутентификации.
  */
-class AuthenticationTools implements IAuthenticationTools
+class AuthenticationTools implements IToolbox
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'authentication';
 
     use TToolbox;
 
@@ -63,9 +69,10 @@ class AuthenticationTools implements IAuthenticationTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику объектов аутентификациию
+     * @return IAuthenticationFactory
      */
-    public function getAuthenticationFactory()
+    protected function getAuthenticationFactory()
     {
         return $this->getFactory('authentication');
     }

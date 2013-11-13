@@ -9,13 +9,19 @@
 
 namespace umi\event\toolbox;
 
+use umi\event\IEventManager;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Инструменты для поддержки событий.
  */
-class EventTools implements IEventTools
+class EventTools implements IToolbox
 {
+    /**
+     * Имя набора инструментов.
+     */
+    const NAME = 'event';
 
     use TToolbox;
 
@@ -48,9 +54,10 @@ class EventTools implements IEventTools
     }
 
     /**
-     * {@inheritdoc}
+     * Создает и возвращает новый менеджер событий
+     * @return IEventManager
      */
-    public function createEventManager()
+    protected function createEventManager()
     {
         return $this->createInstance($this->eventManagerClass, [], ['umi\event\IEventManager'], $this->manager);
     }

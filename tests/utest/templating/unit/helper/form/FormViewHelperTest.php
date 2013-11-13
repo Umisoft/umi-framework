@@ -10,7 +10,8 @@
 namespace utest\templating\unit\helper;
 
 use umi\form\IForm;
-use umi\form\toolbox\IFormTools;
+use umi\form\toolbox\factory\EntityFactory;
+use umi\form\toolbox\FormTools;
 use umi\templating\exception\InvalidArgumentException;
 use umi\templating\extension\helper\type\form\FormHelper;
 use umi\templating\extension\helper\type\form\FormHelperCollection;
@@ -33,13 +34,10 @@ class FormHelperTest extends TestCase
     public function setUpFixtures()
     {
         $this->helper = new FormHelper();
-        /**
-         * @var IFormTools $formTools
-         */
-        $formTools = $this->getTestToolkit()
-            ->getToolbox(IFormTools::ALIAS);
+        $entityFactory = new EntityFactory();
+        $this->resolveOptionalDependencies($entityFactory);
 
-        $this->form = $formTools->getEntityFactory()
+        $this->form = $entityFactory
             ->createForm(
             [
                 'name'       => 'contact',

@@ -10,11 +10,11 @@
 namespace umi\tests\configuration\master;
 
 use umi\authentication\IAuthenticationFactory;
-use umi\authentication\toolbox\IAuthenticationTools;
-use umi\dbal\toolbox\IDbalTools;
+use umi\authentication\toolbox\AuthenticationTools;
+use umi\dbal\toolbox\DbalTools;
 use umi\orm\collection\ICollectionFactory;
-use umi\orm\toolbox\IORMTools;
-use umi\session\toolbox\ISessionTools;
+use umi\orm\toolbox\ORMTools;
+use umi\session\toolbox\SessionTools;
 
 /**
  * Конфигурация для тестирования, используемая по умолчанию.
@@ -44,7 +44,7 @@ return [
      * Конфигурация тулкита для тестового окружения
      */
     'settings'      => [
-        IDbalTools::ALIAS           => [
+        DbalTools::NAME           => [
             'servers' => [
                 [
                     'id'     => 'mysqlMaster',
@@ -70,7 +70,7 @@ return [
                 ]
             ]
         ],
-        IORMTools::ALIAS            => [
+        ORMTools::NAME            => [
             'metadataManager'   => [
                 'collections' => [
                     'system_hierarchy'       => '{#lazy:~/collections/system/system_hierarchy.config.php}',
@@ -124,7 +124,7 @@ return [
                 ]
             ]
         ],
-        ISessionTools::ALIAS        => [
+        SessionTools::NAME        => [
             'factories' => [
                 'entity' => [
                     'validatorClasses' => [
@@ -136,7 +136,7 @@ return [
                 ],
             ]
         ],
-        IAuthenticationTools::ALIAS => [
+        AuthenticationTools::NAME => [
             'storage' => [
                 'type' => IAuthenticationFactory::STORAGE_SIMPLE
             ]

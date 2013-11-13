@@ -107,7 +107,7 @@ WHERE ((`blogs_blog`.`id` = :value0))'
          * @var ILocalesService $locales
          */
         $locales = $this->getTestToolkit()
-            ->get('umi\i18n\ILocalesService');
+            ->getService('umi\i18n\ILocalesService');
         $locales->setDefaultLocale('en-US');
         $locales->setCurrentLocale('en-US');
 

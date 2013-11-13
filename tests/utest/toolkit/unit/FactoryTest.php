@@ -261,8 +261,8 @@ class FactoryTest extends TestCase implements IFactory
     {
         $this->toolkit->registerToolbox(
             [
-                'toolboxInterface'    => 'utest\toolkit\mock\IMockTools',
-                'defaultClass'        => 'utest\toolkit\mock\MockTools',
+                'name'    => 'MockTools',
+                'class'        => 'utest\toolkit\mock\MockTools',
                 'servicingInterfaces' => [
                     'utest\toolkit\mock\MockServicingInterface',
                     'utest\toolkit\mock\IMockService'
@@ -292,8 +292,8 @@ class FactoryTest extends TestCase implements IFactory
 
         $this->toolkit->registerToolbox(
             [
-                'toolboxInterface'    => 'utest\toolkit\mock\IMockTools',
-                'defaultClass'        => 'utest\toolkit\mock\MockTools',
+                'name'    => 'MockTools',
+                'class'        => 'utest\toolkit\mock\MockTools',
                 'servicingInterfaces' => [
                     'utest\toolkit\mock\MockServicingInterface'
                 ]
@@ -326,8 +326,8 @@ class FactoryTest extends TestCase implements IFactory
     {
         $this->toolkit->registerToolbox(
             [
-                'toolboxInterface' => 'utest\toolkit\mock\IMockTools',
-                'defaultClass'     => 'utest\toolkit\mock\MockTools',
+                'name'    => 'MockTools',
+                'class'        => 'utest\toolkit\mock\MockTools',
                 'services'         => [
                     'utest\toolkit\mock\IMockService'
                 ]

@@ -10,15 +10,23 @@
 namespace umi\templating\toolbox;
 
 use umi\templating\engine\ITemplateEngineAware;
+use umi\templating\engine\ITemplateEngineFactory;
 use umi\templating\extension\adapter\IExtensionAdapterAware;
+use umi\templating\extension\adapter\IExtensionAdapterFactory;
+use umi\templating\extension\IExtensionFactory;
 use umi\templating\extension\IExtensionFactoryAware;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Инструменты для работы с шаблонизаторами.
  */
-class TemplatingTools implements ITemplatingTools
+class TemplatingTools implements IToolbox
 {
+
+    /** Имя набора инструментов */
+    const NAME = 'templating';
+
     use TToolbox;
 
     /**
@@ -61,30 +69,6 @@ class TemplatingTools implements ITemplatingTools
     /**
      * {@inheritdoc}
      */
-    public function getTemplateEngineFactory()
-    {
-        return $this->getFactory('engine');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExtensionFactory()
-    {
-        return $this->getFactory('extension');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getExtensionAdapterFactory()
-    {
-        return $this->getFactory('extensionAdapter');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function injectDependencies($object)
     {
         if ($object instanceof IExtensionAdapterAware) {
@@ -98,6 +82,33 @@ class TemplatingTools implements ITemplatingTools
         if ($object instanceof ITemplateEngineAware) {
             $object->setTemplateEngineFactory($this->getTemplateEngineFactory());
         }
+    }
+
+    /**
+     * Возвращает фабрику для шаблонизаторов.
+     * @return ITemplateEngineFactory
+     */
+    protected function getTemplateEngineFactory()
+    {
+        return $this->getFactory('engine');
+    }
+
+    /**
+     * Возвращает фабрику для создания расширений шаблонизаторов.
+     * @return IExtensionFactory
+     */
+    protected function getExtensionFactory()
+    {
+        return $this->getFactory('extension');
+    }
+
+    /**
+     * Возвращает фабрику адаптеров для подключения расширений шаблонизаторов.
+     * @return IExtensionAdapterFactory
+     */
+    protected function getExtensionAdapterFactory()
+    {
+        return $this->getFactory('extensionAdapter');
     }
 }
  

@@ -13,10 +13,9 @@ namespace umi\validation\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\validation\toolbox\IValidationTools',
-    'defaultClass'        => 'umi\validation\toolbox\ValidationTools',
+    'name'    => ValidationTools::NAME,
+    'class'        => __NAMESPACE__ . '\ValidationTools',
     'servicingInterfaces' => [
         'umi\validation\IValidationAware'
-    ],
-    'aliases'             => [IValidationTools::ALIAS]
+    ]
 ];

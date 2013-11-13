@@ -13,16 +13,15 @@ namespace umi\config\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\config\toolbox\IConfigTools',
-    'defaultClass'        => 'umi\config\toolbox\ConfigTools',
+    'name'  => ConfigTools::NAME,
+    'class' => __NAMESPACE__ . '\ConfigTools',
     'servicingInterfaces' => [
         'umi\config\entity\factory\IConfigEntityFactoryAware',
         'umi\config\io\IConfigIOAware',
         'umi\config\io\IConfigAliasResolverAware',
         'umi\config\io\IConfigCacheEngineAware',
     ],
-    'services'            => [
+    'services' => [
         'umi\config\io\IConfigIO'
-    ],
-    'aliases'             => [IConfigTools::ALIAS]
+    ]
 ];

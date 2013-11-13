@@ -13,13 +13,12 @@ namespace umi\dbal\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\dbal\toolbox\IDbalTools',
-    'defaultClass'        => 'umi\dbal\toolbox\DbalTools',
+    'name'    => DbalTools::NAME,
+    'class'        => __NAMESPACE__ . '\DbalTools',
     'servicingInterfaces' => [
         'umi\dbal\cluster\IDbClusterAware'
     ],
     'services'            => [
         'umi\dbal\cluster\IDbCluster'
-    ],
-    'aliases'             => [IDbalTools::ALIAS]
+    ]
 ];

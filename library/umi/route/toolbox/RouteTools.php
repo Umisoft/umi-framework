@@ -10,14 +10,20 @@
 namespace umi\route\toolbox;
 
 use umi\route\IRouteAware;
+use umi\toolkit\toolbox\IToolbox;
 use umi\route\IRouteFactory;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Набор инструментов маршрутизации.
  */
-class RouteTools implements IRouteTools
+class RouteTools implements IToolbox
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'route';
+
     use TToolbox;
 
     /**
@@ -48,9 +54,10 @@ class RouteTools implements IRouteTools
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику правил маршрутизатора.
+     * @return IRouteFactory
      */
-    public function getRouteFactory()
+    protected function getRouteFactory()
     {
         return $this->getFactory('route');
     }

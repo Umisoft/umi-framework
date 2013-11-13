@@ -13,10 +13,9 @@ namespace umi\filter\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'toolboxInterface'    => 'umi\filter\toolbox\IFilterTools',
-    'defaultClass'        => 'umi\filter\toolbox\FilterTools',
+    'name'    => FilterTools::NAME,
+    'class'        => __NAMESPACE__ . '\FilterTools',
     'servicingInterfaces' => [
         'umi\filter\IFilterAware'
-    ],
-    'aliases'             => [IFilterTools::ALIAS]
+    ]
 ];

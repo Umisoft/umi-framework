@@ -14,10 +14,14 @@ use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
- * {@inheritdoc}
+ * Набор инструментов для тестов
  */
 class MockTools implements IMockTools, IToolbox
 {
+    /**
+     * Имя набора инструментов
+     */
+    const NAME = 'MockTools';
 
     use TToolbox;
 
@@ -38,8 +42,8 @@ class MockTools implements IMockTools, IToolbox
 
         }
         throw new UnsupportedServiceException($this->translate(
-            'Toolbox "{alias}" does not support service "{interface}".',
-            ['alias' => self::ALIAS, 'interface' => $serviceInterfaceName]
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
         ));
     }
 

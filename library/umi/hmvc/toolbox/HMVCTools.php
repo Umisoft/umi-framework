@@ -10,6 +10,7 @@
 namespace umi\hmvc\toolbox;
 
 use umi\hmvc\component\IComponentAware;
+use umi\hmvc\component\IComponentFactory;
 use umi\hmvc\component\request\IComponentRequestAware;
 use umi\hmvc\component\request\IComponentRequestFactory;
 use umi\hmvc\component\response\IComponentResponseAware;
@@ -18,13 +19,19 @@ use umi\hmvc\controller\result\IControllerResultAware;
 use umi\hmvc\controller\result\IControllerResultFactory;
 use umi\hmvc\IMVCLayerAware;
 use umi\hmvc\IMVCLayerFactory;
+use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
  * Инструменты для создания Hierarchy Model-TemplateView-Controller архитектуры приложений.
  */
-class HMVCTools implements IHMVCTools
+class HMVCTools implements IToolbox
 {
+    /**
+     * Имя набора инструментов.
+     */
+    const NAME = 'hmvc';
+
     use TToolbox;
 
     /**
@@ -86,7 +93,34 @@ class HMVCTools implements IHMVCTools
     /**
      * {@inheritdoc}
      */
-    public function getComponentFactory()
+    public function injectDependencies($object)
+    {
+        if ($object instanceof IMVCLayerAware) {
+            $object->setMvcFactory($this->getMVCFactory());
+        }
+
+        if ($object instanceof IComponentAware) {
+            $object->setHMVCComponentFactory($this->getComponentFactory());
+        }
+
+        if ($object instanceof IControllerResultAware) {
+            $object->setControllerResultFactory($this->getControllerResultFactory());
+        }
+
+        if ($object instanceof IComponentResponseAware) {
+            $object->setComponentResponseFactory($this->getComponentResponseFactory());
+        }
+
+        if ($object instanceof IComponentRequestAware) {
+            $object->setComponentRequestFactory($this->getComponentRequestFactory());
+        }
+    }
+
+    /**
+     * Возвращает фабрику для создания MVC компонентов.
+     * @return IComponentFactory
+     */
+    protected function getComponentFactory()
     {
         return $this->getFactory('component');
     }
@@ -95,7 +129,7 @@ class HMVCTools implements IHMVCTools
      * Возвращает фабрику HTTP запросов компонента.
      * @return IComponentRequestFactory
      */
-    public function getComponentRequestFactory()
+    protected function getComponentRequestFactory()
     {
         return $this->getFactory('componentRequest');
     }
@@ -125,31 +159,5 @@ class HMVCTools implements IHMVCTools
     protected function getMVCFactory()
     {
         return $this->getFactory('mvcLayer');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function injectDependencies($object)
-    {
-        if ($object instanceof IMVCLayerAware) {
-            $object->setMvcFactory($this->getMVCFactory());
-        }
-
-        if ($object instanceof IComponentAware) {
-            $object->setHMVCComponentFactory($this->getComponentFactory());
-        }
-
-        if ($object instanceof IControllerResultAware) {
-            $object->setControllerResultFactory($this->getControllerResultFactory());
-        }
-
-        if ($object instanceof IComponentResponseAware) {
-            $object->setComponentResponseFactory($this->getComponentResponseFactory());
-        }
-
-        if ($object instanceof IComponentRequestAware) {
-            $object->setComponentRequestFactory($this->getComponentRequestFactory());
-        }
     }
 }

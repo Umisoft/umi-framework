@@ -104,7 +104,7 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function registerToolbox(array $toolboxConfig)
+    public function registerToolbox($toolboxConfig)
     {
         try {
             $toolboxConfig = $this->configToArray($toolboxConfig, true);
@@ -114,30 +114,30 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
             ), 0, $e);
         }
 
-        $toolboxInterface = $this->getRequiredOption(
+        $toolboxName = $this->getRequiredOption(
             $toolboxConfig,
-            'toolboxInterface',
+            'name',
             function () {
                 throw new InvalidArgumentException($this->translate(
-                    'Cannot register toolbox. Option "toolboxInterface" required.'
+                    'Cannot register toolbox. Option "name" required.'
                 ));
             }
         );
 
-        $defaultClass = $this->getRequiredOption(
+        $toolboxClass = $this->getRequiredOption(
             $toolboxConfig,
-            'defaultClass',
-            function () use ($toolboxInterface) {
+            'class',
+            function () use ($toolboxName) {
                 throw new InvalidArgumentException($this->translate(
-                    'Cannot register toolbox "{interface}". Option "defaultClass" required.',
-                    ['interface' => $toolboxInterface]
+                    'Cannot register toolbox "{name}". Option "class" required.',
+                    ['name' => $toolboxName]
                 ));
             }
         );
 
         $this->trace(
-            'Registering toolbox "{toolbox}" with class "{class}".',
-            ['toolbox' => $toolboxInterface, 'class' => $defaultClass]
+            'Registering toolbox "{name}" with class "{class}".',
+            ['name' => $toolboxName, 'class' => $toolboxClass]
         );
 
         $servicingInterfaces = [];
@@ -150,23 +150,17 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
             $services = $toolboxConfig['services'];
         }
 
-        $toolboxAliases = [];
-        if (isset($toolboxConfig['aliases']) && is_array($toolboxConfig['aliases'])) {
-            $toolboxAliases = $toolboxConfig['aliases'];
-        }
-
-        if ($this->hasToolbox($toolboxInterface)) {
+        if ($this->hasToolbox($toolboxName)) {
             throw new AlreadyRegisteredException($this->translate(
-                'Toolbox "{toolbox}" already registered.',
-                ['toolbox' => $toolboxInterface]
+                'Toolbox "{name}" already registered.',
+                ['name' => $toolboxName]
             ));
         }
 
-        $this->registeredToolboxes[$toolboxInterface] = $defaultClass;
+        $this->registeredToolboxes[$toolboxName] = $toolboxClass;
 
-        $this->registerToolboxServices($toolboxInterface, $services);
-        $this->registerToolboxInjectors($toolboxInterface, $servicingInterfaces);
-        $this->registerToolboxAliases($toolboxInterface, $toolboxAliases);
+        $this->registerToolboxServices($toolboxName, $services);
+        $this->registerToolboxInjectors($toolboxName, $servicingInterfaces);
 
         return $this;
     }
@@ -174,41 +168,18 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function registerToolboxes(array $config)
+    public function registerToolboxes($config)
     {
+        try {
+            $config = $this->configToArray($config);
+        } catch (\InvalidArgumentException $e) {
+            throw new UnexpectedValueException($this->translate(
+                'Cannot register toolboxes. Invalid configuration.'
+            ), 0, $e);
+        }
+
         foreach ($config as $toolboxConfig) {
-            if (!is_array($toolboxConfig)) {
-                throw new InvalidArgumentException($this->translate(
-                    'Cannot register toolbox. Configuration should be an array.'
-                ));
-            }
-
             $this->registerToolbox($toolboxConfig);
-        }
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function registerToolboxAliases($toolboxName, array $aliases)
-    {
-        $toolboxInterface = $this->getToolboxInterface($toolboxName);
-        if (!$toolboxInterface) {
-            throw new NotRegisteredException($this->translate(
-                'Cannot register aliases. Toolbox "{toolbox}" is not registered.',
-                ['toolbox' => $toolboxName]
-            ));
-        }
-        foreach ($aliases as $alias) {
-            if (isset($this->aliases[$alias])) {
-                throw new AlreadyRegisteredException($this->translate(
-                    'Cannot register alias "{alias}" for toolbox "{toolbox}". Alias already registered.',
-                    ['alias' => $alias, 'toolbox' => $toolboxName]
-                ));
-            }
-            $this->aliases[$alias] = $toolboxInterface;
         }
 
         return $this;
@@ -225,7 +196,7 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function register($serviceInterfaceName, callable $builder)
+    public function registerService($serviceInterfaceName, callable $builder)
     {
         if ($this->hasService($serviceInterfaceName)) {
             throw new AlreadyRegisteredException($this->translate(
@@ -389,7 +360,7 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function get($serviceInterfaceName, $concreteClassName = null)
+    public function getService($serviceInterfaceName, $concreteClassName = null)
     {
         if (!$this->hasService($serviceInterfaceName)) {
             throw new NotRegisteredException($this->translate(
@@ -434,7 +405,7 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     protected function registerToolboxServices($toolboxInterface, array $services)
     {
         foreach ($services as $serviceInterfaceName) {
-            $this->register(
+            $this->registerService(
                 $serviceInterfaceName,
                 function ($concreteClassName = null) use ($toolboxInterface, $serviceInterfaceName) {
                     return $this->getToolbox($toolboxInterface)
