@@ -19,32 +19,24 @@ use umi\authentication\storage\IAuthStorage;
  */
 interface IAuthenticationFactory
 {
-    /**
-     * Сессионное хранилище
-     */
+    /** Сессионное хранилище */
     const STORAGE_SESSION = 'session';
-    /**
-     * Базовое хранилище
-     */
+    /** Сессионное хранилище для объектов ORM */
+    const STORAGE_ORM_SESSION = 'ormSession';
+    /** Базовое хранилище */
     const STORAGE_SIMPLE = 'simple';
 
-    /**
-     * Базовый провайдер авторизации
-     */
+    /** Базовый провайдер авторизации */
     const PROVIDER_SIMPLE = 'simple';
-    /**
-     * Провайдер Http авторизации
-     */
+    /** Провайдер Http авторизации */
     const PROVIDER_HTTP = 'http';
 
-    /**
-     * Базовый адаптер
-     */
+    /** Базовый адаптер */
     const ADAPTER_SIMPLE = 'simple';
-    /**
-     * Адаптер БД
-     */
+    /** Адаптер БД */
     const ADAPTER_DATABASE = 'database';
+    /** Адаптер ORM */
+    const ADAPTER_ORM = 'orm';
 
     /**
      * Возвращает сконфигурированный storage
