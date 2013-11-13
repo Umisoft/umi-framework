@@ -17,5 +17,8 @@ return [
     'class'        => __NAMESPACE__ . '\RbacTools',
     'servicingInterfaces' => [
         'umi\rbac\IRbacAware'
+    ],
+    'services' => [
+        'umi\rbac\IRoleFactory'
     ]
 ];

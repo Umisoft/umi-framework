@@ -11,6 +11,7 @@ namespace umi\rbac\toolbox;
 
 use umi\rbac\IRbacAware;
 use umi\rbac\IRoleFactory;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
@@ -41,6 +42,21 @@ class RbacTools implements IToolbox
             $this->rbacRoleFactoryClass,
             ['umi\rbac\IRoleFactory']
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\rbac\IRoleFactory':
+                return $this->getRoleFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
     }
 
     /**

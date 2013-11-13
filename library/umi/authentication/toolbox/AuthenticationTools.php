@@ -12,6 +12,8 @@ namespace umi\authentication\toolbox;
 use umi\authentication\IAuthenticationAware;
 use umi\authentication\IAuthenticationFactory;
 use umi\authentication\result\IAuthenticationResultAware;
+use umi\authentication\result\IAuthenticationResultFactory;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
@@ -57,6 +59,21 @@ class AuthenticationTools implements IToolbox
     /**
      * {@inheritdoc}
      */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\authentication\IAuthenticationFactory':
+                return $this->getAuthenticationFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function injectDependencies($object)
     {
         if ($object instanceof IAuthenticationAware) {
@@ -78,7 +95,8 @@ class AuthenticationTools implements IToolbox
     }
 
     /**
-     * {@inheritdoc}
+     * Возвращает фабрику результатов аутентификации
+     * @return IAuthenticationResultFactory
      */
     protected function getAuthenticationResultFactory()
     {

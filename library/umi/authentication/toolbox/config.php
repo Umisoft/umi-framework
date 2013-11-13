@@ -18,5 +18,8 @@ return [
     'servicingInterfaces' => [
         'umi\authentication\IAuthenticationAware',
         'umi\authentication\result\IAuthenticationResultAware',
+    ],
+    'services' => [
+        'umi\authentication\IAuthenticationFactory'
     ]
 ];

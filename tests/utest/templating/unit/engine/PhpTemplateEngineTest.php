@@ -12,7 +12,7 @@ namespace utest\templating\unit\engine;
 use umi\templating\engine\ITemplateEngine;
 use umi\templating\engine\php\PhpTemplateEngine;
 use umi\templating\extension\adapter\ExtensionAdapter;
-use umi\templating\toolbox\factory\ExtensionFactory;
+use umi\templating\extension\IExtensionFactory;
 use utest\TestCase;
 
 /**
@@ -64,8 +64,10 @@ class PhpTemplateEngineTest extends TestCase
         $adapter = new ExtensionAdapter();
         $this->resolveOptionalDependencies($adapter);
 
-        $extensionFactory = new ExtensionFactory();
-        $this->resolveOptionalDependencies($extensionFactory);
+        /**
+         * @var IExtensionFactory $extensionFactory
+         */
+        $extensionFactory = $this->getTestToolkit()->getService('umi\templating\extension\IExtensionFactory');
 
         $collection = $extensionFactory->createHelperCollection();
         $collection->addHelper('mock', 'utest\templating\mock\helper\MockViewHelper');

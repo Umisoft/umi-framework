@@ -17,5 +17,8 @@ return [
     'class'        => __NAMESPACE__ . '\PaginationTools',
     'servicingInterfaces' => [
         'umi\pagination\IPaginationAware'
+    ],
+    'services' => [
+        'umi\pagination\IPaginatorFactory'
     ]
 ];

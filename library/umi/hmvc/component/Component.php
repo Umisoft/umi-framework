@@ -38,8 +38,7 @@ use umi\route\TRouteAware;
 /**
  * Реализация MVC компонента системы.
  */
-class Component
-    implements IComponent, IMVCLayerAware, IComponentAware, IRouteAware, IComponentRequestAware, IComponentResponseAware, ILocalizable
+class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAware, IComponentRequestAware, IComponentResponseAware, ILocalizable
 {
     use TMVCLayerAware;
     use TComponentAware;
