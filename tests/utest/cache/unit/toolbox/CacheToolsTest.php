@@ -28,6 +28,10 @@ class CacheToolsTest extends TestCase
     protected function setUpFixtures()
     {
         $this->connection = $this->getDbServer();
+
+        $this->getTestToolkit()->registerToolbox(
+            require(__DIR__ . '/../../../../../library/umi/cache/toolbox/config.php')
+        );
     }
 
     protected function tearDownFixtures()
@@ -38,22 +42,22 @@ class CacheToolsTest extends TestCase
 
     public function testCacheInjection()
     {
-        /**
-         * @var CacheTools $cacheTools
-         */
-        $cacheTools = $this->getTestToolkit()
-            ->getToolbox(CacheTools::NAME);
-        $cacheTools->type = CacheTools::TYPE_DB;
-
-        $cacheTools->options = [
-            'table'    => [
-                'tableName'        => $this->tableName,
-                'keyColumnName'    => 'key',
-                'valueColumnName'  => 'cacheValue',
-                'expireColumnName' => 'cacheExpiration'
-            ],
-            'serverId' => $this->connection->getId()
-        ];
+        $this->getTestToolkit()->setSettings(
+            [
+                CacheTools::NAME => [
+                    'type' => CacheTools::TYPE_DB,
+                    'options' => [
+                        'table'    => [
+                            'tableName'        => $this->tableName,
+                            'keyColumnName'    => 'key',
+                            'valueColumnName'  => 'cacheValue',
+                            'expireColumnName' => 'cacheExpiration'
+                        ],
+                        'serverId' => $this->connection->getId()
+                    ]
+                ]
+            ]
+        );
 
         $driver = $this->connection->getDbDriver();
         $table = $driver->addTable($this->tableName);
@@ -106,12 +110,13 @@ class CacheToolsTest extends TestCase
     public function testCacheNoInjection()
     {
 
-        /**
-         * @var CacheTools $cacheTools
-         */
-        $cacheTools = $this->getTestToolkit()
-            ->getToolbox(CacheTools::NAME);
-        $cacheTools->type = null;
+        $this->getTestToolkit()->setSettings(
+            [
+                CacheTools::NAME => [
+                    'type' => null
+                ]
+            ]
+        );
 
         $cachingService = new MockCacheAware();
         $this->resolveOptionalDependencies($cachingService);

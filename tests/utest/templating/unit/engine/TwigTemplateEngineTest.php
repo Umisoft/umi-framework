@@ -13,7 +13,6 @@ use umi\templating\engine\ITemplateEngine;
 use umi\templating\engine\twig\TwigTemplateEngine;
 use umi\templating\extension\adapter\ExtensionAdapter;
 use umi\templating\toolbox\factory\ExtensionFactory;
-use umi\templating\toolbox\TemplatingTools;
 use utest\TestCase;
 
 /**
@@ -72,13 +71,4 @@ class TwigTemplateEngineTest extends TestCase
         $this->assertEquals('Helper: mock', $response, 'Ожидается, что mock будет вызван.');
     }
 
-    /**
-     * Возвращает набор инструментов для работы с отображением.
-     * @return TemplatingTools
-     */
-    protected final function getViewTools()
-    {
-        return $this->getTestToolkit()
-            ->getToolbox(TemplatingTools::NAME);
-    }
 }

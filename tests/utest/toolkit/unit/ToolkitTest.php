@@ -86,7 +86,7 @@ class ToolkitTest extends TestCase
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
-            'umi\toolkit\exception\InvalidArgumentException',
+            'umi\toolkit\exception\UnexpectedValueException',
             $e,
             'Ожидается исключение при попытке зарегестрировать тулбоксы с некорректной конфигурацией'
         );

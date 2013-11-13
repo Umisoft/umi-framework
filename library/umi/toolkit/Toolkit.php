@@ -104,7 +104,7 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function registerToolbox(array $toolboxConfig)
+    public function registerToolbox($toolboxConfig)
     {
         try {
             $toolboxConfig = $this->configToArray($toolboxConfig, true);
@@ -168,15 +168,17 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function registerToolboxes(array $config)
+    public function registerToolboxes($config)
     {
-        foreach ($config as $toolboxConfig) {
-            if (!is_array($toolboxConfig)) {
-                throw new InvalidArgumentException($this->translate(
-                    'Cannot register toolbox. Configuration should be an array.'
-                ));
-            }
+        try {
+            $config = $this->configToArray($config);
+        } catch (\InvalidArgumentException $e) {
+            throw new UnexpectedValueException($this->translate(
+                'Cannot register toolboxes. Invalid configuration.'
+            ), 0, $e);
+        }
 
+        foreach ($config as $toolboxConfig) {
             $this->registerToolbox($toolboxConfig);
         }
 

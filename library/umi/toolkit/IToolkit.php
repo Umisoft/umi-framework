@@ -29,12 +29,12 @@ interface IToolkit
 
     /**
      * Регистрирует набор инструментов
-     * @param array $toolboxConfig конфигурация набора инструментов
+     * @param array|Traversable $toolboxConfig конфигурация набора инструментов
      * @throws InvalidArgumentException если нет обязательного аргумента конфигурации
      * @throws AlreadyRegisteredException если набор инструментов либо какой-либо из обслуживаемых сервисов был зарегистрирован ранее
      * @return self
      */
-    public function registerToolbox(array $toolboxConfig);
+    public function registerToolbox($toolboxConfig);
 
     /**
      * Проверяет, зарегистрирован ли набор инструментов
@@ -56,12 +56,12 @@ interface IToolkit
 
     /**
      * Регистрирует несколько наборов инструментов, используя конфигурацию
-     * @param array $config конфигурации наборов инструментов
+     * @param array|Traversable $config конфигурации наборов инструментов
      * @throws AlreadyRegisteredException если какой-либо набор инструментов уже зарегистрирован
      * @throws InvalidArgumentException если конфигурация не валидна
      * @return self
      */
-    public function registerToolboxes(array $config);
+    public function registerToolboxes($config);
 
     /**
      * Регистрирует сервис.
