@@ -16,7 +16,7 @@ use umi\dbal\cluster\IConnection;
 use umi\dbal\exception\DomainException;
 use umi\dbal\exception\NonexistentEntityException;
 use umi\dbal\exception\RuntimeException;
-use umi\event\toolbox\TEventObservant;
+use umi\event\TEventObservant;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\log\ILoggerAware;

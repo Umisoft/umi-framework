@@ -16,6 +16,6 @@ return [
     'name'    => EventTools::NAME,
     'class'        => __NAMESPACE__ . '\EventTools',
     'awareInterfaces' => [
-        'umi\event\toolbox\IEventObservant',
+        'umi\event\IEventObservant',
     ]
 ];

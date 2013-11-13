@@ -9,7 +9,7 @@
 
 namespace umi\session;
 
-use umi\event\toolbox\TEventObservant;
+use umi\event\TEventObservant;
 use umi\http\request\IRequest;
 use umi\session\TSessionAware;
 

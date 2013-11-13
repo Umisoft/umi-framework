@@ -10,7 +10,7 @@
 namespace umi\toolkit\factory;
 
 use Traversable;
-use umi\event\toolbox\TEventObservant;
+use umi\event\TEventObservant;
 use umi\i18n\TLocalizable;
 use umi\log\TLoggerAware;
 use umi\toolkit\exception\DomainException;

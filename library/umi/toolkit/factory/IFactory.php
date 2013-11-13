@@ -9,7 +9,7 @@
 
 namespace umi\toolkit\factory;
 
-use umi\event\toolbox\IEventObservant;
+use umi\event\IEventObservant;
 use umi\i18n\ILocalizable;
 use umi\log\ILoggerAware;
 use umi\toolkit\IToolkit;

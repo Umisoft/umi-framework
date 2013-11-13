@@ -9,7 +9,7 @@
 
 namespace umi\form;
 
-use umi\event\toolbox\IEventObservant;
+use umi\event\IEventObservant;
 use umi\form\binding\IDataBinding;
 use umi\form\fieldset\IFieldset;
 

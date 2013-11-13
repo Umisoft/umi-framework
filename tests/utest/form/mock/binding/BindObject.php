@@ -9,7 +9,7 @@
 
 namespace utest\form\mock\binding;
 
-use umi\event\toolbox\TEventObservant;
+use umi\event\TEventObservant;
 use umi\form\binding\IDataBinding;
 
 /**

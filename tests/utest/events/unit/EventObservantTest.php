@@ -11,8 +11,8 @@ namespace utest\events\unit;
 
 use umi\event\EventManager;
 use umi\event\IEvent;
-use umi\event\toolbox\IEventObservant;
-use umi\event\toolbox\TEventObservant;
+use umi\event\IEventObservant;
+use umi\event\TEventObservant;
 use utest\TestCase;
 
 /**
@@ -59,7 +59,7 @@ class EventObservantTest extends TestCase
             'Ожидается, что IEventObservant::getEventManager() вернет IEventManager'
         );
         $this->assertInstanceOf(
-            'umi\event\toolbox\IEventObservant',
+            'umi\event\IEventObservant',
             $this->observant1->setEventManager($eventManager),
             'Ожидается, что IEventObservant::setEventManager() вернет себя'
         );
@@ -70,12 +70,12 @@ class EventObservantTest extends TestCase
         );
 
         $this->assertInstanceOf(
-            'umi\event\toolbox\IEventObservant',
+            'umi\event\IEventObservant',
             $this->observant1->subscribeTo($this->observant2),
             'Ожидается, что IEventObservant::subscribeTo() вернет себя'
         );
         $this->assertInstanceOf(
-            'umi\event\toolbox\IEventObservant',
+            'umi\event\IEventObservant',
             $this->observant1->bindLocalEvents(),
             'Ожидается, что IEventObservant::bindLocalEvents() вернет себя'
         );

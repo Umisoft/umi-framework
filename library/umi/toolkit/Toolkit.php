@@ -10,7 +10,7 @@
 namespace umi\toolkit;
 
 use Traversable;
-use umi\event\toolbox\TEventObservant;
+use umi\event\TEventObservant;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\log\ILoggerAware;

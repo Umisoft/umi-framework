@@ -7,10 +7,7 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\event\toolbox;
-
-use umi\event\EventManager;
-use umi\event\IEventManager;
+namespace umi\event;
 
 /**
  * Трейт для поддержки событий.

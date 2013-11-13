@@ -9,7 +9,7 @@
 
 namespace utest\form\func;
 
-use umi\event\toolbox\TEventObservant;
+use umi\event\TEventObservant;
 use umi\form\IForm;
 use utest\TestCase;
 use utest\form\mock\binding\BindObject;

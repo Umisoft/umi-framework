@@ -10,7 +10,7 @@
 namespace umi\form;
 
 use umi\event\IEvent;
-use umi\event\toolbox\TEventObservant;
+use umi\event\TEventObservant;
 use umi\form\binding\IDataBinding;
 use umi\form\fieldset\Fieldset;
 use umi\i18n\ILocalizable;
