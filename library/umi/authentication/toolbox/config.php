@@ -15,7 +15,7 @@ namespace umi\authentication\toolbox;
 return [
     'name'  => AuthenticationTools::NAME,
     'class' => __NAMESPACE__ . '\AuthenticationTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\authentication\IAuthenticationAware',
         'umi\authentication\result\IAuthenticationResultAware',
     ],

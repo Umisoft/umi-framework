@@ -15,7 +15,7 @@ namespace umi\hmvc\toolbox;
 return [
     'name'     => HMVCTools::NAME,
     'class'    => __NAMESPACE__ . '\HMVCTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\hmvc\IMVCLayerAware',
         'umi\hmvc\component\IComponentAware',
         'umi\hmvc\controller\result\IControllerResultAware',

@@ -15,7 +15,7 @@ namespace umi\route\toolbox;
 return [
     'name'    => RouteTools::NAME,
     'class'        => __NAMESPACE__ . '\RouteTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\route\IRouteAware'
     ],
     'services' => [

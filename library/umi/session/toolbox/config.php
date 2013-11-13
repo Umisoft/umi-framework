@@ -15,7 +15,7 @@ namespace umi\session\toolbox;
 return [
     'name'    => SessionTools::NAME,
     'class'        => __NAMESPACE__ . '\SessionTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\session\ISessionAware',
         'umi\session\ISessionManagerAware',
         'umi\session\entity\factory\ISessionEntityFactoryAware',

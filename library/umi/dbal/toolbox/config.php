@@ -15,7 +15,7 @@ namespace umi\dbal\toolbox;
 return [
     'name'    => DbalTools::NAME,
     'class'        => __NAMESPACE__ . '\DbalTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\dbal\cluster\IDbClusterAware'
     ],
     'services'            => [

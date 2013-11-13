@@ -15,7 +15,7 @@ namespace umi\syntax\toolbox;
 return [
     'name'    => SyntaxTools::NAME,
     'class'        => __NAMESPACE__ . '\SyntaxTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\syntax\token\ITokenAware',
         'umi\syntax\ISyntaxAware'
     ]
