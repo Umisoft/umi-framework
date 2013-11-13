@@ -17,5 +17,8 @@ return [
     'class'        => __NAMESPACE__ . '\ValidationTools',
     'servicingInterfaces' => [
         'umi\validation\IValidationAware'
+    ],
+    'services' => [
+        'umi\validation\IValidatorFactory'
     ]
 ];

@@ -11,6 +11,7 @@ namespace umi\form\toolbox;
 
 use umi\form\IEntityFactory;
 use umi\form\IFormAware;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
@@ -36,7 +37,26 @@ class FormTools implements IToolbox
      */
     public function __construct()
     {
-        $this->registerFactory('entity', $this->entityFactoryClass, ['umi\form\IEntityFactory']);
+        $this->registerFactory(
+            'entity',
+            $this->entityFactoryClass,
+            ['umi\form\IEntityFactory']
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\form\IEntityFactory':
+                return $this->getEntityFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
     }
 
     /**

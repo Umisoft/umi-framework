@@ -15,6 +15,7 @@ use umi\http\request\param\IParamCollectionAware;
 use umi\http\request\param\IParamCollectionFactory;
 use umi\http\response\header\IHeaderCollectionAware;
 use umi\http\response\header\IHeaderCollectionFactory;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
@@ -65,7 +66,43 @@ class HttpTools implements IToolbox
             $this->responseHeaderCollectionFactoryClass,
             ['umi\http\response\header\IHeaderCollectionFactory']
         );
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\http\request\IRequest':
+                return $this->getHttpFactory()
+                    ->getRequest();
+
+            case 'umi\http\IHttpFactory':
+                return $this->getHttpFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function injectDependencies($object)
+    {
+        if ($object instanceof IHttpAware) {
+            $object->setHttpFactory($this->getHttpFactory());
+        }
+
+        if ($object instanceof IParamCollectionAware) {
+            $object->setParamCollectionFactory($this->getParamCollectionFactory());
+        }
+
+        if ($object instanceof IHeaderCollectionAware) {
+            $object->setHttpHeaderCollectionFactory($this->getHeaderCollectionFactory());
+        }
     }
 
     /**
@@ -93,40 +130,5 @@ class HttpTools implements IToolbox
     protected function getHeaderCollectionFactory()
     {
         return $this->getFactory('headerCollection');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getService($serviceInterfaceName, $concreteClassName)
-    {
-        switch ($serviceInterfaceName) {
-            case 'umi\http\request\IRequest':
-                return $this->getHttpFactory()
-                    ->getRequest();
-
-            case 'umi\http\IHttpFactory':
-                return $this->getHttpFactory();
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function injectDependencies($object)
-    {
-        if ($object instanceof IHttpAware) {
-            $object->setHttpFactory($this->getHttpFactory());
-        }
-
-        if ($object instanceof IParamCollectionAware) {
-            $object->setParamCollectionFactory($this->getParamCollectionFactory());
-        }
-
-        if ($object instanceof IHeaderCollectionAware) {
-            $object->setHttpHeaderCollectionFactory($this->getHeaderCollectionFactory());
-        }
     }
 }

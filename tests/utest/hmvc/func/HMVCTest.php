@@ -10,7 +10,6 @@
 namespace utest\hmvc\func;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\toolbox\factory\ComponentFactory;
 use utest\hmvc\HMVCTestCase;
 
 /**
@@ -25,14 +24,12 @@ class HMVCTest extends HMVCTestCase
 
     public function setUpFixtures()
     {
-        $componentFactory = new ComponentFactory();
-        $this->resolveOptionalDependencies($componentFactory);
+        $componentFactory = $this->getTestToolkit()->getService('umi\hmvc\component\IComponentFactory');
 
         $this->component = $componentFactory
             ->createComponent(
             require dirname(__DIR__) . '/fixture/component1/component.config.php'
         );
-        $this->resolveOptionalDependencies($this->component);
     }
 
     public function testResultCall()

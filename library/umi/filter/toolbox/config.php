@@ -17,5 +17,8 @@ return [
     'class'        => __NAMESPACE__ . '\FilterTools',
     'servicingInterfaces' => [
         'umi\filter\IFilterAware'
+    ],
+    'services'            => [
+        'umi\filter\IFilterFactory'
     ]
 ];

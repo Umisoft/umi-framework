@@ -13,6 +13,9 @@ use umi\authentication\result\IAuthenticationResultFactory;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
 
+/**
+ * Фабрика результатов аутентификации
+ */
 class AuthenticationResultFactory implements IAuthenticationResultFactory, IFactory
 {
 

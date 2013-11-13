@@ -16,7 +16,7 @@ namespace umi\authentication\result;
 interface IAuthenticationResultAware
 {
     /**
-     * Устанавливает инструменты аутентификации.
+     * Устанавливает фабрику результатов аутентификации.
      * @param IAuthenticationResultFactory $authResultFactory фабрика результатов аутентификации
      * @return self
      */

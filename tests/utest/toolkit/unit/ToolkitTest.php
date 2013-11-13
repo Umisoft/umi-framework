@@ -53,6 +53,44 @@ class ToolkitTest extends TestCase
             'Ожидается, что тулбоксменеджер не содержит незарегестрированный тулбокс'
         );
 
+        $e = null;
+        try {
+            $this->toolkit->registerToolbox('NoArray');
+        } catch (\Exception $e) {
+        }
+        $this->assertInstanceOf(
+            'umi\toolkit\exception\UnexpectedValueException',
+            $e,
+            'Ожидается исключение при попытке зарегестрировать тулбокс с некорректной конфигурацией'
+        );
+        $this->assertEquals('Cannot register toolbox. Invalid configuration.', $e->getMessage());
+
+        $e = null;
+        try {
+            $this->toolkit->registerToolbox(['NoName']);
+        } catch (\Exception $e) {
+        }
+        $this->assertInstanceOf(
+            'umi\toolkit\exception\InvalidArgumentException',
+            $e,
+            'Ожидается исключение при попытке зарегестрировать тулбокс с некорректной конфигурацией'
+        );
+        $this->assertEquals('Cannot register toolbox. Option "name" required.', $e->getMessage());
+
+        $e = null;
+        try {
+            $this->toolkit->registerToolbox(
+                ['name' => MockTools::NAME, 'NoClassName']
+            );
+        } catch (\Exception $e) {
+        }
+        $this->assertInstanceOf(
+            'umi\toolkit\exception\InvalidArgumentException',
+            $e,
+            'Ожидается исключение при попытке зарегестрировать тулбокс с некорректной конфигурацией'
+        );
+        $this->assertEquals('Cannot register toolbox "MockTools". Option "class" required.', $e->getMessage());
+
         $result = $this->toolkit->registerToolbox($this->toolboxConfig);
 
         $this->assertInstanceOf(
@@ -82,35 +120,11 @@ class ToolkitTest extends TestCase
     {
         $e = null;
         try {
-            $this->toolkit->registerToolboxes(['NoArray']);
+            $this->toolkit->registerToolboxes('NoArray');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
             'umi\toolkit\exception\UnexpectedValueException',
-            $e,
-            'Ожидается исключение при попытке зарегестрировать тулбоксы с некорректной конфигурацией'
-        );
-
-        $e = null;
-        try {
-            $this->toolkit->registerToolboxes([['NoName']]);
-        } catch (\Exception $e) {
-        }
-        $this->assertInstanceOf(
-            'umi\toolkit\exception\InvalidArgumentException',
-            $e,
-            'Ожидается исключение при попытке зарегестрировать тулбоксы с некорректной конфигурацией'
-        );
-
-        $e = null;
-        try {
-            $this->toolkit->registerToolboxes(
-                [['name' => MockTools::NAME, 'NoClassName']]
-            );
-        } catch (\Exception $e) {
-        }
-        $this->assertInstanceOf(
-            'umi\toolkit\exception\InvalidArgumentException',
             $e,
             'Ожидается исключение при попытке зарегестрировать тулбоксы с некорректной конфигурацией'
         );
@@ -120,58 +134,13 @@ class ToolkitTest extends TestCase
             $this->toolkit->registerToolboxes(
                 [
                     [
-                        'name' => MockTools::NAME,
-                        'class'     => 'utest\toolkit\mock\MockTools',
-                        'config'           => []
+                        'name'  => MockTools::NAME,
+                        'class' => 'utest\toolkit\mock\MockTools',
+                        'config'=> []
                     ]
                 ]
             ),
             'Ожидается, что IToolkit::registerToolboxes() вернет себя'
-        );
-    }
-
-    public function testGetToolbox()
-    {
-
-        $e = null;
-        try {
-            $this->toolkit->getToolbox(MockTools::NAME);
-        } catch (\Exception $e) {
-        }
-        $this->assertInstanceOf(
-            'umi\toolkit\exception\NotRegisteredException',
-            $e,
-            'Ожидается, что нельзя получить незарегестрированный тулбокс'
-        );
-
-        $this->toolkit->registerToolbox($this->toolboxConfig);
-
-        $toolbox = $this->toolkit->getToolbox(MockTools::NAME);
-        $this->assertInstanceOf(
-            'utest\toolkit\mock\MockTools',
-            $toolbox,
-            'Ожидается, что можно получить зарегестрированный тулбокс'
-        );
-        $this->assertTrue(
-            $toolbox === $this->toolkit->getToolbox(MockTools::NAME),
-            'Ожидается, что для тулбокса создается только один объект'
-        );
-
-        $this->toolkit->registerToolbox(
-            [
-                'name' => 'WrongTools',
-                'class'     => 'utest\toolkit\mock\WrongTools'
-            ]
-        );
-        $e = null;
-        try {
-            $this->toolkit->getToolbox('WrongTools');
-        } catch (\Exception $e) {
-        }
-        $this->assertInstanceOf(
-            'umi\toolkit\exception\RuntimeException',
-            $e,
-            'Ожидается, что нельзя получить тулбокс, не реализующий интерфейс IToolbox'
         );
     }
 
@@ -180,9 +149,7 @@ class ToolkitTest extends TestCase
         $e = null;
         try {
             $this->toolkit->getService('WrongInterface');
-        } catch (\Exception $e) {
-        }
-
+        } catch (\Exception $e) {}
         $this->assertInstanceOf(
             'umi\toolkit\exception\NotRegisteredException',
             $e,
@@ -211,5 +178,63 @@ class ToolkitTest extends TestCase
                 ['utest\toolkit\mock\MockServicingInterface', 'utest\toolkit\mock\IMockService']
             )
         );
+
+        $e = null;
+        try {
+            $this->toolkit->registerToolbox(
+                [
+                    'name'      => 'SomeTools',
+                    'class'     => 'utest\toolkit\mock\WrongTools',
+                    'services'  => [
+                        'utest\toolkit\mock\IMockService'
+                    ]
+                ]
+            );
+        } catch (\Exception $e) {}
+        $this->assertInstanceOf(
+            'umi\toolkit\exception\AlreadyRegisteredException',
+            $e,
+            'Ожидается, что нельзя зарегестрировать сервис больше одного раза'
+        );
+
+        $e = null;
+        try {
+            $this->toolkit->registerToolbox(
+                [
+                    'name'      => 'SomeTools2',
+                    'class'     => 'utest\toolkit\mock\WrongTools',
+                    'servicingInterfaces' => [
+                        'utest\toolkit\mock\MockServicingInterface'
+                    ],
+                ]
+            );
+        } catch (\Exception $e) {}
+        $this->assertInstanceOf(
+            'umi\toolkit\exception\AlreadyRegisteredException',
+            $e,
+            'Ожидается, что нельзя зарегестрировать инжектор больше одного раза'
+        );
+    }
+
+    public function testWrongToolbox() {
+        $this->toolkit->registerToolbox(
+            [
+                'name'      => 'WrongTools',
+                'class'     => 'utest\toolkit\mock\WrongTools',
+                'services'  => [
+                    'utest\toolkit\mock\IMockService'
+                ]
+            ]
+        );
+        $e = null;
+        try {
+            $this->toolkit->getService('utest\toolkit\mock\IMockService');
+        } catch (\Exception $e) {}
+        $this->assertInstanceOf(
+            'umi\toolkit\exception\RuntimeException',
+            $e,
+            'Ожидается, что нельзя получить сервис, зарегестрированный в тулбоксе, не реализующем интерфейс IToolbox'
+        );
+        $this->assertEquals('Cannot create toolbox "WrongTools".', $e->getMessage());
     }
 }
