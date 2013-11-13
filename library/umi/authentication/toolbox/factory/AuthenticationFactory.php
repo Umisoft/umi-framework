@@ -32,6 +32,7 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
     public $storageClasses = [
         self::STORAGE_SIMPLE  => 'umi\authentication\storage\SimpleStorage',
         self::STORAGE_SESSION => 'umi\authentication\storage\SessionStorage',
+        self::STORAGE_ORM_SESSION => 'umi\authentication\storage\ORMSessionStorage',
     ];
     /**
      * @var array $adapterClasses классы адаптеров аутентификации
@@ -39,6 +40,7 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
     public $adapterClasses = [
         self::ADAPTER_SIMPLE   => 'umi\authentication\adapter\SimpleAdapter',
         self::ADAPTER_DATABASE => 'umi\authentication\adapter\DatabaseAdapter',
+        self::ADAPTER_ORM => 'umi\authentication\adapter\ORMAdapter',
     ];
     /**
      * @var array $providerClasses классы провайдеров аутентификации
