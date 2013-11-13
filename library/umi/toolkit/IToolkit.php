@@ -44,17 +44,6 @@ interface IToolkit
     public function hasToolbox($toolboxName);
 
     /**
-     * Возвращает экземляр набора инструментов
-     * {@deprecated}
-     * @param string $toolboxName интерфейс набора инструментов, либо алиас
-     * @throws NotRegisteredException если набор инструментов не зарегистрирован
-     * @throws DomainException если экземпляр набора инструментов не соответсвует интерфейсу
-     * @throws RuntimeException если зарегистрированный интерфейс не существует
-     * @return object|IToolbox
-     */
-    public function getToolbox($toolboxName);
-
-    /**
      * Регистрирует несколько наборов инструментов, используя конфигурацию
      * @param array|Traversable $config конфигурации наборов инструментов
      * @throws AlreadyRegisteredException если какой-либо набор инструментов уже зарегистрирован

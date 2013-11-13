@@ -48,10 +48,6 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
      */
     protected $registeredToolboxes = [];
     /**
-     * @var array $aliases алиасы для наборов инструментов
-     */
-    protected $aliases = [];
-    /**
      * @var IToolbox[] $toolboxes список созданных экземпляров тулбоксов
      */
     protected $toolboxes = [];
@@ -98,7 +94,7 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
      */
     public function hasToolbox($toolboxName)
     {
-        return !is_null($this->getToolboxInterface($toolboxName));
+        return isset($this->registeredToolboxes[$toolboxName]);
     }
 
     /**
@@ -261,83 +257,10 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
                     ['toolbox' => $toolboxName]
                 ), 0, $e);
             }
-
-            $toolboxInterface = $this->getToolboxInterface($toolboxName);
-            $this->settings[$toolboxInterface] = $toolboxSettings;
+            $this->settings[$toolboxName] = $toolboxSettings;
         }
 
         return $this;
-    }
-
-    /**
-     * Возвращает экземляр набора инструментов
-     * {@deprecated}
-     * @param string $toolboxName интерфейс набора инструментов, либо алиас
-     * @throws NotRegisteredException если набор инструментов не зарегистрирован
-     * @throws DomainException если экземпляр набора инструментов не соответсвует интерфейсу
-     * @throws RuntimeException если зарегистрированный интерфейс не существует
-     * @return object|IToolbox
-     */
-    public function getToolbox($toolboxName)
-    {
-        $toolboxInterface = $this->getToolboxInterface($toolboxName);
-        if (isset($this->toolboxes[$toolboxInterface])) {
-            return $this->toolboxes[$toolboxInterface];
-        }
-
-        if (!$toolboxInterface) {
-            throw new NotRegisteredException($this->translate(
-                'Cannot create toolbox "{toolbox}". Toolbox is not registered.',
-                ['toolbox' => $toolboxName]
-            ));
-        }
-
-        $options = $this->getToolboxSettings($toolboxInterface);
-        $toolboxClass = $this->registeredToolboxes[$toolboxInterface];
-
-        $this->trace(
-            'Creating toolbox "{toolbox}" instance with class "{class}".',
-            ['toolbox' => $toolboxName, 'class' => $toolboxClass]
-        );
-
-        try {
-            /**
-             * @var IToolkitAware|IPrototype $prototype
-             */
-            $prototype = $this->getPrototypeFactory()
-                ->create(
-                $toolboxClass,
-                [
-                    'umi\toolkit\toolbox\IToolbox'
-                ]
-            );
-
-            /**
-             * @var IToolbox $toolbox
-             */
-            $toolbox = $prototype->getPrototypeInstance();
-            $this->toolboxes[$toolboxInterface] = $toolbox;
-
-            if ($toolbox instanceof IFactory) {
-                $toolbox->setPrototypeFactory($this->getPrototypeFactory());
-                $toolbox->setToolkit($this);
-            }
-
-            if ($options) {
-                $prototype->setOptions($toolbox, $options);
-            }
-
-            $prototype->resolveDependencies();
-            $prototype->invokeConstructor($toolbox);
-
-        } catch (\Exception $e) {
-            throw new RuntimeException($this->translate(
-                'Cannot create toolbox "{toolbox}".',
-                ['toolbox' => $toolboxInterface]
-            ), 0, $e);
-        }
-
-        return $this->toolboxes[$toolboxInterface];
     }
 
     /**
@@ -396,19 +319,81 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     }
 
     /**
+     * Возвращает экземляр набора инструментов
+     * @param string $toolboxName интерфейс набора инструментов, либо алиас
+     * @throws NotRegisteredException если набор инструментов не зарегистрирован
+     * @throws DomainException если экземпляр набора инструментов не соответсвует интерфейсу
+     * @throws RuntimeException если зарегистрированный интерфейс не существует
+     * @return object|IToolbox
+     */
+    protected function getToolbox($toolboxName)
+    {
+        if (isset($this->toolboxes[$toolboxName])) {
+            return $this->toolboxes[$toolboxName];
+        }
+
+        $options = $this->getToolboxSettings($toolboxName);
+        $toolboxClass = $this->registeredToolboxes[$toolboxName];
+
+        $this->trace(
+            'Creating toolbox "{toolbox}" instance with class "{class}".',
+            ['toolbox' => $toolboxName, 'class' => $toolboxClass]
+        );
+
+        try {
+            /**
+             * @var IToolkitAware|IPrototype $prototype
+             */
+            $prototype = $this->getPrototypeFactory()
+                ->create(
+                    $toolboxClass,
+                    [
+                        'umi\toolkit\toolbox\IToolbox'
+                    ]
+                );
+
+            /**
+             * @var IToolbox $toolbox
+             */
+            $toolbox = $prototype->getPrototypeInstance();
+            $this->toolboxes[$toolboxName] = $toolbox;
+
+            if ($toolbox instanceof IFactory) {
+                $toolbox->setPrototypeFactory($this->getPrototypeFactory());
+                $toolbox->setToolkit($this);
+            }
+
+            if ($options) {
+                $prototype->setOptions($toolbox, $options);
+            }
+
+            $prototype->resolveDependencies();
+            $prototype->invokeConstructor($toolbox);
+
+        } catch (\Exception $e) {
+            throw new RuntimeException($this->translate(
+                'Cannot create toolbox "{name}".',
+                ['name' => $toolboxName]
+            ), 0, $e);
+        }
+
+        return $this->toolboxes[$toolboxName];
+    }
+
+    /**
      * Регистрирует интерфейсы сервисов, которые умеет обслуживать указанный набор инструментов
-     * @param string $toolboxInterface набор инструментов
+     * @param string $toolboxName набор инструментов
      * @param array $services конфигурация сервисов
      * @throws AlreadyRegisteredException если какой-либо из сервисов был зарегистрирован ранее
      * @throws InvalidArgumentException если конфигурация сервиса не верна
      */
-    protected function registerToolboxServices($toolboxInterface, array $services)
+    protected function registerToolboxServices($toolboxName, array $services)
     {
         foreach ($services as $serviceInterfaceName) {
             $this->registerService(
                 $serviceInterfaceName,
-                function ($concreteClassName = null) use ($toolboxInterface, $serviceInterfaceName) {
-                    return $this->getToolbox($toolboxInterface)
+                function ($concreteClassName = null) use ($toolboxName, $serviceInterfaceName) {
+                    return $this->getToolbox($toolboxName)
                         ->getService($serviceInterfaceName, $concreteClassName);
                 }
             );
@@ -417,22 +402,22 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
 
     /**
      * Регистрирует интерфейсы, которые умеет обслуживать указанный набор инструментов
-     * @param string $toolboxInterface набор инструментов
+     * @param string $toolboxName набор инструментов
      * @param array $servicingInterfaces конфигурация публично доступных aware-интерфейсов
      * @throws AlreadyRegisteredException если какой-либо из интерфейсов был зарегистрирован ранее
      * @throws InvalidArgumentException если конфигурация интерфейса не верна
      */
-    protected function registerToolboxInjectors($toolboxInterface, array $servicingInterfaces)
+    protected function registerToolboxInjectors($toolboxName, array $servicingInterfaces)
     {
-        $injector = function ($object) use ($toolboxInterface) {
+        $injector = function ($object) use ($toolboxName) {
             $this->trace(
-                'Inject dependencies in "{class}", using toolbox "{interface}".',
+                'Inject dependencies in "{class}", using toolbox "{name}".',
                 [
-                    'class'     => get_class($object),
-                    'interface' => $toolboxInterface
+                    'class' => get_class($object),
+                    'name'  => $toolboxName
                 ]
             );
-            $this->getToolbox($toolboxInterface)
+            $this->getToolbox($toolboxName)
                 ->injectDependencies($object);
         };
 
@@ -442,31 +427,14 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     }
 
     /**
-     * Возвращает имя интерфейса набора инструментов по его алиасу.
-     * @param string $toolboxName интерфейс набора инструментов, либо алиас
-     * @return string имя интерфейса, либо null, если набор инструментов не зарегистрирован
-     */
-    protected function getToolboxInterface($toolboxName)
-    {
-        if (isset($this->registeredToolboxes[$toolboxName])) {
-            return $toolboxName;
-        }
-        if (isset($this->aliases[$toolboxName])) {
-            return $this->aliases[$toolboxName];
-        }
-
-        return null;
-    }
-
-    /**
      * Возвращает настройки набора инструментов.
-     * @param string $toolboxInterface имя интерфейса набора инструментов
+     * @param string $toolboxName имя набора инструментов
      * @return array|Traversable
      */
-    protected function getToolboxSettings($toolboxInterface)
+    protected function getToolboxSettings($toolboxName)
     {
-        if (isset($this->settings[$toolboxInterface])) {
-            return $this->settings[$toolboxInterface];
+        if (isset($this->settings[$toolboxName])) {
+            return $this->settings[$toolboxName];
         }
 
         return [];
