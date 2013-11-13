@@ -20,7 +20,7 @@ Git репозиторий используемый для его разрабо
 
 Для клонирования репозитория используйте следующий URL:
 
-git://git.zendframework.com/zf.git
+https://github.com/Umisoft/umi-framework.git
 
 Для большей информации о Git смотрите официальный сайт:
 
