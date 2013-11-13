@@ -23,6 +23,6 @@ return [
     ],
     'services'            => [
         'umi\http\request\IRequest',
-        'umi\http\response\IResponse',
+        'umi\http\response\IResponse'
     ]
 ];

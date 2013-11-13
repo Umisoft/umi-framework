@@ -26,8 +26,7 @@ class PaginatorFactoryTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->factory = new PaginatorFactory();
-        $this->resolveOptionalDependencies($this->factory);
+        $this->factory = $this->getTestToolkit()->getService('umi\pagination\IPaginatorFactory');
     }
 
     public function testPaginatorTools()

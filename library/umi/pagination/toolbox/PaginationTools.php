@@ -11,6 +11,7 @@ namespace umi\pagination\toolbox;
 
 use umi\pagination\IPaginationAware;
 use umi\pagination\IPaginatorFactory;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
@@ -36,7 +37,26 @@ class PaginationTools implements IToolbox
      */
     public function __construct()
     {
-        $this->registerFactory('paginator', $this->paginatorFactoryClass, ['umi\pagination\IPaginatorFactory']);
+        $this->registerFactory(
+            'paginator',
+            $this->paginatorFactoryClass,
+            ['umi\pagination\IPaginatorFactory']
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\pagination\IPaginatorFactory':
+                return $this->getPaginatorFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
     }
 
     /**

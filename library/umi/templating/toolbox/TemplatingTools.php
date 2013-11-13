@@ -15,6 +15,7 @@ use umi\templating\extension\adapter\IExtensionAdapterAware;
 use umi\templating\extension\adapter\IExtensionAdapterFactory;
 use umi\templating\extension\IExtensionFactory;
 use umi\templating\extension\IExtensionFactoryAware;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
@@ -64,6 +65,23 @@ class TemplatingTools implements IToolbox
             $this->extensionAdapterFactoryClass,
             ['umi\templating\extension\adapter\IExtensionAdapterFactory']
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\templating\engine\ITemplateEngineFactory':
+                return $this->getTemplateEngineFactory();
+            case 'umi\templating\extension\IExtensionFactory':
+                return $this->getExtensionFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
     }
 
     /**

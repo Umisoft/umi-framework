@@ -11,7 +11,6 @@ namespace utest\filter\func;
 
 use umi\filter\IFilter;
 use umi\filter\IFilterFactory;
-use umi\filter\toolbox\factory\FilterFactory;
 use utest\TestCase;
 
 /**
@@ -30,8 +29,7 @@ class FilterTest extends TestCase
      */
     public function setUpFixtures()
     {
-        $this->filterFactory = new FilterFactory();
-        $this->resolveOptionalDependencies($this->filterFactory);
+        $this->filterFactory = $this->getTestToolkit()->getService('umi\filter\IFilterFactory');
     }
 
     /**
@@ -39,7 +37,6 @@ class FilterTest extends TestCase
      */
     public function testSingleFilter()
     {
-
         $filter = $this->filterFactory
             ->createFilter(IFilterFactory::TYPE_STRING_TRIM);
 

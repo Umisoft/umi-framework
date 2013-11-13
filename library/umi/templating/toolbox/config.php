@@ -18,5 +18,9 @@ return [
     'servicingInterfaces' => [
         'umi\templating\engine\ITemplateEngineAware',
         'umi\templating\extension\IExtensionAware',
+    ],
+    'services' => [
+        'umi\templating\engine\ITemplateEngineFactory',
+        'umi\templating\extension\IExtensionFactory'
     ]
 ];

@@ -10,7 +10,6 @@
 namespace utest\rbac\func;
 
 use umi\rbac\IRoleFactory;
-use umi\rbac\toolbox\factory\RoleFactory;
 use utest\TestCase;
 
 /**
@@ -26,8 +25,7 @@ class RbacTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->roleFactory = new RoleFactory();
-        $this->resolveOptionalDependencies($this->roleFactory);
+        $this->roleFactory = $this->getTestToolkit()->getService('umi\rbac\IRoleFactory');
     }
 
     /**

@@ -19,6 +19,7 @@ use umi\hmvc\controller\result\IControllerResultAware;
 use umi\hmvc\controller\result\IControllerResultFactory;
 use umi\hmvc\IMVCLayerAware;
 use umi\hmvc\IMVCLayerFactory;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
@@ -88,6 +89,23 @@ class HMVCTools implements IToolbox
             $this->componentFactoryClass,
             ['umi\hmvc\component\IComponentFactory']
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\hmvc\component\IComponentFactory':
+                return $this->getComponentFactory();
+            case 'umi\hmvc\component\request\IComponentRequestFactory':
+                return $this->getComponentRequestFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
     }
 
     /**

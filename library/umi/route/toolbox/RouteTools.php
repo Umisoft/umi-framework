@@ -10,6 +10,7 @@
 namespace umi\route\toolbox;
 
 use umi\route\IRouteAware;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\route\IRouteFactory;
 use umi\toolkit\toolbox\TToolbox;
@@ -41,6 +42,21 @@ class RouteTools implements IToolbox
             $this->routeFactoryClass,
             ['umi\route\IRouteFactory']
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\route\IRouteFactory':
+                return $this->getRouteFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
     }
 
     /**

@@ -9,6 +9,7 @@
 
 namespace umi\validation\toolbox;
 
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 use umi\validation\IValidationAware;
@@ -41,6 +42,21 @@ class ValidationTools implements IToolbox
             $this->validatorFactoryClass,
             ['umi\validation\IValidatorFactory']
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\validation\IValidatorFactory':
+                return $this->getValidatorFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
     }
 
     /**

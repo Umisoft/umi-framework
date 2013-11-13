@@ -11,7 +11,6 @@ namespace utest\validation\func;
 
 use umi\validation\IValidator;
 use umi\validation\IValidatorFactory;
-use umi\validation\toolbox\factory\ValidatorFactory;
 use utest\TestCase;
 
 /**
@@ -29,8 +28,7 @@ class ValidatorTest extends TestCase
      */
     public function setUpFixtures()
     {
-        $this->factory = new ValidatorFactory();
-        $this->resolveOptionalDependencies($this->factory);
+        $this->factory = $this->getTestToolkit()->getService('umi\validation\IValidatorFactory');
     }
 
     /**

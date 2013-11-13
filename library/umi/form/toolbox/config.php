@@ -17,5 +17,8 @@ return [
     'class'        => __NAMESPACE__ . '\FormTools',
     'servicingInterfaces' => [
         'umi\form\IFormAware'
+    ],
+    'services'            => [
+        'umi\form\IEntityFactory'
     ]
 ];

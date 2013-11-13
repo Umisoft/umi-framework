@@ -30,13 +30,13 @@ class SessionTest extends SessionTestCase
      */
     public function unregisteredSession()
     {
-        $this->getTestToolkit()->getService('umi\session\ISession', null)
+        $this->getTestToolkit()->getService('umi\session\ISession')
             ->getNamespace('test');
     }
 
     public function testMockSession()
     {
-        $session = $this->getTestToolkit()->getService('umi\session\ISession', null);
+        $session = $this->getTestToolkit()->getService('umi\session\ISession');
         $session->registerNamespace('test');
 
         $ns = $session->getNamespace('test');
@@ -48,15 +48,15 @@ class SessionTest extends SessionTestCase
 
         $this->assertEquals('value', $ns['key'], 'Ожидается, что массив сессии по прежнему доступен');
 
-        $this->getTestToolkit()->getService('umi\session\ISessionManager', null)->start();
+        $this->getTestToolkit()->getService('umi\session\ISessionManager')->start();
 
         $this->assertEquals('value', $ns['key'], 'Ожидается, что значение по прежнему существует');
         $this->assertEquals(
             ISessionManager::STATUS_ACTIVE,
-            $this->getTestToolkit()->getService('umi\session\ISessionManager', null)->getStatus()
+            $this->getTestToolkit()->getService('umi\session\ISessionManager')->getStatus()
         );
 
-        $this->getTestToolkit()->getService('umi\session\ISessionManager', null)->destroy();
+        $this->getTestToolkit()->getService('umi\session\ISessionManager')->destroy();
         $this->assertEmpty($ns['key'], 'Ожидается, что пространство имен очищено');
     }
 
@@ -66,7 +66,7 @@ class SessionTest extends SessionTestCase
      */
     public function wrongValidator()
     {
-        $session = $this->getTestToolkit()->getService('umi\session\ISession', null);
+        $session = $this->getTestToolkit()->getService('umi\session\ISession');
 
         $session->registerNamespace(
             'ns_test',

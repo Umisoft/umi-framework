@@ -16,7 +16,9 @@ return [
     'name'    => RouteTools::NAME,
     'class'        => __NAMESPACE__ . '\RouteTools',
     'servicingInterfaces' => [
-        'umi\route\type\factory\IRouteFactoryAware',
-        'umi\route\IRouteAware',
+        'umi\route\IRouteAware'
+    ],
+    'services' => [
+        'umi\route\IRouteFactory'
     ]
 ];

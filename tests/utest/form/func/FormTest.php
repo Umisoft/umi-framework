@@ -11,7 +11,6 @@ namespace utest\form\func;
 
 use umi\event\toolbox\TEventObservant;
 use umi\form\IForm;
-use umi\form\toolbox\factory\EntityFactory;
 use utest\TestCase;
 use utest\form\mock\binding\BindObject;
 
@@ -27,11 +26,9 @@ class FormTest extends TestCase
 
     public function setUpFixtures()
     {
-        $entityFactory = new EntityFactory();
-        $this->resolveOptionalDependencies($entityFactory);
-
-        $this->form = $entityFactory
-            ->createForm(require __DIR__ . '/form.php');
+        $this->form = $this->getTestToolkit()
+            ->getService('umi\form\IEntityFactory')
+                ->createForm(require __DIR__ . '/form.php');
     }
 
     /**

@@ -11,6 +11,7 @@ namespace umi\filter\toolbox;
 
 use umi\filter\IFilterAware;
 use umi\filter\IFilterFactory;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
@@ -41,6 +42,21 @@ class FilterTools implements IToolbox
             $this->filterFactoryClass,
             ['umi\filter\IFilterFactory']
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getService($serviceInterfaceName, $concreteClassName)
+    {
+        switch ($serviceInterfaceName) {
+            case 'umi\filter\IFilterFactory':
+                return $this->getFilterFactory();
+        }
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
     }
 
     /**
