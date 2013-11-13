@@ -1,5 +1,5 @@
 <?php
-namespace umicms\library\authentication\adapter;
+namespace umi\authentication\adapter;
 
 use umi\authentication\adapter\IAuthAdapter;
 use umi\authentication\result\IAuthenticationResultAware;

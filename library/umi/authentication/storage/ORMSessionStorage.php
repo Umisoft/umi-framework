@@ -1,5 +1,5 @@
 <?php
-namespace umicms\library\authentication\storage;
+namespace umi\authentication\storage;
 
 use umi\authentication\storage\SessionStorage;
 use umi\orm\manager\IObjectManagerAware;
