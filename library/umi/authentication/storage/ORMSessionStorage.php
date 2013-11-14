@@ -1,7 +1,6 @@
 <?php
 namespace umi\authentication\storage;
 
-use umi\authentication\storage\SessionStorage;
 use umi\orm\manager\IObjectManagerAware;
 use umi\orm\manager\TObjectManagerAware;
 use umi\orm\object\IObject;

@@ -9,9 +9,8 @@
 namespace umi\authentication\adapter;
 
 use umi\authentication\exception\InvalidArgumentException;
-use umi\authentication\result\IAuthenticationResultAware;
+use umi\authentication\result\AuthResult;
 use umi\authentication\result\IAuthResult;
-use umi\authentication\result\TAuthenticationResultAware;
 use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\cluster\IConnection;
 use umi\dbal\cluster\IDbCluster;
@@ -21,7 +20,7 @@ use umi\i18n\TLocalizable;
 /**
  * Адаптер базы данных для аутентификации.
  */
-class DatabaseAdapter implements IAuthAdapter, ILocalizable, IAuthenticationResultAware
+class DatabaseAdapter implements IAuthAdapter, ILocalizable
 {
     /** Имя таблицы */
     const OPTION_TABLE = 'table';
@@ -31,7 +30,6 @@ class DatabaseAdapter implements IAuthAdapter, ILocalizable, IAuthenticationResu
     const OPTION_PASSWORD_COLUMN = 'passwordColumn';
 
     use TLocalizable;
-    use TAuthenticationResultAware;
 
     /**
      * @var string $table таблица
@@ -97,16 +95,16 @@ class DatabaseAdapter implements IAuthAdapter, ILocalizable, IAuthenticationResu
         $result = $select->execute();
 
         if ($result->countRows() != 1) {
-            return $this->createAuthResult(IAuthResult::WRONG_USERNAME);
+            return new AuthResult(IAuthResult::WRONG_USERNAME);
         }
 
         $entity = $result->fetch(\PDO::FETCH_ASSOC);
 
         if ($entity[$this->passwordColumn] != $password) {
-            return $this->createAuthResult(IAuthResult::WRONG_PASSWORD);
+            return new AuthResult(IAuthResult::WRONG_PASSWORD);
         }
 
-        return $this->createAuthResult(
+        return new AuthResult(
             IAuthResult::SUCCESSFUL,
             $entity
         );
