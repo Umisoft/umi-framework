@@ -10,12 +10,12 @@
 namespace utest\router\unit;
 
 use umi\route\result\RouteResult;
-use utest\TestCase;
+use utest\route\RouteTestCase;
 
 /**
  * Тесты результата роутера.
  */
-class ResultTest extends TestCase
+class ResultTest extends RouteTestCase
 {
 
     public function testSomeBuild()

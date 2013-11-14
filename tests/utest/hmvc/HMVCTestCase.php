@@ -28,6 +28,7 @@ abstract class HMVCTestCase extends TestCase
     {
         $this->getTestToolkit()->registerToolboxes([
             require(LIBRARY_PATH . '/hmvc/toolbox/config.php'),
+            require(LIBRARY_PATH . '/route/toolbox/config.php'),
             require(LIBRARY_PATH . '/http/toolbox/config.php')
         ]);
 

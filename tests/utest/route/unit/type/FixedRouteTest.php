@@ -9,12 +9,12 @@
 namespace utest\router\unit;
 
 use umi\route\type\FixedRoute;
-use utest\TestCase;
+use utest\route\RouteTestCase;
 
 /**
  * Тестирование статического правила роутинга.
  */
-class FixedRouteTest extends TestCase
+class FixedRouteTest extends RouteTestCase
 {
     /**
      * @var FixedRoute $rule
