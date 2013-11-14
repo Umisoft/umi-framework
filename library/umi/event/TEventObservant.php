@@ -1,13 +1,14 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
 namespace umi\event;
+
+use umi\event\exception\RequiredDependencyException;
 
 /**
  * Трейт для поддержки событий.
@@ -17,31 +18,38 @@ trait TEventObservant
     /**
      * @var IEventManager $_eventManager локальный менеджер событий
      */
-    protected $_eventManager;
+    private $_eventManager;
+    /**
+     * @var IEventFactory $_eventFactory
+     */
+    private $_eventFactory;
 
     /**
-     * Устанавливает менеджер событий
-     * @param IEventManager $eventManager
+     * Устанавливает фабрику событий и менеджеров событий
+     * @param IEventFactory $eventFactory
      * @return $this
      */
-    public function setEventManager(IEventManager $eventManager)
+    public function setEventFactory(IEventFactory $eventFactory)
     {
-        $this->_eventManager = $eventManager;
-
+        $this->_eventFactory = $eventFactory;
         return $this;
     }
 
     /**
      * Возвращает менеджер событий
      * @internal
+     * @throws RequiredDependencyException если фабрика событий и менеджеров событий не была внедрена
      * @return IEventManager
      */
     public function getEventManager()
     {
         if (!$this->_eventManager) {
-            $this->_eventManager = new EventManager();
+            if (!$this->_eventFactory) {
+                throw new RequiredDependencyException(sprintf('Event factory is not injected in class "%s".', get_class($this)));
+            }
+            $this->_eventManager = $this->_eventFactory->createEventManager();
+            $this->bindLocalEvents();
         }
-
         return $this->_eventManager;
     }
 
@@ -52,9 +60,7 @@ trait TEventObservant
      */
     public function subscribeTo(IEventObservant $target)
     {
-        $target->getEventManager()
-            ->attach($this->getEventManager());
-
+        $target->getEventManager()->attach($this->getEventManager());
         return $this;
     }
 
@@ -69,8 +75,7 @@ trait TEventObservant
      */
     public function fireEvent($eventType, array $params = [], array $tags = [])
     {
-        return $this->getEventManager()
-            ->fireEvent($eventType, $this, $params, $tags);
+        return $this->getEventManager()->fireEvent($eventType, $this, $params, $tags);
     }
 
     /**
@@ -84,8 +89,7 @@ trait TEventObservant
      */
     public function bindEvent($eventType, callable $eventHandler, array $tags = [])
     {
-        return $this->getEventManager()
-            ->bindEvent($eventType, $eventHandler, $tags);
+        return $this->getEventManager()->bindEvent($eventType, $eventHandler, $tags);
     }
 
     /**
@@ -97,15 +101,14 @@ trait TEventObservant
      */
     public function unbindEvent($eventType, callable $eventHandler = null)
     {
-        return $this->getEventManager()
-            ->unbindEvent($eventType, $eventHandler);
+        return $this->getEventManager()->unbindEvent($eventType, $eventHandler);
     }
 
     /**
      * Устанавливает локальные обработчики событий
      * @return $this
      */
-    public function bindLocalEvents()
+    protected function bindLocalEvents()
     {
         return $this;
     }

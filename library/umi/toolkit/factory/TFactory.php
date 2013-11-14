@@ -10,7 +10,6 @@
 namespace umi\toolkit\factory;
 
 use Traversable;
-use umi\event\TEventObservant;
 use umi\i18n\TLocalizable;
 use umi\log\TLoggerAware;
 use umi\toolkit\exception\DomainException;
@@ -28,7 +27,6 @@ trait TFactory
     use TPrototypeAware;
     use TLoggerAware;
     use TLocalizable;
-    use TEventObservant;
 
     /**
      * @var object[] $_prototypes протитипы для создания экземпляров

@@ -9,7 +9,9 @@
 
 namespace umi\event\toolbox;
 
-use umi\event\IEventManager;
+use umi\event\IEventFactory;
+use umi\event\IEventObservant;
+use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
@@ -26,40 +28,54 @@ class EventTools implements IToolbox
     use TToolbox;
 
     /**
-     * @var string $eventManagerClass класс для создания менеджера событий
+     * @var string $eventFactoryClass класс для создания фабрики событий и менеджеров событий
      */
-    public $eventManagerClass = 'umi\event\EventManager';
+    public $eventFactoryClass = 'umi\event\toolbox\factory\EventFactory';
+
     /**
-     * @var array $manager опции менеджера события
+     * Конструктор
      */
-    public $manager = [];
+    public function __construct()
+    {
+        $this->registerFactory(
+            'eventFactory',
+            $this->eventFactoryClass,
+            ['umi\event\IEventFactory']
+        );
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function getObjectInitializers($prototype, $factory)
+    public function getService($serviceInterfaceName, $concreteClassName)
     {
-        $initializers = [];
-        if ($prototype instanceof IEventObservant) {
-            $initializers[] = function (IEventObservant $object, $factory) {
-                $object->setEventManager($this->createEventManager());
-                if ($factory instanceof IEventObservant) {
-                    $factory->subscribeTo($object);
-                }
-                $object->bindLocalEvents();
-            };
+        switch ($serviceInterfaceName) {
+            case 'umi\event\IEventManager':
+                return $this->getEventFactory()->createEventManager();
         }
-
-        return $initializers;
+        throw new UnsupportedServiceException($this->translate(
+            'Toolbox "{name}" does not support service "{interface}".',
+            ['name' => self::NAME, 'interface' => $serviceInterfaceName]
+        ));
     }
 
     /**
-     * Создает и возвращает новый менеджер событий
-     * @return IEventManager
+     * {@inheritdoc}
      */
-    protected function createEventManager()
+    public function injectDependencies($object)
     {
-        return $this->createInstance($this->eventManagerClass, [], ['umi\event\IEventManager'], $this->manager);
+        if ($object instanceof IEventObservant) {
+            $object->setEventFactory($this->getEventFactory());
+        }
+    }
+
+    /**
+     * Создает и возвращает фабрику менеджеров событий.
+     * @return IEventFactory
+     */
+    protected function getEventFactory()
+    {
+        return $this->getFactory('eventFactory');
     }
 
 }

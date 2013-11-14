@@ -15,11 +15,11 @@ namespace umi\event;
 interface IEventObservant
 {
     /**
-     * Устанавливает менеджер событий
-     * @param IEventManager $eventManager
+     * Устанавливает фабрику событий и менеджеров событий
+     * @param IEventFactory $eventFactory
      * @return self
      */
-    public function setEventManager(IEventManager $eventManager);
+    public function setEventFactory(IEventFactory $eventFactory);
 
     /**
      * Возвращает менеджер событий
@@ -65,9 +65,4 @@ interface IEventObservant
      */
     public function unbindEvent($eventType, callable $eventHandler = null);
 
-    /**
-     * Устанавливает локальные обработчики событий
-     * @return self
-     */
-    public function bindLocalEvents();
 }

@@ -7,12 +7,11 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace utest\events\unit;
+namespace utest\event\unit;
 
-use umi\event\EventManager;
 use umi\event\IEvent;
-use umi\event\IEventObservant;
 use umi\event\TEventObservant;
+use utest\event\mock\EventObservant;
 use utest\TestCase;
 
 /**
@@ -36,6 +35,10 @@ class EventObservantTest extends TestCase
 
     public function setUpFixtures()
     {
+        $this->getTestToolkit()->registerToolbox(
+            require(__DIR__ . '/../../../../library/umi/event/toolbox/config.php')
+        );
+
         $this->observant1 = new EventObservant('observant1');
         $this->resolveOptionalDependencies($this->observant1);
 
@@ -51,33 +54,18 @@ class EventObservantTest extends TestCase
 
     public function testObservantMethods()
     {
-        $eventManager = new EventManager();
+        $eventManager = $this->observant1->getEventManager();
 
         $this->assertInstanceOf(
             'umi\event\IEventManager',
-            $this->observant1->getEventManager(),
-            'Ожидается, что IEventObservant::getEventManager() вернет IEventManager'
-        );
-        $this->assertInstanceOf(
-            'umi\event\IEventObservant',
-            $this->observant1->setEventManager($eventManager),
-            'Ожидается, что IEventObservant::setEventManager() вернет себя'
-        );
-        $this->assertEquals(
             $eventManager,
-            $this->observant1->getEventManager(),
-            'Ожидается, что менеджер событий был переустановлен'
+            'Ожидается, что IEventObservant::getEventManager() вернет IEventManager'
         );
 
         $this->assertInstanceOf(
             'umi\event\IEventObservant',
             $this->observant1->subscribeTo($this->observant2),
             'Ожидается, что IEventObservant::subscribeTo() вернет себя'
-        );
-        $this->assertInstanceOf(
-            'umi\event\IEventObservant',
-            $this->observant1->bindLocalEvents(),
-            'Ожидается, что IEventObservant::bindLocalEvents() вернет себя'
         );
 
         $this->assertEquals(
@@ -195,37 +183,3 @@ class EventObservantTest extends TestCase
     }
 }
 
-/**
- *
- */
-class EventObservant implements IEventObservant
-{
-
-    use TEventObservant;
-
-    public $name;
-
-    public $names = [];
-
-    /**
-     * @param $name
-     */
-    public function __construct($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @param $name
-     */
-    public function setName($name)
-    {
-        $this->fireEvent(
-            'testEventBeforeSetName',
-            array(
-                'name' => &$name
-            )
-        );
-        $this->name = $name;
-    }
-}

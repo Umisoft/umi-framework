@@ -7,7 +7,7 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace utest\events\unit;
+namespace utest\event\unit;
 
 use umi\event\Event;
 use utest\TestCase;
