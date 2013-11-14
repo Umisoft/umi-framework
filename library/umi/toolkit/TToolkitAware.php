@@ -46,4 +46,24 @@ trait TToolkitAware
 
         return $this->_toolkit;
     }
+
+    /**
+     * Возвращает экземпляр сервиса.
+     * @param string $serviceInterfaceName имя интерфейса сервиса
+     * @param null|string $concreteClassName класс конкретной реализации сервиса, может быть учтен при
+     * получении экземпляра сервиса.
+     * @return object
+     */
+    protected function getService($serviceInterfaceName, $concreteClassName = null) {
+        return $this->getToolkit()->getService($serviceInterfaceName, $concreteClassName);
+    }
+
+    /**
+     * Проверяет, зарегистрирован ли сервис
+     * @param string $serviceInterfaceName имя интерфейса сервиса
+     * @return bool
+     */
+    protected function hasService($serviceInterfaceName) {
+        return $this->getToolkit()->hasService($serviceInterfaceName);
+    }
 }
