@@ -11,7 +11,7 @@ namespace utest\hmvc\unit\toolbox\factory;
 
 use umi\hmvc\exception\OutOfBoundsException;
 use umi\hmvc\toolbox\factory\ModelFactory;
-use utest\TestCase;
+use utest\hmvc\HMVCTestCase;
 use utest\hmvc\mock\model\MockBaseModel;
 use utest\hmvc\mock\model\MockDependencyModel;
 use utest\hmvc\mock\model\MockModel;
@@ -19,7 +19,7 @@ use utest\hmvc\mock\model\MockModel;
 /**
  * Тесты фабрки моделей.
  */
-class ModelFactoryTest extends TestCase
+class ModelFactoryTest extends HMVCTestCase
 {
     /**
      * @var ModelFactory $factory

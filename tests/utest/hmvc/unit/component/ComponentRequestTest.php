@@ -11,12 +11,12 @@ namespace utest\hmvc\unit\component;
 
 use umi\hmvc\component\request\ComponentRequest;
 use umi\hmvc\component\request\IComponentRequest;
-use utest\TestCase;
+use utest\hmvc\HMVCTestCase;
 
 /**
  * Class ComponentRequest
  */
-class ComponentRequestTest extends TestCase
+class ComponentRequestTest extends HMVCTestCase
 {
     /**
      * @var IComponentRequest $request
