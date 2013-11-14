@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -9,6 +8,7 @@
 
 namespace utest\authentication\func;
 
+use umi\authentication\adapter\SimpleAdapter;
 use umi\authentication\IAuthentication;
 use umi\authentication\IAuthenticationFactory;
 use umi\authentication\provider\SimpleProvider;
@@ -27,33 +27,32 @@ class AuthTest extends TestCase
 
     public function setUpFixtures()
     {
-        $authenticationFactory = $this->getTestToolkit()->getService('umi\authentication\IAuthenticationFactory');
+        /**
+         * @var IAuthenticationFactory $authenticationFactory
+         */
+        $authenticationFactory = $this->getTestToolkit()
+            ->getService('umi\authentication\IAuthenticationFactory');
 
-        $this->auth = $authenticationFactory
-            ->createManager(
+        $adapter = $authenticationFactory->createAdapter(
+            IAuthenticationFactory::ADAPTER_SIMPLE,
             [
-                'adapter' => [
-                    'type'    => IAuthenticationFactory::ADAPTER_SIMPLE,
-                    'options' => [
-                        'allowed' => ['user' => 'password']
-                    ]
-                ]
+                SimpleAdapter::OPTION_ALLOWED_LIST => ['user' => 'password']
             ]
         );
-    }
 
-    public function tearDownFixtures()
-    {
-        $this->auth->forget();
+        $storage = $authenticationFactory->createStorage(IAuthenticationFactory::STORAGE_SIMPLE);
+
+        $this->auth = $authenticationFactory->createManager([], $adapter, $storage);
     }
 
     public function testFailureAuth()
     {
         $this->assertFalse($this->auth->isAuthenticated(), 'Ожидается, что мы не авторизованы');
 
-        $provider = new SimpleProvider();
-        $provider->username = 'wrong';
-        $provider->password = 'wrong';
+        $provider = new SimpleProvider([
+            SimpleProvider::OPTION_USERNAME => 'wrong',
+            SimpleProvider::OPTION_PASSWORD => 'wrong',
+        ]);
 
         $result = $this->auth->authenticate($provider);
         $this->assertFalse($result->isSuccessful(), 'Ожидается, что авторизация не пройдет');
@@ -64,9 +63,10 @@ class AuthTest extends TestCase
     {
         $this->assertFalse($this->auth->isAuthenticated(), 'Ожидается, что мы не авторизованы');
 
-        $provider = new SimpleProvider();
-        $provider->username = 'user';
-        $provider->password = 'password';
+        $provider = new SimpleProvider([
+            SimpleProvider::OPTION_USERNAME => 'user',
+            SimpleProvider::OPTION_PASSWORD => 'password',
+        ]);
 
         $result = $this->auth->authenticate($provider);
 
@@ -79,15 +79,17 @@ class AuthTest extends TestCase
     {
         $this->assertFalse($this->auth->isAuthenticated(), 'Ожидается, что мы не авторизованы');
 
-        $provider = new SimpleProvider();
-        $provider->username = 'user';
-        $provider->password = 'password';
+        $provider = new SimpleProvider([
+            SimpleProvider::OPTION_USERNAME => 'user',
+            SimpleProvider::OPTION_PASSWORD => 'password',
+        ]);
 
         $this->auth->authenticate($provider);
 
-        $provider = new SimpleProvider();
-        $provider->username = 'wrong';
-        $provider->password = 'wrong';
+        $provider = new SimpleProvider([
+            SimpleProvider::OPTION_USERNAME => 'wrong',
+            SimpleProvider::OPTION_PASSWORD => 'wrong',
+        ]);
 
         $result = $this->auth->authenticate($provider);
 

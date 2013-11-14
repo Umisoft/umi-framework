@@ -26,12 +26,13 @@ class SimpleTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->adapter = new SimpleAdapter();
+        $this->adapter = new SimpleAdapter([
+            SimpleAdapter::OPTION_ALLOWED_LIST => [
+                'test_user' => 'password1',
+                'user2'     => 'pass2'
+            ]
+        ]);
         $this->resolveOptionalDependencies($this->adapter);
-        $this->adapter->allowed = [
-            'test_user' => 'password1',
-            'user2'     => 'pass2'
-        ];
     }
 
     public function testSuccess()

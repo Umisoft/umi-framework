@@ -18,13 +18,20 @@ use umi\authentication\result\TAuthenticationResultAware;
  */
 class SimpleAdapter implements IAuthAdapter, IAuthenticationResultAware
 {
+    /** Список пользователей в формате [name => password] */
+    const OPTION_ALLOWED_LIST = 'allowed';
 
     use TAuthenticationResultAware;
 
     /**
      * @var array $allowed массив разрешенных пользователей, вида username => password
      */
-    public $allowed = [];
+    protected $allowed = [];
+
+    public function __construct(array $options = [])
+    {
+        $this->allowed = isset($options[self::OPTION_ALLOWED_LIST]) ? $options[self::OPTION_ALLOWED_LIST] : $this->allowed;
+    }
 
     /**
      * {@inheritdoc}
