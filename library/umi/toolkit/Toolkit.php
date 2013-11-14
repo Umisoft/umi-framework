@@ -75,6 +75,8 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
                 $object->setToolkit($this);
             }
         );
+
+        $this->registerService('umi\toolkit\IToolkit', function() { return $this; });
     }
 
     /**
