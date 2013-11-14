@@ -24,7 +24,6 @@ return [
         require($libraryPath . '/config/toolbox/config.php'),
         require($libraryPath . '/i18n/toolbox/config.php'),
         require($libraryPath . '/dbal/toolbox/config.php'),
-        require($libraryPath . '/pagination/toolbox/config.php'),
         require($libraryPath . '/rbac/toolbox/config.php'),
         require($libraryPath . '/route/toolbox/config.php'),
         require($libraryPath . '/validation/toolbox/config.php'),

@@ -32,6 +32,10 @@ class SelectorPaginatorAdapterTest extends ORMDbTestCase
 
     public function setUpFixtures()
     {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/pagination/toolbox/config.php')
+        );
+
         $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $userCollection->add();

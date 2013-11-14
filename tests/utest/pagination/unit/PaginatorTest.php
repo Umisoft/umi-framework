@@ -14,7 +14,7 @@ use umi\pagination\exception\OutOfBoundsException;
 use umi\pagination\exception\UnexpectedValueException;
 use umi\pagination\IPaginator;
 use umi\pagination\Paginator;
-use utest\TestCase;
+use utest\pagination\PaginationTestCase;
 use utest\pagination\mock\adapter\ArrayPaginationAdapter;
 use utest\pagination\mock\adapter\TraversablePaginatorAdapter;
 use utest\pagination\mock\adapter\WrongPaginationAdapter;
@@ -22,7 +22,7 @@ use utest\pagination\mock\adapter\WrongPaginationAdapter;
 /**
  * Тестирование пагинатора.
  */
-class PaginatorTest extends TestCase
+class PaginatorTest extends PaginationTestCase
 {
 
     /**
