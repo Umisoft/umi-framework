@@ -13,12 +13,12 @@ use umi\form\element\Text;
 use umi\form\fieldset\Collection;
 use umi\form\Form;
 use umi\toolkit\factory\TFactory;
-use utest\TestCase;
+use utest\form\FormTestCase;
 
 /**
  * Тесты коллекции элементов.
  */
-class CollectionTest extends TestCase
+class CollectionTest extends FormTestCase
 {
     use TFactory;
 

@@ -11,13 +11,13 @@ namespace utest\form\func;
 
 use umi\event\TEventObservant;
 use umi\form\IForm;
-use utest\TestCase;
+use utest\form\FormTestCase;
 use utest\form\mock\binding\BindObject;
 
 /**
  * Тестирование форм.
  */
-class FormTest extends TestCase
+class FormTest extends FormTestCase
 {
     /**
      * @var IForm $form форма
@@ -240,6 +240,8 @@ class FormTest extends TestCase
     public function testBinding()
     {
         $bindObject = new BindObject();
+        $this->resolveOptionalDependencies($bindObject);
+
         $bindObject->email = 'test@email.ru';
 
         $this->form->bindObject($bindObject);
