@@ -12,12 +12,11 @@ namespace utest\cache\unit\toolbox;
 use umi\cache\toolbox\CacheTools;
 use umi\dbal\cluster\server\IServer;
 use umi\dbal\driver\IColumnScheme;
+use utest\cache\CacheTestCase;
 use utest\cache\mock\MockCacheAware;
-use utest\TestCase;
 
-class CacheToolsTest extends TestCase
+class CacheToolsTest extends CacheTestCase
 {
-
     /**
      * @var IServer
      */
@@ -28,10 +27,6 @@ class CacheToolsTest extends TestCase
     protected function setUpFixtures()
     {
         $this->connection = $this->getDbServer();
-
-        $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../../../library/umi/cache/toolbox/config.php')
-        );
     }
 
     protected function tearDownFixtures()

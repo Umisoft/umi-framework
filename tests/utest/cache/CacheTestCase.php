@@ -6,25 +6,24 @@
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
-namespace utest\form;
+namespace utest\cache;
 
 use utest\TestCase;
 
 /**
- * Тест кейс для форм
+ * Тест кейс для кеширования
  */
-abstract class FormTestCase extends TestCase
+abstract class CacheTestCase extends TestCase
 {
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-
         $this->getTestToolkit()->registerToolboxes([
-            require(__DIR__ . '/../../../library/umi/event/toolbox/config.php'),
-            require(__DIR__ . '/../../../library/umi/form/toolbox/config.php')
-        ]);
+                require(__DIR__ . '/../../../library/umi/event/toolbox/config.php'),
+                require(__DIR__ . '/../../../library/umi/cache/toolbox/config.php')
+            ]);
 
         parent::setUp();
     }

@@ -10,13 +10,12 @@
 namespace utest\cache\unit\engine;
 
 use umi\cache\engine\XCache;
-use utest\TestCase;
+use utest\cache\CacheTestCase;
 
 /**
  * Тест memcached
- * @package
  */
-class XCacheTest extends TestCase
+class XCacheTest extends CacheTestCase
 {
     /**
      * @var XCache
@@ -59,14 +58,14 @@ class XCacheTest extends TestCase
         $this->storage->set('testKey1', 'testValue1', 10);
         $this->storage->set('testKey2', 'testValue2');
 
-        $expectedResult = array(
+        $expectedResult = [
             'testKey1' => 'testValue1',
             'testKey2' => 'testValue2',
             'testKey3' => false
-        );
+        ];
         $this->assertEquals(
             $expectedResult,
-            $this->storage->getList(array('testKey1', 'testKey2', 'testKey3')),
+            $this->storage->getList(['testKey1', 'testKey2', 'testKey3']),
             'Неверное значение для массива ключей'
         );
 
