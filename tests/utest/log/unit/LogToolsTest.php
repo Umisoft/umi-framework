@@ -11,12 +11,12 @@ namespace utest\log\unit;
 
 use umi\log\exception\OutOfBoundsException;
 use umi\log\toolbox\LogTools;
-use utest\TestCase;
+use utest\log\LogTestCase;
 
 /**
  * Тесты инструментов логирования
  */
-class LogToolsTests extends TestCase
+class LogToolsTests extends LogTestCase
 {
     /**
      * @var LogTools $loggerTools
