@@ -22,9 +22,7 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class AuthenticationTools implements IToolbox
 {
-    /**
-     * Имя набора инструментов
-     */
+    /** Имя набора инструментов */
     const NAME = 'authentication';
 
     use TToolbox;

@@ -24,9 +24,25 @@ use umi\i18n\TLocalizable;
  */
 class Authentication implements IAuthentication, ILocalizable, IAuthenticationResultAware
 {
+    const OPTION_HASH_METHOD = 'hashMethod';
+    const OPTION_HASH_SALT = 'hashSalt';
+
+    const HASH_NONE = 'none';
+    const HASH_SHA1 = 'sha1';
+    const HASH_MD5 = 'md5';
+    const HASH_CRYPT = 'crypt';
 
     use TAuthenticationResultAware;
     use TLocalizable;
+
+    /**
+     * @var string $hashMethod метод для хэширования пароля
+     */
+    protected $hashMethod = self::HASH_NONE;
+    /**
+     * @var string $hashSalt соль для хэширования пароля
+     */
+    protected $hashSalt;
 
     /**
      * @var IAuthAdapter $adapter провайдер авторизации
@@ -39,11 +55,15 @@ class Authentication implements IAuthentication, ILocalizable, IAuthenticationRe
 
     /**
      * Конструктор.
-     * @param IAuthAdapter $adapter адаптер авторизации
-     * @param IAuthStorage $storage хранилище авторизации
+     * @param array $options опции менеджера аутентификации
+     * @param IAuthAdapter $adapter адаптер аутентификации
+     * @param IAuthStorage $storage хранилище аутентификации
      */
-    public function __construct(IAuthAdapter $adapter, IAuthStorage $storage)
+    public function __construct(array $options, IAuthAdapter $adapter, IAuthStorage $storage)
     {
+        $this->hashMethod = isset($options[self::OPTION_HASH_METHOD]) ? $options[self::OPTION_HASH_METHOD] : $this->hashMethod;
+        $this->hashSalt = isset($options[self::OPTION_HASH_SALT]) ? $options[self::OPTION_HASH_SALT] : $this->hashSalt;
+
         $this->adapter = $adapter;
         $this->storage = $storage;
     }
@@ -63,12 +83,14 @@ class Authentication implements IAuthentication, ILocalizable, IAuthenticationRe
     public function authenticate(IAuthProvider $provider)
     {
         $credentials = $provider->getCredentials();
+
         if ($credentials) {
             if (count($credentials) < 2) {
                 throw new RuntimeException($this->translate(
                     'Cannot get username and password.'
                 ));
             }
+
             list($username, $password) = $credentials;
         } else {
             return $this->createAuthResult(IAuthResult::WRONG_NO_CREDENTIALS);
@@ -77,12 +99,14 @@ class Authentication implements IAuthentication, ILocalizable, IAuthenticationRe
         if ($this->storage->hasIdentity()) {
             return $this->createAuthResult(
                 IAuthResult::ALREADY,
-                $this->getStorage()
-                    ->getIdentity()
+                $this->getStorage()->getIdentity()
             );
         }
 
-        $result = $this->adapter->authenticate($username, $password);
+        $result = $this->adapter->authenticate(
+            $username,
+            $this->hashPassword($password)
+        );
 
         if ($result->isSuccessful()) {
             $this->storage->setIdentity($result->getIdentity());
@@ -107,5 +131,23 @@ class Authentication implements IAuthentication, ILocalizable, IAuthenticationRe
         $this->storage->clearIdentity();
 
         return $this;
+    }
+
+    protected function hashPassword($password)
+    {
+        switch ($this->hashMethod) {
+            case self::HASH_NONE:
+                return $password;
+            case self::HASH_MD5:
+                return md5($password . strval($this->hashSalt));
+            case self::HASH_CRYPT:
+                return crypt($password, $this->hashSalt);
+            case self::HASH_SHA1:
+                return sha1($password . strval($this->hashSalt));
+            default:
+                throw new RuntimeException($this->translate(
+                    'Invalid authentication password hashing method.'
+                ));
+        }
     }
 }

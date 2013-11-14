@@ -9,8 +9,11 @@
 
 namespace umi\authentication\toolbox\factory;
 
+use umi\authentication\adapter\IAuthAdapter;
+use umi\authentication\exception\InvalidArgumentException;
 use umi\authentication\exception\OutOfBoundsException;
 use umi\authentication\IAuthenticationFactory;
+use umi\authentication\storage\IAuthStorage;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
 
@@ -19,7 +22,6 @@ use umi\toolkit\factory\TFactory;
  */
 class AuthenticationFactory implements IAuthenticationFactory, IFactory
 {
-
     use TFactory;
 
     /**
@@ -51,32 +53,30 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
     ];
 
     /**
-     * @var array $manager опции менеджера аутентификации
-     */
-    public $manager = [];
-    /**
      * @var array $adapter адаптер аутентификации по умолчанию
      */
-    public $adapter = [
+    public $defaultAdapter = [
         'type'    => self::ADAPTER_SIMPLE,
         'options' => []
     ];
     /**
      * @var array $storage хранилище аутентификации по умолчанию
      */
-    public $storage = [
-        'type'    => self::STORAGE_SESSION,
+    public $defaultStorage = [
+        'type'    => self::STORAGE_SIMPLE,
         'options' => []
     ];
 
     /**
      * {@inheritdoc}
      */
-    public function createStorage(array $config = [])
+    public function createStorage($type, array $options = [])
     {
-        $config += $this->storage;
-        $type = isset($config['type']) ? $config['type'] : '';
-        $options = isset($config['options']) ? $config['options'] : [];
+        if (!$type) {
+            throw new InvalidArgumentException($this->translate(
+                'Storage type cannot be empty.'
+            ));
+        }
 
         if (!isset($this->storageClasses[$type])) {
             throw new OutOfBoundsException($this->translate(
@@ -95,11 +95,13 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createAdapter(array $config = [])
+    public function createAdapter($type, array $options = [])
     {
-        $config += $this->adapter;
-        $type = isset($config['type']) ? $config['type'] : '';
-        $options = isset($config['options']) ? $config['options'] : '';
+        if (!$type) {
+            throw new InvalidArgumentException($this->translate(
+                'Adapter type cannot be empty.'
+            ));
+        }
 
         if (!isset($this->adapterClasses[$type])) {
             throw new OutOfBoundsException($this->translate(
@@ -110,9 +112,8 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
 
         return $this->createInstance(
             $this->adapterClasses[$type],
-            [],
-            ['umi\authentication\adapter\IAuthAdapter'],
-            $options
+            [$options],
+            ['umi\authentication\adapter\IAuthAdapter']
         );
     }
 
@@ -121,6 +122,12 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
      */
     public function createProvider($type, array $options = [])
     {
+        if (!$type) {
+            throw new InvalidArgumentException($this->translate(
+                'Provider type cannot be empty.'
+            ));
+        }
+
         if (!isset($this->providerClasses[$type])) {
             throw new OutOfBoundsException($this->translate(
                 'Provider type "{type}" is not available.',
@@ -130,25 +137,34 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
 
         return $this->createInstance(
             $this->providerClasses[$type],
-            [],
-            ['umi\authentication\provider\IAuthProvider'],
-            $options
+            [$options],
+            ['umi\authentication\provider\IAuthProvider']
         );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createManager(array $config = [])
+    public function createManager(array $options = [], IAuthAdapter $adapter = null, IAuthStorage $storage = null)
     {
-        $storage = isset($config['storage']) ? $config['storage'] : [];
-        $adapter = isset($config['adapter']) ? $config['adapter'] : [];
+        if (!$adapter) {
+            $adapterType = isset($this->defaultAdapter['type']) ? $this->defaultAdapter['type'] : null;
+            $adapterOptions = isset($this->defaultStorage['options']) ? $this->defaultAdapter['options'] : [];
+
+            $adapter = $this->createAdapter($adapterType, $adapterOptions);
+        }
+
+        if (!$storage) {
+            $storageType = isset($this->defaultAdapter['type']) ? $this->defaultStorage['type'] : null;
+            $storageOptions = isset($this->defaultStorage['options']) ? $this->defaultStorage['options'] : [];
+
+            $storage = $this->createStorage($storageType, $storageOptions);
+        }
 
         return $this->createInstance(
             $this->managerClass,
-            [$this->createAdapter($adapter), $this->createStorage($storage)],
-            ['umi\authentication\IAuthentication'],
-            $this->manager
+            [$options, $adapter, $storage],
+            ['umi\authentication\IAuthentication']
         );
     }
 }

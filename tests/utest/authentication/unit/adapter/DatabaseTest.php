@@ -30,20 +30,26 @@ class DatabaseTest extends TestCase
 
     public function setUpFixtures()
     {
-
         /**
          * @var DatabaseAdapter $adapter
          */
-        $this->adapter = new DatabaseAdapter($this->getDbCluster());
+        $this->adapter = new DatabaseAdapter([
+            DatabaseAdapter::OPTION_TABLE => 'users',
+            DatabaseAdapter::OPTION_LOGIN_COLUMNS => ['username'],
+            DatabaseAdapter::OPTION_PASSWORD_COLUMN => 'password',
+        ], $this->getDbCluster());
+
         $this->resolveOptionalDependencies($this->adapter);
+
         $this->createTables(
-            $this->getDbServer()
-                ->getDbDriver()
+            $this->getDbServer()->getDbDriver()
         );
 
         $query = $this->addRow($this->getDBCluster());
+
         $query->bindString(':username', 'root')
             ->bindString(':password', 'root');
+
         $query->execute();
     }
 
@@ -51,7 +57,7 @@ class DatabaseTest extends TestCase
     {
         $this->getDbServer()
             ->getDbDriver()
-            ->deleteTable($this->adapter->table)
+            ->deleteTable('users')
             ->applyMigrations();
     }
 
@@ -66,13 +72,12 @@ class DatabaseTest extends TestCase
             'Ожидается, что авторизация будет пройдена.'
         );
 
-        $user = new \ArrayObject([
-            $this->adapter->usernameColumn => 'root',
-            $this->adapter->passwordColumn => 'root'
-        ], \ArrayObject::ARRAY_AS_PROPS);
 
         $this->assertEquals(
-            $user,
+            [
+                'username' => 'root',
+                'password' => 'root'
+            ],
             $result->getIdentity(),
             'Ожидается, что идентификатор будет записан.'
         );
@@ -82,18 +87,8 @@ class DatabaseTest extends TestCase
     {
         $result = $this->adapter->authenticate('root', 'password');
         $this->assertFalse($result->isSuccessful());
-        $this->assertEquals(IAuthResult::WRONG, $result->getStatus());
+        $this->assertEquals(IAuthResult::WRONG_PASSWORD, $result->getStatus());
         $this->assertNull($result->getIdentity());
-    }
-
-    /**
-     * Проверка установленного select зависимостей
-     * @expectedException \umi\authentication\exception\RuntimeException
-     */
-    public function testWrongSelect()
-    {
-        $this->adapter->select = ['wrong', 'select'];
-        $this->adapter->authenticate('user', 'password');
     }
 
     /**
@@ -101,10 +96,10 @@ class DatabaseTest extends TestCase
      */
     private function createTables(IDbDriver $driver)
     {
-        $table = $driver->addTable($this->adapter->table);
-        $table->addColumn($this->adapter->usernameColumn, IColumnScheme::TYPE_VARCHAR);
-        $table->addColumn($this->adapter->passwordColumn, IColumnScheme::TYPE_VARCHAR);
-        $table->setPrimaryKey($this->adapter->usernameColumn);
+        $table = $driver->addTable('users');
+        $table->addColumn('username', IColumnScheme::TYPE_VARCHAR);
+        $table->addColumn('password', IColumnScheme::TYPE_VARCHAR);
+        $table->setPrimaryKey('username');
         $driver->applyMigrations();
     }
 
@@ -116,8 +111,8 @@ class DatabaseTest extends TestCase
     private function addRow(IConnection $connection)
     {
         return $connection
-            ->insert($this->adapter->table)
-            ->set($this->adapter->usernameColumn, ':username')
-            ->set($this->adapter->passwordColumn, ':password');
+            ->insert('users')
+            ->set('username', ':username')
+            ->set('password', ':password');
     }
 }

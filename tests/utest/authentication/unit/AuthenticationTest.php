@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -11,6 +10,7 @@ namespace utest\authentication\unit;
 
 use umi\authentication\adapter\SimpleAdapter as SimpleAdapter;
 use umi\authentication\Authentication;
+use umi\authentication\exception\RuntimeException;
 use umi\authentication\provider\SimpleProvider as SimpleProvider;
 use umi\authentication\result\IAuthResult;
 use umi\authentication\storage\SimpleStorage as SimpleStorage;
@@ -29,11 +29,14 @@ class AuthenticationTest extends TestCase
 
     public function setUpFixtures()
     {
-        $adapter = new SimpleAdapter();
-        $adapter->allowed = ['root' => 'root'];
+        $adapter = new SimpleAdapter([SimpleAdapter::OPTION_ALLOWED_LIST => ['root' => 'root']]);
         $this->resolveOptionalDependencies($adapter);
 
-        $this->auth = new Authentication($adapter, new SimpleStorage());
+        $this->auth = new Authentication(
+            [],
+            $adapter,
+            new SimpleStorage()
+        );
         $this->resolveOptionalDependencies($this->auth);
     }
 
@@ -42,9 +45,10 @@ class AuthenticationTest extends TestCase
      */
     public function testBasic()
     {
-        $provider = new SimpleProvider();
-        $provider->username = 'root';
-        $provider->password = 'root';
+        $provider = new SimpleProvider([
+            SimpleProvider::OPTION_USERNAME => 'root',
+            SimpleProvider::OPTION_PASSWORD => 'root',
+        ]);
 
         $providerEmpty = new SimpleProvider();
 
@@ -107,5 +111,55 @@ class AuthenticationTest extends TestCase
     {
         $provider = new Wrong();
         $this->auth->authenticate($provider);
+    }
+
+    public function testHashing()
+    {
+        $adapter = new SimpleAdapter([
+            SimpleAdapter::OPTION_ALLOWED_LIST => ['root' => md5('root' . 'salt')]
+        ]);
+        $this->resolveOptionalDependencies($adapter);
+
+        $auth = new Authentication(
+            [
+                Authentication::OPTION_HASH_METHOD => Authentication::HASH_MD5,
+                Authentication::OPTION_HASH_SALT   => 'salt',
+            ],
+            $adapter,
+            new SimpleStorage()
+        );
+        $this->resolveOptionalDependencies($auth);
+
+        $result = $auth->authenticate(
+            new SimpleProvider([
+                SimpleProvider::OPTION_USERNAME => 'root',
+                SimpleProvider::OPTION_PASSWORD => 'root',
+            ])
+        );
+
+        $this->assertTrue($result->isSuccessful());
+    }
+
+    /**
+     * @test
+     * @expectedException RuntimeException
+     */
+    public function wrongHashMethod()
+    {
+        $auth = new Authentication(
+            [
+                Authentication::OPTION_HASH_METHOD => 'wrong'
+            ],
+            new SimpleAdapter([]),
+            new SimpleStorage()
+        );
+        $this->resolveOptionalDependencies($auth);
+
+        $auth->authenticate(
+            new SimpleProvider([
+                SimpleProvider::OPTION_USERNAME => 'root',
+                SimpleProvider::OPTION_PASSWORD => 'root',
+            ])
+        );
     }
 }
