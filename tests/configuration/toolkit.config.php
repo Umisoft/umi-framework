@@ -24,7 +24,6 @@ return [
         require($libraryPath . '/config/toolbox/config.php'),
         require($libraryPath . '/i18n/toolbox/config.php'),
         require($libraryPath . '/dbal/toolbox/config.php'),
-        require($libraryPath . '/filter/toolbox/config.php'),
         require($libraryPath . '/http/toolbox/config.php'),
         require($libraryPath . '/hmvc/toolbox/config.php'),
         require($libraryPath . '/orm/toolbox/config.php'),

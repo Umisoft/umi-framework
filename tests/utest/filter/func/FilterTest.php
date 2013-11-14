@@ -11,12 +11,12 @@ namespace utest\filter\func;
 
 use umi\filter\IFilter;
 use umi\filter\IFilterFactory;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Тестирование фильтров
  */
-class FilterTest extends TestCase
+class FilterTest extends FilterTestCase
 {
 
     /**

@@ -24,7 +24,6 @@ class FilterAwareTest extends AwareTestCase
             'umi\filter\exception\RequiredDependencyException',
             'Filter factory is not injected in class "utest\filter\mock\toolbox\MockFilterAware".'
         );
-
     }
 
 }

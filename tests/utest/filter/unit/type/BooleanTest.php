@@ -11,12 +11,12 @@ namespace utest\filter\unit\type;
 
 use umi\filter\IFilter;
 use umi\filter\type\Boolean;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Класс тестирование фильтра Boolean
  */
-class BooleanFilterTests extends TestCase
+class BooleanFilterTests extends FilterTestCase
 {
 
     /**

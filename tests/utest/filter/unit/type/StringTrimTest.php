@@ -11,12 +11,12 @@ namespace utest\filter\unit\type;
 
 use umi\filter\IFilter;
 use umi\filter\type\StringTrim;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Класс тестирование фильтра StringTrim
  */
-class StringTrimFilterTests extends TestCase
+class StringTrimFilterTests extends FilterTestCase
 {
     /**
      * @var IFilter $filter фильтр

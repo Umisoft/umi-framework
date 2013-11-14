@@ -6,26 +6,23 @@
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
-namespace utest\form;
+namespace utest\filter;
 
 use utest\TestCase;
 
 /**
- * Тест кейс для форм
+ * Тест кейс фильтров
  */
-abstract class FormTestCase extends TestCase
+abstract class FilterTestCase extends TestCase
 {
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-
-        $this->getTestToolkit()->registerToolboxes([
-            require(__DIR__ . '/../../../library/umi/event/toolbox/config.php'),
-            require(__DIR__ . '/../../../library/umi/filter/toolbox/config.php'),
-            require(__DIR__ . '/../../../library/umi/form/toolbox/config.php')
-        ]);
+        $this->getTestToolkit()->registerToolbox(
+            require(__DIR__ . '/../../../library/umi/filter/toolbox/config.php')
+        );
 
         parent::setUp();
     }
