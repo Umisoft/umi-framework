@@ -10,7 +10,10 @@
 namespace umi\form\annotation;
 
 use umi\form\element\IElement;
+use umi\form\exception\InvalidArgumentException;
 use umi\form\IFormEntity;
+use umi\i18n\ILocalizable;
+use umi\i18n\TLocalizable;
 use umi\validation\IValidationAware;
 use umi\validation\IValidatorFactory;
 use umi\validation\TValidationAware;
@@ -18,9 +21,9 @@ use umi\validation\TValidationAware;
 /**
  * Аннотация для установки названия элемента.
  */
-class RequiredAnnotation extends BaseAnnotation implements IValidationAware
+class RequiredAnnotation extends BaseAnnotation implements IValidationAware, ILocalizable
 {
-
+    use TLocalizable;
     use TValidationAware;
 
     /**
@@ -29,7 +32,9 @@ class RequiredAnnotation extends BaseAnnotation implements IValidationAware
     public function transform(IFormEntity $entity)
     {
         if (!$entity instanceof IElement) {
-            throw new \Exception();
+            throw new InvalidArgumentException(
+                $this->translate('Validator can be added only to elements.')
+            );
         }
 
         if ($this->value) {
