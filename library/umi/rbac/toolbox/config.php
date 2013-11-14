@@ -15,7 +15,7 @@ namespace umi\rbac\toolbox;
 return [
     'name'    => RbacTools::NAME,
     'class'        => __NAMESPACE__ . '\RbacTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\rbac\IRbacAware'
     ],
     'services' => [

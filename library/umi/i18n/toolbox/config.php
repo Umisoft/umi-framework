@@ -15,7 +15,7 @@ namespace umi\i18n\toolbox;
 return [
     'name'    => I18nTools::NAME,
     'class'   => __NAMESPACE__ . '\I18nTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\i18n\ILocalizable',
         'umi\i18n\ILocalesAware'
     ],

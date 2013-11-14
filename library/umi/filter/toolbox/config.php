@@ -15,7 +15,7 @@ namespace umi\filter\toolbox;
 return [
     'name'    => FilterTools::NAME,
     'class'        => __NAMESPACE__ . '\FilterTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\filter\IFilterAware'
     ],
     'services'            => [
