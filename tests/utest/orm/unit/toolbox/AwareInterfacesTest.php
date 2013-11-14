@@ -17,6 +17,16 @@ use utest\AwareTestCase;
 class AwareInterfacesTest extends AwareTestCase
 {
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUpFixtures()
+    {
+        $this->getTestToolkit()->registerToolbox(
+            require(__DIR__ . '/../../../../../library/umi/orm/toolbox/config.php')
+        );
+    }
+
     public function testObjectManagerAware()
     {
         $this->awareClassTest(

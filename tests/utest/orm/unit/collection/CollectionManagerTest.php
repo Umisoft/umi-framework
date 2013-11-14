@@ -12,12 +12,12 @@ namespace utest\orm\unit\collection;
 use umi\config\entity\Config;
 use umi\orm\collection\CollectionManager;
 use umi\orm\collection\ICollectionFactory;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты для ObjectManager
  */
-class CollectionManagerTest extends ORMTestCase
+class CollectionManagerTest extends ORMDbTestCase
 {
 
     /**

@@ -13,12 +13,12 @@ use umi\orm\objectset\IObjectSet;
 use umi\pagination\adapter\IPaginationAdapter;
 use umi\pagination\adapter\SelectorPaginationAdapter;
 use utest\orm\mock\collections\users\User;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тестирование SelectorPaginatorAdapterTest.
  */
-class SelectorPaginatorAdapterTest extends ORMTestCase
+class SelectorPaginatorAdapterTest extends ORMDbTestCase
 {
 
     /**

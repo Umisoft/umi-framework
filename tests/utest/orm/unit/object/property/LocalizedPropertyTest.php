@@ -12,12 +12,12 @@ namespace utest\orm\unit\object\property;
 use umi\orm\metadata\field\string\TextField;
 use umi\orm\object\IObject;
 use umi\orm\object\property\LocalizedProperty;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тест локализованного свойства
  */
-class LocalizedPropertyTest extends TestCase
+class LocalizedPropertyTest extends ORMTestCase
 {
 
     public function testLocalizedProperty()

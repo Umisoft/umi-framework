@@ -14,13 +14,13 @@ use umi\orm\selector\ISelector;
 use umi\orm\selector\Selector;
 use utest\orm\mock\collections\users\Supervisor;
 use utest\orm\mock\collections\users\User;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест селектора
  *
  */
-class SelectorTest extends ORMTestCase
+class SelectorTest extends ORMDbTestCase
 {
 
     /**

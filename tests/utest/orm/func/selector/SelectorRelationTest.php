@@ -14,13 +14,13 @@ use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
 use umi\orm\object\IObject;
 use umi\orm\selector\ISelector;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест селектора
  *
  */
-class SelectorRelationTest extends ORMTestCase
+class SelectorRelationTest extends ORMDbTestCase
 {
 
     public $queries = [];

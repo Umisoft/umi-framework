@@ -9,9 +9,9 @@
 
 namespace utest\orm\func\collection;
 
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
-class CollectionTest extends ORMTestCase
+class CollectionTest extends ORMDbTestCase
 {
 
     /**

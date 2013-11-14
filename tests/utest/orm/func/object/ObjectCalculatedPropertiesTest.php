@@ -12,12 +12,12 @@ namespace utest\orm\func\object;
 use umi\orm\metadata\IObjectType;
 use utest\orm\mock\collections\users\Supervisor;
 use utest\orm\mock\collections\users\User;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты для вычисляемых при сохранении свойств объекта
  */
-class ObjectCalculatedPropertiesTest extends ORMTestCase
+class ObjectCalculatedPropertiesTest extends ORMDbTestCase
 {
 
     /**

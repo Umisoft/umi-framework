@@ -14,12 +14,12 @@ use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест изменения последней части ЧПУ у объектов в простой иерархической коллекции
  */
-class SimpleHierarchicCollectionChangeSlugTest extends ORMTestCase
+class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
 {
 
     /**

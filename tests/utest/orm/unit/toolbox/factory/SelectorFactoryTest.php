@@ -11,15 +11,14 @@ namespace utest\orm\unit\toolbox\factory;
 
 use umi\orm\toolbox\factory\ObjectSetFactory;
 use umi\orm\toolbox\factory\SelectorFactory;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест фабрики селекторов
  *
  */
-class SelectorFactoryTest extends ORMTestCase
+class SelectorFactoryTest extends ORMDbTestCase
 {
-
     /**
      * @var SelectorFactory $selectorFactory
      */

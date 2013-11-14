@@ -13,12 +13,12 @@ use umi\config\entity\Config;
 use umi\orm\metadata\field\IField;
 use umi\orm\metadata\MetadataManager;
 use umi\orm\toolbox\factory\MetadataFactory;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тест менеджера метаданных
  */
-class MetadataManagerTest extends TestCase
+class MetadataManagerTest extends ORMTestCase
 {
 
     protected $metadataConfig = [];

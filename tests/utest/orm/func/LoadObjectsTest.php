@@ -11,12 +11,12 @@ namespace utest\orm\unit\objectset;
 
 use umi\orm\object\IObject;
 use umi\orm\objectset\IObjectSet;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест загрузки объектов
  */
-class LoadObjectsTest extends ORMTestCase
+class LoadObjectsTest extends ORMDbTestCase
 {
 
     /**

@@ -15,9 +15,9 @@ use umi\orm\metadata\IObjectType;
 use umi\orm\metadata\Metadata;
 use umi\orm\metadata\ObjectType;
 use umi\orm\toolbox\factory\MetadataFactory;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
-class ObjectTypeTest extends TestCase
+class ObjectTypeTest extends ORMTestCase
 {
 
     /**

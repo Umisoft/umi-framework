@@ -11,12 +11,12 @@ namespace utest\orm\func\persister;
 
 use umi\orm\object\IObject;
 use utest\orm\mock\collections\users\User;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты персистентности базы данных после изменения состояния объектов
  */
-class PersistenceTest extends ORMTestCase
+class PersistenceTest extends ORMDbTestCase
 {
 
     /**

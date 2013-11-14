@@ -12,12 +12,12 @@ namespace utest\db\unit\persister;
 use umi\orm\object\IObject;
 use umi\orm\persister\IObjectPersister;
 use umi\orm\persister\ObjectPersister;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тесты ObjectPersister
  */
-class ObjectPersisterTest extends TestCase
+class ObjectPersisterTest extends ORMTestCase
 {
 
     /**

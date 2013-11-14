@@ -3,12 +3,12 @@ use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
 use umi\orm\metadata\IObjectType;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест иерархической коллекции
  */
-class LinkedCollectionPersistQueriesTest extends ORMTestCase
+class LinkedCollectionPersistQueriesTest extends ORMDbTestCase
 {
 
     public $queries = [];

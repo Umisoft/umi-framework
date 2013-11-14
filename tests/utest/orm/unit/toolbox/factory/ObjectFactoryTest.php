@@ -11,12 +11,12 @@ namespace utest\orm\unit\toolbox\factory;
 
 use umi\orm\toolbox\factory\ObjectFactory;
 use umi\orm\toolbox\factory\PropertyFactory;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест фабрики объектов
  */
-class ObjectFactoryTest extends ORMTestCase
+class ObjectFactoryTest extends ORMDbTestCase
 {
 
     /**

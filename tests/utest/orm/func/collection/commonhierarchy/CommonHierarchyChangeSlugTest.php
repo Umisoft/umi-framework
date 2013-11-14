@@ -5,12 +5,12 @@ use umi\event\IEvent;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\collection\ILinkedHierarchicCollection;
 use umi\orm\metadata\IObjectType;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест изменения последней части ЧПУ у объектов с общей иерархией
  */
-class CommonHierarchyChangeSlugTest extends ORMTestCase
+class CommonHierarchyChangeSlugTest extends ORMDbTestCase
 {
 
     protected $queries = [];

@@ -13,12 +13,12 @@ use umi\orm\collection\ICollectionFactory;
 use umi\orm\toolbox\factory\CollectionFactory;
 use umi\orm\toolbox\factory\ObjectSetFactory;
 use umi\orm\toolbox\factory\SelectorFactory;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты для фабрики коллекций
  */
-class CollectionFactoryTest extends ORMTestCase
+class CollectionFactoryTest extends ORMDbTestCase
 {
 
     /**
