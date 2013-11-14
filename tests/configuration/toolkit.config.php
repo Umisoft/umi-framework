@@ -22,7 +22,6 @@ $libraryPath = realpath(__DIR__ . '/../../library/umi');
 return [
     'toolkit'  => [
         require($libraryPath . '/config/toolbox/config.php'),
-        require($libraryPath . '/i18n/toolbox/config.php'),
         require($libraryPath . '/dbal/toolbox/config.php')
     ],
     'settings' => [
