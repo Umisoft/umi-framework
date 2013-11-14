@@ -1,11 +1,9 @@
 <?php
 namespace umi\authentication\adapter;
 
-use umi\authentication\adapter\IAuthAdapter;
 use umi\authentication\exception\InvalidArgumentException;
-use umi\authentication\result\IAuthenticationResultAware;
+use umi\authentication\result\AuthResult;
 use umi\authentication\result\IAuthResult;
-use umi\authentication\result\TAuthenticationResultAware;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\orm\collection\ICollectionManagerAware;
@@ -15,10 +13,9 @@ use umi\orm\selector\condition\IFieldConditionGroup;
 /**
  * Адаптер для аутентификации с помощью ORM коллекции пользователей
  */
-class ORMAdapter implements IAuthAdapter, ICollectionManagerAware, IAuthenticationResultAware, ILocalizable
+class ORMAdapter implements IAuthAdapter, ICollectionManagerAware, ILocalizable
 {
     use TLocalizable;
-    use TAuthenticationResultAware;
     use TCollectionManagerAware;
 
     /** Имя коллекции */
@@ -85,11 +82,11 @@ class ORMAdapter implements IAuthAdapter, ICollectionManagerAware, IAuthenticati
             ->fetch();
 
         if (!$user instanceof IObject) {
-            return $this->createAuthResult(IAuthResult::WRONG_USERNAME);
+            return new AuthResult(IAuthResult::WRONG_USERNAME);
         } elseif (!$this->checkPassword($user, $password)) {
-            return $this->createAuthResult(IAuthResult::WRONG_PASSWORD);
+            return new AuthResult(IAuthResult::WRONG_PASSWORD);
         } else {
-            return $this->createAuthResult(IAuthResult::SUCCESSFUL, $user);
+            return new AuthResult(IAuthResult::SUCCESSFUL, $user);
         }
     }
 

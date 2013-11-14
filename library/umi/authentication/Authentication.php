@@ -12,9 +12,8 @@ namespace umi\authentication;
 use umi\authentication\adapter\IAuthAdapter;
 use umi\authentication\exception\RuntimeException;
 use umi\authentication\provider\IAuthProvider;
-use umi\authentication\result\IAuthenticationResultAware;
+use umi\authentication\result\AuthResult;
 use umi\authentication\result\IAuthResult;
-use umi\authentication\result\TAuthenticationResultAware;
 use umi\authentication\storage\IAuthStorage;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
@@ -22,7 +21,7 @@ use umi\i18n\TLocalizable;
 /**
  * Класс менеджера аутентификации.
  */
-class Authentication implements IAuthentication, ILocalizable, IAuthenticationResultAware
+class Authentication implements IAuthentication, ILocalizable
 {
     const OPTION_HASH_METHOD = 'hashMethod';
     const OPTION_HASH_SALT = 'hashSalt';
@@ -32,7 +31,6 @@ class Authentication implements IAuthentication, ILocalizable, IAuthenticationRe
     const HASH_MD5 = 'md5';
     const HASH_CRYPT = 'crypt';
 
-    use TAuthenticationResultAware;
     use TLocalizable;
 
     /**
@@ -93,11 +91,11 @@ class Authentication implements IAuthentication, ILocalizable, IAuthenticationRe
 
             list($username, $password) = $credentials;
         } else {
-            return $this->createAuthResult(IAuthResult::WRONG_NO_CREDENTIALS);
+            return new AuthResult(IAuthResult::WRONG_NO_CREDENTIALS);
         }
 
         if ($this->storage->hasIdentity()) {
-            return $this->createAuthResult(
+            return new AuthResult(
                 IAuthResult::ALREADY,
                 $this->getStorage()->getIdentity()
             );

@@ -11,8 +11,6 @@ namespace umi\authentication\toolbox;
 
 use umi\authentication\IAuthenticationAware;
 use umi\authentication\IAuthenticationFactory;
-use umi\authentication\result\IAuthenticationResultAware;
-use umi\authentication\result\IAuthenticationResultFactory;
 use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
@@ -31,10 +29,6 @@ class AuthenticationTools implements IToolbox
      * @var string $authenticationFactoryClass класс фабрики объектов аутентификации
      */
     public $authenticationFactoryClass = 'umi\authentication\toolbox\factory\AuthenticationFactory';
-    /**
-     * @var string $authenticationResultFactoryClass класс фабрики результатов аутентификации
-     */
-    public $authenticationResultFactoryClass = 'umi\authentication\toolbox\factory\AuthenticationResultFactory';
 
     /**
      * Конструктор.
@@ -45,12 +39,6 @@ class AuthenticationTools implements IToolbox
             'authentication',
             $this->authenticationFactoryClass,
             ['umi\authentication\IAuthenticationFactory']
-        );
-
-        $this->registerFactory(
-            'result',
-            $this->authenticationResultFactoryClass,
-            ['umi\authentication\result\IAuthenticationResultFactory']
         );
     }
 
@@ -77,10 +65,6 @@ class AuthenticationTools implements IToolbox
         if ($object instanceof IAuthenticationAware) {
             $object->setAuthenticationFactory($this->getAuthenticationFactory());
         }
-
-        if ($object instanceof IAuthenticationResultAware) {
-            $object->setAuthenticationResultFactory($this->getAuthenticationResultFactory());
-        }
     }
 
     /**
@@ -90,14 +74,5 @@ class AuthenticationTools implements IToolbox
     protected function getAuthenticationFactory()
     {
         return $this->getFactory('authentication');
-    }
-
-    /**
-     * Возвращает фабрику результатов аутентификации
-     * @return IAuthenticationResultFactory
-     */
-    protected function getAuthenticationResultFactory()
-    {
-        return $this->getFactory('result');
     }
 }

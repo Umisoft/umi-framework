@@ -9,19 +9,16 @@
 
 namespace umi\authentication\adapter;
 
-use umi\authentication\result\IAuthenticationResultAware;
+use umi\authentication\result\AuthResult;
 use umi\authentication\result\IAuthResult;
-use umi\authentication\result\TAuthenticationResultAware;
 
 /**
  * Простой адаптер авторизации с помощью списка пользоватлей с паролями.
  */
-class SimpleAdapter implements IAuthAdapter, IAuthenticationResultAware
+class SimpleAdapter implements IAuthAdapter
 {
     /** Список пользователей в формате [name => password] */
     const OPTION_ALLOWED_LIST = 'allowed';
-
-    use TAuthenticationResultAware;
 
     /**
      * @var array $allowed массив разрешенных пользователей, вида username => password
@@ -39,11 +36,11 @@ class SimpleAdapter implements IAuthAdapter, IAuthenticationResultAware
     public function authenticate($username, $password)
     {
         if (isset($this->allowed[$username]) && $this->allowed[$username] == $password) {
-            return $this->createAuthResult(IAuthResult::SUCCESSFUL, $username);
+            return new AuthResult(IAuthResult::SUCCESSFUL, $username);
         } elseif (isset($this->allowed[$username])) {
-            return $this->createAuthResult(IAuthResult::WRONG_PASSWORD);
+            return new AuthResult(IAuthResult::WRONG_PASSWORD);
         } else {
-            return $this->createAuthResult(IAuthResult::WRONG_USERNAME);
+            return new AuthResult(IAuthResult::WRONG_USERNAME);
         }
     }
 }

@@ -27,18 +27,4 @@ class AuthAwareToolsTest extends AwareTestCase
             'umi\authentication\IAuthenticationFactory'
         );
     }
-
-    public function testResultAware()
-    {
-        $this->awareClassTest(
-            'utest\authentication\mock\toolbox\MockResultAuthentication',
-            'umi\authentication\exception\RequiredDependencyException',
-            'Authentication result factory is not injected in class "utest\authentication\mock\toolbox\MockResultAuthentication".'
-        );
-
-        $this->successfulInjectionTest(
-            'utest\authentication\mock\toolbox\MockResultAuthentication',
-            'umi\authentication\result\IAuthenticationResultFactory'
-        );
-    }
 }
