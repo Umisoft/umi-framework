@@ -11,12 +11,12 @@ namespace utest\validation\func;
 
 use umi\validation\IValidator;
 use umi\validation\IValidatorFactory;
-use utest\TestCase;
+use utest\validation\ValidationTestCase;
 
 /**
  * Тестирование валидаторов
  */
-class ValidatorTest extends TestCase
+class ValidatorTest extends ValidationTestCase
 {
     /**
      * @var IValidatorFactory $factory фабрика валидаторов

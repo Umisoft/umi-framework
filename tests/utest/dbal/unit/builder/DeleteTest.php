@@ -11,12 +11,12 @@ namespace utest\dbal\unit\builder;
 
 use umi\dbal\builder\DeleteBuilder;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тест билдера DELETE-запросов
  */
-class DeleteTest extends TestCase
+class DeleteTest extends DbalTestCase
 {
     /**
      * @var DeleteBuilder $query

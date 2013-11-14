@@ -11,12 +11,12 @@ namespace utest\http\unit\request;
 
 use umi\http\request\IRequest;
 use umi\http\request\Request;
-use utest\TestCase;
+use utest\http\HttpTestCase;
 
 /**
  * Класс RequestTest
  */
-class RequestTest extends TestCase
+class RequestTest extends HttpTestCase
 {
     /**
      * @var IRequest $request

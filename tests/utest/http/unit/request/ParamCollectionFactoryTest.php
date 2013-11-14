@@ -11,9 +11,9 @@ namespace utest\http\unit\request;
 
 use umi\http\toolbox\factory\ParamCollectionFactory;
 use umi\toolkit\exception\DomainException;
-use utest\TestCase;
+use utest\http\HttpTestCase;
 
-class ParamCollectionFactoryTest extends TestCase
+class ParamCollectionFactoryTest extends HttpTestCase
 {
     /**
      * @var ParamCollectionFactory $paramCollectionFactory

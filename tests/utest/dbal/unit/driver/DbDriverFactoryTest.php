@@ -12,13 +12,13 @@ namespace utest\dbal\unit\driver;
 use umi\dbal\driver\IDbDriver;
 use umi\dbal\driver\mysql\MySqlDriver;
 use umi\dbal\toolbox\factory\DbDriverFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование работы со схемой таблицы
  *
  */
-class DbDriverFactoryTest extends TestCase
+class DbDriverFactoryTest extends DbalTestCase
 {
     public function testTable()
     {

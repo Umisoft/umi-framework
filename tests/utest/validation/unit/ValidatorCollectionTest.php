@@ -11,13 +11,13 @@ namespace utest\validation\unit;
 
 use umi\validation\IValidator;
 use umi\validation\ValidatorCollection;
-use utest\TestCase;
 use utest\validation\mock\ValidatorFixture;
+use utest\validation\ValidationTestCase;
 
 /**
  * Тесты коллекций валидаторов
  */
-class ValidatorCollectionTests extends TestCase
+class ValidatorCollectionTests extends ValidationTestCase
 {
 
     /**

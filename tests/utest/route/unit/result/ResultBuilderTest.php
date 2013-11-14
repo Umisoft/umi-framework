@@ -11,12 +11,12 @@ namespace utest\router\unit;
 
 use umi\route\result\IRouteResultBuilder;
 use umi\route\result\RouteResultBuilder;
-use utest\TestCase;
+use utest\route\RouteTestCase;
 
 /**
  * Тесты билдера результата роутинга.
  */
-class ResultBuilderTest extends TestCase
+class ResultBuilderTest extends RouteTestCase
 {
     /**
      * @var IRouteResultBuilder $resultBuilder билдер результата роутинга.

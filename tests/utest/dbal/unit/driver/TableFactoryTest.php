@@ -11,12 +11,12 @@ namespace utest\dbal\unit\driver;
 
 use umi\dbal\driver\IColumnScheme;
 use umi\dbal\toolbox\factory\TableFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование фабрики табличных сущностей
  */
-class TableFactoryTest extends TestCase
+class TableFactoryTest extends DbalTestCase
 {
     public function testTableFactoryCreation()
     {

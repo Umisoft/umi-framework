@@ -17,6 +17,13 @@ use utest\AwareTestCase;
 class HttpAwareTest extends AwareTestCase
 {
 
+    protected function setUpFixtures()
+    {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/http/toolbox/config.php')
+        );
+    }
+
     public function testHttpAware()
     {
         $this->awareClassTest(

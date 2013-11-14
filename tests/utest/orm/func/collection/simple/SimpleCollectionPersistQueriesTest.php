@@ -12,12 +12,12 @@ namespace utest\orm\func\collection\simple;
 use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты запросов коммита объектов простой коллекции
  */
-class SimpleCollectionPersistQueriesTest extends ORMTestCase
+class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
 {
 
     public $queries = [];

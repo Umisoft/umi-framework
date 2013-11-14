@@ -14,12 +14,12 @@ use umi\form\toolbox\factory\EntityFactory;
 use umi\templating\exception\InvalidArgumentException;
 use umi\templating\extension\helper\type\form\FormHelper;
 use umi\templating\extension\helper\type\form\FormHelperCollection;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Тесты помошников вида для форм.
  */
-class FormHelperTest extends TestCase
+class FormHelperTest extends TemplatingTestCase
 {
     /**
      * @var IForm $form

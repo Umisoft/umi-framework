@@ -12,12 +12,12 @@ namespace utest\authentication\unit\storage;
 use umi\authentication\storage\SessionStorage;
 use umi\session\ISession;
 use umi\toolkit\Toolkit;
-use utest\TestCase;
+use utest\authentication\AuthenticationTestCase;
 
 /**
  * Тесты storage на основе сессии
  */
-class SessionTest extends TestCase
+class SessionTest extends AuthenticationTestCase
 {
     /**
      * @var SessionStorage $storage

@@ -10,12 +10,12 @@
 namespace utest\hmvc\unit\toolbox\factory;
 
 use umi\hmvc\toolbox\factory\ComponentResponseFactory;
-use utest\TestCase;
+use utest\hmvc\HMVCTestCase;
 
 /**
  * Тесты фабрки результатов работы компонента.
  */
-class ComponentResponseFactoryTest extends TestCase
+class ComponentResponseFactoryTest extends HMVCTestCase
 {
     /**
      * @var ComponentResponseFactory $factory

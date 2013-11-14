@@ -12,13 +12,13 @@ namespace utest\dbal\unit\builder;
 use umi\dbal\driver\sqlite\SqliteDriver;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use umi\dbal\toolbox\factory\TableFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тест фабрики построителей запросов
  *
  */
-class QueryBuilderFactoryTest extends TestCase
+class QueryBuilderFactoryTest extends DbalTestCase
 {
 
     public function testQueryBuilderFactory()

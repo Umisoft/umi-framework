@@ -9,8 +9,7 @@
 
 namespace umi\toolkit;
 
-use Traversable;
-use umi\event\toolbox\TEventObservant;
+use umi\event\TEventObservant;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\log\ILoggerAware;
@@ -75,6 +74,8 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
                 $object->setToolkit($this);
             }
         );
+
+        $this->registerService('umi\toolkit\IToolkit', function() { return $this; });
     }
 
     /**
@@ -429,7 +430,7 @@ class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
     /**
      * Возвращает настройки набора инструментов.
      * @param string $toolboxName имя набора инструментов
-     * @return array|Traversable
+     * @return array|\Traversable
      */
     protected function getToolboxSettings($toolboxName)
     {

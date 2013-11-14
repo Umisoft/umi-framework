@@ -11,12 +11,12 @@ namespace utest\rbac\unit;
 
 use umi\rbac\exception\InvalidArgumentException;
 use umi\rbac\toolbox\factory\RoleFactory;
-use utest\TestCase;
+use utest\rbac\RbacTestCase;
 
 /**
  * Тесты инструментов работы с Rbac.
  */
-class RbacFactoryTest extends TestCase
+class RbacFactoryTest extends RbacTestCase
 {
     /**
      * @var RoleFactory $factory инструменты Rbac

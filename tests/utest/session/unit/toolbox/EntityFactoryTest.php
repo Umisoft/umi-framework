@@ -11,12 +11,12 @@ namespace utest\session\unit\toolbox;
 
 use umi\session\exception\OutOfBoundsException;
 use umi\session\toolbox\factory\SessionEntityFactory;
-use utest\TestCase;
+use utest\session\SessionTestCase;
 
 /**
  * Тесты фабрики пространств имен сессии.
  */
-class EntityFactoryTest extends TestCase
+class EntityFactoryTest extends SessionTestCase
 {
 
     /**

@@ -11,12 +11,12 @@ namespace utest\orm\unit\toolbox\factory;
 
 use umi\orm\metadata\field\IField;
 use umi\orm\toolbox\factory\MetadataFactory;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тест фабрики метаданных
  */
-class MetadataFactoryTest extends TestCase
+class MetadataFactoryTest extends ORMTestCase
 {
 
     /**

@@ -26,6 +26,7 @@ use umi\toolkit\Toolkit;
  */
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
+
     /**
      * Имя конфигурации для тестирования
      */

@@ -13,9 +13,12 @@ namespace umi\event\toolbox;
  * Конфигурация для регистрации набора инструментов.
  */
 return [
-    'name'    => EventTools::NAME,
-    'class'        => __NAMESPACE__ . '\EventTools',
+    'name'     => EventTools::NAME,
+    'class'    => __NAMESPACE__ . '\EventTools',
     'awareInterfaces' => [
-        'umi\event\toolbox\IEventObservant',
+        'umi\event\IEventObservant',
+    ],
+    'services' => [
+        'umi\event\IEventManager'
     ]
 ];

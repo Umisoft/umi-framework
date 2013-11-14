@@ -6,9 +6,9 @@ use umi\orm\collection\ICommonHierarchy;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
 use umi\orm\object\IObject;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
-class CommonHierarchyTest extends ORMTestCase
+class CommonHierarchyTest extends ORMDbTestCase
 {
 
     protected $queries = [];

@@ -17,13 +17,13 @@ use umi\dbal\driver\mysql\MySqlDriver;
 use umi\dbal\driver\sqlite\SqliteDriver;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use umi\dbal\toolbox\factory\TableFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование компонента "Кластер БД"
  *
  */
-class ClusterTest extends TestCase
+class ClusterTest extends DbalTestCase
 {
 
     /**

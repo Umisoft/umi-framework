@@ -9,12 +9,12 @@
 
 namespace utest\dbal\unit\driver\mysql;
 
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование внешних ключей mysql драйвера
  */
-class MySqlConstraintsTest extends TestCase
+class MySqlConstraintsTest extends DbalTestCase
 {
 
     protected function setUpFixtures()

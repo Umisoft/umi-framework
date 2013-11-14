@@ -11,12 +11,12 @@ namespace utest\validation\unit\type;
 
 use umi\validation\exception\RuntimeException;
 use umi\validation\type\Regexp;
-use utest\TestCase;
+use utest\validation\ValidationTestCase;
 
 /**
  * Класс RegexpValidatorTests
  */
-class RegexpValidatorTests extends TestCase
+class RegexpValidatorTests extends ValidationTestCase
 {
 
     /**

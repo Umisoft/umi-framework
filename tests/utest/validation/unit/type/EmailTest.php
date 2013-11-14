@@ -11,12 +11,12 @@ namespace utest\validation\unit\type;
 
 use umi\validation\IValidator;
 use umi\validation\type\Email;
-use utest\TestCase;
+use utest\validation\ValidationTestCase;
 
 /**
  * Класс EmailValidatorTests
  */
-class EmailValidatorTests extends TestCase
+class EmailValidatorTests extends ValidationTestCase
 {
 
     /**

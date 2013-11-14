@@ -13,12 +13,12 @@ use umi\route\IRouter;
 use umi\route\Router;
 use umi\route\type\FixedRoute;
 use umi\route\type\IRoute;
-use utest\TestCase;
+use utest\route\RouteTestCase;
 
 /**
  * Тесты роутера
  */
-class RouterTest extends TestCase
+class RouterTest extends RouteTestCase
 {
     /**
      * @var IRouter $router

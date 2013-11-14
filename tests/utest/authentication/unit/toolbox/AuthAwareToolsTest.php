@@ -14,6 +14,12 @@ use utest\AwareTestCase;
 class AuthAwareToolsTest extends AwareTestCase
 {
 
+    protected function setUpFixtures() {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/authentication/toolbox/config.php')
+        );
+    }
+
     public function testAware()
     {
         $this->awareClassTest(

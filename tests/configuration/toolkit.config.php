@@ -22,20 +22,7 @@ $libraryPath = realpath(__DIR__ . '/../../library/umi');
 return [
     'toolkit'  => [
         require($libraryPath . '/config/toolbox/config.php'),
-        require($libraryPath . '/i18n/toolbox/config.php'),
-        require($libraryPath . '/authentication/toolbox/config.php'),
-        require($libraryPath . '/dbal/toolbox/config.php'),
-        require($libraryPath . '/filter/toolbox/config.php'),
-        require($libraryPath . '/form/toolbox/config.php'),
-        require($libraryPath . '/http/toolbox/config.php'),
-        require($libraryPath . '/hmvc/toolbox/config.php'),
-        require($libraryPath . '/orm/toolbox/config.php'),
-        require($libraryPath . '/pagination/toolbox/config.php'),
-        require($libraryPath . '/rbac/toolbox/config.php'),
-        require($libraryPath . '/route/toolbox/config.php'),
-        require($libraryPath . '/session/toolbox/config.php'),
-        require($libraryPath . '/validation/toolbox/config.php'),
-        require($libraryPath . '/templating/toolbox/config.php'),
+        require($libraryPath . '/dbal/toolbox/config.php')
     ],
     'settings' => [
         ConfigTools::NAME       => [

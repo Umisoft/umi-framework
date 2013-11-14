@@ -12,12 +12,12 @@ namespace utest\i18n\unit;
 use umi\config\entity\Config;
 use umi\i18n\LocalesService;
 use umi\i18n\translator\Translator;
-use utest\TestCase;
+use utest\i18n\I18nTestCase;
 
 /**
  * Тесты транслятора
  */
-class TranslatorTest extends TestCase
+class TranslatorTest extends I18nTestCase
 {
 
     /**

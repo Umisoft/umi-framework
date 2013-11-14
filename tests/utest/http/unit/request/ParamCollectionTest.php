@@ -11,12 +11,12 @@ namespace utest\http\unit\request;
 
 use umi\http\request\param\IParamCollection;
 use umi\http\request\param\ParamCollection;
-use utest\TestCase;
+use utest\http\HttpTestCase;
 
 /**
  * Класс RequestTest
  */
-class ParamCollectionTest extends TestCase
+class ParamCollectionTest extends HttpTestCase
 {
     /**
      * @var IParamCollection $request

@@ -18,6 +18,12 @@ class AwareTest extends AwareTestCase
 {
     const EXCEPTION_CLASS = 'umi\hmvc\exception\RequiredDependencyException';
 
+    protected function setUpFixtures() {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/hmvc/toolbox/config.php')
+        );
+    }
+
     public function testComponentAware()
     {
         $this->awareClassTest(

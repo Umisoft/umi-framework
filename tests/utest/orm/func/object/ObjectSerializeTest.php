@@ -13,12 +13,12 @@ use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
 use umi\orm\object\IObject;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты сериализации объекта
  */
-class ObjectSerializeTest extends ORMTestCase
+class ObjectSerializeTest extends ORMDbTestCase
 {
 
     public $queries = [];

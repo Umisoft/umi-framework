@@ -11,15 +11,13 @@ namespace utest\cache\unit\engine;
 
 use umi\cache\engine\Db;
 use umi\dbal\driver\IColumnScheme;
-use utest\TestCase;
+use utest\cache\CacheTestCase;
 
 /**
  * Тест хранения кеша в бд
- * @package
  */
-class DbTest extends TestCase
+class DbTest extends CacheTestCase
 {
-
     /**
      * @var Db $storage
      */
@@ -121,22 +119,22 @@ class DbTest extends TestCase
             ->bindString(':id', 'testKey3');
         $update->execute();
 
-        $expectedResult = array(
+        $expectedResult = [
             'testKey1' => 'testValue1',
             'testKey2' => 'testValue2',
             'testKey3' => false,
             'testKey4' => false
-        );
+        ];
         $this->assertEquals(
             $expectedResult,
-            $this->storage->getList(array('testKey1', 'testKey2', 'testKey3', 'testKey4')),
+            $this->storage->getList(['testKey1', 'testKey2', 'testKey3', 'testKey4']),
             'Неверное значение для массива ключей'
         );
 
         $this->assertTrue($this->storage->clear(), 'Не удалось очистить кеш');
         $this->assertEquals(
-            array('testKey1' => false, 'testKey2' => false),
-            $this->storage->getList(array('testKey1', 'testKey2')),
+            ['testKey1' => false, 'testKey2' => false],
+            $this->storage->getList(['testKey1', 'testKey2']),
             'Неверное значение для массива ключей после очистки кеша'
         );
     }

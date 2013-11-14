@@ -2,12 +2,12 @@
 
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест перемещения по связанной иерархической коллекции
  */
-class LinkedCollectionMoveTest extends ORMTestCase
+class LinkedCollectionMoveTest extends ORMDbTestCase
 {
 
     /**

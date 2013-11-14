@@ -11,12 +11,12 @@ namespace utest\orm\unit\metadata\field;
 
 use umi\orm\metadata\field\IField;
 use umi\orm\object\IObject;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Базовый кейс для тестирования полей
  */
-abstract class FieldTestCase extends TestCase
+abstract class FieldTestCase extends ORMTestCase
 {
 
     /**

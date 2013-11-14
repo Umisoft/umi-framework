@@ -14,12 +14,12 @@ use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты запросов загрузки объекта
  */
-class ObjectQueriesTest extends ORMTestCase
+class ObjectQueriesTest extends ORMDbTestCase
 {
 
     public $queries = [];

@@ -18,9 +18,9 @@ use umi\orm\object\IObject;
 use umi\orm\toolbox\factory\MetadataFactory;
 use umi\orm\toolbox\factory\ObjectSetFactory;
 use umi\orm\toolbox\factory\SelectorFactory;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
-class LinkedHierarchicCollectionTest extends TestCase
+class LinkedHierarchicCollectionTest extends ORMTestCase
 {
 
     public function testLinkedCollection()

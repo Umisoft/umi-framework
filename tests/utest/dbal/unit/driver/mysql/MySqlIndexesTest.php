@@ -9,12 +9,12 @@
 
 namespace utest\dbal\unit\driver\mysql;
 
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование индексов mysql драйвера
  */
-class MySqlIndexesTest extends TestCase
+class MySqlIndexesTest extends DbalTestCase
 {
 
     protected function setUpFixtures()

@@ -12,13 +12,13 @@ namespace utest\dbal\func\drivers\mysql;
 use umi\dbal\builder\SelectBuilder;
 use umi\dbal\driver\IDbDriver;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование mysql-запросов
  * @package
  */
-class SqliteQueriesTest extends TestCase
+class SqliteQueriesTest extends DbalTestCase
 {
     /**
      * @var IDbDriver $dbDriver

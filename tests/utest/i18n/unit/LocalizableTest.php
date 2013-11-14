@@ -13,12 +13,12 @@ use umi\i18n\ILocalizable;
 use umi\i18n\LocalesService;
 use umi\i18n\TLocalizable;
 use umi\i18n\translator\Translator;
-use utest\TestCase;
+use utest\i18n\I18nTestCase;
 
 /**
  * Тесты транслятора
  */
-class LocalizableTest extends TestCase implements ILocalizable
+class LocalizableTest extends I18nTestCase implements ILocalizable
 {
 
     use TLocalizable;

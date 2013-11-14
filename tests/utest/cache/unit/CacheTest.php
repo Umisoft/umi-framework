@@ -13,15 +13,14 @@ use umi\cache\Cache;
 use umi\cache\engine\Db;
 use umi\dbal\cluster\IConnection;
 use umi\dbal\driver\IColumnScheme;
+use utest\cache\CacheTestCase;
 use utest\cache\mock\CacheTestFixture;
 use utest\cache\mock\Component;
-use utest\TestCase;
 
 /**
  * Тестирование cache-frontend'a
- * @package
  */
-class CacheTest extends TestCase
+class CacheTest extends CacheTestCase
 {
 
     private $tableName = 'test_cache';

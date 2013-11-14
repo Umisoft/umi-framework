@@ -11,9 +11,9 @@ namespace utest\form\unit\annotation;
 
 use umi\form\annotation\ActionAnnotation;
 use umi\form\Form;
-use utest\TestCase;
+use utest\form\FormTestCase;
 
-class ActionAnnotationTest extends TestCase
+class ActionAnnotationTest extends FormTestCase
 {
     /**
      * @var ActionAnnotation $annotation

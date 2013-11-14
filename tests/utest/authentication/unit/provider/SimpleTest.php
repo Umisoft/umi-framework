@@ -9,12 +9,12 @@
 namespace utest\authentication\unit\provider;
 
 use umi\authentication\provider\SimpleProvider;
-use utest\TestCase;
+use utest\authentication\AuthenticationTestCase;
 
 /**
  * Тесты Simple провайдера авторизации
  */
-class SimpleTest extends TestCase
+class SimpleTest extends AuthenticationTestCase
 {
 
     /**

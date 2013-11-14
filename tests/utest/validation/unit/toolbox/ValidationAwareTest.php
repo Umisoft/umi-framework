@@ -14,6 +14,12 @@ use utest\AwareTestCase;
 class ValidationAwareTest extends AwareTestCase
 {
 
+    protected function setUpFixtures() {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/validation/toolbox/config.php')
+        );
+    }
+
     public function testValidationAware()
     {
         $this->awareClassTest(

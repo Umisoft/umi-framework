@@ -11,14 +11,13 @@ namespace utest\filter\unit\type;
 
 use umi\filter\IFilter;
 use umi\filter\type\Null;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Класс тестирование фильтра Null
  */
-class NullFilterTests extends TestCase
+class NullFilterTests extends FilterTestCase
 {
-
     /**
      * @var IFilter $filter фильтр
      */

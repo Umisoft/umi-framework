@@ -13,12 +13,12 @@ use umi\form\element\IElement;
 use umi\form\exception\OutOfBoundsException;
 use umi\form\toolbox\factory\EntityFactory;
 use umi\toolkit\factory\TFactory;
-use utest\TestCase;
+use utest\form\FormTestCase;
 
 /**
  * Тесты фабрики элементов формы.
  */
-class EntityFactoryTest extends TestCase
+class EntityFactoryTest extends FormTestCase
 {
     /**
      * @var EntityFactory $factory фабрика элементов формы.

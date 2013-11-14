@@ -11,12 +11,12 @@ namespace utest\templating\unit\helper\head;
 
 use umi\templating\extension\helper\type\head\script\ScriptCollection;
 use umi\templating\extension\helper\type\head\script\ScriptHelper;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Тесты помошника вида скриптов.
  */
-class ScriptHelperTest extends TestCase
+class ScriptHelperTest extends TemplatingTestCase
 {
     /**
      * @var ScriptHelper $helper

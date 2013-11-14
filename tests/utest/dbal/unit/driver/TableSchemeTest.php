@@ -11,13 +11,13 @@ namespace utest\dbal\unit\driver;
 
 use umi\dbal\driver\BaseTableScheme;
 use umi\dbal\driver\IColumnScheme;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование работы со схемой таблицы
  *
  */
-class TableSchemeTest extends TestCase
+class TableSchemeTest extends DbalTestCase
 {
 
     protected function setUpFixtures()

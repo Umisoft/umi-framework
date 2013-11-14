@@ -5,12 +5,12 @@ use umi\event\IEvent;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест перемещения по общей иерархии
  */
-class CommonHierarchyMoveTest extends ORMTestCase
+class CommonHierarchyMoveTest extends ORMDbTestCase
 {
 
     /**

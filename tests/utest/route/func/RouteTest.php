@@ -10,12 +10,12 @@
 namespace utest\validation\func;
 
 use umi\route\IRouter;
-use utest\TestCase;
+use utest\route\RouteTestCase;
 
 /**
  * Тесты инструментария роутинга.
  */
-class RouteTest extends TestCase
+class RouteTest extends RouteTestCase
 {
     /**
      * @var IRouter $router

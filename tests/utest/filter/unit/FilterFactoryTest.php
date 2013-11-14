@@ -12,14 +12,13 @@ namespace utest\filter\unit\toolbox;
 use umi\filter\exception\OutOfBoundsException;
 use umi\filter\IFilterFactory;
 use umi\filter\toolbox\factory\FilterFactory;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Тесты инструментов для фильтрации
  */
-class FilterFactoryTest extends TestCase
+class FilterFactoryTest extends FilterTestCase
 {
-
     /**
      * @var IFilterFactory $tools инструментарий фильтров
      */

@@ -10,12 +10,12 @@
 namespace utest\orm\unit\metadata;
 
 use umi\orm\metadata\CollectionDataSource;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тест источника данных коллекции
  */
-class CollectionDataSourceTest extends TestCase
+class CollectionDataSourceTest extends ORMTestCase
 {
 
     public function testWrongConfig()

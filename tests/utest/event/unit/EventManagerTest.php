@@ -7,19 +7,31 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace utest\events\unit;
+namespace utest\event\unit;
 
 use umi\event\EventManager;
 use umi\event\IEvent;
-use utest\TestCase;
+use umi\event\IEventFactory;
+use umi\event\toolbox\factory\EventFactory;
+use utest\event\EventTestCase;
 
 /**
  * Тесты менеджера событий
  *
  */
-class EventManagerTest extends TestCase
+class EventManagerTest extends EventTestCase
 {
 
+    /**
+     * @var IEventFactory $this->eventFactory 
+     */
+    protected $eventFactory;
+
+    protected function setUpFixtures() {
+        $this->eventFactory = new EventFactory();
+        $this->resolveOptionalDependencies($this->eventFactory);
+    }
+    
     /**
      * @param IEvent $event
      */
@@ -32,7 +44,7 @@ class EventManagerTest extends TestCase
     public function testEventManager()
     {
 
-        $eventManager = new EventManager();
+        $eventManager = new EventManager($this->eventFactory);
         $target = new \stdClass();
         $events = [];
 
@@ -58,7 +70,7 @@ class EventManagerTest extends TestCase
         );
         $eventManager->bindEvent('testEvent', array($this, 'eventHandler'));
 
-        $childEventManager = new EventManager();
+        $childEventManager = new EventManager($this->eventFactory);
         $this->assertInstanceOf(
             'umi\event\IEventManager',
             $eventManager->attach($childEventManager),
@@ -124,8 +136,8 @@ class EventManagerTest extends TestCase
 
     public function testStopPropagation()
     {
-        $eventManager = new EventManager();
-        $childEventManager = new EventManager();
+        $eventManager = new EventManager($this->eventFactory);
+        $childEventManager = new EventManager($this->eventFactory);
 
         $eventManager->attach($childEventManager);
 
@@ -173,7 +185,7 @@ class EventManagerTest extends TestCase
 
     public function testTaggedEvents()
     {
-        $eventManager = new EventManager();
+        $eventManager = new EventManager($this->eventFactory);
 
         $target = new \stdClass();
         $events = [];

@@ -15,12 +15,12 @@ use umi\event\IEvent;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест перемещения по общей иерархии
  */
-class SimpleHierarchicCollectionMoveTest extends ORMTestCase
+class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
 {
 
     protected $queries = [];

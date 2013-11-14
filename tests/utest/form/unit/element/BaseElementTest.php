@@ -16,12 +16,12 @@ use umi\form\element\IElement;
 use umi\validation\IValidatorCollection;
 use umi\validation\IValidatorFactory;
 use umi\validation\toolbox\factory\ValidatorFactory;
-use utest\TestCase;
+use utest\form\FormTestCase;
 
 /**
  * Базовые тесты элементов.
  */
-abstract class BaseElementTest extends TestCase
+abstract class BaseElementTest extends FormTestCase
 {
     /**
      * Создает элемент с заданными параметрами

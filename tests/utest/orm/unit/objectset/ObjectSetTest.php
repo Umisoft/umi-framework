@@ -12,13 +12,13 @@ namespace utest\orm\unit\objectset;
 use umi\orm\object\IObject;
 use umi\orm\objectset\IObjectSet;
 use umi\orm\selector\ISelector;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тест класса ObjectSet
 
  */
-class ObjectSetTest extends TestCase
+class ObjectSetTest extends ORMTestCase
 {
 
     /**

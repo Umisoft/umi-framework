@@ -10,13 +10,13 @@
 namespace utest\dbal\unit\driver\sqlite;
 
 use umi\dbal\cluster\IConnection;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование sqlite-билдера запросов
  * @package
  */
-class SqliteBuildQueriesTest extends TestCase
+class SqliteBuildQueriesTest extends DbalTestCase
 {
     /**
      * @var IConnection $dbDriver

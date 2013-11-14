@@ -12,14 +12,13 @@ namespace utest\filter\unit\type;
 use umi\filter\exception\RuntimeException;
 use umi\filter\IFilter;
 use umi\filter\type\Regexp;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Класс тестирование фильтра Regexp
  */
-class RegexpFilterTests extends TestCase
+class RegexpFilterTests extends FilterTestCase
 {
-
     /**
      * @var IFilter $filter фильтр
      */

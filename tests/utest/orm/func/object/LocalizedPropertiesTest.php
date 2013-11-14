@@ -13,13 +13,13 @@ use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
 use umi\i18n\ILocalesService;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест селектора
  *
  */
-class LocalizedPropertiesTest extends ORMTestCase
+class LocalizedPropertiesTest extends ORMDbTestCase
 {
 
     public $queries = [];

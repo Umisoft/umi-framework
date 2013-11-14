@@ -11,12 +11,12 @@ namespace utest\hmvc\unit\component;
 
 use umi\hmvc\component\response\ComponentResponse;
 use umi\hmvc\component\response\IComponentResponse;
-use utest\TestCase;
+use utest\hmvc\HMVCTestCase;
 
 /**
  * Class ComponentResponseTest
  */
-class ComponentResponseTest extends TestCase
+class ComponentResponseTest extends HMVCTestCase
 {
     /**
      * @var IComponentResponse $response

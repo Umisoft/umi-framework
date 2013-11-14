@@ -13,12 +13,12 @@ use umi\orm\objectset\IObjectSet;
 use umi\pagination\adapter\IPaginationAdapter;
 use umi\pagination\adapter\SelectorPaginationAdapter;
 use utest\orm\mock\collections\users\User;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тестирование SelectorPaginatorAdapterTest.
  */
-class SelectorPaginatorAdapterTest extends ORMTestCase
+class SelectorPaginatorAdapterTest extends ORMDbTestCase
 {
 
     /**
@@ -32,6 +32,10 @@ class SelectorPaginatorAdapterTest extends ORMTestCase
 
     public function setUpFixtures()
     {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/pagination/toolbox/config.php')
+        );
+
         $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $userCollection->add();

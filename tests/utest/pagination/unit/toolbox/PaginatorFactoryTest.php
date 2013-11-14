@@ -12,12 +12,12 @@ namespace umi\pagination;
 use umi\pagination\exception\InvalidArgumentException;
 use umi\pagination\toolbox\factory\PaginatorFactory;
 use umi\toolkit\exception\DomainException;
-use utest\TestCase;
+use utest\pagination\PaginationTestCase;
 
 /**
  * Тесты фабрики пагинаторов.
  */
-class PaginatorFactoryTest extends TestCase
+class PaginatorFactoryTest extends PaginationTestCase
 {
     /**
      * @var PaginatorFactory $paginator
@@ -26,7 +26,8 @@ class PaginatorFactoryTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->factory = $this->getTestToolkit()->getService('umi\pagination\IPaginatorFactory');
+        $this->factory = new PaginatorFactory();
+        $this->resolveOptionalDependencies($this->factory);
     }
 
     public function testPaginatorTools()

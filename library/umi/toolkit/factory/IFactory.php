@@ -9,7 +9,6 @@
 
 namespace umi\toolkit\factory;
 
-use umi\event\toolbox\IEventObservant;
 use umi\i18n\ILocalizable;
 use umi\log\ILoggerAware;
 use umi\toolkit\IToolkit;
@@ -18,7 +17,7 @@ use umi\toolkit\prototype\IPrototypeFactory;
 /**
  * Фабрика для создания объектов.
  */
-interface IFactory extends ILoggerAware, IEventObservant, ILocalizable
+interface IFactory extends ILoggerAware, ILocalizable
 {
     /**
      * Устанавливает toolkit.
