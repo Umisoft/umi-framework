@@ -9,45 +9,51 @@
 
 namespace umi\templating\extension\helper\type;
 
-use Traversable;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
+use umi\i18n\translator\ITranslator;
 
 /**
  * Помошник вида для перевода сообщений.
  */
 class TranslateHelper implements ILocalizable
 {
-
-    use TLocalizable;
+    /** Словарь по умолчанию */
+    const DICTIONARY_DEFAULT = 'application';
 
     /**
-     * @var array|Traversable $dictionaries список словарей
+     * @var ITranslator $translator транслятор
      */
-    public $dictionaries = [
-        'app'
-    ];
+    private $translator;
 
     /**
      * {@inheritdoc}
      */
-    public function getI18nDictionaries()
+    public function setTranslator(ITranslator $translator)
     {
-        if ($this->dictionaries instanceof Traversable) {
-            $this->dictionaries = iterator_to_array($this->dictionaries, true);
-        }
-
-        return $this->dictionaries;
+        $this->translator = $translator;
     }
 
+
     /**
-     * Переводит сообщение
+     * Переводит сообщение.
      * @param string $message сообщение
      * @param array $placeholders список плейсхолдеров
+     * @param array $dictionaries
      * @return string
      */
-    public function __invoke($message, array $placeholders = [])
+    public function __invoke($message, array $placeholders = [], array $dictionaries = [])
     {
-        return $this->translate($message, $placeholders);
+        $dictionaries = $dictionaries ?: [self::DICTIONARY_DEFAULT];
+
+        if ($this->translator) {
+            return $this->translator->translate($dictionaries, $message, $placeholders);
+        }
+        $replace = [];
+        foreach ($placeholders as $key => $val) {
+            $replace['{' . $key . '}'] = $val;
+        }
+
+        return strtr($message, $replace);
     }
 }
