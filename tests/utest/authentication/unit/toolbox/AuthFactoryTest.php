@@ -38,17 +38,18 @@ class AuthFactoryTest extends TestCase
         $this->assertInstanceOf(
             'umi\authentication\Authentication',
             $this->auth->createManager(),
-            'Ожидается, что менеджер будет получен'
+            'Ожидается, что менеджер будет получен.'
         );
 
-        $storage = $this->auth->createStorage(['type' => IAuthenticationFactory::STORAGE_SIMPLE]);
+        $storage = $this->auth->createStorage(IAuthenticationFactory::STORAGE_SIMPLE);
+
         $this->assertInstanceOf(
             'umi\authentication\storage\IAuthStorage',
             $storage,
             'Ожидается, что будет возвращено хранилище'
         );
 
-        $adapter = $this->auth->createAdapter(['type' => IAuthenticationFactory::ADAPTER_SIMPLE]);
+        $adapter = $this->auth->createAdapter(IAuthenticationFactory::ADAPTER_SIMPLE);
         $this->assertInstanceOf(
             'umi\authentication\adapter\IAuthAdapter',
             $adapter,
@@ -69,7 +70,7 @@ class AuthFactoryTest extends TestCase
      */
     public function getInvalidStorage()
     {
-        $this->auth->createStorage(['type' => "INVALID"]);
+        $this->auth->createStorage("INVALID");
     }
 
     /**
@@ -78,7 +79,7 @@ class AuthFactoryTest extends TestCase
      */
     public function getInvalidAdapter()
     {
-        $this->auth->createAdapter(['type' => "INVALID"]);
+        $this->auth->createAdapter("INVALID");
     }
 
     /**

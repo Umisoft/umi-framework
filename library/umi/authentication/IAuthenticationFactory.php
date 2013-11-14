@@ -39,31 +39,35 @@ interface IAuthenticationFactory
     const ADAPTER_ORM = 'orm';
 
     /**
-     * Возвращает сконфигурированный storage
-     * @param array $config конфигурация хранилища
+     * Создает хранилище аутентификации.
+     * @param string $type тип хранилища аутентификации
+     * @param array $options опции хранилища
      * @return IAuthStorage
      */
-    public function createStorage(array $config = []);
+    public function createStorage($type, array $options = []);
 
     /**
-     * Возвращает сконфигурированный адаптер
-     * @param array $config конфигурация адаптера
+     * Создает адаптер аутентификации.
+     * @param string $type тип провайдера
+     * @param array $options опции адаптера
      * @return IAuthAdapter
      */
-    public function createAdapter(array $config = []);
+    public function createAdapter($type, array $options = []);
 
     /**
-     * Возвращает сконфигурированный провайдер
+     * Создает провайдер аутентификации.
      * @param string $type тип провайдера
-     * @param array $options опции
+     * @param array $options опции провайдера
      * @return IAuthProvider
      */
     public function createProvider($type, array $options = []);
 
     /**
-     * Возвращает менеджер авторизации
-     * @param array $config конфигруация менеджера
-     * @return IAuthentication
+     * Создает менеджер аутентификации.
+     * @param array $options опции менеджера аутентификации
+     * @param IAuthAdapter $adapter адаптер аутентификации
+     * @param IAuthStorage $storage хранилище аутентификации
+     * @return mixed
      */
-    public function createManager(array $config = []);
+    public function createManager(array $options = [], IAuthAdapter $adapter = null, IAuthStorage $storage = null);
 }

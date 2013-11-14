@@ -9,14 +9,18 @@
 
 namespace umi\form\annotation;
 
+use umi\form\exception\InvalidArgumentException;
 use umi\form\IForm;
 use umi\form\IFormEntity;
+use umi\i18n\ILocalizable;
+use umi\i18n\TLocalizable;
 
 /**
  * Аннотация для установки названия элемента.
  */
-class MethodAnnotation extends BaseAnnotation
+class MethodAnnotation extends BaseAnnotation implements ILocalizable
 {
+    use TLocalizable;
 
     /**
      * {@inheritdoc}
@@ -24,7 +28,9 @@ class MethodAnnotation extends BaseAnnotation
     public function transform(IFormEntity $entity)
     {
         if (!$entity instanceof IForm) {
-            throw new \Exception();
+            throw new InvalidArgumentException(
+                $this->translate('Validator can be added only to forms.')
+            );
         }
 
         $entity->getAttributes()['method'] = $this->value;

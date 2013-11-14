@@ -30,16 +30,13 @@ class ExtensionFactory implements IExtensionFactory, IFactory
      * @var array $helperCollection помощники для шаблонов
      */
     public $helperCollection = [
-        'translate'  => 'umi\templating\extension\helper\type\TranslateHelper',
-        'form'       => 'umi\templating\extension\helper\type\form\FormHelper',
         'headMeta'   => 'umi\templating\extension\helper\type\head\meta\MetaHelper',
         'headScript' => 'umi\templating\extension\helper\type\head\script\ScriptHelper',
         'headStyle'  => 'umi\templating\extension\helper\type\head\style\StyleHelper',
 
-        'paginatorSliding'  => 'umi\templating\extension\helper\type\paginator\PaginatorSlidingHelper',
-        'paginatorElastic'  => 'umi\templating\extension\helper\type\paginator\PaginatorElasticHelper',
-        'paginatorJumping'  => 'umi\templating\extension\helper\type\paginator\PaginatorJumpingHelper',
-        'paginatorAll'  => 'umi\templating\extension\helper\type\paginator\PaginatorAllHelper',
+        'translate'  => 'umi\templating\extension\helper\type\TranslateHelper',
+        'form'       => 'umi\templating\extension\helper\type\form\FormHelper',
+        'pagination' => 'umi\templating\extension\helper\type\pagination\PaginationHelper',
     ];
     /**
      * @var string $helperFactoryClass класс фабрики для создания помощников для шаблонов

@@ -29,7 +29,7 @@ class AuthResult implements IAuthResult
      * @param int $status статус авторизации
      * @param mixed $identity ресурс, полученные в результате авторизации
      */
-    public function __construct($status, $identity)
+    public function __construct($status, $identity = null)
     {
         $this->status = $status;
         $this->identity = $identity;

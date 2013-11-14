@@ -3,6 +3,8 @@ UMI.Framework
 
 Master branch [![Build Status](https://travis-ci.org/Umisoft/umi-framework.png?branch=master)](https://travis-ci.org/Umisoft/umi-framework)
 
+Dev branch [![Build Status](https://travis-ci.org/Umisoft/umi-framework.png?branch=dev)](https://travis-ci.org/Umisoft/umi-framework)
+
 ### УСТАНОВКА
 
 Смотрите [INSTALL.md](INSTALL.md).
