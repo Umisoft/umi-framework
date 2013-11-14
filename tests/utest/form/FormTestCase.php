@@ -26,6 +26,7 @@ abstract class FormTestCase extends TestCase
             require(LIBRARY_PATH . '/filter/toolbox/config.php'),
             require(LIBRARY_PATH . '/http/toolbox/config.php'),
             require(LIBRARY_PATH . '/session/toolbox/config.php'),
+            require(LIBRARY_PATH . '/validation/toolbox/config.php'),
             require(LIBRARY_PATH . '/form/toolbox/config.php')
         ]);
 

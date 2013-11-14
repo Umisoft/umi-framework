@@ -12,14 +12,13 @@ namespace utest\validation\unit\toolbox;
 use umi\validation\exception\RuntimeException;
 use umi\validation\IValidatorFactory;
 use umi\validation\toolbox\factory\ValidatorFactory;
-use utest\TestCase;
+use utest\validation\ValidationTestCase;
 
 /**
  * Тесты инструментов валидации
  */
-class ValidationFactoryTests extends TestCase
+class ValidationFactoryTests extends ValidationTestCase
 {
-
     /**
      * @var IValidatorFactory $tools набор инструментов валидации
      */

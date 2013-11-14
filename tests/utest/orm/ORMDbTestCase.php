@@ -74,6 +74,7 @@ abstract class ORMDbTestCase extends TestCase
     {
         $this->getTestToolkit()->registerToolboxes([
             require(LIBRARY_PATH . '/event/toolbox/config.php'),
+            require(LIBRARY_PATH . '/validation/toolbox/config.php'),
             require(LIBRARY_PATH . '/orm/toolbox/config.php')
         ]);
 
