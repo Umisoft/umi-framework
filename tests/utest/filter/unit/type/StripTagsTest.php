@@ -11,12 +11,12 @@ namespace utest\filter\unit\type;
 
 use umi\filter\IFilter;
 use umi\filter\type\StripTags;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Класс тестирование фильтра StripTags
  */
-class StripTagsFilterTests extends TestCase
+class StripTagsFilterTests extends FilterTestCase
 {
 
     /**

@@ -11,12 +11,12 @@ namespace utest\log\func;
 
 use umi\log\ILogger;
 use umi\log\toolbox\LogTools;
-use utest\TestCase;
+use utest\log\LogTestCase;
 
 /**
  * Тестирование логгирования
  */
-class LoggingTest extends TestCase
+class LoggingTest extends LogTestCase
 {
     /**
      * @var LogTools $factory
@@ -29,9 +29,6 @@ class LoggingTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../../library/umi/log/toolbox/config.php')
-        );
         $this->fsLogFile = __DIR__ . DIRECTORY_SEPARATOR . 'testLog';
     }
 

@@ -14,6 +14,12 @@ use utest\AwareTestCase;
 class RouteAwareTests extends AwareTestCase
 {
 
+    protected function setUpFixtures() {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/route/toolbox/config.php')
+        );
+    }
+
     public function testRouteAware()
     {
         $this->awareClassTest(

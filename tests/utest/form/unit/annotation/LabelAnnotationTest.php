@@ -11,9 +11,9 @@ namespace utest\form\unit\annotation;
 
 use umi\form\annotation\LabelAnnotation;
 use umi\form\element\Text;
-use utest\TestCase;
+use utest\form\FormTestCase;
 
-class LabelAnnotationTest extends TestCase
+class LabelAnnotationTest extends FormTestCase
 {
     /**
      * @var LabelAnnotation $annotation

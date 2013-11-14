@@ -10,12 +10,12 @@
 namespace utest\hmvc\unit\toolbox\factory;
 
 use umi\hmvc\toolbox\factory\MVCLayerFactory;
-use utest\TestCase;
+use utest\hmvc\HMVCTestCase;
 
 /**
  * Тесты фабрики MVC слоев.
  */
-class MVCLayerFactoryTest extends TestCase
+class MVCLayerFactoryTest extends HMVCTestCase
 {
     /**
      * @var MVCLayerFactory $factory

@@ -11,12 +11,12 @@ namespace utest\dbal\unit\driver;
 
 use umi\dbal\driver\IColumnScheme;
 use umi\dbal\driver\IDbDriver;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование работы со схемой таблицы
  */
-class DriverTest extends TestCase
+class DriverTest extends DbalTestCase
 {
     /**
      * @var IDbDriver $driver

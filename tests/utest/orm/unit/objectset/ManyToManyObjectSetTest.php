@@ -14,12 +14,12 @@ use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
 use umi\orm\object\IObject;
 use umi\orm\objectset\IManyToManyObjectSet;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест класса ManyToManyObjectSet
  */
-class ManyToManyObjectSetTest extends ORMTestCase
+class ManyToManyObjectSetTest extends ORMDbTestCase
 {
 
     public $queries = [];

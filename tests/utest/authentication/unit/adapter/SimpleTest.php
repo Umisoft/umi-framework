@@ -11,12 +11,12 @@ namespace utest\authentication\unit\adapter;
 
 use umi\authentication\adapter\SimpleAdapter;
 use umi\authentication\result\IAuthResult;
-use utest\TestCase;
+use utest\authentication\AuthenticationTestCase;
 
 /**
  * Тесты simple провайдера авторизиции
  */
-class SimpleTest extends TestCase
+class SimpleTest extends AuthenticationTestCase
 {
 
     /**

@@ -17,12 +17,12 @@ use umi\orm\object\IObject;
 use umi\orm\toolbox\factory\MetadataFactory;
 use umi\orm\toolbox\factory\ObjectSetFactory;
 use umi\orm\toolbox\factory\SelectorFactory;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тест коллекции простых обьектов.
  */
-class SimpleCollectionTest extends TestCase
+class SimpleCollectionTest extends ORMTestCase
 {
 
     /**

@@ -10,12 +10,12 @@
 namespace utest\form\unit\element;
 
 use umi\form\element\CSRF;
-use utest\TestCase;
+use utest\form\FormTestCase;
 
 /**
  * Тесты CSRF элемента формы.
  */
-class CSRFElementTest extends TestCase
+class CSRFElementTest extends FormTestCase
 {
     /**
      * @var CSRF $csrf
@@ -25,7 +25,6 @@ class CSRFElementTest extends TestCase
     public function setUpFixtures()
     {
         $this->csrf = new CSRF('test');
-
         $this->resolveOptionalDependencies($this->csrf);
     }
 

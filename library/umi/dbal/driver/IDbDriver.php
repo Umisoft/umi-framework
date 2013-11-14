@@ -19,7 +19,7 @@ use umi\dbal\builder\IUpdateBuilder;
 use umi\dbal\exception\IException;
 use umi\dbal\exception\NonexistentEntityException;
 use umi\dbal\exception\RuntimeException;
-use umi\event\toolbox\IEventObservant;
+use umi\event\IEventObservant;
 
 /**
  * Интерфейс драйвера БД.

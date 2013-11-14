@@ -19,7 +19,7 @@ use utest\session\SessionTestCase;
 class SessionTest extends SessionTestCase
 {
 
-    public function setUp()
+    protected function setUpFixtures()
     {
         $this->getTestToolkit()->getService('umi\session\ISession')->setStorage('null');
     }

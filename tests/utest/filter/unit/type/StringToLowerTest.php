@@ -11,12 +11,12 @@ namespace utest\filter\unit\type;
 
 use umi\filter\IFilter;
 use umi\filter\type\StringToLower;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Класс тестирование фильтра StringToLower
  */
-class StringToLowerFilterTests extends TestCase
+class StringToLowerFilterTests extends FilterTestCase
 {
     /**
      * @var IFilter $filter фильтр

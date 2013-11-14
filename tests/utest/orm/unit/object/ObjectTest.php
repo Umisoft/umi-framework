@@ -15,12 +15,12 @@ use umi\orm\object\IObject;
 use umi\orm\object\property\ILocalizedProperty;
 use umi\orm\toolbox\factory\PropertyFactory;
 use utest\orm\mock\collections\users\User;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты для Object
  */
-class ObjectTest extends ORMTestCase
+class ObjectTest extends ORMDbTestCase
 {
 
     /**

@@ -11,12 +11,12 @@ namespace utest\filter\unit\type;
 
 use umi\filter\IFilter;
 use umi\filter\type\StripNewLines;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Класс тестирование фильтра Boolean
  */
-class StripNewLinesFilterTests extends TestCase
+class StripNewLinesFilterTests extends FilterTestCase
 {
 
     /**

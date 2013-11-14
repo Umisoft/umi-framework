@@ -10,12 +10,12 @@
 namespace utest\unit\pagination\adapter;
 
 use umi\pagination\adapter\ArrayPaginationAdapter;
-use utest\TestCase;
+use utest\pagination\PaginationTestCase;
 
 /**
  * Тестирование ArrayPaginatorAdapterTest.
  */
-class ArrayPaginationAdapterTest extends TestCase
+class ArrayPaginationAdapterTest extends PaginationTestCase
 {
 
     /**

@@ -13,12 +13,12 @@ use umi\authentication\IAuthentication;
 use umi\authentication\IAuthenticationFactory;
 use umi\authentication\provider\SimpleProvider;
 use umi\toolkit\factory\TFactory;
-use utest\TestCase;
+use utest\authentication\AuthenticationTestCase;
 
 /**
  * Класс AuthTest
  */
-class AuthTest extends TestCase
+class AuthTest extends AuthenticationTestCase
 {
     /**
      * @var IAuthentication $auth

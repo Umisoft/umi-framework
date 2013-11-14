@@ -14,6 +14,12 @@ use utest\AwareTestCase;
 class RbacAwareTest extends AwareTestCase
 {
 
+    protected function setUpFixtures() {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/rbac/toolbox/config.php')
+        );
+    }
+
     public function testRbacAware()
     {
         $this->awareClassTest(

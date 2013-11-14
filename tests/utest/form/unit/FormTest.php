@@ -12,13 +12,13 @@ namespace utest\form\unit;
 use umi\form\element\Text;
 use umi\form\exception\OutOfBoundsException;
 use umi\form\Form;
-use utest\TestCase;
+use utest\form\FormTestCase;
 use utest\form\mock\binding\BindObject;
 
 /**
  * Тесты формы.
  */
-class FormTest extends TestCase
+class FormTest extends FormTestCase
 {
     /**
      * @var Form $form форма
@@ -32,6 +32,7 @@ class FormTest extends TestCase
             'element2' => new Text('element2'),
             'element3' => new Text('element3'),
         ]);
+        $this->resolveOptionalDependencies($this->form);
     }
 
     /**
@@ -68,6 +69,7 @@ class FormTest extends TestCase
     public function testBinding()
     {
         $bindObject = new BindObject();
+        $this->resolveOptionalDependencies($bindObject);
         $bindObject->setData(['element1' => 'value 1', 'element2' => 'value2']);
 
         $this->assertSame($this->form, $this->form->bindObject($bindObject));

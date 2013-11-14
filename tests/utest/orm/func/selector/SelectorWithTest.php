@@ -14,9 +14,9 @@ use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
-class SelectorWithTest extends ORMTestCase
+class SelectorWithTest extends ORMDbTestCase
 {
 
     public $queries = [];

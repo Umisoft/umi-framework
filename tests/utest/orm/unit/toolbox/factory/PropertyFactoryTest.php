@@ -17,12 +17,12 @@ use umi\orm\metadata\field\string\StringField;
 use umi\orm\object\IObject;
 use umi\orm\object\property\ILocalizedProperty;
 use umi\orm\toolbox\factory\PropertyFactory;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тесты фабрики свойств
  */
-class PropertyFactoryTest extends TestCase
+class PropertyFactoryTest extends ORMTestCase
 {
 
     public function testPropertyFactory()

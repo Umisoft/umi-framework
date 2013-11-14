@@ -13,12 +13,12 @@ use umi\route\exception\InvalidArgumentException;
 use umi\route\exception\OutOfBoundsException;
 use umi\route\exception\RuntimeException;
 use umi\route\type\SimpleRoute;
-use utest\TestCase;
+use utest\route\RouteTestCase;
 
 /**
  * Тестирование маршрутизатора(роутера) запросов
  */
-class SimpleRouteTest extends TestCase
+class SimpleRouteTest extends RouteTestCase
 {
     /**
      * @var SimpleRoute $rule

@@ -10,12 +10,12 @@
 namespace utest\orm\unit\objectset;
 
 use umi\orm\objectset\EmptyObjectSet;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тест пустого набора объектов
  */
-class EmptyObjectSetTest extends TestCase
+class EmptyObjectSetTest extends ORMTestCase
 {
 
     public function testEmptyObjectSet()

@@ -7,9 +7,7 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\event\toolbox;
-
-use umi\event\IEventManager;
+namespace umi\event;
 
 /**
  * Интерфейс для поддержки событий.
@@ -17,11 +15,11 @@ use umi\event\IEventManager;
 interface IEventObservant
 {
     /**
-     * Устанавливает менеджер событий
-     * @param IEventManager $eventManager
+     * Устанавливает фабрику событий и менеджеров событий
+     * @param IEventFactory $eventFactory
      * @return self
      */
-    public function setEventManager(IEventManager $eventManager);
+    public function setEventFactory(IEventFactory $eventFactory);
 
     /**
      * Возвращает менеджер событий
@@ -67,9 +65,4 @@ interface IEventObservant
      */
     public function unbindEvent($eventType, callable $eventHandler = null);
 
-    /**
-     * Устанавливает локальные обработчики событий
-     * @return self
-     */
-    public function bindLocalEvents();
 }

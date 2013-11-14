@@ -11,12 +11,12 @@ namespace utest\filter\unit\type;
 
 use umi\filter\IFilter;
 use umi\filter\type\StringToUpper;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Класс тестирование фильтра StringToUpper
  */
-class StringToUpperFilterTests extends TestCase
+class StringToUpperFilterTests extends FilterTestCase
 {
     /**
      * @var IFilter $filter фильтр

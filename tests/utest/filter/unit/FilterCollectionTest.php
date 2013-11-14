@@ -11,15 +11,14 @@ namespace utest\filter\unit;
 
 use umi\filter\FilterCollection;
 use umi\filter\IFilter;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 use utest\filter\mock\FilterFixture;
 
 /**
  * Тесты коллекций фильтров
  */
-class FilterCollectionTests extends TestCase
+class FilterCollectionTests extends FilterTestCase
 {
-
     /**
      * @var IFilter $validCollection
      */

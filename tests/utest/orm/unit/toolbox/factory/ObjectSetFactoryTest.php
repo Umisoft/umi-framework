@@ -13,12 +13,12 @@ use umi\orm\metadata\field\relation\ManyToManyRelationField;
 use umi\orm\toolbox\factory\ObjectFactory;
 use umi\orm\toolbox\factory\ObjectSetFactory;
 use umi\orm\toolbox\factory\PropertyFactory;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест фабрики набора объектов
  */
-class ObjectSetFactoryTest extends ORMTestCase
+class ObjectSetFactoryTest extends ORMDbTestCase
 {
 
     /**

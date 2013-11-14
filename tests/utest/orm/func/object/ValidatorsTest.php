@@ -9,13 +9,13 @@
 
 namespace utest\orm\func\object;
 
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест работы валидаторов
  *
  */
-class ValidatorsTest extends ORMTestCase
+class ValidatorsTest extends ORMDbTestCase
 {
 
     /**

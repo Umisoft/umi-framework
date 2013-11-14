@@ -11,12 +11,12 @@ namespace utest\validation\unit\type;
 
 use umi\validation\IValidator;
 use umi\validation\type\Required;
-use utest\TestCase;
+use utest\validation\ValidationTestCase;
 
 /**
  * Класс RequiredValidatorTests
  */
-class RequiredValidatorTests extends TestCase
+class RequiredValidatorTests extends ValidationTestCase
 {
 
     /**

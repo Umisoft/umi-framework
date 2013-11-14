@@ -10,13 +10,13 @@
 namespace utest\dbal\unit\driver\sqlite;
 
 use umi\dbal\driver\IColumnScheme;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование sqlite драйвера
  * @package
  */
-class SqliteTableTest extends TestCase
+class SqliteTableTest extends DbalTestCase
 {
 
     public function testGenerateCreateQuery()

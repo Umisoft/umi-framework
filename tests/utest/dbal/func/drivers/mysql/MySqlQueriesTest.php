@@ -14,13 +14,13 @@ use umi\dbal\cluster\IConnection;
 use umi\dbal\driver\IDbDriver;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use umi\event\IEvent;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование mysql запросов
  * @package
  */
-class MySqlQueriesTest extends TestCase
+class MySqlQueriesTest extends DbalTestCase
 {
     public $queries = array();
     /**

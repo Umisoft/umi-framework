@@ -12,12 +12,12 @@ use umi\route\exception\InvalidArgumentException;
 use umi\route\exception\OutOfBoundsException;
 use umi\route\IRouteFactory;
 use umi\route\toolbox\factory\RouteFactory;
-use utest\TestCase;
+use utest\route\RouteTestCase;
 
 /**
  * Тесты инструментов роутинга
  */
-class RouterFactoryTest extends TestCase
+class RouterFactoryTest extends RouteTestCase
 {
     /**
      * @var IRouteFactory $routeTools

@@ -17,9 +17,24 @@ use utest\TestCase;
 /**
  * Class HMVCTestCase
  */
-class HMVCTestCase extends TestCase
+abstract class HMVCTestCase extends TestCase
 {
     const DIRECTORY = __DIR__;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUp()
+    {
+        $this->getTestToolkit()->registerToolboxes([
+            require(LIBRARY_PATH . '/hmvc/toolbox/config.php'),
+            require(LIBRARY_PATH . '/route/toolbox/config.php'),
+            require(LIBRARY_PATH . '/templating/toolbox/config.php'),
+            require(LIBRARY_PATH . '/http/toolbox/config.php')
+        ]);
+
+        parent::setUp();
+    }
 
     /**
      * @param string $url

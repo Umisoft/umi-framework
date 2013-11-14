@@ -10,13 +10,13 @@
 namespace utest\dbal\unit\driver\mysql;
 
 use umi\dbal\cluster\IConnection;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование mysql-билдера запросов
  * @package
  */
-class MySqlBuildQueriesTest extends TestCase
+class MySqlBuildQueriesTest extends DbalTestCase
 {
     /**
      * @var IConnection $dbDriver

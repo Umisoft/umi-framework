@@ -13,12 +13,12 @@ use umi\templating\engine\ITemplateEngine;
 use umi\templating\engine\twig\TwigTemplateEngine;
 use umi\templating\extension\adapter\ExtensionAdapter;
 use umi\templating\toolbox\factory\ExtensionFactory;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Тесты Twig шаблонизатора.
  */
-class TwigTemplateEngineTest extends TestCase
+class TwigTemplateEngineTest extends TemplatingTestCase
 {
     /**
      * @var TwigTemplateEngine $view

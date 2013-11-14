@@ -10,12 +10,12 @@
 namespace utest\templating\unit\toolbox;
 
 use umi\templating\toolbox\factory\ExtensionFactory;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Class HelperCollectionFactoryTest
  */
-class HelperCollectionFactoryTest extends TestCase
+class HelperCollectionFactoryTest extends TemplatingTestCase
 {
     /**
      * @var ExtensionFactory $factory

@@ -10,7 +10,7 @@
 namespace umi\form;
 
 use umi\event\IEvent;
-use umi\event\toolbox\TEventObservant;
+use umi\event\TEventObservant;
 use umi\form\binding\IDataBinding;
 use umi\form\fieldset\Fieldset;
 use umi\i18n\ILocalizable;
@@ -44,13 +44,6 @@ class Form extends Fieldset implements IForm, \Iterator, ILocalizable
     public function __construct($name, $attributes = [], array $options = [], array $elements = [])
     {
         parent::__construct($name, $attributes + ['method' => 'get'], $options, $elements);
-
-        $this->bindEvent(
-            IDataBinding::EVENT_UPDATE,
-            function (IEvent $e) {
-                $this->setData($e->getParams() ? : $this->bindObject->getData());
-            }
-        );
 
         foreach ($this->elements as $element) {
             if ($element instanceof IForm) {
@@ -139,5 +132,17 @@ class Form extends Fieldset implements IForm, \Iterator, ILocalizable
         $formName = isset($this->attributes['name']) ? $this->attributes['name'] : $this->getName();
 
         return $formName . '[' . $name . ']';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function bindLocalEvents() {
+        $this->bindEvent(
+            IDataBinding::EVENT_UPDATE,
+            function (IEvent $e) {
+                $this->setData($e->getParams() ? : $this->bindObject->getData());
+            }
+        );
     }
 }

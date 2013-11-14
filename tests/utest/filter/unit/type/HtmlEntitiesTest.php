@@ -11,14 +11,13 @@ namespace utest\filter\unit\type;
 
 use umi\filter\IFilter;
 use umi\filter\type\HtmlEntities;
-use utest\TestCase;
+use utest\filter\FilterTestCase;
 
 /**
  * Класс тестирование фильтра HtmlEntities
  */
-class HtmlEntitiesFilterTests extends TestCase
+class HtmlEntitiesFilterTests extends FilterTestCase
 {
-
     /**
      * @var IFilter $filter
      */

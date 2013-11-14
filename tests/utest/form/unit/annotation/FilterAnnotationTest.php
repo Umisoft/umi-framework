@@ -12,9 +12,9 @@ namespace utest\form\unit\annotation;
 use umi\filter\IFilterFactory;
 use umi\form\annotation\FilterAnnotation;
 use umi\form\element\Text;
-use utest\TestCase;
+use utest\form\FormTestCase;
 
-class FilterAnnotationTest extends TestCase
+class FilterAnnotationTest extends FormTestCase
 {
     /**
      * @var FilterAnnotation $annotation

@@ -10,13 +10,13 @@
 namespace utest\form\unit\interfaces;
 
 use umi\form\IFormEntity;
-use utest\TestCase;
+use utest\form\FormTestCase;
 use utest\form\mock\interfaces\FormEntity;
 
 /**
  * Тесты трейта "Элемент формы".
  */
-class TFormEntityTest extends TestCase
+class TFormEntityTest extends FormTestCase
 {
     /**
      * @var IFormEntity $entity элемент

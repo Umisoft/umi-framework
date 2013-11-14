@@ -14,13 +14,13 @@ use umi\authentication\exception\RuntimeException;
 use umi\authentication\provider\SimpleProvider as SimpleProvider;
 use umi\authentication\result\IAuthResult;
 use umi\authentication\storage\SimpleStorage as SimpleStorage;
+use utest\authentication\AuthenticationTestCase;
 use utest\authentication\mock\provider\Wrong;
-use utest\TestCase;
 
 /**
  * Тест аутентификации
  */
-class AuthenticationTest extends TestCase
+class AuthenticationTest extends AuthenticationTestCase
 {
     /**
      * @var Authentication $adapter

@@ -13,13 +13,13 @@ use umi\orm\objectset\ObjectSet;
 use umi\orm\selector\Selector;
 use umi\orm\toolbox\factory\ObjectSetFactory;
 use umi\orm\toolbox\factory\SelectorFactory;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест селектора
  *
  */
-class SelectorTest extends ORMTestCase
+class SelectorTest extends ORMDbTestCase
 {
 
     /**

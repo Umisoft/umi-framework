@@ -10,14 +10,13 @@
 namespace utest\authentication\unit\storage;
 
 use umi\authentication\storage\SimpleStorage;
-use utest\TestCase;
+use utest\authentication\AuthenticationTestCase;
 
 /**
  * Тесты simple storage
  */
-class SimpleTest extends TestCase
+class SimpleTest extends AuthenticationTestCase
 {
-
     /**
      * @var SimpleStorage $storage
      */

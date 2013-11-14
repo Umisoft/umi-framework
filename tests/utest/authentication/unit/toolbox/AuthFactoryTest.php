@@ -12,12 +12,12 @@ namespace utest\authentication\unit\toolbox;
 use umi\authentication\exception\OutOfBoundsException;
 use umi\authentication\IAuthenticationFactory;
 use umi\authentication\toolbox\factory\AuthenticationFactory;
-use utest\TestCase;
+use utest\authentication\AuthenticationTestCase;
 
 /**
  * Тест аутентификации
  */
-class AuthFactoryTest extends TestCase
+class AuthFactoryTest extends AuthenticationTestCase
 {
     /**
      * @var IAuthenticationFactory $adapter

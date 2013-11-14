@@ -11,14 +11,13 @@ namespace utest\authentication\unit\provider;
 
 use umi\authentication\provider\HttpProvider;
 use umi\http\request\Request;
-use utest\TestCase;
+use utest\authentication\AuthenticationTestCase;
 
 /**
  * Тесты Http провайдера авторизации
  */
-class HttpTest extends TestCase
+class HttpTest extends AuthenticationTestCase
 {
-
     /**
      * @var HttpProvider $provider провайдер
      */

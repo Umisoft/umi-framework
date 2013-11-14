@@ -10,12 +10,12 @@
 namespace utest\orm\func\object;
 
 use umi\orm\objectset\IObjectSet;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты полей объекта типа relation
  */
-class ObjectRelationPropertiesTest extends ORMTestCase
+class ObjectRelationPropertiesTest extends ORMDbTestCase
 {
 
     protected $userGuid, $user3Guid, $groupGuid, $profileGuid;

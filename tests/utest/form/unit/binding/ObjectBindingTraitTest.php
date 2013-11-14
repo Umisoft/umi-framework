@@ -9,13 +9,13 @@
 
 namespace utest\form\unit\binding;
 
-use utest\TestCase;
+use utest\form\FormTestCase;
 use utest\form\mock\binding\BindObject;
 
 /**
  * Тесты трейта биндинга в свойства.
  */
-class ObjectBindingTraitTest extends TestCase
+class ObjectBindingTraitTest extends FormTestCase
 {
     /**
      * @var BindObject $bindObject
@@ -25,6 +25,7 @@ class ObjectBindingTraitTest extends TestCase
     public function setUpFixtures()
     {
         $this->bindObject = new BindObject();
+        $this->resolveOptionalDependencies($this->bindObject);
     }
 
     /**

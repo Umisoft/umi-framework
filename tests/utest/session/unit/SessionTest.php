@@ -12,9 +12,9 @@ namespace utest\session\unit;
 use umi\session\exception\OutOfBoundsException;
 use umi\session\exception\RuntimeException;
 use umi\session\Session;
-use utest\TestCase;
+use utest\session\SessionTestCase;
 
-class SessionTest extends TestCase
+class SessionTest extends SessionTestCase
 {
     /**
      * @var Session $factory

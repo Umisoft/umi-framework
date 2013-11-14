@@ -12,12 +12,12 @@ namespace utest\orm\unit\object\property;
 use umi\orm\metadata\field\special\CounterField;
 use umi\orm\object\IObject;
 use umi\orm\object\property\CounterProperty;
-use utest\TestCase;
+use utest\orm\ORMTestCase;
 
 /**
  * Тесты свойства-счетчика
  */
-class CounterPropertyTest extends TestCase
+class CounterPropertyTest extends ORMTestCase
 {
 
     public function testCounterProperty()

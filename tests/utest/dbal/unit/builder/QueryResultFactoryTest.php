@@ -10,12 +10,12 @@
 namespace utest\dbal\unit\builder;
 
 use umi\dbal\cluster\server\IServer;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тест фабрики построителей запросов
  */
-class QueryResultFactoryTest extends TestCase
+class QueryResultFactoryTest extends DbalTestCase
 {
     /**
      * @var IServer $sqlite

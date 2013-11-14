@@ -10,12 +10,12 @@
 namespace utest\router\unit;
 
 use umi\route\type\RegexpRoute;
-use utest\TestCase;
+use utest\route\RouteTestCase;
 
 /**
  * Тестирование правила роутинга, на основе регулярных выражений.
  */
-class RegexpRouteTest extends TestCase
+class RegexpRouteTest extends RouteTestCase
 {
     /**
      * @var RegexpRoute $rule

@@ -17,5 +17,9 @@ if (!defined('TESTS_CONFIGURATION')) {
     define('TESTS_CONFIGURATION', __DIR__ . '/configuration');
 }
 
+if (!defined('LIBRARY_PATH')) {
+    define('LIBRARY_PATH', __DIR__ . '/../library/umi');
+}
+
 $loader = require_once($vendorDir . '/autoload.php');
 $loader->add('utest', __DIR__);

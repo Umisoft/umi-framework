@@ -11,12 +11,13 @@ namespace utest\http\unit\response;
 
 use umi\http\response\header\HeaderCollection;
 use umi\http\response\header\IHeaderCollection;
+use utest\http\HttpTestCase;
 use utest\TestCase;
 
 /**
  * Class HeaderCollectionTest
  */
-class HeaderCollectionTest extends TestCase
+class HeaderCollectionTest extends HttpTestCase
 {
     /**
      * @var IHeaderCollection $headers

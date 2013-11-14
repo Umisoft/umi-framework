@@ -10,13 +10,13 @@
 namespace utest\dbal\unit\driver\mysql;
 
 use umi\dbal\driver\IColumnScheme;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование mysql драйвера
  * @package
  */
-class MySqlTableTest extends TestCase
+class MySqlTableTest extends DbalTestCase
 {
 
     protected function tearDownFixtures()

@@ -13,12 +13,12 @@ use umi\templating\engine\ITemplateEngine;
 use umi\templating\engine\php\PhpTemplateEngine;
 use umi\templating\extension\adapter\ExtensionAdapter;
 use umi\templating\extension\IExtensionFactory;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Тесты PHP шаблонизатора
  */
-class PhpTemplateEngineTest extends TestCase
+class PhpTemplateEngineTest extends TemplatingTestCase
 {
     /**
      * @var PhpTemplateEngine $view

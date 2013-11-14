@@ -10,12 +10,12 @@
 namespace utest\orm\func\persister;
 
 use umi\orm\object\IObject;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты отката коммита ObjectPersister
  */
-class ObjectPersisterRollbackTest extends ORMTestCase
+class ObjectPersisterRollbackTest extends ORMDbTestCase
 {
 
     protected $usedDbServerId = 'mysqlMaster';

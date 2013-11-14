@@ -11,9 +11,9 @@ namespace utest\orm\func\collection\simplehierarchic;
 
 use umi\orm\collection\SimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
-class SimpleHierarchicCollectionTest extends ORMTestCase
+class SimpleHierarchicCollectionTest extends ORMDbTestCase
 {
 
     /**

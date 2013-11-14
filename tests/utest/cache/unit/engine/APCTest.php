@@ -10,15 +10,13 @@
 namespace utest\cache\unit\engine;
 
 use umi\cache\engine\APC;
-use utest\TestCase;
+use utest\cache\CacheTestCase;
 
 /**
  * Тест APC
- * @package
  */
-class APCTest extends TestCase
+class APCTest extends CacheTestCase
 {
-
     /**
      * @var APC $storage
      */
@@ -66,21 +64,21 @@ class APCTest extends TestCase
         $this->storage->set('testKey1', 'testValue1', 10);
         $this->storage->set('testKey2', 'testValue2');
 
-        $expectedResult = array(
+        $expectedResult = [
             'testKey1' => 'testValue1',
             'testKey2' => 'testValue2',
             'testKey3' => false
-        );
+        ];
         $this->assertEquals(
             $expectedResult,
-            $this->storage->getList(array('testKey1', 'testKey2', 'testKey3')),
+            $this->storage->getList(['testKey1', 'testKey2', 'testKey3']),
             'Неверное значение для массива ключей'
         );
 
         $this->assertTrue($this->storage->clear(), 'Не удалось очистить кеш');
         $this->assertEquals(
-            array('testKey1' => false, 'testKey2' => false),
-            $this->storage->getList(array('testKey1', 'testKey2')),
+            ['testKey1' => false, 'testKey2' => false],
+            $this->storage->getList(['testKey1', 'testKey2']),
             'Неверное значение для массива ключей после очистки кеша'
         );
     }

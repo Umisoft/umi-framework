@@ -12,10 +12,19 @@ namespace utest\unit\pagination\toolbox;
 use utest\AwareTestCase;
 
 /**
- * Тесты инструментов пагинатора.
+ * Тесты внедрения зависимостей пагинации.
  */
-class PaginationAwareToolsTest extends AwareTestCase
+class PaginationAwareTest extends AwareTestCase
 {
+    /**
+     * {@inheritdoc}
+     */
+    protected function setUpFixtures()
+    {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/pagination/toolbox/config.php')
+        );
+    }
 
     public function testPaginationAware()
     {

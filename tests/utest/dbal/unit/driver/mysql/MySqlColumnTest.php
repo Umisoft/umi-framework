@@ -9,13 +9,13 @@
 
 namespace utest\dbal\unit\driver\mysql;
 
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование колонки mysql драйвера
  * @package
  */
-class MySqlColumnTest extends TestCase
+class MySqlColumnTest extends DbalTestCase
 {
 
     protected function setUpFixtures()

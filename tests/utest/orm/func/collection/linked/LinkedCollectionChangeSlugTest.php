@@ -11,9 +11,9 @@ namespace utest\orm\func\collection\linked;
 
 use umi\orm\collection\ILinkedHierarchicCollection;
 use umi\orm\metadata\IObjectType;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
-class LinkedCollectionChangeSlugTest extends ORMTestCase
+class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 {
 
     /**

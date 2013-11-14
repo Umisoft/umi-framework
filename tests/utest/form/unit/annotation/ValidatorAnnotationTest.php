@@ -12,9 +12,9 @@ namespace utest\form\unit\annotation;
 use umi\form\annotation\ValidatorAnnotation;
 use umi\form\element\Text;
 use umi\validation\IValidatorFactory;
-use utest\TestCase;
+use utest\form\FormTestCase;
 
-class ValidatorAnnotationTest extends TestCase
+class ValidatorAnnotationTest extends FormTestCase
 {
     /**
      * @var ValidatorAnnotation $annotation

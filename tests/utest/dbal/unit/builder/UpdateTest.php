@@ -11,13 +11,13 @@ namespace utest\dbal\unit\builder;
 
 use umi\dbal\builder\UpdateBuilder;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тест билдера UPDATE-запросов
 
  */
-class UpdateTest extends TestCase
+class UpdateTest extends DbalTestCase
 {
     /**
      * @var UpdateBuilder $query

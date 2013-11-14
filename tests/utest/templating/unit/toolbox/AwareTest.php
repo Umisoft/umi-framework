@@ -16,6 +16,12 @@ use utest\AwareTestCase;
  */
 class AwareTest extends AwareTestCase
 {
+    protected function setUpFixtures() {
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/templating/toolbox/config.php')
+        );
+    }
+    
     public function testTemplatingAware()
     {
         $this->awareClassTest(

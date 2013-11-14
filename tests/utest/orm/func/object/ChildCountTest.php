@@ -11,12 +11,12 @@ namespace utest\orm\func\object;
 
 use umi\orm\collection\ILinkedHierarchicCollection;
 use umi\orm\metadata\IObjectType;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты для вычисления количества детей у иерархических объектов
  */
-class ChildCountTest extends ORMTestCase
+class ChildCountTest extends ORMDbTestCase
 {
 
     /**

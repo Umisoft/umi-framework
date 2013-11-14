@@ -11,12 +11,12 @@ namespace utest\router\unit;
 use umi\route\exception\InvalidArgumentException;
 use umi\route\exception\RuntimeException;
 use umi\route\type\ExtendedRoute;
-use utest\TestCase;
+use utest\route\RouteTestCase;
 
 /**
  * Тестирование маршрутизатора(роутера) запросов
  */
-class ExtendedRouteTest extends TestCase
+class ExtendedRouteTest extends RouteTestCase
 {
     /**
      * @var ExtendedRoute $rule

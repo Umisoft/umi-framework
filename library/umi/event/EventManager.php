@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -9,7 +8,6 @@
 
 namespace umi\event;
 
-use InvalidArgumentException;
 use SplObjectStorage;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
@@ -23,10 +21,6 @@ class EventManager implements IEventManager, ILocalizable
     use TLocalizable;
 
     /**
-     * @var string $eventClass класс события
-     */
-    public $eventClass = '\umi\event\Event';
-    /**
      * @var array $eventHandlers список зарегистрированный обработчиков событий
      */
     protected $eventHandlers = [];
@@ -34,6 +28,15 @@ class EventManager implements IEventManager, ILocalizable
      * @var SplObjectStorage|IEventManager[] $attachedManagers список менеджеров
      */
     protected $attachedManagers;
+    /**
+     * @var IEventFactory $eventFactory фабрика событий и менеджеров событий
+     */
+    protected $eventFactory;
+
+    public function __construct(IEventFactory $eventFactory)
+    {
+        $this->eventFactory = $eventFactory;
+    }
 
     /**
      * {@inheritdoc}
@@ -44,7 +47,6 @@ class EventManager implements IEventManager, ILocalizable
             $this->attachedManagers = new SplObjectStorage;
         }
         $this->attachedManagers->attach($eventsManager);
-
         return $this;
     }
 
@@ -62,8 +64,7 @@ class EventManager implements IEventManager, ILocalizable
             foreach ($this->eventHandlers[$eventType] as $handlerInfo) {
                 list ($eventHandler, $tags) = $handlerInfo;
 
-                $handlerTagsCount = count($tags);
-                if ($handlerTagsCount) {
+                if ($handlerTagsCount = count($tags)) {
                     if (!count($event->getTags())) {
                         continue;
                     }
@@ -72,8 +73,11 @@ class EventManager implements IEventManager, ILocalizable
                     }
                 }
 
-                call_user_func($eventHandler, $event);
-
+                if (is_array($eventHandler)) {
+                    call_user_func($eventHandler, $event);
+                } else {
+                    $eventHandler($event);
+                }
                 if ($event->getPropagationIsStopped()) {
                     return $this;
                 }
@@ -101,11 +105,7 @@ class EventManager implements IEventManager, ILocalizable
         if (!isset($this->eventHandlers[$eventType]) && is_null($this->attachedManagers)) {
             return $this;
         }
-        /**
-         * @var IEvent $event
-         */
-        $event = new $this->eventClass($eventType, $target, $params, $tags);
-
+        $event = $this->eventFactory->createEvent($eventType, $target, $params, $tags);
         return $this->propagateEvent($eventType, $event);
     }
 
@@ -114,12 +114,6 @@ class EventManager implements IEventManager, ILocalizable
      */
     public function bindEvent($eventType, callable $eventHandler, array $tags = [])
     {
-        if (!is_callable($eventHandler)) {
-            throw new \InvalidArgumentException($this->translate(
-                'Cannot bind event "{eventType}". Event handler should be callable.',
-                ['eventType' => $eventType]
-            ));
-        }
         if (!isset($this->eventHandlers[$eventType])) {
             $this->eventHandlers[$eventType] = [];
         }
@@ -139,7 +133,6 @@ class EventManager implements IEventManager, ILocalizable
 
         if (is_null($eventHandler)) {
             unset($this->eventHandlers[$eventType]);
-
             return $this;
         }
 
@@ -149,7 +142,6 @@ class EventManager implements IEventManager, ILocalizable
                 unset($this->eventHandlers[$eventType][$order]);
             }
         }
-
         return $this;
     }
 
@@ -159,7 +151,6 @@ class EventManager implements IEventManager, ILocalizable
     public function unbindEvents()
     {
         $this->eventHandlers = [];
-
         return $this;
     }
 }
