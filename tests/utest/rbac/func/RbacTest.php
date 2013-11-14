@@ -10,13 +10,12 @@
 namespace utest\rbac\func;
 
 use umi\rbac\IRoleFactory;
-use utest\TestCase;
+use utest\rbac\RbacTestCase;
 
 /**
  * Тесты Rbac политики доступа.
-
  */
-class RbacTest extends TestCase
+class RbacTest extends RbacTestCase
 {
     /**
      * @var IRoleFactory $roleFactory

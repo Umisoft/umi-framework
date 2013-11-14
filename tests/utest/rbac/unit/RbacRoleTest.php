@@ -12,13 +12,13 @@ namespace utest\rbac\unit;
 use umi\rbac\exception\InvalidArgumentException;
 use umi\rbac\IRbacRole;
 use umi\rbac\RbacRole;
-use utest\TestCase;
+use utest\rbac\RbacTestCase;
 use utest\rbac\mock\MockRbacAssert;
 
 /**
  * Тесты ролей Rbac.
  */
-class RbacRoleTest extends TestCase
+class RbacRoleTest extends RbacTestCase
 {
     /**
      * @var IRbacRole $role роль
