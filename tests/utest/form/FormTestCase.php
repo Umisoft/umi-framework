@@ -24,6 +24,8 @@ abstract class FormTestCase extends TestCase
         $this->getTestToolkit()->registerToolboxes([
             require(__DIR__ . '/../../../library/umi/event/toolbox/config.php'),
             require(__DIR__ . '/../../../library/umi/filter/toolbox/config.php'),
+            require(__DIR__ . '/../../../library/umi/http/toolbox/config.php'),
+            require(__DIR__ . '/../../../library/umi/session/toolbox/config.php'),
             require(__DIR__ . '/../../../library/umi/form/toolbox/config.php')
         ]);
 

@@ -14,11 +14,18 @@ use utest\TestCase;
 /**
  * Test case для тестирования сессии.
  */
-class SessionTestCase extends TestCase
+abstract class SessionTestCase extends TestCase
 {
-
+    /**
+     * {@inheritdoc}
+     */
     public function setUp()
     {
+        $this->getTestToolkit()->registerToolboxes([
+            require(__DIR__ . '/../../../library/umi/http/toolbox/config.php'),
+            require(__DIR__ . '/../../../library/umi/session/toolbox/config.php')
+        ]);
+
         @session_destroy();
 
         ini_set('session.use_cookies', 0);

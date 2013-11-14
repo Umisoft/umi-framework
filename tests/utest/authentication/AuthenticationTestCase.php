@@ -22,6 +22,8 @@ abstract class AuthenticationTestCase extends TestCase
     {
         $this->getTestToolkit()->registerToolboxes([
             require(__DIR__ . '/../../../library/umi/event/toolbox/config.php'),
+            require(__DIR__ . '/../../../library/umi/http/toolbox/config.php'),
+            require(__DIR__ . '/../../../library/umi/session/toolbox/config.php'),
             require(__DIR__ . '/../../../library/umi/authentication/toolbox/config.php')
         ]);
 

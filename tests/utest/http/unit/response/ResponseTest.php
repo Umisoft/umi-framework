@@ -11,12 +11,12 @@ namespace utest\http\unit\response;
 
 use umi\http\response\IResponse;
 use umi\http\response\Response;
-use utest\TestCase;
+use utest\http\HttpTestCase;
 
 /**
  * Класс RequestTest
  */
-class ResponseTest extends TestCase
+class ResponseTest extends HttpTestCase
 {
 
     /**

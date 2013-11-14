@@ -17,6 +17,13 @@ use utest\AwareTestCase;
 class SessionAwareTest extends AwareTestCase
 {
 
+    protected function setUpFixtures() {
+        $this->getTestToolkit()->registerToolboxes([
+            require(__DIR__ . '/../../../../../library/umi/http/toolbox/config.php'),
+            require(__DIR__ . '/../../../../../library/umi/session/toolbox/config.php')
+        ]);
+    }
+
     public function testSessionAware()
     {
         $this->awareClassTest(
