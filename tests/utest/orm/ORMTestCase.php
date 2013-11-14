@@ -72,6 +72,10 @@ abstract class ORMTestCase extends TestCase
 
     public function setUp()
     {
+        $this->getTestToolkit()->registerToolbox(
+            require(__DIR__ . '/../../../library/umi/event/toolbox/config.php')
+        );
+
         $cluster = $this->getDbCluster();
         if (!is_null($this->usedDbServerId)) {
             /**
