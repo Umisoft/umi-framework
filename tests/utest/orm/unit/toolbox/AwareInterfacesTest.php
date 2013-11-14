@@ -23,7 +23,7 @@ class AwareInterfacesTest extends AwareTestCase
     protected function setUpFixtures()
     {
         $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../../../library/umi/orm/toolbox/config.php')
+            require(LIBRARY_PATH . '/orm/toolbox/config.php')
         );
     }
 

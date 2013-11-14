@@ -22,8 +22,8 @@ abstract class SessionTestCase extends TestCase
     public function setUp()
     {
         $this->getTestToolkit()->registerToolboxes([
-            require(__DIR__ . '/../../../library/umi/http/toolbox/config.php'),
-            require(__DIR__ . '/../../../library/umi/session/toolbox/config.php')
+            require(LIBRARY_PATH . '/http/toolbox/config.php'),
+            require(LIBRARY_PATH . '/session/toolbox/config.php')
         ]);
 
         @session_destroy();

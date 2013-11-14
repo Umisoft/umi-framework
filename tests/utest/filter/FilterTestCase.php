@@ -21,7 +21,7 @@ abstract class FilterTestCase extends TestCase
     protected function setUp()
     {
         $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../library/umi/filter/toolbox/config.php')
+            require(LIBRARY_PATH . '/filter/toolbox/config.php')
         );
 
         parent::setUp();

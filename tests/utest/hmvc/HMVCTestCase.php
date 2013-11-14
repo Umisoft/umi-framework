@@ -27,8 +27,8 @@ abstract class HMVCTestCase extends TestCase
     protected function setUp()
     {
         $this->getTestToolkit()->registerToolboxes([
-            require(__DIR__ . '/../../../library/umi/hmvc/toolbox/config.php'),
-            require(__DIR__ . '/../../../library/umi/http/toolbox/config.php')
+            require(LIBRARY_PATH . '/hmvc/toolbox/config.php'),
+            require(LIBRARY_PATH . '/http/toolbox/config.php')
         ]);
 
         parent::setUp();

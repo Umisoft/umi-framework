@@ -21,7 +21,7 @@ abstract class DbalTestCase extends TestCase
     protected function setUp()
     {
         $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../library/umi/event/toolbox/config.php')
+            require(LIBRARY_PATH . '/event/toolbox/config.php')
         );
 
         parent::setUp();

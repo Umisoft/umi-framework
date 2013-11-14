@@ -21,7 +21,7 @@ abstract class HttpTestCase extends TestCase
     protected function setUp()
     {
         $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../library/umi/http/toolbox/config.php')
+            require(LIBRARY_PATH . '/http/toolbox/config.php')
         );
 
         parent::setUp();

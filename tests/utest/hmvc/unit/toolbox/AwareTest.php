@@ -20,7 +20,7 @@ class AwareTest extends AwareTestCase
 
     protected function setUpFixtures() {
         $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../../../library/umi/hmvc/toolbox/config.php')
+            require(LIBRARY_PATH . '/hmvc/toolbox/config.php')
         );
     }
 

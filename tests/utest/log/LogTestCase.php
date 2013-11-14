@@ -22,7 +22,7 @@ abstract class LogTestCase extends TestCase
     {
 
         $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../library/umi/log/toolbox/config.php')
+            require(LIBRARY_PATH . '/log/toolbox/config.php')
         );
 
         parent::setUp();

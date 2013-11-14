@@ -21,8 +21,8 @@ abstract class CacheTestCase extends TestCase
     protected function setUp()
     {
         $this->getTestToolkit()->registerToolboxes([
-            require(__DIR__ . '/../../../library/umi/event/toolbox/config.php'),
-            require(__DIR__ . '/../../../library/umi/cache/toolbox/config.php')
+            require(LIBRARY_PATH . '/event/toolbox/config.php'),
+            require(LIBRARY_PATH . '/cache/toolbox/config.php')
         ]);
 
         parent::setUp();

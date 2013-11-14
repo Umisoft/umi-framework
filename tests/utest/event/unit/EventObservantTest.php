@@ -36,7 +36,7 @@ class EventObservantTest extends TestCase
     public function setUpFixtures()
     {
         $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../../library/umi/event/toolbox/config.php')
+            require(LIBRARY_PATH . '/event/toolbox/config.php')
         );
 
         $this->observant1 = new EventObservant('observant1');

@@ -20,7 +20,7 @@ class HttpAwareTest extends AwareTestCase
     protected function setUpFixtures()
     {
         $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../../../library/umi/http/toolbox/config.php')
+            require(LIBRARY_PATH . '/http/toolbox/config.php')
         );
     }
 

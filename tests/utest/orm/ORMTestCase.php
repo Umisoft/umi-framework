@@ -20,9 +20,9 @@ abstract class ORMTestCase extends TestCase
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolboxes([
-            require(__DIR__ . '/../../../library/umi/orm/toolbox/config.php')
-        ]);
+        $this->getTestToolkit()->registerToolbox(
+            require(LIBRARY_PATH . '/orm/toolbox/config.php')
+        );
 
         parent::setUp();
     }

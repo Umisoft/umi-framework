@@ -16,7 +16,7 @@ class AuthAwareToolsTest extends AwareTestCase
 
     protected function setUpFixtures() {
         $this->getTestToolkit()->registerToolbox(
-            require(__DIR__ . '/../../../../../library/umi/authentication/toolbox/config.php')
+            require(LIBRARY_PATH . '/authentication/toolbox/config.php')
         );
     }
 
