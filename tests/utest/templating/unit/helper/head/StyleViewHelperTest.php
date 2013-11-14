@@ -11,12 +11,12 @@ namespace utest\templating\unit\helper\head;
 
 use umi\templating\extension\helper\type\head\style\StyleCollection;
 use umi\templating\extension\helper\type\head\style\StyleHelper;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Тесты помошника вида скриптов.
  */
-class StyleHelperTest extends TestCase
+class StyleHelperTest extends TemplatingTestCase
 {
     /**
      * @var StyleHelper $helper

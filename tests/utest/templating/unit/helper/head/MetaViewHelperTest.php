@@ -11,12 +11,12 @@ namespace utest\templating\unit\helper\head;
 
 use umi\templating\extension\helper\type\head\meta\MetaCollection;
 use umi\templating\extension\helper\type\head\meta\MetaHelper;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Тесты помошника вида скриптов.
  */
-class MetaHelperTest extends TestCase
+class MetaHelperTest extends TemplatingTestCase
 {
     /**
      * @var MetaHelper $helper

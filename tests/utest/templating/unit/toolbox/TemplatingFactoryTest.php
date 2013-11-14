@@ -11,12 +11,12 @@ namespace utest\templating\unit\toolbox;
 
 use umi\templating\engine\ITemplateEngineFactory;
 use umi\templating\toolbox\factory\TemplateEngineFactory;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Class TemplatingFactoryTest
  */
-class TemplatingFactoryTest extends TestCase
+class TemplatingFactoryTest extends TemplatingTestCase
 {
     /**
      * @var ITemplateEngineFactory $factory
@@ -26,7 +26,6 @@ class TemplatingFactoryTest extends TestCase
     public function setUpFixtures()
     {
         $this->factory = new TemplateEngineFactory();
-
         $this->resolveOptionalDependencies($this->factory);
     }
 

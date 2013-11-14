@@ -11,12 +11,12 @@ namespace utest\templating\unit\toolbox;
 
 use umi\templating\exception\UnexpectedValueException;
 use umi\templating\toolbox\factory\HelperFactory;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Class HelperFactoryTest
  */
-class HelperFactoryTest extends TestCase
+class HelperFactoryTest extends TemplatingTestCase
 {
     /**
      * @var \umi\templating\extension\helper\IHelperFactory $factory

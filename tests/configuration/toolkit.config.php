@@ -24,8 +24,7 @@ return [
         require($libraryPath . '/config/toolbox/config.php'),
         require($libraryPath . '/i18n/toolbox/config.php'),
         require($libraryPath . '/dbal/toolbox/config.php'),
-        require($libraryPath . '/validation/toolbox/config.php'),
-        require($libraryPath . '/templating/toolbox/config.php'),
+        require($libraryPath . '/validation/toolbox/config.php')
     ],
     'settings' => [
         ConfigTools::NAME       => [

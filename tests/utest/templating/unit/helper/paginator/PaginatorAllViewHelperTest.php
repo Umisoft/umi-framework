@@ -13,12 +13,12 @@ namespace utest\templating\unit\helper\paginator;
 use umi\pagination\adapter\ArrayPaginationAdapter;
 use umi\pagination\Paginator;
 use umi\templating\extension\helper\type\paginator\PaginatorAllHelper;
-use utest\TestCase;
+use utest\templating\TemplatingTestCase;
 
 /**
  * Тестирования пагинатора типа "All"
  */
-class PaginatorAllHelperTest extends TestCase
+class PaginatorAllHelperTest extends TemplatingTestCase
 {
 
     /**
