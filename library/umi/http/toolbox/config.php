@@ -15,7 +15,7 @@ namespace umi\http\toolbox;
 return [
     'name'  => HttpTools::NAME,
     'class' => __NAMESPACE__ . '\HttpTools',
-    'servicingInterfaces' => [
+    'awareInterfaces' => [
         'umi\http\IHttpFactory',
         'umi\http\IHttpAware',
         'umi\http\request\param\IParamCollectionAware',

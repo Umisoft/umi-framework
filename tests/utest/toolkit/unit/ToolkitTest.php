@@ -36,7 +36,7 @@ class ToolkitTest extends TestCase
         $this->toolboxConfig = [
             'name'    => 'MockTools',
             'class'        => 'utest\toolkit\mock\MockTools',
-            'servicingInterfaces' => [
+            'awareInterfaces' => [
                 'utest\toolkit\mock\MockServicingInterface'
             ],
             'services'            => [
@@ -166,7 +166,7 @@ class ToolkitTest extends TestCase
         $this->toolkit->registerToolbox($this->toolboxConfig);
 
         $this->assertTrue(
-            $this->toolkit->hasInjector('utest\toolkit\mock\MockServicingInterface')
+            $this->toolkit->hasAwareInterface('utest\toolkit\mock\MockServicingInterface')
         );
         $this->assertTrue(
             $this->toolkit->hasService('utest\toolkit\mock\IMockService')
@@ -203,7 +203,7 @@ class ToolkitTest extends TestCase
                 [
                     'name'      => 'SomeTools2',
                     'class'     => 'utest\toolkit\mock\WrongTools',
-                    'servicingInterfaces' => [
+                    'awareInterfaces' => [
                         'utest\toolkit\mock\MockServicingInterface'
                     ],
                 ]
