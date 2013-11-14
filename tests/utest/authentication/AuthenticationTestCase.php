@@ -6,14 +6,14 @@
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
-namespace utest\cache;
+namespace utest\authentication;
 
 use utest\TestCase;
 
 /**
- * Тест кейс для кеширования
+ * Тест кейс для аутентификации
  */
-abstract class CacheTestCase extends TestCase
+abstract class AuthenticationTestCase extends TestCase
 {
     /**
      * {@inheritdoc}
@@ -22,7 +22,7 @@ abstract class CacheTestCase extends TestCase
     {
         $this->getTestToolkit()->registerToolboxes([
             require(__DIR__ . '/../../../library/umi/event/toolbox/config.php'),
-            require(__DIR__ . '/../../../library/umi/cache/toolbox/config.php')
+            require(__DIR__ . '/../../../library/umi/authentication/toolbox/config.php')
         ]);
 
         parent::setUp();

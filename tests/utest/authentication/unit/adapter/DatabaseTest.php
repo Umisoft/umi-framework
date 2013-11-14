@@ -15,12 +15,12 @@ use umi\dbal\builder\IInsertBuilder;
 use umi\dbal\cluster\IConnection;
 use umi\dbal\driver\IColumnScheme;
 use umi\dbal\driver\IDbDriver;
-use utest\TestCase;
+use utest\authentication\AuthenticationTestCase;
 
 /**
  * Тесты simple провайдера авторизиции
  */
-class DatabaseTest extends TestCase
+class DatabaseTest extends AuthenticationTestCase
 {
 
     /**
