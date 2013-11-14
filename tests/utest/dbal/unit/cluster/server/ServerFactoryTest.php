@@ -13,13 +13,13 @@ use umi\dbal\driver\sqlite\SqliteDriver;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use umi\dbal\toolbox\factory\ServerFactory;
 use umi\dbal\toolbox\factory\TableFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тест фабрики построителей запросов
  *
  */
-class ServerFactoryTest extends TestCase
+class ServerFactoryTest extends DbalTestCase
 {
 
     public function testQueryBuilderFactory()

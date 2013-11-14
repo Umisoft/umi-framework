@@ -11,14 +11,13 @@ namespace utest\dbal\unit\toolbox;
 
 use umi\config\entity\Config;
 use umi\dbal\toolbox\DbalTools;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование инструментария для работы с базами данных
  */
-class DbalToolsTest extends TestCase
+class DbalToolsTest extends DbalTestCase
 {
-
     /**
      * @var DbalTools
      */

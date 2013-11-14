@@ -12,15 +12,14 @@ namespace utest\dbal\unit\cluster\server;
 use umi\dbal\cluster\server\IServer;
 use umi\dbal\cluster\server\ShardServer;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тест фабрики построителей запросов
  *
  */
-class ServerTest extends TestCase
+class ServerTest extends DbalTestCase
 {
-
     /**
      * @var IServer $server ;
      */

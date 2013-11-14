@@ -9,12 +9,12 @@
 
 namespace utest\dbal\unit\driver\sqlite;
 
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тестирование внешних ключей sqlite драйвера
  */
-class SqliteConstraintsTest extends TestCase
+class SqliteConstraintsTest extends DbalTestCase
 {
 
     protected function setUpFixtures()

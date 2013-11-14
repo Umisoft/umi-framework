@@ -12,12 +12,12 @@ namespace utest\dbal\func\builder;
 use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\cluster\server\IServer;
 use umi\dbal\driver\IColumnScheme;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Интеграционные тесты различного рода запросов
  */
-class QueriesTest extends TestCase
+class QueriesTest extends DbalTestCase
 {
     /**
      * @var IServer $connection

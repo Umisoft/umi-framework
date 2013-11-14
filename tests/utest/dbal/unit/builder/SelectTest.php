@@ -13,13 +13,13 @@ use umi\dbal\builder\ExpressionGroup;
 use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\builder\SelectBuilder;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
-use utest\TestCase;
+use utest\dbal\DbalTestCase;
 
 /**
  * Тест билдера SELECT-запросов
 
  */
-class SelectTest extends TestCase
+class SelectTest extends DbalTestCase
 {
     /**
      * @var SelectBuilder $query
