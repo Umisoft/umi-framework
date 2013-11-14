@@ -10,13 +10,13 @@
 namespace utest\event\unit;
 
 use umi\event\Event;
-use utest\TestCase;
+use utest\event\EventTestCase;
 
 /**
  * Тесты события
  *
  */
-class EventTest extends TestCase
+class EventTest extends EventTestCase
 {
 
     public function testEvent()

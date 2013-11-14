@@ -11,14 +11,13 @@ namespace utest\event\unit;
 
 use umi\event\IEvent;
 use umi\event\TEventObservant;
+use utest\event\EventTestCase;
 use utest\event\mock\EventObservant;
-use utest\TestCase;
 
 /**
  * Тесты компонента, поддерживающего работу с событиями
- *
  */
-class EventObservantTest extends TestCase
+class EventObservantTest extends EventTestCase
 {
     /**
      * @var EventObservant $observant1
@@ -35,10 +34,6 @@ class EventObservantTest extends TestCase
 
     public function setUpFixtures()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/event/toolbox/config.php')
-        );
-
         $this->observant1 = new EventObservant('observant1');
         $this->resolveOptionalDependencies($this->observant1);
 

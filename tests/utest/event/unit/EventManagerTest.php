@@ -13,13 +13,13 @@ use umi\event\EventManager;
 use umi\event\IEvent;
 use umi\event\IEventFactory;
 use umi\event\toolbox\factory\EventFactory;
-use utest\TestCase;
+use utest\event\EventTestCase;
 
 /**
  * Тесты менеджера событий
  *
  */
-class EventManagerTest extends TestCase
+class EventManagerTest extends EventTestCase
 {
 
     /**
