@@ -94,11 +94,11 @@ class ViewExtensionFactory extends ExtensionFactory implements IViewExtensionFac
      */
     protected function getViewHelperFactory()
     {
-        $factory = $this->createInstance(
-            $this->viewHelperFactoryClass,
-            [],
-            ['umi\templating\extension\helper\IHelperFactory']
-        );
+        $factory = $this->getPrototype(
+                $this->viewHelperFactoryClass,
+                ['umi\templating\extension\helper\IHelperFactory']
+            )
+            ->createInstance();
 
         if ($factory instanceof IModelAware && $this->modelFactory) {
             $factory->setModelFactory($this->modelFactory);
@@ -113,11 +113,11 @@ class ViewExtensionFactory extends ExtensionFactory implements IViewExtensionFac
      */
     private function newViewHelperCollectionInstance()
     {
-        $viewHelperCollection = $this->createInstance(
-            $this->viewHelperCollectionClass,
-            [],
-            ['umi\templating\extension\helper\collection\IHelperCollection']
-        );
+        $viewHelperCollection = $this->getPrototype(
+                $this->viewHelperCollectionClass,
+                ['umi\templating\extension\helper\collection\IHelperCollection']
+            )
+            ->createInstance();
 
         if ($viewHelperCollection instanceof IHelperFactoryAware) {
             $viewHelperCollection->setTemplatingHelperFactory($this->getViewHelperFactory());

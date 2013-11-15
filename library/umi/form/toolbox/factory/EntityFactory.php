@@ -180,11 +180,11 @@ class EntityFactory implements IEntityFactory, IFactory
      */
     protected function createElementEntity($type, $name, array $attributes, array $options)
     {
-        return $this->createInstance(
-            $this->elementTypes[$type],
-            [$name, $attributes, $options],
-            ['umi\form\element\IElement']
-        );
+            return $this->getPrototype(
+                $this->elementTypes[$type],
+                ['umi\form\element\IElement']
+            )
+            ->createInstance([$name, $attributes, $options]);
     }
 
     /**
@@ -198,11 +198,11 @@ class EntityFactory implements IEntityFactory, IFactory
      */
     protected function createFieldsetEntity($type, $name, array $attributes, array $options, array $elements = [])
     {
-        return $this->createInstance(
-            $this->fieldsetTypes[$type],
-            [$name, $attributes, $options, $elements],
-            ['umi\form\fieldset\IFieldset']
-        );
+        return $this->getPrototype(
+                $this->fieldsetTypes[$type],
+                ['umi\form\fieldset\IFieldset']
+            )
+            ->createInstance([$name, $attributes, $options, $elements]);
     }
 
     /**
@@ -234,11 +234,11 @@ class EntityFactory implements IEntityFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->annotationTypes[$type],
-            [$value],
-            ['umi\form\annotation\IAnnotation']
-        );
+        return $this->getPrototype(
+                $this->annotationTypes[$type],
+                ['umi\form\annotation\IAnnotation']
+            )
+            ->createInstance([$value]);
     }
 
     /**

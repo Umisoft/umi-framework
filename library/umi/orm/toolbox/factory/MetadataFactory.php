@@ -97,11 +97,11 @@ class MetadataFactory implements IMetadataFactory, IFactory
      */
     public function create($collectionName, $config)
     {
-        return $this->createInstance(
-            $this->metadataClassName,
-            [$collectionName, $config, $this],
-            ['umi\orm\metadata\IMetadata']
-        );
+        return $this->getPrototype(
+                $this->metadataClassName,
+                ['umi\orm\metadata\IMetadata']
+            )
+            ->createInstance([$collectionName, $config, $this]);
     }
 
     /**
@@ -109,11 +109,11 @@ class MetadataFactory implements IMetadataFactory, IFactory
      */
     public function createDataSource(array $config)
     {
-        return $this->createInstance(
-            $this->dataSourceClass,
-            [$config, $this->dbCluster],
-            ['umi\orm\metadata\ICollectionDataSource']
-        );
+        return $this->getPrototype(
+                $this->dataSourceClass,
+                ['umi\orm\metadata\ICollectionDataSource']
+            )
+            ->createInstance([$config, $this->dbCluster]);
     }
 
     /**
@@ -121,11 +121,11 @@ class MetadataFactory implements IMetadataFactory, IFactory
      */
     public function createObjectType($typeName, array $config, IMetadata $metadata)
     {
-        return $this->createInstance(
-            $this->objectTypeClass,
-            [$typeName, $config, $metadata],
-            ['umi\orm\metadata\IObjectType']
-        );
+        return $this->getPrototype(
+                $this->objectTypeClass,
+                ['umi\orm\metadata\IObjectType']
+            )
+            ->createInstance([$typeName, $config, $metadata]);
     }
 
     /**
@@ -147,11 +147,11 @@ class MetadataFactory implements IMetadataFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->fieldTypes[$fieldType],
-            [$fieldName, $config],
-            ['umi\orm\metadata\field\IField']
-        );
+        return $this->getPrototype(
+                $this->fieldTypes[$fieldType],
+                ['umi\orm\metadata\field\IField']
+            )
+            ->createInstance([$fieldName, $config]);
     }
 
 }

@@ -76,15 +76,15 @@ class DbDriverFactory implements IDbDriverFactory, IFactory
             ));
         }
 
+        $driverPrototype = $this->getPrototype(
+            $this->types[$type]['driverClass'],
+            ['umi\dbal\driver\IDbDriver']
+        );
         /**
          * @var IDbDriver $driver
          */
-        $driver = $this->createInstance(
-            $this->types[$type]['driverClass'],
-            [$this->createTableFactory($this->types[$type]['tableFactoryOptions'])],
-            ['umi\dbal\driver\IDbDriver'],
-            $options
-        );
+        $driver = $driverPrototype->createInstance([$this->createTableFactory($this->types[$type]['tableFactoryOptions'])]);
+        $driverPrototype->setOptions($driver, $options);
 
         if (!$driver->isAvailable()) {
             throw new NotAvailableDriverException($this->translate(
@@ -102,11 +102,13 @@ class DbDriverFactory implements IDbDriverFactory, IFactory
      */
     protected function createTableFactory($options)
     {
-        return $this->createInstance(
+        $tableFactoryPrototype = $this->getPrototype(
             $this->tableFactoryClass,
-            [],
-            ['umi\dbal\driver\ITableFactory'],
-            $options
+            ['umi\dbal\driver\ITableFactory']
         );
+        $tableFactory = $tableFactoryPrototype->createInstance();
+        $tableFactoryPrototype->setOptions($tableFactory, $options);
+
+        return $tableFactory;
     }
 }

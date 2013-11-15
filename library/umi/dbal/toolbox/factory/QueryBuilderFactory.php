@@ -58,11 +58,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
      */
     public function createInsertBuilder(IDbDriver $driver)
     {
-        return $this->createInstance(
-            $this->insertBuilderClass,
-            [$driver, $this],
-            ['umi\dbal\builder\IInsertBuilder']
-        );
+        return $this->getPrototype(
+                $this->insertBuilderClass,
+                ['umi\dbal\builder\IInsertBuilder']
+            )
+            ->createInstance([$driver, $this]);
     }
 
     /**
@@ -70,11 +70,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
      */
     public function createDeleteBuilder(IDbDriver $driver)
     {
-        return $this->createInstance(
-            $this->deleteBuilderClass,
-            [$driver, $this],
-            ['umi\dbal\builder\IDeleteBuilder']
-        );
+        return $this->getPrototype(
+                $this->deleteBuilderClass,
+                ['umi\dbal\builder\IDeleteBuilder']
+            )
+            ->createInstance([$driver, $this]);
     }
 
     /**
@@ -82,11 +82,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
      */
     public function createUpdateBuilder(IDbDriver $driver)
     {
-        return $this->createInstance(
-            $this->updateBuilderClass,
-            [$driver, $this],
-            ['umi\dbal\builder\IUpdateBuilder']
-        );
+        return $this->getPrototype(
+                $this->updateBuilderClass,
+                ['umi\dbal\builder\IUpdateBuilder']
+            )
+            ->createInstance([$driver, $this]);
     }
 
     /**
@@ -94,11 +94,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
      */
     public function createSelectBuilder(IDbDriver $driver)
     {
-        return $this->createInstance(
-            $this->selectBuilderClass,
-            [$driver, $this],
-            ['umi\dbal\builder\ISelectBuilder']
-        );
+        return $this->getPrototype(
+                $this->selectBuilderClass,
+                ['umi\dbal\builder\ISelectBuilder']
+            )
+            ->createInstance([$driver, $this]);
     }
 
     /**
@@ -106,11 +106,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
      */
     public function createJoinBuilder($table, $type)
     {
-        return $this->createInstance(
-            $this->joinBuilderClass,
-            [$table, $type],
-            ['umi\dbal\builder\IJoinBuilder']
-        );
+        return $this->getPrototype(
+                $this->joinBuilderClass,
+                ['umi\dbal\builder\IJoinBuilder']
+            )
+            ->createInstance([$table, $type]);
     }
 
     /**
@@ -118,11 +118,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
      */
     public function createQueryResult(IQueryBuilder $query, array $resultVariables)
     {
-        return $this->createInstance(
-            $this->queryResultClass,
-            [$query, $resultVariables],
-            ['umi\dbal\builder\IQueryResult']
-        );
+        return $this->getPrototype(
+                $this->queryResultClass,
+                ['umi\dbal\builder\IQueryResult']
+            )
+            ->createInstance([$query, $resultVariables]);
     }
 
     /**
@@ -130,10 +130,10 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
      */
     public function createExpressionGroup($mode = IExpressionGroup::MODE_AND, IExpressionGroup $parentGroup = null)
     {
-        return $this->createInstance(
-            $this->expressionGroupClass,
-            [$mode, $parentGroup],
-            ['umi\dbal\builder\IExpressionGroup']
-        );
+        return $this->getPrototype(
+                $this->expressionGroupClass,
+                ['umi\dbal\builder\IExpressionGroup']
+            )
+            ->createInstance([$mode, $parentGroup]);
     }
 }

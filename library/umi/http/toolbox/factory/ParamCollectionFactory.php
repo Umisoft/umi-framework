@@ -31,10 +31,10 @@ class ParamCollectionFactory implements IParamCollectionFactory, IFactory
      */
     public function createParamCollection(array &$params)
     {
-        return $this->createInstance(
-            $this->paramCollectionClass,
-            [&$params],
-            ['umi\http\request\param\IParamCollection']
-        );
+        return $this->getPrototype(
+                $this->paramCollectionClass,
+                ['umi\http\request\param\IParamCollection']
+            )
+            ->createInstance([&$params]);
     }
 }

@@ -41,11 +41,11 @@ class ObjectSetFactory implements IObjectSetFactory, IFactory
      */
     public function createObjectSet()
     {
-        return $this->createInstance(
-            $this->objectSetClass,
-            [],
-            ['umi\orm\objectset\IObjectSet']
-        );
+        return $this->getPrototype(
+                $this->objectSetClass,
+                ['umi\orm\objectset\IObjectSet']
+            )
+            ->createInstance();
     }
 
     /**
@@ -53,11 +53,11 @@ class ObjectSetFactory implements IObjectSetFactory, IFactory
      */
     public function createEmptyObjectSet()
     {
-        return $this->createInstance(
-            $this->emptyObjectSetClass,
-            [],
-            ['umi\orm\objectset\IEmptyObjectSet']
-        );
+        return $this->getPrototype(
+                $this->emptyObjectSetClass,
+                ['umi\orm\objectset\IEmptyObjectSet']
+            )
+            ->createInstance();
     }
 
     /**
@@ -65,10 +65,10 @@ class ObjectSetFactory implements IObjectSetFactory, IFactory
      */
     public function createManyToManyObjectSet(IObject $object, ManyToManyRelationField $manyToManyRelationField)
     {
-        return $this->createInstance(
-            $this->manyToManyObjectSetClass,
-            [$object, $manyToManyRelationField],
-            ['umi\orm\objectset\IManyToManyObjectSet']
-        );
+        return $this->getPrototype(
+                $this->manyToManyObjectSetClass,
+                ['umi\orm\objectset\IManyToManyObjectSet']
+            )
+            ->createInstance([$object, $manyToManyRelationField]);
     }
 }

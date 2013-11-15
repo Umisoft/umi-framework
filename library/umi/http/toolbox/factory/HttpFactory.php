@@ -35,11 +35,11 @@ class HttpFactory implements IHttpFactory, IFactory
      */
     public function getRequest()
     {
-        return $this->createInstance(
-            $this->requestClass,
-            [],
-            ['umi\http\request\IRequest']
-        );
+        return $this->getPrototype(
+                $this->requestClass,
+                ['umi\http\request\IRequest']
+            )
+            ->createInstance();
     }
 
     /**
@@ -47,10 +47,10 @@ class HttpFactory implements IHttpFactory, IFactory
      */
     public function createResponse()
     {
-        return $this->createInstance(
-            $this->responseClass,
-            [],
-            ['umi\http\response\IResponse']
-        );
+        return $this->getPrototype(
+                $this->responseClass,
+                ['umi\http\response\IResponse']
+            )
+            ->createInstance();
     }
 }

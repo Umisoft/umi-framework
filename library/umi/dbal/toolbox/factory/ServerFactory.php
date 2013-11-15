@@ -66,10 +66,10 @@ class ServerFactory implements IServerFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->types[$serverType],
-            [$serverId, $driver, $this->queryBuilderFactory],
-            ['umi\dbal\cluster\server\IServer']
-        );
+        return $this->getPrototype(
+                $this->types[$serverType],
+                ['umi\dbal\cluster\server\IServer']
+            )
+            ->createInstance([$serverId, $driver, $this->queryBuilderFactory]);
     }
 }
