@@ -47,25 +47,26 @@ return [
         DbalTools::NAME           => [
             'servers' => [
                 [
-                    'id'     => 'mysqlMaster',
-                    'type'   => 'master',
-                    'driver' => [
-                        'type'    => 'mysql',
+                    'id'         => 'mysqlMaster',
+                    'type'       => 'master',
+                    'connection' => [
+                        'type'    => DbalTools::CONNECTION_TYPE_PDOMYSQL,
                         'options' => [
-                            'dsn'      => 'mysql:dbname=umi;host=localhost',
+                            'dbname'   => 'umi',
+                            'host'     => 'localhost',
                             'user'     => 'root',
-                            'password' => 'root'
+                            'password' => 'root',
+                            'charset'  => 'utf8',
                         ]
                     ]
                 ],
                 [
-                    'id'     => 'sqliteMaster',
-                    'type'   => 'master',
-                    'driver' => [
-                        'type'    => 'sqlite',
-                        'options' => [
-                            'dsn' => 'sqlite::memory:'
-                        ]
+                    'id'         => 'sqliteMaster',
+                    'type'       => 'master',
+                    'connection' => [
+                        'type'    => DbalTools::CONNECTION_TYPE_PDOSQLITE,
+                        //todo overwriting strategy in Configuration
+                        'options' => []
                     ]
                 ]
             ]

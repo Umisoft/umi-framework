@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -36,7 +35,7 @@ class DbalToolsTest extends DbalTestCase
         $this->assertTrue($dbCluster === $this->dbal->getService('umi\dbal\cluster\IDbCluster', null));
     }
 
-    public function  testDbalToolsServerConfig1()
+    public function testDbalToolsServerConfig1()
     {
         $this->dbal->servers = ['wrongServerConfig' => 'wrongServerConfig'];
         $e = null;
@@ -56,7 +55,7 @@ class DbalToolsTest extends DbalTestCase
         );
     }
 
-    public function  testDbalToolsServerConfig2()
+    public function testDbalToolsServerConfig2()
     {
         $this->dbal->servers = ['wrongServerConfig' => []];
         $e = null;
@@ -76,7 +75,7 @@ class DbalToolsTest extends DbalTestCase
         );
     }
 
-    public function  testDbalToolsServerConfig3()
+    public function testDbalToolsServerConfig3()
     {
         $this->dbal->servers = [
             'wrongServerConfig' => [
@@ -94,16 +93,16 @@ class DbalToolsTest extends DbalTestCase
             $e,
             'Ожидается исключение при неверно заданной конфигурации инструментария баз данных'
         );
-        $this->assertEquals('Cannot find driver configuration.', $e->getMessage(), 'Неверный текст исключения');
+        $this->assertEquals('Cannot find connection type in configuration.', $e->getMessage(), 'Неверный текст исключения');
     }
 
-    public function  testDbalToolsServerConfig4()
+    public function testDbalToolsServerConfig4()
     {
         $this->dbal->servers = [
             'wrongServerConfig' => [
-                'id'     => 'wrongServerId',
-                'type'   => 'master',
-                'driver' => 'wrongDriverConfig'
+                'id'         => 'wrongServerId',
+                'type'       => 'master',
+                'connection' => 'wrongDriverConfig'
             ]
         ];
         $e = null;
@@ -123,7 +122,7 @@ class DbalToolsTest extends DbalTestCase
         );
     }
 
-    public function  testDbalToolsServerConfig5()
+    public function testDbalToolsServerConfig5()
     {
         $this->dbal->servers = [
             'wrongServerConfig' => [
@@ -145,20 +144,20 @@ class DbalToolsTest extends DbalTestCase
             'Ожидается исключение при неверно заданной конфигурации инструментария баз данных'
         );
         $this->assertEquals(
-            'Cannot find driver type in configuration.',
+            'Cannot find connection type in configuration.',
             $e->getMessage(),
             'Неверный текст исключения'
         );
     }
 
-    public function  testDbalToolsServerConfig6()
+    public function testDbalToolsServerConfig6()
     {
         $this->dbal->servers = [
             'wrongServerConfig' => [
-                'id'     => 'wrongServerId',
-                'type'   => 'master',
-                'driver' => [
-                    'type'    => 'mysql',
+                'id'         => 'wrongServerId',
+                'type'       => 'master',
+                'connection' => [
+                    'type'    => 'pdo_mysql',
                     'options' => 'WrongOptionsValue'
                 ]
             ]
@@ -180,15 +179,15 @@ class DbalToolsTest extends DbalTestCase
         );
     }
 
-    public function  testDbalToolsServerConfig7()
+    public function testDbalToolsServerConfig7()
     {
         $this->dbal->servers = [
             'wrongServerConfig' => [
-                'id'     => 'wrongServerId',
-                'type'   => 'master',
-                'driver' => [
-                    'type'    => 'mysql',
-                    'options' => []
+                'id'         => 'wrongServerId',
+                'type'       => 'master',
+                'connection' => [
+                    'type'    => 'pdo_mysql',
+                    'options' => ['charset' => 'utf8']
                 ]
             ]
         ];
@@ -200,25 +199,110 @@ class DbalToolsTest extends DbalTestCase
         );
     }
 
-    public function  testDbalToolsServerConfig8()
+    /**
+     * @expectedException \umi\dbal\exception\InvalidArgumentException
+     */
+    public function testServerConfigWrongType()
     {
-        $servers = [
+
+        $this->dbal->servers = [
             'wrongServerConfig' => [
-                'id'     => 'wrongServerId',
-                'type'   => 'master',
-                'driver' => [
-                    'type'    => 'mysql',
-                    'options' => []
+                'id'         => 'wrongServerId',
+                'type'       => 'master',
+                'connection' => [
+                    'type'    => 'pdo_dooodoooooo',
+                    'options' => ['charset' => 'utf8']
                 ]
             ]
         ];
+        $this->dbal->getService('umi\dbal\cluster\IDbCluster', null);
+    }
 
-        $this->dbal->servers = new Config($servers);
-
+    public function testSqliteOptions()
+    {
+        $this->dbal->servers = [
+            [
+                'id'         => 'sqliteMem',
+                'type'       => 'master',
+                'connection' => [
+                    'type'    => DbalTools::CONNECTION_TYPE_PDOSQLITE,
+                    'options' => ['memory' => true]
+                ]
+            ],
+            [
+                'id'         => 'sqliteFile',
+                'type'       => 'master',
+                'connection' => [
+                    'type'    => DbalTools::CONNECTION_TYPE_PDOSQLITE,
+                    'options' => ['path' => __DIR__ . '/../data/test.db']
+                ]
+            ],
+        ];
         $this->assertInstanceOf(
-            'umi\dbal\cluster\IDbCluster',
-            $this->dbal->getService('umi\dbal\cluster\IDbCluster', null),
-            'Ожидается, что IDbTools может вернуть сервис IDbCluster'
+            'umi\dbal\cluster\server\IServer',
+            $this->dbal
+                ->getService('umi\dbal\cluster\IDbCluster', null)
+                ->getServer('sqliteMem'),
+            'Sqlite memory driver must be available'
+        );
+        $this->assertInstanceOf(
+            'umi\dbal\cluster\server\IServer',
+            $this->dbal
+                ->getService('umi\dbal\cluster\IDbCluster', null)
+                ->getServer('sqliteFile'),
+            'Sqlite memory driver must be available'
         );
     }
+
+    public function testSqliteEmptyOptions()
+    {
+        $this->dbal->servers = [
+            [
+                'id'         => 'sqliteMem',
+                'type'       => 'master',
+                'connection' => [
+                    'type'    => DbalTools::CONNECTION_TYPE_PDOSQLITE,
+                    'options' => ['memory' => true]
+                ]
+            ],
+            [
+                'id'         => 'sqliteFile',
+                'type'       => 'master',
+                'connection' => [
+                    'type'    => DbalTools::CONNECTION_TYPE_PDOSQLITE,
+                    'options' => ['path' => __DIR__ . '/../data/test.db']
+                ]
+            ],
+            [
+                'id'         => 'sqliteEmptyConfig',
+                'type'       => 'master',
+                'connection' => [
+                    'type'    => DbalTools::CONNECTION_TYPE_PDOSQLITE,
+                    'options' => [] // empty config will fail
+                ]
+            ]
+        ];
+        $this->assertInstanceOf(
+            'umi\dbal\cluster\server\IServer',
+            $this->dbal
+                ->getService('umi\dbal\cluster\IDbCluster', null)
+                ->getServer('sqliteMem'),
+            'Sqlite memory driver must be available'
+        );
+        $this->assertInstanceOf(
+            'umi\dbal\cluster\server\IServer',
+            $this->dbal
+                ->getService('umi\dbal\cluster\IDbCluster', null)
+                ->getServer('sqliteFile'),
+            'Sqlite memory driver must be available'
+        );
+        $this->assertInstanceOf(
+            'umi\dbal\cluster\server\IServer',
+            $this->dbal
+                ->getService('umi\dbal\cluster\IDbCluster', null)
+                ->getServer('sqliteEmptyConfig'),
+            'Sqlite empty config must create temporary db till end of connection'
+        );
+    }
+
 }

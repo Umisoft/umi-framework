@@ -7,58 +7,58 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\builder;
-
-/**
- * Группа выражений запроса.
- * Группа может состоять из вложенных групп и простых выражений
- * Составные группы и простые выражения складываются по OR, AND, XOR
- * в зависимости от указанного режима группы.
- */
-interface IExpressionGroup
-{
-
-    const MODE_AND = 'AND';
-    const MODE_OR = 'OR';
-    const MODE_XOR = 'XOR';
+    namespace umi\dbal\builder;
 
     /**
-     * Возвращает режим сложения составных выражений группы
-     * @return string
+     * Группа выражений запроса.
+     * Группа может состоять из вложенных групп и простых выражений
+     * Составные группы и простые выражения складываются по OR, AND, XOR
+     * в зависимости от указанного режима группы.
      */
-    public function getMode();
+    interface IExpressionGroup
+    {
 
-    /**
-     * Возвращает родительскую группу
-     * @internal
-     * @return null|IExpressionGroup
-     */
-    public function getParentGroup();
+        const MODE_AND = 'AND';
+        const MODE_OR = 'OR';
+        const MODE_XOR = 'XOR';
 
-    /**
-     * Добавляет простое выражение
-     * @param string $leftCond левая часть выражения
-     * @param string $operator оператор
-     * @param string $rightCond правая часть выражения
-     * @return self
-     */
-    public function addExpression($leftCond, $operator, $rightCond);
+        /**
+         * Возвращает режим сложения составных выражений группы
+         * @return string
+         */
+        public function getMode();
 
-    /**
-     * Возвращает массив простых выражений
-     * @return array в формате array(array(leftCond, $operator, $rightCond), ...)
-     */
-    public function getExpressions();
+        /**
+         * Возвращает родительскую группу
+         * @internal
+         * @return null|IExpressionGroup
+         */
+        public function getParentGroup();
 
-    /**
-     * Добавляет дочернюю группу условий
-     * @param IExpressionGroup $group группа
-     */
-    public function addGroup(IExpressionGroup $group);
+        /**
+         * Добавляет простое выражение
+         * @param string $leftCond левая часть выражения
+         * @param string $operator оператор
+         * @param string $rightCond правая часть выражения
+         * @return self
+         */
+        public function addExpression($leftCond, $operator, $rightCond);
 
-    /**
-     * Возвращает список дочерних групп
-     * @return IExpressionGroup[]
-     */
-    public function getGroups();
-}
+        /**
+         * Возвращает массив простых выражений
+         * @return array в формате array(array(leftCond, $operator, $rightCond), ...)
+         */
+        public function getExpressions();
+
+        /**
+         * Добавляет дочернюю группу условий
+         * @param IExpressionGroup $group группа
+         */
+        public function addGroup(IExpressionGroup $group);
+
+        /**
+         * Возвращает список дочерних групп
+         * @return IExpressionGroup[]
+         */
+        public function getGroups();
+    }

@@ -7,264 +7,264 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\builder;
+    namespace umi\dbal\builder;
 
-use umi\dbal\exception\IException;
-use umi\dbal\exception\RuntimeException;
-
-/**
- * Интерфейс построителя Select-запросов.
- */
-interface ISelectBuilder extends IQueryBuilder
-{
-    /**
-     * Определяет список столбцов для выборки.
-     * Список столбцов передается в параметрах метода.
-     * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
-     * Пример:
-     * <code>
-     * ...
-     * $subquery; // select-подзапрос, объект Query
-     * $query->select(
-     *     'field1',
-     *     array('field2', 'alias'),
-     *     array($subQuery, 'subfield'),
-     *     array('tbl.field3 as field3')
-     * );
-     * ...
-     * </code>
-     * [@param string|array $column,... список столбцов]
-     * @return self
-     */
-    public function select();
+    use umi\dbal\exception\IException;
+    use umi\dbal\exception\RuntimeException;
 
     /**
-     * Устанавливает массив столбцов для выборки.
-     * @param array $columns массив столбцов для выборки
-     * @return self
+     * �?нтерфейс построителя Select-запросов.
      */
-    public function setColumns(array $columns);
+    interface ISelectBuilder extends IQueryBuilder
+    {
+        /**
+         * Определяет список столбцов для выборки.
+         * Список столбцов передается в параметрах метода.
+         * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
+         * Пример:
+         * <code>
+         * ...
+         * $subquery; // select-подзапрос, объект Query
+         * $query->select(
+         *     'field1',
+         *     array('field2', 'alias'),
+         *     array($subQuery, 'subfield'),
+         *     array('tbl.field3 as field3')
+         * );
+         * ...
+         * </code>
+         * [@param string|array $column,... список столбцов]
+         * @return self
+         */
+        public function select();
 
-    /**
-     * Запрещает серверу БД использовать кэш запросов (SQL_NO_CACHE).
-     * Используется для тестов производительности, не рекомендуется выключать кэш.
-     * @internal
-     * @return self
-     */
-    public function disableCache();
+        /**
+         * Устанавливает массив столбцов для выборки.
+         * @param array $columns массив столбцов для выборки
+         * @return self
+         */
+        public function setColumns(array $columns);
 
-    /**
-     * Проверяет, выключен ли кэш для запросов
-     * @internal
-     * @return bool
-     */
-    public function getCacheDisabled();
+        /**
+         * Запрещает серверу БД использовать кэш запросов (SQL_NO_CACHE).
+         * �?спользуется для тестов производительности, не рекомендуется выключать кэш.
+         * @internal
+         * @return self
+         */
+        public function disableCache();
 
-    /**
-     * Включает/выключает выборку только уникальных строк (SELECT DISTINCT)
-     * @param boolean $enabled
-     * @return self
-     */
-    public function distinct($enabled = true);
+        /**
+         * Проверяет, выключен ли кэш для запросов
+         * @internal
+         * @return bool
+         */
+        public function getCacheDisabled();
 
-    /**
-     * Определяет список таблиц для выборки.
-     * Список таблиц передается в параметрах метода.<br />
-     * Пример:
-     * <code>
-     * ...
-     * $query->from('table1', array('table2', 'alias'));
-     * ...
-     * </code>
-     * @throws RuntimeException если не передана ни одна таблица
-     * @return self
-     */
-    public function from();
+        /**
+         * Включает/выключает выборку только уникальных строк (SELECT DISTINCT)
+         * @param boolean $enabled
+         * @return self
+         */
+        public function distinct($enabled = true);
 
-    /**
-     * Задаёт условия WHERE.
-     * @param string $mode режим складывания выражений
-     * @return self
-     */
-    public function where($mode = IExpressionGroup::MODE_AND);
+        /**
+         * Определяет список таблиц для выборки.
+         * Список таблиц передается в параметрах метода.<br />
+         * Пример:
+         * <code>
+         * ...
+         * $query->from('table1', array('table2', 'alias'));
+         * ...
+         * </code>
+         * @throws RuntimeException если не передана ни одна таблица
+         * @return self
+         */
+        public function from();
 
-    /**
-     * Задаёт условия HAVING.
-     * @param string $mode режим складывания выражений
-     * @return self
-     */
-    public function having($mode = IExpressionGroup::MODE_AND);
+        /**
+         * Задаёт условия WHERE.
+         * @param string $mode режим складывания выражений
+         * @return self
+         */
+        public function where($mode = IExpressionGroup::MODE_AND);
 
-    /**
-     * Создаёт JOIN таблицы.
-     * @param array|string $table имя таблицы для джойна, может быть массивом вида array('name', 'alias');
-     * @param string $type тип (LEFT, INNER, ...). По умолчанию INNER
-     * @return self
-     */
-    public function join($table, $type = 'INNER');
+        /**
+         * Задаёт условия HAVING.
+         * @param string $mode режим складывания выражений
+         * @return self
+         */
+        public function having($mode = IExpressionGroup::MODE_AND);
 
-    /**
-     * Создаёт LEFT JOIN таблицы.
-     * @param array|string $table имя таблицы для джойна, может быть массивом вида array('name', 'alias');
-     * @return self
-     */
-    public function leftJoin($table);
+        /**
+         * Создаёт JOIN таблицы.
+         * @param array|string $table имя таблицы для джойна, может быть массивом вида array('name', 'alias');
+         * @param string $type тип (LEFT, INNER, ...). По умолчанию INNER
+         * @return self
+         */
+        public function join($table, $type = 'INNER');
 
-    /**
-     * Создаёт INNER JOIN таблицы.
-     * @param array|string $table имя таблицы для джойна, может быть массивом вида array('name', 'alias');
-     * @return self
-     */
-    public function innerJoin($table);
+        /**
+         * Создаёт LEFT JOIN таблицы.
+         * @param array|string $table имя таблицы для джойна, может быть массивом вида array('name', 'alias');
+         * @return self
+         */
+        public function leftJoin($table);
 
-    /**
-     * Задает условие для джойна последней таблицы.
-     * @param string $leftColumn столбец основной таблицы
-     * @param string $operator логический оператор ("=", ">", "<" ...)
-     * @param string $rightColumn столбец присоединяемой таблицы
-     * @return self
-     */
-    public function on($leftColumn, $operator, $rightColumn);
+        /**
+         * Создаёт INNER JOIN таблицы.
+         * @param array|string $table имя таблицы для джойна, может быть массивом вида array('name', 'alias');
+         * @return self
+         */
+        public function innerJoin($table);
 
-    /**
-     * Устанавливает LIMIT на выборку.
-     * @param integer|string $limit может быть либо числом, либо плейсхолдером
-     * @param integer|string $offset может быть либо числом, либо плейсхолдером
-     * @param bool $useCalcFoundRows использовать в запросе параметр для вычисления общего количества строк
-     * @return self
-     */
-    public function limit($limit, $offset = null, $useCalcFoundRows = false);
+        /**
+         * Задает условие для джойна последней таблицы.
+         * @param string $leftColumn столбец основной таблицы
+         * @param string $operator логический оператор ("=", ">", "<" ...)
+         * @param string $rightColumn столбец присоединяемой таблицы
+         * @return self
+         */
+        public function on($leftColumn, $operator, $rightColumn);
 
-    /**
-     * Устанавливает OFFSET для выборки.
-     * @param integer|string $offset может быть либо числом, либо плейсхолдером
-     * @return self
-     */
-    public function offset($offset);
+        /**
+         * Устанавливает LIMIT на выборку.
+         * @param integer|string $limit может быть либо числом, либо плейсхолдером
+         * @param integer|string $offset может быть либо числом, либо плейсхолдером
+         * @param bool $useCalcFoundRows использовать в запросе параметр для вычисления общего количества строк
+         * @return self
+         */
+        public function limit($limit, $offset = null, $useCalcFoundRows = false);
 
-    /**
-     * Устанавливает условие группировки.
-     * @param string $column имя столбца, может быть плейсхолдером
-     * @param string $direction направление сортировки, ASC по умолчанию
-     * @return self
-     */
-    public function groupBy($column, $direction = IQueryBuilder::ORDER_ASC);
+        /**
+         * Устанавливает OFFSET для выборки.
+         * @param integer|string $offset может быть либо числом, либо плейсхолдером
+         * @return self
+         */
+        public function offset($offset);
 
-    /**
-     * Возвращает массив столбцов для выборки.
-     * в формате array(array('columnName', 'alias'), ...))
-     * @internal
-     * @return array
-     */
-    public function getSelectColumns();
+        /**
+         * Устанавливает условие группировки.
+         * @param string $column имя столбца, может быть плейсхолдером
+         * @param string $direction направление сортировки, ASC по умолчанию
+         * @return self
+         */
+        public function groupBy($column, $direction = IQueryBuilder::ORDER_ASC);
 
-    /**
-     * Возвращает массив таблиц для выборки.
-     * @internal
-     * @return array в формате array(array('tableName', 'alias'), ...))
-     */
-    public function getTables();
+        /**
+         * Возвращает массив столбцов для выборки.
+         * в формате array(array('columnName', 'alias'), ...))
+         * @internal
+         * @return array
+         */
+        public function getSelectColumns();
 
-    /**
-     * Возвращает limit на выборку.
-     * @internal
-     * @return integer
-     */
-    public function getLimit();
+        /**
+         * Возвращает массив таблиц для выборки.
+         * @internal
+         * @return array в формате array(array('tableName', 'alias'), ...))
+         */
+        public function getTables();
 
-    /**
-     * Возвращает offset выборки.
-     * @internal
-     * @return integer
-     */
-    public function getOffset();
+        /**
+         * Возвращает limit на выборку.
+         * @internal
+         * @return integer
+         */
+        public function getLimit();
 
-    /**
-     * Проверяет, используется ли SQL_CALC_FOUND_ROWS для запроса.
-     * @internal
-     * @return bool
-     */
-    public function getUseCalcFoundRows();
+        /**
+         * Возвращает offset выборки.
+         * @internal
+         * @return integer
+         */
+        public function getOffset();
 
-    /**
-     * Проверяет включен ли DISTINCT для выборки.
-     * @internal
-     * @return bool
-     */
-    public function getDistinct();
+        /**
+         * Проверяет, используется ли SQL_CALC_FOUND_ROWS для запроса.
+         * @internal
+         * @return bool
+         */
+        public function getUseCalcFoundRows();
 
-    /**
-     * Возвращает список всех JOIN.
-     * @internal
-     * @return IJoinBuilder[]
-     */
-    public function getJoins();
+        /**
+         * Проверяет включен ли DISTINCT для выборки.
+         * @internal
+         * @return bool
+         */
+        public function getDistinct();
 
-    /**
-     * Возвращает список правил группировки.
-     * @internal
-     * @return array в формате array('columnName' => 'ASC'))
-     */
-    public function getGroupByConditions();
+        /**
+         * Возвращает список всех JOIN.
+         * @internal
+         * @return IJoinBuilder[]
+         */
+        public function getJoins();
 
-    /**
-     * Возвращает группу выражений для WHERE.
-     * @internal
-     * @return IExpressionGroup|null null, если нет WHERE-выражений
-     */
-    public function getWhereExpressionGroup();
+        /**
+         * Возвращает список правил группировки.
+         * @internal
+         * @return array в формате array('columnName' => 'ASC'))
+         */
+        public function getGroupByConditions();
 
-    /**
-     * Возвращает группу выражений для HAVING.
-     * @internal
-     * @return IExpressionGroup|null null, если нет HAVING-выражений
-     */
-    public function getHavingExpressionGroup();
+        /**
+         * Возвращает группу выражений для WHERE.
+         * @internal
+         * @return IExpressionGroup|null null, если нет WHERE-выражений
+         */
+        public function getWhereExpressionGroup();
 
-    /**
-     * Возвращает найденное число записей, удовлетворяюших запросу без LIMIT.
-     * @throws IException
-     * @return int
-     */
-    public function getTotal();
+        /**
+         * Возвращает группу выражений для HAVING.
+         * @internal
+         * @return IExpressionGroup|null null, если нет HAVING-выражений
+         */
+        public function getHavingExpressionGroup();
 
-    /**
-     * Начинает новую группу выражений.
-     * Группа становится текущей до вызова end.
-     * @param string $mode режим сложения составных выражений
-     * @return self
-     */
-    public function begin($mode = IExpressionGroup::MODE_AND);
+        /**
+         * Возвращает найденное число записей, удовлетворяюших запросу без LIMIT.
+         * @throws IException
+         * @return int
+         */
+        public function getTotal();
 
-    /**
-     * Завершает текущую группу выражений.
-     * Текущей становится родительская группа.
-     * @return self
-     */
-    public function end();
+        /**
+         * Начинает новую группу выражений.
+         * Группа становится текущей до вызова end.
+         * @param string $mode режим сложения составных выражений
+         * @return self
+         */
+        public function begin($mode = IExpressionGroup::MODE_AND);
 
-    /**
-     * Добавляет простое выражение в текущую группу выражений.
-     * @param string $leftCondition левое выражение
-     * @param string $operator оператор
-     * @param string $rightCondition правое выражение
-     * @throws RuntimeException если не удалось добавить выражение
-     * @return self
-     */
-    public function expr($leftCondition, $operator, $rightCondition);
+        /**
+         * Завершает текущую группу выражений.
+         * Текущей становится родительская группа.
+         * @return self
+         */
+        public function end();
 
-    /**
-     * Добавляет условие сортировки.
-     * @param string $column имя столбца, может быть плейсхолдером
-     * @param string $direction направление сортировки, ASC по умолчанию
-     * @return self
-     */
-    public function orderBy($column, $direction = IQueryBuilder::ORDER_ASC);
+        /**
+         * Добавляет простое выражение в текущую группу выражений.
+         * @param string $leftCondition левое выражение
+         * @param string $operator оператор
+         * @param string $rightCondition правое выражение
+         * @throws RuntimeException если не удалось добавить выражение
+         * @return self
+         */
+        public function expr($leftCondition, $operator, $rightCondition);
 
-    /**
-     * Возвращает список правил сортировки.
-     * @internal
-     * @return array в формате array(array('columnName', 'ASC'), ...))
-     */
-    public function getOrderConditions();
-}
+        /**
+         * Добавляет условие сортировки.
+         * @param string $column имя столбца, может быть плейсхолдером
+         * @param string $direction направление сортировки, ASC по умолчанию
+         * @return self
+         */
+        public function orderBy($column, $direction = IQueryBuilder::ORDER_ASC);
+
+        /**
+         * Возвращает список правил сортировки.
+         * @internal
+         * @return array в формате array(array('columnName', 'ASC'), ...))
+         */
+        public function getOrderConditions();
+    }

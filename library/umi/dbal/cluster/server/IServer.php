@@ -7,18 +7,18 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\cluster\server;
+    namespace umi\dbal\cluster\server;
 
-use umi\dbal\cluster\IConnection;
+    use umi\dbal\cluster\IConnection;
 
-/**
- * Интерфейс сервера БД.
- */
-interface IServer extends IConnection
-{
     /**
-     * Возвращает идентификатор сервера
-     * @return string
+     * �?нтерфейс сервера БД.
      */
-    public function getId();
-}
+    interface IServer extends IConnection
+    {
+        /**
+         * Возвращает идентификатор сервера
+         * @return string
+         */
+        public function getId();
+    }

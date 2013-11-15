@@ -7,105 +7,105 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\driver;
-
-/**
- * Интерфейс схемы индекса таблицы БД.
- */
-interface IIndexScheme
-{
-    /**
-     * Устанавливает/снимает флаг "схема удалена"
-     * @internal
-     * @param bool $isDeleted
-     * @return self
-     */
-    public function setIsDeleted($isDeleted = true);
+    namespace umi\dbal\driver;
 
     /**
-     * Проверяет, является ли схема удаленной
-     * @return bool
+     * �?нтерфейс схемы индекса таблицы БД.
      */
-    public function getIsDeleted();
+    interface IIndexScheme
+    {
+        /**
+         * Устанавливает/снимает флаг "схема удалена"
+         * @internal
+         * @param bool $isDeleted
+         * @return self
+         */
+        public function setIsDeleted($isDeleted = true);
 
-    /**
-     * Проверяет, является ли схема новой
-     * @return bool
-     */
-    public function getIsNew();
+        /**
+         * Проверяет, является ли схема удаленной
+         * @return bool
+         */
+        public function getIsDeleted();
 
-    /**
-     * Устанавливает/снимает флаг "новая схема"
-     * @internal
-     * @param bool $isNew
-     * @return self
-     */
-    public function setIsNew($isNew = true);
+        /**
+         * Проверяет, является ли схема новой
+         * @return bool
+         */
+        public function getIsNew();
 
-    /**
-     * Проверяет, была ли изменена схема индекса
-     * @return bool
-     */
-    public function getIsModified();
+        /**
+         * Устанавливает/снимает флаг "новая схема"
+         * @internal
+         * @param bool $isNew
+         * @return self
+         */
+        public function setIsNew($isNew = true);
 
-    /**
-     * Устанавливает/снимает флаг "схема изменена"
-     * @internal
-     * @param bool $isModified
-     * @return self
-     */
-    public function setIsModified($isModified = true);
+        /**
+         * Проверяет, была ли изменена схема индекса
+         * @return bool
+         */
+        public function getIsModified();
 
-    /**
-     * Возвращает имя индекса
-     * @return string
-     */
-    public function getName();
+        /**
+         * Устанавливает/снимает флаг "схема изменена"
+         * @internal
+         * @param bool $isModified
+         * @return self
+         */
+        public function setIsModified($isModified = true);
 
-    /**
-     * Возвращает уникальность индекса
-     * @return bool
-     */
-    public function getIsUnique();
+        /**
+         * Возвращает имя индекса
+         * @return string
+         */
+        public function getName();
 
-    /**
-     * Выставляет уникальность индекса
-     * @param bool $isUnique
-     * @return self
-     */
-    public function setIsUnique($isUnique = true);
+        /**
+         * Возвращает уникальность индекса
+         * @return bool
+         */
+        public function getIsUnique();
 
-    /**
-     * Выставляет тип индекса или сбрасывает его
-     * @param string|null $type
-     * @return self
-     */
-    public function setType($type);
+        /**
+         * Выставляет уникальность индекса
+         * @param bool $isUnique
+         * @return self
+         */
+        public function setIsUnique($isUnique = true);
 
-    /**
-     * Возвращает тип индекса
-     * @return string
-     */
-    public function getType();
+        /**
+         * Выставляет тип индекса или сбрасывает его
+         * @param string|null $type
+         * @return self
+         */
+        public function setType($type);
 
-    /**
-     * Добавляет к индексу столбец или изменяет существующий
-     * @param string $name столбец
-     * @param null|int $length длина
-     * @return self
-     */
-    public function addColumn($name, $length = null);
+        /**
+         * Возвращает тип индекса
+         * @return string
+         */
+        public function getType();
 
-    /**
-     * Удаляет столбец из индекса
-     * @param string $name столбец
-     * @return self
-     */
-    public function deleteColumn($name);
+        /**
+         * Добавляет к индексу столбец или изменяет существующий
+         * @param string $name столбец
+         * @param null|int $length длина
+         * @return self
+         */
+        public function addColumn($name, $length = null);
 
-    /**
-     * Возвращает столбцы индекса
-     * @return array
-     */
-    public function getColumns();
-}
+        /**
+         * Удаляет столбец из индекса
+         * @param string $name столбец
+         * @return self
+         */
+        public function deleteColumn($name);
+
+        /**
+         * Возвращает столбцы индекса
+         * @return array
+         */
+        public function getColumns();
+    }

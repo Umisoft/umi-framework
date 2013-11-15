@@ -7,11 +7,11 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\exception;
+    namespace umi\dbal\exception;
 
-/**
- * Исключения, связанные с ошибками, которые можно выявить только во время исполнения.
- */
-class RuntimeException extends \RuntimeException implements IException
-{
-}
+    /**
+     * �?сключения, связанные с ошибками, которые можно выявить только во время исполнения.
+     */
+    class RuntimeException extends \RuntimeException implements IException
+    {
+    }

@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -9,14 +8,15 @@
 
 namespace umi\dbal\toolbox;
 
+use Doctrine\DBAL\DriverManager;
 use Traversable;
 use umi\dbal\builder\IQueryBuilderFactory;
 use umi\dbal\cluster\IDbCluster;
 use umi\dbal\cluster\IDbClusterAware;
 use umi\dbal\cluster\server\IServer;
 use umi\dbal\cluster\server\IServerFactory;
-use umi\dbal\driver\IDbDriver;
-use umi\dbal\driver\IDbDriverFactory;
+use umi\dbal\driver\IConnection;
+use umi\dbal\driver\IDialect;
 use umi\dbal\exception\InvalidArgumentException;
 use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
@@ -32,36 +32,55 @@ class DbalTools implements IToolbox
      */
     const NAME = 'db';
 
+    const CONNECTION_TYPE_PDOMYSQL = 'pdo_mysql';
+    const CONNECTION_TYPE_PDOSQLITE = 'pdo_sqlite';
+    const CONNECTION_TYPE_PDOPGSQL = 'pdo_pgsql';
+    const CONNECTION_TYPE_PDOOCI = 'pdo_oci';
+
     use TToolbox;
+
+    protected $dialectMap = [
+        DbalTools::CONNECTION_TYPE_PDOMYSQL  => 'umi\dbal\driver\dialect\MySqlDialect',
+        DbalTools::CONNECTION_TYPE_PDOSQLITE => 'umi\dbal\driver\dialect\SqliteDialect',
+        DbalTools::CONNECTION_TYPE_PDOPGSQL  => 'umi\dbal\driver\dialect\PostgreSqlDialect',
+        DbalTools::CONNECTION_TYPE_PDOOCI    => 'umi\dbal\driver\dialect\MySqlDialect',
+    ];
+
+    protected $supportedConnectionTypes = [
+        DbalTools::CONNECTION_TYPE_PDOMYSQL,
+        DbalTools::CONNECTION_TYPE_PDOSQLITE,
+        DbalTools::CONNECTION_TYPE_PDOPGSQL,
+        DbalTools::CONNECTION_TYPE_PDOOCI,
+    ];
 
     /**
      * @var array|Traversable $servers конфигурация серверов, в формате:
+     * <pre><code>
      * [
      *    [
      *        'id' => 'masterServer',
      *        'type' => 'master',
-     *        'driver' => [
-     *            'type' => 'mysql',
+     *        'connection' => [
+     *            'type' => DbTools::CONNECTION_TYPE_PDOMYSQL,
      *            'options' => [
-     *                'dsn' => 'mysql:dbname=test;host=localhost',
-     *                'user' => 'noname',
-     *                'password' => 'password',
+     *                'dbname' => 'mydb',
+     *                'user' => 'user',
+     *                'password' => 'secret',
+     *                'host' => 'localhost',
+     *                'charset' => 'utf8', // for some drivers
      *                ...
      *            ]
      *        ]
      *    ],
      *    ...
      * ]
+     * </code></pre>
      */
     public $servers = [];
     /**
      * @var string $dbClusterClass имя класса для создания кластера БД
      */
     public $dbClusterClass = 'umi\dbal\cluster\DbCluster';
-    /**
-     * @var string $dbDriverFactoryClass имя класса для создания фабрики драйверов БД
-     */
-    public $dbDriverFactoryClass = 'umi\dbal\toolbox\factory\DbDriverFactory';
     /**
      * @var string $serverFactoryClass имя класса для создания фабрики серверов кластера
      */
@@ -85,11 +104,6 @@ class DbalTools implements IToolbox
             'queryBuilderFactory',
             $this->queryBuilderFactoryClass,
             ['umi\dbal\builder\IQueryBuilderFactory']
-        );
-        $this->registerFactory(
-            'dbDriverFactory',
-            $this->dbDriverFactoryClass,
-            ['umi\dbal\driver\IDbDriverFactory']
         );
     }
 
@@ -144,16 +158,7 @@ class DbalTools implements IToolbox
     }
 
     /**
-     * Возвращает фабрику драйверов БД
-     * @return IDbDriverFactory
-     */
-    protected function getDbDriverFactory()
-    {
-        return $this->getFactory('dbDriverFactory');
-    }
-
-    /**
-     * Возвращает фабрику драйверов БД
+     * Возвращает фабрику построителей запросов БД
      * @return IQueryBuilderFactory
      */
     protected function getQueryBuilderFactory()
@@ -181,67 +186,120 @@ class DbalTools implements IToolbox
         if ($serverConfig instanceof Traversable) {
             $serverConfig = iterator_to_array($serverConfig, true);
         }
-        if (!is_array($serverConfig)) {
-            throw new InvalidArgumentException($this->translate(
-                'Server configuration should be an array or Traversable.'
-            ));
-        }
-        if (!isset($serverConfig['id']) || empty($serverConfig['id'])) {
-            throw new InvalidArgumentException($this->translate(
-                'Cannot find server id in configuration.'
-            ));
-        }
-        if (!isset($serverConfig['driver']) || empty($serverConfig['driver'])) {
-            throw new InvalidArgumentException($this->translate(
-                'Cannot find driver configuration.'
-            ));
-        }
-        $dbDriver = $this->configureDbDriver($serverConfig['driver']);
+        $this->validateServerConfig($serverConfig);
+
+        list($connection, $dialect) = $this->configureConnection($serverConfig['connection']);
 
         $type = null;
         if (isset($serverConfig['type']) && !empty($serverConfig['type'])) {
             $type = $serverConfig['type'];
         }
 
-        return $this->getServerFactory()
-            ->create($serverConfig['id'], $dbDriver, $type);
+        return $this
+            ->getServerFactory()
+            ->create($serverConfig['id'], $connection, $dialect, $type);
     }
 
     /**
      * Создает и конфигурирует драйвер БД
-     * @param array|Traversable $driverConfig конфигурация драйвера
+     * @param array|Traversable $connectionConfig конфигурация драйвера
      * @throws InvalidArgumentException если конфигурация не валидна
-     * @return IDbDriver
+     * @return array [IConnection, IDialect]
      */
-    protected function configureDbDriver($driverConfig)
+    protected function configureConnection($connectionConfig)
     {
-        if ($driverConfig instanceof Traversable) {
-            $driverConfig = iterator_to_array($driverConfig, true);
+        if ($connectionConfig instanceof Traversable) {
+            $connectionConfig = iterator_to_array($connectionConfig, true);
         }
-        if (!is_array($driverConfig)) {
+
+        $this->validateConnectionConfig($connectionConfig);
+
+        $options = [];
+        if (isset($connectionConfig['options'])) {
+            $options = $connectionConfig['options'];
+            if ($options instanceof Traversable) {
+                $options = iterator_to_array($options, true);
+            }
+        }
+
+        // добавим фабрике соединений тип драйвера - он всегда совпадает с указанным type
+        $options['driver'] = $connectionConfig['type'];
+
+        // инжектим в соединение свой Диалект, расширяющий доктриновскую Платформу
+        $dialectClass = $this->dialectMap[$connectionConfig['type']];
+
+        /** @var IDialect $dialect */
+        $dialect = new $dialectClass;
+
+        $options['platform'] = $dialect;
+        /** @var IConnection $connection */
+        $connection = DriverManager::getConnection(
+            $options
+        );
+
+        $dialect->initPdoInstance($connection, $connection->getWrappedConnection());
+
+        return [
+            $connection,
+            $dialect
+        ];
+    }
+
+    /**
+     * Проверяет конфигурацию сервера
+     * @param $config
+     * @throws InvalidArgumentException
+     * @return void
+     */
+    protected function validateServerConfig($config)
+    {
+        if (!is_array($config)) {
+            throw new InvalidArgumentException($this->translate(
+                'Server configuration should be an array or Traversable.'
+            ));
+        }
+        if (!isset($config['id']) || empty($config['id'])) {
+            throw new InvalidArgumentException($this->translate(
+                'Cannot find server id in configuration.'
+            ));
+        }
+        if (!isset($config['connection']) || empty($config['connection'])) {
+            throw new InvalidArgumentException($this->translate(
+                'Cannot find connection type in configuration.'
+            ));
+        }
+    }
+
+    /**
+     * Проверяет конфигурацию соединения с бд, передаваемую Doctrine DriverManager
+     * @param $connectionConfig
+     * @throws InvalidArgumentException
+     * @return void
+     */
+    protected function validateConnectionConfig($connectionConfig)
+    {
+        if (!is_array($connectionConfig)) {
             throw new InvalidArgumentException($this->translate(
                 'Db driver configuration should be an array or Traversable.'
             ));
         }
-        if (!isset($driverConfig['type']) || empty($driverConfig['type'])) {
+
+        if (!isset($connectionConfig['type'])) {
             throw new InvalidArgumentException($this->translate(
-                'Cannot find driver type in configuration.'
+                'Cannot find connection type in configuration.'
             ));
-        }
-        $options = [];
-        if (isset($driverConfig['options'])) {
-            $options = $driverConfig['options'];
-            if ($options instanceof Traversable) {
-                $options = iterator_to_array($options, true);
+        } else {
+            if (!in_array($connectionConfig['type'], $this->supportedConnectionTypes)) {
+                throw new InvalidArgumentException('Wrong connection type: ' . $connectionConfig['type']);
             }
-            if (!is_array($options)) {
+        }
+
+        if (isset($connectionConfig['options'])) {
+            if (!(is_array($connectionConfig['options']) || $connectionConfig['options'] instanceof Traversable)) {
                 throw new InvalidArgumentException($this->translate(
                     'Db driver options should be an array or Traversable.'
                 ));
             }
         }
-
-        return $this->getDbDriverFactory()
-            ->create($driverConfig['type'], $options);
     }
 }

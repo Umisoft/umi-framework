@@ -9,7 +9,8 @@
 
 namespace umi\dbal\builder;
 
-use umi\dbal\driver\IDbDriver;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use umi\dbal\exception\RuntimeException;
 
 /**
@@ -17,6 +18,7 @@ use umi\dbal\exception\RuntimeException;
  */
 class DeleteBuilder extends BaseQueryBuilder implements IDeleteBuilder
 {
+
     /**
      * @var string $tableName имя таблицы
      */
@@ -98,12 +100,10 @@ class DeleteBuilder extends BaseQueryBuilder implements IDeleteBuilder
 
     /**
      * Генерирует и возвращает шаблон Delete-запроса
-     * @param IDbDriver $driver используемый драйвер БД
      * @return string sql
      */
-    protected function build(IDbDriver $driver)
+    protected function build()
     {
-        return $driver->buildDeleteQuery($this);
+        return $this->dialect->buildDeleteQuery($this);
     }
-
 }

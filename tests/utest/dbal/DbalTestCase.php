@@ -20,11 +20,12 @@ abstract class DbalTestCase extends TestCase
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/event/toolbox/config.php')
-        );
+        $this
+            ->getTestToolkit()
+            ->registerToolbox(
+                require(LIBRARY_PATH . '/event/toolbox/config.php')
+            );
 
         parent::setUp();
     }
 }
- 

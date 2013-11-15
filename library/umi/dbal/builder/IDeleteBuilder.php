@@ -7,95 +7,95 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\builder;
+    namespace umi\dbal\builder;
 
-use umi\dbal\exception\RuntimeException;
-
-/**
- * Построитель Delete-запросов.
- */
-interface IDeleteBuilder extends IQueryBuilder
-{
-    /**
-     * Определяет имя таблицы для удаления данных.
-     * @param string $tableName имя таблицы
-     * @return self
-     */
-    public function from($tableName);
+    use umi\dbal\exception\RuntimeException;
 
     /**
-     * Задает условия WHERE
-     * @param string $mode режим складывания выражений
-     * @return self
+     * Построитель Delete-запросов.
      */
-    public function where($mode = IExpressionGroup::MODE_AND);
+    interface IDeleteBuilder extends IQueryBuilder
+    {
+        /**
+         * Определяет имя таблицы для удаления данных.
+         * @param string $tableName имя таблицы
+         * @return self
+         */
+        public function from($tableName);
 
-    /**
-     * Установливает LIMIT на количество удаляемых строк
-     * @param integer|string $limit может быть либо числом, либо плейсхолдером
-     * @return self
-     */
-    public function limit($limit);
+        /**
+         * Задает условия WHERE
+         * @param string $mode режим складывания выражений
+         * @return self
+         */
+        public function where($mode = IExpressionGroup::MODE_AND);
 
-    /**
-     * Возвращает имя таблицы для удаления данных
-     * @internal
-     * @throws RuntimeException если имя таблицы не определено
-     * @return string
-     */
-    public function getTableName();
+        /**
+         * Установливает LIMIT на количество удаляемых строк
+         * @param integer|string $limit может быть либо числом, либо плейсхолдером
+         * @return self
+         */
+        public function limit($limit);
 
-    /**
-     * Возвращает группу выражений для WHERE
-     * @internal
-     * @return IExpressionGroup|null null, если нет WHERE-выражений
-     */
-    public function getWhereExpressionGroup();
+        /**
+         * Возвращает имя таблицы для удаления данных
+         * @internal
+         * @throws RuntimeException если имя таблицы не определено
+         * @return string
+         */
+        public function getTableName();
 
-    /**
-     * Возвращает limit на количество затрагиваемых строк
-     * @internal
-     * @return integer
-     */
-    public function getLimit();
+        /**
+         * Возвращает группу выражений для WHERE
+         * @internal
+         * @return IExpressionGroup|null null, если нет WHERE-выражений
+         */
+        public function getWhereExpressionGroup();
 
-    /**
-     * Начинает новую группу выражений.
-     * Группа становится текущей до вызова end
-     * @param string $mode режим сложения составных выражений
-     * @return self
-     */
-    public function begin($mode = IExpressionGroup::MODE_AND);
+        /**
+         * Возвращает limit на количество затрагиваемых строк
+         * @internal
+         * @return integer
+         */
+        public function getLimit();
 
-    /**
-     * Завершает текущую группу выражений.
-     * Текущей становится родительская группа.
-     * @return self
-     */
-    public function end();
+        /**
+         * Начинает новую группу выражений.
+         * Группа становится текущей до вызова end
+         * @param string $mode режим сложения составных выражений
+         * @return self
+         */
+        public function begin($mode = IExpressionGroup::MODE_AND);
 
-    /**
-     * Добавляет простое выражение в текущую группу выражений
-     * @param string $leftCond
-     * @param string $operator
-     * @param string $rightCond
-     * @throws RuntimeException если не удалось добавить выражение
-     * @return self
-     */
-    public function expr($leftCond, $operator, $rightCond);
+        /**
+         * Завершает текущую группу выражений.
+         * Текущей становится родительская группа.
+         * @return self
+         */
+        public function end();
 
-    /**
-     * Устанавливает условие сортировки
-     * @param string $column имя столбца, может быть плейсхолдером
-     * @param string $direction направление сортировки, ASC по умолчанию
-     * @return self
-     */
-    public function orderBy($column, $direction = IQueryBuilder::ORDER_ASC);
+        /**
+         * Добавляет простое выражение в текущую группу выражений
+         * @param string $leftCond
+         * @param string $operator
+         * @param string $rightCond
+         * @throws RuntimeException если не удалось добавить выражение
+         * @return self
+         */
+        public function expr($leftCond, $operator, $rightCond);
 
-    /**
-     * Возвращает список правил сортировки
-     * @internal
-     * @return array в формате array(array('columnName', 'ASC'), ...))
-     */
-    public function getOrderConditions();
-}
+        /**
+         * Устанавливает условие сортировки
+         * @param string $column имя столбца, может быть плейсхолдером
+         * @param string $direction направление сортировки, ASC по умолчанию
+         * @return self
+         */
+        public function orderBy($column, $direction = IQueryBuilder::ORDER_ASC);
+
+        /**
+         * Возвращает список правил сортировки
+         * @internal
+         * @return array в формате array(array('columnName', 'ASC'), ...))
+         */
+        public function getOrderConditions();
+    }

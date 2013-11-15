@@ -7,76 +7,71 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\builder;
+    namespace umi\dbal\builder;
 
-use umi\dbal\driver\IDbDriver;
-use umi\dbal\exception\RuntimeException;
+    use umi\dbal\exception\RuntimeException;
 
-/**
- * Построитель Select-запросов.
- */
-class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
-{
     /**
-     * @var array $selectColumns список столбцов для выборки в формате array(array('columnName', 'alias'), ...))
+     * Построитель Select-запросов.
      */
-    protected $selectColumns = [];
-    /**
-     * @var array $tables список таблиц для выборки в формате array(array('tableName', 'alias'), ...))
-     */
-    protected $tables = [];
-    /**
-     * @var IJoinBuilder[] $joins список JOIN-условий
-     */
-    protected $joins = [];
-    /**
-     * @var IJoinBuilder $latestJoin последний созданный JOIN
-     */
-    protected $latestJoin;
-    /**
-     * @var bool $distinct SELECT DISTINCT
-     */
-    protected $distinct = false;
-    /**
-     * @var int $limit ограничение на количество затрагиваемых строк
-     */
-    protected $limit;
-    /**
-     * @var int $offset смещение выборки
-     */
-    protected $offset = 0;
-    /**
-     * @var array $groupByConditions список GROUP BY - условий
-     */
-    protected $groupByConditions = [];
-    /**
-     * @var IExpressionGroup $whereExpressionGroup группа условий WHERE
-     */
-    protected $whereExpressionGroup;
-    /**
-     * @var IExpressionGroup $havingExpressionGroup группа условий HAVING
-     */
-    protected $havingExpressionGroup;
-    /**
-     * @var int $total общее количество строк, удовлетворяющих запросу.
-     */
-    protected $total;
-    /**
-     * @var bool $useCalcFoundRows использовать в запросе c ограничениями по выборке параметр, позволяющий получить общее количество строк
-     */
-    protected $useCalcFoundRows = false;
-    /**
-     * @var bool $noCache запрещать серверу БД использовать кэш для запроса
-     */
-    protected $noCache = false;
+    class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
+    {
+        /**
+         * @var array $selectColumns список столбцов для выборки в формате array(array('columnName', 'alias'), ...))
+         */
+        protected $selectColumns = [];
+        /**
+         * @var array $tables список таблиц для выборки в формате array(array('tableName', 'alias'), ...))
+         */
+        protected $tables = [];
+        /**
+         * @var IJoinBuilder[] $joins список JOIN-условий
+         */
+        protected $joins = [];
+        /**
+         * @var IJoinBuilder $latestJoin последний созданный JOIN
+         */
+        protected $latestJoin;
+        /**
+         * @var bool $distinct SELECT DISTINCT
+         */
+        protected $distinct = false;
+        /**
+         * @var int $limit ограничение на количество затрагиваемых строк
+         */
+        protected $limit;
+        /**
+         * @var int $offset смещение выборки
+         */
+        protected $offset = 0;
+        /**
+         * @var array $groupByConditions список GROUP BY - условий
+         */
+        protected $groupByConditions = [];
+        /**
+         * @var IExpressionGroup $whereExpressionGroup группа условий WHERE
+         */
+        protected $whereExpressionGroup;
+        /**
+         * @var IExpressionGroup $havingExpressionGroup группа условий HAVING
+         */
+        protected $havingExpressionGroup;
+        /**
+         * @var bool $useCalcFoundRows использовать в запросе c ограничениями по выборке параметр, позволяющий получить общее количество строк
+         */
+        protected $useCalcFoundRows = false;
+        /**
+         * @var bool $noCache запрещать серверу БД использовать кэш для запроса
+         */
+        protected $noCache = false;
 
     /**
      * {@inheritdoc}
      */
     public function select()
     {
-        return $this->setColumns(func_get_args());
-    }
+            return $this->setColumns(func_get_args());
+        }
 
     /**
      * {@inheritdoc}
@@ -95,7 +90,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
                 $this->selectColumns[] = array($name, $alias);
             }
         }
-
         return $this;
     }
 
@@ -105,7 +99,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
     public function disableCache()
     {
         $this->noCache = true;
-
         return $this;
     }
 
@@ -123,7 +116,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
     public function distinct($enabled = true)
     {
         $this->distinct = (bool) $enabled;
-
         return $this;
     }
 
@@ -164,7 +156,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
             $this->begin($mode);
             $this->whereExpressionGroup = $this->currentExpressionGroup;
         }
-
         return $this;
     }
 
@@ -178,7 +169,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
             $this->begin($mode);
             $this->havingExpressionGroup = $this->currentExpressionGroup;
         }
-
         return $this;
     }
 
@@ -197,7 +187,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
         }
 
         $this->joins[$alias] = $this->latestJoin = $join;
-
         return $this;
     }
 
@@ -225,7 +214,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
         if ($this->latestJoin) {
             $this->latestJoin->on($leftColumn, $operator, $rightColumn);
         }
-
         return $this;
     }
 
@@ -239,7 +227,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
             $this->offset = $offset;
         }
         $this->useCalcFoundRows = $useCalcFoundRows;
-
         return $this;
     }
 
@@ -249,7 +236,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
     public function offset($offset)
     {
         $this->offset = $offset;
-
         return $this;
     }
 
@@ -261,7 +247,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
         if ($direction == IQueryBuilder::ORDER_ASC || $direction == IQueryBuilder::ORDER_DESC) {
             $this->groupByConditions[$column] = $direction;
         }
-
         return $this;
     }
 
@@ -313,78 +298,69 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
         return $this->distinct;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getJoins()
-    {
-        return $this->joins;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getGroupByConditions()
-    {
-        return $this->groupByConditions;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getWhereExpressionGroup()
-    {
-        return $this->whereExpressionGroup;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getHavingExpressionGroup()
-    {
-        return $this->havingExpressionGroup;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getTotal()
-    {
-        if (!is_null($this->total)) {
-            return $this->total;
+        /**
+         * {@inheritdoc}
+         */
+        public function getJoins()
+        {
+            return $this->joins;
         }
 
-        $sql = $this->dbDriver->buildSelectFoundRowsQuery($this);
-        $sql = $this->prepareArrayPlaceholders($sql);
-        $sql = $this->prepareExpressionPlaceholders($sql);
+        /**
+         * {@inheritdoc}
+         */
+        public function getGroupByConditions()
+        {
+            return $this->groupByConditions;
+        }
 
-        $preparedStatement = $this->dbDriver->prepareStatement($sql, $this);
-        $this->bind($preparedStatement);
-        $this->dbDriver->executeStatement($preparedStatement, $this);
+        /**
+         * {@inheritdoc}
+         */
+        public function getWhereExpressionGroup()
+        {
+            return $this->whereExpressionGroup;
+        }
 
-        $result = $preparedStatement->fetch(\PDO::FETCH_NUM);
-        $preparedStatement->closeCursor();
+        /**
+         * {@inheritdoc}
+         */
+        public function getHavingExpressionGroup()
+        {
+            return $this->havingExpressionGroup;
+        }
 
-        return $this->total = !empty($result) ? $result[0] : 0;
-    }
+        /**
+         * {@inheritdoc}
+         */
+        public function getTotal()
+        {
+            $sql = $this->dialect->buildSelectFoundRowsQuery($this);
+            $sql = $this->prepareArrayPlaceholders($sql);
+            $sql = $this->prepareExpressionPlaceholders($sql);
+            $preparedStatement = $this->connection->prepare($sql);
+            $this->bind($preparedStatement, $sql);
+            $preparedStatement->execute();
 
-    /**
-     * {@inheritdoc}
-     */
-    public function execute()
-    {
-        $this->total = null;
+            $result = $preparedStatement->fetch(\PDO::FETCH_NUM);
+            $preparedStatement->closeCursor();
+            return !empty($result) ? $result[0] : 0;
+        }
 
-        return parent::execute();
-    }
+        /**
+         * {@inheritdoc}
+         */
+        public function execute()
+        {
+            return parent::execute();
+        }
 
-    /**
-     * Генерирует и возвращает шаблон SELECT-запроса
-     * @param IDbDriver $driver используемый драйвер БД
-     * @return string sql
-     */
-    protected function build(IDbDriver $driver)
-    {
-        return $driver->buildSelectQuery($this);
-    }
+        /**
+         * {@inheritdoc}
+         */
+        protected function build()
+        {
+            $queryBuilder = $this->dialect;
+            return $queryBuilder->buildSelectQuery($this);
+        }
 }

@@ -7,12 +7,12 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\exception;
+    namespace umi\dbal\exception;
 
-/**
- * Исключение, чтобы указать ошибки диапазона во время исполнения программы.
- */
-class RangeException extends RuntimeException
-{
+    /**
+     * �?сключение, чтобы указать ошибки диапазона во время исполнения программы.
+     */
+    class RangeException extends RuntimeException
+    {
 
-}
+    }

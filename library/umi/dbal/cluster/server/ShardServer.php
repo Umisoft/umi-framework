@@ -7,12 +7,12 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\cluster\server;
+    namespace umi\dbal\cluster\server;
 
-/**
- * Shard-сервер позволяет выполнять запросы на выборку и модификацию данных,
- * может использоваться моделями для шардинга данных.
- */
-class ShardServer extends BaseServer implements IShardServer
-{
-}
+    /**
+     * Shard-сервер позволяет выполнять запросы на выборку и модификацию данных,
+     * может использоваться моделями для шардинга данных.
+     */
+    class ShardServer extends BaseServer implements IShardServer
+    {
+    }

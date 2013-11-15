@@ -7,11 +7,11 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\cluster\server;
+    namespace umi\dbal\cluster\server;
 
-/**
- * Master-сервер позволяет выполнять запросы на выборку и модификацию данных.
- */
-interface IMasterServer extends ISlaveServer
-{
-}
+    /**
+     * Master-сервер позволяет выполнять запросы на выборку и модификацию данных.
+     */
+    interface IMasterServer extends ISlaveServer
+    {
+    }

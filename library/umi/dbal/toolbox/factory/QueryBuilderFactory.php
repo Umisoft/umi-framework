@@ -1,18 +1,17 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
-
 namespace umi\dbal\toolbox\factory;
 
+use Doctrine\DBAL\Connection;
 use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\builder\IQueryBuilderFactory;
-use umi\dbal\driver\IDbDriver;
+use umi\dbal\driver\IDialect;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
 
@@ -56,11 +55,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createInsertBuilder(IDbDriver $driver)
+    public function createInsertBuilder(Connection $connection, IDialect $dialect)
     {
         return $this->createInstance(
             $this->insertBuilderClass,
-            [$driver, $this],
+            [$connection, $dialect, $this],
             ['umi\dbal\builder\IInsertBuilder']
         );
     }
@@ -68,11 +67,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createDeleteBuilder(IDbDriver $driver)
+    public function createDeleteBuilder(Connection $connection, IDialect $dialect)
     {
         return $this->createInstance(
             $this->deleteBuilderClass,
-            [$driver, $this],
+            [$connection, $dialect, $this],
             ['umi\dbal\builder\IDeleteBuilder']
         );
     }
@@ -80,11 +79,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createUpdateBuilder(IDbDriver $driver)
+    public function createUpdateBuilder(Connection $connection, IDialect $dialect)
     {
         return $this->createInstance(
             $this->updateBuilderClass,
-            [$driver, $this],
+            [$connection, $dialect, $this],
             ['umi\dbal\builder\IUpdateBuilder']
         );
     }
@@ -92,11 +91,11 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createSelectBuilder(IDbDriver $driver)
+    public function createSelectBuilder(Connection $connection, IDialect $dialect)
     {
         return $this->createInstance(
             $this->selectBuilderClass,
-            [$driver, $this],
+            [$connection, $dialect, $this],
             ['umi\dbal\builder\ISelectBuilder']
         );
     }
