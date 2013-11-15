@@ -7,46 +7,41 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\cluster;
+    namespace umi\dbal\cluster;
 
-use umi\dbal\exception\RequiredDependencyException;
-
-/**
- * Трейт для поддержки работы с бд.
- */
-trait TDbClusterAware
-{
+    use umi\dbal\exception\RequiredDependencyException;
 
     /**
-     * @var IDbCluster $_dbCluster компонент для работы с бд
+     * Трейт для поддержки работы с бд.
      */
-    private $_dbCluster;
-
-    /**
-     * Устанавливает компонент для работы с бд.
-     * @param IDbCluster $dbCluster
-     * @return self
-     */
-    public function setDbCluster(IDbCluster $dbCluster)
+    trait TDbClusterAware
     {
-        $this->_dbCluster = $dbCluster;
-    }
 
-    /**
-     * Возвращает компонент для работы с бд.
-     * @throws RequiredDependencyException
-     * @return IDbCluster
-     */
-    protected function getDbCluster()
-    {
-        if (!$this->_dbCluster) {
-            throw new RequiredDependencyException(sprintf(
-                'DB cluster is not injected in class "%s".',
-                get_class($this)
-            ));
+        /**
+         * @var IDbCluster $_dbCluster компонент для работы с бд
+         */
+        private $_dbCluster;
+
+        /**
+         * Устанавливает компонент для работы с бд.
+         * @param IDbCluster $dbCluster
+         * @return self
+         */
+        public function setDbCluster(IDbCluster $dbCluster)
+        {
+            $this->_dbCluster = $dbCluster;
         }
 
-        return $this->_dbCluster;
+        /**
+         * Возвращает компонент для работы с бд.
+         * @throws RequiredDependencyException
+         * @return IDbCluster
+         */
+        protected function getDbCluster()
+        {
+            if (!$this->_dbCluster) {
+                throw new RequiredDependencyException(sprintf('DB cluster is not injected in class "%s".', get_class($this)));
+            }
+            return $this->_dbCluster;
+        }
     }
-
-}

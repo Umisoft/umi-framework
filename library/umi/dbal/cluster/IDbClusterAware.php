@@ -7,18 +7,18 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\cluster;
-
-/**
- * Интерфейс для компонентов, поддерживающих работу с бд.
- */
-interface IDbClusterAware
-{
+    namespace umi\dbal\cluster;
 
     /**
-     * Устанавливает компонент для работы с бд.
-     * @param IDbCluster $dbCluster
-     * @return self
+     * �?нтерфейс для компонентов, поддерживающих работу с бд.
      */
-    public function setDbCluster(IDbCluster $dbCluster);
-}
+    interface IDbClusterAware
+    {
+
+        /**
+         * Устанавливает компонент для работы с бд.
+         * @param IDbCluster $dbCluster
+         * @return self
+         */
+        public function setDbCluster(IDbCluster $dbCluster);
+    }

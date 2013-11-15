@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -10,6 +9,7 @@
 namespace utest\dbal\unit\builder;
 
 use umi\dbal\builder\UpdateBuilder;
+use umi\dbal\driver\dialect\MySqlDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -28,9 +28,13 @@ class UpdateTest extends DbalTestCase
     {
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
-
-        $this->query = new UpdateBuilder($this->getDbServer()
-            ->getDbDriver(), $queryBuilderFactory);
+        $this->query = new UpdateBuilder(
+            $this
+                ->getDbServer()
+                ->getConnection(),
+            new MySqlDialect(),
+            $queryBuilderFactory
+        );
     }
 
     public function testUpdateMethod()
@@ -70,7 +74,8 @@ class UpdateTest extends DbalTestCase
             'Expected Exception if empty values for SET.'
         );
 
-        $this->query->set('column1', ':column1')
+        $this->query
+            ->set('column1', ':column1')
             ->setPlaceholders('column2');
 
         $this->assertEquals(
@@ -84,7 +89,8 @@ class UpdateTest extends DbalTestCase
 
     public function testWhereAndLimitMethod()
     {
-        $this->query->where()
+        $this->query
+            ->where()
             ->expr('c', '=', 'd')
             ->limit(':limit');
 
@@ -98,7 +104,8 @@ class UpdateTest extends DbalTestCase
 
     public function testBindValues()
     {
-        $this->query->update('someTable')
+        $this->query
+            ->update('someTable')
             ->set('column1')
             ->bindInt(':column1', 1)
             ->set('column2')

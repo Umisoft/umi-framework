@@ -7,11 +7,11 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\exception;
+    namespace umi\dbal\exception;
 
-/**
- * Исключения, связанные с попыткой обратиться к несуществующей сущности DB (драйверу, таблице, столбцу, индексу ...).
- */
-class NonexistentEntityException extends RuntimeException
-{
-}
+    /**
+     * �?сключения, связанные с попыткой обратиться к несуществующей сущности DB (драйверу, таблице, столбцу, индексу ...).
+     */
+    class NonexistentEntityException extends RuntimeException
+    {
+    }

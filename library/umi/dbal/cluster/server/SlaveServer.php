@@ -7,11 +7,11 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\cluster\server;
+    namespace umi\dbal\cluster\server;
 
-/**
- * Slave-сервер позволяет выполнять запросы только на выборку данных.
- */
-class SlaveServer extends BaseServer implements ISlaveServer
-{
-}
+    /**
+     * Slave-сервер позволяет выполнять запросы только на выборку данных.
+     */
+    class SlaveServer extends BaseServer implements ISlaveServer
+    {
+    }

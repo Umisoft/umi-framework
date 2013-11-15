@@ -7,40 +7,40 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\builder;
-
-/**
- * Построитель Join - секции запроса.
- */
-interface IJoinBuilder
-{
-    /**
-     * Условие для джойна. Условия для джойна всегда складываются по AND
-     * @param string $leftColumn имя столбца основной таблицы в формате TableOrAlias.columnName
-     * @param string $operator логический оператор ("=", ">", "<" ...)
-     * @param string $rightColumn столбец присоединяемой таблицы в формате TableOrAlias.columnName
-     * @return self
-     */
-    public function on($leftColumn, $operator, $rightColumn);
+    namespace umi\dbal\builder;
 
     /**
-     * Возвращает список условий для джойна
-     * @internal
-     * @return array в формате array(array('leftColumn', 'logicOperator', 'rightColumn'), ...)
+     * Построитель Join - секции запроса.
      */
-    public function getConditions();
+    interface IJoinBuilder
+    {
+        /**
+         * Условие для джойна. Условия для джойна всегда складываются по AND
+         * @param string $leftColumn имя столбца основной таблицы в формате TableOrAlias.columnName
+         * @param string $operator логический оператор ("=", ">", "<" ...)
+         * @param string $rightColumn столбец присоединяемой таблицы в формате TableOrAlias.columnName
+         * @return self
+         */
+        public function on($leftColumn, $operator, $rightColumn);
 
-    /**
-     * Возвращает имя таблицы
-     * @internal
-     * @return array в формате array('name', 'alias')
-     */
-    public function getTable();
+        /**
+         * Возвращает список условий для джойна
+         * @internal
+         * @return array в формате array(array('leftColumn', 'logicOperator', 'rightColumn'), ...)
+         */
+        public function getConditions();
 
-    /**
-     * Возвращает тип джойна
-     * @internal
-     * @return string тип джойна
-     */
-    public function getType();
-}
+        /**
+         * Возвращает имя таблицы
+         * @internal
+         * @return array в формате array('name', 'alias')
+         */
+        public function getTable();
+
+        /**
+         * Возвращает тип джойна
+         * @internal
+         * @return string тип джойна
+         */
+        public function getType();
+    }
