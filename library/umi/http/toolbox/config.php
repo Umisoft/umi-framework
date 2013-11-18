@@ -18,8 +18,6 @@ return [
     'awareInterfaces' => [
         'umi\http\IHttpFactory',
         'umi\http\IHttpAware',
-        'umi\http\request\param\IParamCollectionAware',
-        'umi\http\response\header\IHeaderCollectionAware',
     ],
     'services'            => [
         'umi\http\request\IRequest',
