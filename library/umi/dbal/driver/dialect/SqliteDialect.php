@@ -1,43 +1,42 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-    namespace umi\dbal\driver\dialect;
+namespace umi\dbal\driver\dialect;
 
-    use Doctrine\DBAL\Connection;
-    use Doctrine\DBAL\Platforms\SqlitePlatform;
-    use PDO;
-    use umi\dbal\builder\IDeleteBuilder;
-    use umi\dbal\builder\IExpressionGroup;
-    use umi\dbal\builder\IInsertBuilder;
-    use umi\dbal\builder\ISelectBuilder;
-    use umi\dbal\builder\IUpdateBuilder;
-    use umi\dbal\driver\IDialect;
-    use umi\dbal\exception\IException;
-    use umi\dbal\exception\RuntimeException;
-    use umi\i18n\TLocalizable;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
+use PDO;
+use umi\dbal\builder\IDeleteBuilder;
+use umi\dbal\builder\IExpressionGroup;
+use umi\dbal\builder\IInsertBuilder;
+use umi\dbal\builder\ISelectBuilder;
+use umi\dbal\builder\IUpdateBuilder;
+use umi\dbal\driver\IDialect;
+use umi\dbal\exception\IException;
+use umi\dbal\exception\RuntimeException;
+use umi\i18n\TLocalizable;
 
-    class SqliteDialect extends SqlitePlatform implements IDialect
+class SqliteDialect extends SqlitePlatform implements IDialect
+{
+    use TLocalizable;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildSelectQuery(ISelectBuilder $query)
     {
-        use TLocalizable;
 
-        /**
-         * {@inheritdoc}
-         */
-        public function buildSelectQuery(ISelectBuilder $query)
-        {
+        $orderBy = $this->buildOrderByPart($query);
 
-            $orderBy = $this->buildOrderByPart($query);
-
-            $limitSql = '';
-            if (null != ($limit = $query->getLimit())) {
-                $limitSql = $this->buildLimitPart($limit, $query);
-            }
+        $limitSql = '';
+        if (null != ($limit = $query->getLimit())) {
+            $limitSql = $this->buildLimitPart($limit, $query);
+        }
 
         $result = $this->buildSelectQueryBody($query)
             . $orderBy
@@ -46,15 +45,15 @@
         return $result;
     }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function buildUpdateQuery(IUpdateBuilder $query)
-        {
-            $ignoreSql = $query->getIsIgnore() ? ' OR IGNORE' : '';
-            $whatSql = $this->quoteIdentifier($query->getTableName());
-            $whereSql = $this->buildWherePart($query);
-            $setSql = $this->buildSetPart($query->getValues());
+    /**
+     * {@inheritdoc}
+     */
+    public function buildUpdateQuery(IUpdateBuilder $query)
+    {
+        $ignoreSql = $query->getIsIgnore() ? ' OR IGNORE' : '';
+        $whatSql = $this->quoteIdentifier($query->getTableName());
+        $whereSql = $this->buildWherePart($query);
+        $setSql = $this->buildSetPart($query->getValues());
 
         $result = 'UPDATE' . $ignoreSql . ' ' . $whatSql
             . $setSql
@@ -63,20 +62,20 @@
         return $result;
     }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function buildInsertQuery(IInsertBuilder $query)
-        {
-            if (!is_null($query->getOnDuplicateKeyValues())) {
-                return $this->buildInsertUpdateQueries($query);
+    /**
+     * {@inheritdoc}
+     */
+    public function buildInsertQuery(IInsertBuilder $query)
+    {
+        if (!is_null($query->getOnDuplicateKeyValues())) {
+            return $this->buildInsertUpdateQueries($query);
         }
 
         $ignoreSql = $query->getIsIgnore() ? ' OR IGNORE' : '';
-            $whatSql = $this->quoteIdentifier($query->getTableName());
+        $whatSql = $this->quoteIdentifier($query->getTableName());
         $setSql = $this->buildValuesPart($query->getValues());
 
-            $result = 'INSERT' . $ignoreSql . ' INTO ' . $whatSql . $setSql;
+        $result = 'INSERT' . $ignoreSql . ' INTO ' . $whatSql . $setSql;
 
         return $result;
     }
@@ -87,10 +86,10 @@
      * @param IInsertBuilder $query insert-запрос
      * @return string
      */
-        protected function buildInsertUpdateQueries(IInsertBuilder $query)
+    protected function buildInsertUpdateQueries(IInsertBuilder $query)
     {
         $values = $query->getValues();
-            $whatSql = $this->quoteIdentifier($query->getTableName());
+        $whatSql = $this->quoteIdentifier($query->getTableName());
         $valuesSql = $this->buildValuesPart($values);
 
         $result = 'INSERT OR IGNORE INTO ' . $whatSql . $valuesSql . ";\n";
@@ -99,7 +98,7 @@
         $columns = $query->getOnDuplicateKeyColumns();
         foreach ($values as $columnName => $placeholder) {
             if (in_array($columnName, $columns)) {
-                    $columnName = $this->quoteIdentifier($columnName);
+                $columnName = $this->quoteIdentifier($columnName);
                 $placeholder = $this->protectExpressionValue($placeholder);
                 $whereConditions[] = $columnName . ' = ' . $placeholder;
             }
@@ -108,18 +107,18 @@
         $setSql = $this->buildSetPart($query->getOnDuplicateKeyValues());
         $result .= 'UPDATE ' . $whatSql . $setSql . $whereSql . ';';
 
-            return $result;
-        }
+        return $result;
+    }
 
     /**
      * {@inheritdoc}
      */
     public function buildDeleteQuery(IDeleteBuilder $query)
     {
-            $fromSql = $this->quoteIdentifier($query->getTableName());
+        $fromSql = $this->quoteIdentifier($query->getTableName());
         $whereSql = $this->buildWherePart($query);
 
-            $result = 'DELETE FROM ' . $fromSql . $whereSql;
+        $result = 'DELETE FROM ' . $fromSql . $whereSql;
 
         return $result;
     }
@@ -161,23 +160,23 @@
     }
 
     /**
-         * Возвращает запрос на удаление таблицы.
-         * По сравнению с Doctrine платформой, поддерживает флаг ifExists
-         * @param string $table �?мя таблицы
-         * @param bool $ifExists Добавить к запросу проверку на существование
-         * @return string
+     * Возвращает запрос на удаление таблицы.
+     * По сравнению с Doctrine платформой, поддерживает флаг ifExists
+     * @param string $table �?мя таблицы
+     * @param bool $ifExists Добавить к запросу проверку на существование
+     * @return string
      */
-        public function getDropTableSQL($table, $ifExists = true)
+    public function getDropTableSQL($table, $ifExists = true)
     {
-            return 'DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $table;
+        return 'DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $table;
     }
 
     /**
      * {@inheritdoc}
      */
-        public function buildSelectFoundRowsQuery(ISelectBuilder $query)
+    public function buildSelectFoundRowsQuery(ISelectBuilder $query)
     {
-            return 'SELECT count(*) FROM (' . $this->buildSelectQueryBody($query) . ') AS mainQuery';
+        return 'SELECT count(*) FROM (' . $this->buildSelectQueryBody($query) . ') AS mainQuery';
     }
 
     /**
@@ -207,26 +206,27 @@
     }
 
     /**
-         * Строит WHAT часть запроса (SELECT WHAT)
-         * @internal
-         * @param ISelectBuilder $query
-         * @return string
-         */
-        private function buildSelectWhatPart(ISelectBuilder $query)
-        {
-            $columns = $query->getSelectColumns();
-            if (!count($columns)) {
-                return '*';
-            }
-
-            $result = [];
-            foreach ($columns as $column) {
-                if (is_array($column)) {
-                    list($name, $alias) = $column;
-                    $name = $this->protectExpressionValue($name);
-                    $result[] = $name . ($alias ? ' AS ' . $this->quoteIdentifier($alias) : '');
-                }
+     * Строит WHAT часть запроса (SELECT WHAT)
+     * @internal
+     * @param ISelectBuilder $query
+     * @return string
+     */
+    private function buildSelectWhatPart(ISelectBuilder $query)
+    {
+        $columns = $query->getSelectColumns();
+        if (!count($columns)) {
+            return '*';
         }
+
+        $result = [];
+        foreach ($columns as $column) {
+            if (is_array($column)) {
+                list($name, $alias) = $column;
+                $name = $this->protectExpressionValue($name);
+                $result[] = $name . ($alias ? ' AS ' . $this->quoteIdentifier($alias) : '');
+            }
+        }
+
         return implode(", ", $result);
     }
 
@@ -243,107 +243,114 @@
             return '';
         }
 
-            $result = [];
-            foreach ($tables as $table) {
-                if (is_array($table)) {
-                    list($name, $alias) = $table;
-                    $name = $this->quoteIdentifier($name);
-                    $result[] = $name . ($alias ? ' AS ' . $this->quoteIdentifier($alias) : '');
-                }
+        $result = [];
+        foreach ($tables as $table) {
+            if (is_array($table)) {
+                list($name, $alias) = $table;
+                $name = $this->quoteIdentifier($name);
+                $result[] = $name . ($alias ? ' AS ' . $this->quoteIdentifier($alias) : '');
             }
-            return "\nFROM " . implode(", ", $result);
         }
 
-        /**
-         * Строит JOIN часть запроса (SELECT FROM JOIN...)
-         * @internal
-         * @param ISelectBuilder $query
-         * @return string
-         */
-        private function buildSelectJoinPart(ISelectBuilder $query)
-        {
-            $joins = $query->getJoins();
-            if (!count($joins)) {
-                return '';
+        return "\nFROM " . implode(", ", $result);
+    }
+
+    /**
+     * Строит JOIN часть запроса (SELECT FROM JOIN...)
+     * @internal
+     * @param ISelectBuilder $query
+     * @return string
+     */
+    private function buildSelectJoinPart(ISelectBuilder $query)
+    {
+        $joins = $query->getJoins();
+        if (!count($joins)) {
+            return '';
+        }
+
+        $result = '';
+
+        foreach ($joins as $join) {
+            list($name, $alias) = $join->getTable();
+            $result .= "\n\t" . $join->getType() . ' JOIN ';
+            $result .= $this->quoteIdentifier($name) . ($alias ? ' AS ' . $this->quoteIdentifier($alias) : '');
+            $joinConditions = [];
+            foreach ($join->getConditions() as $condition) {
+                list($leftColumn, $operator, $rightColumn) = $condition;
+                $joinConditions[] = $this->quoteIdentifier(
+                        $leftColumn
+                    ) . ' ' . $operator . ' ' . $this->quoteIdentifier($rightColumn);
             }
 
-            $result = '';
-
-            foreach ($joins as $join) {
-                list($name, $alias) = $join->getTable();
-                $result .= "\n\t" . $join->getType() . ' JOIN ';
-                $result .= $this->quoteIdentifier($name) . ($alias ? ' AS ' . $this->quoteIdentifier($alias) : '');
-                $joinConditions = [];
-                foreach ($join->getConditions() as $condition) {
-                    list($leftColumn, $operator, $rightColumn) = $condition;
-                    $joinConditions[] = $this->quoteIdentifier($leftColumn) . ' ' . $operator . ' ' . $this->quoteIdentifier($rightColumn);
-                }
-
-                if (count($joinConditions) === 1) {
-                    $result .= ' ON ' . $joinConditions[0];
-                } elseif (count($joinConditions) > 1) {
-                    $result .= ' ON (' . implode(' AND ', $joinConditions) . ')';
-                }
+            if (count($joinConditions) === 1) {
+                $result .= ' ON ' . $joinConditions[0];
+            } elseif (count($joinConditions) > 1) {
+                $result .= ' ON (' . implode(' AND ', $joinConditions) . ')';
             }
+        }
+
         return $result;
     }
 
-        /**
-         * Строит GROUP BY часть запроса
-         * @internal
-         * @param ISelectBuilder $query
-         * @return string
-         */
-        private function buildSelectGroupByPart(ISelectBuilder $query)
-        {
-            $conditions = $query->getGroupByConditions();
-            if (!count($conditions)) {
-                return '';
+    /**
+     * Строит GROUP BY часть запроса
+     * @internal
+     * @param ISelectBuilder $query
+     * @return string
+     */
+    private function buildSelectGroupByPart(ISelectBuilder $query)
+    {
+        $conditions = $query->getGroupByConditions();
+        if (!count($conditions)) {
+            return '';
         }
 
         $result = [];
         foreach ($conditions as $column => $direction) {
-                $result[] = $this->quoteIdentifier($column);
-        }
-            return "\nGROUP BY " . implode(", ", $result);
+            $result[] = $this->quoteIdentifier($column);
         }
 
-        /**
-         * Если выражение не плейсхолдер,
-         * оно считается именем колонки и экранируется.
-         * @param mixed $expression
-         * @return mixed
-         */
-        private function protectExpressionValue($expression)
-        {
-            if (strpos($expression, ':') === 0) {
-                return $expression;
-        }
-            return $this->quoteIdentifier($expression);
+        return "\nGROUP BY " . implode(", ", $result);
     }
 
-        /**
-         * Строит запрос для группы выражений
-         * @param IExpressionGroup $exprGroup
-         * @return string
-         */
-        private function buildExpressionGroup(IExpressionGroup $exprGroup)
-        {
-            $result = [];
-            foreach ($exprGroup->getExpressions() as $expression) {
-                list ($leftCond, $operator, $rightCond) = $expression;
-                $leftCond = $this->protectExpressionValue($leftCond);
-                $rightCond = $this->protectExpressionValue($rightCond);
-                $result[] = $leftCond . ' ' . $operator . ' ' . $rightCond;
-            }
+    /**
+     * Если выражение не плейсхолдер,
+     * оно считается именем колонки и экранируется.
+     * @param mixed $expression
+     * @return mixed
+     */
+    private function protectExpressionValue($expression)
+    {
+        if (strpos($expression, ':') === 0) {
+            return $expression;
+        }
 
-            foreach ($exprGroup->getGroups() as $subGroup) {
-                $result[] = '(' . $this->buildExpressionGroup($subGroup) . ')';
+        return $this->quoteIdentifier($expression);
+    }
+
+    /**
+     * Строит запрос для группы выражений
+     * @param IExpressionGroup $exprGroup
+     * @return string
+     */
+    private function buildExpressionGroup(IExpressionGroup $exprGroup)
+    {
+        $result = [];
+        foreach ($exprGroup->getExpressions() as $expression) {
+            list ($leftCond, $operator, $rightCond) = $expression;
+            $leftCond = $this->protectExpressionValue($leftCond);
+            $rightCond = $this->protectExpressionValue($rightCond);
+            $result[] = $leftCond . ' ' . $operator . ' ' . $rightCond;
+        }
+
+        foreach ($exprGroup->getGroups() as $subGroup) {
+            $result[] = '(' . $this->buildExpressionGroup($subGroup) . ')';
         }
 
         if (!count($result)) {
             return '1'; // WHERE 1, if no expressions
         }
+
         return implode(' ' . $exprGroup->getMode() . ' ', $result);
     }
 
@@ -375,43 +382,44 @@
             return '';
         }
 
-            $result = [];
-            foreach ($conditions as $column => $direction) {
-                $result[] = $this->quoteIdentifier($column) . ' ' . strtoupper($direction);
-            }
-            return "\nORDER BY " . implode(", ", $result);
+        $result = [];
+        foreach ($conditions as $column => $direction) {
+            $result[] = $this->quoteIdentifier($column) . ' ' . strtoupper($direction);
         }
 
-        /**
-         * Строит SET часть запроса
-         * @internal
-         * @param array $values вида array('columnName' => ':placeholder')
-         * @return string
-         */
-        private function buildSetPart($values)
-        {
-            $result = [];
-            foreach ($values as $columnName => $placeholder) {
-                $result[] = $this->quoteIdentifier($columnName) . ' = ' . $placeholder;
-            }
+        return "\nORDER BY " . implode(", ", $result);
+    }
 
-            return "\nSET " . implode(', ', $result);
+    /**
+     * Строит SET часть запроса
+     * @internal
+     * @param array $values вида array('columnName' => ':placeholder')
+     * @return string
+     */
+    private function buildSetPart($values)
+    {
+        $result = [];
+        foreach ($values as $columnName => $placeholder) {
+            $result[] = $this->quoteIdentifier($columnName) . ' = ' . $placeholder;
         }
 
-        /**
-         * Строит часть INSERT запроса
-         * @internal
-         * @param array $values вида array('columnName' => ':placeholder')
-         * @return string
-         */
-        private function buildValuesPart($values)
-        {
-            $columnNames = [];
-            $placeholders = [];
-            foreach ($values as $columnName => $placeholder) {
-                $columnNames[] = $this->quoteIdentifier($columnName);
-                $placeholders[] = $placeholder;
-            }
+        return "\nSET " . implode(', ', $result);
+    }
+
+    /**
+     * Строит часть INSERT запроса
+     * @internal
+     * @param array $values вида array('columnName' => ':placeholder')
+     * @return string
+     */
+    private function buildValuesPart($values)
+    {
+        $columnNames = [];
+        $placeholders = [];
+        foreach ($values as $columnName => $placeholder) {
+            $columnNames[] = $this->quoteIdentifier($columnName);
+            $placeholders[] = $placeholder;
+        }
 
         return "\n( " . implode(', ', $columnNames) . ' ) VALUES ( ' . implode(', ', $placeholders) . ' )';
     }
@@ -428,77 +436,78 @@
             return '';
         }
 
-            return "\nHAVING " . $this->buildExpressionGroup($exprGroup);
-        }
+        return "\nHAVING " . $this->buildExpressionGroup($exprGroup);
+    }
 
-        /**
-         * Строит и возвращает sql-запрос для отключения индексов в отдельной таблице
-         * @param string $tableName
-         * @return string
-         */
-        public function getDisableKeysSQL($tableName)
-        {
-            return $this->buildDisableKeysQuery($tableName);
-        }
+    /**
+     * Строит и возвращает sql-запрос для отключения индексов в отдельной таблице
+     * @param string $tableName
+     * @return string
+     */
+    public function getDisableKeysSQL($tableName)
+    {
+        return $this->buildDisableKeysQuery($tableName);
+    }
 
-        /**
-         * Строит и возвращает sql-запрос для включения индексов в отдельной таблице
-         * @param string $tableName
-         * @return string
-         */
-        public function getEnableKeysSQL($tableName)
-        {
-            return $this->buildEnableKeysQuery($tableName);
-        }
+    /**
+     * Строит и возвращает sql-запрос для включения индексов в отдельной таблице
+     * @param string $tableName
+     * @return string
+     */
+    public function getEnableKeysSQL($tableName)
+    {
+        return $this->buildEnableKeysQuery($tableName);
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function getDisableForeignKeysSQL()
-        {
-            return $this->buildDisableForeignKeysQuery();
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisableForeignKeysSQL()
+    {
+        return $this->buildDisableForeignKeysQuery();
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function getEnableForeignKeysSQL()
-        {
-            return $this->buildEnableForeignKeysQuery();
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function getEnableForeignKeysSQL()
+    {
+        return $this->buildEnableForeignKeysQuery();
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function buildTruncateQuery($tableName, $cascade = false)
-        {
-            $this->getTruncateTableSQL($tableName, $cascade = false);
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function buildTruncateQuery($tableName, $cascade = false)
+    {
+        $this->getTruncateTableSQL($tableName, $cascade = false);
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function buildDropQuery($tableName, $ifExists = true)
-        {
-            $this->getDropTableSQL($tableName, $ifExists = true);
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function buildDropQuery($tableName, $ifExists = true)
+    {
+        $this->getDropTableSQL($tableName, $ifExists = true);
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function initPDOInstance(Connection $connection, PDO $pdo)
-        {
-            $pdo->exec($this->buildEnableForeignKeysQuery());
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function initPDOInstance(Connection $connection, PDO $pdo)
+    {
+        $pdo->exec($this->buildEnableForeignKeysQuery());
+    }
 
-        /**
-         * @param int $limit
-         * @param ISelectBuilder $query
-         * @return string
-         */
-        protected function buildLimitPart($limit, ISelectBuilder $query)
-        {
-            $limitSql = "\nLIMIT " . $limit . ' OFFSET ' . $query->getOffset();
-            return $limitSql;
-        }
+    /**
+     * @param int $limit
+     * @param ISelectBuilder $query
+     * @return string
+     */
+    protected function buildLimitPart($limit, ISelectBuilder $query)
+    {
+        $limitSql = "\nLIMIT " . $limit . ' OFFSET ' . $query->getOffset();
+
+        return $limitSql;
+    }
 }

@@ -7,12 +7,12 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-    namespace umi\dbal\exception;
+namespace umi\dbal\exception;
 
-    /**
-     * �?сключения, связанные с тем, что значение не придерживается определенных правил текущего контекста.
-     * Например, если класс не следует необходимому контракту.
-     */
-    class DomainException extends \DomainException implements IException
-    {
-    }
+/**
+ * �?сключения, связанные с тем, что значение не придерживается определенных правил текущего контекста.
+ * Например, если класс не следует необходимому контракту.
+ */
+class DomainException extends \DomainException implements IException
+{
+}

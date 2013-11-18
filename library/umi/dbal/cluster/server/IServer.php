@@ -1,24 +1,23 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-    namespace umi\dbal\cluster\server;
+namespace umi\dbal\cluster\server;
 
-    use umi\dbal\cluster\IConnection;
+use umi\dbal\cluster\IConnection;
 
+/**
+ * �?нтерфейс сервера БД.
+ */
+interface IServer extends IConnection
+{
     /**
-     * �?нтерфейс сервера БД.
+     * Возвращает идентификатор сервера
+     * @return string
      */
-    interface IServer extends IConnection
-    {
-        /**
-         * Возвращает идентификатор сервера
-         * @return string
-         */
-        public function getId();
-    }
+    public function getId();
+}
