@@ -46,11 +46,11 @@ class ValidatorFactory implements IValidatorFactory, IFactory
             $validators[$type] = $this->createValidator($type, $options);
         }
 
-        return $this->createInstance(
-            $this->validatorCollectionClass,
-            [$validators],
-            ['umi\validation\IValidatorCollection']
-        );
+        return $this->getPrototype(
+                $this->validatorCollectionClass,
+                ['umi\validation\IValidatorCollection']
+            )
+            ->createInstance([$validators]);
     }
 
     /**
@@ -65,10 +65,10 @@ class ValidatorFactory implements IValidatorFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->types[$type],
-            [$options],
-            ['umi\validation\IValidator']
-        );
+        return $this->getPrototype(
+                $this->types[$type],
+                ['umi\validation\IValidator']
+            )
+            ->createInstance([$options]);
     }
 }

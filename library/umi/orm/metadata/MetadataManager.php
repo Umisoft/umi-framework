@@ -12,6 +12,8 @@ namespace umi\orm\metadata;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\orm\exception\NonexistentEntityException;
+use umi\orm\exception\UnexpectedValueException;
+use umi\spl\config\TConfigSupport;
 
 /**
  * Менеджер метаданных.
@@ -20,12 +22,13 @@ class MetadataManager implements IMetadataManager, ILocalizable
 {
 
     use TLocalizable;
+    use TConfigSupport;
 
     /**
      * @var array $collections конфигурация метаданных в формате
      * ['collectionName' => [], ... ]
      */
-    public $collections = [];
+    protected $collections = [];
     /**
      * @var IMetadataFactory $metadataFactory фабрика метаданных
      */
@@ -38,10 +41,24 @@ class MetadataManager implements IMetadataManager, ILocalizable
     /**
      * Конструктор.
      * @param IMetadataFactory $metadataFactory фабрика метаданных
+     * @param array|\Traversable $collections конфигурация коллекций в формате
+     * [
+     *      'collectionName' => [],
+     *      ...
+     * ]
+     * @throws UnexpectedValueException в случае неверной конфигурации
      */
-    public function __construct(IMetadataFactory $metadataFactory)
+    public function __construct(IMetadataFactory $metadataFactory, $collections)
     {
         $this->metadataFactory = $metadataFactory;
+        try {
+            $collections = $this->configToArray($collections);
+        } catch (\InvalidArgumentException $e) {
+            throw new UnexpectedValueException($this->translate(
+                'Invalid collections configuration.'
+            ), 0, $e);
+        }
+        $this->collections = $collections;
     }
 
     /**
@@ -64,26 +81,13 @@ class MetadataManager implements IMetadataManager, ILocalizable
     }
 
     /**
-     * Возвращает имена коллекций из конфига
-     * @return array
-     */
-    protected function getList()
-    {
-        if ($this->collections instanceof \Traversable) {
-            $this->collections = iterator_to_array($this->collections, true);
-        }
-
-        return array_keys($this->collections);
-    }
-
-    /**
      * Проверяет, зарегистрирована ли коллекция объектов
      * @param string $collectionName имя коллекции
      * @return boolean
      */
     protected function hasCollection($collectionName)
     {
-        return in_array($collectionName, $this->getList());
+        return array_key_exists($collectionName, $this->collections);
     }
 
 }

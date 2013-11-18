@@ -30,11 +30,11 @@ class HeaderCollectionFactory implements IHeaderCollectionFactory, IFactory
      */
     public function createHeaderCollection()
     {
-        return $this->createInstance(
-            $this->headerCollectionClass,
-            [],
-            ['umi\http\response\header\HeaderCollection']
-        );
+        return $this->getPrototype(
+                $this->headerCollectionClass,
+                ['umi\http\response\header\HeaderCollection']
+            )
+            ->createInstance();
     }
 }
  

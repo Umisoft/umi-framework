@@ -42,11 +42,11 @@ class ConfigEntityFactory implements IConfigEntityFactory, IFactory
      */
     public function createValue()
     {
-        return $this->createInstance(
-            $this->valueClass,
-            [],
-            ['umi\config\entity\value\IConfigValue']
-        );
+        return $this->getPrototype(
+                $this->valueClass,
+                ['umi\config\entity\value\IConfigValue']
+            )
+            ->createInstance();
     }
 
     /**
@@ -54,11 +54,11 @@ class ConfigEntityFactory implements IConfigEntityFactory, IFactory
      */
     public function createConfigSource($alias, array &$source)
     {
-        return $this->createInstance(
-            $this->configSourceClass,
-            [$source, $alias],
-            ['umi\config\entity\IConfigSource']
-        );
+        return $this->getPrototype(
+                $this->configSourceClass,
+                ['umi\config\entity\IConfigSource']
+            )
+            ->createInstance([$source, $alias]);
     }
 
     /**
@@ -73,10 +73,10 @@ class ConfigEntityFactory implements IConfigEntityFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->separateConfigClasses[$type],
-            [$alias],
-            ['umi\config\entity\ISeparateConfigSource']
-        );
+        return $this->getPrototype(
+                $this->separateConfigClasses[$type],
+                ['umi\config\entity\ISeparateConfigSource']
+            )
+            ->createInstance([$alias]);
     }
 }

@@ -100,6 +100,6 @@ class ModelFactory implements IModelFactory, IFactory
      */
     protected function createModel($class, array $args)
     {
-        return $this->createInstance($class, $args);
+        return $this->getPrototype($class)->createInstance($args);
     }
 }

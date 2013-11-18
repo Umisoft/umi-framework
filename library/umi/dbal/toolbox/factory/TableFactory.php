@@ -44,11 +44,11 @@ class TableFactory implements IFactory, ITableFactory
      */
     public function createTable($name, IDbDriver $driver)
     {
-        return $this->createInstance(
-            $this->tableSchemeClass,
-            [$name, $driver, $this],
-            ['umi\dbal\driver\ITableScheme']
-        );
+        return $this->getPrototype(
+                $this->tableSchemeClass,
+                ['umi\dbal\driver\ITableScheme']
+            )
+            ->createInstance([$name, $driver, $this]);
     }
 
     /**
@@ -56,11 +56,11 @@ class TableFactory implements IFactory, ITableFactory
      */
     public function createColumn($name, $internalType, $options, IDbDriver $driver, ITableScheme $table)
     {
-        return $this->createInstance(
-            $this->columnSchemeClass,
-            [$name, $internalType, $options, $driver, $table],
-            ['umi\dbal\driver\IColumnScheme']
-        );
+        return $this->getPrototype(
+                $this->columnSchemeClass,
+                ['umi\dbal\driver\IColumnScheme']
+            )
+            ->createInstance([$name, $internalType, $options, $driver, $table]);
     }
 
     /**
@@ -68,11 +68,11 @@ class TableFactory implements IFactory, ITableFactory
      */
     public function createIndex($name, ITableScheme $table)
     {
-        return $this->createInstance(
-            $this->indexSchemeClass,
-            [$name, $table],
-            ['umi\dbal\driver\IIndexScheme']
-        );
+        return $this->getPrototype(
+                $this->indexSchemeClass,
+                ['umi\dbal\driver\IIndexScheme']
+            )
+            ->createInstance([$name, $table]);
     }
 
     /**
@@ -80,10 +80,10 @@ class TableFactory implements IFactory, ITableFactory
      */
     public function createConstraint($name, ITableScheme $table)
     {
-        return $this->createInstance(
-            $this->constraintSchemeClass,
-            [$name, $table],
-            ['umi\dbal\driver\IConstraintScheme']
-        );
+        return $this->getPrototype(
+                $this->constraintSchemeClass,
+                ['umi\dbal\driver\IConstraintScheme']
+            )
+            ->createInstance([$name, $table]);
     }
 }

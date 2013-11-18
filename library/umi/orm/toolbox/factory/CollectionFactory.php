@@ -101,11 +101,11 @@ class CollectionFactory implements ICollectionFactory, IFactory, ICollectionMana
             $config['class'] = $this->defaultSimpleCollectionClass;
         }
 
-        return $this->createInstance(
-            $config['class'],
-            [$collectionName, $metadata, $this->selectorFactory],
-            ['umi\orm\collection\ISimpleCollection']
-        );
+        return $this->getPrototype(
+                $config['class'],
+                ['umi\orm\collection\ISimpleCollection']
+            )
+            ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
     }
 
     /**
@@ -121,11 +121,11 @@ class CollectionFactory implements ICollectionFactory, IFactory, ICollectionMana
             $config['class'] = $this->defaultHierarchicCollectionClass;
         }
 
-        return $this->createInstance(
-            $config['class'],
-            [$collectionName, $metadata, $this->selectorFactory],
-            ['umi\orm\collection\ISimpleHierarchicCollection']
-        );
+        return $this->getPrototype(
+                $config['class'],
+                ['umi\orm\collection\ISimpleHierarchicCollection']
+            )
+            ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
     }
 
     /**
@@ -150,11 +150,11 @@ class CollectionFactory implements ICollectionFactory, IFactory, ICollectionMana
         /**
          * @var ILinkedHierarchicCollection $linkedCollection
          */
-        $linkedCollection = $this->createInstance(
-            $config['class'],
-            [$collectionName, $metadata, $this->selectorFactory],
-            ['umi\orm\collection\ILinkedHierarchicCollection']
-        );
+        $linkedCollection = $this->getPrototype(
+                $config['class'],
+                ['umi\orm\collection\ILinkedHierarchicCollection']
+            )
+            ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
 
         $commonHierarchy = $this->getCollectionManager()
             ->getCollection($config['hierarchy']);
@@ -182,10 +182,10 @@ class CollectionFactory implements ICollectionFactory, IFactory, ICollectionMana
             $config['class'] = $this->defaultCommonHierarchyClass;
         }
 
-        return $this->createInstance(
-            $config['class'],
-            [$collectionName, $metadata, $this->selectorFactory],
-            ['umi\orm\collection\ICommonHierarchy']
-        );
+        return $this->getPrototype(
+                $config['class'],
+                ['umi\orm\collection\ICommonHierarchy']
+            )
+            ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
     }
 }

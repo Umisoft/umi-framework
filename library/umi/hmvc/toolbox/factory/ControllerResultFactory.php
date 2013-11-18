@@ -30,10 +30,10 @@ class ControllerResultFactory implements IControllerResultFactory, IFactory
      */
     public function createControllerResult($template, array $variables = [])
     {
-        return $this->createInstance(
-            $this->controllerResultClass,
-            [$template, $variables],
-            ['umi\hmvc\controller\result\IControllerResult']
-        );
+        return $this->getPrototype(
+                $this->controllerResultClass,
+                ['umi\hmvc\controller\result\IControllerResult']
+            )
+            ->createInstance([$template, $variables]);
     }
 }

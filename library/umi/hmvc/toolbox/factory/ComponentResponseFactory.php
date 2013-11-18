@@ -30,10 +30,10 @@ class ComponentResponseFactory implements IComponentResponseFactory, IFactory
      */
     public function createComponentResponse()
     {
-        return $this->createInstance(
-            $this->componentResponseClass,
-            [],
-            ['umi\hmvc\component\response\IComponentResponse']
-        );
+        return $this->getPrototype(
+                $this->componentResponseClass,
+                ['umi\hmvc\component\response\IComponentResponse']
+            )
+            ->createInstance();
     }
 }

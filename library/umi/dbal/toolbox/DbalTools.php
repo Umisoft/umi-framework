@@ -124,23 +124,23 @@ class DbalTools implements IToolbox
      */
     protected function getCluster()
     {
-        if (null != ($instance = $this->getSingleInstance($this->dbClusterClass))) {
-            return $instance;
-        }
-        /**
-         * @var IDbCluster $dbCluster
-         */
-        $dbCluster = $this->createSingleInstance($this->dbClusterClass, [], ['umi\dbal\cluster\IDbCluster']);
-        if ($this->servers instanceof Traversable) {
-            $this->servers = iterator_to_array($this->servers, true);
-        }
-        if (is_array($this->servers)) {
-            foreach ($this->servers as $serverConfig) {
-                $dbCluster->addServer($this->configureServer($serverConfig));
-            }
-        }
 
-        return $dbCluster;
+        $prototype = $this->getPrototype($this->dbClusterClass, ['umi\dbal\cluster\IDbCluster']);
+        return $prototype->createSingleInstance(
+            [],
+            [],
+            function (IDbCluster $dbCluster)
+            {
+                if ($this->servers instanceof Traversable) {
+                    $this->servers = iterator_to_array($this->servers, true);
+                }
+                if (is_array($this->servers)) {
+                    foreach ($this->servers as $serverConfig) {
+                        $dbCluster->addServer($this->configureServer($serverConfig));
+                    }
+                }
+            }
+        );
     }
 
     /**

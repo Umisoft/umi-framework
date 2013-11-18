@@ -81,11 +81,11 @@ class PropertyFactory implements IPropertyFactory, IFactory
      */
     public function createCommonProperty(IObject $object, IField $field)
     {
-        $property = $this->createInstance(
-            $this->defaultPropertyClass,
-            [$object, $field],
-            ['umi\orm\object\property\IProperty']
-        );
+        $property = $this->getPrototype(
+                $this->defaultPropertyClass,
+                ['umi\orm\object\property\IProperty']
+            )
+            ->createInstance([$object, $field]);
 
         return $property;
     }
@@ -99,11 +99,11 @@ class PropertyFactory implements IPropertyFactory, IFactory
      */
     protected function createLocalizedProperty(IObject $object, ILocalizableField $field, $localeId)
     {
-        $property = $this->createInstance(
-            $this->defaultLocalizedPropertyClass,
-            [$object, $field, $localeId],
-            ['umi\orm\object\property\ILocalizedProperty']
-        );
+        $property = $this->getPrototype(
+                $this->defaultLocalizedPropertyClass,
+                ['umi\orm\object\property\ILocalizedProperty']
+            )
+            ->createInstance([$object, $field, $localeId]);
 
         return $property;
     }
@@ -116,11 +116,11 @@ class PropertyFactory implements IPropertyFactory, IFactory
      */
     protected function createCalculableProperty(IObject $object, ICalculableField $field)
     {
-        $property = $this->createInstance(
-            $this->defaultCalculablePropertyClass,
-            [$object, $field],
-            ['umi\orm\object\property\ICalculableProperty']
-        );
+        $property = $this->getPrototype(
+                $this->defaultCalculablePropertyClass,
+                ['umi\orm\object\property\ICalculableProperty']
+            )
+            ->createInstance([$object, $field]);
 
         return $property;
     }
@@ -133,11 +133,11 @@ class PropertyFactory implements IPropertyFactory, IFactory
      */
     public function createCounterProperty(IObject $object, CounterField $field)
     {
-        $property = $this->createInstance(
-            $this->defaultCounterPropertyClass,
-            [$object, $field],
-            ['umi\orm\object\property\ICounterProperty']
-        );
+        $property = $this->getPrototype(
+                $this->defaultCounterPropertyClass,
+                ['umi\orm\object\property\ICounterProperty']
+            )
+            ->createInstance([$object, $field]);
 
         return $property;
     }

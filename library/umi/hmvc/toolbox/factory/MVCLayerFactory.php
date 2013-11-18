@@ -42,11 +42,11 @@ class MVCLayerFactory implements IMVCLayerFactory, IFactory
      */
     public function createControllerFactory(array $options)
     {
-        return $this->createInstance(
-            $this->controllerFactoryClass,
-            [$options],
-            ['umi\hmvc\controller\IControllerFactory']
-        );
+        return $this->getPrototype(
+                $this->controllerFactoryClass,
+                ['umi\hmvc\controller\IControllerFactory']
+            )
+            ->createInstance([$options]);
     }
 
     /**
@@ -54,11 +54,11 @@ class MVCLayerFactory implements IMVCLayerFactory, IFactory
      */
     public function createModelFactory(array $options)
     {
-        return $this->createInstance(
-            $this->modelFactoryClass,
-            [$options],
-            ['umi\hmvc\model\IModelFactory']
-        );
+        return $this->getPrototype(
+                $this->modelFactoryClass,
+                ['umi\hmvc\model\IModelFactory']
+            )
+            ->createInstance([$options]);
     }
 
     /**
@@ -66,11 +66,11 @@ class MVCLayerFactory implements IMVCLayerFactory, IFactory
      */
     public function createView(array $options)
     {
-        $view = $this->createInstance(
-            $this->viewClass,
-            [$options],
-            ['umi\hmvc\view\IView']
-        );
+        $view = $this->getPrototype(
+                $this->viewClass,
+                ['umi\hmvc\view\IView']
+            )
+            ->createInstance([$options]);
 
         if ($view instanceof IViewExtensionFactoryAware) {
             $view->setViewExtensionFactory($this->createViewExtensionFactory());
@@ -84,10 +84,10 @@ class MVCLayerFactory implements IMVCLayerFactory, IFactory
      */
     public function createViewExtensionFactory()
     {
-        return $this->createInstance(
-            $this->viewExtensionFactoryClass,
-            [],
-            ['umi\hmvc\view\extension\IViewExtensionFactory']
-        );
+        return $this->getPrototype(
+                $this->viewExtensionFactoryClass,
+                ['umi\hmvc\view\extension\IViewExtensionFactory']
+            )
+            ->createInstance();
     }
 }

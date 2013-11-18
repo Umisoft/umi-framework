@@ -30,11 +30,11 @@ class ExtensionAdapterFactory implements IExtensionAdapterFactory, IFactory
      */
     public function createExtensionAdapter()
     {
-        return $this->createInstance(
-            $this->extensionAdapterClass,
-            [],
-            ['umi\templating\extension\adapter\ExtensionAdapter']
-        );
+        return $this->getPrototype(
+                $this->extensionAdapterClass,
+                ['umi\templating\extension\adapter\ExtensionAdapter']
+            )
+            ->createInstance();
     }
 }
  

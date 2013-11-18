@@ -48,11 +48,11 @@ class ExtensionFactory implements IExtensionFactory, IFactory
      */
     public function createHelperCollection()
     {
-        $helperCollection = $this->createInstance(
-            $this->helperCollectionClass,
-            [],
-            ['umi\templating\extension\helper\collection\IHelperCollection']
-        );
+        $helperCollection = $this->getPrototype(
+                $this->helperCollectionClass,
+                ['umi\templating\extension\helper\collection\IHelperCollection']
+            )
+            ->createInstance();
 
         if ($helperCollection instanceof IHelperFactoryAware) {
             $helperCollection->setTemplatingHelperFactory($this->getHelperFactory());
@@ -76,10 +76,6 @@ class ExtensionFactory implements IExtensionFactory, IFactory
      */
     protected function getHelperFactory()
     {
-        return $this->createSingleInstance(
-            $this->helperFactoryClass,
-            [],
-            ['umi\templating\extension\helper\IHelperFactory']
-        );
+        return $this->getPrototype($this->helperFactoryClass, ['umi\templating\extension\helper\IHelperFactory'])->createSingleInstance();
     }
 }

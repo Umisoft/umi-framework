@@ -11,9 +11,12 @@ namespace umi\config\cache;
 
 use umi\config\entity\IConfigSource;
 use umi\config\entity\ISeparateConfigSource;
+use umi\config\exception\InvalidArgumentException;
 use umi\config\exception\RuntimeException;
+use umi\config\exception\UnexpectedValueException;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
+use umi\spl\config\TConfigSupport;
 
 /**
  * Кэширующий механизм для конфигурационных файлов.
@@ -21,13 +24,38 @@ use umi\i18n\TLocalizable;
  */
 class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable
 {
+    /** Директория с кэшем */
+    const OPTION_DIRECTORY = 'directory';
 
     use TLocalizable;
+    use TConfigSupport;
 
     /**
      * @var string $directory директория с кэшем.
      */
-    public $directory;
+    protected $directory;
+
+    /**
+     * Конструктор.
+     * @param array|\Traversable $options конфигурация кеша
+     * @throws UnexpectedValueException если задана неверная конфигурация
+     * @throws InvalidArgumentException если задана неверная конфигурация
+     */
+    public function __construct($options)
+    {
+        try {
+            $options = $this->configToArray($options);
+        } catch (\InvalidArgumentException $e) {
+            throw new UnexpectedValueException('Dictionaries configuration should be an array or Traversable.', 0, $e);
+        }
+
+        if (!isset($options[self::OPTION_DIRECTORY])) {
+            throw new InvalidArgumentException($this->translate(
+                'Option "directory" is required.'
+            ));
+        }
+        $this->directory = $options[self::OPTION_DIRECTORY];
+    }
 
     /**
      * {@inheritdoc}

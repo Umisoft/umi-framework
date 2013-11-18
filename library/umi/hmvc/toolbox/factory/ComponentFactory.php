@@ -33,11 +33,11 @@ class ComponentFactory implements IComponentFactory, IFactory
         $componentClass = isset($options['componentClass']) ? $options['componentClass'] : $this->componentClass;
         unset($options['componentClass']);
 
-        return $this->createInstance(
-            $componentClass,
-            [$options],
-            ['umi\hmvc\component\IComponent']
-        );
+        return $this->getPrototype(
+                $componentClass,
+                ['umi\hmvc\component\IComponent']
+            )
+            ->createInstance([$options]);
     }
 
 }

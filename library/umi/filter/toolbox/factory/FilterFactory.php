@@ -53,11 +53,11 @@ class FilterFactory implements IFilterFactory, IFactory
             $filters[$type] = $this->createFilter($type, $options);
         }
 
-        return $this->createInstance(
-            $this->filterCollectionClass,
-            [$filters],
-            ['umi\filter\IFilterCollection']
-        );
+        return $this->getPrototype(
+                $this->filterCollectionClass,
+                ['umi\filter\IFilterCollection']
+            )
+            ->createInstance([$filters]);
     }
 
     /**
@@ -72,10 +72,10 @@ class FilterFactory implements IFilterFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->types[$type],
-            [$options],
-            ['umi\filter\IFilter']
-        );
+        return $this->getPrototype(
+                $this->types[$type],
+                ['umi\filter\IFilter']
+            )
+            ->createInstance([$options]);
     }
 }
