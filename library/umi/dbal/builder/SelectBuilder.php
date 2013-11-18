@@ -1,77 +1,77 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-    namespace umi\dbal\builder;
+namespace umi\dbal\builder;
 
-    use umi\dbal\exception\RuntimeException;
+use umi\dbal\exception\RuntimeException;
 
+/**
+ * Построитель Select-запросов.
+ */
+class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
+{
     /**
-     * Построитель Select-запросов.
+     * @var array $selectColumns список столбцов для выборки в формате array(array('columnName', 'alias'), ...))
      */
-    class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
-    {
-        /**
-         * @var array $selectColumns список столбцов для выборки в формате array(array('columnName', 'alias'), ...))
-         */
-        protected $selectColumns = [];
-        /**
-         * @var array $tables список таблиц для выборки в формате array(array('tableName', 'alias'), ...))
-         */
-        protected $tables = [];
-        /**
-         * @var IJoinBuilder[] $joins список JOIN-условий
-         */
-        protected $joins = [];
-        /**
-         * @var IJoinBuilder $latestJoin последний созданный JOIN
-         */
-        protected $latestJoin;
-        /**
-         * @var bool $distinct SELECT DISTINCT
-         */
-        protected $distinct = false;
-        /**
-         * @var int $limit ограничение на количество затрагиваемых строк
-         */
-        protected $limit;
-        /**
-         * @var int $offset смещение выборки
-         */
-        protected $offset = 0;
-        /**
-         * @var array $groupByConditions список GROUP BY - условий
-         */
-        protected $groupByConditions = [];
-        /**
-         * @var IExpressionGroup $whereExpressionGroup группа условий WHERE
-         */
-        protected $whereExpressionGroup;
-        /**
-         * @var IExpressionGroup $havingExpressionGroup группа условий HAVING
-         */
-        protected $havingExpressionGroup;
-        /**
-         * @var bool $useCalcFoundRows использовать в запросе c ограничениями по выборке параметр, позволяющий получить общее количество строк
-         */
-        protected $useCalcFoundRows = false;
-        /**
-         * @var bool $noCache запрещать серверу БД использовать кэш для запроса
-         */
-        protected $noCache = false;
+    protected $selectColumns = [];
+    /**
+     * @var array $tables список таблиц для выборки в формате array(array('tableName', 'alias'), ...))
+     */
+    protected $tables = [];
+    /**
+     * @var IJoinBuilder[] $joins список JOIN-условий
+     */
+    protected $joins = [];
+    /**
+     * @var IJoinBuilder $latestJoin последний созданный JOIN
+     */
+    protected $latestJoin;
+    /**
+     * @var bool $distinct SELECT DISTINCT
+     */
+    protected $distinct = false;
+    /**
+     * @var int $limit ограничение на количество затрагиваемых строк
+     */
+    protected $limit;
+    /**
+     * @var int $offset смещение выборки
+     */
+    protected $offset = 0;
+    /**
+     * @var array $groupByConditions список GROUP BY - условий
+     */
+    protected $groupByConditions = [];
+    /**
+     * @var IExpressionGroup $whereExpressionGroup группа условий WHERE
+     */
+    protected $whereExpressionGroup;
+    /**
+     * @var IExpressionGroup $havingExpressionGroup группа условий HAVING
+     */
+    protected $havingExpressionGroup;
+    /**
+     * @var bool $useCalcFoundRows использовать в запросе c ограничениями по выборке параметр,
+     * позволяющий получить общее количество строк
+     */
+    protected $useCalcFoundRows = false;
+    /**
+     * @var bool $noCache запрещать серверу БД использовать кэш для запроса
+     */
+    protected $noCache = false;
 
     /**
      * {@inheritdoc}
      */
     public function select()
     {
-            return $this->setColumns(func_get_args());
-        }
+        return $this->setColumns(func_get_args());
+    }
 
     /**
      * {@inheritdoc}
@@ -90,6 +90,7 @@
                 $this->selectColumns[] = array($name, $alias);
             }
         }
+
         return $this;
     }
 
@@ -99,6 +100,7 @@
     public function disableCache()
     {
         $this->noCache = true;
+
         return $this;
     }
 
@@ -116,6 +118,7 @@
     public function distinct($enabled = true)
     {
         $this->distinct = (bool) $enabled;
+
         return $this;
     }
 
@@ -156,6 +159,7 @@
             $this->begin($mode);
             $this->whereExpressionGroup = $this->currentExpressionGroup;
         }
+
         return $this;
     }
 
@@ -169,6 +173,7 @@
             $this->begin($mode);
             $this->havingExpressionGroup = $this->currentExpressionGroup;
         }
+
         return $this;
     }
 
@@ -187,6 +192,7 @@
         }
 
         $this->joins[$alias] = $this->latestJoin = $join;
+
         return $this;
     }
 
@@ -214,6 +220,7 @@
         if ($this->latestJoin) {
             $this->latestJoin->on($leftColumn, $operator, $rightColumn);
         }
+
         return $this;
     }
 
@@ -227,6 +234,7 @@
             $this->offset = $offset;
         }
         $this->useCalcFoundRows = $useCalcFoundRows;
+
         return $this;
     }
 
@@ -236,6 +244,7 @@
     public function offset($offset)
     {
         $this->offset = $offset;
+
         return $this;
     }
 
@@ -247,6 +256,7 @@
         if ($direction == IQueryBuilder::ORDER_ASC || $direction == IQueryBuilder::ORDER_DESC) {
             $this->groupByConditions[$column] = $direction;
         }
+
         return $this;
     }
 
@@ -298,69 +308,71 @@
         return $this->distinct;
     }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function getJoins()
-        {
-            return $this->joins;
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function getJoins()
+    {
+        return $this->joins;
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function getGroupByConditions()
-        {
-            return $this->groupByConditions;
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function getGroupByConditions()
+    {
+        return $this->groupByConditions;
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function getWhereExpressionGroup()
-        {
-            return $this->whereExpressionGroup;
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function getWhereExpressionGroup()
+    {
+        return $this->whereExpressionGroup;
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function getHavingExpressionGroup()
-        {
-            return $this->havingExpressionGroup;
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function getHavingExpressionGroup()
+    {
+        return $this->havingExpressionGroup;
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function getTotal()
-        {
-            $sql = $this->dialect->buildSelectFoundRowsQuery($this);
-            $sql = $this->prepareArrayPlaceholders($sql);
-            $sql = $this->prepareExpressionPlaceholders($sql);
-            $preparedStatement = $this->connection->prepare($sql);
-            $this->bind($preparedStatement, $sql);
-            $preparedStatement->execute();
+    /**
+     * {@inheritdoc}
+     */
+    public function getTotal()
+    {
+        $sql = $this->dialect->buildSelectFoundRowsQuery($this);
+        $sql = $this->prepareArrayPlaceholders($sql);
+        $sql = $this->prepareExpressionPlaceholders($sql);
+        $preparedStatement = $this->connection->prepare($sql);
+        $this->bind($preparedStatement, $sql);
+        $preparedStatement->execute();
 
-            $result = $preparedStatement->fetch(\PDO::FETCH_NUM);
-            $preparedStatement->closeCursor();
-            return !empty($result) ? $result[0] : 0;
-        }
+        $result = $preparedStatement->fetch(\PDO::FETCH_NUM);
+        $preparedStatement->closeCursor();
 
-        /**
-         * {@inheritdoc}
-         */
-        public function execute()
-        {
-            return parent::execute();
-        }
+        return !empty($result) ? $result[0] : 0;
+    }
 
-        /**
-         * {@inheritdoc}
-         */
-        protected function build()
-        {
-            $queryBuilder = $this->dialect;
-            return $queryBuilder->buildSelectQuery($this);
-        }
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        return parent::execute();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function build()
+    {
+        $queryBuilder = $this->dialect;
+
+        return $queryBuilder->buildSelectQuery($this);
+    }
 }

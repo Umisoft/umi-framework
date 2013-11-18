@@ -1,150 +1,146 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-    namespace umi\dbal\builder;
+namespace umi\dbal\builder;
 
-    use Doctrine\DBAL\Connection;
-    use Doctrine\DBAL\Driver\Statement;
-    use Doctrine\DBAL\Query\Expression\CompositeExpression;
-    use Doctrine\DBAL\Query\QueryBuilder;
-    use Doctrine\DBAL\Types\Type;
-    use PDO;
-    use umi\dbal\driver\IDialect;
-    use umi\dbal\exception\IException;
-    use umi\dbal\exception\RuntimeException;
-    use umi\i18n\ILocalizable;
-    use umi\i18n\TLocalizable;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Statement;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Types\Type;
+use PDO;
+use umi\dbal\driver\IDialect;
+use umi\dbal\exception\IException;
+use umi\dbal\exception\RuntimeException;
+use umi\i18n\ILocalizable;
+use umi\i18n\TLocalizable;
+
+/**
+ * Базовый построитель запросов.
+ * Все построители запросов должны быть унаследованы от него, содержит
+ * шаблонные методы для всех построителей.
+ */
+abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
+{
+
+    use TLocalizable;
 
     /**
-     * Базовый построитель запросов.
-     * Все построители запросов должны быть унаследованы от него, содержит
-     * шаблонные методы для всех построителей.
+     * @var string $expressionGroupClass имя класса группы выражений
      */
-    abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
+    public $expressionGroupClass = 'umi\dbal\builder\ExpressionGroup';
+    /**
+     * @var Connection $connection Драйвер БД
+     */
+    protected $connection;
+    /**
+     * @var IExpressionGroup $currentExpressionGroup текущая группа выражений
+     */
+    protected $currentExpressionGroup;
+    /**
+     * @var \Doctrine\DBAL\Statement $preparedStatement подготовленный запрос
+     */
+    protected $preparedStatement;
+    /**
+     * @var string $sql Сгенерированный текст запроса
+     */
+    protected $sql;
+    /**
+     * @var array $orderConditions список ORDER BY - условий
+     */
+    protected $orderConditions = [];
+    /**
+     * @var bool $executed флаг исполненности запроса
+     */
+    protected $executed = false;
+    /**
+     * @var IQueryBuilderFactory $queryResultFactory Фабрика запросов и их сущностей
+     */
+    protected $queryBuilderFactory;
+    /**
+     * @var array $values массив значений плейсхолдеров вида [':placeholder' => [value, pdoType], ...]
+     */
+    private $values = [];
+    /**
+     * @var array $variables массив переменных, связанных с плейсхолдерами
+     */
+    private $variables = [];
+    /**
+     * @var array $arrays значения плейсхолдеров, представляющих собой списки IN (1, 2, 3)
+     */
+    private $arrays = [];
+    /**
+     * @var array $expressions значения плейсхолдеров, представляющих собой выражения
+     */
+    private $expressions = [];
+    /**
+     * @var IDialect $dialect
+     */
+    protected $dialect;
+
+    /**
+     * @var \Doctrine\DBAL\Query\QueryBuilder $doctrineQueryBuilder
+     */
+    protected $doctrineQueryBuilder;
+    /**
+     * @var  QueryBuilder $currentDoctrineQuery
+     */
+    protected $currentDoctrineQuery;
+    /**
+     * @var  CompositeExpression $currentDoctrineExpression
+     */
+    protected $currentDoctrineExpression;
+
+    /**
+     * Генерирует и возвращает шаблон запроса.
+     * Должен быть реализован в конкретном построителе запроса.
+     * @return string sql
+     */
+    abstract protected function build();
+
+    /**
+     * Конструктор
+     * @param Connection $connection драйвер БД
+     * @param IDialect $dialect
+     * @param IQueryBuilderFactory $queryBuilderFactory
+     * @return BaseQueryBuilder
+     */
+    public function __construct(Connection $connection, IDialect $dialect, IQueryBuilderFactory $queryBuilderFactory)
     {
+        $this->connection = $connection;
+        $this->queryBuilderFactory = $queryBuilderFactory;
+        $this->dialect = $dialect;
+        $this->doctrineQueryBuilder = $connection->createQueryBuilder();
+    }
 
-        use TLocalizable;
-
-        /**
-         * @var string $expressionGroupClass имя класса группы выражений
-         */
-        public $expressionGroupClass = 'umi\dbal\builder\ExpressionGroup';
-        /**
-         * @var Connection $connection Драйвер БД
-         */
-        protected $connection;
-        /**
-         * @var IExpressionGroup $currentExpressionGroup текущая группа выражений
-         */
-        protected $currentExpressionGroup;
-        /**
-         * @var \Doctrine\DBAL\Statement $preparedStatement подготовленный запрос
-         */
-        protected $preparedStatement;
-        /**
-         * @var string $sql Сгенерированный текст запроса
-         */
-        protected $sql;
-        /**
-         * @var array $orderConditions список ORDER BY - условий
-         */
-        protected $orderConditions = [];
-        /**
-         * @var bool $executed флаг исполненности запроса
-         */
-        protected $executed = false;
-        /**
-         * @var IQueryBuilderFactory $queryResultFactory Фабрика запросов и их сущностей
-         */
-        protected $queryBuilderFactory;
-        /**
-         * @var array $values массив значений плейсхолдеров вида [':placeholder' => [value, pdoType], ...]
-         */
-        private $values = [];
-        /**
-         * @var array $variables массив переменных, связанных с плейсхолдерами
-         */
-        private $variables = [];
-        /**
-         * @var array $resultVariables массив переменных, связанных с результатом
-         */
-        private $resultVariables = [];
-        /**
-         * @var array $arrays значения плейсхолдеров, представляющих собой списки IN (1, 2, 3)
-         */
-        private $arrays = [];
-        /**
-         * @var array $expressions значения плейсхолдеров, представляющих собой выражения
-         */
-        private $expressions = [];
-        /**
-         * @var IDialect $dialect
-         */
-        protected $dialect;
-
-        /**
-         * @var \Doctrine\DBAL\Query\QueryBuilder $doctrineQueryBuilder
-         */
-        protected $doctrineQueryBuilder;
-        /**
-         * @var  QueryBuilder $currentDoctrineQuery
-         */
-        protected $currentDoctrineQuery;
-        /**
-         * @var  CompositeExpression $currentDoctrineExpression
-         */
-        protected $currentDoctrineExpression;
-
-        /**
-         * Генерирует и возвращает шаблон запроса.
-         * Должен быть реализован в конкретном построителе запроса.
-         * @return string sql
-         */
-        abstract protected function build();
-
-        /**
-         * Конструктор
-         * @param Connection $connection драйвер БД
-         * @param IDialect $dialect
-         * @param IQueryBuilderFactory $queryBuilderFactory
-         * @return BaseQueryBuilder
-         */
-        public function __construct(Connection $connection, IDialect $dialect, IQueryBuilderFactory $queryBuilderFactory)
-        {
-            $this->connection = $connection;
-            $this->queryBuilderFactory = $queryBuilderFactory;
-            $this->dialect = $dialect;
-            $this->doctrineQueryBuilder = $connection->createQueryBuilder();
+    /**
+     * {@inheritdoc}
+     */
+    public function getSql(Connection $connection = null)
+    {
+        if (is_null($connection)) {
+            $connection = $this->connection;
+        }
+        if (is_null($this->sql)) {
+            $this->sql = $this->build($connection);
+            $this->sql = $this->prepareArrayPlaceholders($this->sql);
+            $this->sql = $this->prepareExpressionPlaceholders($this->sql);
         }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function getSql(Connection $connection = null)
-        {
-            if (is_null($connection)) {
-                $connection = $this->connection;
-            }
-            if (is_null($this->sql)) {
-                $this->sql = $this->build($connection);
-                $this->sql = $this->prepareArrayPlaceholders($this->sql);
-                $this->sql = $this->prepareExpressionPlaceholders($this->sql);
-            }
         return $this->sql;
     }
 
     /**
      * {@inheritdoc}
      */
-        public function getConnection()
+    public function getConnection()
     {
-            return $this->connection;
+        return $this->connection;
     }
 
     /**
@@ -163,6 +159,7 @@
         }
 
         $this->currentExpressionGroup = $group;
+
         return $this;
     }
 
@@ -180,16 +177,17 @@
                 $this->currentExpressionGroup = null;
             }
         }
-            return $this;
-        }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function getExecuted()
-        {
-            return $this->executed;
-        }
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getExecuted()
+    {
+        return $this->executed;
+    }
 
     /**
      * Добавляет простое выражение в текущую группу выражений
@@ -207,48 +205,52 @@
             ));
         }
         $this->currentExpressionGroup->addExpression($leftCond, $operator, $rightCond);
+
         return $this;
     }
 
-        /**
-         * Устанавливает условие сортировки
-         * @param string $column имя столбца, может быть плейсхолдером
-         * @param string $direction направление сортировки, ASC по умолчанию
-         * @return $this|ISelectBuilder|IDeleteBuilder|IUpdateBuilder
-         */
-        public function orderBy($column, $direction = IQueryBuilder::ORDER_ASC)
-        {
-            if ($direction == IQueryBuilder::ORDER_ASC || $direction == IQueryBuilder::ORDER_DESC) {
-                $this->orderConditions[$column] = $direction;
+    /**
+     * Устанавливает условие сортировки
+     * @param string $column имя столбца, может быть плейсхолдером
+     * @param string $direction направление сортировки, ASC по умолчанию
+     * @return $this|ISelectBuilder|IDeleteBuilder|IUpdateBuilder
+     */
+    public function orderBy($column, $direction = IQueryBuilder::ORDER_ASC)
+    {
+        if ($direction == IQueryBuilder::ORDER_ASC || $direction == IQueryBuilder::ORDER_DESC) {
+            $this->orderConditions[$column] = $direction;
         }
+
         return $this;
     }
 
     /**
      * Возвращает список правил сортировки
      * @internal
-         * @return array в формате ['columnName' => 'ASC', ...]
+     * @return array в формате ['columnName' => 'ASC', ...]
      */
     public function getOrderConditions()
     {
         return $this->orderConditions;
     }
 
-        /**
-         * Связывает плейсхолдер с значением
-         * @internal
-         * @param string $placeholder плейсхолдер, в формате ':placeholder'
-         * @param mixed $value значение плейсхолдера
-         * @param string $phpType тип плейсхолдера ('string', 'integer', 'boolean', 'array', ...)
-         * http://ru2.php.net/manual/en/function.gettype.php
-         * @return $this
-         */
-        public function bindValue($placeholder, $value, $phpType)
-        {
-            $pdoType = is_null($value) ? PDO::PARAM_NULL : Type::getType($phpType)->getBindingType();
-            $this->values[$placeholder] = [$value, $pdoType];
-            return $this;
-        }
+    /**
+     * Связывает плейсхолдер с значением
+     * @internal
+     * @param string $placeholder плейсхолдер, в формате ':placeholder'
+     * @param mixed $value значение плейсхолдера
+     * @param string $phpType тип плейсхолдера ('string', 'integer', 'boolean', 'array', ...)
+     * http://ru2.php.net/manual/en/function.gettype.php
+     * @return $this
+     */
+    public function bindValue($placeholder, $value, $phpType)
+    {
+        $pdoType = is_null($value) ? PDO::PARAM_NULL : Type::getType($phpType)
+            ->getBindingType();
+        $this->values[$placeholder] = [$value, $pdoType];
+
+        return $this;
+    }
 
     /**
      * {@inheritdoc}
@@ -271,7 +273,7 @@
      */
     public function bindBool($placeholder, $value)
     {
-            return $this->bindValue($placeholder, (bool) $value, 'boolean');
+        return $this->bindValue($placeholder, (bool) $value, 'boolean');
     }
 
     /**
@@ -298,115 +300,119 @@
         return $this->bindValue($placeholder, null, 'null');
     }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function bindArray($placeholder, array $value)
-        {
-            if (isset($this->arrays[$placeholder]) && count($this->arrays[$placeholder]) != count($value)) {
-                $this->preparedStatement = null; //clear statement, query template modified
-                $this->sql = null;
-            }
-            $this->arrays[$placeholder] = array_values($value);
-            return $this;
+    /**
+     * {@inheritdoc}
+     */
+    public function bindArray($placeholder, array $value)
+    {
+        if (isset($this->arrays[$placeholder]) && count($this->arrays[$placeholder]) != count($value)) {
+            $this->preparedStatement = null; //clear statement, query template modified
+            $this->sql = null;
         }
+        $this->arrays[$placeholder] = array_values($value);
 
-        /**
-         * {@inheritdoc}
-         */
-        public function bindExpression($placeholder, $value)
-        {
-            if (isset($this->expressions[$placeholder]) && $this->expressions[$placeholder] != $value) {
-                $this->preparedStatement = null; //clear statement, query template modified
-                $this->sql = null;
-            }
-            $this->expressions[$placeholder] = (string) $value;
-            return $this;
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function getPlaceholderValues()
-        {
-            $result = [];
-            $values = array_merge($this->values, $this->arrays, $this->expressions);
-            foreach ($values as $placeholder => $info) {
-                $result[$placeholder] = $info;
-            }
-            return $result;
-        }
+        return $this;
+    }
 
     /**
      * {@inheritdoc}
      */
-        public function bindVarString($placeholder, &$variable)
+    public function bindExpression($placeholder, $value)
     {
-            return $this->bindVariable($placeholder, $variable, 'string');
+        if (isset($this->expressions[$placeholder]) && $this->expressions[$placeholder] != $value) {
+            $this->preparedStatement = null; //clear statement, query template modified
+            $this->sql = null;
+        }
+        $this->expressions[$placeholder] = (string) $value;
+
+        return $this;
     }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function bindVarInt($placeholder, &$variable)
-        {
-            return $this->bindVariable($placeholder, $variable, 'integer');
+    /**
+     * {@inheritdoc}
+     */
+    public function getPlaceholderValues()
+    {
+        $result = [];
+        $values = array_merge($this->values, $this->arrays, $this->expressions);
+        foreach ($values as $placeholder => $info) {
+            $result[$placeholder] = $info;
         }
 
-        /**
-         * {@inheritdoc}
-         */
-        public function bindVarBool($placeholder, &$variable)
-        {
-            return $this->bindVariable($placeholder, $variable, 'boolean');
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function bindVarFloat($placeholder, &$variable)
-        {
-            return $this->bindVariable($placeholder, $variable, 'float');
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function execute()
-        {
-            $sql = $this->getSql();
-            if (is_null($this->preparedStatement)) {
-                $this->preparedStatement = $this->connection->prepare($sql);
-            }
-
-            $this->bind($this->preparedStatement, $sql);
-
-            $this->preparedStatement->execute();
-            $this->executed = true;
-
-            return $this->preparedStatement;
-        }
-
-        /**
-         * {@inheritdoc}
-         */
-        public function getPDOStatement()
-        {
-            return $this->preparedStatement;
-        }
+        return $result;
+    }
 
     /**
-         * Разбирает алиас в имени таблицы / столбца, если он есть
-         * @internal
-         * @param string $name
-         * @return array в виде ['name', 'alias']
+     * {@inheritdoc}
      */
-        protected function parseAlias($name)
+    public function bindVarString($placeholder, &$variable)
     {
-            if (strpos($name, ' ') !== false && preg_match('/^\s*(.+)(\s+as\s+)(.+)\s*$/i', $name, $matches)) {
-                return [$matches[1], $matches[3]];
-            }
-            return [$name, null];
+        return $this->bindVariable($placeholder, $variable, 'string');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function bindVarInt($placeholder, &$variable)
+    {
+        return $this->bindVariable($placeholder, $variable, 'integer');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function bindVarBool($placeholder, &$variable)
+    {
+        return $this->bindVariable($placeholder, $variable, 'boolean');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function bindVarFloat($placeholder, &$variable)
+    {
+        return $this->bindVariable($placeholder, $variable, 'float');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        $sql = $this->getSql();
+        if (is_null($this->preparedStatement)) {
+            $this->preparedStatement = $this->connection->prepare($sql);
+        }
+
+        $this->bind($this->preparedStatement, $sql);
+
+        $this->preparedStatement->execute();
+        $this->executed = true;
+
+        return $this->preparedStatement;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPDOStatement()
+    {
+        return $this->preparedStatement;
+    }
+
+    /**
+     * Разбирает алиас в имени таблицы / столбца, если он есть
+     * @internal
+     * @param string $name
+     * @return array в виде ['name', 'alias']
+     */
+    protected function parseAlias($name)
+    {
+        if (strpos($name, ' ') !== false && preg_match('/^\s*(.+)(\s+as\s+)(.+)\s*$/i', $name, $matches)) {
+            return [$matches[1], $matches[3]];
+        }
+
+        return [$name, null];
     }
 
     /**
@@ -418,17 +424,20 @@
      */
     protected function bindVariable($placeholder, &$variable, $phpType = 'string')
     {
-            $pdoType = Type::getType($phpType)->getBindingType();
-            $this->variables[$placeholder] = [&$variable, $pdoType];
+        $pdoType = Type::getType($phpType)
+            ->getBindingType();
+        $this->variables[$placeholder] = [&$variable, $pdoType];
+
         return $this;
     }
 
     /**
      * Биндит значения плейсхолдеров
-         * @param Statement $preparedStatement
-         * @param string $query SQL, сформированный билдером для текущего запроса (например, подзапроса, вложенного в основной)
+     * @param Statement $preparedStatement
+     * @param string $query SQL, сформированный билдером для текущего запроса
+     * (например, подзапроса, вложенного в основной)
      */
-        protected function bind(Statement $preparedStatement, $query)
+    protected function bind(Statement $preparedStatement, $query)
     {
         foreach ($this->values as $placeholder => $value) {
             if (strpos($query, $placeholder) !== false) {
@@ -482,6 +491,7 @@
             }
             $sql = str_replace($placeholder, '(' . implode(', ', $placeholders) . ')', $sql);
         }
+
         return $sql;
     }
 
@@ -496,6 +506,7 @@
             return $sql;
         }
         $sql = str_replace(array_keys($this->expressions), array_values($this->expressions), $sql);
+
         return $sql;
     }
 }

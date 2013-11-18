@@ -9,7 +9,7 @@
 
     namespace utest\dbal\unit\builder;
 
-    use umi\dbal\cluster\server\IMasterServer;
+    use umi\dbal\cluster\server\IServer;
     use utest\dbal\DbalTestCase;
 
 /**
@@ -36,15 +36,27 @@ class QueryResultFactoryTest extends DbalTestCase
                 ->exec('CREATE TABLE `temp_test_table` (`id` INTEGER PRIMARY KEY, `field1` TEXT, `field2` TEXT)');
     }
 
-        public function testResultBuilderFactory()
-        {
+    public function testResultBuilderFactory()
+    {
 
-            $builder = $this->mysql->select()->from('tests_comment');
-            $result = $builder->execute();
-            $this->assertInstanceOf('Doctrine\DBAL\Driver\ResultStatement', $result, 'Ожидается, что IQueryBuilder->execute() вернет IQueryResult');
+        $builder = $this->mysql
+            ->select()
+            ->from('tests_comment');
+        $result = $builder->execute();
+        $this->assertInstanceOf(
+            'Doctrine\DBAL\Driver\ResultStatement',
+            $result,
+            'Ожидается, что IQueryBuilder->execute() вернет IQueryResult'
+        );
 
-            $builder = $this->sqlite->select()->from('temp_test_table');
-            $result = $builder->execute();
-            $this->assertInstanceOf('Doctrine\DBAL\Driver\ResultStatement', $result, 'Ожидается, что IQueryBuilder->execute() вернет IQueryResult');
-        }
+        $builder = $this->sqlite
+            ->select()
+            ->from('temp_test_table');
+        $result = $builder->execute();
+        $this->assertInstanceOf(
+            'Doctrine\DBAL\Driver\ResultStatement',
+            $result,
+            'Ожидается, что IQueryBuilder->execute() вернет IQueryResult'
+        );
+    }
 }

@@ -11,7 +11,6 @@ namespace utest\dbal\unit\builder;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use umi\dbal\builder\DeleteBuilder;
-use umi\dbal\driver\dialect\MySqlDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 

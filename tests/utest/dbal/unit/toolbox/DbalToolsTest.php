@@ -1,6 +1,7 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
+ *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -93,7 +94,11 @@ class DbalToolsTest extends DbalTestCase
             $e,
             'Ожидается исключение при неверно заданной конфигурации инструментария баз данных'
         );
-        $this->assertEquals('Cannot find connection type in configuration.', $e->getMessage(), 'Неверный текст исключения');
+        $this->assertEquals(
+            'Cannot find connection type in configuration.',
+            $e->getMessage(),
+            'Неверный текст исключения'
+        );
     }
 
     public function testDbalToolsServerConfig4()
@@ -304,5 +309,4 @@ class DbalToolsTest extends DbalTestCase
             'Sqlite empty config must create temporary db till end of connection'
         );
     }
-
 }
