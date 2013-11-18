@@ -83,8 +83,10 @@ class DbDriverFactory implements IDbDriverFactory, IFactory
         /**
          * @var IDbDriver $driver
          */
-        $driver = $driverPrototype->createInstance([$this->createTableFactory($this->types[$type]['tableFactoryOptions'])]);
-        $driverPrototype->setOptions($driver, $options);
+        $driver = $driverPrototype->createInstance(
+            [$this->createTableFactory($this->types[$type]['tableFactoryOptions'])],
+            $options
+        );
 
         if (!$driver->isAvailable()) {
             throw new NotAvailableDriverException($this->translate(
