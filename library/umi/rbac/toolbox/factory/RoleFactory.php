@@ -45,7 +45,11 @@ class RoleFactory implements IRoleFactory, IFactory
 
         $permissions = array_unique($permissions);
 
-        return $this->createInstance($this->roleClass, [$permissions], ['umi\rbac\IRbacRole']);
+        return $this->getPrototype(
+                $this->roleClass,
+                ['umi\rbac\IRbacRole']
+            )
+            ->createInstance([$permissions]);
     }
 
 }

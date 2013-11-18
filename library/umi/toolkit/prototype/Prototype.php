@@ -33,9 +33,13 @@ class Prototype implements IPrototype, ILoggerAware, ILocalizable
      */
     protected $className;
     /**
-     * @var object $prototype экземпляр прототипа
+     * @var object $prototypeInstance экземпляр прототипа
      */
     protected $prototypeInstance;
+    /**
+     * @var object $singleInstance единственный экземпляр
+     */
+    protected $singleInstance;
     /**
      * @var array $options массив опций прототипа (публичные свойства) в формате [name => defaultValue, ...]
      */
@@ -130,12 +134,34 @@ class Prototype implements IPrototype, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function createInstance(array $constructorArgs = [])
+    public function createInstance(array $constructorArgs = [], array $options = [])
     {
         $instance = clone $this->prototypeInstance;
         $this->invokeConstructor($instance, $constructorArgs);
+        if ($options) {
+            $this->setOptions($instance, $options);
+        }
 
         return $instance;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createSingleInstance(array $constructorArgs = [], array $options = [], callable $initializer = null)
+    {
+        if (is_null($this->singleInstance)) {
+            $singleInstance = $this->prototypeInstance;
+            $this->invokeConstructor($singleInstance, $constructorArgs);
+            if ($options) {
+                $this->setOptions($singleInstance, $options);
+            }
+            if (is_callable($initializer)) {
+                call_user_func_array($initializer, [$singleInstance]);
+            }
+            $this->singleInstance = $singleInstance;
+        }
+        return $this->singleInstance;
     }
 
     /**

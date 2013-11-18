@@ -71,56 +71,51 @@ return [
             ]
         ],
         ORMTools::NAME            => [
-            'metadataManager'   => [
-                'collections' => [
-                    'system_hierarchy'       => '{#lazy:~/collections/system/system_hierarchy.config.php}',
-                    'system_menu'            => '{#lazy:~/collections/system/system_menu.config.php}',
-                    'guides_country'         => '{#lazy:~/collections/guides/guides_country.config.php}',
-                    'guides_city'            => '{#lazy:~/collections/guides/guides_city.config.php}',
-                    'users_user'             => '{#lazy:~/collections/users/users_user.config.php}',
-                    'users_profile'          => '{#lazy:~/collections/users/users_profile.config.php}',
-                    'users_group'            => '{#lazy:~/collections/users/users_group.config.php}',
-                    'blogs_blog'             => '{#lazy:~/collections/blogs/blogs_blog.config.php}',
-                    'blogs_post'             => '{#lazy:~/collections/blogs/blogs_post.config.php}',
-                    'blogs_blog_subscribers' => '{#lazy:~/collections/blogs/blogs_blog_subscribers.config.php}',
-                ]
+            'metadataManagerCollections' => [
+                'system_hierarchy'       => '{#lazy:~/collections/system/system_hierarchy.config.php}',
+                'system_menu'            => '{#lazy:~/collections/system/system_menu.config.php}',
+                'guides_country'         => '{#lazy:~/collections/guides/guides_country.config.php}',
+                'guides_city'            => '{#lazy:~/collections/guides/guides_city.config.php}',
+                'users_user'             => '{#lazy:~/collections/users/users_user.config.php}',
+                'users_profile'          => '{#lazy:~/collections/users/users_profile.config.php}',
+                'users_group'            => '{#lazy:~/collections/users/users_group.config.php}',
+                'blogs_blog'             => '{#lazy:~/collections/blogs/blogs_blog.config.php}',
+                'blogs_post'             => '{#lazy:~/collections/blogs/blogs_post.config.php}',
+                'blogs_blog_subscribers' => '{#lazy:~/collections/blogs/blogs_blog_subscribers.config.php}'
             ],
-            'collectionManager' => [
-
-                'collections' => [
-                    'system_hierarchy'       => [
-                        'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
-                    ],
-                    'system_menu'            => [
-                        'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
-                    ],
-                    'guides_country'         => [
-                        'type' => ICollectionFactory::TYPE_SIMPLE
-                    ],
-                    'guides_city'            => [
-                        'type' => ICollectionFactory::TYPE_SIMPLE
-                    ],
-                    'users_user'             => [
-                        'type' => ICollectionFactory::TYPE_SIMPLE
-                    ],
-                    'users_profile'          => [
-                        'type' => ICollectionFactory::TYPE_SIMPLE
-                    ],
-                    'users_group'            => [
-                        'type' => ICollectionFactory::TYPE_SIMPLE
-                    ],
-                    'blogs_blog'             => [
-                        'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                        'class'     => 'utest\orm\mock\collections\blogs\BlogsCollection',
-                        'hierarchy' => 'system_hierarchy'
-                    ],
-                    'blogs_post'             => [
-                        'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                        'hierarchy' => 'system_hierarchy'
-                    ],
-                    'blogs_blog_subscribers' => [
-                        'type' => ICollectionFactory::TYPE_SIMPLE
-                    ]
+            'collectionManagerCollections' => [
+                'system_hierarchy'       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                'system_menu'            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
+                ],
+                'guides_country'         => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                'guides_city'            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                'users_user'             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                'users_profile'          => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                'users_group'            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                'blogs_blog'             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\blogs\BlogsCollection',
+                    'hierarchy' => 'system_hierarchy'
+                ],
+                'blogs_post'             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'hierarchy' => 'system_hierarchy'
+                ],
+                'blogs_blog_subscribers' => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
                 ]
             ]
         ],

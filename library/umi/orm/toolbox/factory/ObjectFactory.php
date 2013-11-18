@@ -55,11 +55,11 @@ class ObjectFactory implements IObjectFactory, IFactory
      */
     public function createObject(ICollection $collection, IObjectType $objectType)
     {
-        return $this->createInstance(
-            $this->getObjectClass($collection, $objectType),
-            [$collection, $objectType, $this->propertyFactory],
-            [$this->getObjectContract($collection)]
-        );
+        return $this->getPrototype(
+                $this->getObjectClass($collection, $objectType),
+                [$this->getObjectContract($collection)]
+            )
+            ->createInstance([$collection, $objectType, $this->propertyFactory]);
     }
 
     /**

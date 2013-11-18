@@ -20,11 +20,6 @@ use utest\i18n\I18nTestCase;
 class TranslatorTest extends I18nTestCase
 {
 
-    /**
-     * @var Translator $translator
-     */
-    protected $translator;
-
     protected $dictionaries = [
         'parent' => [
             'en' => [
@@ -46,47 +41,42 @@ class TranslatorTest extends I18nTestCase
         ]
     ];
 
-    protected function setUpFixtures()
+    public function testArrayDictionaries()
     {
 
         $localesService = new LocalesService();
         $localesService->setCurrentLocale('ru');
         $localesService->setDefaultLocale('en');
-        $this->translator = new Translator();
-        $this->translator->setLocalesService($localesService);
-    }
+        $translator = new Translator($this->dictionaries);
+        $translator->setLocalesService($localesService);
 
-    public function testArrayDictionaries()
-    {
-
-        $this->translator->dictionaries = $this->dictionaries;
         $this->assertEquals(
             'дочерний тест чего-нибудь',
-            $this->translator->translate(['child', 'parent'], 'test {smth}', ['smth' => 'чего-нибудь'], 'ru'),
+            $translator->translate(['child', 'parent'], 'test {smth}', ['smth' => 'чего-нибудь'], 'ru'),
             'Ожидается, что будет взят лейбл из певого подходящего словаря'
         );
 
         $this->assertEquals(
             'дочерний тест чего-нибудь',
-            $this->translator->translate(['child', 'parent'], 'test {smth}', ['smth' => 'чего-нибудь']),
+            $translator->translate(['child', 'parent'], 'test {smth}', ['smth' => 'чего-нибудь']),
             'Ожидается, что при неуказанной локали лейбл будет взят для текущей локали'
         );
 
         $this->assertEquals(
             'one more child test something',
-            $this->translator->translate(['child', 'parent'], 'one more test {smth}', ['smth' => 'something']),
+            $translator->translate(['child', 'parent'], 'one more test {smth}', ['smth' => 'something']),
             'Ожидается, что при несуществовании лейбла в текущей локали вернется значение из дефолтной локали'
         );
 
         $this->assertEquals(
             'test something',
-            $this->translator->translate(['nonExistentDictionary'], 'test {smth}', ['smth' => 'something']),
+            $translator->translate(['nonExistentDictionary'], 'test {smth}', ['smth' => 'something']),
             'Ожидается, что при отсутствии заданных словарей в конфигурации транслятора вернется само сообщение'
         );
 
         $this->assertEquals(
             'non existent label "something"',
-            $this->translator->translate(['child', 'parent'], 'non existent label "{smth}"', ['smth' => 'something']),
+            $translator->translate(['child', 'parent'], 'non existent label "{smth}"', ['smth' => 'something']),
             'Ожидается, что при отсутствии лейбла вернется само сообщение'
         );
     }
@@ -94,50 +84,67 @@ class TranslatorTest extends I18nTestCase
     public function testTranslate()
     {
 
-        $this->translator->dictionaries = new Config($this->dictionaries);
+        $localesService = new LocalesService();
+        $localesService->setCurrentLocale('ru');
+        $localesService->setDefaultLocale('en');
+        $translator = new Translator(new Config($this->dictionaries));
+        $translator->setLocalesService($localesService);
+        
         $this->assertEquals(
             'тест чего-нибудь',
-            $this->translator->translate(['parent', 'child'], 'test {smth}', ['smth' => 'чего-нибудь'], 'ru'),
+            $translator->translate(['parent', 'child'], 'test {smth}', ['smth' => 'чего-нибудь'], 'ru'),
             'Ожидается, что будет взят лейбл из певого подходящего словаря'
         );
 
         $this->assertEquals(
             'test something',
-            $this->translator->translate(['nonExistentDictionary'], 'test {smth}', ['smth' => 'something']),
+            $translator->translate(['nonExistentDictionary'], 'test {smth}', ['smth' => 'something']),
             'Ожидается, что при отсутствии заданных словарей в конфигурации транслятора вернется само сообщение'
         );
     }
 
     public function testWrongConfig()
     {
-        $this->translator->dictionaries = ['dictionaryName' => 'wrongDictionaryConfig'];
+
+        $localesService = new LocalesService();
+        $localesService->setCurrentLocale('ru');
+        $localesService->setDefaultLocale('en');
+        $dictionaries = ['dictionaryName' => 'wrongDictionaryConfig'];
+        
+        $translator = new Translator($dictionaries);
+        $translator->setLocalesService($localesService);
+        
 
         $this->assertEquals(
             'test',
-            $this->translator->translate(['dictionaryName'], 'test'),
+            $translator->translate(['dictionaryName'], 'test'),
             'Ожидается, что при неверном конфиге словарей при переводе вернется само сообщение'
         );
 
-        $this->translator->dictionaries['dictionaryName'] = [];
+        
+        $dictionaries['dictionaryName'] = [];
+        $translator = new Translator($dictionaries);
+        $translator->setLocalesService($localesService);
 
         $this->assertEquals(
             'test',
-            $this->translator->translate(['dictionaryName'], 'test'),
+            $translator->translate(['dictionaryName'], 'test'),
             'Ожидается, что при неверном конфиге словарей при переводе вернется само сообщение'
         );
 
-        $this->translator->dictionaries['dictionaryName']['en'] = 'wrongLocaleId';
+        $dictionaries['dictionaryName']['en'] = 'wrongLocaleId';
+        $translator = new Translator($dictionaries);
+        $translator->setLocalesService($localesService);
 
         $this->assertEquals(
             'test',
-            $this->translator->translate(['dictionaryName'], 'test'),
+            $translator->translate(['dictionaryName'], 'test'),
             'Ожидается, что при неверном конфиге словарей при переводе вернется само сообщение'
         );
 
-        $this->translator->dictionaries = 'wrongDictionariesConfig';
         $e = null;
         try {
-            $this->translator->translate(['dictionaryName'], 'test');
+            new Translator('wrongDictionariesConfig');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(

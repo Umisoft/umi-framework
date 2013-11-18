@@ -43,11 +43,11 @@ class TemplateEngineFactory implements ITemplateEngineFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->engineClasses[$type],
-            [$options],
-            ['umi\templating\engine\ITemplateEngine']
-        );
+        return $this->getPrototype(
+                $this->engineClasses[$type],
+                ['umi\templating\engine\ITemplateEngine']
+            )
+            ->createInstance([$options]);
     }
 }
  

@@ -41,9 +41,19 @@ interface IPrototype extends IToolkitAware
     /**
      * Создает и возвращает экземпляр объекта на основе прототипа.
      * @param array $constructorArgs аргументы конструктора
+     * @param array $options опции, внедряемые в публичные свойства объекта
      * @return object
      */
-    public function createInstance(array $constructorArgs = []);
+    public function createInstance(array $constructorArgs = [], array $options = []);
+
+    /**
+     * Создает и возвращает единственный экземпляр объекта.
+     * @param array $constructorArgs аргументы конструктора
+     * @param array $options опции, внедряемые в публичные свойства объекта
+     * @param callable $initializer инициализатор, который будет вызван при создании объекта
+     * @return object
+     */
+    public function createSingleInstance(array $constructorArgs = [], array $options = [], callable $initializer = null);
 
     /**
      * Регистрирует билдер для зависимости, принимаемой в конструкторе

@@ -105,25 +105,17 @@ class LogTools implements IToolbox
             ));
         }
 
-        $loggerClass = $this->loggerClasses[$this->type];
+        $prototype = $this->getPrototype($this->loggerClasses[$this->type], ['umi\log\ILogger']);
 
-        if (null !== ($logger = $this->getSingleInstance($loggerClass))) {
-            return $logger;
-        }
-
-        /**
-         * @var ILogger $logger
-         */
-        $logger = $this->createSingleInstance(
-            $loggerClass,
+        return $prototype->createSingleInstance(
             [$this->options],
-            [
-                'umi\log\ILogger'
-            ]
+            [],
+            function(ILogger $logger)
+            {
+                $logger
+                    ->setMinLevel($this->minLevel)
+                    ->setMessageFormat($this->messageFormat);
+            }
         );
-
-        return $logger
-            ->setMinLevel($this->minLevel)
-            ->setMessageFormat($this->messageFormat);
     }
 }

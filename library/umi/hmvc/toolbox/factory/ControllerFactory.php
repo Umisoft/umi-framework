@@ -99,11 +99,11 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
      */
     protected function createControllerByClass($class, $args = [])
     {
-        $controller = $this->createInstance(
-            $class,
-            $args,
-            ['umi\hmvc\controller\IController']
-        );
+        $controller = $this->getPrototype(
+                $class,
+                ['umi\hmvc\controller\IController']
+            )
+            ->createInstance($args);
 
         if ($controller instanceof IModelAware) {
             $controller->setModelFactory($this->modelFactory);

@@ -38,9 +38,9 @@ class I18nTools implements IToolbox
      */
     public $localesServiceClass = 'umi\i18n\LocalesService';
     /**
-     * @var array $translator опции транслятора
+     * @var array|\Traversable $translator конфигурация словарей транслятора
      */
-    public $translator = [];
+    public $translatorDictionaries = [];
     /**
      * @var string $defaultLocale локаль по умолчанию
      */
@@ -90,12 +90,11 @@ class I18nTools implements IToolbox
      */
     protected function getTranslator()
     {
-        return $this->createSingleInstance(
+        return $this->getPrototype(
             $this->translatorClass,
-            [],
-            ['umi\i18n\translator\ITranslator'],
-            $this->translator
-        );
+            ['umi\i18n\translator\ITranslator']
+        )
+            ->createSingleInstance([$this->translatorDictionaries]);
     }
 
     /**
@@ -104,21 +103,16 @@ class I18nTools implements IToolbox
      */
     protected function getLocalesService()
     {
-        /**
-         * @var ILocalesService $localesService
-         */
-        if (null !== ($localesService = $this->getSingleInstance($this->localesServiceClass))) {
-            return $localesService;
-        }
+        $prototype = $this->getPrototype($this->localesServiceClass, ['umi\i18n\ILocalesService']);
 
-        $localesService = $this->createSingleInstance(
-            $this->localesServiceClass,
+        return $prototype->createSingleInstance(
             [],
-            ['umi\i18n\ILocalesService']
+            [],
+            function(ILocalesService $localesService)
+            {
+                $localesService->setDefaultLocale($this->defaultLocale);
+                $localesService->setCurrentLocale($this->currentLocale);
+            }
         );
-        $localesService->setDefaultLocale($this->defaultLocale);
-        $localesService->setCurrentLocale($this->currentLocale);
-
-        return $localesService;
     }
 }

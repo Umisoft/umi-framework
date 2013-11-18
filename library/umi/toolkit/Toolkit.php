@@ -23,16 +23,14 @@ use umi\toolkit\exception\RuntimeException;
 use umi\toolkit\exception\UnexpectedValueException;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\prototype\IPrototype;
-use umi\toolkit\prototype\IPrototypeAware;
 use umi\toolkit\prototype\IPrototypeFactory;
 use umi\toolkit\prototype\PrototypeFactory;
-use umi\toolkit\prototype\TPrototypeAware;
 use umi\toolkit\toolbox\IToolbox;
 
 /**
  * Тулкит.
  */
-class Toolkit implements IToolkit, IPrototypeAware, ILoggerAware, ILocalizable
+class Toolkit implements IToolkit, ILoggerAware, ILocalizable
 {
     use TConfigSupport;
     use TLoggerAware;

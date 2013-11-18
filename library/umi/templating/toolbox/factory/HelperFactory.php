@@ -26,7 +26,7 @@ class HelperFactory implements IHelperFactory, IFactory
      */
     public function createHelper($class)
     {
-        $helper = $this->createInstance($class);
+        $helper = $this->getPrototype($class)->createInstance();
 
         if (!is_callable($helper)) {
             throw new UnexpectedValueException($this->translate(

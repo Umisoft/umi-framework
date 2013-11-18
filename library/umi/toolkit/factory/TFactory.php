@@ -9,13 +9,13 @@
 
 namespace umi\toolkit\factory;
 
-use Traversable;
 use umi\i18n\TLocalizable;
 use umi\log\TLoggerAware;
 use umi\toolkit\exception\DomainException;
+use umi\toolkit\exception\RequiredDependencyException;
 use umi\toolkit\exception\RuntimeException;
 use umi\toolkit\prototype\IPrototype;
-use umi\toolkit\prototype\TPrototypeAware;
+use umi\toolkit\prototype\IPrototypeFactory;
 use umi\toolkit\TToolkitAware;
 
 /**
@@ -24,7 +24,6 @@ use umi\toolkit\TToolkitAware;
 trait TFactory
 {
     use TToolkitAware;
-    use TPrototypeAware;
     use TLoggerAware;
     use TLocalizable;
 
@@ -38,81 +37,36 @@ trait TFactory
     private $_instances = [];
 
     /**
-     * Возвращает единственный экземпляр указанного класса, null если экземпляр не существует
-     * @param string $className имя класса
-     * @return mixed|null
+     * @var IPrototypeFactory $_prototypeFactory
      */
-    protected function getSingleInstance($className)
-    {
-        if (isset($this->_instances[$className])) {
-            return $this->_instances[$className];
-        }
+    private $_prototypeFactory;
 
-        return null;
+    /**
+     * Устанавливает фабрику для создания прототипов
+     * @param IPrototypeFactory $prototypeFactory
+     * @return self
+     */
+    public function setPrototypeFactory(IPrototypeFactory $prototypeFactory)
+    {
+        $this->_prototypeFactory = $prototypeFactory;
+        return $this;
     }
 
     /**
-     * Создает единственный экземпляр указанного класса и внедряет в него сервисы.
-     * Если использующему классу необходимо производить какие-то действия над только что созданным экземпляром,
-     * можно проверять его наличие через $this->getSingleInstance($className).
-     * {@deprecated}
-     * @param string $className имя класса
-     * @param mixed[] $constructorArgs аргументы конструктора для создания
-     * @param string[] $contracts список интерфейсов, которые должен реализовать экземпляр
-     * @param array|Traversable $options опции, которые будут внедрены в существующие публичные свойства экземпляра
-     * @throws RuntimeException если не существует класса, либо контракта
-     * @throws DomainException если экземпляр класса не соответсвует контракту
-     * @return mixed экземпляр класса
+     * Возвращает фабрику прототипов сервисов.
+     * @throws RequiredDependencyException если фабрика не была внедрена
+     * @return IPrototypeFactory
      */
-    protected function createSingleInstance(
-        $className,
-        array $constructorArgs = [],
-        array $contracts = [],
-        array $options = []
-    )
+    protected function getPrototypeFactory()
     {
-        if (!isset($this->_instances[$className])) {
-            $prototype = $this->getPrototype($className, $contracts);
-            $object = $prototype->getPrototypeInstance();
-
-            $this->_instances[$className] = $object;
-
-            $prototype->invokeConstructor($object, $constructorArgs);
-
-            if ($options) {
-                $prototype->setOptions($object, $options);
-            }
+        if (!$this->_prototypeFactory) {
+            throw new RequiredDependencyException(sprintf(
+                'Prototype factory is not injected in class "%s".',
+                get_class($this)
+            ));
         }
 
-        return $this->_instances[$className];
-    }
-
-    /**
-     * Создает экземпляр указанного класса и внедряет в него сервисы, для повторного создания экземпляров будет использован прототип
-     * {@deprecated}
-     * @param string $className имя класса
-     * @param mixed[] $constructorArgs аргументы конструктора для создания
-     * @param string[] $contracts список интерфейсов, которые должен реализовать экземпляр
-     * @param array|Traversable $options опции, которые будут внедрены в существующие публичные свойства экземпляра
-     * @throws RuntimeException если не существует класса, либо контракта
-     * @throws DomainException если экземпляр класса не соответсвует контракту
-     * @return mixed экземпляр класса
-     */
-    protected function createInstance(
-        $className,
-        array $constructorArgs = [],
-        array $contracts = [],
-        array $options = []
-    )
-    {
-        $prototype = $this->getPrototype($className, $contracts);
-        $object = $prototype->createInstance($constructorArgs);
-
-        if ($options) {
-            $prototype->setOptions($object, $options);
-        }
-
-        return $object;
+        return $this->_prototypeFactory;
     }
 
     /**
@@ -164,29 +118,5 @@ trait TFactory
     {
     }
 
-    /**
-     * Восстанавливает зависимости указанного объекта
-     * {@deprecated}
-     * @param object $object объект
-     * @param array $constructorArgs аргументы конструктора для восстанавления
-     * @param array $contracts список интерфейсов, которые должен реализовать экземпляр
-     * @param array|Traversable $options опции, которые будут внедрены в существующие публичные свойства экземпляра
-     * @throws RuntimeException если не существует класса, либо контракта
-     * @throws DomainException если экземпляр класса не соответсвует контракту
-     * @return object экземпляр класса
-     */
-    protected function wakeUpInstance($object, array $constructorArgs = [], array $contracts = [], $options = [])
-    {
-        $className = get_class($object);
-        $prototype = $this->getPrototype($className, $contracts);
-        $prototype->wakeUpInstance($object);
 
-        $this->initPrototypeInstance($object);
-
-        if ($options) {
-            $prototype->setOptions($object, $options);
-        }
-
-        return $object;
-    }
 }

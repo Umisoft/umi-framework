@@ -21,20 +21,8 @@ use utest\orm\ORMTestCase;
 class MetadataManagerTest extends ORMTestCase
 {
 
-    protected $metadataConfig = [];
-    /**
-     * @var MetadataManager $metadataManager
-     */
-    protected $metadataManager;
-
-    protected function setUpFixtures()
-    {
-        $metadataFactory = new MetadataFactory($this->getDbCluster());
-        $this->resolveOptionalDependencies($metadataFactory);
-
-        $this->metadataManager = new MetadataManager($metadataFactory);
-
-        $this->metadataConfig = [
+    protected $metadataConfig = [
+        'users_user' => [
             'dataSource' => ['sourceName' => 'source'],
             'fields'     => [
                 'id'      => ['type' => IField::TYPE_IDENTIFY],
@@ -44,18 +32,19 @@ class MetadataManagerTest extends ORMTestCase
             ],
             'groups'     => [],
             'types'      => ['base' => [], 'type1' => []]
-        ];
-    }
+        ]
+    ];
 
     public function testTraversableConfigMetadata()
     {
-        $collections = [
-            'users_user' => $this->metadataConfig
-        ];
-        $this->metadataManager->collections = new Config($collections);
+        $metadataFactory = new MetadataFactory($this->getDbCluster());
+        $this->resolveOptionalDependencies($metadataFactory);
+        $metadataManager = new MetadataManager($metadataFactory, new Config($this->metadataConfig));
+        $this->resolveOptionalDependencies($metadataManager);
+
         $this->assertInstanceOf(
             'umi\orm\metadata\IMetadata',
-            $this->metadataManager->getMetadata('users_user'),
+            $metadataManager->getMetadata('users_user'),
             'Ожидается, что IObjectManager::getMetadata() вернет IMetadata'
         );
     }
@@ -63,24 +52,25 @@ class MetadataManagerTest extends ORMTestCase
     public function testArrayConfigMetadata()
     {
 
-        $this->metadataManager->collections = [
-            'users_user' => $this->metadataConfig
-        ];
+        $metadataFactory = new MetadataFactory($this->getDbCluster());
+        $this->resolveOptionalDependencies($metadataFactory);
+        $metadataManager = new MetadataManager($metadataFactory, $this->metadataConfig);
+        $this->resolveOptionalDependencies($metadataManager);
 
-        $metadata = $this->metadataManager->getMetadata('users_user');
+        $metadata = $metadataManager->getMetadata('users_user');
         $this->assertInstanceOf(
             'umi\orm\metadata\IMetadata',
             $metadata,
             'Ожидается, что IObjectManager::getMetadata() вернет IMetadata'
         );
         $this->assertTrue(
-            $metadata === $this->metadataManager->getMetadata('users_user'),
+            $metadata === $metadataManager->getMetadata('users_user'),
             'Ожидается, что для метаданных создается одна сущность'
         );
 
         $e = null;
         try {
-            $this->metadataManager->getMetadata('users_user_1');
+            $metadataManager->getMetadata('users_user_1');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(

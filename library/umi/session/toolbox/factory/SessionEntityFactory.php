@@ -47,11 +47,11 @@ class SessionEntityFactory implements ISessionEntityFactory, IFactory
      */
     public function createSessionNamespace($name)
     {
-        return $this->createInstance(
-            $this->namespaceClass,
-            [$name],
-            ['umi\session\entity\ns\ISessionNamespace']
-        );
+        return $this->getPrototype(
+                $this->namespaceClass,
+                ['umi\session\entity\ns\ISessionNamespace']
+            )
+            ->createInstance([$name]);
     }
 
     /**
@@ -66,11 +66,11 @@ class SessionEntityFactory implements ISessionEntityFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->validatorClasses[$type],
-            [$options],
-            ['umi\session\entity\validator\ISessionValidator']
-        );
+        return $this->getPrototype(
+                $this->validatorClasses[$type],
+                ['umi\session\entity\validator\ISessionValidator']
+            )
+            ->createInstance([$options]);
     }
 
     /**
@@ -85,10 +85,10 @@ class SessionEntityFactory implements ISessionEntityFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->storageClasses[$type],
-            [$options],
-            ['\SessionHandlerInterface']
-        );
+        return $this->getPrototype(
+                $this->storageClasses[$type],
+                ['\SessionHandlerInterface']
+            )
+            ->createInstance([$options]);
     }
 }

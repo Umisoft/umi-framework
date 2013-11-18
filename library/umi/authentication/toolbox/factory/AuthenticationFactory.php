@@ -85,11 +85,11 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->storageClasses[$type],
-            [$options],
-            ['umi\authentication\storage\IAuthStorage']
-        );
+        return $this->getPrototype(
+                $this->storageClasses[$type],
+                ['umi\authentication\storage\IAuthStorage']
+            )
+            ->createInstance([$options]);
     }
 
     /**
@@ -110,11 +110,12 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->adapterClasses[$type],
-            [$options],
-            ['umi\authentication\adapter\IAuthAdapter']
-        );
+        return $this->getPrototype(
+                $this->adapterClasses[$type],
+                ['umi\authentication\adapter\IAuthAdapter']
+            )
+            ->createInstance([$options]);
+
     }
 
     /**
@@ -135,11 +136,11 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
-            $this->providerClasses[$type],
-            [$options],
-            ['umi\authentication\provider\IAuthProvider']
-        );
+        return $this->getPrototype(
+                $this->providerClasses[$type],
+                ['umi\authentication\provider\IAuthProvider']
+            )
+            ->createInstance([$options]);
     }
 
     /**
@@ -161,10 +162,10 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
             $storage = $this->createStorage($storageType, $storageOptions);
         }
 
-        return $this->createInstance(
-            $this->managerClass,
-            [$options, $adapter, $storage],
-            ['umi\authentication\IAuthentication']
-        );
+        return $this->getPrototype(
+                $this->managerClass,
+                ['umi\authentication\IAuthentication']
+            )
+            ->createInstance([$options, $adapter, $storage]);
     }
 }

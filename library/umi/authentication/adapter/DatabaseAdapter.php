@@ -61,7 +61,7 @@ class DatabaseAdapter implements IAuthAdapter, ILocalizable
             !isset($options[self::OPTION_PASSWORD_COLUMN])) {
 
             throw new InvalidArgumentException($this->translate(
-                'Options "table", "loginColumns", "passwordColumn" is required.'
+                'Options "table", "loginColumns", "passwordColumn" are required.'
             ));
         }
 
