@@ -17,7 +17,10 @@ use umi\templating\extension\helper\collection\HelperCollection;
 use umi\templating\extension\helper\IHelperFactory;
 
 /**
- * Class ViewHelperCollection
+ * Коллекция помощников вида.
+ *
+ * Помощник вида - это помощник для шаблонов, в который может быть установлен
+ * контекст. Помощники вида компонентов могут также зависеть от моделей этих компонентов.
  */
 class ViewHelperCollection extends HelperCollection implements IModelAware, IContextAware
 {

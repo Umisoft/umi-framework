@@ -45,7 +45,9 @@ class TemplateView implements IView,
      * @var ITemplateEngine $templateEngine шаблонизатор
      */
     private $templateEngine;
-
+    /**
+     * @var IModelFactory $modelFactory фабрика моделей
+     */
     private $modelFactory;
 
     /**
@@ -57,6 +59,9 @@ class TemplateView implements IView,
         $this->options = $options;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setModelFactory(IModelFactory $factory)
     {
         $this->modelFactory = $factory;
@@ -71,6 +76,11 @@ class TemplateView implements IView,
             ->render($template, $params);
     }
 
+    /**
+     * Внедряет зависимости от контекста в фабрику расширений
+     * шаблонизатора.
+     * @param IViewExtensionFactory $factory
+     */
     protected function injectContextToViewExtensionFactory(IViewExtensionFactory $factory)
     {
         $this->injectContext($factory);
