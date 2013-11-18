@@ -9,13 +9,13 @@
 
 namespace umi\i18n\translator;
 
-use Traversable;
 use umi\i18n\exception\UnexpectedValueException;
 use umi\i18n\ILocalesAware;
 use umi\i18n\TLocalesAware;
 use umi\log\ILogger;
 use umi\log\ILoggerAware;
 use umi\log\TLoggerAware;
+use umi\spl\config\TConfigSupport;
 
 /**
  * Транслятор.
@@ -25,9 +25,10 @@ class Translator implements ITranslator, ILocalesAware, ILoggerAware
 
     use TLocalesAware;
     use TLoggerAware;
+    use TConfigSupport;
 
     /**
-     * @var array|Traversable $dictionaries словари в формате
+     * @var array|\Traversable $dictionaries словари в формате
      * [
      *    'dictionaryName' => [
      *        'localeID' => [
@@ -40,7 +41,32 @@ class Translator implements ITranslator, ILocalesAware, ILoggerAware
      * ]
 
      */
-    public $dictionaries = [];
+    protected $dictionaries = [];
+
+    /**
+     * Конструктор.
+     * @param array|\Traversable $dictionaries конфигурация словарей в формате
+     * [
+     *    'dictionaryName' => [
+     *        'localeID' => [
+     *            'label' => 'translation',
+     *            ...
+     *        ],
+     *        ...
+     *    ],
+     *    ...
+     * ]
+     * @throws UnexpectedValueException в случае неверной конфигурации словарей
+     */
+    public function __construct($dictionaries)
+    {
+        try {
+            $dictionaries = $this->configToArray($dictionaries);
+        } catch (\InvalidArgumentException $e) {
+            throw new UnexpectedValueException('Dictionaries configuration should be an array or Traversable.', 0, $e);
+        }
+        $this->dictionaries = $dictionaries;
+    }
 
     /**
      * {@inheritdoc}
@@ -92,15 +118,14 @@ class Translator implements ITranslator, ILocalesAware, ILoggerAware
      */
     protected function getLabels($dictionaryName, $localeId)
     {
-        $dictionaries = $this->getDictionariesList();
-        if (!isset($dictionaries[$dictionaryName])) {
+        if (!isset($this->dictionaries[$dictionaryName])) {
             return [];
         }
-        $dictionary = $dictionaries[$dictionaryName];
-        if ($dictionary instanceof Traversable) {
-            $dictionary = iterator_to_array($dictionary, true);
-        }
-        if (!is_array($dictionary)) {
+        $dictionary = $this->dictionaries[$dictionaryName];
+
+        try {
+            $dictionary = $this->configToArray($dictionary);
+        } catch (\InvalidArgumentException $e) {
             $this->log(
                 ILogger::LOG_WARNING,
                 'Configuration for dictionary "{dictionary}" is incorrect.',
@@ -109,6 +134,7 @@ class Translator implements ITranslator, ILocalesAware, ILoggerAware
 
             return [];
         }
+
         if (!isset($dictionary[$localeId])) {
             $this->log(
                 ILogger::LOG_WARNING,
@@ -118,11 +144,12 @@ class Translator implements ITranslator, ILocalesAware, ILoggerAware
 
             return [];
         }
+
         $localeDictionary = $dictionary[$localeId];
-        if ($localeDictionary instanceof Traversable) {
-            $localeDictionary = iterator_to_array($localeDictionary, true);
-        }
-        if (!is_array($localeDictionary)) {
+
+        try {
+            $localeDictionary = $this->configToArray($localeDictionary);
+        } catch (\InvalidArgumentException $e) {
             $this->log(
                 ILogger::LOG_WARNING,
                 'Configuration for locale "{locale}" in dictionary "{dictionary}" is incorrect.',
@@ -135,20 +162,4 @@ class Translator implements ITranslator, ILocalesAware, ILoggerAware
         return $localeDictionary;
     }
 
-    /**
-     * Возвращает список используемых словарей
-     * @throws UnexpectedValueException
-     * @return array
-     */
-    protected function getDictionariesList()
-    {
-        if ($this->dictionaries instanceof Traversable) {
-            $this->dictionaries = iterator_to_array($this->dictionaries, true);
-        }
-        if (!is_array($this->dictionaries)) {
-            throw new UnexpectedValueException('Dictionaries configuration should be an array or Traversable.');
-        }
-
-        return $this->dictionaries;
-    }
 }

@@ -76,10 +76,6 @@ class ExtensionFactory implements IExtensionFactory, IFactory
      */
     protected function getHelperFactory()
     {
-        return $this->createSingleInstance(
-            $this->helperFactoryClass,
-            [],
-            ['umi\templating\extension\helper\IHelperFactory']
-        );
+        return $this->getPrototype($this->helperFactoryClass, ['umi\templating\extension\helper\IHelperFactory'])->createSingleInstance();
     }
 }

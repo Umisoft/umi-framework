@@ -15,6 +15,7 @@ use umi\orm\exception\NonexistentEntityException;
 use umi\orm\exception\UnexpectedValueException;
 use umi\orm\metadata\IMetadataManagerAware;
 use umi\orm\metadata\TMetadataManagerAware;
+use umi\spl\config\TConfigSupport;
 
 /**
  * Менеджер коллекций.
@@ -24,9 +25,10 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
 
     use TLocalizable;
     use TMetadataManagerAware;
+    use TConfigSupport;
 
     /**
-     * @var array $collections конфигурация коллекций в формате
+     * @var array $collections список коллекций в формате
      * ['collectionName' => [
      *    'type' => 'simple',
      *    'class' => null | 'className',
@@ -34,8 +36,7 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
      *    ], ...
      * ]
      */
-    public $collections = [];
-
+    protected $collections = [];
     /**
      * @var ICollectionFactory $objectCollectionFactory фабрика метаданных
      */
@@ -46,12 +47,31 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
     protected $instances = [];
 
     /**
-     * Конструктор
+     * Конструктор.
      * @param ICollectionFactory $objectCollectionFactory
+     * @param array|\Traversable $collections конфигурация коллекций в формате
+     * [
+     *      'collectionName' => [
+     *          'type' => 'simple',
+     *          'class' => null | 'className',
+     *          'hierarchy' => 'collectionName' // для linked коллекций
+     *      ],
+     *      ...
+     * ]
+     * @throws UnexpectedValueException в случае неверно заданной конфигурации коллекций
      */
-    public function __construct(ICollectionFactory $objectCollectionFactory)
+    public function __construct(ICollectionFactory $objectCollectionFactory, $collections)
     {
         $this->objectCollectionFactory = $objectCollectionFactory;
+
+        try {
+            $collections = $this->configToArray($collections, true);
+        } catch (\InvalidArgumentException $e) {
+            throw new UnexpectedValueException($this->translate(
+                'Invalid collections configuration.'
+            ), 0, $e);
+        }
+        $this->collections = $collections;
     }
 
     /**
@@ -100,10 +120,6 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
      */
     public function getList()
     {
-        if ($this->collections instanceof \Traversable) {
-            $this->collections = iterator_to_array($this->collections, true);
-        }
-
         return array_keys($this->collections);
     }
 

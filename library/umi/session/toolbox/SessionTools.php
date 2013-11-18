@@ -79,11 +79,7 @@ class SessionTools implements IToolbox
      */
     protected function getManager()
     {
-        return $this->createSingleInstance(
-            $this->managerClass,
-            [],
-            ['umi\session\ISessionManager']
-        );
+        return $this->getPrototype($this->managerClass, ['umi\session\ISessionManager'])->createSingleInstance();
     }
 
     /**
@@ -92,11 +88,7 @@ class SessionTools implements IToolbox
      */
     protected function getSession()
     {
-        return $this->createSingleInstance(
-            $this->serviceClass,
-            [],
-            ['umi\session\ISession']
-        );
+        return $this->getPrototype($this->serviceClass, ['umi\session\ISession'])->createSingleInstance();
     }
 
     /**

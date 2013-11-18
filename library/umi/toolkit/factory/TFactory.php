@@ -9,7 +9,6 @@
 
 namespace umi\toolkit\factory;
 
-use Traversable;
 use umi\i18n\TLocalizable;
 use umi\log\TLoggerAware;
 use umi\toolkit\exception\DomainException;
@@ -50,7 +49,6 @@ trait TFactory
     public function setPrototypeFactory(IPrototypeFactory $prototypeFactory)
     {
         $this->_prototypeFactory = $prototypeFactory;
-
         return $this;
     }
 
@@ -69,57 +67,6 @@ trait TFactory
         }
 
         return $this->_prototypeFactory;
-    }
-
-    /**
-     * Возвращает единственный экземпляр указанного класса, null если экземпляр не существует
-     * {@deprecated}
-     * @param string $className имя класса
-     * @return mixed|null
-     */
-    protected function getSingleInstance($className)
-    {
-        if (isset($this->_instances[$className])) {
-            return $this->_instances[$className];
-        }
-
-        return null;
-    }
-
-    /**
-     * Создает единственный экземпляр указанного класса и внедряет в него сервисы.
-     * Если использующему классу необходимо производить какие-то действия над только что созданным экземпляром,
-     * можно проверять его наличие через $this->getSingleInstance($className).
-     * {@deprecated}
-     * @param string $className имя класса
-     * @param mixed[] $constructorArgs аргументы конструктора для создания
-     * @param string[] $contracts список интерфейсов, которые должен реализовать экземпляр
-     * @param array|Traversable $options опции, которые будут внедрены в существующие публичные свойства экземпляра
-     * @throws RuntimeException если не существует класса, либо контракта
-     * @throws DomainException если экземпляр класса не соответсвует контракту
-     * @return mixed экземпляр класса
-     */
-    protected function createSingleInstance(
-        $className,
-        array $constructorArgs = [],
-        array $contracts = [],
-        array $options = []
-    )
-    {
-        if (!isset($this->_instances[$className])) {
-            $prototype = $this->getPrototype($className, $contracts);
-            $object = $prototype->getPrototypeInstance();
-
-            $this->_instances[$className] = $object;
-
-            $prototype->invokeConstructor($object, $constructorArgs);
-
-            if ($options) {
-                $prototype->setOptions($object, $options);
-            }
-        }
-
-        return $this->_instances[$className];
     }
 
     /**

@@ -271,7 +271,7 @@ class PrototypeTest extends TestCase implements IFactory
         $this->assertEquals(
             'TestService',
             $testService->name,
-            'Ожидается, что при создании объекта ему были внедрены его публичные свойства'
+            'Ожидается, что при выставлении опций объекту ему были внедрены его публичные свойства'
         );
         $this->assertEquals(
             [
@@ -297,6 +297,17 @@ class PrototypeTest extends TestCase implements IFactory
             $testService->options,
             'Неверный итоговый конфиг'
         );
+
+        /**
+         * @var TestService $testService
+         */
+        $testService = $prototype->createInstance([], ['name' => 'CreateInstanceOptionService']);
+        $this->assertEquals(
+            'CreateInstanceOptionService',
+            $testService->name,
+            'Ожидается, что при создании объекта ему были внедрены его публичные свойства'
+        );
+
     }
 
     public function testInterfaceDependencies()
