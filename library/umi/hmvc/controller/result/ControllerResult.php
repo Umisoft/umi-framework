@@ -18,7 +18,6 @@ use umi\spl\container\TPropertyAccess;
  */
 class ControllerResult implements IControllerResult, \ArrayAccess
 {
-
     use TArrayAccess;
 
     /**
@@ -33,16 +32,26 @@ class ControllerResult implements IControllerResult, \ArrayAccess
      * @var array $variables переменные
      */
     private $variables = [];
+    /**
+     * @var array $headers
+     */
+    private $headers = [];
+    /**
+     * @var array $cookies
+     */
+    private $cookies = [];
 
     /**
      * Конструктор.
      * @param string $template имя шаблона
      * @param array $variables переменные шаблона
+     * @param int $code HTTP код ответа
      */
-    public function __construct($template, array $variables = [])
+    public function __construct($template, array $variables = [], $code = 200)
     {
         $this->template = $template;
         $this->variables = $variables;
+        $this->code = $code;
     }
 
     /**
@@ -102,15 +111,6 @@ class ControllerResult implements IControllerResult, \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function getTemplate()
-    {
-        return $this->template;
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setCode($code)
     {
         $this->code = $code;
@@ -124,5 +124,49 @@ class ControllerResult implements IControllerResult, \ArrayAccess
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public final function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setHeader($name, $value)
+    {
+        $this->headers[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCookie($name, $value, $options = [])
+    {
+        $this->cookies[$name] = [$value, $options];
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCookies()
+    {
+        return $this->cookies;
     }
 }

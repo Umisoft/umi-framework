@@ -364,6 +364,17 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
                 ->setCode($result->getCode())
                 ->setContent($view->render($result->getTemplate(), $result->getVariables()));
 
+            $responseHeaders = $response->getHeaders();
+
+            foreach ($result->getHeaders() as $name => $value) {
+                $responseHeaders->setHeader($name, $value);
+            }
+
+            foreach ($result->getCookies() as $name => $data) {
+                list($value, $options) = $data;
+                $responseHeaders->setCookie($name, $value, $options);
+            }
+
             return $response;
         }
 

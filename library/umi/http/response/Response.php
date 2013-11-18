@@ -17,7 +17,6 @@ use umi\http\response\header\IHeaderCollection;
  */
 class Response implements IResponse
 {
-
     /**
      * @var string $content данные ответа
      */
@@ -31,6 +30,9 @@ class Response implements IResponse
      */
     protected $headers;
 
+    /**
+     * Конструктор.
+     */
     public function __construct()
     {
         $this->headers = new HeaderCollection();

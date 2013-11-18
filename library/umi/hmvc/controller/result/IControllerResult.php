@@ -24,6 +24,12 @@ interface IControllerResult extends IContainer
     public function setCode($code);
 
     /**
+     * Возвращает установленный код ответа результата.
+     * @return string код ответа
+     */
+    public function getCode();
+
+    /**
      * Устанавливает переменные результата.
      * @param array $variables переменные
      * @return self
@@ -31,20 +37,43 @@ interface IControllerResult extends IContainer
     public function setVariables(array $variables);
 
     /**
-     * Возвращает установленный код ответа результата.
-     * @return string код ответа
+     * Возвращает все переменные результата.
+     * @return array переменные
      */
-    public function getCode();
+    public function getVariables();
+
+    /**
+     * Устанавливает HTTP заголовок в ответ.
+     * @param string $name имя заголовка
+     * @param mixed $value значение
+     * @return self
+     */
+    public function setHeader($name, $value);
+
+    /**
+     * Возвращает HTTP заголовки.
+     * @return array
+     */
+    public function getHeaders();
+
+    /**
+     * Устанавливает cookie в ответ.
+     * @param string $name имя
+     * @param string $value значение
+     * @param array $options опции
+     * @return self
+     */
+    public function setCookie($name, $value, $options = []);
+
+    /**
+     * Возвращает cookie.
+     * @return array
+     */
+    public function getCookies();
 
     /**
      * Возвращает шаблон для результата.
      * @return string
      */
     public function getTemplate();
-
-    /**
-     * Возвращает все переменные результата.
-     * @return array переменные
-     */
-    public function getVariables();
 }
