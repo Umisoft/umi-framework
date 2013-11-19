@@ -37,9 +37,9 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
     use TLocalizable;
 
     /**
-     * @var IPrototypeFactory $_prototypeFactory
+     * @var object[] $prototypes протитипы для создания экземпляров
      */
-    private $prototypeFactory;
+    protected $prototypes;
     /**
      * @var array $registeredToolboxes список зарегистрированных тулбоксов
      */
@@ -60,6 +60,10 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
      * @var array $settings настройки наборов инстурментов
      */
     protected $settings = [];
+    /**
+     * @var IPrototypeFactory $_prototypeFactory
+     */
+    private $prototypeFactory;
 
     /**
      * Конструктор.
@@ -265,6 +269,21 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
+    public function getPrototype($className, array $contracts = []) {
+        if (!isset($this->prototypes[$className])) {
+            $prototype = $this->getPrototypeFactory()
+                ->create($className, $contracts);
+
+            $this->prototypes[$className] = $prototype;
+            $prototype->resolveDependencies();
+        }
+
+        return $this->prototypes[$className];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getInjectors(array $interfaceNames)
     {
         $result = [];
@@ -293,14 +312,6 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
         $factory = $this->serviceBuilders[$serviceInterfaceName];
 
         return call_user_func($factory, $concreteClassName, $this);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function reset()
-    {
-        $this->toolboxes = [];
     }
 
     /**

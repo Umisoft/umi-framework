@@ -18,4 +18,16 @@ class TestFactory implements IFactory
     use TFactory;
 
     public $option;
+
+    protected $name;
+
+    public function __construct($name = 'TestFactory')
+    {
+        $this->name = $name;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
 }

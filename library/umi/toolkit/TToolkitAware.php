@@ -39,7 +39,7 @@ trait TToolkitAware
     {
         if (!$this->_toolkit) {
             throw new RequiredDependencyException(sprintf(
-                'Toolkit are not injected in class "%s".',
+                'Toolkit is not injected in class "%s".',
                 get_class($this)
             ));
         }

@@ -70,9 +70,9 @@ trait TFactory
     }
 
     /**
-     * Возвращает прототип сервиса.
-     * @param string $className имя класса сервиса
-     * @param array $contracts список контрактов, которые должен реализовывать сервис
+     * Возвращает прототип класса.
+     * @param string $className имя класса
+     * @param array $contracts список контрактов, которые должен реализовывать экземпляр класса
      * @throws RuntimeException если не существует класса, либо контракта
      * @throws DomainException если прототип не соответствует какому-либо контракту
      * @return IPrototype

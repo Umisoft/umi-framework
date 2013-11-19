@@ -12,6 +12,7 @@ namespace umi\toolkit;
 use Traversable;
 use umi\toolkit\exception\AlreadyRegisteredException;
 use umi\toolkit\exception\InvalidArgumentException;
+use umi\toolkit\prototype\IPrototype;
 
 /**
  * Тулкит.
@@ -135,9 +136,11 @@ interface IToolkit
     public function setSettings($settings);
 
     /**
-     * Сбрасывает все созданные ранее инструменты.
-     * @return self
+     * Возвращает прототип класса.
+     * @param string $className имя класса
+     * @param array $contracts список контрактов, которые должен реализовывать экземпляр класса
+     * @return IPrototype
      */
-    public function reset();
+    public function getPrototype($className, array $contracts = []);
 
 }

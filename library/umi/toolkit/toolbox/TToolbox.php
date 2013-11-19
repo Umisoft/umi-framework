@@ -63,6 +63,7 @@ trait TToolbox
     /**
      * Внедряет в объект сервисы, известные набору инструментов.
      * @param object $object
+     * @codeCoverageIgnore
      */
     public function injectDependencies($object)
     {

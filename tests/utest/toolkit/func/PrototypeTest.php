@@ -17,7 +17,6 @@ use umi\toolkit\IToolkit;
 use umi\toolkit\prototype\PrototypeFactory;
 use umi\toolkit\Toolkit;
 use utest\TestCase;
-use utest\toolkit\mock\ConcreteMockService;
 use utest\toolkit\mock\MockService;
 use utest\toolkit\mock\MockServicingInterface;
 use utest\toolkit\mock\TestService;
@@ -161,16 +160,12 @@ class PrototypeTest extends TestCase implements IFactory
     {
 
         $prototype = $this->getPrototype('utest\toolkit\mock\TestService');
-        $prototype->registerConstructorDependency(
-            'utest\toolkit\mock\ConcreteMockService',
-            function () {
-                return new ConcreteMockService();
-            }
-        );
+
         $prototype->registerConstructorDependency(
             'utest\toolkit\mock\IMockService',
-            function () {
-                return new MockService('injectedByPrototype');
+            function ($concreteClassName) {
+                $concreteClassName = $concreteClassName ?: 'utest\toolkit\mock\MockService';
+                return new $concreteClassName('injectedByPrototype');
             }
         );
 

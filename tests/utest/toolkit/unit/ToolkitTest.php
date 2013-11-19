@@ -34,13 +34,14 @@ class ToolkitTest extends TestCase
         $this->toolkit = new Toolkit();
 
         $this->toolboxConfig = [
-            'name'    => 'MockTools',
-            'class'        => 'utest\toolkit\mock\MockTools',
-            'awareInterfaces' => [
+            'name'              => 'MockTools',
+            'class'             => 'utest\toolkit\mock\MockTools',
+            'awareInterfaces'   => [
                 'utest\toolkit\mock\MockServicingInterface'
             ],
-            'services'            => [
-                'utest\toolkit\mock\IMockService'
+            'services'          => [
+                'utest\toolkit\mock\IMockService',
+                'utest\toolkit\mock\TestFactory'
             ]
         ];
     }
@@ -216,7 +217,8 @@ class ToolkitTest extends TestCase
         );
     }
 
-    public function testWrongToolbox() {
+    public function testWrongToolbox()
+    {
         $this->toolkit->registerToolbox(
             [
                 'name'      => 'WrongTools',
@@ -237,4 +239,68 @@ class ToolkitTest extends TestCase
         );
         $this->assertEquals('Cannot create toolbox "WrongTools".', $e->getMessage());
     }
+
+    public function testGetPrototypeInBuilders()
+    {
+        $this->toolkit->registerService(
+            'utest\toolkit\mock\IMockService',
+            function ($concreteClassName, IToolkit $toolkit) {
+                $concreteClassName = $concreteClassName ?: 'utest\toolkit\mock\MockService';
+                return $toolkit->getPrototype($concreteClassName, ['utest\toolkit\mock\IMockService'])->createInstance();
+            }
+        );
+
+        $this->assertInstanceOf(
+            'utest\toolkit\mock\MockService',
+            $this->toolkit->getService('utest\toolkit\mock\IMockService'),
+            'Ожидается, что можно получить зарегестрированный сервис с дефолтной реализацией'
+        );
+
+        $this->assertInstanceOf(
+            'utest\toolkit\mock\ConcreteMockService',
+            $this->toolkit->getService('utest\toolkit\mock\IMockService', 'utest\toolkit\mock\ConcreteMockService'),
+            'Ожидается, что можно получить зарегестрированный сервис с указанной реализацией'
+        );
+    }
+
+    public function testSetSettings()
+    {
+        $this->toolkit->registerToolbox($this->toolboxConfig);
+        $this->toolkit->setSettings(
+            [
+                MockTools::NAME => [
+                    'factoryOptions' => ['injectedName']
+                ]
+            ]
+        );
+
+        $this->assertEquals(
+            'injectedName',
+            $this->toolkit->getService('utest\toolkit\mock\TestFactory')->getName(),
+            'Ожидается, что публичные свойства тулбокса можно настроить через IToolkit::setSettings()'
+        );
+
+        $e = null;
+        try {
+            $this->toolkit->setSettings('WrongSettings');
+        } catch (\Exception $e) {}
+        $this->assertInstanceOf(
+            'umi\toolkit\exception\InvalidArgumentException',
+            $e,
+            'Ожидается, что нельзя выставить настройки тулкита в неверном формате'
+        );
+        $this->assertEquals('Cannot set toolkit settings.', $e->getMessage());
+
+        $e = null;
+        try {
+            $this->toolkit->setSettings(['ToolboxName' => 'WrongToolboxConfig']);
+        } catch (\Exception $e) {}
+        $this->assertInstanceOf(
+            'umi\toolkit\exception\UnexpectedValueException',
+            $e,
+            'Ожидается, что нельзя выставить настройки тулкита в неверном формате'
+        );
+        $this->assertEquals('Cannot set toolbox "ToolboxName" settings.', $e->getMessage());
+    }
+
 }
