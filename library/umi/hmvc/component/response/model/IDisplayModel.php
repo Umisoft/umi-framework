@@ -7,14 +7,14 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\controller\result;
+namespace umi\hmvc\component\response\model;
 
 use umi\spl\container\IContainer;
 
 /**
  * Интерфейс для обертки результата работы контроллера.
  */
-interface IControllerResult extends IContainer
+interface IDisplayModel extends IContainer
 {
     /**
      * Устанавливает код ответа для результата.
@@ -41,35 +41,6 @@ interface IControllerResult extends IContainer
      * @return array переменные
      */
     public function getVariables();
-
-    /**
-     * Устанавливает HTTP заголовок в ответ.
-     * @param string $name имя заголовка
-     * @param mixed $value значение
-     * @return self
-     */
-    public function setHeader($name, $value);
-
-    /**
-     * Возвращает HTTP заголовки.
-     * @return array
-     */
-    public function getHeaders();
-
-    /**
-     * Устанавливает cookie в ответ.
-     * @param string $name имя
-     * @param string $value значение
-     * @param array $options опции
-     * @return self
-     */
-    public function setCookie($name, $value, $options = []);
-
-    /**
-     * Возвращает cookie.
-     * @return array
-     */
-    public function getCookies();
 
     /**
      * Возвращает шаблон для результата.

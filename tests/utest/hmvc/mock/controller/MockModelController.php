@@ -46,8 +46,7 @@ class MockModelController extends BaseController implements IModelAware
          */
         $model2 = $this->createModelByName('mock');
 
-        return $this->createComponentResponse()
-            ->setContent($this->model->getVariable() . $model2->getVariable());
+        return $this->createResponse($this->model->getVariable() . $model2->getVariable());
     }
 }
  

@@ -8,8 +8,8 @@
  */
 namespace utest\hmvc\unit\controller;
 
-use umi\hmvc\controller\result\ControllerResult;
-use umi\hmvc\controller\result\IControllerResult;
+use umi\hmvc\component\response\model\DisplayModel;
+use umi\hmvc\component\response\model\IDisplayModel;
 use utest\TestCase;
 
 /**
@@ -18,13 +18,13 @@ use utest\TestCase;
 class ControllerResultTest extends TestCase
 {
     /**
-     * @var IControllerResult $result
+     * @var IDisplayModel $result
      */
     protected $result;
 
     public function setUpFixtures()
     {
-        $this->result = new ControllerResult('template', ['variable' => 'value'], 300);
+        $this->result = new DisplayModel('template', ['variable' => 'value'], 300);
     }
 
     public function testBasic()
@@ -51,17 +51,5 @@ class ControllerResultTest extends TestCase
         $this->result->del('variable');
         $this->assertFalse($this->result->has('variable'));
         $this->assertNull($this->result->get('variable'));
-    }
-
-    public function testHeaders()
-    {
-        $this->assertEmpty($this->result->getHeaders());
-        $this->assertEmpty($this->result->getCookies());
-
-        $this->assertSame($this->result, $this->result->setHeader('name', 'value'));
-        $this->assertEquals(['name' => 'value'], $this->result->getHeaders());
-
-        $this->assertSame($this->result, $this->result->setCookie('name', 'value'));
-        $this->assertEquals(['name' => ['value', []]], $this->result->getCookies());
     }
 }

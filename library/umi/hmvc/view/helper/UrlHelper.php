@@ -10,38 +10,48 @@
 namespace umi\hmvc\view\helper;
 
 use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\context\IRequestContext;
-use umi\hmvc\context\IRouterContext;
-use umi\hmvc\context\TRequestContext;
-use umi\hmvc\context\TRouterContext;
+use umi\hmvc\context\IContextAware;
+use umi\hmvc\context\TContextAware;
+use umi\hmvc\exception\RuntimeException;
+use umi\i18n\ILocalizable;
+use umi\i18n\TLocalizable;
 
 /**
  * Помощник вида для генерации URL по маршрутам компонента.
  */
-class UrlHelper implements IRequestContext, IRouterContext
+class UrlHelper implements IContextAware, ILocalizable
 {
-    use TRequestContext;
-    use TRouterContext;
+    use TContextAware;
+    use TLocalizable;
 
     /**
      * Возвращает маршрут.
      * @param string $name имя маршрута
      * @param array $params параметры
      * @param bool $useRequestParams использовать ли параметры из запроса
+     * @throws RuntimeException
      * @return string
      */
     public function __invoke($name, array $params = [], $useRequestParams = false)
     {
         if ($useRequestParams) {
-            $routeParams = $this->getContextRequest()
-                ->getParams(IComponentRequest::ROUTE)
-                ->toArray();
+            $request = $this->getContext()
+                ->getRequest();
+
+            if (!$request) {
+                throw new RuntimeException($this->translate(
+                    'Cannot get request from context.'
+                ));
+            }
+
+            $routeParams = $request->getParams(IComponentRequest::ROUTE)->toArray();
 
             $params += $routeParams;
         }
 
-        return $this->getContextRouter()
-            ->assemble($name, $params) ? : '/';
-    }
+        $router = $this->getContext()
+            ->getComponent()->getRouter();
 
+        return $router->assemble($name, $params) ? : '/';
+    }
 }

@@ -10,7 +10,7 @@
 namespace umi\hmvc\toolbox\factory;
 
 use umi\hmvc\context\IContextAware;
-use umi\hmvc\context\TContextInjectorAware;
+use umi\hmvc\context\TContextAware;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
 use umi\hmvc\view\extension\IViewExtensionFactory;
@@ -24,7 +24,7 @@ use umi\templating\toolbox\factory\ExtensionFactory;
  */
 class ViewExtensionFactory extends ExtensionFactory implements IViewExtensionFactory, IContextAware, IModelAware
 {
-    use TContextInjectorAware;
+    use TContextAware;
 
     /**
      * @var string $viewHelperCollectionClass класс коллекции помощников вида
@@ -125,5 +125,19 @@ class ViewExtensionFactory extends ExtensionFactory implements IViewExtensionFac
 
         return $viewHelperCollection;
     }
+
+    /**
+     * Внедряет контекст в объект.
+     * @param object $object
+     */
+    private function injectContext($object)
+    {
+        if ($object instanceof IContextAware) {
+            if (!$this->hasContext()) {
+                $object->setContext($this->getContext());
+            } else {
+                $object->clearContext();
+            }
+        }
+    }
 }
- 

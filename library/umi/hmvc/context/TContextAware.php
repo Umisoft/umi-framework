@@ -15,18 +15,35 @@ namespace umi\hmvc\context;
  */
 trait TContextAware
 {
-    use TComponentContext;
-    use TRequestContext;
+    /**
+     * @var IContext $_componentContext
+     */
+    private $_componentContext;
+
+    /**
+     * Устанавливает контекст работы компонента.
+     * @param IContext $context
+     */
+    public function setContext(IContext $context)
+    {
+        $this->_componentContext = $context;
+    }
 
     /**
      * Очищает установленный контекст.
-     * @return $this
      */
     public function clearContext()
     {
-        $this->_contextComponent = null;
-        $this->_contextRequest = null;
+        $this->_componentContext = null;
+    }
 
-        return $this;
+    protected function hasContext()
+    {
+        return (bool) $this->_componentContext;
+    }
+
+    protected function getContext()
+    {
+        return $this->_componentContext;
     }
 }

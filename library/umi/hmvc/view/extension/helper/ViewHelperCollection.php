@@ -10,7 +10,7 @@
 namespace umi\hmvc\view\extension\helper;
 
 use umi\hmvc\context\IContextAware;
-use umi\hmvc\context\TContextInjectorAware;
+use umi\hmvc\context\TContextAware;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
 use umi\templating\extension\helper\collection\HelperCollection;
@@ -24,7 +24,7 @@ use umi\templating\extension\helper\IHelperFactory;
  */
 class ViewHelperCollection extends HelperCollection implements IModelAware, IContextAware
 {
-    use TContextInjectorAware;
+    use TContextAware;
 
     /**
      * @var IModelFactory $contextModelFactory
@@ -61,8 +61,12 @@ class ViewHelperCollection extends HelperCollection implements IModelAware, ICon
 
         // Should inject here, because context can be changed
         // during component lifetime.
-        if (is_object($callable)) {
-            $this->injectContext($callable);
+        if (is_object($callable) && $callable instanceof IContextAware) {
+            $callable->clearContext();
+
+            if ($this->hasContext()) {
+                $callable->setContext($this->getContext());
+            }
         }
 
         return $callable;

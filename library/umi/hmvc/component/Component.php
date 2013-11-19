@@ -15,12 +15,11 @@ use umi\hmvc\component\request\TComponentRequestAware;
 use umi\hmvc\component\response\IComponentResponse;
 use umi\hmvc\component\response\IComponentResponseAware;
 use umi\hmvc\component\response\TComponentResponseAware;
-use umi\hmvc\context\IComponentContext;
+use umi\hmvc\context\Context;
+use umi\hmvc\context\IContext;
 use umi\hmvc\context\IContextAware;
-use umi\hmvc\context\IRequestContext;
-use umi\hmvc\context\IRouterContext;
 use umi\hmvc\controller\IControllerFactory;
-use umi\hmvc\controller\result\IControllerResult;
+use umi\hmvc\component\response\model\IDisplayModel;
 use umi\hmvc\exception\http\HttpNotFound;
 use umi\hmvc\exception\OutOfBoundsException;
 use umi\hmvc\IMVCLayerAware;
@@ -113,8 +112,13 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     {
         $this->processRequest($request);
 
-        $result = $this->route($request);
-        $response = $this->dispatch($result, $request);
+        $context = new Context(
+            $this,
+            $request,
+            $this->route($request)
+        );
+
+        $response = $this->dispatch($context);
 
         if ($response->isProcessable()) {
             $this->processResponse($response, $request);
@@ -128,18 +132,12 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
      */
     public function call($name, IComponentRequest $request)
     {
-        $controller = $this->getControllerFactory()
-            ->createController($name);
+        $context = new Context($this, $request);
 
-        $this->injectContext($controller, $request);
-
-        try {
-            $result = $controller($request);
-
-            return $this->render($result, $request);
-        } catch (\Exception $exception) {
-            return $this->callErrorController($exception, $request);
-        }
+        return $this->callController(
+            $name,
+            $context
+        );
     }
 
     /**
@@ -159,50 +157,80 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
 
     /**
      * Выполняет отправку запроса на выполнение в контроллер, либо в дочерний компонент.
-     * @param IRouteResult $routeResult результат маршрутеризации
-     * @param IComponentRequest $request HTTP запрос
+     *
+     * @param IContext $context контекст работы компонента
      * @return IComponentResponse результат работы компонента
-     * @throws HttpNotFound если обработчик для запроса не был найден
      */
-    protected function dispatch(IRouteResult $routeResult, IComponentRequest $request)
+    protected function dispatch(IContext $context)
     {
-        $matches = $routeResult->getMatches();
+        $matches = $context->getRouteResult()->getMatches();
 
         if (isset($matches[self::MATCH_COMPONENT])) {
-            if (!$this->hasChildComponent($matches[self::MATCH_COMPONENT])) {
-                return $this->callErrorController(
-                    new HttpNotFound($this->translate(
-                        'Child component "{name}" not found.',
-                        ['name' => $matches[self::MATCH_COMPONENT]]
-                    )),
-                    $request
-                );
-            }
-
-            $childComponent = $this->getChildComponent($matches[self::MATCH_COMPONENT]);
-
-            /**
-             * @var IRouter $router
-             */
-            $router = $childComponent->getRouter();
-            $router->setBaseUrl($routeResult->getMatchedUrl());
-
-            $componentRequest = $this->createComponentRequest($routeResult->getUnmatchedUrl());
-
-            try {
-                return $childComponent->execute($componentRequest);
-            } catch (\Exception $e) {
-                return $this->callErrorController($e, $request);
-            }
-        } elseif (isset($matches[self::MATCH_CONTROLLER]) && !$routeResult->getUnmatchedUrl()) {
-            return $this->call($matches[self::MATCH_CONTROLLER], $request);
+            return $this->callChildComponent($matches[self::MATCH_COMPONENT], $context);
+        } elseif (isset($matches[self::MATCH_CONTROLLER]) && !$context->getRouteResult()->getUnmatchedUrl()) {
+            return $this->callController($matches[self::MATCH_CONTROLLER], $context);
         } else {
             return $this->callErrorController(
                 new HttpNotFound($this->translate(
                     'URL not found by router.'
                 )),
-                $request
+                $context
             );
+        }
+    }
+
+    /**
+     * Вызывает дочерний компонент.
+     * @param string $component компонент
+     * @param IContext $context контекст родительского компонента
+     * @return IComponentResponse
+     */
+    protected function callChildComponent($component, IContext $context)
+    {
+        if (!$this->hasChildComponent($component)) {
+            return $this->callErrorController(
+                new HttpNotFound($this->translate(
+                    'Child component "{name}" not found.',
+                    ['name' => $component]
+                )),
+                $context
+            );
+        }
+
+        $childComponent = $this->getChildComponent($component);
+
+        /**
+         * @var IRouter $router
+         */
+        $router = $childComponent->getRouter();
+        $router->setBaseUrl($context->getRouteResult()->getMatchedUrl());
+
+        $componentRequest = $this->createComponentRequest($context->getRouteResult()->getUnmatchedUrl());
+
+        try {
+            return $childComponent->execute($componentRequest);
+        } catch (\Exception $e) {
+            return $this->callErrorController($e, $context);
+        }
+    }
+
+    /**
+     * Вызывает контроллер компонента.
+     * @param string $controller имя контроллера
+     * @param IContext $context контекст вызова контроллера
+     * @return IComponentResponse
+     */
+    protected function callController($controller, IContext $context)
+    {
+        $controller = $this->getControllerFactory()
+            ->createController($controller);
+
+        try {
+            $result = $controller($context->getRequest());
+
+            return $this->render($result, $context);
+        } catch (\Exception $exception) {
+            return $this->callErrorController($exception, $context);
         }
     }
 
@@ -292,11 +320,11 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     /**
      * Вызывает error controller компонента если зарегистрирован.
      * @param \Exception $exception исключение для обработки error controller
-     * @param IComponentRequest $request HTTP запрос компонента
-     * @return IComponentResponse
+     * @param IContext $context контекст вызова
      * @throws \Exception если error controller не зарегистрирован
+     * @return IComponentResponse
      */
-    protected function callErrorController(\Exception $exception, IComponentRequest $request)
+    protected function callErrorController(\Exception $exception, IContext $context)
     {
         if (!$this->getControllerFactory()
             ->hasController(self::ERROR_CONTROLLER)
@@ -307,77 +335,35 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
         $controller = $this->getControllerFactory()
             ->createController(self::ERROR_CONTROLLER, [$exception]);
 
-        $result = $controller($request);
+        $result = $controller($context->getRequest());
 
-        return $this->render($result, $request);
-    }
-
-    /**
-     * Внедряет контекст в объект при необходимости.
-     * @param object $object объект
-     * @param IComponentRequest $request запрос
-     */
-    protected function injectContext($object, IComponentRequest $request = null)
-    {
-        if ($object instanceof IComponentContext) {
-            $object->setContextComponent($this);
-        }
-
-        if ($object instanceof IRouterContext) {
-            $object->setContextRouter($this->getRouter());
-        }
-
-        if ($object instanceof IRequestContext) {
-            $object->setContextRequest($request);
-        }
-    }
-
-    /**
-     * Возвращает слой отображеия с внедренным контекстом.
-     * @param IComponentRequest $request HTTP запрос
-     * @return IView
-     */
-    protected function getContextView(IComponentRequest $request)
-    {
-        $view = $this->getView();
-
-        if ($view instanceof IContextAware) {
-            $view->clearContext();
-            $this->injectContext($view, $request);
-        }
-
-        return $view;
+        return $this->render($result, $context);
     }
 
     /**
      * Выполняет рендеринг результата при необходимости.
-     * @param IControllerResult|IComponentResponse $result
-     * @param IComponentRequest $request запрос из контекста
+     * @param IComponentResponse $response
+     * @param IContext $context контекст работы компонента
      * @return IComponentResponse
      */
-    private function render($result, IComponentRequest $request)
+    private function render(IComponentResponse $response, IContext $context)
     {
-        if ($result instanceof IControllerResult) {
-            $view = $this->getContextView($request);
+        $content = $response->getContent();
 
-            $response = $this->createComponentResponse()
-                ->setCode($result->getCode())
-                ->setContent($view->render($result->getTemplate(), $result->getVariables()));
+        if ($content instanceof IDisplayModel) {
+            $view = $this->getView();
 
-            $responseHeaders = $response->getHeaders();
-
-            foreach ($result->getHeaders() as $name => $value) {
-                $responseHeaders->setHeader($name, $value);
+            if ($view instanceof IContextAware) {
+                $view->setContext($context);
             }
 
-            foreach ($result->getCookies() as $name => $data) {
-                list($value, $options) = $data;
-                $responseHeaders->setCookie($name, $value, $options);
-            }
+            $response->setContent($view->render($content->getTemplate(), $content->getVariables()));
 
-            return $response;
+            if ($view instanceof IContextAware) {
+                $view->clearContext();
+            }
         }
 
-        return $result;
+        return $response;
     }
 }

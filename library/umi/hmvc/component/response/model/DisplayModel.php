@@ -7,7 +7,7 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\controller\result;
+namespace umi\hmvc\component\response\model;
 
 use umi\http\response\IResponse;
 use umi\spl\container\TArrayAccess;
@@ -16,7 +16,7 @@ use umi\spl\container\TPropertyAccess;
 /**
  * Реализация обертки для результата работы контроллера.
  */
-class ControllerResult implements IControllerResult, \ArrayAccess
+class DisplayModel implements IDisplayModel, \ArrayAccess
 {
     use TArrayAccess;
 
@@ -32,14 +32,6 @@ class ControllerResult implements IControllerResult, \ArrayAccess
      * @var array $variables переменные
      */
     private $variables = [];
-    /**
-     * @var array $headers
-     */
-    private $headers = [];
-    /**
-     * @var array $cookies
-     */
-    private $cookies = [];
 
     /**
      * Конструктор.
@@ -132,41 +124,5 @@ class ControllerResult implements IControllerResult, \ArrayAccess
     public final function getTemplate()
     {
         return $this->template;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setHeader($name, $value)
-    {
-        $this->headers[$name] = $value;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setCookie($name, $value, $options = [])
-    {
-        $this->cookies[$name] = [$value, $options];
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getCookies()
-    {
-        return $this->cookies;
     }
 }
