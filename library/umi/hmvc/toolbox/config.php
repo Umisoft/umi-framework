@@ -20,7 +20,6 @@ return [
         'umi\hmvc\component\IComponentAware',
         'umi\hmvc\component\response\IComponentResponseAware',
         'umi\hmvc\component\request\IComponentRequestAware',
-        'umi\hmvc\view\template\IViewExtensionFactoryAware',
     ],
     'services' => [
         'umi\hmvc\component\IComponentFactory',

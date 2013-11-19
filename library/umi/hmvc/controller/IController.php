@@ -21,7 +21,7 @@ interface IController
     /**
      * Вызывает контроллер. Передает в контроллер HTTP запрос.
      * @param IComponentRequest $request HTTP запрос
-     * @return IDisplayModel|IComponentResponse результат работы контроллера
+     * @return IComponentResponse результат работы контроллера
      */
     public function __invoke(IComponentRequest $request);
 }

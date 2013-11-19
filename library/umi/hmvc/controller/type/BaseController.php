@@ -60,7 +60,7 @@ abstract class BaseController implements IController, IComponentResponseAware, I
      *
      * @param string $template имя шаблона
      * @param array $variables переменные
-     * @return \umi\http\response\IResponse
+     * @return IComponentResponse
      */
     protected function createDisplayResponse($template, array $variables)
     {
@@ -97,7 +97,7 @@ abstract class BaseController implements IController, IComponentResponseAware, I
     {
         if (!$this->responseFactory) {
             throw new RequiredDependencyException(
-                $this->translate('Authentication factory is not injected in class "%s".', __CLASS__)
+                sprintf('Authentication factory is not injected in class "%s".', __CLASS__)
             );
         }
 

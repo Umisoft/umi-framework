@@ -133,7 +133,7 @@ class ViewExtensionFactory extends ExtensionFactory implements IViewExtensionFac
     private function injectContext($object)
     {
         if ($object instanceof IContextAware) {
-            if (!$this->hasContext()) {
+            if ($this->hasContext()) {
                 $object->setContext($this->getContext());
             } else {
                 $object->clearContext();

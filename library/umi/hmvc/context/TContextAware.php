@@ -9,6 +9,8 @@
 
 namespace umi\hmvc\context;
 
+use umi\hmvc\exception\RequiredDependencyException;
+
 /**
  * Трейт для поддержки внедрения контекстно зависимых объектов.
  * {@internal}
@@ -44,6 +46,12 @@ trait TContextAware
 
     protected function getContext()
     {
+        if (!$this->_componentContext) {
+            throw new RequiredDependencyException(
+                sprintf('Context is not injected in "%s" class.', __CLASS__)
+            );
+        }
+
         return $this->_componentContext;
     }
 }

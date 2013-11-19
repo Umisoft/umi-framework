@@ -22,6 +22,7 @@ use umi\hmvc\controller\IControllerFactory;
 use umi\hmvc\component\response\model\IDisplayModel;
 use umi\hmvc\exception\http\HttpNotFound;
 use umi\hmvc\exception\OutOfBoundsException;
+use umi\hmvc\exception\UnexpectedValueException;
 use umi\hmvc\IMVCLayerAware;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
@@ -227,6 +228,12 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
 
         try {
             $result = $controller($context->getRequest());
+
+            if (!$result instanceof IComponentResponse) {
+                throw new UnexpectedValueException($this->translate(
+                    'Controller returns unexpected value. Instance of IComponentResponse expected.'
+                ));
+            }
 
             return $this->render($result, $context);
         } catch (\Exception $exception) {

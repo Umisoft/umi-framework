@@ -23,4 +23,3 @@ class MockBaseModel implements IModel
     }
 
 }
- 

@@ -54,7 +54,7 @@ class HelperCollection implements IHelperCollection, IHelperFactoryAware, ILocal
             ));
         }
 
-        if (!is_string($helper) && !is_callable($this->helpers)) {
+        if (!is_string($helper) && !is_callable($helper)) {
             throw new InvalidArgumentException($this->translate(
                 'Invalid helper "{name}" type. Only classes or callable supported.',
                 ['name' => $name]
