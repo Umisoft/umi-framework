@@ -11,16 +11,21 @@ namespace umi\hmvc\controller\type;
 use umi\hmvc\component\response\IComponentResponse;
 use umi\hmvc\component\response\IComponentResponseAware;
 use umi\hmvc\component\response\IComponentResponseFactory;
+use umi\hmvc\component\response\model\DisplayModel;
 use umi\hmvc\component\response\TComponentResponseAware;
 use umi\hmvc\controller\IController;
-use umi\hmvc\component\response\model\DisplayModel;
+use umi\hmvc\exception\RequiredDependencyException;
+use umi\i18n\ILocalizable;
+use umi\i18n\TLocalizable;
 
 /**
  * Абстрактный базовый класс контроллера.
  * Реализует helper методы для контроллеров.
  */
-abstract class BaseController implements IController, IComponentResponseAware
+abstract class BaseController implements IController, IComponentResponseAware, ILocalizable
 {
+    use TLocalizable;
+
     /**
      * @var IComponentResponseFactory $responseFactory
      */
@@ -34,19 +39,36 @@ abstract class BaseController implements IController, IComponentResponseAware
         $this->responseFactory = $factory;
     }
 
-    protected function createResponse($content, $code = 200)
+    /**
+     * Создает HTTP ответ компонента.
+     * @param string $content содержимое ответа
+     * @param int $code код ответа
+     * @return IComponentResponse
+     */
+    protected function createPlainResponse($content, $code = 200)
     {
-        return $this->responseFactory
+        return $this->getComponentResponseFactory()
             ->createComponentResponse()
             ->setCode($code)
             ->setContent($content);
     }
 
-    protected function createResultResponse($template, array $variables)
+    /**
+     * Создает HTTP ответ компонента с содержимым, требующим отображения.
+     *
+     * Этот ответ пройдет через View слой компонента.
+     *
+     * @param string $template имя шаблона
+     * @param array $variables переменные
+     * @return \umi\http\response\IResponse
+     */
+    protected function createDisplayResponse($template, array $variables)
     {
-        return $this->createResponse(
-            new DisplayModel($template, $variables)
-        );
+        return $this->getComponentResponseFactory()
+            ->createComponentResponse()
+                ->setContent(
+                    new DisplayModel($template, $variables)
+                );
     }
 
     /**
@@ -57,13 +79,28 @@ abstract class BaseController implements IController, IComponentResponseAware
      */
     protected function createRedirectResponse($url, $code = 301)
     {
-        $response = $this->createResponse(null);
-
-        $response
-            ->setCode($code)
-            ->getHeaders()
-            ->setHeader('Location', $url);
+        $response = $this->getComponentResponseFactory()
+            ->createComponentResponse()
+                ->setCode($code)
+                ->getHeaders()
+                    ->setHeader('Location', $url);
 
         return $response;
+    }
+
+    /**
+     * Возвращает фабрику для HTTP ответов компонента.
+     * @return IComponentResponseFactory
+     * @throws RequiredDependencyException если фабрика не была внедрена
+     */
+    private function getComponentResponseFactory()
+    {
+        if (!$this->responseFactory) {
+            throw new RequiredDependencyException(
+                $this->translate('Authentication factory is not injected in class "%s".', __CLASS__)
+            );
+        }
+
+        return $this->responseFactory;
     }
 }

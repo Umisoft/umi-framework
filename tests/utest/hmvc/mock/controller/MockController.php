@@ -24,7 +24,7 @@ class MockController extends BaseController
     {
         $data = $request->getVar(IComponentRequest::ROUTE, 'data', 'mock');
 
-        return $this->createResponse($data);
+        return $this->createPlainResponse($data);
     }
 }
  

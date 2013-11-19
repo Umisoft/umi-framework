@@ -36,7 +36,7 @@ class MockErrorController extends BaseController
      */
     public function __invoke(IComponentRequest $request)
     {
-        return $this->createResponse($this->exception->getMessage(), $this->exception->getCode());
+        return $this->createPlainResponse($this->exception->getMessage(), $this->exception->getCode());
     }
 }
  

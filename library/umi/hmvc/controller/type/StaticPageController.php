@@ -26,6 +26,6 @@ abstract class StaticPageController extends BaseController
      */
     public function __invoke(IComponentRequest $request)
     {
-        return $this->createResultResponse($this->template, []);
+        return $this->createDisplayResponse($this->template, []);
     }
 }

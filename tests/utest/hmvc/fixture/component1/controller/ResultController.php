@@ -24,7 +24,7 @@ class ResultController extends BaseController
     {
         $ex = $request->getVar(IComponentRequest::ROUTE, 'route');
 
-        return $this->createControllerResult(
+        return $this->createDisplayResponse(
             'result',
             [
                 'var'    => $ex,
