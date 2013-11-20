@@ -9,4 +9,4 @@ before_script:
     - cp ./tests/general.php.travis ./tests/configuration/local/general.php
     - mysql -e 'create database umiframework;'
 
-script: phpunit --configuration tests/phpunit.xml .
+script: phpunit --configuration tests/phpunit.xml ./tests
