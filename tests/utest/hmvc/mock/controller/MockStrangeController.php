@@ -6,31 +6,22 @@
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
-
-namespace utest\hmvc\fixture\component1\controller;
+namespace utest\hmvc\mock\controller;
 
 use umi\hmvc\component\request\IComponentRequest;
 use umi\hmvc\controller\type\BaseController;
 
 /**
- * Class ResultController
+ * Class MockStrangeController
  */
-class ResultController extends BaseController
+class MockStrangeController extends BaseController
 {
+
     /**
      * {@inheritdoc}
      */
     public function __invoke(IComponentRequest $request)
     {
-        $ex = $request->getVar(IComponentRequest::ROUTE, 'route');
-
-        return $this->createDisplayResponse(
-            'result',
-            [
-                'var'    => $ex,
-                'sample' => 'Hello world',
-            ]
-        );
+        return;
     }
 }
- 

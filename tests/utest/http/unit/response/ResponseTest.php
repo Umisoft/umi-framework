@@ -56,18 +56,4 @@ class ResponseTest extends HttpTestCase
         );
         $this->assertEquals(404, $this->response->getCode(), 'Ожидается код ответа будет установлен.');
     }
-
-    public function testResponseCodeRestore()
-    {
-        $this->response->setCode(400);
-
-        $e = null;
-        try {
-            $this->response->send();
-        } catch (\Exception $e) {
-        }
-
-        $this->assertNotNull($e, 'Ожидается, что исключение будет брошено.');
-        $this->assertEquals(200, http_response_code());
-    }
 }

@@ -24,7 +24,6 @@ class ResponseController extends BaseController
     {
         $ex = $request->getVar(IComponentRequest::ROUTE, 'route');
 
-        return $this->createComponentResponse()
-            ->setContent($ex);
+        return $this->createPlainResponse($ex);
     }
 }

@@ -26,4 +26,3 @@ interface IComponentRequest extends IRequest
      */
     public function setRouteParams(array $params);
 }
- 

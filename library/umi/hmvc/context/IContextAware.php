@@ -13,11 +13,16 @@ namespace umi\hmvc\context;
  * Интерфейс для поддержки внедрения контекстно зависимых объектов.
  * {@internal}
  */
-interface IContextAware extends IComponentContext, IRequestContext
+interface IContextAware
 {
     /**
+     * Устанавливает контекст компонента.
+     * @param IContext $context
+     */
+    public function setContext(IContext $context);
+
+    /**
      * Очищает установленный контекст для сущности.
-     * @return self
      */
     public function clearContext();
 }

@@ -7,14 +7,14 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\controller\result;
+namespace umi\hmvc\component\response\model;
 
 use umi\spl\container\IContainer;
 
 /**
  * Интерфейс для обертки результата работы контроллера.
  */
-interface IControllerResult extends IContainer
+interface IDisplayModel extends IContainer
 {
     /**
      * Устанавливает код ответа для результата.
@@ -24,6 +24,12 @@ interface IControllerResult extends IContainer
     public function setCode($code);
 
     /**
+     * Возвращает установленный код ответа результата.
+     * @return string код ответа
+     */
+    public function getCode();
+
+    /**
      * Устанавливает переменные результата.
      * @param array $variables переменные
      * @return self
@@ -31,20 +37,14 @@ interface IControllerResult extends IContainer
     public function setVariables(array $variables);
 
     /**
-     * Возвращает установленный код ответа результата.
-     * @return string код ответа
+     * Возвращает все переменные результата.
+     * @return array переменные
      */
-    public function getCode();
+    public function getVariables();
 
     /**
      * Возвращает шаблон для результата.
      * @return string
      */
     public function getTemplate();
-
-    /**
-     * Возвращает все переменные результата.
-     * @return array переменные
-     */
-    public function getVariables();
 }

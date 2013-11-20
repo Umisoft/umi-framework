@@ -18,10 +18,8 @@ return [
     'awareInterfaces' => [
         'umi\hmvc\IMVCLayerAware',
         'umi\hmvc\component\IComponentAware',
-        'umi\hmvc\controller\result\IControllerResultAware',
         'umi\hmvc\component\response\IComponentResponseAware',
         'umi\hmvc\component\request\IComponentRequestAware',
-        'umi\hmvc\view\template\IViewExtensionFactoryAware',
     ],
     'services' => [
         'umi\hmvc\component\IComponentFactory',

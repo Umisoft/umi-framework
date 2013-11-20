@@ -13,7 +13,7 @@ use umi\hmvc\exception\RequiredDependencyException;
 use umi\templating\extension\helper\collection\IHelperCollection;
 
 /**
- * Trait TViewExtensionFactoryAware
+ * Трейт для внедрения поддержки работы с фабрикой расширений для отображения.
  */
 trait TViewExtensionFactoryAware
 {
@@ -22,12 +22,17 @@ trait TViewExtensionFactoryAware
      */
     private $_viewExtensionFactory;
 
+    /**
+     * Устанавливает фабрику расширений для отображения.
+     * @param IViewExtensionFactory $factory
+     */
     public function setViewExtensionFactory(IViewExtensionFactory $factory)
     {
         $this->_viewExtensionFactory = $factory;
     }
 
     /**
+     * Создает коллекцию помощников вида.
      * @return IHelperCollection
      */
     protected final function createViewHelperCollection()
@@ -37,6 +42,7 @@ trait TViewExtensionFactoryAware
     }
 
     /**
+     * Возвращает помощники вида по умолчанию.
      * @return IHelperCollection
      */
     protected final function getDefaultViewHelperCollection()
@@ -46,6 +52,7 @@ trait TViewExtensionFactoryAware
     }
 
     /**
+     * Создает коллекцию помощников для шаблонов.
      * @return IHelperCollection
      */
     protected final function createTemplateHelperCollection()
@@ -55,6 +62,7 @@ trait TViewExtensionFactoryAware
     }
 
     /**
+     * Создает коллекцию помощников вида по умолчанию.
      * @return IHelperCollection
      */
     protected final function getDefaultTemplateHelperCollection()
@@ -68,12 +76,17 @@ trait TViewExtensionFactoryAware
      */
     abstract protected function injectContextToViewExtensionFactory(IViewExtensionFactory $factory);
 
+    /**
+     * Возвращает фабрику расширений шаблонизатора.
+     * @return IViewExtensionFactory
+     * @throws RequiredDependencyException если фабрика не была внедрена
+     */
     private final function getViewExtensionFactory()
     {
         if (!$this->_viewExtensionFactory) {
             throw new RequiredDependencyException(sprintf(
                 'View extension factory is not injected in class "%s".',
-                get_class($this)
+                __CLASS__
             ));
         }
 
@@ -81,5 +94,4 @@ trait TViewExtensionFactoryAware
 
         return $this->_viewExtensionFactory;
     }
-
 }
