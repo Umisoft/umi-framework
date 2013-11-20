@@ -80,9 +80,10 @@ abstract class BaseController implements IController, IComponentResponseAware, I
     protected function createRedirectResponse($url, $code = 301)
     {
         $response = $this->getComponentResponseFactory()
-            ->createComponentResponse()
-                ->setCode($code)
-                ->getHeaders()
+            ->createComponentResponse();
+
+        $response->setCode($code)
+                 ->getHeaders()
                     ->setHeader('Location', $url);
 
         return $response;

@@ -8,6 +8,7 @@
  */
 namespace utest\hmvc\unit\controller;
 
+use umi\hmvc\component\response\IComponentResponse;
 use utest\hmvc\HMVCTestCase;
 use utest\hmvc\mock\controller\MockRedirectController;
 
@@ -24,5 +25,20 @@ class ControllerTest extends HMVCTestCase
     {
         $controller = new MockRedirectController();
         $controller($this->getRequest('/'));
+    }
+
+    public function testRedirectResponse()
+    {
+        $controller = new MockRedirectController();
+        $this->resolveOptionalDependencies($controller);
+
+        /**
+         * @var IComponentResponse $response
+         */
+        $response = $controller($this->getRequest('/'));
+
+        $this->assertEquals(303, $response->getCode());
+        $this->assertEmpty($response->getContent());
+        $this->assertEquals(['Location' => '/mock_url'], $response->getHeaders()->getHeaders());
     }
 }
