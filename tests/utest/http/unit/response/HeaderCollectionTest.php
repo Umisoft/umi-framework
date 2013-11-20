@@ -12,7 +12,6 @@ namespace utest\http\unit\response;
 use umi\http\response\header\HeaderCollection;
 use umi\http\response\header\IHeaderCollection;
 use utest\http\HttpTestCase;
-use utest\TestCase;
 
 /**
  * Class HeaderCollectionTest
@@ -68,20 +67,12 @@ class HeaderCollectionTest extends HttpTestCase
 
     public function testSend()
     {
-        $this->markTestIncomplete('Headers already sent?!!!');
         /*
-         * TODO: Headers already sent?!!!
-        $this->response->setContent('.');
-        $this->response->setCookie('test', 'cookie');
-        ob_start();
-        $this->response->send();
-        $content = ob_get_clean();
+        $this->headers->setCookie('test', 'cookie');
+        $this->headers->send();
 
-        $this->assertEquals([], headers_list());
-
-        $this->assertEquals('Hello world!', $content, 'Ожидается, что контент будет выведен.');
+        $this->assertEquals([], xdebug_get_headers());
         */
     }
 
 }
- 

@@ -51,6 +51,10 @@ abstract class HMVCTestCase extends TestCase
             ->setRouteParams($params);
     }
 
+    /**
+     * @param array $options
+     * @return Component
+     */
     protected function getComponent(array $options)
     {
         $component = new Component($options);

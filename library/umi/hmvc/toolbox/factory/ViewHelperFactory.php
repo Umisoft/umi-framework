@@ -10,7 +10,7 @@
 namespace umi\hmvc\toolbox\factory;
 
 use umi\hmvc\context\IContextAware;
-use umi\hmvc\context\TContextInjectorAware;
+use umi\hmvc\context\TContextAware;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
 use umi\templating\toolbox\factory\HelperFactory;
@@ -21,7 +21,7 @@ use umi\toolkit\prototype\IPrototype;
  */
 class ViewHelperFactory extends HelperFactory implements IModelAware, IContextAware
 {
-    use TContextInjectorAware;
+    use TContextAware;
 
     /**
      * @var IModelFactory $modelFactory фабрика для создания моделей
@@ -47,7 +47,13 @@ class ViewHelperFactory extends HelperFactory implements IModelAware, IContextAw
             $helper->setModelFactory($this->modelFactory);
         }
 
-        $this->injectContext($helper);
+        if ($helper instanceof IContextAware) {
+            $helper->clearContext();
+
+            if ($this->hasContext()) {
+                $helper->setContext($this->getContext());
+            }
+        }
 
         return $helper;
     }

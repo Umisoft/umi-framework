@@ -66,20 +66,6 @@ class AwareTest extends AwareTestCase
         );
     }
 
-    public function testControllerResultAware()
-    {
-        $this->awareClassTest(
-            'utest\hmvc\mock\toolbox\MockControllerResultAware',
-            self::EXCEPTION_CLASS,
-            'HMVC controller result factory is not injected in class "utest\hmvc\mock\toolbox\MockControllerResultAware".'
-        );
-
-        $this->successfulInjectionTest(
-            'utest\hmvc\mock\toolbox\MockControllerResultAware',
-            'umi\hmvc\controller\result\IControllerResultFactory'
-        );
-    }
-
     public function testMVCLayerAware()
     {
         $this->awareClassTest(

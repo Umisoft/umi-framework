@@ -24,7 +24,7 @@ class MockRenderController extends BaseController
     {
         $data = $request->getVar(IComponentRequest::ROUTE, 'data', 'mock');
 
-        return $this->createControllerResult(
+        return $this->createDisplayResponse(
             'result',
             [
                 'data' => $data

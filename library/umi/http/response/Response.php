@@ -9,17 +9,14 @@
 
 namespace umi\http\response;
 
+use umi\http\response\header\HeaderCollection;
 use umi\http\response\header\IHeaderCollection;
-use umi\http\response\header\IHeaderCollectionAware;
-use umi\http\response\header\THeaderCollectionAware;
 
 /**
  * Реализация HTTP ответа сервера.
  */
-class Response implements IResponse, IHeaderCollectionAware
+class Response implements IResponse
 {
-    use THeaderCollectionAware;
-
     /**
      * @var string $content данные ответа
      */
@@ -31,17 +28,21 @@ class Response implements IResponse, IHeaderCollectionAware
     /**
      * @var IHeaderCollection $headers
      */
-    private $headers;
+    protected $headers;
+
+    /**
+     * Конструктор.
+     */
+    public function __construct()
+    {
+        $this->headers = new HeaderCollection();
+    }
 
     /**
      * {@inheritdoc}
      */
     public function getHeaders()
     {
-        if (!$this->headers) {
-            return $this->headers = $this->createHttpHeaderCollection();
-        }
-
         return $this->headers;
     }
 

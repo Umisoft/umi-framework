@@ -13,16 +13,22 @@ use umi\templating\extension\helper\collection\IHelperCollection;
 use umi\templating\extension\IExtensionFactory;
 
 /**
- * Class IViewExtensionFactory
+ * Фабрика расширений для отображения.
  */
 interface IViewExtensionFactory extends IExtensionFactory
 {
     /**
+     * Создает коллекцию помощников вида.
      * @return IHelperCollection
      */
     public function createViewHelperCollection();
 
     /**
+     * Возвращает помощники вида по умолчанию.
+     *
+     * Помощники вида по умолчанию указываются в настройках
+     * HMVC и доступны для всех компонентов.
+     *
      * @return IHelperCollection
      */
     public function getDefaultViewHelperCollection();

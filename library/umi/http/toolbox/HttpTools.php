@@ -11,10 +11,6 @@ namespace umi\http\toolbox;
 
 use umi\http\IHttpAware;
 use umi\http\IHttpFactory;
-use umi\http\request\param\IParamCollectionAware;
-use umi\http\request\param\IParamCollectionFactory;
-use umi\http\response\header\IHeaderCollectionAware;
-use umi\http\response\header\IHeaderCollectionFactory;
 use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
@@ -35,14 +31,6 @@ class HttpTools implements IToolbox
      * @var string $httpFactoryClass класс фабрики для http элементов
      */
     public $httpFactoryClass = 'umi\http\toolbox\factory\HttpFactory';
-    /**
-     * @var string $requestParamCollectionFactoryClass класс фабрики для коллекции параметров
-     */
-    public $requestParamCollectionFactoryClass = 'umi\http\toolbox\factory\ParamCollectionFactory';
-    /**
-     * @var string $responseHeaderCollectionFactoryClass класс фабрики для коллекции заголовков
-     */
-    public $responseHeaderCollectionFactoryClass = 'umi\http\toolbox\factory\HeaderCollectionFactory';
 
     /**
      * Конструктор.
@@ -53,18 +41,6 @@ class HttpTools implements IToolbox
             'http',
             $this->httpFactoryClass,
             ['umi\http\IHttpFactory']
-        );
-
-        $this->registerFactory(
-            'paramCollection',
-            $this->requestParamCollectionFactoryClass,
-            ['umi\http\request\param\IParamCollectionFactory']
-        );
-
-        $this->registerFactory(
-            'headerCollection',
-            $this->responseHeaderCollectionFactoryClass,
-            ['umi\http\response\header\IHeaderCollectionFactory']
         );
     }
 
@@ -95,14 +71,6 @@ class HttpTools implements IToolbox
         if ($object instanceof IHttpAware) {
             $object->setHttpFactory($this->getHttpFactory());
         }
-
-        if ($object instanceof IParamCollectionAware) {
-            $object->setParamCollectionFactory($this->getParamCollectionFactory());
-        }
-
-        if ($object instanceof IHeaderCollectionAware) {
-            $object->setHttpHeaderCollectionFactory($this->getHeaderCollectionFactory());
-        }
     }
 
     /**
@@ -112,23 +80,5 @@ class HttpTools implements IToolbox
     protected function getHttpFactory()
     {
         return $this->getFactory('http');
-    }
-
-    /**
-     * Возвращает фабрику коллекций параметров.
-     * @return IParamCollectionFactory
-     */
-    protected function getParamCollectionFactory()
-    {
-        return $this->getFactory('paramCollection');
-    }
-
-    /**
-     * Возвращает фабрику заголовков HTTP ответа.
-     * @return IHeaderCollectionFactory
-     */
-    protected function getHeaderCollectionFactory()
-    {
-        return $this->getFactory('headerCollection');
     }
 }

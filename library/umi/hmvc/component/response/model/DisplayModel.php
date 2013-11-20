@@ -7,7 +7,7 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\controller\result;
+namespace umi\hmvc\component\response\model;
 
 use umi\http\response\IResponse;
 use umi\spl\container\TArrayAccess;
@@ -16,9 +16,8 @@ use umi\spl\container\TPropertyAccess;
 /**
  * Реализация обертки для результата работы контроллера.
  */
-class ControllerResult implements IControllerResult, \ArrayAccess
+class DisplayModel implements IDisplayModel, \ArrayAccess
 {
-
     use TArrayAccess;
 
     /**
@@ -38,11 +37,13 @@ class ControllerResult implements IControllerResult, \ArrayAccess
      * Конструктор.
      * @param string $template имя шаблона
      * @param array $variables переменные шаблона
+     * @param int $code HTTP код ответа
      */
-    public function __construct($template, array $variables = [])
+    public function __construct($template, array $variables = [], $code = 200)
     {
         $this->template = $template;
         $this->variables = $variables;
+        $this->code = $code;
     }
 
     /**
@@ -102,15 +103,6 @@ class ControllerResult implements IControllerResult, \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function getTemplate()
-    {
-        return $this->template;
-
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setCode($code)
     {
         $this->code = $code;
@@ -124,5 +116,13 @@ class ControllerResult implements IControllerResult, \ArrayAccess
     public function getCode()
     {
         return $this->code;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public final function getTemplate()
+    {
+        return $this->template;
     }
 }
