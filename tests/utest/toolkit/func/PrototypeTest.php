@@ -14,10 +14,10 @@ use umi\spl\config\TConfigSupport;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
 use umi\toolkit\IToolkit;
+use umi\toolkit\prototype\IPrototype;
 use umi\toolkit\prototype\PrototypeFactory;
 use umi\toolkit\Toolkit;
 use utest\TestCase;
-use utest\toolkit\mock\ConcreteMockService;
 use utest\toolkit\mock\MockService;
 use utest\toolkit\mock\MockServicingInterface;
 use utest\toolkit\mock\TestService;
@@ -29,7 +29,6 @@ class PrototypeTest extends TestCase implements IFactory
 {
 
     use TFactory;
-    use TConfigSupport;
 
     /**
      * @var IToolkit $toolkit
@@ -63,15 +62,6 @@ class PrototypeTest extends TestCase implements IFactory
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initPrototypeInstance($prototype)
-    {
-        if ($prototype instanceof MockServicingInterface) {
-            $prototype->setFactoryService('injectedDependency');
-        }
-    }
 
     public function testGetClass()
     {
@@ -116,7 +106,7 @@ class PrototypeTest extends TestCase implements IFactory
         $this->assertInstanceOf(
             'utest\toolkit\mock\ConcreteMockService',
             $testService->concreteMockService,
-            'Ожидается, что конкретные реализации зарегестрированных абстрактных классов тулюокса были внедрены'
+            'Ожидается, что конкретные реализации зарегестрированных абстрактных классов тулбокса были внедрены'
         );
         $this->assertEquals(
             2,
@@ -161,16 +151,12 @@ class PrototypeTest extends TestCase implements IFactory
     {
 
         $prototype = $this->getPrototype('utest\toolkit\mock\TestService');
-        $prototype->registerConstructorDependency(
-            'utest\toolkit\mock\ConcreteMockService',
-            function () {
-                return new ConcreteMockService();
-            }
-        );
+
         $prototype->registerConstructorDependency(
             'utest\toolkit\mock\IMockService',
-            function () {
-                return new MockService('injectedByPrototype');
+            function ($concreteClassName) {
+                $concreteClassName = $concreteClassName ?: 'utest\toolkit\mock\MockService';
+                return new $concreteClassName('injectedByPrototype');
             }
         );
 
@@ -323,10 +309,21 @@ class PrototypeTest extends TestCase implements IFactory
             ]
         );
 
+        $prototype = $this->getPrototype(
+            'utest\toolkit\mock\TestService',
+            [],
+            function (IPrototype $prototype)
+            {
+                $prototypeInstance = $prototype->getPrototypeInstance();
+                if ($prototypeInstance instanceof MockServicingInterface) {
+                    $prototypeInstance->setInitializerService('injectedDependency');
+                }
+            }
+        );
         /**
          * @var TestService $testService
          */
-        $testService = $this->getPrototype('utest\toolkit\mock\TestService')->createInstance();
+        $testService = $prototype->createInstance();
 
         $this->assertEquals(
             'injectedDependency',
@@ -335,7 +332,7 @@ class PrototypeTest extends TestCase implements IFactory
         );
         $this->assertEquals(
             'injectedDependency',
-            $testService->factoryService,
+            $testService->initializerService,
             'Ожидается, что при создании объекта будет выполнен инициализатор прототипа'
         );
     }
@@ -419,7 +416,6 @@ class PrototypeTest extends TestCase implements IFactory
             'Неверный текст исключения'
         );
 
-
         $prototype = $this->getPrototype('utest\toolkit\mock\TestService', ['utest\toolkit\mock\MockServicingInterface']);
         $prototype->wakeUpInstance($testService);
 
@@ -430,15 +426,10 @@ class PrototypeTest extends TestCase implements IFactory
         );
 
         $this->assertNull(
-            $testService->factoryService,
+            $testService->initializerService,
             'Ожидается, что зависимости фабрики еще не были выставлены'
         );
-        $this->initPrototypeInstance($testService);
-        $this->assertEquals(
-            'injectedDependency',
-            $testService->factoryService,
-            'Ожидается, что теперь были внедрены зависимости фабрики'
-        );
+
     }
 }
  

@@ -26,6 +26,7 @@ class OutputLoggerTest extends LoggerInterfaceTest
     public function tearDown()
     {
         ob_end_clean();
+
     }
 
     /**
