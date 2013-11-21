@@ -25,6 +25,7 @@ use umi\toolkit\factory\IFactory;
 use umi\toolkit\prototype\IPrototype;
 use umi\toolkit\prototype\IPrototypeFactory;
 use umi\toolkit\prototype\PrototypeFactory;
+use umi\toolkit\prototype\TPrototypeAware;
 use umi\toolkit\toolbox\IToolbox;
 
 /**
@@ -35,11 +36,10 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
     use TConfigSupport;
     use TLoggerAware;
     use TLocalizable;
+    use TPrototypeAware {
+        TPrototypeAware::getPrototype as public;
+    }
 
-    /**
-     * @var object[] $prototypes протитипы для создания экземпляров
-     */
-    protected $prototypes;
     /**
      * @var array $registeredToolboxes список зарегистрированных тулбоксов
      */
@@ -269,21 +269,6 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function getPrototype($className, array $contracts = []) {
-        if (!isset($this->prototypes[$className])) {
-            $prototype = $this->getPrototypeFactory()
-                ->create($className, $contracts);
-
-            $this->prototypes[$className] = $prototype;
-            $prototype->resolveDependencies();
-        }
-
-        return $this->prototypes[$className];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getInjectors(array $interfaceNames)
     {
         $result = [];
@@ -461,5 +446,14 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
         }
 
         return $this->prototypeFactory;
+    }
+
+    /**
+     * Возвращает toolkit.
+     * @return $this
+     */
+    protected function getToolkit()
+    {
+        return $this;
     }
 }

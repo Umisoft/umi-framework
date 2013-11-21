@@ -11,11 +11,9 @@ namespace umi\toolkit\factory;
 
 use umi\i18n\TLocalizable;
 use umi\log\TLoggerAware;
-use umi\toolkit\exception\DomainException;
 use umi\toolkit\exception\RequiredDependencyException;
-use umi\toolkit\exception\RuntimeException;
-use umi\toolkit\prototype\IPrototype;
 use umi\toolkit\prototype\IPrototypeFactory;
+use umi\toolkit\prototype\TPrototypeAware;
 use umi\toolkit\TToolkitAware;
 
 /**
@@ -26,15 +24,7 @@ trait TFactory
     use TToolkitAware;
     use TLoggerAware;
     use TLocalizable;
-
-    /**
-     * @var object[] $_prototypes протитипы для создания экземпляров
-     */
-    private $_prototypes = [];
-    /**
-     * @var object[] $_instances единичные экземпляры, созданные через createSingleInstance()
-     */
-    private $_instances = [];
+    use TPrototypeAware;
 
     /**
      * @var IPrototypeFactory $_prototypeFactory
@@ -68,55 +58,5 @@ trait TFactory
 
         return $this->_prototypeFactory;
     }
-
-    /**
-     * Возвращает прототип класса.
-     * @param string $className имя класса
-     * @param array $contracts список контрактов, которые должен реализовывать экземпляр класса
-     * @throws RuntimeException если не существует класса, либо контракта
-     * @throws DomainException если прототип не соответствует какому-либо контракту
-     * @return IPrototype
-     */
-    protected function getPrototype($className, array $contracts = [])
-    {
-        if (!isset($this->_prototypes[$className])) {
-            $prototype = $this->getPrototypeFactory()
-                ->create($className, $contracts);
-            $this->initPrototype($prototype);
-
-            $this->_prototypes[$className] = $prototype;
-
-            $prototypeInstance = $prototype->getPrototypeInstance();
-            if ($prototypeInstance instanceof IFactory) {
-                $prototypeInstance->setPrototypeFactory($this->getPrototypeFactory());
-                $prototypeInstance->setToolkit($this->getToolkit());
-            }
-            $prototype->resolveDependencies();
-
-            $this->initPrototypeInstance($prototypeInstance);
-
-        }
-
-        return $this->_prototypes[$className];
-    }
-
-    /**
-     * Инициализирует экземпляр прототипа.
-     * Фабрика может внедрить в прототип известные ей внутренние зависимости.
-     * @param object $prototypeInstance экземпляр прототипа
-     */
-    protected function initPrototypeInstance($prototypeInstance)
-    {
-    }
-
-    /**
-     * Инициализирует прототип.
-     * Фабрика может внедрить в прототип известные ей внутренние зависимости.
-     * @param IPrototype $prototype прототип
-     */
-    protected function initPrototype(IPrototype $prototype)
-    {
-    }
-
 
 }

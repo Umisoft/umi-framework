@@ -75,23 +75,6 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function initPrototype(IPrototype $prototype)
-    {
-        $prototype->registerConstructorDependency(
-            'umi\hmvc\model\IModel',
-            function ($concreteClassName) {
-                if ($this->modelFactory instanceof IModelFactory) {
-                    return $this->modelFactory->createByClass($concreteClassName);
-                }
-
-                return null;
-            }
-        );
-    }
-
-    /**
      * Создает контроллер заданного класса.
      * @param string $class класс контроллера
      * @param array $args аргументы конструктора
@@ -101,7 +84,20 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
     {
         $controller = $this->getPrototype(
                 $class,
-                ['umi\hmvc\controller\IController']
+                ['umi\hmvc\controller\IController'],
+                function (IPrototype $prototype)
+                {
+                    $prototype->registerConstructorDependency(
+                    'umi\hmvc\model\IModel',
+                    function ($concreteClassName) {
+                        if ($this->modelFactory) {
+                            return $this->modelFactory->createByClass($concreteClassName);
+                        }
+
+                        return null;
+                    }
+                );
+                }
             )
             ->createInstance($args);
 

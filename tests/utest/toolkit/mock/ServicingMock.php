@@ -17,7 +17,7 @@ class ServicingMock implements MockServicingInterface
 
     public $dependency;
     public $service;
-    public $factoryService;
+    public $initializerService;
 
     /**
      * {@inheritdoc}
@@ -42,9 +42,9 @@ class ServicingMock implements MockServicingInterface
     /**
      * {@inheritdoc}
      */
-    public function setFactoryService($value)
+    public function setInitializerService($value)
     {
-        $this->factoryService = $value;
+        $this->initializerService = $value;
 
         return $this;
     }
