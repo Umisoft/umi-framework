@@ -68,31 +68,6 @@ class ModelFactory implements IModelFactory, IFactory
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function initPrototype(IPrototype $prototype)
-    {
-        $prototype->registerConstructorDependency(
-            'umi\hmvc\model\IModel',
-            function ($concreteClassName) {
-                return $this->createByClass($concreteClassName);
-            }
-        );
-    }
-
-    /**
-     * Инициализирует экземпляр прототипа.
-     * Фабрика может внедрить в прототип известные ей внутренние зависимости.
-     * @param object $prototypeInstance экземпляр прототипа
-     */
-    protected function initPrototypeInstance($prototypeInstance)
-    {
-        if ($prototypeInstance instanceof IModelAware) {
-            $prototypeInstance->setModelFactory($this);
-        }
-    }
-
-    /**
      * Создает модель с заданным классом.
      * @param string $class
      * @param array $args
@@ -100,6 +75,23 @@ class ModelFactory implements IModelFactory, IFactory
      */
     protected function createModel($class, array $args)
     {
-        return $this->getPrototype($class)->createInstance($args);
+        return $this->getPrototype(
+            $class,
+            [],
+            function (IPrototype $prototype)
+            {
+                $prototype->registerConstructorDependency(
+                    'umi\hmvc\model\IModel',
+                    function ($concreteClassName) {
+                        return $this->createByClass($concreteClassName);
+                    }
+                );
+
+                $prototypeInstance = $prototype->getPrototypeInstance();
+                if ($prototypeInstance instanceof IModelAware) {
+                    $prototypeInstance->setModelFactory($this);
+                }
+            }
+        )->createInstance($args);
     }
 }

@@ -32,25 +32,45 @@ class DbDriverFactory implements IDbDriverFactory, IFactory
      * @var string[] $types типы поддерживаемых драйверов
      */
     public $types = [
+        'mysql' => 'umi\dbal\driver\mysql\MySqlDriver',
+        'sqlite' => 'umi\dbal\driver\sqlite\SqliteDriver'
+    ];
+
+    /**
+     * @var array|\Traversable $factories конфигурация фабрик, пробрасывается в конкретную фабрику автоматически
+     */
+    public $factories = [
         'mysql'  => [
-            'driverClass'         => 'umi\dbal\driver\mysql\MySqlDriver',
-            'tableFactoryOptions' => [
-                'tableSchemeClass'      => 'umi\dbal\driver\mysql\MySqlTable',
-                'columnSchemeClass'     => 'umi\dbal\driver\ColumnScheme',
-                'constraintSchemeClass' => 'umi\dbal\driver\ConstraintScheme',
-                'indexSchemeClass'      => 'umi\dbal\driver\IndexScheme',
-            ],
+            'tableSchemeClass'      => 'umi\dbal\driver\mysql\MySqlTable',
+            'columnSchemeClass'     => 'umi\dbal\driver\ColumnScheme',
+            'constraintSchemeClass' => 'umi\dbal\driver\ConstraintScheme',
+            'indexSchemeClass'      => 'umi\dbal\driver\IndexScheme'
         ],
         'sqlite' => [
-            'driverClass'         => 'umi\dbal\driver\sqlite\SqliteDriver',
-            'tableFactoryOptions' => [
-                'tableSchemeClass'      => 'umi\dbal\driver\sqlite\SqliteTable',
-                'columnSchemeClass'     => 'umi\dbal\driver\ColumnScheme',
-                'constraintSchemeClass' => 'umi\dbal\driver\ConstraintScheme',
-                'indexSchemeClass'      => 'umi\dbal\driver\sqlite\SqliteIndex',
-            ],
+            'tableSchemeClass'      => 'umi\dbal\driver\sqlite\SqliteTable',
+            'columnSchemeClass'     => 'umi\dbal\driver\ColumnScheme',
+            'constraintSchemeClass' => 'umi\dbal\driver\ConstraintScheme',
+            'indexSchemeClass'      => 'umi\dbal\driver\sqlite\SqliteIndex'
         ]
     ];
+
+    /**
+     * Конструктор.
+     */
+    public function __construct()
+    {
+        $this->registerFactory(
+            'mysql',
+            $this->tableFactoryClass,
+            ['umi\dbal\driver\ITableFactory']
+        );
+
+        $this->registerFactory(
+            'sqlite',
+            $this->tableFactoryClass,
+            ['umi\dbal\driver\ITableFactory']
+        );
+    }
 
     /**
      * {@inheritdoc}
@@ -63,28 +83,16 @@ class DbDriverFactory implements IDbDriverFactory, IFactory
                 ['type' => $type]
             ));
         }
-        if (!isset($this->types[$type]['driverClass'])) {
-            throw new RuntimeException($this->translate(
-                'Class name for driver type "{type}" not found in configuration.',
-                ['type' => $type]
-            ));
-        }
-        if (!isset($this->types[$type]['tableFactoryOptions'])) {
-            throw new RuntimeException($this->translate(
-                'Table factory options for driver type "{type}" not found in configuration.',
-                ['type' => $type]
-            ));
-        }
 
         $driverPrototype = $this->getPrototype(
-            $this->types[$type]['driverClass'],
+            $this->types[$type],
             ['umi\dbal\driver\IDbDriver']
         );
         /**
          * @var IDbDriver $driver
          */
         $driver = $driverPrototype->createInstance(
-            [$this->createTableFactory($this->types[$type]['tableFactoryOptions'])],
+            [$this->createTableFactory($type)],
             $options
         );
 
@@ -99,18 +107,11 @@ class DbDriverFactory implements IDbDriverFactory, IFactory
     }
 
     /**
-     * @param array|\Traversable $options
+     * @param string $type тип драйвера
      * @return ITableFactory
      */
-    protected function createTableFactory($options)
+    protected function createTableFactory($type)
     {
-        $tableFactoryPrototype = $this->getPrototype(
-            $this->tableFactoryClass,
-            ['umi\dbal\driver\ITableFactory']
-        );
-        $tableFactory = $tableFactoryPrototype->createInstance();
-        $tableFactoryPrototype->setOptions($tableFactory, $options);
-
-        return $tableFactory;
+        return $this->createFactory($type);
     }
 }

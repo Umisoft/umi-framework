@@ -28,9 +28,9 @@ interface MockServicingInterface
     public function setService($value);
 
     /**
-     * Метод, через который фабрикой внедряется зависимость
+     * Метод, используемый инициализатором прототипа
      * @param $value
      * @return self
      */
-    public function setFactoryService($value);
+    public function setInitializerService($value);
 }
