@@ -29,7 +29,6 @@ class PrototypeTest extends TestCase implements IFactory
 {
 
     use TFactory;
-    use TConfigSupport;
 
     /**
      * @var IToolkit $toolkit
