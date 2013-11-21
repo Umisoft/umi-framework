@@ -61,7 +61,7 @@ class ViewHelperFactory extends HelperFactory implements IModelAware, IContextAw
     /**
      * {@inheritdoc}
      */
-    protected function initPrototype(IPrototype $prototype)
+    protected function initHelperPrototype(IPrototype $prototype)
     {
         $prototype->registerConstructorDependency(
             'umi\hmvc\model\IModel',

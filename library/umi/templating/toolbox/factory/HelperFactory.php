@@ -13,6 +13,7 @@ use umi\templating\exception\UnexpectedValueException;
 use umi\templating\extension\helper\IHelperFactory;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
+use umi\toolkit\prototype\IPrototype;
 
 /**
  * Фабрика помощников вида.
@@ -26,7 +27,13 @@ class HelperFactory implements IHelperFactory, IFactory
      */
     public function createHelper($class)
     {
-        $helper = $this->getPrototype($class)->createInstance();
+        $helper = $this->getPrototype(
+            $class,
+            [],
+            function (IPrototype $prototype) {
+                $this->initHelperPrototype($prototype);
+            }
+        )->createInstance();
 
         if (!is_callable($helper)) {
             throw new UnexpectedValueException($this->translate(
@@ -35,5 +42,14 @@ class HelperFactory implements IHelperFactory, IFactory
         }
 
         return $helper;
+    }
+
+    /**
+     * Инициализирует прототип помощника
+     * @param IPrototype $prototype
+     */
+    protected function initHelperPrototype(IPrototype $prototype)
+    {
+
     }
 }
