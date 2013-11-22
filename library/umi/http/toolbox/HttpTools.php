@@ -54,6 +54,10 @@ class HttpTools implements IToolbox
                 return $this->getHttpFactory()
                     ->getRequest();
 
+            case 'umi\http\response\IResponse':
+                return $this->getHttpFactory()
+                    ->createResponse();
+
             case 'umi\http\IHttpFactory':
                 return $this->getHttpFactory();
         }
