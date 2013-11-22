@@ -71,7 +71,7 @@ return [
             ]
         ],
         ORMTools::NAME            => [
-            'metadataManagerCollections' => [
+            'metadata' => [
                 'system_hierarchy'       => '{#lazy:~/collections/system/system_hierarchy.config.php}',
                 'system_menu'            => '{#lazy:~/collections/system/system_menu.config.php}',
                 'guides_country'         => '{#lazy:~/collections/guides/guides_country.config.php}',
@@ -83,7 +83,7 @@ return [
                 'blogs_post'             => '{#lazy:~/collections/blogs/blogs_post.config.php}',
                 'blogs_blog_subscribers' => '{#lazy:~/collections/blogs/blogs_blog_subscribers.config.php}'
             ],
-            'collectionManagerCollections' => [
+            'collections' => [
                 'system_hierarchy'       => [
                     'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
                 ],
