@@ -9,6 +9,7 @@
 
 namespace utest\orm\unit\metadata\field;
 
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\field\BaseField;
 use umi\orm\object\IObject;
 
@@ -127,7 +128,7 @@ class MockField extends BaseField
      */
     public function getDataType()
     {
-        return 'string';
+        return Type::STRING;
     }
 
     /**

@@ -28,5 +28,4 @@ class Property extends BaseProperty implements IProperty
         $this->object = $object;
         $this->field = $field;
     }
-
 }

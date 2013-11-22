@@ -7,12 +7,10 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace utest\orm\func\object;
+namespace utest\orm\func;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
-use umi\orm\collection\ICollectionFactory;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -24,6 +22,11 @@ class UnloadObjectTest extends ORMDbTestCase
 {
 
     public $queries = [];
+
+    /**
+     * @var Connection $Connection
+     */
+    protected $connection;
 
     protected $userGuid;
     protected $userId;
@@ -40,48 +43,72 @@ class UnloadObjectTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
         return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ]
-            ],
-            true
+            self::USERS_GROUP,
+            self::USERS_USER,
         ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    protected function getOnlyQueries($type)
+    {
+        return array_filter(
+            $this->getQueries(),
+            function ($q) use ($type) {
+                return preg_match('/^'.$type.'\s+/i', $q);
+            }
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
     {
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
 
-        $this->userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $this->userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $this->user = $this->userCollection->add();
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
         $this->userGuid = $this->user->getGUID();
         $this->userId = $this->user->getId();
-
-        $this->queries = [];
-        $self = $this;
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) use ($self) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $self->queries[] = get_class($builder);
-                }
-            }
-        );
     }
 
     public function testGettingStoredObjectById()
@@ -110,20 +137,20 @@ class UnloadObjectTest extends ORMDbTestCase
         $this->userCollection->getById($this->userId);
         $this->userCollection->getById($this->userId);
         $this->assertEquals(
-            ['umi\dbal\builder\SelectBuilder'],
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что объект будет снова загружен из базы данных, если он был выгружен'
         );
     }
 
     public function testGettingObjectByIdAfterObjectManagerUnload()
     {
-        $this->getObjectManager()->unloadObjects();
+        $this->objectManager->unloadObjects();
         $this->userCollection->getById($this->userId);
         $this->userCollection->getById($this->userId);
         $this->assertEquals(
-            ['umi\dbal\builder\SelectBuilder'],
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что объект будет снова загружен из базы данных, если менеджер объектов выгрузил объекты'
         );
     }
@@ -134,20 +161,20 @@ class UnloadObjectTest extends ORMDbTestCase
         $this->userCollection->get($this->userGuid);
         $this->userCollection->get($this->userGuid);
         $this->assertEquals(
-            ['umi\dbal\builder\SelectBuilder'],
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что объект будет снова загружен из базы данных, если он был выгружен'
         );
     }
 
     public function testGettingObjectByGuidAfterObjectManagerUnload()
     {
-        $this->getObjectManager()->unloadObjects();
+        $this->objectManager->unloadObjects();
         $this->userCollection->get($this->userGuid);
         $this->userCollection->get($this->userGuid);
         $this->assertEquals(
-            ['umi\dbal\builder\SelectBuilder'],
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что объект будет снова загружен из базы данных, если менеджер объектов выгрузил объекты'
         );
     }
@@ -155,10 +182,10 @@ class UnloadObjectTest extends ORMDbTestCase
     public function testDeletedObjectAfterManagerUnload()
     {
         $this->userCollection->delete($this->user);
-        $this->assertFalse($this->getObjectPersister()->getIsPersisted());
+        $this->assertFalse($this->objectPersister->getIsPersisted());
 
-        $this->getObjectManager()->unloadObjects();
-        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
+        $this->objectManager->unloadObjects();
+        $this->assertTrue($this->objectPersister->getIsPersisted());
     }
 
     public function testDeletedObjectAfterUnload()
@@ -166,39 +193,39 @@ class UnloadObjectTest extends ORMDbTestCase
         $this->userCollection->delete($this->user);
 
         $this->user->unload();
-        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
+        $this->assertTrue($this->objectPersister->getIsPersisted());
     }
 
     public function testModifiedObjectAfterManagerUnload()
     {
         $this->user->setValue('login', 'new_login');
-        $this->assertFalse($this->getObjectPersister()->getIsPersisted());
+        $this->assertFalse($this->objectPersister->getIsPersisted());
 
-        $this->getObjectManager()->unloadObjects();
-        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
+        $this->objectManager->unloadObjects();
+        $this->assertTrue($this->objectPersister->getIsPersisted());
     }
 
     public function testModifiedObjectAfterUnload()
     {
         $this->user->setValue('login', 'new_login');
         $this->user->unload();
-        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
+        $this->assertTrue($this->objectPersister->getIsPersisted());
     }
 
     public function testAddedObjectAfterManagerUnload()
     {
         $this->userCollection->add();
-        $this->assertFalse($this->getObjectPersister()->getIsPersisted());
+        $this->assertFalse($this->objectPersister->getIsPersisted());
 
-        $this->getObjectManager()->unloadObjects();
-        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
+        $this->objectManager->unloadObjects();
+        $this->assertTrue($this->objectPersister->getIsPersisted());
     }
 
     public function testAddedObjectAfterUnload()
     {
         $user = $this->userCollection->add();
         $user->unload();
-        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
+        $this->assertTrue($this->objectPersister->getIsPersisted());
     }
 
 }

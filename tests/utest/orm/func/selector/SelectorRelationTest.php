@@ -9,10 +9,8 @@
 
 namespace utest\orm\func\selector;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
-use umi\orm\collection\ICollectionFactory;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\object\IObject;
 use umi\orm\selector\ISelector;
 use utest\orm\ORMDbTestCase;
@@ -24,68 +22,82 @@ use utest\orm\ORMDbTestCase;
 class SelectorRelationTest extends ORMDbTestCase
 {
 
-    public $queries = [];
+    /**
+     * @var Connection $connection
+     */
+    protected $connection;
+
     protected $user1Guid;
     protected $user2Guid;
     protected $user3Guid;
     protected $blog1Guid;
     protected $blog2Guid;
     protected $blog3Guid;
+    protected $blog4Guid;
+    protected $blog5Guid;
     protected $profile1Guid;
 
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
-        return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::SYSTEM_HIERARCHY       => [
-                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
-                ],
-                self::BLOGS_BLOG             => [
-                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
-                    'hierarchy' => self::SYSTEM_HIERARCHY
-                ],
-                self::BLOGS_POST             => [
-                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                    'hierarchy' => self::SYSTEM_HIERARCHY
-                ],
-                self::BLOGS_SUBSCRIBER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_PROFILE            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::GUIDES_COUNTRY            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::GUIDES_CITY            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ]
-            ],
-            true
-        ];
+        return array(
+            self::SYSTEM_HIERARCHY,
+            self::GUIDES_COUNTRY,
+            self::GUIDES_CITY,
+            self::USERS_GROUP,
+            self::USERS_USER,
+            self::USERS_PROFILE,
+            self::BLOGS_BLOG,
+            self::BLOGS_POST,
+            self::BLOGS_SUBSCRIBER,
+        );
+    }
+
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
     {
 
-        $countryCollection = $this->getCollectionManager()->getCollection(self::GUIDES_COUNTRY);
+        $countryCollection = $this->collectionManager->getCollection(self::GUIDES_COUNTRY);
         $country = $countryCollection->add();
         $country->setValue('name', 'Россия');
         $country2 = $countryCollection->add();
         $country2->setValue('name', 'Германия');
 
-        $cityCollection = $this->getCollectionManager()->getCollection(self::GUIDES_CITY);
+        $cityCollection = $this->collectionManager->getCollection(self::GUIDES_CITY);
         $city1 = $cityCollection->add();
         $city1->setValue('name', 'Санкт-Петербург');
         $city1->setValue('country', $country);
@@ -98,7 +110,7 @@ class SelectorRelationTest extends ORMDbTestCase
         $city3->setValue('name', 'Берлин');
         $city3->setValue('country', $country2);
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $user1 = $userCollection->add();
         $user1->setValue('login', 'test_login1');
@@ -121,7 +133,7 @@ class SelectorRelationTest extends ORMDbTestCase
         $user5 = $userCollection->add();
         $user5->setValue('login', 'test_login5');
 
-        $profileCollection = $this->getCollectionManager()->getCollection(self::USERS_PROFILE);
+        $profileCollection = $this->collectionManager->getCollection(self::USERS_PROFILE);
 
         $profile1 = $profileCollection->add('natural_person');
         $profile1->setValue('name', 'test_name1');
@@ -139,7 +151,7 @@ class SelectorRelationTest extends ORMDbTestCase
         $profile3->setValue('user', $user4);
         $profile3->setValue('city', $city3);
 
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
 
         $blog1 = $blogsCollection->add('blog1');
         $blog1->setValue('owner', $user1);
@@ -165,7 +177,7 @@ class SelectorRelationTest extends ORMDbTestCase
         $blog5->setValue('title', 'fifth');
         $this->blog5Guid = $blog5->getGUID();
 
-        $subscribersCollection = $this->getCollectionManager()->getCollection(self::BLOGS_SUBSCRIBER);
+        $subscribersCollection = $this->collectionManager->getCollection(self::BLOGS_SUBSCRIBER);
         $subscription1 = $subscribersCollection->add();
         $subscription1->setValue('blog', $blog1);
         $subscription1->setValue('user', $user1);
@@ -190,29 +202,19 @@ class SelectorRelationTest extends ORMDbTestCase
         $subscription6->setValue('blog', $blog4);
         $subscription6->setValue('user', $user4);
 
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
-        $this->queries = [];
-
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $this->queries[] = $builder->getSql();
-                }
-            }
-        );
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
     }
 
     public function testHasOneWhere()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile.name')
@@ -227,7 +229,7 @@ FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user:profile`.`name` = :value0))"
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки по полю со связью hasOne');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasOne');
 
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
@@ -245,7 +247,7 @@ WHERE ((`users_user:profile`.`name` = :value0))"
 
     public function testHasOneIsNull()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile')
@@ -257,7 +259,7 @@ WHERE ((`users_user:profile`.`name` = :value0))"
 
     public function testHasOneOrderBy()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $result = $userCollection->select()
             ->orderBy('profile.name', ISelector::ORDER_DESC)
@@ -285,8 +287,8 @@ WHERE ((`users_user:profile`.`name` = :value0))"
 
     public function testHasOneObject()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
-        $profileCollection = $this->getCollectionManager()->getCollection(self::USERS_PROFILE);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $profileCollection = $this->collectionManager->getCollection(self::USERS_PROFILE);
 
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
@@ -294,7 +296,7 @@ WHERE ((`users_user:profile`.`name` = :value0))"
             ->equals($profileCollection->get($this->profile1Guid))
             ->getResult();
 
-        $this->queries = [];
+        $this->setQueries([]);
         $user = $result->fetch();
 
         $queries = [
@@ -306,7 +308,7 @@ WHERE ((`users_user:profile`.`id` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью hasOne и объектом в качестве значения'
         );
 
@@ -327,7 +329,7 @@ WHERE ((`users_user:profile`.`id` = :value0))"
     public function testHasOneObjectId()
     {
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile')
@@ -344,7 +346,7 @@ WHERE ((`users_user:profile`.`id` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью hasOne и объектом в качестве значения'
         );
 
@@ -364,7 +366,7 @@ WHERE ((`users_user:profile`.`id` = :value0))"
 
     public function testHasManyWhere()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs.title')
@@ -381,7 +383,7 @@ WHERE ((`users_user:blogs`.`title` LIKE :value0))
 GROUP BY `users_user`.`id`"
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки по полю со связью hasMany');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasMany');
         $this->assertCount(
             1,
             $objects,
@@ -397,7 +399,7 @@ GROUP BY `users_user`.`id`"
 
     public function testHasManyIsNull()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs')
@@ -410,14 +412,14 @@ GROUP BY `users_user`.`id`"
 
     public function testHasManyObject()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs')
             ->equals($blogsCollection->get($this->blog1Guid))
             ->getResult();
-        $this->queries = [];
+        $this->setQueries([]);
         $user = $result->fetch();
         $objects = $result->fetchAll();
 
@@ -431,7 +433,7 @@ GROUP BY `users_user`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью hasMany и объектом в качестве значения'
         );
         $this->assertCount(1, $objects, 'Ожидается, что один пользователь является владельцем блога с id 1');
@@ -445,7 +447,7 @@ GROUP BY `users_user`.`id`"
 
     public function testHasManyObjectId()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs')
@@ -464,7 +466,7 @@ GROUP BY `users_user`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью hasMany и id объекта в качестве значения'
         );
         $this->assertCount(1, $objects, 'Ожидается, что один пользователь является владельцем блога с id 1');
@@ -477,7 +479,7 @@ GROUP BY `users_user`.`id`"
 
     public function testBelongsToWhere()
     {
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner.login')
@@ -496,7 +498,7 @@ WHERE ((`blogs_blog:owner`.`login` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью belongsTo'
         );
         $this->assertCount(2, $objects, 'Ожидается, что пользователь с логином test_login2 владеет двумя блогами');
@@ -514,7 +516,7 @@ WHERE ((`blogs_blog:owner`.`login` = :value0))"
 
     public function testBelongsToIsNull()
     {
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner')
@@ -527,14 +529,14 @@ WHERE ((`blogs_blog:owner`.`login` = :value0))"
 
     public function testBelongsToObject()
     {
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner')
             ->equals($userCollection->get($this->user1Guid))
             ->getResult();
-        $this->queries = [];
+        $this->setQueries([]);
         $blog = $result->fetch();
         $objects = $result->fetchAll();
 
@@ -547,7 +549,7 @@ WHERE ((`blogs_blog:owner`.`id` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью belongsTo и объектом в качестве значения'
         );
         $this->assertCount(1, $objects, 'Ожидается, что пользователю с id 1 один принадлежит блог');
@@ -560,7 +562,7 @@ WHERE ((`blogs_blog:owner`.`id` = :value0))"
 
     public function testBelongsToObjectId()
     {
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner')
@@ -578,7 +580,7 @@ WHERE ((`blogs_blog:owner`.`id` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью belongsTo и id объекта в качестве значения'
         );
         $this->assertCount(1, $objects, 'Ожидается, что пользователю с id 1 один принадлежит блог');
@@ -591,7 +593,7 @@ WHERE ((`blogs_blog:owner`.`id` = :value0))"
 
     public function testManyToManyWhere()
     {
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('subscribers.height')
@@ -612,7 +614,7 @@ GROUP BY `blogs_blog`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью manyToMany'
         );
         $this->assertCount(2, $objects, 'Ожидается, что пользователь с ростом более 169 подписаны на 2 блога');
@@ -631,7 +633,7 @@ GROUP BY `blogs_blog`.`id`"
 
     public function testManyToManyIsNull()
     {
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
 
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
@@ -646,14 +648,14 @@ GROUP BY `blogs_blog`.`id`"
 
     public function testManyToManyObject()
     {
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('subscribers')
             ->equals($userCollection->get($this->user3Guid))
             ->getResult();
-        $this->queries = array();
+        $this->setQueries([]);
         $blog1 = $result->fetch();
         $blog2 = $result->fetch();
         $objects = $result->fetchAll();
@@ -669,7 +671,7 @@ GROUP BY `blogs_blog`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью manyToMany'
         );
         $this->assertCount(2, $objects, 'Ожидается, что пользователь с id 3 подписан на 2 блога');
@@ -687,13 +689,13 @@ GROUP BY `blogs_blog`.`id`"
 
     public function testManyToManyObjectId()
     {
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('subscribers')
             ->equals(3)
             ->getResult();
-        $this->queries = array();
+        $this->setQueries([]);
         $blog1 = $result->fetch();
         $blog2 = $result->fetch();
         $objects = $result->fetchAll();
@@ -709,7 +711,7 @@ GROUP BY `blogs_blog`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью manyToMany'
         );
         $this->assertCount(2, $objects, 'Ожидается, что пользователь с id 3 подписан на 2 блога');
@@ -728,7 +730,7 @@ GROUP BY `blogs_blog`.`id`"
     public function testRelationExceptions()
     {
 
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $selector = $blogsCollection->select();
 
         $e = null;
@@ -744,7 +746,7 @@ GROUP BY `blogs_blog`.`id`"
             'Ожидается исключение при наличии в пути к полю несуществующего поля'
         );
 
-        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $selector = $usersCollection->select();
 
         $e = null;
@@ -763,12 +765,13 @@ GROUP BY `blogs_blog`.`id`"
     }
 
     /**
-     * Тест селектора, когда выборка идет вглубь от коллекции, связанной с коллекцией селектора по полю с типом связи manyToMany
+     * Тест селектора, когда выборка идет вглубь от коллекции,
+     * связанной с коллекцией селектора по полю с типом связи manyToMany
      */
     public function testThroughManyToMany()
     {
 
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('subscribers.profile.name')
@@ -789,7 +792,7 @@ GROUP BY `blogs_blog`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью manyToMany'
         );
         $this->assertCount(1, $objects, 'Ожидается, что пользователь с именем test_name2 подписан на 1 блог');
@@ -802,12 +805,13 @@ GROUP BY `blogs_blog`.`id`"
     }
 
     /**
-     * Тест селектора, когда выборка идет вглубь от коллекции, связанной с коллекцией селектора по полю с типом связи belongsTo
+     * Тест селектора, когда выборка идет вглубь от коллекции,
+     * связанной с коллекцией селектора по полю с типом связи belongsTo
      */
     public function testThroughBelongsTo()
     {
 
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner.profile.name')
@@ -826,7 +830,7 @@ WHERE ((`blogs_blog:owner:profile`.`name` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью belongsTo'
         );
         $this->assertCount(1, $objects, 'Ожидается, что пользователь с именем test_name2 является владельцем 1 блога');
@@ -838,12 +842,13 @@ WHERE ((`blogs_blog:owner:profile`.`name` = :value0))"
     }
 
     /**
-     * Тест селектора, когда выборка идет вглубь от коллекции, связанной с коллекцией селектора по полю с типом связи hasOne
+     * Тест селектора, когда выборка идет вглубь от коллекции,
+     * связанной с коллекцией селектора по полю с типом связи hasOne
      */
     public function testThroughHasOne()
     {
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile.city.country.name')
@@ -860,7 +865,7 @@ FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user:profile:city:country`.`name` = :value0))"
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки по полю со связью hasOne');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasOne');
         $this->assertCount(2, $objects, 'Ожидается, что 2 пользователя имеют профили из России');
         $this->assertContains(
             $userCollection->get($this->user1Guid),
@@ -876,12 +881,13 @@ WHERE ((`users_user:profile:city:country`.`name` = :value0))"
     }
 
     /**
-     * Тест селектора, когда выборка идет вглубь от коллекции, связанной с коллекцией селектора по полю с типом связи hasMany
+     * Тест селектора, когда выборка идет вглубь от коллекции,
+     * связанной с коллекцией селектора по полю с типом связи hasMany
      */
     public function testThroughHasMany()
     {
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs.subscribers.profile.city.country.name')
@@ -904,7 +910,7 @@ WHERE ((`users_user:blogs:subscribers:profile:city:country`.`name` = :value0))
 GROUP BY `users_user`.`id`"
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки по полю со связью hasOne');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasOne');
         $this->assertCount(
             2,
             $objects,
@@ -925,7 +931,7 @@ GROUP BY `users_user`.`id`"
 
     public function testDoubleWhere()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile.name')
@@ -943,7 +949,7 @@ FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user:profile`.`name` = :value0 AND `users_user:profile:city`.`name` = :value1))'
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки с двойным сложным where');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки с двойным сложным where');
 
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
@@ -961,7 +967,7 @@ WHERE ((`users_user:profile`.`name` = :value0 AND `users_user:profile:city`.`nam
 
     public function testOrderBy()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile')
@@ -986,7 +992,7 @@ FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user:profile`.`id` IS NOT :value0))
 ORDER BY `users_user:profile`.`name` ASC'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос'
         );
     }

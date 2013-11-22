@@ -9,7 +9,6 @@
 
 namespace utest\orm\func\object;
 
-use umi\orm\collection\ICollectionFactory;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -18,29 +17,23 @@ use utest\orm\ORMDbTestCase;
  */
 class ValidatorsTest extends ORMDbTestCase
 {
+
     /**
-     * {@inheritdoc}
+     * Возвращает список коллекций, для которых необходимо создать структуру БД
+     * @return array в формате array('model.collection1', 'model2.collection2', ...)
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
         return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ]
-            ],
-            true
+            self::USERS_GROUP,
+            self::USERS_USER,
         ];
     }
 
     public function testObjectValidators()
     {
 
-        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $user = $usersCollection->add()
             ->setValue('login', 'first_login')
             ->setValue('height', 153)
@@ -82,7 +75,7 @@ class ValidatorsTest extends ORMDbTestCase
     public function testWrongValidator()
     {
 
-        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $user = $usersCollection->add()
             ->setValue('login', 'first_login')
             ->setValue('height', 153)
@@ -102,13 +95,13 @@ class ValidatorsTest extends ORMDbTestCase
     public function testManagerValidators()
     {
 
-        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $user = $usersCollection->add()
             ->setValue('login', 'first_login')
             ->setValue('height', 153)
             ->setValue('email', 'test@umisoft.ru');
 
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
         $this->assertTrue($user->validate(), 'Ожидается, что объект должен пройти валидацию, если он не модифицирован');
 
         $user->setValue('login', '12');
@@ -117,7 +110,7 @@ class ValidatorsTest extends ORMDbTestCase
             ->setValue('login', 'second_login')
             ->setValue('height', 1);
 
-        $invalidObjects = $this->getObjectPersister()->getInvalidObjects();
+        $invalidObjects = $this->objectPersister->getInvalidObjects();
         $this->assertCount(2, $invalidObjects, 'Ожидаются два невалидных объекта');
 
     }

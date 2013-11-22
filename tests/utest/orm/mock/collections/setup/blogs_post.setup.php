@@ -1,61 +1,93 @@
 <?php
 
-use umi\dbal\driver\IColumnScheme;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
 
 return function (ICollectionDataSource $dataSource) {
 
     $masterServer = $dataSource->getMasterServer();
-    $tableScheme = $masterServer->getDbDriver()
-        ->addTable($dataSource->getSourceName());
+    $schemaManager = $masterServer
+        ->getConnection()
+        ->getSchemaManager();
+    $tableScheme = new Table($dataSource->getSourceName());
 
-    $tableScheme->setEngine('InnoDB');
+    $tableScheme->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', IColumnScheme::TYPE_SERIAL);
-    $tableScheme->addColumn('guid', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('type', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn(
-        'version',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 1]
+    $tableScheme
+        ->addColumn('id', Type::INTEGER)
+        ->setAutoincrement(true);
+    $tableScheme
+        ->addColumn('guid', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('type', Type::TEXT)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn(
+            'version',
+            Type::INTEGER
+        )
+        ->setUnsigned(true)
+        ->setDefault(1);
+
+    $tableScheme
+        ->addColumn('pid', Type::INTEGER)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('mpath', Type::TEXT)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('uri', Type::TEXT)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('slug', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('level', Type::INTEGER)
+        ->setUnsigned(true)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('order', Type::INTEGER)
+        ->setUnsigned(false)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('child_count', Type::INTEGER)
+        ->setUnsigned(true)
+        ->setDefault(0);
+
+    $tableScheme
+        ->addColumn('publish_time', Type::DATE)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('title', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('title_en', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('content', Type::TEXT)
+        ->setNotnull(false);
+
+    $tableScheme->setPrimaryKey(['id']);
+    $tableScheme->addUniqueIndex(['guid'], 'post_guid');
+    $tableScheme->addIndex(['pid'], 'post_parent');
+    $tableScheme
+        ->addUniqueIndex(['pid', 'slug'], 'post_pid_slug');
+    //    $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath', [], ['mpath' => ['size' => 64]]);
+    //    $tableScheme->addIndex(['uri'], 'hierarchy_uri', [], ['uri' => ['size' => 64]]);
+    //    $tableScheme->addIndex(['type'], 'hierarchy_type', [], ['type' => ['size' => 64]]);
+
+
+    $ftHierarchy = $schemaManager->listTableDetails('umi_mock_hierarchy');
+
+    $tableScheme->addForeignKeyConstraint(
+        $ftHierarchy,
+        ['pid'],
+        ['id'],
+        ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
+        'FK_post_parent'
     );
-
-    $tableScheme->addColumn('pid', IColumnScheme::TYPE_RELATION);
-    $tableScheme->addColumn('mpath', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn('uri', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn('slug', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('level', IColumnScheme::TYPE_INT, [IColumnScheme::OPTION_UNSIGNED => true]);
-    $tableScheme->addColumn('order', IColumnScheme::TYPE_INT, [IColumnScheme::OPTION_UNSIGNED => true]);
-    $tableScheme->addColumn(
-        'child_count',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 0]
-    );
-
-    $tableScheme->addColumn('publish_time', IColumnScheme::TYPE_DATE);
-    $tableScheme->addColumn('title', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('title_en', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('content', IColumnScheme::TYPE_TEXT);
-
-    $tableScheme->setPrimaryKey('id');
-    $tableScheme->addIndex('post_guid')
-        ->addColumn('guid')
-        ->setIsUnique(true);
-    $tableScheme->addIndex('post_parent')
-        ->addColumn('pid');
-    $tableScheme->addIndex('post_mpath')
-        ->addColumn('mpath', 100)
-        ->setIsUnique(true);
-    $tableScheme->addIndex('post_pid_slug')
-        ->addColumn('pid')
-        ->addColumn('slug')
-        ->setIsUnique(true);
-    $tableScheme->addIndex('post_uri')
-        ->addColumn('uri', 100)
-        ->setIsUnique(true);
-    $tableScheme->addIndex('post_type')
-        ->addColumn('type', 100);
-
-    $tableScheme->addConstraint('FK_post_parent', 'pid', 'umi_mock_hierarchy', 'id', 'CASCADE', 'CASCADE');
+    $schemaManager->createTable($tableScheme);
 
 };

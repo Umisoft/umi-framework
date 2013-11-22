@@ -206,8 +206,8 @@ class SelectorTest extends ORMDbTestCase
             'Ожидается, что ISelector::fields() вернет себя'
         );
         $this->assertEquals(
-            'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`, `users_user`.`height` AS `users_user:height`, `users_user`.`rating` AS `users_user:rating`
-FROM `umi_mock_users` AS `users_user`
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."height" AS "users_user:height", "users_user"."rating" AS "users_user:rating"
+FROM "umi_mock_users" AS "users_user"
 WHERE 1',
             $this->selector->getSelectBuilder()
                 ->getSql(),
@@ -253,10 +253,10 @@ WHERE 1',
         $this->selector->fields(['id']);
 
         $this->assertEquals(
-            'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`
-FROM `umi_mock_users` AS `users_user`
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+FROM "umi_mock_users" AS "users_user"
 WHERE 1
-ORDER BY `users_user`.`height` ASC, `users_user`.`rating` DESC',
+ORDER BY "users_user"."height" ASC, "users_user"."rating" DESC',
             $this->selector->getSelectBuilder()
                 ->getSql(),
             'Неверный текст запроса с сортировкой'
@@ -336,9 +336,9 @@ ORDER BY `users_user`.`height` ASC, `users_user`.`rating` DESC',
             ->end();
 
         $this->assertEquals(
-            'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`
-FROM `umi_mock_users` AS `users_user`
-WHERE (((`users_user`.`height` < :value0 OR `users_user`.`rating` = :value1) AND (`users_user`.`height` > :value2 OR `users_user`.`rating` >= :value3)))',
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+FROM "umi_mock_users" AS "users_user"
+WHERE ((("users_user"."height" < :value0 OR "users_user"."rating" = :value1) AND ("users_user"."height" > :value2 OR "users_user"."rating" >= :value3)))',
             $this->selector->getSelectBuilder()
                 ->getSql(),
             'Неверный текст запроса с группировками полей'

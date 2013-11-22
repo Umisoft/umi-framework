@@ -1,34 +1,54 @@
 <?php
 
-use umi\dbal\driver\IColumnScheme;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
 
 return function (ICollectionDataSource $dataSource) {
 
     $masterServer = $dataSource->getMasterServer();
-    $tableScheme = $masterServer->getDbDriver()
-        ->addTable($dataSource->getSourceName());
+    $schemaManager = $masterServer
+        ->getConnection()
+        ->getSchemaManager();
+    $tableScheme = new Table($dataSource->getSourceName());
 
-    $tableScheme->setEngine('InnoDB');
+    $tableScheme->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', IColumnScheme::TYPE_SERIAL);
-    $tableScheme->addColumn('guid', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('type', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn(
-        'version',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 1]
-    );
+    $tableScheme
+        ->addColumn('id', Type::INTEGER)
+        ->setAutoincrement(true);
+    $tableScheme
+        ->addColumn('guid', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('type', Type::TEXT)
+        ->setNotnull(false);
 
-    $tableScheme->addColumn('name', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('title', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('title_en', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('title_gb', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('title_ua', IColumnScheme::TYPE_VARCHAR);
+    $tableScheme
+        ->addColumn(
+            'version',
+            Type::INTEGER
+        )
+        ->setUnsigned(true)
+        ->setDefault(1);
 
-    $tableScheme->setPrimaryKey('id');
-    $tableScheme->addIndex('group_guid')
-        ->addColumn('guid')
-        ->setIsUnique(true);
+    $tableScheme
+        ->addColumn('name', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('title', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('title_en', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('title_gb', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('title_ua', Type::STRING)
+        ->setNotnull(false);
 
+    $tableScheme->setPrimaryKey(['id']);
+    $tableScheme->addUniqueIndex(['guid'], 'group_guid');
+    $schemaManager->createTable($tableScheme);
 };

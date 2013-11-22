@@ -9,43 +9,64 @@
 
 namespace utest\orm\func\collection\linked;
 
-use umi\orm\collection\ICollectionFactory;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ILinkedHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use utest\orm\ORMDbTestCase;
 
 class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 {
+    /**
+     * @var Connection $connection
+     */
+    protected $connection;
+
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
+    }
 
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
-        return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::SYSTEM_HIERARCHY       => [
-                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
-                ],
-                self::BLOGS_BLOG             => [
-                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
-                    'hierarchy' => self::SYSTEM_HIERARCHY
-                ],
-                self::BLOGS_POST             => [
-                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                    'hierarchy' => self::SYSTEM_HIERARCHY
-                ],
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ]
-            ],
-            true
-        ];
+        return array(
+            self::USERS_GROUP,
+            self::USERS_USER,
+            self::SYSTEM_HIERARCHY,
+            self::BLOGS_BLOG,
+            self::BLOGS_POST,
+        );
     }
 
     protected $postGuid;
@@ -62,9 +83,15 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 
     protected function setUpFixtures()
     {
+        $this->connection = $this
+            ->getDbServer()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
 
-        $this->blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
-        $this->postsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_POST);
+        $this->blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $this->postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
 
         $blog1 = $this->blogsCollection->add('blog1');
         $blog1->setValue('title', 'test_blog');
@@ -77,8 +104,10 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
         $post2->setValue('title', 'test_post2');
         $this->postGuid = $post2->getGUID();
 
-        $this->getObjectPersister()->commit();
-        $this->getObjectManager()->unloadObjects();
+        $this->objectPersister->commit();
+        $this->objectManager->unloadObjects();
+
+
 
     }
 
@@ -94,12 +123,13 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
         $this->assertEquals(
             '//new_slug',
             $blog->getURI(),
-            'Ожидается, что изменение последней части ЧПУ объекта можно выполнить у его клллекции'
+            'Ожидается, что изменение последней части ЧПУ объекта можно выполнить у его коллекции'
         );
         $this->assertEquals(
             '//new_slug/post1/post2',
             $post->getURI(),
-            'Ожидается, что изменение последней части ЧПУ объекта у его клллекции затронет и его детей из других коллекций'
+            'Ожидается, что изменение последней части ЧПУ объекта у его коллекции'
+            .' затронет и его детей из других коллекций'
         );
     }
 

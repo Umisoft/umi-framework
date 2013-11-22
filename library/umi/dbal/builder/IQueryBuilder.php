@@ -53,7 +53,7 @@ interface IQueryBuilder
      * @param mixed $value значение плейсхолдера
      * @param string $phpType тип плейсхолдера ('string', 'integer', 'boolean', 'array', ...)
      * http://ru2.php.net/manual/en/function.gettype.php
-     * @return self
+     * @return $this todo! self causes wrong inspections warnings
      */
     public function bindValue($placeholder, $value, $phpType);
 

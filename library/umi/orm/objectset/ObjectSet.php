@@ -30,6 +30,8 @@ class ObjectSet implements IObjectSet, ILocalizable, ICollectionManagerAware
     use TLocalizable;
     use TCollectionManagerAware;
 
+    protected $fetchedResults;
+
     /**
      * @var IQueryResult $queryResult результат запроса
      */
@@ -96,6 +98,7 @@ class ObjectSet implements IObjectSet, ILocalizable, ICollectionManagerAware
     {
         $this->set = new SplObjectStorage();
         $this->queryResult = null;
+        $this->fetchedResults = null;
         $this->isCompletelyLoaded = false;
         $this->iteratorArray = [];
 
@@ -214,8 +217,13 @@ class ObjectSet implements IObjectSet, ILocalizable, ICollectionManagerAware
      */
     protected function getQueryResultRow()
     {
-        return $this->getQueryResult()
-            ->fetch();
+        if ($this->fetchedResults === null) {
+            $this->fetchedResults = $this
+                ->getQueryResult()
+                ->fetchAll();
+        }
+
+        return array_shift($this->fetchedResults);
     }
 
     /**

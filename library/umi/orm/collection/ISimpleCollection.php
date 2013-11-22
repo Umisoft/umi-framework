@@ -27,5 +27,4 @@ interface ISimpleCollection extends ICollection
      * @return IObject
      */
     public function add($typeName = IObjectType::BASE);
-
 }

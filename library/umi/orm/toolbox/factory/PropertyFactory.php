@@ -67,9 +67,9 @@ class PropertyFactory implements IPropertyFactory, IFactory
                 return $this->createLocalizedProperty($object, $field, $localeId);
             }
             default:
-                {
+            {
                 return $this->createCommonProperty($object, $field);
-                }
+            }
         }
     }
 
@@ -77,6 +77,7 @@ class PropertyFactory implements IPropertyFactory, IFactory
      * Создает экземпляр обычного свойства для указанного объекта
      * @param IObject $object объект
      * @param IField $field поле типа данных
+     *
      * @return IProperty
      */
     public function createCommonProperty(IObject $object, IField $field)
@@ -95,6 +96,7 @@ class PropertyFactory implements IPropertyFactory, IFactory
      * @param IObject $object объект
      * @param ILocalizableField $field поле типа данных
      * @param string $localeId идентификатор локали для свойства
+     *
      * @return ILocalizedProperty
      */
     protected function createLocalizedProperty(IObject $object, ILocalizableField $field, $localeId)
@@ -112,6 +114,7 @@ class PropertyFactory implements IPropertyFactory, IFactory
      * Создает экземпляр вычисляемого свойства для указанного объекта
      * @param IObject $object объект
      * @param ICalculableField $field поле типа данных
+     *
      * @return ICalculableProperty
      */
     protected function createCalculableProperty(IObject $object, ICalculableField $field)
@@ -129,6 +132,7 @@ class PropertyFactory implements IPropertyFactory, IFactory
      * Создает экземпляр обычного свойства для указанного объекта
      * @param IObject $object объект
      * @param CounterField $field поле типа данных
+     *
      * @return ICounterProperty
      */
     public function createCounterProperty(IObject $object, CounterField $field)

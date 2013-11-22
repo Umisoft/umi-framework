@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -9,9 +8,9 @@
 
 namespace umi\orm\collection;
 
+use Doctrine\DBAL\Connection;
 use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\builder\IUpdateBuilder;
-use umi\dbal\driver\IDbDriver;
 use umi\orm\exception\RuntimeException;
 use umi\orm\metadata\field\special\MaterializedPathField;
 use umi\orm\metadata\IObjectType;
@@ -36,7 +35,8 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
         }
 
         if ($object->getCollection() instanceof ILinkedHierarchicCollection) {
-            return $object->getCollection()
+            return $object
+                ->getCollection()
                 ->getCommonHierarchy() === $this;
         }
 
@@ -115,16 +115,17 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
 
         $drivers = $this->detectUsedDriversByCollections($collections);
 
-        $this->getObjectPersister()
+        $this
+            ->getObjectPersister()
             ->executeTransaction(
-            function () use ($builders, $object, $branch) {
-                $this->checkIfMovePossible($object, $this, $branch);
-                foreach ($builders as $builder) {
-                    $builder->execute();
-                }
-            },
-            $drivers
-        );
+                function () use ($builders, $object, $branch) {
+                    $this->checkIfMovePossible($object, $this, $branch);
+                    foreach ($builders as $builder) {
+                        $builder->execute();
+                    }
+                },
+                $drivers
+            );
     }
 
     /**
@@ -146,18 +147,19 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
         }
 
         $drivers = $this->detectUsedDriversByCollections($collections);
-        $this->getObjectPersister()
+        $this
+            ->getObjectPersister()
             ->executeTransaction(
-            function () use ($builders, $object, $newSlug) {
+                function () use ($builders, $object, $newSlug) {
 
-                $this->checkIfChangeSlugPossible($object, $this, $newSlug);
-                foreach ($builders as $builder) {
-                    $builder->execute();
-                }
+                    $this->checkIfChangeSlugPossible($object, $this, $newSlug);
+                    foreach ($builders as $builder) {
+                        $builder->execute();
+                    }
 
-            },
-            $drivers
-        );
+                },
+                $drivers
+            );
     }
 
     /**
@@ -167,27 +169,33 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
      */
     protected function getMovedObjectChildrenCollections(IHierarchicObject $object)
     {
-        $typeColumnName = $this->getObjectTypeField()
+        $typeColumnName = $this
+            ->getObjectTypeField()
             ->getColumnName();
         /**
          * @var ISelectBuilder $selectBuilder
          */
-        $selectBuilder = $this->getMetadata()
+        $selectBuilder = $this
+            ->getMetadata()
             ->getCollectionDataSource()
             ->select($typeColumnName)
             ->where()
             ->expr(
-                $this->getMPathField()
+                $this
+                    ->getMPathField()
                     ->getColumnName(),
                 'like',
-                ':' . $this->getMPathField()
+                ':' . $this
+                    ->getMPathField()
                     ->getName()
             )
             ->bindValue(
-                ':' . $this->getMPathField()
+                ':' . $this
+                    ->getMPathField()
                     ->getName(),
                 $object->getMaterializedPath() . MaterializedPathField::MPATH_SEPARATOR . '%',
-                $this->getMPathField()
+                $this
+                    ->getMPathField()
                     ->getDataType()
             );
 
@@ -200,7 +208,8 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
             $typeInfo = $row[$typeColumnName];
             if (0 != ($pos = strpos($typeInfo, IObjectType::PATH_SEPARATOR))) {
                 $collectionName = substr($typeInfo, 0, $pos);
-                $collections[$collectionName] = $this->getCollectionManager()
+                $collections[$collectionName] = $this
+                    ->getCollectionManager()
                     ->getCollection($collectionName);
             }
         }
@@ -220,24 +229,28 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
     protected function getCollectionsForChangingOrder(IHierarchicObject $branch = null)
     {
 
-        $typeColumnName = $this->getObjectTypeField()
+        $typeColumnName = $this
+            ->getObjectTypeField()
             ->getColumnName();
         $parentField = $this->getParentField();
 
         /**
          * @var $selectBuilder ISelectBuilder
          */
-        $selectBuilder = $this->getMetadata()
+        $selectBuilder = $this
+            ->getMetadata()
             ->getCollectionDataSource()
             ->select($typeColumnName);
         $selectBuilder->groupBy($typeColumnName);
 
         if ($branch) {
-            $selectBuilder->where()
+            $selectBuilder
+                ->where()
                 ->expr($parentField->getColumnName(), '=', ':' . $parentField->getName())
                 ->bindValue(':' . $parentField->getName(), $branch->getId(), $parentField->getDataType());
         } else {
-            $selectBuilder->where()
+            $selectBuilder
+                ->where()
                 ->expr($parentField->getColumnName(), 'IS', ':' . $parentField->getName())
                 ->bindNull(':' . $parentField->getName());
         }
@@ -250,7 +263,8 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
             $typeInfo = $row[$typeColumnName];
             if (0 != ($pos = strpos($typeInfo, IObjectType::PATH_SEPARATOR))) {
                 $collectionName = substr($typeInfo, 0, $pos);
-                $collections[$collectionName] = $this->getCollectionManager()
+                $collections[$collectionName] = $this
+                    ->getCollectionManager()
                     ->getCollection($collectionName);
             }
         }
@@ -270,14 +284,16 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
     protected function getCollectionsForChangingSlug(IHierarchicObject $object)
     {
 
-        $typeColumnName = $this->getObjectTypeField()
+        $typeColumnName = $this
+            ->getObjectTypeField()
             ->getColumnName();
         $mpathField = $this->getMPathField();
 
         /**
          * @var $selectBuilder ISelectBuilder
          */
-        $selectBuilder = $this->getMetadata()
+        $selectBuilder = $this
+            ->getMetadata()
             ->getCollectionDataSource()
             ->select($typeColumnName)
             ->where()
@@ -292,13 +308,16 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
 
         $collections = [];
         $collections[$this->getName()] = $this;
-        $collections[$object->getCollection()
-            ->getName()] = $object->getCollection()
+        $collections[$object
+            ->getCollection()
+            ->getName()] = $object
+            ->getCollection()
             ->getName();
 
         $collections = [
             $this->getName() => $this,
-            $object->getCollection()
+            $object
+                ->getCollection()
                 ->getName()  => $object->getCollection()
         ];
 
@@ -306,7 +325,8 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
             $typeInfo = $row[$typeColumnName];
             if (0 != ($pos = strpos($typeInfo, IObjectType::PATH_SEPARATOR))) {
                 $collectionName = substr($typeInfo, 0, $pos);
-                $collections[$collectionName] = $this->getCollectionManager()
+                $collections[$collectionName] = $this
+                    ->getCollectionManager()
                     ->getCollection($collectionName);
             }
         }
@@ -317,17 +337,19 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
     /**
      * Определяет используемые для коллекций драйверы бд
      * @param IHierarchicCollection[] $collections
-     * @return IDbDriver[]
+     * @return Connection[]
      */
     protected function detectUsedDriversByCollections(array $collections)
     {
         $drivers = [];
 
         foreach ($collections as $collection) {
-            $source = $collection->getMetadata()
+            $source = $collection
+                ->getMetadata()
                 ->getCollectionDataSource();
-            $drivers[$source->getMasterServerId()] = $source->getMasterServer()
-                ->getDbDriver();
+            $drivers[$source->getMasterServerId()] = $source
+                ->getMasterServer()
+                ->getConnection();
         }
 
         return $drivers;

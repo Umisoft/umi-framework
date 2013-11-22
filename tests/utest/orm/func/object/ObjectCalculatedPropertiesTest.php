@@ -9,10 +9,9 @@
 
 namespace utest\orm\func\object;
 
-use umi\orm\collection\ICollectionFactory;
 use umi\orm\metadata\IObjectType;
-use utest\orm\mock\collections\Supervisor;
-use utest\orm\mock\collections\User;
+use utest\orm\mock\collections\users\Supervisor;
+use utest\orm\mock\collections\users\User;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -24,38 +23,21 @@ class ObjectCalculatedPropertiesTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
         return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::SYSTEM_HIERARCHY       => [
-                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
-                ],
-                self::BLOGS_BLOG             => [
-                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
-                    'hierarchy' => self::SYSTEM_HIERARCHY
-                ],
-                self::BLOGS_POST             => [
-                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                    'hierarchy' => self::SYSTEM_HIERARCHY
-                ],
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ]
-            ],
-            true
+            self::USERS_GROUP,
+            self::USERS_USER,
+            self::SYSTEM_HIERARCHY,
+            self::BLOGS_BLOG,
+            self::BLOGS_POST
         ];
     }
 
     public function testObject()
     {
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         /**
          * @var User $user
          */
@@ -67,7 +49,7 @@ class ObjectCalculatedPropertiesTest extends ORMDbTestCase
         $sv = $userCollection->add('supervisor');
         $sv->login = 'supervisor';
 
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
         $userGuid = $user->getGUID();
         $svGuid = $sv->getGUID();
 
@@ -116,19 +98,20 @@ class ObjectCalculatedPropertiesTest extends ORMDbTestCase
             $loadedUser->getValue('rating'),
             'Ожидается, что у объекта записалось дефолтное значение у поля с типом float'
         );
+        //todo! close cursor
 
     }
 
     public function testHierarchicObject()
     {
 
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
 
         $blog1 = $blogsCollection->add('blog1');
         $blog2 = $blogsCollection->add('blog2', IObjectType::BASE, $blog1);
         $blog3 = $blogsCollection->add('blog3', IObjectType::BASE, $blog1);
 
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
         $this->assertEquals(1, $blog1->getOrder());
         $this->assertNull($blog1->getParent());

@@ -9,10 +9,8 @@
 
 namespace utest\orm\func\collection\simple;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
-use umi\orm\collection\ICollectionFactory;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -20,69 +18,88 @@ use utest\orm\ORMDbTestCase;
  */
 class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
 {
-
-    public $queries = [];
+    /**
+     * @var Connection $connection
+     */
+    protected $connection;
 
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
         return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_PROFILE            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
-                ],
-                self::GUIDES_COUNTRY            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
-                ],
-                self::GUIDES_CITY            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
-                ]
-            ],
-            true
+            self::SYSTEM_HIERARCHY,
+            self::GUIDES_CITY,
+            self::GUIDES_COUNTRY,
+            self::USERS_GROUP,
+            self::USERS_USER,
+            self::USERS_PROFILE,
         ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    protected function getOnlyQueries($type)
+    {
+        return array_filter(
+            $this->getQueries(),
+            function ($q) use ($type) {
+                return preg_match('/^'.$type.'\s+/i', $q);
+            }
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
     {
-        $this->queries = [];
-        $self = $this;
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) use ($self) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $self->queries[] = [
-                        get_class($builder),
-                        $builder->getPlaceholderValues()
-                    ];
-                }
-            }
-        );
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
     }
 
     public function testAddModifyDeleteObjectQueries()
     {
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $user = $userCollection->add();
         $user->setValue('login', 'test_login');
 
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
         $queries = [
             [
                 'umi\dbal\builder\InsertBuilder',
@@ -94,19 +111,19 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
             ]
         ];
 
-        $this->assertEquals($queries, $this->queries, 'После добавления объекта ожидается один INSERT');
+        $this->assertEquals($queries, $this->getQueries(), 'После добавления объекта ожидается один INSERT');
 
-        $this->queries = [];
-        $this->getObjectPersister()->commit();
+        $this->setQueries([]);
+        $this->objectPersister->commit();
         $this->assertEquals(
             [],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что после повторного коммита без изменений не будет произведено ни одного запроса'
         );
 
-        $this->queries = [];
+        $this->setQueries([]);
         $user->setValue('login', 'new_test_login');
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
         $queries = [
             [
@@ -120,19 +137,19 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
             ]
         ];
 
-        $this->assertEquals($queries, $this->queries, 'После изменения объекта ожидается один UPDATE-запрос');
+        $this->assertEquals($queries, $this->getQueries(), 'После изменения объекта ожидается один UPDATE-запрос');
 
-        $this->queries = [];
-        $this->getObjectPersister()->commit();
+        $this->setQueries([]);
+        $this->objectPersister->commit();
         $this->assertEquals(
             [],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что после повторного коммита без изменений не будет произведено ни одного запроса'
         );
 
-        $this->queries = [];
-        $this->getObjectPersister()->markAsDeleted($user);
-        $this->getObjectPersister()->commit();
+        $this->setQueries([]);
+        $this->objectPersister->markAsDeleted($user);
+        $this->objectPersister->commit();
         $queries = [
             [
                 'umi\dbal\builder\DeleteBuilder',
@@ -141,13 +158,13 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
                 ]
             ]
         ];
-        $this->assertEquals($queries, $this->queries, 'После удаления объекта ожидается один DELETE-запрос');
+        $this->assertEquals($queries, $this->getQueries(), 'После удаления объекта ожидается один DELETE-запрос');
 
-        $this->queries = [];
-        $this->getObjectPersister()->commit();
+        $this->setQueries([]);
+        $this->objectPersister->commit();
         $this->assertEquals(
             [],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что после повторного коммита без изменений не будет произведено ни одного запроса'
         );
 
@@ -156,19 +173,20 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
     public function testBelongsToRelationQueries()
     {
 
-        $groupCollection = $this->getCollectionManager()->getCollection(self::USERS_GROUP);
+        $groupCollection = $this->collectionManager->getCollection(self::USERS_GROUP);
 
         $group = $groupCollection->add();
         $group->setValue('name', 'test_group1');
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $user = $userCollection->add();
         $user->setValue('login', 'test_login');
         $user->setValue('group', $group);
 
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
+        //todo! improve assertion
         $queries = [
             [
                 'umi\dbal\builder\InsertBuilder',
@@ -198,20 +216,30 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
             ]
         ];
 
-        $this->assertEquals(
-            $queries,
-            $this->queries,
+        $insertsExpected = 2;
+        $updatesExpected = 1;
+
+        $insertsActual = count($this->getOnlyQueries('insert'));
+        $updatesActual = count($this->getOnlyQueries('update'));
+        $queriesActual = count($this->getQueries()) /* -2 for commit*/;
+        $this->assertTrue(
+            (
+                $insertsExpected == $insertsActual
+                && ($updatesExpected == $updatesActual)
+                && $queriesActual == ($insertsExpected + $updatesExpected)
+            ),
             'После добавления двух связанных объектов ожидаются два INSERT-запроса и 1 UPDATE-запрос'
         );
+
         $this->assertEquals(2, $user->getVersion(), 'Ожидается, что у пользователя версия 2');
 
-        $this->queries = [];
+        $this->setQueries([]);
 
         $group2 = $groupCollection->add();
         $group2->setValue('name', 'test_group2');
         $user->setValue('group', $group2);
 
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
         $queries = [
             [
@@ -235,14 +263,14 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'После добавления объекта и выставления его в качестве значения ожидается один INSERT-запрос и один UPDATE-запрос'
         );
         $this->assertEquals(3, $user->getVersion(), 'Ожидается, что у пользователя версия 3');
 
-        $this->queries = [];
+        $this->setQueries([]);
         $user->setValue('group', $group);
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
         $queries = [
             [
@@ -258,19 +286,19 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'После установления связи между 2-мя существующими запросами ожидается один UPDATE-запрос'
         );
         $this->assertEquals(4, $user->getVersion(), 'Ожидается, что у пользователя версия 4');
 
-        $this->queries = [];
+        $this->setQueries([]);
         $user->unload();
         $group->unload();
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $user = $userCollection->getById(1);
         $user->setValue('group', $group2);
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
         $queries = [
             [
@@ -297,7 +325,7 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
         ];
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Ожидается два SELECT-запроса и один UPDATE запрос при выставления значения незагруженному объекту с существующим значением'
         );
         $this->assertEquals(5, $user->getVersion(), 'Ожидается, что у пользователя версия 5');

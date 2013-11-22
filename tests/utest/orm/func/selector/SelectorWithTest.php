@@ -111,7 +111,7 @@ class SelectorWithTest extends ORMDbTestCase
         $this->queries = [];
 
         $this->getDbCluster()
-            ->getDbDriver()
+            ->getConnection()
             ->bindEvent(
             IConnection::EVENT_AFTER_EXECUTE_QUERY,
             function (IEvent $event) {

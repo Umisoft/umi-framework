@@ -23,11 +23,10 @@ use utest\dbal\DbalTestCase;
  */
 class MySqlQueriesTest extends DbalTestCase
 {
-    public $queries = array();
     /**
-     * @var Connection $dbDriver
+     * @var Connection $connection
      */
-    protected $dbDriver;
+    protected $connection;
     /**
      * @var SelectBuilder $select
      */
@@ -66,7 +65,7 @@ class MySqlQueriesTest extends DbalTestCase
      */
     public function sqlLogger()
     {
-        return $this->dbDriver
+        return $this->connection
             ->getConfiguration()
             ->getSQLLogger();
     }
@@ -74,22 +73,22 @@ class MySqlQueriesTest extends DbalTestCase
     protected function setUpFixtures()
     {
 
-        $this->dbDriver = $this
+        $this->connection = $this
             ->getMysqlServer()
             ->getConnection();
-        $this->dbDriver
+        $this->connection
             ->getConfiguration()
             ->setSQLLogger(new DebugStack());
-        $this->dbDriver->exec('DROP TABLE IF EXISTS `temp_test_table1`');
-        $this->dbDriver->exec('CREATE TABLE `temp_test_table1` (id INTEGER)');
-        $this->dbDriver->exec('INSERT INTO `temp_test_table1` (id) VALUES (1)');
-        $this->dbDriver->exec('INSERT INTO `temp_test_table1` (id) VALUES (2)');
-        $this->dbDriver->exec('INSERT INTO `temp_test_table1` (id) VALUES (3)');
+        $this->connection->exec('DROP TABLE IF EXISTS `temp_test_table1`');
+        $this->connection->exec('CREATE TABLE `temp_test_table1` (id INTEGER)');
+        $this->connection->exec('INSERT INTO `temp_test_table1` (id) VALUES (1)');
+        $this->connection->exec('INSERT INTO `temp_test_table1` (id) VALUES (2)');
+        $this->connection->exec('INSERT INTO `temp_test_table1` (id) VALUES (3)');
 
         $queryBuilderFactory = new QueryBuilderFactory();
-        $this->select = new SelectBuilder($this->dbDriver, new MySqlDialect(), $queryBuilderFactory);
+        $this->select = new SelectBuilder($this->connection, new MySqlDialect(), $queryBuilderFactory);
 
-        $this->select2 = new SelectBuilder($this->dbDriver, new MySqlDialect(), $queryBuilderFactory);
+        $this->select2 = new SelectBuilder($this->connection, new MySqlDialect(), $queryBuilderFactory);
 
         $this->setQueries([]);
 
@@ -98,7 +97,7 @@ class MySqlQueriesTest extends DbalTestCase
 
     protected function tearDownFixtures()
     {
-        $this->dbDriver->exec('DROP TABLE `temp_test_table1`');
+        $this->connection->exec('DROP TABLE `temp_test_table1`');
     }
 
     public function testSelectTotal()
@@ -154,7 +153,7 @@ WHERE `t`.`id` != :zero) AS `mainQuery`'
             'Неверный запрос для получения общего количества значений в выборке, если выборка не была выполнена'
         );
 
-        $this->dbDriver->exec('INSERT INTO `temp_test_table1` (id) VALUES (4)');
+        $this->connection->exec('INSERT INTO `temp_test_table1` (id) VALUES (4)');
         $this->setQueries([]);
 
         $this->select2->execute();

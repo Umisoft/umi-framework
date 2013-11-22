@@ -1,40 +1,72 @@
 <?php
 
-use umi\dbal\driver\IColumnScheme;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
 
 return function (ICollectionDataSource $dataSource) {
 
     $masterServer = $dataSource->getMasterServer();
-    $tableScheme = $masterServer->getDbDriver()
-        ->addTable($dataSource->getSourceName());
+    $schemaManager = $masterServer
+        ->getConnection()
+        ->getSchemaManager();
+    $tableScheme = new Table($dataSource->getSourceName());
 
-    $tableScheme->setEngine('InnoDB');
+    $tableScheme->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', IColumnScheme::TYPE_SERIAL);
-    $tableScheme->addColumn('guid', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('type', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn(
-        'version',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 1]
+    $tableScheme
+        ->addColumn('id', Type::INTEGER)
+        ->setAutoincrement(true);
+    $tableScheme
+        ->addColumn('guid', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('type', Type::TEXT)
+        ->setNotnull(false);
+
+    $tableScheme
+        ->addColumn(
+            'version',
+            Type::INTEGER
+        )
+        ->setUnsigned(true)
+        ->setDefault(1);
+
+    $tableScheme
+        ->addColumn('user_id', Type::INTEGER)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('city_id', Type::INTEGER)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('name', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('org_name', Type::STRING)
+        ->setNotnull(false);
+
+    $tableScheme->setPrimaryKey(['id']);
+    $tableScheme->addUniqueIndex(['guid'], 'profile_guid');
+    $tableScheme->addIndex(['user_id'], 'profile_user');
+    $tableScheme->addIndex(['city_id'], 'profile_city');
+
+    $ftUsers = $schemaManager->listTableDetails('umi_mock_users');
+    $ftCities = $schemaManager->listTableDetails('umi_mock_cities');
+
+    $tableScheme->addForeignKeyConstraint(
+        $ftUsers,
+        ['user_id'],
+        ['id'],
+        ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
+        'FK_profile_user'
     );
-
-    $tableScheme->addColumn('user_id', IColumnScheme::TYPE_RELATION);
-    $tableScheme->addColumn('city_id', IColumnScheme::TYPE_RELATION);
-    $tableScheme->addColumn('name', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('org_name', IColumnScheme::TYPE_VARCHAR);
-
-    $tableScheme->setPrimaryKey('id');
-    $tableScheme->addIndex('profile_guid')
-        ->addColumn('guid')
-        ->setIsUnique(true);
-    $tableScheme->addIndex('profile_user')
-        ->addColumn('user_id');
-    $tableScheme->addIndex('profile_city')
-        ->addColumn('city_id');
-
-    $tableScheme->addConstraint('FK_profile_user', 'user_id', 'umi_mock_users', 'id', 'CASCADE', 'CASCADE');
-    $tableScheme->addConstraint('FK_profile_city', 'city_id', 'umi_mock_cities', 'id', 'CASCADE', 'CASCADE');
+    $tableScheme->addForeignKeyConstraint(
+        $ftCities,
+        ['city_id'],
+        ['id'],
+        ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
+        'FK_profile_city'
+    );
+    $schemaManager->createTable($tableScheme);
 
 };

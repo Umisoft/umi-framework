@@ -9,7 +9,6 @@
 
 namespace utest\orm\func\collection;
 
-use umi\orm\collection\ICollectionFactory;
 use utest\orm\ORMDbTestCase;
 
 class CollectionTest extends ORMDbTestCase
@@ -18,25 +17,17 @@ class CollectionTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
         return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ]
-            ],
-            true
+            self::USERS_GROUP,
+            self::USERS_USER,
         ];
     }
 
     public function testGetExceptions()
     {
-        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $e = null;
         try {

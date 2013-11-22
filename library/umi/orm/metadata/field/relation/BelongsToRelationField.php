@@ -112,5 +112,4 @@ class BelongsToRelationField extends BaseField
     {
         $this->applyTargetCollectionConfig($config);
     }
-
 }

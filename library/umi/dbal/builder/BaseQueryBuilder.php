@@ -384,6 +384,20 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
             $this->preparedStatement = $this->connection->prepare($sql);
         }
 
+        //todo! fire execute event
+        /*$this->fireEvent(
+            IConnection::EVENT_AFTER_EXECUTE_QUERY,
+            array(
+                'queryBuilder'      => $queryBuilder,
+                'preparedStatement' => $preparedStatement
+            )
+        );
+
+        $this->trace(
+            'Execute query: {sql} with params {params}.',
+            ['sql' => $preparedStatement->queryString, 'params' => $params]
+        );*/
+
         $this->bind($this->preparedStatement, $sql);
 
         $this->preparedStatement->execute();

@@ -9,7 +9,6 @@
 
 namespace utest\orm\func\object;
 
-use umi\orm\collection\ICollectionFactory;
 use umi\orm\objectset\IObjectSet;
 use utest\orm\ORMDbTestCase;
 
@@ -24,50 +23,25 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
         return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::SYSTEM_HIERARCHY       => [
-                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
-                ],
-                self::BLOGS_BLOG             => [
-                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
-                    'hierarchy' => self::SYSTEM_HIERARCHY
-                ],
-                self::BLOGS_POST             => [
-                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                    'hierarchy' => self::SYSTEM_HIERARCHY
-                ],
-                self::BLOGS_SUBSCRIBER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_PROFILE            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::GUIDES_COUNTRY            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::GUIDES_CITY            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ]
-            ],
-            true
+            self::SYSTEM_HIERARCHY,
+            self::GUIDES_COUNTRY,
+            self::GUIDES_CITY,
+            self::USERS_GROUP,
+            self::USERS_USER,
+            self::USERS_PROFILE,
+            self::BLOGS_BLOG,
+            self::BLOGS_POST,
+            self::BLOGS_SUBSCRIBER,
         ];
     }
 
     protected function setUpFixtures()
     {
 
-        $groupCollection = $this->getCollectionManager()->getCollection(self::USERS_GROUP);
+        $groupCollection = $this->collectionManager->getCollection(self::USERS_GROUP);
 
         $group1 = $groupCollection->add();
         $group1->setValue('name', 'test_group1');
@@ -75,7 +49,7 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
         $group2 = $groupCollection->add();
         $group2->setValue('name', 'test_group2');
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $user1 = $userCollection->add();
         $user1->setValue('login', 'test_login');
@@ -87,7 +61,7 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
 
         $user3 = $userCollection->add();
 
-        $profileCollection = $this->getCollectionManager()->getCollection(self::USERS_PROFILE);
+        $profileCollection = $this->collectionManager->getCollection(self::USERS_PROFILE);
 
         $profile1 = $profileCollection->add('natural_person');
         $profile1->setValue('name', 'test_name1');
@@ -96,7 +70,7 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
         $profile2->setValue('name', 'test_name2');
         $profile2->setValue('user', $user1);
 
-        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $blog1 = $blogsCollection->add('first_blog');
         $blog1->setValue('owner', $user1);
         $blog1->setValue('title', 'first_blog');
@@ -105,7 +79,7 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
         $blog2->setValue('owner', $user2);
         $blog2->setValue('title', 'second');
 
-        $subscribersCollection = $this->getCollectionManager()->getCollection(self::BLOGS_SUBSCRIBER);
+        $subscribersCollection = $this->collectionManager->getCollection(self::BLOGS_SUBSCRIBER);
         $subscription1 = $subscribersCollection->add();
         $subscription1->setValue('blog', $blog1);
         $subscription1->setValue('user', $user1);
@@ -114,7 +88,7 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
         $subscription2->setValue('blog', $blog2);
         $subscription2->setValue('user', $user1);
 
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
         $this->groupGuid = $group2->getGUID();
         $this->userGuid = $user1->getGUID();
@@ -127,7 +101,7 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
 
     public function testBelongsToProperty()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $loadedUser = $userCollection->get($this->userGuid);
         $userGroup = $loadedUser->getValue('group');
@@ -181,8 +155,8 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
 
     public function testHasManyProperty()
     {
-        $groupCollection = $this->getCollectionManager()->getCollection(self::USERS_GROUP);
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $groupCollection = $this->collectionManager->getCollection(self::USERS_GROUP);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $loadedGroup = $groupCollection->get($this->groupGuid);
         /**
@@ -216,7 +190,7 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
 
     public function testHasOneRelation()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $loadedUser = $userCollection->get($this->userGuid);
         $userProfile = $loadedUser->getValue('profile');
 
@@ -234,7 +208,7 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
 
     public function testManyToManyRelation()
     {
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $loadedUser = $userCollection->get($this->userGuid);
         $subscriptions = $loadedUser->getValue('subscription');
 

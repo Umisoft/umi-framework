@@ -7,9 +7,8 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace utest\orm\func\objectset;
+namespace utest\orm\unit\objectset;
 
-use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use umi\orm\objectset\IObjectSet;
 use utest\orm\ORMDbTestCase;
@@ -29,16 +28,11 @@ class LoadObjectsTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
         return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ]
-            ],
-            true
+            self::USERS_GROUP,
+            self::USERS_USER,
         ];
     }
 
