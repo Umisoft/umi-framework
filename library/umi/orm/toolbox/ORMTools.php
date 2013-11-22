@@ -32,9 +32,7 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class ORMTools implements IToolbox
 {
-    /**
-     * Имя набора инструментов
-     */
+    /** Имя набора инструментов */
     const NAME = 'orm';
 
     use TToolbox;
@@ -84,13 +82,13 @@ class ORMTools implements IToolbox
      */
     public $objectPersisterClass = 'umi\orm\persister\ObjectPersister';
     /**
-     * @var array $collectionManagerCollections конфигурация коллекций для менеджера коллекций
+     * @var array $collections конфигурация коллекций для менеджера коллекций
      */
-    public $collectionManagerCollections = [];
+    public $collections = [];
     /**
-     * @var array $metadataManagerCollections конфигурация коллекций для менеджера метаданных
+     * @var array $metadata конфигурация метаданных коллекций для менеджера метаданных
      */
-    public $metadataManagerCollections = [];
+    public $metadata = [];
 
     /**
      * @var IDbCluster $dbCluster сервис для работы c БД
@@ -199,7 +197,7 @@ class ORMTools implements IToolbox
             ->createSingleInstance(
                 [
                     $this->getMetadataFactory(),
-                    $this->metadataManagerCollections
+                    $this->metadata
                 ]
             );
     }
@@ -217,7 +215,7 @@ class ORMTools implements IToolbox
             ->createSingleInstance(
                 [
                     $this->getObjectCollectionFactory(),
-                    $this->collectionManagerCollections
+                    $this->collections
                 ]
             );
     }
