@@ -79,7 +79,7 @@ class MetadataManagerTest extends ORMTestCase
             'Ожидается исключение при попытке получить несуществующую коллекцию'
         );
         $this->assertEquals(
-            'Cannot get metadata. Collection "users_user_1" does not exist.',
+            'Cannot get metadata. Metadata for collection "users_user_1" does not exist.',
             $e->getMessage(),
             'Произошло неожидаемое исключение'
         );
