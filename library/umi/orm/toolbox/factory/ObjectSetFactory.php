@@ -32,7 +32,8 @@ class ObjectSetFactory implements IObjectSetFactory, IFactory
      */
     public $emptyObjectSetClass = 'umi\orm\objectset\EmptyObjectSet';
     /**
-     * @var string $manyToManyObjectSetClass имя класса для создания набора объектов, представляющего связь многие-ко-многим
+     * @var string $manyToManyObjectSetClass имя класса для создания набора объектов,
+     * представляющего связь многие-ко-многим
      */
     public $manyToManyObjectSetClass = 'umi\orm\objectset\ManyToManyObjectSet';
 

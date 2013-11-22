@@ -59,12 +59,12 @@ class SelectorTest extends ORMDbTestCase
         $sv1->setValue('height', 167);
         $sv1->setValue('rating', 5);
 
-        $user2 = $userCollection->add();;
+        $user2 = $userCollection->add();
         $user2->login = 'test_user';
         $user2->setValue('height', 183);
         $user2->setValue('rating', 4.2);
 
-        $user2 = $userCollection->add();;
+        $user2 = $userCollection->add();
         $user2->login = 'user_test';
         $user2->setValue('height', 181);
         $user2->setValue('rating', 7.2);
@@ -478,6 +478,7 @@ class SelectorTest extends ORMDbTestCase
 
     public function _testSelector()
     {
+        //todo remove?
         /**
          * @var ISelector $selector
          */

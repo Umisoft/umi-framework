@@ -29,11 +29,11 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
     protected function getCollections()
     {
         return [
-            self::USERS_USER,
+            self::SYSTEM_HIERARCHY,
             self::USERS_GROUP,
+            self::USERS_USER,
             self::BLOGS_BLOG,
             self::BLOGS_POST,
-            self::SYSTEM_HIERARCHY
         ];
     }
 
@@ -60,6 +60,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
 
         $e = null;
         try {
+            //todo! make unique index for url, slug etc
             $this->objectPersister->commit();
         } catch (\Exception $e) {
         }

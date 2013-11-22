@@ -1,59 +1,93 @@
 <?php
 
-use umi\dbal\driver\IColumnScheme;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
 
 return function (ICollectionDataSource $dataSource) {
 
     $masterServer = $dataSource->getMasterServer();
-    $tableScheme = $masterServer->getDbDriver()
-        ->addTable($dataSource->getSourceName());
+    $schemaManager = $masterServer
+        ->getConnection()
+        ->getSchemaManager();
+    $tableScheme = new Table($dataSource->getSourceName());
 
-    $tableScheme->setEngine('InnoDB');
+    $tableScheme->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', IColumnScheme::TYPE_SERIAL);
-    $tableScheme->addColumn('guid', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('type', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn(
-        'version',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 1]
+    $tableScheme
+        ->addColumn('id', Type::INTEGER)
+        ->setAutoincrement(true);
+    $tableScheme
+        ->addColumn('guid', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('type', Type::TEXT)
+        ->setNotnull(false);
+
+    $tableScheme
+        ->addColumn(
+            'version',
+            Type::INTEGER
+        )
+        ->setUnsigned(true)
+        ->setDefault(1);
+
+    $tableScheme
+        ->addColumn('pid', Type::INTEGER)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('mpath', Type::TEXT)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('uri', Type::TEXT)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('slug', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('level', Type::INTEGER)
+        ->setUnsigned(true)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('order', Type::INTEGER)
+        ->setUnsigned(true)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn(
+            'child_count',
+            Type::INTEGER
+        )
+        ->setUnsigned(true)
+        ->setDefault(0);
+
+    $tableScheme
+        ->addColumn('title', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('title_en', Type::STRING)
+        ->setNotnull(false);
+
+    $tableScheme->setPrimaryKey(['id']);
+    $tableScheme->addUniqueIndex(['guid'], 'hierarchy_guid');
+    $tableScheme->addIndex(['pid'], 'hierarchy_parent');
+    $tableScheme->addUniqueIndex(['pid', 'slug'], 'hierarchy_pid_slug');
+
+//    $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath', [], ['mpath' => ['size' => 64]]);
+//    $tableScheme->addIndex(['uri'], 'hierarchy_uri', [], ['uri' => ['size' => 64]]);
+//    $tableScheme->addIndex(['type'], 'hierarchy_type', [], ['type' => ['size' => 64]]);
+
+    $ftParent = $tableScheme;
+
+    $schemaManager->createTable($tableScheme);
+
+    $tableScheme->addForeignKeyConstraint(
+        $ftParent,
+        ['pid'],
+        ['id'],
+        ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
+        'FK_hierarchy_parent'
     );
 
-    $tableScheme->addColumn('pid', IColumnScheme::TYPE_RELATION);
-    $tableScheme->addColumn('mpath', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn('uri', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn('slug', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('level', IColumnScheme::TYPE_INT, [IColumnScheme::OPTION_UNSIGNED => true]);
-    $tableScheme->addColumn('order', IColumnScheme::TYPE_INT, [IColumnScheme::OPTION_UNSIGNED => true]);
-    $tableScheme->addColumn(
-        'child_count',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 0]
-    );
-
-    $tableScheme->addColumn('title', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('title_en', IColumnScheme::TYPE_VARCHAR);
-
-    $tableScheme->setPrimaryKey('id');
-    $tableScheme->addIndex('hierarchy_guid')
-        ->addColumn('guid')
-        ->setIsUnique(true);
-    $tableScheme->addIndex('hierarchy_parent')
-        ->addColumn('pid');
-    $tableScheme->addIndex('hierarchy_mpath')
-        ->addColumn('mpath', 100)
-        ->setIsUnique(true);
-    $tableScheme->addIndex('hierarchy_pid_slug')
-        ->addColumn('pid')
-        ->addColumn('slug')
-        ->setIsUnique(true);
-    $tableScheme->addIndex('hierarchy_uri')
-        ->addColumn('uri', 100)
-        ->setIsUnique(true);
-    $tableScheme->addIndex('hierarchy_type')
-        ->addColumn('type', 100);
-
-    $tableScheme->addConstraint('FK_hierarchy_parent', 'pid', 'umi_mock_hierarchy', 'id', 'CASCADE', 'CASCADE');
+    //todo move to $tableScheme->addUniqueIndex(['mpath(32)'], 'hierarchy_mpath'); if PR will be accepted
 
 };

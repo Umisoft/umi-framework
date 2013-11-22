@@ -1,7 +1,6 @@
 <?php
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
@@ -12,6 +11,10 @@ use utest\orm\ORMDbTestCase;
  */
 class CommonHierarchyMoveTest extends ORMDbTestCase
 {
+    /**
+     * @var Connection $connection
+     */
+    protected $connection;
 
     /**
      * {@inheritdoc}
@@ -19,15 +22,13 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
     protected function getCollections()
     {
         return array(
+            self::USERS_GROUP,
+            self::USERS_USER,
             self::SYSTEM_HIERARCHY,
             self::BLOGS_BLOG,
             self::BLOGS_POST,
-            self::USERS_USER,
-            self::USERS_GROUP
         );
     }
-
-    public $queries = [];
 
     /**
      * @var IHierarchicObject $blog1
@@ -68,8 +69,47 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
 
     protected $usedDbServerId = 'sqliteMaster';
 
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
+    }
+
     protected function setUpFixtures()
     {
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
 
         $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
@@ -101,30 +141,7 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
 
-        $this->queries = [];
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $sql = $builder->getSql();
-                    $placeholders = $builder->getPlaceholderValues();
-                    foreach ($placeholders as $placeholderName => $placeholderValue) {
-                        if (is_array($placeholderValue)) {
-                            $replacement = is_null($placeholderValue[0]) ? 'NULL' : $placeholderValue[0];
-                            $sql = str_replace($placeholderName, $replacement, $sql);
-                        }
-                    }
-
-                    $this->queries[] = $sql;
-                }
-            }
-        );
+        $this->setQueries([]);
     }
 
     public function testInitialHierarchyProperties()
@@ -235,36 +252,36 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
         $this->assertEquals(
             [
                 //выбор коллекций, которые будут затронуты при изменении порядка следования
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `pid` = 1
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "pid" = 1
+GROUP BY "type"',
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 4 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 1 AND `version` = 1',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 4 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 4',
-                'UPDATE `umi_mock_blogs`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 4',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 4',
+                'UPDATE "umi_mock_blogs"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 4',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_blogs`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` = 1 AND `order` >= 1',
-                'UPDATE `umi_mock_posts`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` = 1 AND `order` >= 1',
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` = 1 AND `order` >= 1'
+                'UPDATE "umi_mock_blogs"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" = 1 AND "order" >= 1',
+                'UPDATE "umi_mock_posts"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" = 1 AND "order" >= 1',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" = 1 AND "order" >= 1'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -282,36 +299,36 @@ WHERE `id` != 4 AND `pid` = 1 AND `order` >= 1'
         $this->assertEquals(
             [
                 //выбор коллекций, которые будут затронуты при изменении порядка следования
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `pid` = 1
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "pid" = 1
+GROUP BY "type"',
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 4 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 1 AND `version` = 1',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 4 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = 2, `version` = `version` + 1
-WHERE `id` = 4',
-                'UPDATE `umi_mock_blogs`
-SET `order` = 2, `version` = `version` + 1
-WHERE `id` = 4',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = 2, "version" = "version" + 1
+WHERE "id" = 4',
+                'UPDATE "umi_mock_blogs"
+SET "order" = 2, "version" = "version" + 1
+WHERE "id" = 4',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_blogs`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` = 1 AND `order` >= 2',
-                'UPDATE `umi_mock_posts`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` = 1 AND `order` >= 2',
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` = 1 AND `order` >= 2'
+                'UPDATE "umi_mock_blogs"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" = 1 AND "order" >= 2',
+                'UPDATE "umi_mock_posts"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" = 1 AND "order" >= 2',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" = 1 AND "order" >= 2'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -329,74 +346,77 @@ WHERE `id` != 4 AND `pid` = 1 AND `order` >= 2'
         $this->assertEquals(
             [
                 //выбор коллекций, которые будут затронуты при изменении порядка следования
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `pid` = 1
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "pid" = 1
+GROUP BY "type"',
                 //выбор коллекций, в которых находятся дети перемещаемого объекта
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `mpath` like #1.4.5.%
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "mpath" like #1.4.5.%
+GROUP BY "type"',
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 5 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 1 AND `version` = 1',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `uri` = //blog1/post2',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 5 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog1/post2',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 5',
-                'UPDATE `umi_mock_posts`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 5',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 5',
+                'UPDATE "umi_mock_posts"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 5',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_blogs`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 5 AND `pid` = 1 AND `order` >= 1',
-                'UPDATE `umi_mock_posts`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 5 AND `pid` = 1 AND `order` >= 1',
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 5 AND `pid` = 1 AND `order` >= 1',
+                'UPDATE "umi_mock_blogs"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 5 AND "pid" = 1 AND "order" >= 1',
+                'UPDATE "umi_mock_posts"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 5 AND "pid" = 1 AND "order" >= 1',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 5 AND "pid" = 1 AND "order" >= 1',
                 //изменение количества детей у старого родителя и нового
-                'UPDATE `umi_mock_hierarchy`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 4',
-                'UPDATE `umi_mock_blogs`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 4',
-                'UPDATE `umi_mock_hierarchy`
-SET `child_count` = `child_count` + (1)
-WHERE `id` = 1',
-                'UPDATE `umi_mock_blogs`
-SET `child_count` = `child_count` + (1)
-WHERE `id` = 1',
+                'UPDATE "umi_mock_hierarchy"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 4',
+                'UPDATE "umi_mock_blogs"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 4',
+                'UPDATE "umi_mock_hierarchy"
+SET "child_count" = "child_count" + (1)
+WHERE "id" = 1',
+                'UPDATE "umi_mock_blogs"
+SET "child_count" = "child_count" + (1)
+WHERE "id" = 1',
                 //изменение иерархических свойств перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `uri` = //blog1/post2, `mpath` = #1.5, `pid` = 1, `level` = `level` + (-1), `version` = `version` + 1
-WHERE `id` = 5',
-                'UPDATE `umi_mock_posts`
-SET `uri` = //blog1/post2, `mpath` = #1.5, `pid` = 1, `level` = `level` + (-1), `version` = `version` + 1
-WHERE `id` = 5',
+                'UPDATE "umi_mock_hierarchy"
+SET "uri" = //blog1/post2, "mpath" = #1.5, "pid" = 1, "level" = "level" + (-1), "version" = "version" + 1
+WHERE "id" = 5',
+                'UPDATE "umi_mock_posts"
+SET "uri" = //blog1/post2, "mpath" = #1.5, "pid" = 1, "level" = "level" + (-1), "version" = "version" + 1
+WHERE "id" = 5',
                 //изменения иерархических свойств детей перемещаемого объекта
-                "UPDATE `umi_mock_blogs`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#1.4.', '#1.'), `uri` = REPLACE(`uri`, '//blog1/blog3/', '//blog1/')
-WHERE `mpath` like #1.4.5.%",
-                "UPDATE `umi_mock_posts`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#1.4.', '#1.'), `uri` = REPLACE(`uri`, '//blog1/blog3/', '//blog1/')
-WHERE `mpath` like #1.4.5.%",
-                "UPDATE `umi_mock_hierarchy`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#1.4.', '#1.'), `uri` = REPLACE(`uri`, '//blog1/blog3/', '//blog1/')
-WHERE `mpath` like #1.4.5.%"
+                'UPDATE "umi_mock_blogs"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.4.\', \'#1.\'), '
+                . '"uri" = REPLACE("uri", \'//blog1/blog3/\', \'//blog1/\')
+WHERE "mpath" like #1.4.5.%',
+                'UPDATE "umi_mock_posts"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.4.\', \'#1.\'), '
+                . '"uri" = REPLACE("uri", \'//blog1/blog3/\', \'//blog1/\')
+WHERE "mpath" like #1.4.5.%',
+                'UPDATE "umi_mock_hierarchy"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.4.\', \'#1.\'),'
+                . ' "uri" = REPLACE("uri", \'//blog1/blog3/\', \'//blog1/\')
+WHERE "mpath" like #1.4.5.%'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -430,62 +450,62 @@ WHERE `mpath` like #1.4.5.%"
         $this->assertEquals(
             [
                 //выбор коллекций, которые будут затронуты при изменении порядка следования
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `pid` = 5
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "pid" = 5
+GROUP BY "type"',
                 //выбор коллекций, в которых находятся дети перемещаемого объекта
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `mpath` like #1.2.%
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "mpath" like #1.2.%
+GROUP BY "type"',
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 2 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 5 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `uri` = //blog1/blog3/post2/blog2',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 2 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 5 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog1/blog3/post2/blog2',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = 2, `version` = `version` + 1
-WHERE `id` = 2',
-                'UPDATE `umi_mock_blogs`
-SET `order` = 2, `version` = `version` + 1
-WHERE `id` = 2',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = 2, "version" = "version" + 1
+WHERE "id" = 2',
+                'UPDATE "umi_mock_blogs"
+SET "order" = 2, "version" = "version" + 1
+WHERE "id" = 2',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_posts`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 2 AND `pid` = 5 AND `order` >= 2',
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 2 AND `pid` = 5 AND `order` >= 2',
+                'UPDATE "umi_mock_posts"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 2 AND "pid" = 5 AND "order" >= 2',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 2 AND "pid" = 5 AND "order" >= 2',
                 //изменение количества детей у старого родителя и нового
-                'UPDATE `umi_mock_hierarchy`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 1',
-                'UPDATE `umi_mock_blogs`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 1',
-                'UPDATE `umi_mock_hierarchy`
-SET `child_count` = `child_count` + (1)
-WHERE `id` = 5',
-                'UPDATE `umi_mock_posts`
-SET `child_count` = `child_count` + (1)
-WHERE `id` = 5',
+                'UPDATE "umi_mock_hierarchy"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 1',
+                'UPDATE "umi_mock_blogs"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 1',
+                'UPDATE "umi_mock_hierarchy"
+SET "child_count" = "child_count" + (1)
+WHERE "id" = 5',
+                'UPDATE "umi_mock_posts"
+SET "child_count" = "child_count" + (1)
+WHERE "id" = 5',
                 //изменение иерархических свойств перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `uri` = //blog1/blog3/post2/blog2, `mpath` = #1.4.5.2, `pid` = 5, `level` = `level` + (2), `version` = `version` + 1
-WHERE `id` = 2',
-                'UPDATE `umi_mock_blogs`
-SET `uri` = //blog1/blog3/post2/blog2, `mpath` = #1.4.5.2, `pid` = 5, `level` = `level` + (2), `version` = `version` + 1
-WHERE `id` = 2',
+                'UPDATE "umi_mock_hierarchy"
+SET "uri" = //blog1/blog3/post2/blog2, "mpath" = #1.4.5.2, "pid" = 5, "level" = "level" + (2), "version" = "version" + 1
+WHERE "id" = 2',
+                'UPDATE "umi_mock_blogs"
+SET "uri" = //blog1/blog3/post2/blog2, "mpath" = #1.4.5.2, "pid" = 5, "level" = "level" + (2), "version" = "version" + 1
+WHERE "id" = 2',
                 //изменения иерархических свойств детей перемещаемого объекта
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -513,60 +533,63 @@ WHERE `id` = 2',
         $this->assertEquals(
             [
                 //выбор коллекций, которые будут затронуты при изменении порядка следования
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `pid` = 8
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "pid" = 8
+GROUP BY "type"',
                 //выбор коллекций, в которых находятся дети перемещаемого объекта
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `mpath` like #1.%
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "mpath" like #1.%
+GROUP BY "type"',
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 1 AND `version` = 1',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 8 AND `version` = 1',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `uri` = //blog5/blog1',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 8 AND "version" = 1',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog5/blog1',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 1',
-                'UPDATE `umi_mock_blogs`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 1',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 1',
+                'UPDATE "umi_mock_blogs"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 1',
                 //изменение порядка у остальных объектов
 
                 //изменение количества детей у старого родителя и нового
-                'UPDATE `umi_mock_hierarchy`
-SET `child_count` = `child_count` + (1)
-WHERE `id` = 8',
-                'UPDATE `umi_mock_blogs`
-SET `child_count` = `child_count` + (1)
-WHERE `id` = 8',
+                'UPDATE "umi_mock_hierarchy"
+SET "child_count" = "child_count" + (1)
+WHERE "id" = 8',
+                'UPDATE "umi_mock_blogs"
+SET "child_count" = "child_count" + (1)
+WHERE "id" = 8',
                 //изменение иерархических свойств перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `uri` = //blog5/blog1, `mpath` = #8.1, `pid` = 8, `level` = `level` + (1), `version` = `version` + 1
-WHERE `id` = 1',
-                'UPDATE `umi_mock_blogs`
-SET `uri` = //blog5/blog1, `mpath` = #8.1, `pid` = 8, `level` = `level` + (1), `version` = `version` + 1
-WHERE `id` = 1',
+                'UPDATE "umi_mock_hierarchy"
+SET "uri" = //blog5/blog1, "mpath" = #8.1, "pid" = 8, "level" = "level" + (1), "version" = "version" + 1
+WHERE "id" = 1',
+                'UPDATE "umi_mock_blogs"
+SET "uri" = //blog5/blog1, "mpath" = #8.1, "pid" = 8, "level" = "level" + (1), "version" = "version" + 1
+WHERE "id" = 1',
                 //изменения иерархических свойств детей перемещаемого объекта
-                "UPDATE `umi_mock_blogs`
-SET `level` = `level` + (1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#', '#8.'), `uri` = REPLACE(`uri`, '//', '//blog5/')
-WHERE `mpath` like #1.%",
-                "UPDATE `umi_mock_posts`
-SET `level` = `level` + (1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#', '#8.'), `uri` = REPLACE(`uri`, '//', '//blog5/')
-WHERE `mpath` like #1.%",
-                "UPDATE `umi_mock_hierarchy`
-SET `level` = `level` + (1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#', '#8.'), `uri` = REPLACE(`uri`, '//', '//blog5/')
-WHERE `mpath` like #1.%",
+                'UPDATE "umi_mock_blogs"
+SET "level" = "level" + (1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#\', \'#8.\'), '
+                . '"uri" = REPLACE("uri", \'//\', \'//blog5/\')
+WHERE "mpath" like #1.%',
+                'UPDATE "umi_mock_posts"
+SET "level" = "level" + (1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#\', \'#8.\'), '
+                . '"uri" = REPLACE("uri", \'//\', \'//blog5/\')
+WHERE "mpath" like #1.%',
+                'UPDATE "umi_mock_hierarchy"
+SET "level" = "level" + (1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#\', \'#8.\'), '
+                . '"uri" = REPLACE("uri", \'//\', \'//blog5/\')
+WHERE "mpath" like #1.%',
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -593,62 +616,65 @@ WHERE `mpath` like #1.%",
         $this->assertEquals(
             [
                 //выбор коллекций, которые будут затронуты при изменении порядка следования
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `pid` IS NULL
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "pid" IS NULL
+GROUP BY "type"',
                 //выбор коллекций, в которых находятся дети перемещаемого объекта
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `mpath` like #1.4.%
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "mpath" like #1.4.%
+GROUP BY "type"',
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 4 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `uri` = //blog3',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 4 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog3',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 4',
-                'UPDATE `umi_mock_blogs`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 4',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 4',
+                'UPDATE "umi_mock_blogs"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 4',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_blogs`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` IS NULL AND `order` >= 1',
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` IS NULL AND `order` >= 1',
+                'UPDATE "umi_mock_blogs"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" IS NULL AND "order" >= 1',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" IS NULL AND "order" >= 1',
                 //изменение количества детей у старого родителя и нового
-                'UPDATE `umi_mock_hierarchy`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 1',
-                'UPDATE `umi_mock_blogs`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 1',
+                'UPDATE "umi_mock_hierarchy"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 1',
+                'UPDATE "umi_mock_blogs"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 1',
                 //изменение иерархических свойств перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `uri` = //blog3, `mpath` = #4, `pid` = NULL, `level` = `level` + (-1), `version` = `version` + 1
-WHERE `id` = 4',
-                'UPDATE `umi_mock_blogs`
-SET `uri` = //blog3, `mpath` = #4, `pid` = NULL, `level` = `level` + (-1), `version` = `version` + 1
-WHERE `id` = 4',
+                'UPDATE "umi_mock_hierarchy"
+SET "uri" = //blog3, "mpath" = #4, "pid" = NULL, "level" = "level" + (-1), "version" = "version" + 1
+WHERE "id" = 4',
+                'UPDATE "umi_mock_blogs"
+SET "uri" = //blog3, "mpath" = #4, "pid" = NULL, "level" = "level" + (-1), "version" = "version" + 1
+WHERE "id" = 4',
                 //изменения иерархических свойств детей перемещаемого объекта
-                "UPDATE `umi_mock_blogs`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#1.', '#'), `uri` = REPLACE(`uri`, '//blog1/', '//')
-WHERE `mpath` like #1.4.%",
-                "UPDATE `umi_mock_posts`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#1.', '#'), `uri` = REPLACE(`uri`, '//blog1/', '//')
-WHERE `mpath` like #1.4.%",
-                "UPDATE `umi_mock_hierarchy`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#1.', '#'), `uri` = REPLACE(`uri`, '//blog1/', '//')
-WHERE `mpath` like #1.4.%"
+                'UPDATE "umi_mock_blogs"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.\', \'#\'), '
+                . '"uri" = REPLACE("uri", \'//blog1/\', \'//\')
+WHERE "mpath" like #1.4.%',
+                'UPDATE "umi_mock_posts"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.\', \'#\'), '
+                . '"uri" = REPLACE("uri", \'//blog1/\', \'//\')
+WHERE "mpath" like #1.4.%',
+                'UPDATE "umi_mock_hierarchy"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.\', \'#\'), '
+                . '"uri" = REPLACE("uri", \'//blog1/\', \'//\')
+WHERE "mpath" like #1.4.%'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -670,62 +696,65 @@ WHERE `mpath` like #1.4.%"
         $this->assertEquals(
             [
                 //выбор коллекций, которые будут затронуты при изменении порядка следования
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `pid` IS NULL
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "pid" IS NULL
+GROUP BY "type"',
                 //выбор коллекций, в которых находятся дети перемещаемого объекта
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `mpath` like #1.4.%
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "mpath" like #1.4.%
+GROUP BY "type"',
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 4 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `uri` = //blog3',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 4 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog3',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = 2, `version` = `version` + 1
-WHERE `id` = 4',
-                'UPDATE `umi_mock_blogs`
-SET `order` = 2, `version` = `version` + 1
-WHERE `id` = 4',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = 2, "version" = "version" + 1
+WHERE "id" = 4',
+                'UPDATE "umi_mock_blogs"
+SET "order" = 2, "version" = "version" + 1
+WHERE "id" = 4',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_blogs`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` IS NULL AND `order` >= 2',
-                'UPDATE `umi_mock_hierarchy`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 4 AND `pid` IS NULL AND `order` >= 2',
+                'UPDATE "umi_mock_blogs"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" IS NULL AND "order" >= 2',
+                'UPDATE "umi_mock_hierarchy"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 4 AND "pid" IS NULL AND "order" >= 2',
                 //изменение количества детей у старого родителя и нового
-                'UPDATE `umi_mock_hierarchy`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 1',
-                'UPDATE `umi_mock_blogs`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 1',
+                'UPDATE "umi_mock_hierarchy"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 1',
+                'UPDATE "umi_mock_blogs"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 1',
                 //изменение иерархических свойств перемещаемого объекта
-                'UPDATE `umi_mock_hierarchy`
-SET `uri` = //blog3, `mpath` = #4, `pid` = NULL, `level` = `level` + (-1), `version` = `version` + 1
-WHERE `id` = 4',
-                'UPDATE `umi_mock_blogs`
-SET `uri` = //blog3, `mpath` = #4, `pid` = NULL, `level` = `level` + (-1), `version` = `version` + 1
-WHERE `id` = 4',
+                'UPDATE "umi_mock_hierarchy"
+SET "uri" = //blog3, "mpath" = #4, "pid" = NULL, "level" = "level" + (-1), "version" = "version" + 1
+WHERE "id" = 4',
+                'UPDATE "umi_mock_blogs"
+SET "uri" = //blog3, "mpath" = #4, "pid" = NULL, "level" = "level" + (-1), "version" = "version" + 1
+WHERE "id" = 4',
                 //изменения иерархических свойств детей перемещаемого объекта
-                "UPDATE `umi_mock_blogs`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#1.', '#'), `uri` = REPLACE(`uri`, '//blog1/', '//')
-WHERE `mpath` like #1.4.%",
-                "UPDATE `umi_mock_posts`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#1.', '#'), `uri` = REPLACE(`uri`, '//blog1/', '//')
-WHERE `mpath` like #1.4.%",
-                "UPDATE `umi_mock_hierarchy`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#1.', '#'), `uri` = REPLACE(`uri`, '//blog1/', '//')
-WHERE `mpath` like #1.4.%"
+                'UPDATE "umi_mock_blogs"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.\', \'#\'), '
+                . '"uri" = REPLACE("uri", \'//blog1/\', \'//\')
+WHERE "mpath" like #1.4.%',
+                'UPDATE "umi_mock_posts"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.\', \'#\'), '
+                . '"uri" = REPLACE("uri", \'//blog1/\', \'//\')
+WHERE "mpath" like #1.4.%',
+                'UPDATE "umi_mock_hierarchy"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.\', \'#\'), '
+                . '"uri" = REPLACE("uri", \'//blog1/\', \'//\')
+WHERE "mpath" like #1.4.%'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 

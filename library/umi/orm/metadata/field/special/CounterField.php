@@ -65,8 +65,8 @@ class CounterField extends BaseField implements IScalarField, ICalculableField
             $increment = $property->getDbValue() - $property->getPreviousDbValue();
             if ($increment !== 0) {
 
-                $incrementExpression = $builder->getDbDriver()
-                        ->sanitizeColumnName($this->getColumnName()) . ' + (' . $increment . ')';
+                $incrementExpression = $builder->getConnection()
+                        ->quoteIdentifier($this->getColumnName()) . ' + (' . $increment . ')';
                 $builder
                     ->set($this->getColumnName(), ':new' . $this->getColumnName())
                     ->bindExpression(':new' . $this->getColumnName(), $incrementExpression);

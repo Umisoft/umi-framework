@@ -10,7 +10,6 @@
 namespace umi\orm\metadata;
 
 use Traversable;
-use umi\dbal\driver\ITableScheme;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\orm\exception\InvalidArgumentException;
@@ -40,10 +39,6 @@ class Metadata implements IMetadata, ILocalizable
      * @var ICollectionDataSource $dataSource источник данных коллекции
      */
     protected $dataSource;
-    /**
-     * @var ITableScheme $dataSourceScheme схема источника данных коллекции
-     */
-    protected $dataSourceScheme;
     /**
      * @var array $typesList список имен всех типов коллекции
      */

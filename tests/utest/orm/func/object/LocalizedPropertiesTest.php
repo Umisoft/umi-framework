@@ -9,9 +9,8 @@
 
 namespace utest\orm\func\object;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\i18n\ILocalesService;
 use utest\orm\ORMDbTestCase;
 
@@ -22,9 +21,10 @@ use utest\orm\ORMDbTestCase;
 class LocalizedPropertiesTest extends ORMDbTestCase
 {
 
-    public $queries = [];
-
-    protected $usedDbServerId = 'mysqlMaster';
+    /**
+     * @var Connection $connection
+     */
+    protected $connection;
 
     /**
      * {@inheritdoc}
@@ -32,29 +32,54 @@ class LocalizedPropertiesTest extends ORMDbTestCase
     protected function getCollections()
     {
         return array(
+            self::USERS_GROUP,
+            self::USERS_USER,
             self::SYSTEM_HIERARCHY,
-            self::BLOGS_BLOG
+            self::BLOGS_BLOG,
         );
+    }
+
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
     {
-
-        $this->queries = [];
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $this->queries[] = $builder->getSql();
-                }
-            }
-        );
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
     }
 
     public function testLoadLocalization()
@@ -66,7 +91,7 @@ class LocalizedPropertiesTest extends ORMDbTestCase
         $blogGuid = $blog->getGUID();
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
-        $this->queries = [];
+        $this->setQueries([]);
 
         $blog = $blogsCollection->get($blogGuid);
 
@@ -76,15 +101,15 @@ class LocalizedPropertiesTest extends ORMDbTestCase
 FROM `umi_mock_blogs` AS `blogs_blog`
 WHERE ((`blogs_blog`.`guid` = :value0))'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что при получении объекта в запросе участвуют только текущая и дефолтная локали'
         );
 
-        $this->queries = [];
+        $this->setQueries([]);
         $blog->getValue('title', 'ru-RU');
         $blog->getValue('title', 'en-US');
         $this->assertEmpty(
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что при получении объекта значения для текущей локали и дефолтной локали уже подгружены'
         );
 
@@ -96,7 +121,7 @@ WHERE ((`blogs_blog`.`guid` = :value0))'
 FROM `umi_mock_blogs` AS `blogs_blog`
 WHERE ((`blogs_blog`.`id` = :value0))'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что при запросе значения для не текущей и не дефолтной локали будут подгружены все локализации объекта'
         );
     }
@@ -119,7 +144,7 @@ WHERE ((`blogs_blog`.`id` = :value0))'
         $this->objectPersister->commit();
 
         $this->objectManager->unloadObjects();
-        $this->queries = [];
+        $this->setQueries([]);
 
         $blog = $blogsCollection->get($blogGuid);
 
@@ -131,7 +156,7 @@ WHERE ((`blogs_blog`.`guid` = :value0))'
 
         $this->assertEquals(
             $expectedResult,
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что, если дефолтная и текущая локаль совпадают, то в запросе присутсвует только одна локаль.'
         );
         $this->assertNull($blog->getValue('title'), 'Ожидается, что для текущей локали значение null');
@@ -164,10 +189,10 @@ WHERE `id` = :objectId'
 
         $this->assertEquals(
             $expectedResult,
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на добавления объекта без указания локали'
         );
-        $this->queries = [];
+        $this->setQueries([]);
         $this->objectManager->unloadObjects();
 
         $blog = $blogsCollection->get($blogGuid);
@@ -184,10 +209,10 @@ WHERE ((`blogs_blog`.`guid` = :value0))'
         ];
         $this->assertEquals(
             $expectedResult,
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что будут выполнены запросы на получение только свойств текущей локали c учетом значений дефолтной локали'
         );
-        $this->queries = [];
+        $this->setQueries([]);
 
         $this->assertNull(
             $blog->getValue('title', 'en-US'),
@@ -222,10 +247,10 @@ WHERE `id` = :objectId'
 
         $this->assertEquals(
             $expectedResult,
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на добавления объекта в конкретной локали'
         );
-        $this->queries = [];
+        $this->setQueries([]);
         $this->objectManager->unloadObjects();
 
         $blog = $blogsCollection->get($blogGuid);
@@ -269,7 +294,7 @@ WHERE `id` = :objectId'
 
         $this->assertEquals(
             $expectedResult,
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на добавления объекта c указанием локалей'
         );
         $this->objectManager->unloadObjects();
@@ -297,7 +322,7 @@ WHERE `id` = :objectId'
         $this->objectManager->unloadObjects();
 
         $blog = $blogsCollection->get($guid);
-        $this->queries = [];
+        $this->setQueries([]);
 
         $blog->setValue('title', 'russian title', 'ru-RU');
         $blog->setValue('title', 'russian current title');
@@ -316,7 +341,7 @@ WHERE `id` = :objectId AND `version` = :version'
 
         $this->assertEquals(
             $expectedResult,
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на модификацию объекта c указанием локалей'
         );
         $this->objectManager->unloadObjects();

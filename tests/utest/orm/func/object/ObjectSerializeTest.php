@@ -9,9 +9,8 @@
 
 namespace utest\orm\func\object;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
 
@@ -21,7 +20,10 @@ use utest\orm\ORMDbTestCase;
 class ObjectSerializeTest extends ORMDbTestCase
 {
 
-    public $queries = [];
+    /**
+     * @var Connection $Connection
+     */
+    protected $connection;
 
     /**
      * @var IObject $blog
@@ -36,11 +38,44 @@ class ObjectSerializeTest extends ORMDbTestCase
     protected function getCollections()
     {
         return [
-            self::USERS_USER,
             self::USERS_GROUP,
+            self::USERS_USER,
             self::SYSTEM_HIERARCHY,
             self::BLOGS_BLOG
         ];
+    }
+
+    /**
+     * @return array
+     */
+    final protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }//todo! finals cleanup
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
@@ -56,20 +91,14 @@ class ObjectSerializeTest extends ORMDbTestCase
         $this->blog->setValue('owner', $user);
         $this->blog->setGUID($this->guid);
 
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $this->queries[] = $builder->getSql();
-                }
-            }
-        );
+        $this->connection = $this
+            ->getDbServer()
+            ->getConnection();
+
+        $this
+            ->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
     }
 
     public function testSerializeObject()
@@ -87,7 +116,7 @@ class ObjectSerializeTest extends ORMDbTestCase
 
         $blog = $this->collectionManager->getCollection(self::BLOGS_BLOG)
             ->get($this->guid);
-        $this->queries = [];
+        $this->setQueries([]);
 
         $serialized = serialize($blog);
 
@@ -97,7 +126,7 @@ class ObjectSerializeTest extends ORMDbTestCase
 FROM `umi_mock_blogs` AS `blogs_blog`
 WHERE ((`blogs_blog`.`id` = :value0))'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что при сериализации объекта он полностью догрузит все свои свойства из базы'
         );
 
@@ -109,7 +138,7 @@ WHERE ((`blogs_blog`.`id` = :value0))'
     {
 
         $this->objectPersister->commit();
-        $this->queries = [];
+        $this->setQueries([]);
 
         /**
          * @var IObject $blog
@@ -155,7 +184,7 @@ WHERE ((`blogs_blog`.`id` = :value0))'
             $property->getValue();
         }
 
-        $this->assertEmpty($this->queries, 'Ожидается, что все значения свойства уже были загружены');
+        $this->assertEmpty($this->getQueries(), 'Ожидается, что все значения свойства уже были загружены');
     }
 
     public function testUnserializeObjectAfterUnload()
@@ -163,7 +192,7 @@ WHERE ((`blogs_blog`.`id` = :value0))'
 
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
-        $this->queries = [];
+        $this->setQueries([]);
 
         /**
          * @var IObject $blog
@@ -183,7 +212,7 @@ WHERE ((`blogs_blog`.`id` = :value0))'
             }
             $property->getValue();
         }
-        $this->assertEmpty($this->queries, 'Ожидается, что все значения свойства уже были загружены');
+        $this->assertEmpty($this->getQueries(), 'Ожидается, что все значения свойства уже были загружены');
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
             $blog->getValue('owner'),
@@ -191,8 +220,9 @@ WHERE ((`blogs_blog`.`id` = :value0))'
         );
         $this->assertCount(
             1,
-            $this->queries,
-            'Ожидается, что после выгрузки всех объектов у ансериализованного объекта из базы будут подгружаться только мвязи'
+            $this->getQueries(),
+            'Ожидается, что после выгрузки всех объектов у ансериализованного объекта из базы '
+            .'будут подгружаться только связи'
         );
     }
 }

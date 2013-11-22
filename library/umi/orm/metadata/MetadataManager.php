@@ -31,7 +31,8 @@ class MetadataManager implements IMetadataManager, ILocalizable
      */
     protected $metadataFactory;
     /**
-     * @var IMetadata[] $metadataInstances список созданных экземпляров metadata: массив вида array(collectionName => IMetadata, ...)
+     * @var IMetadata[] $metadataInstances список созданных экземпляров metadata:
+     * массив вида array(collectionName => IMetadata, ...)
      */
     protected $metadataInstances = [];
 

@@ -9,9 +9,8 @@
 
 namespace utest\orm\func;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -23,6 +22,11 @@ class UnloadObjectTest extends ORMDbTestCase
 {
 
     public $queries = [];
+
+    /**
+     * @var Connection $Connection
+     */
+    protected $connection;
 
     protected $userGuid;
     protected $userId;
@@ -42,13 +46,62 @@ class UnloadObjectTest extends ORMDbTestCase
     protected function getCollections()
     {
         return [
+            self::USERS_GROUP,
             self::USERS_USER,
-            self::USERS_GROUP
         ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    protected function getOnlyQueries($type)
+    {
+        return array_filter(
+            $this->getQueries(),
+            function ($q) use ($type) {
+                return preg_match('/^'.$type.'\s+/i', $q);
+            }
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
     {
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
 
         $this->userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $this->user = $this->userCollection->add();
@@ -56,23 +109,6 @@ class UnloadObjectTest extends ORMDbTestCase
 
         $this->userGuid = $this->user->getGUID();
         $this->userId = $this->user->getId();
-
-        $this->queries = [];
-        $self = $this;
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) use ($self) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $self->queries[] = get_class($builder);
-                }
-            }
-        );
     }
 
     public function testGettingStoredObjectById()
@@ -101,8 +137,8 @@ class UnloadObjectTest extends ORMDbTestCase
         $this->userCollection->getById($this->userId);
         $this->userCollection->getById($this->userId);
         $this->assertEquals(
-            ['umi\dbal\builder\SelectBuilder'],
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что объект будет снова загружен из базы данных, если он был выгружен'
         );
     }
@@ -113,8 +149,8 @@ class UnloadObjectTest extends ORMDbTestCase
         $this->userCollection->getById($this->userId);
         $this->userCollection->getById($this->userId);
         $this->assertEquals(
-            ['umi\dbal\builder\SelectBuilder'],
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что объект будет снова загружен из базы данных, если менеджер объектов выгрузил объекты'
         );
     }
@@ -125,8 +161,8 @@ class UnloadObjectTest extends ORMDbTestCase
         $this->userCollection->get($this->userGuid);
         $this->userCollection->get($this->userGuid);
         $this->assertEquals(
-            ['umi\dbal\builder\SelectBuilder'],
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что объект будет снова загружен из базы данных, если он был выгружен'
         );
     }
@@ -137,8 +173,8 @@ class UnloadObjectTest extends ORMDbTestCase
         $this->userCollection->get($this->userGuid);
         $this->userCollection->get($this->userGuid);
         $this->assertEquals(
-            ['umi\dbal\builder\SelectBuilder'],
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что объект будет снова загружен из базы данных, если менеджер объектов выгрузил объекты'
         );
     }

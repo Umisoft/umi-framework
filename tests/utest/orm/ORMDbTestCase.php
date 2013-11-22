@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -11,6 +10,7 @@ namespace utest\orm;
 
 use Closure;
 use umi\dbal\cluster\server\IMasterServer;
+use umi\dbal\driver\IDialect;
 use umi\orm\collection\ICollectionManager;
 use umi\orm\manager\IObjectManager;
 use umi\orm\metadata\IMetadataManager;
@@ -72,12 +72,14 @@ abstract class ORMDbTestCase extends TestCase
 
     public function setUp()
     {
-        $this->getTestToolkit()->registerToolboxes([
-            require(LIBRARY_PATH . '/event/toolbox/config.php'),
-            require(LIBRARY_PATH . '/validation/toolbox/config.php'),
-            require(LIBRARY_PATH . '/i18n/toolbox/config.php'),
-            require(LIBRARY_PATH . '/orm/toolbox/config.php')
-        ]);
+        $this
+            ->getTestToolkit()
+            ->registerToolboxes([
+                require(LIBRARY_PATH . '/event/toolbox/config.php'),
+                require(LIBRARY_PATH . '/validation/toolbox/config.php'),
+                require(LIBRARY_PATH . '/i18n/toolbox/config.php'),
+                require(LIBRARY_PATH . '/orm/toolbox/config.php')
+            ]);
 
         $cluster = $this->getDbCluster();
         if (!is_null($this->usedDbServerId)) {
@@ -90,45 +92,58 @@ abstract class ORMDbTestCase extends TestCase
         }
 
         $collections = $this->getCollections();
-        $dbDriver = $cluster->getDbDriver();
+
+        $connection = $cluster->getConnection();
+
+        /** @var $dialect IDialect */
+        $dialect = $connection->getDatabasePlatform();
 
         /**
          * @var IObjectManager $objectManager
          */
-        $objectManager = $this->getTestToolkit()->getService('umi\orm\manager\IObjectManager');
+        $objectManager = $this
+            ->getTestToolkit()
+            ->getService('umi\orm\manager\IObjectManager');
         $this->objectManager = $objectManager;
 
         /**
          * @var IMetadataManager $metadataManager
          */
-        $metadataManager = $this->getTestToolkit()->getService('umi\orm\metadata\IMetadataManager');
+        $metadataManager = $this
+            ->getTestToolkit()
+            ->getService('umi\orm\metadata\IMetadataManager');
         $this->metadataManager = $metadataManager;
 
         /**
          * @var ICollectionManager $collectionManager
          */
-        $collectionManager = $this->getTestToolkit()->getService('umi\orm\collection\ICollectionManager');
+        $collectionManager = $this
+            ->getTestToolkit()
+            ->getService('umi\orm\collection\ICollectionManager');
         $this->collectionManager = $collectionManager;
 
         /**
          * @var IObjectPersister $objectPersister
          */
-        $objectPersister = $this->getTestToolkit()->getService('umi\orm\persister\IObjectPersister');
+        $objectPersister = $this
+            ->getTestToolkit()
+            ->getService('umi\orm\persister\IObjectPersister');
         $this->objectPersister = $objectPersister;
 
-        foreach ($collections as $collectionName) {
-            $metadata = $this->metadataManager->getMetadata($collectionName);
-            $tableName = $metadata->getCollectionDataSource()
-                ->getSourceName();
-            $dbDriver->dropTable($tableName);
-            $this->affectedTables[] = $tableName;
-        }
+        // start building db tables
+        $connection->exec($dialect->getDisableForeignKeysSQL());
 
-        $migrations = [];
         foreach ($collections as $collectionName) {
             $metadata = $this->metadataManager->getMetadata($collectionName);
+            $tableName = $metadata
+                ->getCollectionDataSource()
+                ->getSourceName();
+            $connection
+                ->getSchemaManager()
+                ->dropTable($tableName);
+            $this->affectedTables[] = $tableName;
+
             $dataSource = $metadata->getCollectionDataSource();
-            $tableName = $dataSource->getSourceName();
 
             /**
              * @var Closure $setup
@@ -136,43 +151,28 @@ abstract class ORMDbTestCase extends TestCase
             $setup = include(__DIR__ . '/mock/collections/setup/' . $collectionName . '.setup.php');
 
             $setup($dataSource);
-
-            $migrations[$collectionName] = [
-                $dataSource->getMasterServer()
-                    ->getId(),
-                $dbDriver->getTable($tableName)
-                    ->getMigrationQueries()
-            ];
         }
 
-        foreach ($migrations as $collectionMigrations) {
-            $serverId = $collectionMigrations[0];
-            $queries = $collectionMigrations[1];
-            $server = $cluster->getServer($serverId);
-            $server->getDbDriver()
-                ->disableForeignKeysCheck();
-            foreach ($queries as $query) {
-                $server->modifyInternal($query);
-            }
-            $server->getDbDriver()
-                ->enableForeignKeysCheck();
-            $server->getDbDriver()
-                ->reset();
-        }
+        $connection->exec($dialect->getEnableForeignKeysSQL());
 
         parent::setUp();
     }
 
     protected function tearDown()
     {
-        $dbDriver = $this->getDbCluster()
-            ->getDbDriver();
-        $dbDriver->disableForeignKeysCheck();
+        $connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        /** @var $dialect IDialect */
+        $dialect = $connection->getDatabasePlatform();
+        $connection->exec($dialect->getDisableForeignKeysSQL());
         foreach ($this->affectedTables as $tableName) {
-            $dbDriver->deleteTable($tableName);
+            //todo! try/catch?
+            $connection
+                ->getSchemaManager()
+                ->dropTable($tableName);
         }
-        $dbDriver->applyMigrations();
-        $dbDriver->enableForeignKeysCheck();
+        $connection->exec($dialect->getEnableForeignKeysSQL());
 
         parent::tearDown();
     }

@@ -9,9 +9,8 @@
 
 namespace utest\orm\func\collection\simplehierarchic;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use utest\orm\ORMDbTestCase;
@@ -21,6 +20,10 @@ use utest\orm\ORMDbTestCase;
  */
 class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
 {
+    /**
+     * @var Connection $connection
+     */
+    protected $connection;
 
     /**
      * {@inheritdoc}
@@ -36,15 +39,50 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
     protected $guid3;
     protected $guid4;
 
-    protected $queries = [];
-
     /**
      * @var ISimpleHierarchicCollection $menu
      */
     protected $menu;
 
+    /**
+     * @return array
+     */
+    final protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
+    }
+
     protected function setUpFixtures()
     {
+        $this->connection = $this->getDbCluster()->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
 
         $this->menu = $this->collectionManager->getCollection(self::SYSTEM_MENU);
 
@@ -59,30 +97,7 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
 
-        $this->queries = [];
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $sql = $builder->getSql();
-                    $placeholders = $builder->getPlaceholderValues();
-                    foreach ($placeholders as $placeholderName => $placeholderValue) {
-                        if (is_array($placeholderValue)) {
-                            $replacement = is_null($placeholderValue[0]) ? 'NULL' : $placeholderValue[0];
-                            $sql = str_replace($placeholderName, $replacement, $sql);
-                        }
-                    }
-
-                    $this->queries[] = $sql;
-                }
-            }
-        );
+        $this->setQueries([]);
 
     }
 
@@ -99,25 +114,25 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
     {
 
         $item1 = $this->menu->get($this->guid1);
-        $this->queries = [];
+        $this->setQueries([]);
         $this->menu->changeSlug($item1, 'new_slug');
 
         $this->assertEquals(
             [
                 //проверка актуальности изменяемого объекта
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 1 AND `version` = 1',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 1 AND "version" = 1',
                 //проверка уникальности нового slug
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `uri` = //new_slug AND `id` != 1',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //new_slug AND "id" != 1',
                 //обновление всей slug у всей ветки изменяемого объекта
-                "UPDATE `umi_mock_menu`
-SET `version` = `version` + 1, `uri` = REPLACE(`uri`, '//item1', '//new_slug')
-WHERE `uri` like //item1/% OR `uri` = //item1",
+                'UPDATE "umi_mock_menu"
+SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//item1\', \'//new_slug\')
+WHERE "uri" like \'//item1/%\' OR "uri" = \'//item1\'',
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на изменение slug в простой иерархической коллекции'
         );
 

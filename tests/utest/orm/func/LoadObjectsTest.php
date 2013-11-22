@@ -30,7 +30,10 @@ class LoadObjectsTest extends ORMDbTestCase
      */
     protected function getCollections()
     {
-        return [self::USERS_USER];
+        return [
+            self::USERS_GROUP,
+            self::USERS_USER,
+        ];
     }
 
     protected function setUpFixtures()

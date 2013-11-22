@@ -24,5 +24,4 @@ interface IMetadataManager
      * @return IMetadata
      */
     public function getMetadata($collectionName);
-
 }

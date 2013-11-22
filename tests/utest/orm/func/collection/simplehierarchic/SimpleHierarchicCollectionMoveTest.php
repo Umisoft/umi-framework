@@ -9,9 +9,8 @@
 
 namespace utest\orm\func\collection\simplehierarchic;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
@@ -23,7 +22,6 @@ use utest\orm\ORMDbTestCase;
 class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
 {
 
-    protected $queries = [];
     /**
      * @var IHierarchicObject $menuItem1
      */
@@ -64,18 +62,56 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
     protected $usedDbServerId = 'sqliteMaster';
 
     /**
+     * @var Connection $Connection
+     */
+    protected $connection;
+
+    /**
      * {@inheritdoc}
      */
     protected function getCollections()
     {
         return [
+            self::USERS_GROUP,
+            self::USERS_USER,
             self::SYSTEM_HIERARCHY,
             self::BLOGS_BLOG,
             self::BLOGS_POST,
-            self::USERS_USER,
-            self::USERS_GROUP,
-            self::SYSTEM_MENU
+            self::SYSTEM_MENU,
         ];
+    }
+
+    /**
+     * @return array
+     */
+    final protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
@@ -94,30 +130,13 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
 
-        $this->queries = [];
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $sql = $builder->getSql();
-                    $placeholders = $builder->getPlaceholderValues();
-                    foreach ($placeholders as $placeholderName => $placeholderValue) {
-                        if (is_array($placeholderValue)) {
-                            $replacement = is_null($placeholderValue[0]) ? 'NULL' : $placeholderValue[0];
-                            $sql = str_replace($placeholderName, $replacement, $sql);
-                        }
-                    }
 
-                    $this->queries[] = $sql;
-                }
-            }
-        );
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
     }
 
     public function testInitialHierarchyProperties()
@@ -210,19 +229,19 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
         $this->assertEquals(
             [
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 5 AND `version` = 1',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 5 AND "version" = 1',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 5',
+                'UPDATE "umi_mock_menu"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 5',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_menu`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 5 AND `pid` IS NULL AND `order` >= 1',
+                'UPDATE "umi_mock_menu"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 5 AND "pid" IS NULL AND "order" >= 1',
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -240,22 +259,22 @@ WHERE `id` != 5 AND `pid` IS NULL AND `order` >= 1',
         $this->assertEquals(
             [
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 6 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 5 AND `version` = 1',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 6 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 5 AND "version" = 1',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `order` = 3, `version` = `version` + 1
-WHERE `id` = 6',
+                'UPDATE "umi_mock_menu"
+SET "order" = 3, "version" = "version" + 1
+WHERE "id" = 6',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_menu`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 6 AND `pid` = 5 AND `order` >= 3'
+                'UPDATE "umi_mock_menu"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 6 AND "pid" = 5 AND "order" >= 3'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -272,40 +291,41 @@ WHERE `id` != 6 AND `pid` = 5 AND `order` >= 3'
         $this->assertEquals(
             [
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 6 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 2 AND `version` = 1',
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `uri` = //item2/item6',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 6 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 2 AND "version" = 1',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //item2/item6',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 6',
+                'UPDATE "umi_mock_menu"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 6',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_menu`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 6 AND `pid` = 2 AND `order` >= 1',
+                'UPDATE "umi_mock_menu"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 6 AND "pid" = 2 AND "order" >= 1',
                 //изменение количества детей у старого родителя и нового
-                'UPDATE `umi_mock_menu`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 5',
-                'UPDATE `umi_mock_menu`
-SET `child_count` = `child_count` + (1)
-WHERE `id` = 2',
+                'UPDATE "umi_mock_menu"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 5',
+                'UPDATE "umi_mock_menu"
+SET "child_count" = "child_count" + (1)
+WHERE "id" = 2',
                 //изменение иерархических свойств перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `uri` = //item2/item6, `mpath` = #2.6, `pid` = 2, `version` = `version` + 1
-WHERE `id` = 6',
+                'UPDATE "umi_mock_menu"
+SET "uri" = //item2/item6, "mpath" = #2.6, "pid" = 2, "version" = "version" + 1
+WHERE "id" = 6',
                 //изменения иерархических свойств детей перемещаемого объекта
-                "UPDATE `umi_mock_menu`
-SET `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#5.', '#2.'), `uri` = REPLACE(`uri`, '//item5/', '//item2/')
-WHERE `mpath` like #5.6.%"
+                'UPDATE "umi_mock_menu"
+SET "version" = "version" + 1, "mpath" = '
+                .'REPLACE("mpath", \'#5.\', \'#2.\'), "uri" = REPLACE("uri", \'//item5/\', \'//item2/\')
+WHERE "mpath" like #5.6.%'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -343,40 +363,40 @@ WHERE `mpath` like #5.6.%"
         $this->assertEquals(
             [
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 7 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 2 AND `version` = 1',
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `uri` = //item2/item7',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 7 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 2 AND "version" = 1',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //item2/item7',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `order` = 2, `version` = `version` + 1
-WHERE `id` = 7',
+                'UPDATE "umi_mock_menu"
+SET "order" = 2, "version" = "version" + 1
+WHERE "id" = 7',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_menu`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 7 AND `pid` = 2 AND `order` >= 2',
+                'UPDATE "umi_mock_menu"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 7 AND "pid" = 2 AND "order" >= 2',
                 //изменение количества детей у старого родителя и нового
-                'UPDATE `umi_mock_menu`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 6',
-                'UPDATE `umi_mock_menu`
-SET `child_count` = `child_count` + (1)
-WHERE `id` = 2',
+                'UPDATE "umi_mock_menu"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 6',
+                'UPDATE "umi_mock_menu"
+SET "child_count" = "child_count" + (1)
+WHERE "id" = 2',
                 //изменение иерархических свойств перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `uri` = //item2/item7, `mpath` = #2.7, `pid` = 2, `level` = `level` + (-1), `version` = `version` + 1
-WHERE `id` = 7',
+                'UPDATE "umi_mock_menu"
+SET "uri" = //item2/item7, "mpath" = #2.7, "pid" = 2, "level" = "level" + (-1), "version" = "version" + 1
+WHERE "id" = 7',
                 //изменения иерархических свойств детей перемещаемого объекта
-                "UPDATE `umi_mock_menu`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#5.6.', '#2.'), `uri` = REPLACE(`uri`, '//item5/item6/', '//item2/')
-WHERE `mpath` like #5.6.7.%"
+                'UPDATE "umi_mock_menu"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#5.6.\', \'#2.\'), "uri" = REPLACE("uri", \'//item5/item6/\', \'//item2/\')
+WHERE "mpath" like #5.6.7.%'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -404,37 +424,37 @@ WHERE `mpath` like #5.6.7.%"
         $this->assertEquals(
             [
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 2 AND `version` = 1',
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 7 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `uri` = //item5/item6/item7/item2',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 2 AND "version" = 1',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 7 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //item5/item6/item7/item2',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 2',
+                'UPDATE "umi_mock_menu"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 2',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_menu`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 2 AND `pid` = 7 AND `order` >= 1',
+                'UPDATE "umi_mock_menu"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 2 AND "pid" = 7 AND "order" >= 1',
                 //изменение количества детей у старого родителя и нового
-                'UPDATE `umi_mock_menu`
-SET `child_count` = `child_count` + (1)
-WHERE `id` = 7',
+                'UPDATE "umi_mock_menu"
+SET "child_count" = "child_count" + (1)
+WHERE "id" = 7',
                 //изменение иерархических свойств перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `uri` = //item5/item6/item7/item2, `mpath` = #5.6.7.2, `pid` = 7, `level` = `level` + (3), `version` = `version` + 1
-WHERE `id` = 2',
+                'UPDATE "umi_mock_menu"
+SET "uri" = //item5/item6/item7/item2, "mpath" = #5.6.7.2, "pid" = 7, "level" = "level" + (3), "version" = "version" + 1
+WHERE "id" = 2',
                 //изменения иерархических свойств детей перемещаемого объекта
-                "UPDATE `umi_mock_menu`
-SET `level` = `level` + (3), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#', '#5.6.7.'), `uri` = REPLACE(`uri`, '//', '//item5/item6/item7/')
-WHERE `mpath` like #2.%",
+                'UPDATE "umi_mock_menu"
+SET "level" = "level" + (3), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#\', \'#5.6.7.\'), "uri" = REPLACE("uri", \'//\', \'//item5/item6/item7/\')
+WHERE "mpath" like #2.%',
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 
@@ -463,34 +483,34 @@ WHERE `mpath` like #2.%",
             [
 
                 //проверка возможности перемещения
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 6 AND `version` = 2',
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `uri` = //item6',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 6 AND "version" = 2',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //item6',
                 //изменение порядка у перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `order` = 1, `version` = `version` + 1
-WHERE `id` = 6',
+                'UPDATE "umi_mock_menu"
+SET "order" = 1, "version" = "version" + 1
+WHERE "id" = 6',
                 //изменение порядка у остальных объектов
-                'UPDATE `umi_mock_menu`
-SET `order` = `order` + 1, `version` = `version` + 1
-WHERE `id` != 6 AND `pid` IS NULL AND `order` >= 1',
+                'UPDATE "umi_mock_menu"
+SET "order" = "order" + 1, "version" = "version" + 1
+WHERE "id" != 6 AND "pid" IS NULL AND "order" >= 1',
                 //изменение количества детей у старого родителя и нового
-                'UPDATE `umi_mock_menu`
-SET `child_count` = `child_count` + (-1)
-WHERE `id` = 5',
+                'UPDATE "umi_mock_menu"
+SET "child_count" = "child_count" + (-1)
+WHERE "id" = 5',
                 //изменение иерархических свойств перемещаемого объекта
-                'UPDATE `umi_mock_menu`
-SET `uri` = //item6, `mpath` = #6, `pid` = NULL, `level` = `level` + (-1), `version` = `version` + 1
-WHERE `id` = 6',
+                'UPDATE "umi_mock_menu"
+SET "uri" = //item6, "mpath" = #6, "pid" = NULL, "level" = "level" + (-1), "version" = "version" + 1
+WHERE "id" = 6',
                 //изменения иерархических свойств детей перемещаемого объекта
-                "UPDATE `umi_mock_menu`
-SET `level` = `level` + (-1), `version` = `version` + 1, `mpath` = REPLACE(`mpath`, '#5.', '#'), `uri` = REPLACE(`uri`, '//item5/', '//')
-WHERE `mpath` like #5.6.%"
+                'UPDATE "umi_mock_menu"
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#5.\', \'#\'), "uri" = REPLACE("uri", \'//item5/\', \'//\')
+WHERE "mpath" like #5.6.%'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверные запросы на перемещение'
         );
 

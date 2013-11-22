@@ -9,9 +9,8 @@
 
 namespace utest\orm\unit\objectset;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\object\IObject;
 use umi\orm\objectset\IManyToManyObjectSet;
 use utest\orm\ORMDbTestCase;
@@ -22,8 +21,6 @@ use utest\orm\ORMDbTestCase;
 class ManyToManyObjectSetTest extends ORMDbTestCase
 {
 
-    public $queries = [];
-
     protected $user1Guid;
     protected $user2Guid;
     protected $user3Guid;
@@ -31,18 +28,67 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
     protected $blog2Guid;
 
     /**
+     * @var Connection $connection
+     */
+    protected $connection;
+
+    /**
      * {@inheritdoc}
      */
     protected function getCollections()
     {
         return [
-            self::USERS_USER,
+            self::SYSTEM_HIERARCHY,
             self::USERS_GROUP,
+            self::USERS_USER,
             self::BLOGS_BLOG,
             self::BLOGS_POST,
             self::BLOGS_SUBSCRIBER,
-            self::SYSTEM_HIERARCHY
         ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    protected function getOnlyQueries($type)
+    {
+        return array_filter(
+            $this->getQueries(),
+            function ($q) use ($type) {
+                return preg_match('/^'.$type.'\s+/i', $q);
+            }
+        );
+    }
+
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
@@ -86,22 +132,13 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
 
-        $this->queries = array();
-        $self = $this;
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) use ($self) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $self->queries[] = get_class($builder);
-                }
-            }
-        );
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
+
     }
 
     public function testManyToManyProperty()
@@ -153,63 +190,56 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
             $subscribers->contains($user3),
             'Ожидается, что третий пользователь не является подписчиком блога'
         );
-        $expectedQueries = [
-            'umi\dbal\builder\SelectBuilder' // Проверяем, существовал ли объект
-        ];
+
+        // Проверяем, существовал ли объект
         $this->assertEquals(
-            $expectedQueries,
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Неверные запросы на проверку наличия объекта в ObjectSet, когда objectsSet не был загружен до конца'
         );
 
-        $this->queries = [];
+        $this->setQueries([]);
         $this->assertTrue(
             $subscribers->contains($user1),
             'Ожидается, что первый пользователь является подписчиком блога'
         );
-        $expectedQueries = [
-            'umi\dbal\builder\SelectBuilder' // Проверяем, существовал ли объект
-        ];
         $this->assertEquals(
-            $expectedQueries,
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Неверные запросы на проверку наличия объекта в ObjectSet, когда objectsSet не был загружен до конца'
         );
 
-        $this->queries = [];
+        $this->setQueries([]);
         $this->assertTrue(
             $subscribers->contains($user1),
             'Ожидается, что первый пользователь является подписчиком блога'
         );
         $this->assertEquals(
             [],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что запросы не будут выполнены на проверку наличия объекта в ObjectSet, когда objectsSet не был загружен до конца, но связанный объект уже был загружен'
         );
 
         $subscribers->fetchAll();
-        $this->queries = [];
+        $this->setQueries([]);
         $this->assertTrue(
             $subscribers->contains($user2),
             'Ожидается, что второй пользователь является подписчиком блога'
         );
-        $expectedQueries = [
-            'umi\dbal\builder\SelectBuilder' // Проверяем, существовал ли объект
-        ];
         $this->assertEquals(
-            $expectedQueries,
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Неверные запросы на проверку наличия объекта в ObjectSet, когда objectsSet был загружен до конца'
         );
 
-        $this->queries = [];
+        $this->setQueries([]);
         $this->assertFalse(
             $subscribers->contains($user3),
             'Ожидается, что третий пользователь не является подписчиком блога'
         );
         $this->assertEquals(
             [],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что никакие запросы не будут выполнены на проверку наличия объекта в ObjectSet, когда objectsSet загружен до конца'
         );
 
@@ -265,11 +295,11 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscriberLink = $subscribers->attach($user3);
         $this->objectPersister->commit();
 
-        $expectedQueries = array(
-            'umi\dbal\builder\SelectBuilder', // Проверяем, существовал ли объект
-            'umi\dbal\builder\InsertBuilder' // Добавляем объект
+        //todo! power up assertion
+        $this->assertTrue(
+            count($this->getOnlyQueries('select'))==1 && count($this->getOnlyQueries('insert'))==1,
+            'Неверные запросы на добавление существующего объекта'
         );
-        $this->assertEquals($expectedQueries, $this->queries, 'Неверные запросы на добавление существующего объекта');
         $this->assertCount(3, $subscribers->fetchAll(), 'Ожидается, что теперь у блога 3 подписчика');
 
         $this->assertEquals(
@@ -349,12 +379,10 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscriberLink = $subscribers->attach($user4);
         $this->objectPersister->commit();
 
-        $expectedQueries = [
-            'umi\dbal\builder\InsertBuilder', // Добавляем объект
-            'umi\dbal\builder\InsertBuilder', // Добавляем связанный объект
-            'umi\dbal\builder\UpdateBuilder' // Обновляем связанный объект
-        ];
-        $this->assertEquals($expectedQueries, $this->queries, 'Неверные запросы на добавление нового объекта');
+        $this->assertTrue(
+            2 == count($this->getOnlyQueries('insert')) && 1 == count($this->getOnlyQueries('update')),
+            'Неверные запросы на добавление нового объекта'
+        );
         $this->assertCount(3, $subscribers->fetchAll(), 'Ожидается, что теперь у блога 3 подписчика');
 
         $this->assertEquals(
@@ -384,12 +412,14 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
             $linkObject,
-            'Ожидается, что IManyToManyObjectSet::link() вернет связанный объект, когда добавляется уже существующий в сете объект'
+            'Ожидается, что IManyToManyObjectSet::link() вернет связанный объект, '
+            . 'когда добавляется уже существующий в сете объект'
         );
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
             $subscribers->link($user4),
-            'Ожидается, что IManyToManyObjectSet::link() вернет связанный объект, когда добавляется еще не существующий в сете объект'
+            'Ожидается, что IManyToManyObjectSet::link() вернет связанный объект, '
+            . 'когда добавляется еще не существующий в сете объект'
         );
 
         $this->assertTrue($subscribers->contains($user4), 'Ожидается, что после аттача объект находится в сете');
@@ -410,11 +440,10 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscribers->detach($user2);
         $this->objectPersister->commit();
 
-        $expectedQueries = [
-            'umi\dbal\builder\SelectBuilder', // Проверяем, существовал ли объект
-            'umi\dbal\builder\DeleteBuilder' // Удаляем объект
-        ];
-        $this->assertEquals($expectedQueries, $this->queries, 'Неверные запросы на удалениие связанного объекта');
+        $this->assertTrue(
+            count($this->getOnlyQueries('select'))==1 && count($this->getOnlyQueries('delete'))==1,
+            'Неверные запросы на удалениие связанного объекта'
+        );
         $this->assertCount(1, $subscribers->fetchAll(), 'Ожидается, что теперь у блога 1 подписчик');
     }
 
@@ -477,13 +506,13 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
          */
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->detachAll();
-        $this->queries = [];
+        $this->setQueries([]);
         $this->objectPersister->commit();
-        $expectedQueries = [
-            'umi\dbal\builder\DeleteBuilder', // Удаляем связанный объект
-            'umi\dbal\builder\DeleteBuilder' // Удаляем связанный объект
-        ];
-        $this->assertEquals($expectedQueries, $this->queries, 'Неверные запросы на удалениие связанного объекта');
+        $this->assertEquals(
+            2,
+            count($this->getOnlyQueries('delete')),
+            'Неверные запросы на удалениие связанного объекта'
+        );
         $this->assertCount(0, $subscribers->fetchAll(), 'Ожидается, что теперь у блога нет подписчиков');
 
     }
@@ -498,7 +527,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscribers = $blog1->getValue('subscribers');
         $this->assertCount(2, $subscribers->fetchAll(), 'Ожидается, что у блога изначально 2 подписчика');
         $subscribers->detachAll();
-        $this->queries = [];
+        $this->setQueries([]);
         $this->objectPersister->commit();
         $this->assertCount(0, $subscribers->fetchAll(), 'Ожидается, что теперь у блога нет подписчиков');
 
@@ -513,25 +542,23 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
          */
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->fetchAll();
-        $expectedQueries = ['umi\dbal\builder\SelectBuilder'];
         $this->assertEquals(
-            $expectedQueries,
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что был выполнен запрос на получение подписчиков'
         );
-        $this->queries = [];
+        $this->setQueries([]);
 
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->fetchAll();
-        $this->assertEmpty($this->queries, 'Ожидается, что повторного запроса на получение подписчиков не будет');
+        $this->assertEmpty($this->getQueries(), 'Ожидается, что повторного запроса на получение подписчиков не будет');
         $subscribers->reset();
 
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->fetchAll();
-        $expectedQueries = ['umi\dbal\builder\SelectBuilder'];
         $this->assertEquals(
-            $expectedQueries,
-            $this->queries,
+            1,
+            count($this->getOnlyQueries('select')),
             'Ожидается, что после ресета объекты будут снова загружены из базы'
         );
     }

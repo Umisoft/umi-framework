@@ -9,13 +9,13 @@
 
 namespace umi\orm\metadata;
 
+use Doctrine\DBAL\Connection;
 use umi\dbal\builder\IDeleteBuilder;
 use umi\dbal\builder\IInsertBuilder;
 use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\builder\IUpdateBuilder;
 use umi\dbal\cluster\server\IMasterServer;
 use umi\dbal\cluster\server\ISlaveServer;
-use umi\dbal\driver\IDbDriver;
 use umi\dbal\exception\RuntimeException;
 use umi\orm\exception\DomainException;
 
@@ -61,9 +61,9 @@ interface ICollectionDataSource
 
     /**
      * Возвращает драйвер БД, используемый источником
-     * @return IDbDriver
+     * @return Connection
      */
-    public function getDbDriver();
+    public function getConnection();
 
     /**
      * Подготавливает запрос на выборку данных из источника,

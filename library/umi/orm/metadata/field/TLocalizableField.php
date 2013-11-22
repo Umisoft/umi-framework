@@ -25,7 +25,8 @@ trait TLocalizableField
 {
 
     /**
-     * @var array $localizations список локализаций в виде [$localeId => ['columnName' => $columnName, 'defaultValue' => $defaultValue], ...]
+     * @var array $localizations список локализаций в виде
+     * [$localeId => ['columnName' => $columnName, 'defaultValue' => $defaultValue], ...]
      */
     protected $localizations = [];
 

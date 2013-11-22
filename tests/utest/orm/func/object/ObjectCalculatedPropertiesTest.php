@@ -26,8 +26,8 @@ class ObjectCalculatedPropertiesTest extends ORMDbTestCase
     protected function getCollections()
     {
         return [
-            self::USERS_USER,
             self::USERS_GROUP,
+            self::USERS_USER,
             self::SYSTEM_HIERARCHY,
             self::BLOGS_BLOG,
             self::BLOGS_POST
@@ -98,6 +98,7 @@ class ObjectCalculatedPropertiesTest extends ORMDbTestCase
             $loadedUser->getValue('rating'),
             'Ожидается, что у объекта записалось дефолтное значение у поля с типом float'
         );
+        //todo! close cursor
 
     }
 

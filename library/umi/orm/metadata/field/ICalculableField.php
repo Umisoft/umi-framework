@@ -23,5 +23,4 @@ interface ICalculableField extends IField
      * @return string|int|float
      */
     public function calculateDBValue(IObject $object);
-
 }

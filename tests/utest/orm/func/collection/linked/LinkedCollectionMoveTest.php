@@ -10,17 +10,19 @@ use utest\orm\ORMDbTestCase;
 class LinkedCollectionMoveTest extends ORMDbTestCase
 {
 
+    protected $usedDbServerId = 'mysqlMaster';
+
     /**
      * {@inheritdoc}
      */
     protected function getCollections()
     {
         return array(
+            self::USERS_GROUP,
+            self::USERS_USER,
             self::SYSTEM_HIERARCHY,
             self::BLOGS_BLOG,
             self::BLOGS_POST,
-            self::USERS_USER,
-            self::USERS_GROUP
         );
     }
 

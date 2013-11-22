@@ -1,66 +1,105 @@
 <?php
 
-use umi\dbal\driver\IColumnScheme;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
 
 return function (ICollectionDataSource $dataSource) {
 
     $masterServer = $dataSource->getMasterServer();
-    $tableScheme = $masterServer->getDbDriver()
-        ->addTable($dataSource->getSourceName());
+    $schemaManager = $masterServer
+        ->getConnection()
+        ->getSchemaManager();
+    $table = new Table($dataSource->getSourceName());
 
-    $tableScheme->setEngine('InnoDB');
+    $table->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', IColumnScheme::TYPE_SERIAL);
-    $tableScheme->addColumn('guid', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('type', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn(
-        'version',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 1]
+    $table
+        ->addColumn('id', Type::INTEGER)
+        ->setAutoincrement(true);
+    $table
+        ->addColumn('guid', Type::GUID)
+        ->setNotnull(false);
+    $table
+        ->addColumn('type', Type::TEXT)
+        ->setNotnull(false);
+    $table
+        ->addColumn('version', Type::INTEGER)
+        ->setUnsigned(true)
+        ->setDefault(1);
+
+    $table
+        ->addColumn('pid', Type::INTEGER)
+        ->setNotnull(false);
+    $table
+        ->addColumn('mpath', Type::TEXT)
+        ->setNotnull(false);
+    $table
+        ->addColumn('uri', Type::TEXT)
+        ->setNotnull(false);
+    $table
+        ->addColumn('slug', Type::STRING)
+        ->setNotnull(false);
+    $table
+        ->addColumn('level', Type::INTEGER)
+        ->setUnsigned(true)
+        ->setNotnull(false);
+    $table
+        ->addColumn('order', Type::INTEGER)
+        ->setUnsigned(true)
+        ->setNotnull(false);
+    $table
+        ->addColumn('child_count', Type::INTEGER)
+        ->setUnsigned(true)
+        ->setDefault(0);
+
+    $table
+        ->addColumn('publish_time', Type::DATE)
+        ->setNotnull(false);
+    $table
+        ->addColumn('title', Type::STRING)
+        ->setNotnull(false);
+    $table
+        ->addColumn('title_en', Type::STRING)
+        ->setNotnull(false);
+    $table
+        ->addColumn('title_gb', Type::STRING)
+        ->setNotnull(false);
+    $table
+        ->addColumn('title_ua', Type::STRING)
+        ->setNotnull(false);
+    $table
+        ->addColumn('owner_id', Type::INTEGER)
+        ->setNotnull(false);
+
+    $table->setPrimaryKey(['id']);
+    $table->addUniqueIndex(['guid'], 'blog_guid');
+    $table->addIndex(['pid'], 'blog_parent');
+    $table->addUniqueIndex(['pid', 'slug'], 'blog_pid_slug');
+//    $table->addUniqueIndex(['mpath'], 'hierarchy_mpath', [], ['mpath' => ['size' => 64]]);
+//    $table->addIndex(['uri'], 'hierarchy_uri', [], ['uri' => ['size' => 64]]);
+//    $table->addIndex(['type'], 'hierarchy_type', [], ['type' => ['size' => 64]]);
+
+    $table->addIndex(['owner_id'], 'blog_owner');
+
+    $fTableHierarchy = $schemaManager->listTableDetails('umi_mock_hierarchy');
+    $table->addForeignKeyConstraint(
+        $fTableHierarchy,
+        ['pid'],
+        ['id'],
+        ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
+        'FK_blog_parent'
     );
 
-    $tableScheme->addColumn('pid', IColumnScheme::TYPE_RELATION);
-    $tableScheme->addColumn('mpath', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn('uri', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn('slug', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('level', IColumnScheme::TYPE_INT, [IColumnScheme::OPTION_UNSIGNED => true]);
-    $tableScheme->addColumn('order', IColumnScheme::TYPE_INT, [IColumnScheme::OPTION_UNSIGNED => true]);
-    $tableScheme->addColumn(
-        'child_count',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 0]
+    $fTableUsers = $schemaManager->listTableDetails('umi_mock_users');
+    $table->addForeignKeyConstraint(
+        $fTableUsers,
+        ['owner_id'],
+        ['id'],
+        ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
+        'FK_blog_owner'
     );
 
-    $tableScheme->addColumn('publish_time', IColumnScheme::TYPE_DATE);
-    $tableScheme->addColumn('title', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('title_en', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('title_gb', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('title_ua', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('owner_id', IColumnScheme::TYPE_RELATION);
-
-    $tableScheme->setPrimaryKey('id');
-    $tableScheme->addIndex('blog_guid')
-        ->addColumn('guid')
-        ->setIsUnique(true);
-    $tableScheme->addIndex('blog_parent')
-        ->addColumn('pid');
-    $tableScheme->addIndex('blog_mpath')
-        ->addColumn('mpath', 100)
-        ->setIsUnique(true);
-    $tableScheme->addIndex('blog_pid_slug')
-        ->addColumn('pid')
-        ->addColumn('slug')
-        ->setIsUnique(true);
-    $tableScheme->addIndex('blog_uri')
-        ->addColumn('uri', 100)
-        ->setIsUnique(true);
-    $tableScheme->addIndex('blog_type')
-        ->addColumn('type', 100);
-    $tableScheme->addIndex('blog_owner')
-        ->addColumn('owner_id');
-
-    $tableScheme->addConstraint('FK_blog_parent', 'pid', 'umi_mock_hierarchy', 'id', 'CASCADE', 'CASCADE');
-    $tableScheme->addConstraint('FK_blog_owner', 'owner_id', 'umi_mock_users', 'id', 'CASCADE', 'CASCADE');
+    $schemaManager->createTable($table);
 
 };

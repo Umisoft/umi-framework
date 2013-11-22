@@ -39,11 +39,11 @@ class ChildCountTest extends ORMDbTestCase
     protected function getCollections()
     {
         return [
+            self::USERS_GROUP,
+            self::USERS_USER,
             self::SYSTEM_HIERARCHY,
             self::BLOGS_BLOG,
             self::BLOGS_POST,
-            self::USERS_USER,
-            self::USERS_GROUP
         ];
     }
 

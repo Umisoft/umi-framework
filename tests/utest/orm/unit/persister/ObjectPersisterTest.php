@@ -45,8 +45,7 @@ class ObjectPersisterTest extends ORMTestCase
                 function () {
                 },
                 [
-                    $this->getDbCluster()
-                        ->getDbDriver()
+                    $this->getDbCluster()->getConnection()
                 ]
             );
         } catch (\Exception $e) {

@@ -18,15 +18,15 @@ use utest\orm\ORMDbTestCase;
  */
 class PersistenceTest extends ORMDbTestCase
 {
-
     /**
      * {@inheritdoc}
      */
     protected function getCollections()
     {
         return [
+            self::USERS_GROUP,
             self::USERS_USER,
-            self::USERS_GROUP
+            self::SYSTEM_HIERARCHY,
         ];
     }
 
@@ -196,8 +196,8 @@ class PersistenceTest extends ORMDbTestCase
         $this->objectPersister->markAsDeleted($user);
         $this->objectPersister->commit();
 
-        $result = $select->execute();
-        $this->assertEquals(0, $result->count(), 'Ожидается, что запись пользователя была удалена из бд');
+        $select->execute();
+        $this->assertEquals(0, $select->getTotal(), 'Ожидается, что запись пользователя была удалена из бд');
     }
 
 }

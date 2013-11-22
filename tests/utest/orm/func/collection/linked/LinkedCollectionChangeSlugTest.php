@@ -9,12 +9,51 @@
 
 namespace utest\orm\func\collection\linked;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ILinkedHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use utest\orm\ORMDbTestCase;
 
 class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 {
+    /**
+     * @var Connection $connection
+     */
+    protected $connection;
+
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
+    }
 
     /**
      * {@inheritdoc}
@@ -22,11 +61,11 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
     protected function getCollections()
     {
         return array(
+            self::USERS_GROUP,
+            self::USERS_USER,
             self::SYSTEM_HIERARCHY,
             self::BLOGS_BLOG,
             self::BLOGS_POST,
-            self::USERS_USER,
-            self::USERS_GROUP
         );
     }
 
@@ -44,6 +83,12 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 
     protected function setUpFixtures()
     {
+        $this->connection = $this
+            ->getDbServer()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
 
         $this->blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $this->postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
@@ -62,6 +107,8 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
 
+
+
     }
 
     public function testChangeSlug()
@@ -76,12 +123,13 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
         $this->assertEquals(
             '//new_slug',
             $blog->getURI(),
-            'Ожидается, что изменение последней части ЧПУ объекта можно выполнить у его клллекции'
+            'Ожидается, что изменение последней части ЧПУ объекта можно выполнить у его коллекции'
         );
         $this->assertEquals(
             '//new_slug/post1/post2',
             $post->getURI(),
-            'Ожидается, что изменение последней части ЧПУ объекта у его клллекции затронет и его детей из других коллекций'
+            'Ожидается, что изменение последней части ЧПУ объекта у его коллекции'
+            .' затронет и его детей из других коллекций'
         );
     }
 

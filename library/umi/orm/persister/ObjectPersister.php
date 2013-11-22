@@ -10,7 +10,7 @@
 namespace umi\orm\persister;
 
 use SplObjectStorage;
-use umi\dbal\driver\IDbDriver;
+use umi\dbal\driver\IConnection;
 use umi\i18n\ILocalesAware;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalesAware;
@@ -249,13 +249,13 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
 
     /**
      * Откатывает начатые транзакции и изменения объектов
-     * @param IDbDriver[] $drivers
+     * @param IConnection[] $drivers
      * @return $this
      */
     protected function rollback(array $drivers)
     {
         foreach ($drivers as $driver) {
-            $driver->rollbackTransaction();
+            $driver->rollback();
         }
         $this->unloadStorageObjects($this->newObjects);
         $this->unloadStorageObjects($this->modifiedObjects);
@@ -267,13 +267,13 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
 
     /**
      * Страртует транзакцию для указанных драйверов бд
-     * @param IDbDriver[] $drivers
+     * @param IConnection[] $drivers
      * @return $this
      */
     protected function startTransaction(array $drivers)
     {
         foreach ($drivers as $driver) {
-            $driver->startTransaction();
+            $driver->beginTransaction();
         }
 
         return $this;
@@ -281,13 +281,13 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
 
     /**
      * Фиксирует все начатые транзакции для указанных драйверов бд
-     * @param IDbDriver[] $drivers
+     * @param IConnection[] $drivers
      * @return $this
      */
     protected function commitTransaction(array $drivers)
     {
         foreach ($drivers as $driver) {
-            $driver->commitTransaction();
+            $driver->commit();
         }
 
         return $this;
@@ -295,7 +295,7 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
 
     /**
      * Определяет используемые для редактирования объектов драйверы бд
-     * @return IDbDriver[]
+     * @return IConnection[]
      */
     protected function detectUsedDrivers()
     {
@@ -306,21 +306,21 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
                 ->getMetadata()
                 ->getCollectionDataSource();
             $drivers[$source->getMasterServerId()] = $source->getMasterServer()
-                ->getDbDriver();
+                ->getConnection();
         }
         foreach ($this->deletedObjects as $object) {
             $source = $object->getCollection()
                 ->getMetadata()
                 ->getCollectionDataSource();
             $drivers[$source->getMasterServerId()] = $source->getMasterServer()
-                ->getDbDriver();
+                ->getConnection();
         }
         foreach ($this->modifiedObjects as $object) {
             $source = $object->getCollection()
                 ->getMetadata()
                 ->getCollectionDataSource();
             $drivers[$source->getMasterServerId()] = $source->getMasterServer()
-                ->getDbDriver();
+                ->getConnection();
         }
 
         return $drivers;

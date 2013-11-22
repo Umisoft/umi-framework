@@ -9,9 +9,8 @@
 
 namespace utest\orm\func\selector;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\object\IObject;
 use umi\orm\selector\ISelector;
 use utest\orm\ORMDbTestCase;
@@ -23,13 +22,19 @@ use utest\orm\ORMDbTestCase;
 class SelectorRelationTest extends ORMDbTestCase
 {
 
-    public $queries = [];
+    /**
+     * @var Connection $connection
+     */
+    protected $connection;
+
     protected $user1Guid;
     protected $user2Guid;
     protected $user3Guid;
     protected $blog1Guid;
     protected $blog2Guid;
     protected $blog3Guid;
+    protected $blog4Guid;
+    protected $blog5Guid;
     protected $profile1Guid;
 
     /**
@@ -39,15 +44,48 @@ class SelectorRelationTest extends ORMDbTestCase
     {
         return array(
             self::SYSTEM_HIERARCHY,
-            self::USERS_USER,
+            self::GUIDES_COUNTRY,
+            self::GUIDES_CITY,
             self::USERS_GROUP,
+            self::USERS_USER,
             self::USERS_PROFILE,
             self::BLOGS_BLOG,
             self::BLOGS_POST,
             self::BLOGS_SUBSCRIBER,
-            self::GUIDES_CITY,
-            self::GUIDES_COUNTRY
         );
+    }
+
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
@@ -166,22 +204,12 @@ class SelectorRelationTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
 
-        $this->queries = [];
-
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $this->queries[] = $builder->getSql();
-                }
-            }
-        );
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
     }
 
     public function testHasOneWhere()
@@ -201,7 +229,7 @@ FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user:profile`.`name` = :value0))"
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки по полю со связью hasOne');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasOne');
 
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
@@ -268,7 +296,7 @@ WHERE ((`users_user:profile`.`name` = :value0))"
             ->equals($profileCollection->get($this->profile1Guid))
             ->getResult();
 
-        $this->queries = [];
+        $this->setQueries([]);
         $user = $result->fetch();
 
         $queries = [
@@ -280,7 +308,7 @@ WHERE ((`users_user:profile`.`id` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью hasOne и объектом в качестве значения'
         );
 
@@ -318,7 +346,7 @@ WHERE ((`users_user:profile`.`id` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью hasOne и объектом в качестве значения'
         );
 
@@ -355,7 +383,7 @@ WHERE ((`users_user:blogs`.`title` LIKE :value0))
 GROUP BY `users_user`.`id`"
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки по полю со связью hasMany');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasMany');
         $this->assertCount(
             1,
             $objects,
@@ -391,7 +419,7 @@ GROUP BY `users_user`.`id`"
             ->where('blogs')
             ->equals($blogsCollection->get($this->blog1Guid))
             ->getResult();
-        $this->queries = [];
+        $this->setQueries([]);
         $user = $result->fetch();
         $objects = $result->fetchAll();
 
@@ -405,7 +433,7 @@ GROUP BY `users_user`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью hasMany и объектом в качестве значения'
         );
         $this->assertCount(1, $objects, 'Ожидается, что один пользователь является владельцем блога с id 1');
@@ -438,7 +466,7 @@ GROUP BY `users_user`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью hasMany и id объекта в качестве значения'
         );
         $this->assertCount(1, $objects, 'Ожидается, что один пользователь является владельцем блога с id 1');
@@ -470,7 +498,7 @@ WHERE ((`blogs_blog:owner`.`login` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью belongsTo'
         );
         $this->assertCount(2, $objects, 'Ожидается, что пользователь с логином test_login2 владеет двумя блогами');
@@ -508,7 +536,7 @@ WHERE ((`blogs_blog:owner`.`login` = :value0))"
             ->where('owner')
             ->equals($userCollection->get($this->user1Guid))
             ->getResult();
-        $this->queries = [];
+        $this->setQueries([]);
         $blog = $result->fetch();
         $objects = $result->fetchAll();
 
@@ -521,7 +549,7 @@ WHERE ((`blogs_blog:owner`.`id` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью belongsTo и объектом в качестве значения'
         );
         $this->assertCount(1, $objects, 'Ожидается, что пользователю с id 1 один принадлежит блог');
@@ -552,7 +580,7 @@ WHERE ((`blogs_blog:owner`.`id` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью belongsTo и id объекта в качестве значения'
         );
         $this->assertCount(1, $objects, 'Ожидается, что пользователю с id 1 один принадлежит блог');
@@ -586,7 +614,7 @@ GROUP BY `blogs_blog`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью manyToMany'
         );
         $this->assertCount(2, $objects, 'Ожидается, что пользователь с ростом более 169 подписаны на 2 блога');
@@ -627,7 +655,7 @@ GROUP BY `blogs_blog`.`id`"
             ->where('subscribers')
             ->equals($userCollection->get($this->user3Guid))
             ->getResult();
-        $this->queries = array();
+        $this->setQueries([]);
         $blog1 = $result->fetch();
         $blog2 = $result->fetch();
         $objects = $result->fetchAll();
@@ -643,7 +671,7 @@ GROUP BY `blogs_blog`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью manyToMany'
         );
         $this->assertCount(2, $objects, 'Ожидается, что пользователь с id 3 подписан на 2 блога');
@@ -667,7 +695,7 @@ GROUP BY `blogs_blog`.`id`"
             ->where('subscribers')
             ->equals(3)
             ->getResult();
-        $this->queries = array();
+        $this->setQueries([]);
         $blog1 = $result->fetch();
         $blog2 = $result->fetch();
         $objects = $result->fetchAll();
@@ -683,7 +711,7 @@ GROUP BY `blogs_blog`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью manyToMany'
         );
         $this->assertCount(2, $objects, 'Ожидается, что пользователь с id 3 подписан на 2 блога');
@@ -737,7 +765,8 @@ GROUP BY `blogs_blog`.`id`"
     }
 
     /**
-     * Тест селектора, когда выборка идет вглубь от коллекции, связанной с коллекцией селектора по полю с типом связи manyToMany
+     * Тест селектора, когда выборка идет вглубь от коллекции,
+     * связанной с коллекцией селектора по полю с типом связи manyToMany
      */
     public function testThroughManyToMany()
     {
@@ -763,7 +792,7 @@ GROUP BY `blogs_blog`.`id`"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью manyToMany'
         );
         $this->assertCount(1, $objects, 'Ожидается, что пользователь с именем test_name2 подписан на 1 блог');
@@ -776,7 +805,8 @@ GROUP BY `blogs_blog`.`id`"
     }
 
     /**
-     * Тест селектора, когда выборка идет вглубь от коллекции, связанной с коллекцией селектора по полю с типом связи belongsTo
+     * Тест селектора, когда выборка идет вглубь от коллекции,
+     * связанной с коллекцией селектора по полю с типом связи belongsTo
      */
     public function testThroughBelongsTo()
     {
@@ -800,7 +830,7 @@ WHERE ((`blogs_blog:owner:profile`.`name` = :value0))"
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос для условия выборки по полю со связью belongsTo'
         );
         $this->assertCount(1, $objects, 'Ожидается, что пользователь с именем test_name2 является владельцем 1 блога');
@@ -812,7 +842,8 @@ WHERE ((`blogs_blog:owner:profile`.`name` = :value0))"
     }
 
     /**
-     * Тест селектора, когда выборка идет вглубь от коллекции, связанной с коллекцией селектора по полю с типом связи hasOne
+     * Тест селектора, когда выборка идет вглубь от коллекции,
+     * связанной с коллекцией селектора по полю с типом связи hasOne
      */
     public function testThroughHasOne()
     {
@@ -834,7 +865,7 @@ FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user:profile:city:country`.`name` = :value0))"
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки по полю со связью hasOne');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasOne');
         $this->assertCount(2, $objects, 'Ожидается, что 2 пользователя имеют профили из России');
         $this->assertContains(
             $userCollection->get($this->user1Guid),
@@ -850,7 +881,8 @@ WHERE ((`users_user:profile:city:country`.`name` = :value0))"
     }
 
     /**
-     * Тест селектора, когда выборка идет вглубь от коллекции, связанной с коллекцией селектора по полю с типом связи hasMany
+     * Тест селектора, когда выборка идет вглубь от коллекции,
+     * связанной с коллекцией селектора по полю с типом связи hasMany
      */
     public function testThroughHasMany()
     {
@@ -878,7 +910,7 @@ WHERE ((`users_user:blogs:subscribers:profile:city:country`.`name` = :value0))
 GROUP BY `users_user`.`id`"
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки по полю со связью hasOne');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasOne');
         $this->assertCount(
             2,
             $objects,
@@ -917,7 +949,7 @@ FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user:profile`.`name` = :value0 AND `users_user:profile:city`.`name` = :value1))'
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Неверный запрос для условия выборки с двойным сложным where');
+        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки с двойным сложным where');
 
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
@@ -960,7 +992,7 @@ FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user:profile`.`id` IS NOT :value0))
 ORDER BY `users_user:profile`.`name` ASC'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Неверный запрос'
         );
     }

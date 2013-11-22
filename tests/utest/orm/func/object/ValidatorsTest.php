@@ -25,8 +25,8 @@ class ValidatorsTest extends ORMDbTestCase
     protected function getCollections()
     {
         return [
+            self::USERS_GROUP,
             self::USERS_USER,
-            self::USERS_GROUP
         ];
     }
 

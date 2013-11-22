@@ -9,9 +9,8 @@
 
 namespace utest\orm\func\object;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -22,7 +21,10 @@ use utest\orm\ORMDbTestCase;
 class ObjectQueriesTest extends ORMDbTestCase
 {
 
-    public $queries = [];
+    /**
+     * @var Connection $connection
+     */
+    protected $connection;
 
     /**
      * @var ISimpleCollection $userCollection
@@ -39,6 +41,38 @@ class ObjectQueriesTest extends ORMDbTestCase
             self::USERS_USER
         ];
     }
+    /**
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    return $a['sql'];
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
+    }
 
     protected function setUpFixtures()
     {
@@ -50,20 +84,13 @@ class ObjectQueriesTest extends ORMDbTestCase
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
 
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $this->queries[] = $builder->getSql();
-                }
-            }
-        );
+        $this->connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new DebugStack());
+
     }
 
     public function testQueries()
@@ -82,14 +109,14 @@ class ObjectQueriesTest extends ORMDbTestCase
 FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user`.`id` = :value0))'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что при получении объекта будут выбраны только обязательные и запрошенные свойства'
         );
 
-        $this->queries = [];
+        $this->setQueries([]);
         $this->assertEquals('123', $user->getValue('login'));
         $this->assertEmpty(
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что для получения ранее загруженных свойств не будут выполнены запросы'
         );
 
@@ -100,15 +127,15 @@ WHERE ((`users_user`.`id` = :value0))'
 FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user`.`id` = :value0))'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что при запросе незагруженного свойства все свойства будут догружены'
         );
 
-        $this->queries = [];
+        $this->setQueries([]);
         $user->reset();
         $this->assertEquals(1, $user->getId());
         $this->assertEmpty(
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что после сброса значений свойств объекта останутся значения для id, GUID и type'
         );
 
@@ -119,10 +146,9 @@ WHERE ((`users_user`.`id` = :value0))'
 FROM `umi_mock_users` AS `users_user`
 WHERE ((`users_user`.`id` = :value0))'
             ],
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что при запросе незагруженного свойства все свойства будут догружены'
         );
 
     }
-
 }

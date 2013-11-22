@@ -20,5 +20,4 @@ interface IRelationField extends IField
      * @return string
      */
     public function getTargetCollectionName();
-
 }

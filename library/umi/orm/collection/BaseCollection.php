@@ -9,7 +9,6 @@
 
 namespace umi\orm\collection;
 
-use umi\dbal\builder\IQueryResult;
 use umi\i18n\ILocalesAware;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalesAware;
@@ -127,7 +126,11 @@ abstract class BaseCollection
                 ->withLocalization($withLocalization)
                 ->result();
 
-            if (!$object = $objectsSet->fetch()) {
+            //closing cursor explicitly for SQLite
+            $all = $objectsSet->fetchAll();
+            $result = array_shift($all);
+
+            if (!$object = $result) {
                 throw new RuntimeException($this->translate(
                     'Cannot get object with GUID "{guid}" from collection "{collection}".',
                     ['guid' => $guid, 'collection' => $this->getName()]
@@ -162,7 +165,10 @@ abstract class BaseCollection
                 ->withLocalization($withLocalization)
                 ->result();
 
-            if (!$object = $objectsSet->fetch()) {
+            //closing cursor explicitly for SQLite
+            $all = $objectsSet->fetchAll();
+            $result = array_shift($all);
+            if (!$object = $result) {
                 throw new RuntimeException($this->translate(
                     'Cannot get object with id "{id}" from collection "{collection}".',
                     ['id' => $objectId, 'collection' => $this->getName()]
@@ -394,12 +400,10 @@ abstract class BaseCollection
             }
         }
 
-        /**
-         * @var IQueryResult $result
-         */
-        $result = $insertBuilder->execute();
+        $insertBuilder->execute();
+        
         if (!$object->getId()) {
-            $objectId = $result->lastInsertId();
+            $objectId = $insertBuilder->getConnection()->lastInsertId();
             if (!$objectId) {
                 throw new RuntimeException($this->translate(
                     'Cannot persist object. Cannot get last inserted id for object.'
@@ -480,12 +484,9 @@ abstract class BaseCollection
                     ->getDataType()
             );
 
-            /**
-             * @var IQueryResult $result
-             */
             $result = $updateBuilder->execute();
 
-            if ($result->countRows() != 1) {
+            if ($result->rowCount() != 1) {
 
                 $selectBuilder = $dataSource->select($versionColumnName);
                 $selectBuilder->where()
@@ -547,7 +548,7 @@ abstract class BaseCollection
         );
 
         $result = $deleteBuilder->execute();
-        if ($result->countRows() != 1) {
+        if ($result->rowCount() != 1) {
             throw new RuntimeException($this->translate(
                 'Cannot delete object with id "{id}" and type "{type}". Database row is not modified.',
                 ['id' => $object->getId(), 'type' => $object->getTypePath()]
@@ -595,12 +596,9 @@ abstract class BaseCollection
         if (!$updateBuilder->getUpdatePossible()) {
             return;
         }
-        /**
-         * @var IQueryResult $result
-         */
         $result = $updateBuilder->execute();
 
-        if ($result->countRows() != 1) {
+        if ($result->rowCount() != 1) {
             throw new RuntimeException($this->translate(
                 'Cannot set calculable properties for object with id "{id}" and type "{type}". Database row is not modified.',
                 ['id' => $object->getId(), 'type' => $object->getTypePath()]

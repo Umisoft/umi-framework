@@ -27,14 +27,14 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
     {
         return [
             self::SYSTEM_HIERARCHY,
+            self::GUIDES_COUNTRY,
+            self::GUIDES_CITY,
             self::USERS_GROUP,
             self::USERS_USER,
             self::USERS_PROFILE,
             self::BLOGS_BLOG,
             self::BLOGS_POST,
             self::BLOGS_SUBSCRIBER,
-            self::GUIDES_CITY,
-            self::GUIDES_COUNTRY
         ];
     }
 

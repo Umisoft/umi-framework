@@ -9,6 +9,7 @@
 
 namespace utest\orm\unit\metadata\field\numeric;
 
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\field\numeric\BoolField;
 use utest\orm\unit\metadata\field\FieldTestCase;
 
@@ -38,7 +39,7 @@ class BoolFieldTest extends FieldTestCase
 
     public function testMethods()
     {
-        $this->assertEquals('bool', $this->field->getDataType(), 'Ожидается, что тип данных у поля BoolField - bool');
+        $this->assertEquals(Type::BOOLEAN, $this->field->getDataType(), 'Ожидается, что тип поля BoolField - bool');
 
         $this->assertTrue(
             $this->field->validateInputPropertyValue(true),
