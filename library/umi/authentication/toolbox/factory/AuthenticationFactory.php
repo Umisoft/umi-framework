@@ -150,13 +150,13 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
     {
         if (!$adapter) {
             $adapterType = isset($this->defaultAdapter['type']) ? $this->defaultAdapter['type'] : null;
-            $adapterOptions = isset($this->defaultStorage['options']) ? $this->defaultAdapter['options'] : [];
+            $adapterOptions = isset($this->defaultAdapter['options']) ? $this->defaultAdapter['options'] : [];
 
             $adapter = $this->createAdapter($adapterType, $adapterOptions);
         }
 
         if (!$storage) {
-            $storageType = isset($this->defaultAdapter['type']) ? $this->defaultStorage['type'] : null;
+            $storageType = isset($this->defaultStorage['type']) ? $this->defaultStorage['type'] : null;
             $storageOptions = isset($this->defaultStorage['options']) ? $this->defaultStorage['options'] : [];
 
             $storage = $this->createStorage($storageType, $storageOptions);
