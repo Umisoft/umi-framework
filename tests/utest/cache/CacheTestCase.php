@@ -8,6 +8,7 @@
  */
 namespace utest\cache;
 
+use utest\event\TEventSupport;
 use utest\TestCase;
 
 /**
@@ -15,15 +16,15 @@ use utest\TestCase;
  */
 abstract class CacheTestCase extends TestCase
 {
+    use TCacheSupport;
+    use TEventSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolboxes([
-            require(LIBRARY_PATH . '/event/toolbox/config.php'),
-            require(LIBRARY_PATH . '/cache/toolbox/config.php')
-        ]);
+        $this->registerEventTools();
+        $this->registerCacheTools();
 
         parent::setUp();
     }
