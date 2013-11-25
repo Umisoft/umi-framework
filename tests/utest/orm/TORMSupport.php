@@ -6,15 +6,14 @@
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
-namespace utest\i18n;
+namespace utest\orm;
 
-use umi\i18n\toolbox\I18nTools;
 use umi\toolkit\IToolkit;
 
 /**
- * Трейт для регистрации тулбокса интернационализации
+ * Трейт для регистрации тулбокса ORM
  */
-trait TI18nSupport
+trait TORMSupport
 {
     /**
      * Получить тестовый тулкит
@@ -23,19 +22,10 @@ trait TI18nSupport
      */
     abstract protected function getTestToolkit();
 
-    protected function registerI18nTools()
+    protected function registerORMTools()
     {
         $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/i18n/toolbox/config.php')
-        );
-
-        $this->getTestToolkit()->setSettings(
-          [
-              I18nTools::NAME => [
-                  'defaultLocale' => 'en-US',
-                  'currentLocale' => 'ru-RU'
-              ]
-          ]
+            require(LIBRARY_PATH . '/orm/toolbox/config.php')
         );
     }
 }

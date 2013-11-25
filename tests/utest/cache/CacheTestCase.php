@@ -8,6 +8,7 @@
  */
 namespace utest\cache;
 
+use utest\dbal\TDbalSupport;
 use utest\event\TEventSupport;
 use utest\TestCase;
 
@@ -18,12 +19,15 @@ abstract class CacheTestCase extends TestCase
 {
     use TCacheSupport;
     use TEventSupport;
+    use TDbalSupport;
+
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
         $this->registerEventTools();
+        $this->registerDbalTools();
         $this->registerCacheTools();
 
         parent::setUp();

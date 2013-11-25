@@ -9,12 +9,9 @@
 
 namespace umi\tests\configuration\master;
 
-use umi\authentication\IAuthenticationFactory;
-use umi\authentication\toolbox\AuthenticationTools;
 use umi\dbal\toolbox\DbalTools;
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\toolbox\ORMTools;
-use umi\session\toolbox\SessionTools;
 
 /**
  * Конфигурация для тестирования, используемая по умолчанию.
@@ -117,23 +114,6 @@ return [
                 'blogs_blog_subscribers' => [
                     'type' => ICollectionFactory::TYPE_SIMPLE
                 ]
-            ]
-        ],
-        SessionTools::NAME        => [
-            'factories' => [
-                'entity' => [
-                    'validatorClasses' => [
-                        'mock' => 'utest\session\mock\validator\MockSessionValidator'
-                    ],
-                    'storageClasses'   => [
-                        'null' => 'utest\session\mock\storage\Null'
-                    ]
-                ],
-            ]
-        ],
-        AuthenticationTools::NAME => [
-            'storage' => [
-                'type' => IAuthenticationFactory::STORAGE_SIMPLE
             ]
         ]
     ]

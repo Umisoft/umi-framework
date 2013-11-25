@@ -21,18 +21,13 @@ $libraryPath = realpath(__DIR__ . '/../../library/umi');
 
 return [
     'toolkit'  => [
-        require($libraryPath . '/config/toolbox/config.php'),
-        require($libraryPath . '/dbal/toolbox/config.php')
+        require($libraryPath . '/config/toolbox/config.php')
     ],
     'settings' => [
         ConfigTools::NAME       => [
             'aliases' => [
                 '~' => [TESTS_CONFIGURATION, TESTS_CONFIGURATION . '/local']
             ]
-        ],
-        I18nTools::NAME => [
-            'defaultLocale' => 'en-US',
-            'currentLocale' => 'ru-RU'
         ]
     ]
 ];

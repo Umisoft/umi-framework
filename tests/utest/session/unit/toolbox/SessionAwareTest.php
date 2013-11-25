@@ -10,18 +10,20 @@
 namespace utest\session\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\http\THttpSupport;
+use utest\session\TSessionSupport;
 
 /**
  * Класс SessionAwareTest
  */
 class SessionAwareTest extends AwareTestCase
 {
+    use THttpSupport;
+    use TSessionSupport;
 
     protected function setUpFixtures() {
-        $this->getTestToolkit()->registerToolboxes([
-            require(LIBRARY_PATH . '/http/toolbox/config.php'),
-            require(LIBRARY_PATH . '/session/toolbox/config.php')
-        ]);
+        $this->registerHttpTools();
+        $this->registerSessionTools();
     }
 
     public function testSessionAware()

@@ -8,6 +8,7 @@
  */
 namespace utest\session;
 
+use umi\session\toolbox\SessionTools;
 use umi\toolkit\IToolkit;
 
 /**
@@ -26,6 +27,23 @@ trait TSessionSupport
     {
         $this->getTestToolkit()->registerToolbox(
             require(LIBRARY_PATH . '/session/toolbox/config.php')
+        );
+
+        $this->getTestToolkit()->setSettings(
+            [
+                SessionTools::NAME => [
+                    'factories' => [
+                        'entity' => [
+                            'validatorClasses' => [
+                                'mock' => 'utest\session\mock\validator\MockSessionValidator'
+                            ],
+                            'storageClasses'   => [
+                                'null' => 'utest\session\mock\storage\Null'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
         );
     }
 }

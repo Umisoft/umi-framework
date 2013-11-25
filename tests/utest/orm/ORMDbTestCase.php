@@ -15,13 +15,23 @@ use umi\orm\collection\ICollectionManager;
 use umi\orm\manager\IObjectManager;
 use umi\orm\metadata\IMetadataManager;
 use umi\orm\persister\IObjectPersister;
+use utest\dbal\TDbalSupport;
+use utest\event\TEventSupport;
+use utest\i18n\TI18nSupport;
 use utest\TestCase;
+use utest\validation\TValidationSupport;
 
 /**
  * Тест кейс для ORM c использованием подключения к БД
  */
 abstract class ORMDbTestCase extends TestCase
 {
+
+    use TORMSupport;
+    use TEventSupport;
+    use TValidationSupport;
+    use TI18nSupport;
+    use TDbalSupport;
 
     const SYSTEM_HIERARCHY = 'system_hierarchy';
     const SYSTEM_MENU = 'system_menu';
@@ -72,12 +82,11 @@ abstract class ORMDbTestCase extends TestCase
 
     public function setUp()
     {
-        $this->getTestToolkit()->registerToolboxes([
-            require(LIBRARY_PATH . '/event/toolbox/config.php'),
-            require(LIBRARY_PATH . '/validation/toolbox/config.php'),
-            require(LIBRARY_PATH . '/i18n/toolbox/config.php'),
-            require(LIBRARY_PATH . '/orm/toolbox/config.php')
-        ]);
+        $this->registerEventTools();
+        $this->registerValidationTools();
+        $this->registerI18nTools();
+        $this->registerDbalTools();
+        $this->registerORMTools();
 
         $cluster = $this->getDbCluster();
         if (!is_null($this->usedDbServerId)) {

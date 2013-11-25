@@ -8,6 +8,7 @@
  */
 namespace utest\authentication;
 
+use utest\dbal\TDbalSupport;
 use utest\event\TEventSupport;
 use utest\http\THttpSupport;
 use utest\session\TSessionSupport;
@@ -21,6 +22,7 @@ abstract class AuthenticationTestCase extends TestCase
     use TAuthenticationSupport;
     use TEventSupport;
     use THttpSupport;
+    use TDbalSupport;
     use TSessionSupport;
     /**
      * {@inheritdoc}
@@ -30,6 +32,7 @@ abstract class AuthenticationTestCase extends TestCase
         $this->registerEventTools();
         $this->registerHttpTools();
         $this->registerSessionTools();
+        $this->registerDbalTools();
         $this->registerAuthenticationTools();
 
         parent::setUp();
