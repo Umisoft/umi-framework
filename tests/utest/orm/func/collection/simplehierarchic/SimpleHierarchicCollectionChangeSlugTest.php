@@ -21,11 +21,6 @@ use utest\orm\ORMDbTestCase;
 class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
 {
     /**
-     * @var Connection $connection
-     */
-    protected $connection;
-
-    /**
      * {@inheritdoc}
      */
     protected function getCollections()
@@ -44,46 +39,8 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
      */
     protected $menu;
 
-    /**
-     * @return array
-     */
-    final protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
-
     protected function setUpFixtures()
     {
-        $this->connection = $this->getDbCluster()->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
-
         $this->menu = $this->collectionManager->getCollection(self::SYSTEM_MENU);
 
         $item1 = $this->menu->add('item1');
@@ -96,9 +53,6 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
-
-        $this->setQueries([]);
-
     }
 
     public function testURI()

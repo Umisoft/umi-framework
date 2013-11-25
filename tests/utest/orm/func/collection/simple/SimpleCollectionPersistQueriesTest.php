@@ -9,8 +9,6 @@
 
 namespace utest\orm\func\collection\simple;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -18,11 +16,6 @@ use utest\orm\ORMDbTestCase;
  */
 class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
 {
-    /**
-     * @var Connection $connection
-     */
-    protected $connection;
-
     /**
      * {@inheritdoc}
      */
@@ -36,59 +29,6 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
             self::USERS_USER,
             self::USERS_PROFILE,
         ];
-    }
-
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    protected function getOnlyQueries($type)
-    {
-        return array_filter(
-            $this->getQueries(),
-            function ($q) use ($type) {
-                return preg_match('/^'.$type.'\s+/i', $q);
-            }
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
-
-    protected function setUpFixtures()
-    {
-        $this->connection = $this
-            ->getDbCluster()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
     }
 
     public function testAddModifyDeleteObjectQueries()

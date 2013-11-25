@@ -18,44 +18,6 @@ use utest\orm\ORMDbTestCase;
 class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 {
     /**
-     * @var Connection $connection
-     */
-    protected $connection;
-
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function getCollections()
@@ -83,13 +45,6 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 
     protected function setUpFixtures()
     {
-        $this->connection = $this
-            ->getDbServer()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
-
         $this->blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $this->postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
 
@@ -106,9 +61,6 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
-
-
-
     }
 
     public function testChangeSlug()

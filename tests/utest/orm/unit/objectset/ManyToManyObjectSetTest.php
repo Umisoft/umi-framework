@@ -9,8 +9,6 @@
 
 namespace utest\orm\unit\objectset;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\object\IObject;
 use umi\orm\objectset\IManyToManyObjectSet;
 use utest\orm\ORMDbTestCase;
@@ -27,10 +25,6 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
     protected $blog1Guid;
     protected $blog2Guid;
 
-    /**
-     * @var Connection $connection
-     */
-    protected $connection;
 
     /**
      * {@inheritdoc}
@@ -47,53 +41,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    protected function getOnlyQueries($type)
-    {
-        return array_filter(
-            $this->getQueries(),
-            function ($q) use ($type) {
-                return preg_match('/^'.$type.'\s+/i', $q);
-            }
-        );
-    }
-
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
-
     protected function setUpFixtures()
     {
-
         $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $user1 = $userCollection->add();
@@ -131,14 +80,6 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscription2->setValue('user', $user2);
 
         $this->objectPersister->commit();
-
-        $this->connection = $this
-            ->getDbCluster()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
-
     }
 
     public function testManyToManyProperty()
@@ -198,7 +139,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
             'Неверные запросы на проверку наличия объекта в ObjectSet, когда objectsSet не был загружен до конца'
         );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->assertTrue(
             $subscribers->contains($user1),
             'Ожидается, что первый пользователь является подписчиком блога'
@@ -209,7 +150,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
             'Неверные запросы на проверку наличия объекта в ObjectSet, когда objectsSet не был загружен до конца'
         );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->assertTrue(
             $subscribers->contains($user1),
             'Ожидается, что первый пользователь является подписчиком блога'
@@ -221,7 +162,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         );
 
         $subscribers->fetchAll();
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->assertTrue(
             $subscribers->contains($user2),
             'Ожидается, что второй пользователь является подписчиком блога'
@@ -232,7 +173,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
             'Неверные запросы на проверку наличия объекта в ObjectSet, когда objectsSet был загружен до конца'
         );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->assertFalse(
             $subscribers->contains($user3),
             'Ожидается, что третий пользователь не является подписчиком блога'
@@ -506,7 +447,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
          */
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->detachAll();
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->objectPersister->commit();
         $this->assertEquals(
             2,
@@ -527,7 +468,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscribers = $blog1->getValue('subscribers');
         $this->assertCount(2, $subscribers->fetchAll(), 'Ожидается, что у блога изначально 2 подписчика');
         $subscribers->detachAll();
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->objectPersister->commit();
         $this->assertCount(0, $subscribers->fetchAll(), 'Ожидается, что теперь у блога нет подписчиков');
 
@@ -547,7 +488,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
             count($this->getOnlyQueries('select')),
             'Ожидается, что был выполнен запрос на получение подписчиков'
         );
-        $this->setQueries([]);
+        $this->resetQueries();
 
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->fetchAll();

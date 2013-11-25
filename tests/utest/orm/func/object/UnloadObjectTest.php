@@ -9,8 +9,6 @@
 
 namespace utest\orm\func;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -23,10 +21,6 @@ class UnloadObjectTest extends ORMDbTestCase
 
     public $queries = [];
 
-    /**
-     * @var Connection $Connection
-     */
-    protected $connection;
 
     protected $userGuid;
     protected $userId;
@@ -51,58 +45,8 @@ class UnloadObjectTest extends ORMDbTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    protected function getOnlyQueries($type)
-    {
-        return array_filter(
-            $this->getQueries(),
-            function ($q) use ($type) {
-                return preg_match('/^'.$type.'\s+/i', $q);
-            }
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
-
     protected function setUpFixtures()
     {
-        $this->connection = $this
-            ->getDbCluster()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
-
         $this->userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         $this->user = $this->userCollection->add();
         $this->objectPersister->commit();

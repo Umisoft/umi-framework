@@ -9,10 +9,6 @@
 
 namespace utest\orm\func\selector;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
-use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -20,7 +16,6 @@ use utest\orm\ORMDbTestCase;
 class SelectorWithTest extends ORMDbTestCase
 {
 
-    public $queries = [];
     /**
      * @var ISimpleCollection $userCollection
      */
@@ -37,60 +32,36 @@ class SelectorWithTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
-
         return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::SYSTEM_HIERARCHY       => [
-                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
-                ],
-                self::BLOGS_BLOG             => [
-                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
-                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
-                    'hierarchy' => self::SYSTEM_HIERARCHY
-                ],
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_PROFILE            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::GUIDES_CITY            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::GUIDES_COUNTRY            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-
-            ],
-            true
+            self::USERS_USER,
+            self::USERS_GROUP,
+            self::USERS_PROFILE,
+            self::GUIDES_CITY,
+            self::GUIDES_COUNTRY
         ];
     }
 
     protected function setUpFixtures()
     {
 
-        $this->countryCollection = $this->getCollectionManager()->getCollection(self::GUIDES_COUNTRY);
+        $this->countryCollection = $this->collectionManager->getCollection(self::GUIDES_COUNTRY);
 
         $country = $this->countryCollection->add();
         $country->setValue('name', 'Россия');
 
-        $cityCollection = $this->getCollectionManager()->getCollection(self::GUIDES_CITY);
+        $cityCollection = $this->collectionManager->getCollection(self::GUIDES_CITY);
 
         $city = $cityCollection->add();
         $city->setValue('name', 'Санкт-Петербург');
         $city->setValue('country', $country);
 
-        $groupCollection = $this->getCollectionManager()->getCollection(self::USERS_GROUP);
+        $groupCollection = $this->collectionManager->getCollection(self::USERS_GROUP);
         $group = $groupCollection->add();
         $group->setValue('name', 'Группа');
 
-        $this->userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $this->userCollection = $this->collectionManager->getCollection(self::USERS_USER);
 
         $user1 = $this->userCollection->add();
         $user1->setValue('login', 'test_login1');
@@ -99,31 +70,15 @@ class SelectorWithTest extends ORMDbTestCase
         $user2 = $this->userCollection->add();
         $user2->setValue('login', 'test_login2');
 
-        $this->profileCollection = $this->getCollectionManager()->getCollection(self::USERS_PROFILE);
+        $this->profileCollection = $this->collectionManager->getCollection(self::USERS_PROFILE);
 
         $profile = $this->profileCollection->add('natural_person');
         $profile->setValue('name', 'test_name1');
         $profile->setValue('user', $user1);
         $profile->setValue('city', $city);
 
-        $this->getObjectPersister()->commit();
-
-        $this->queries = [];
-
-        $this->getDbCluster()
-            ->getConnection()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $this->queries[] = $builder->getSql();
-                }
-            }
-        );
+        $this->objectPersister->commit();
+        $this->resetQueries();
     }
 
     public function testWrongWithExceptions()
@@ -231,10 +186,10 @@ WHERE ((`users_user`.`login` = :value0))',
         );
         $user1 = $selector1->result()
             ->fetch();
-        $this->queries = [];
+        $this->resetQueries();
 
         $this->assertInstanceOf('umi\orm\object\IObject', $user1->getValue('group'));
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
 
         $selector2 = $this->userCollection->select()
             ->where('login')
@@ -259,11 +214,11 @@ WHERE ((`users_user`.`login` = :value0))',
 
         $user2 = $selector3->result()
             ->fetch();
-        $this->queries = [];
+        $this->resetQueries();
 
         $this->assertNull($user2->getValue('group'));
 
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
     }
 
     public function testWithAndThrough()
@@ -289,10 +244,10 @@ WHERE ((`users_user:group`.`name` = :value0))',
 
         $user = $selector->result()
             ->fetch();
-        $this->queries = [];
+        $this->resetQueries();
 
         $this->assertInstanceOf('umi\orm\object\IObject', $user->getValue('group'));
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
 
     }
 
@@ -318,14 +273,14 @@ WHERE 1',
 
         $profile = $selector->result()
             ->fetch();
-        $this->queries = [];
+        $this->resetQueries();
 
         $this->assertInstanceOf('umi\orm\object\IObject', $profile->getValue('city'));
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
 
         $country = $this->countryCollection->getById(1);
         $this->assertInstanceOf('umi\orm\object\IObject', $country);
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
 
     }
 

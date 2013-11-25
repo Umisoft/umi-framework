@@ -62,11 +62,6 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
     protected $usedDbServerId = 'sqliteMaster';
 
     /**
-     * @var Connection $Connection
-     */
-    protected $connection;
-
-    /**
      * {@inheritdoc}
      */
     protected function getCollections()
@@ -79,39 +74,6 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
             self::BLOGS_POST,
             self::SYSTEM_MENU,
         ];
-    }
-
-    /**
-     * @return array
-     */
-    final protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
@@ -129,14 +91,6 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
         $this->menuItem8 = $this->menu->add('item8', IObjectType::BASE, $this->menuItem5);
 
         $this->objectPersister->commit();
-
-
-        $this->connection = $this
-            ->getDbCluster()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
     }
 
     public function testInitialHierarchyProperties()
@@ -524,5 +478,5 @@ WHERE "mpath" like #5.6.%'
         $this->assertEquals('//item6/item7', $this->menuItem7->getURI());
         $this->assertEquals(1, $this->menuItem7->getLevel());
     }
-
 }
+

@@ -21,12 +21,6 @@ use utest\orm\ORMDbTestCase;
  */
 class SelectorRelationTest extends ORMDbTestCase
 {
-
-    /**
-     * @var Connection $connection
-     */
-    protected $connection;
-
     protected $user1Guid;
     protected $user2Guid;
     protected $user3Guid;
@@ -53,39 +47,6 @@ class SelectorRelationTest extends ORMDbTestCase
             self::BLOGS_POST,
             self::BLOGS_SUBSCRIBER,
         );
-    }
-
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
     }
 
     protected function setUpFixtures()
@@ -203,13 +164,6 @@ class SelectorRelationTest extends ORMDbTestCase
         $subscription6->setValue('user', $user4);
 
         $this->objectPersister->commit();
-
-        $this->connection = $this
-            ->getDbCluster()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
     }
 
     public function testHasOneWhere()

@@ -19,12 +19,6 @@ use utest\orm\ORMDbTestCase;
  */
 class ObjectSerializeTest extends ORMDbTestCase
 {
-
-    /**
-     * @var Connection $Connection
-     */
-    protected $connection;
-
     /**
      * @var IObject $blog
      */
@@ -45,39 +39,6 @@ class ObjectSerializeTest extends ORMDbTestCase
         ];
     }
 
-    /**
-     * @return array
-     */
-    final protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }//todo! finals cleanup
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
-
     protected function setUpFixtures()
     {
         $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
@@ -90,15 +51,6 @@ class ObjectSerializeTest extends ORMDbTestCase
         $this->blog->setValue('title', 'british title', 'en-GB');
         $this->blog->setValue('owner', $user);
         $this->blog->setGUID($this->guid);
-
-        $this->connection = $this
-            ->getDbServer()
-            ->getConnection();
-
-        $this
-            ->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
     }
 
     public function testSerializeObject()
