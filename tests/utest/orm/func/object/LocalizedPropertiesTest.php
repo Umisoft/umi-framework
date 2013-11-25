@@ -9,8 +9,6 @@
 
 namespace utest\orm\func\object;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
 use umi\i18n\ILocalesService;
 use utest\orm\ORMDbTestCase;
 
@@ -20,12 +18,6 @@ use utest\orm\ORMDbTestCase;
  */
 class LocalizedPropertiesTest extends ORMDbTestCase
 {
-
-    /**
-     * @var Connection $connection
-     */
-    protected $connection;
-
     /**
      * {@inheritdoc}
      */
@@ -37,49 +29,6 @@ class LocalizedPropertiesTest extends ORMDbTestCase
             self::SYSTEM_HIERARCHY,
             self::BLOGS_BLOG,
         );
-    }
-
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
-
-    protected function setUpFixtures()
-    {
-        $this->connection = $this
-            ->getDbCluster()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
     }
 
     public function testLoadLocalization()

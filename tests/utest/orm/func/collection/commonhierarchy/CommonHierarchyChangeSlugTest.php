@@ -22,11 +22,6 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
     protected $guid4;
 
     /**
-     * @var Connection $connection
-     */
-    protected $connection;
-
-    /**
      * {@inheritdoc}
      */
     protected function getCollections()
@@ -52,48 +47,9 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
      * @var ICommonHierarchy $hierarchy
      */
     protected $hierarchy;
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
 
     protected function setUpFixtures()
     {
-        $this->connection = $this
-            ->getDbCluster()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
-
         $this->blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $this->postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
         $this->hierarchy = $this->collectionManager->getCollection(self::SYSTEM_HIERARCHY);

@@ -20,12 +20,6 @@ use utest\orm\ORMDbTestCase;
  */
 class ObjectQueriesTest extends ORMDbTestCase
 {
-
-    /**
-     * @var Connection $connection
-     */
-    protected $connection;
-
     /**
      * @var ISimpleCollection $userCollection
      */
@@ -41,38 +35,6 @@ class ObjectQueriesTest extends ORMDbTestCase
             self::USERS_USER
         ];
     }
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
 
     protected function setUpFixtures()
     {
@@ -83,14 +45,6 @@ class ObjectQueriesTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
-
-        $this->connection = $this
-            ->getDbCluster()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
-
     }
 
     public function testQueries()

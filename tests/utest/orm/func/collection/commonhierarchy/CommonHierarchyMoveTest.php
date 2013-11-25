@@ -12,11 +12,6 @@ use utest\orm\ORMDbTestCase;
 class CommonHierarchyMoveTest extends ORMDbTestCase
 {
     /**
-     * @var Connection $connection
-     */
-    protected $connection;
-
-    /**
      * {@inheritdoc}
      */
     protected function getCollections()
@@ -69,48 +64,8 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
 
     protected $usedDbServerId = 'sqliteMaster';
 
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
-
     protected function setUpFixtures()
     {
-        $this->connection = $this
-            ->getDbCluster()
-            ->getConnection();
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
-
         $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
         $postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
         $this->hierarchy = $this->collectionManager->getCollection(self::SYSTEM_HIERARCHY);

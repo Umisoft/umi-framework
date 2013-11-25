@@ -9,11 +9,6 @@ use utest\orm\ORMDbTestCase;
  */
 class LinkedCollectionPersistQueriesTest extends ORMDbTestCase
 {
-    /**
-     * @var Connection $connection
-     */
-    protected $connection;
-
     protected $usedDbServerId = 'mysqlMaster';
 
     /**
@@ -28,50 +23,6 @@ class LinkedCollectionPersistQueriesTest extends ORMDbTestCase
             self::BLOGS_BLOG,
             self::BLOGS_POST,
         );
-    }
-
-    /**
-     * @return array
-     */
-    protected function getQueries()
-    {
-        return array_values(
-            array_map(
-                function ($a) {
-                    return $a['sql'];
-                },
-                $this->sqlLogger()->queries
-            )
-        );
-    }
-
-    /**
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
-     * @return DebugStack
-     */
-    public function sqlLogger()
-    {
-        return $this->connection
-            ->getConfiguration()
-            ->getSQLLogger();
-    }
-
-    protected function setUpFixtures()
-    {
-        $this->connection = $this
-        ->getDbCluster()
-        ->getConnection();
-
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
     }
 
     public function testAdd()

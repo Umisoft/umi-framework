@@ -9,6 +9,8 @@
 namespace utest\orm;
 
 use Closure;
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Logging\DebugStack;
 use umi\dbal\cluster\server\IMasterServer;
 use umi\dbal\driver\IDialect;
 use umi\orm\collection\ICollectionManager;
@@ -39,6 +41,10 @@ abstract class ORMDbTestCase extends TestCase
      * Если null, будет выбран сервер по умолчанию.
      */
     protected $usedDbServerId = null;
+    /**
+     * @var Connection $usedConnection
+     */
+    protected $usedConnection = null;
     /**
      * @var IObjectManager $objectsManager
      */
@@ -155,7 +161,11 @@ abstract class ORMDbTestCase extends TestCase
 
         $connection->exec($dialect->getEnableForeignKeysSQL());
 
+        $this->usedConnection = $connection;
+        $this->usedConnection->getConfiguration()->setSQLLogger(new DebugStack());
+
         parent::setUp();
+        $this->resetQueries();
     }
 
     protected function tearDown()
@@ -167,7 +177,6 @@ abstract class ORMDbTestCase extends TestCase
         $dialect = $connection->getDatabasePlatform();
         $connection->exec($dialect->getDisableForeignKeysSQL());
         foreach ($this->affectedTables as $tableName) {
-            //todo! try/catch?
             $connection
                 ->getSchemaManager()
                 ->dropTable($tableName);
@@ -175,5 +184,68 @@ abstract class ORMDbTestCase extends TestCase
         $connection->exec($dialect->getEnableForeignKeysSQL());
 
         parent::tearDown();
+    }
+
+    /**
+     * Логированные запросы, выполненные через $this->usedConnection
+     * @return array
+     */
+    protected function getQueries()
+    {
+        return array_values(
+            array_map(
+                function ($a) {
+                    if (isset($a['params']) && is_array($a['params'])) {
+                        return strtr($a['sql'], $a['params']);
+                    } else {
+                        return $a['sql'];
+                    }
+                },
+                $this->sqlLogger()->queries
+            )
+        );
+    }
+
+    /**
+     * Логированные запросы, выполненные через $this->usedConnection с ограничением по типу
+     * @param string $type select|update|insert|delete
+     *
+     * @return string[]
+     */
+    protected function getOnlyQueries($type)
+    {
+        return array_filter(
+            $this->getQueries(),
+            function ($q) use ($type) {
+                return preg_match('/^'.$type.'\s+/i', $q);
+            }
+        );
+    }
+
+    /**
+     * todo! replace all with resetQueries()
+     * @param array $queries
+     */
+    public function setQueries($queries)
+    {
+        $this->sqlLogger()->queries = $queries;
+    }
+
+    /**
+     * Сбросить лог запросов
+     */
+    public function resetQueries()
+    {
+        $this->setQueries([]);
+    }
+
+    /**
+     * @return DebugStack
+     */
+    public function sqlLogger()
+    {
+        return $this->usedConnection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 }

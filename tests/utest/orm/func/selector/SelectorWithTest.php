@@ -9,9 +9,6 @@
 
 namespace utest\orm\func\selector;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -19,7 +16,6 @@ use utest\orm\ORMDbTestCase;
 class SelectorWithTest extends ORMDbTestCase
 {
 
-    public $queries = [];
     /**
      * @var ISimpleCollection $userCollection
      */
@@ -82,23 +78,7 @@ class SelectorWithTest extends ORMDbTestCase
         $profile->setValue('city', $city);
 
         $this->objectPersister->commit();
-
-        $this->queries = [];
-
-        $this->getDbCluster()
-            ->getConnection()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $this->queries[] = $builder->getSql();
-                }
-            }
-        );
+        $this->resetQueries();
     }
 
     public function testWrongWithExceptions()
@@ -206,10 +186,10 @@ WHERE ((`users_user`.`login` = :value0))',
         );
         $user1 = $selector1->result()
             ->fetch();
-        $this->queries = [];
+        $this->resetQueries();
 
         $this->assertInstanceOf('umi\orm\object\IObject', $user1->getValue('group'));
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
 
         $selector2 = $this->userCollection->select()
             ->where('login')
@@ -234,11 +214,11 @@ WHERE ((`users_user`.`login` = :value0))',
 
         $user2 = $selector3->result()
             ->fetch();
-        $this->queries = [];
+        $this->resetQueries();
 
         $this->assertNull($user2->getValue('group'));
 
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
     }
 
     public function testWithAndThrough()
@@ -264,10 +244,10 @@ WHERE ((`users_user:group`.`name` = :value0))',
 
         $user = $selector->result()
             ->fetch();
-        $this->queries = [];
+        $this->resetQueries();
 
         $this->assertInstanceOf('umi\orm\object\IObject', $user->getValue('group'));
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
 
     }
 
@@ -293,14 +273,14 @@ WHERE 1',
 
         $profile = $selector->result()
             ->fetch();
-        $this->queries = [];
+        $this->resetQueries();
 
         $this->assertInstanceOf('umi\orm\object\IObject', $profile->getValue('city'));
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
 
         $country = $this->countryCollection->getById(1);
         $this->assertInstanceOf('umi\orm\object\IObject', $country);
-        $this->assertEmpty($this->queries);
+        $this->assertEmpty($this->getQueries());
 
     }
 
