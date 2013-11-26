@@ -9,17 +9,25 @@
 
 namespace utest\unit\pagination\adapter;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\objectset\IObjectSet;
 use umi\pagination\adapter\IPaginationAdapter;
 use umi\pagination\adapter\SelectorPaginationAdapter;
-use utest\orm\mock\collections\users\User;
-use utest\orm\ORMDbTestCase;
+use utest\event\TEventSupport;
+use utest\orm\mock\collections\User;
+use utest\orm\TORMSetup;
+use utest\orm\TORMSupport;
+use utest\pagination\PaginationTestCase;
 
 /**
  * Тестирование SelectorPaginatorAdapterTest.
  */
-class SelectorPaginatorAdapterTest extends ORMDbTestCase
+class SelectorPaginatorAdapterTest extends PaginationTestCase
 {
+
+    use TORMSupport;
+    use TORMSetup;
+    use TEventSupport;
 
     /**
      * @var IPaginationAdapter $adapter
@@ -30,13 +38,31 @@ class SelectorPaginatorAdapterTest extends ORMDbTestCase
      */
     protected $user;
 
-    public function setUpFixtures()
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCollectionConfig()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/pagination/toolbox/config.php')
-        );
+        return [
+            __DIR__ . '/../../mock/collections',
+            [
+                'users_user'             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
+        ];
+    }
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+    protected function setUpFixtures()
+    {
+
+        $this->registerORMTools();
+        $this->registerDbalTools();
+        $this->registerEventTools();
+        $this->setUpORM();
+
+        $userCollection = $this->getCollectionManager()->getCollection('users_user');
 
         $userCollection->add();
         $userCollection->add();
@@ -44,7 +70,7 @@ class SelectorPaginatorAdapterTest extends ORMDbTestCase
         $this->user = $userCollection->add();
         $userCollection->add();
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $selector = $userCollection->select();
 
@@ -52,15 +78,9 @@ class SelectorPaginatorAdapterTest extends ORMDbTestCase
 
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getCollections()
+    protected function tearDown()
     {
-        return array(
-            self::USERS_USER,
-            self::USERS_GROUP
-        );
+        $this->tearDownORM();
     }
 
     public function testSelector()

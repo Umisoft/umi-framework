@@ -12,6 +12,7 @@ namespace utest\orm\func\collection\simplehierarchic;
 use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use utest\orm\ORMDbTestCase;
@@ -25,11 +26,17 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::SYSTEM_MENU
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_MENU            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
+                ]
+            ],
+            true
+        ];
     }
 
     protected $guid1;
@@ -46,7 +53,7 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
     protected function setUpFixtures()
     {
 
-        $this->menu = $this->collectionManager->getCollection(self::SYSTEM_MENU);
+        $this->menu = $this->getCollectionManager()->getCollection(self::SYSTEM_MENU);
 
         $item1 = $this->menu->add('item1');
         $this->guid1 = $item1->getGUID();
@@ -56,8 +63,8 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
         $item4 = $this->menu->add('item4', IObjectType::BASE, $item2);
         $this->guid4 = $item4->getGUID();
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
 
         $this->queries = [];
         $this->getDbCluster()

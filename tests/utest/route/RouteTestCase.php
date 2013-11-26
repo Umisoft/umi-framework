@@ -15,15 +15,13 @@ use utest\TestCase;
  */
 abstract class RouteTestCase extends TestCase
 {
+    use TRouteSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/route/toolbox/config.php')
-        );
-
+        $this->registerRouteTools();
         parent::setUp();
     }
 }

@@ -10,14 +10,15 @@
 namespace utest\validation\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\validation\TValidationSupport;
 
 class ValidationAwareTest extends AwareTestCase
 {
 
+    use TValidationSupport;
+
     protected function setUpFixtures() {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/validation/toolbox/config.php')
-        );
+        $this->registerValidationTools();
     }
 
     public function testValidationAware()

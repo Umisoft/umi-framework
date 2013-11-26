@@ -15,9 +15,9 @@ use umi\config\entity\LazyConfigSource;
 use umi\config\entity\value\ConfigValue;
 use umi\config\entity\value\IConfigValue;
 use umi\config\exception\RuntimeException;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
-class ConfigCacheTest extends TestCase
+class ConfigCacheTest extends ConfigTestCase
 {
     /**
      * @var ConfigCacheEngine $cacheEngine

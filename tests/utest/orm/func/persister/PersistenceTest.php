@@ -9,8 +9,9 @@
 
 namespace utest\orm\func\persister;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
-use utest\orm\mock\collections\users\User;
+use utest\orm\mock\collections\User;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -22,11 +23,19 @@ class PersistenceTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
         return [
-            self::USERS_USER,
-            self::USERS_GROUP
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
         ];
     }
 
@@ -35,8 +44,8 @@ class PersistenceTest extends ORMDbTestCase
         /**
          * @var User $user
          */
-        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
-        $user = $this->objectManager->registerNewObject(
+        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $user = $this->getObjectManager()->registerNewObject(
             $usersCollection,
             $usersCollection->getMetadata()
                 ->getBaseType()
@@ -46,7 +55,7 @@ class PersistenceTest extends ORMDbTestCase
 
         $this->assertTrue($user->getIsNew(), 'Ожидается, что при создании объект помечается как новый');
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->assertFalse($user->getIsNew(), 'Ожидается, что после сохранения объект помечается как не новый');
 
         $primaryKeyField = $usersCollection->getIdentifyField();
@@ -95,8 +104,8 @@ class PersistenceTest extends ORMDbTestCase
         /**
          * @var User $user
          */
-        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
-        $user = $this->objectManager->registerNewObject(
+        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $user = $this->getObjectManager()->registerNewObject(
             $usersCollection,
             $usersCollection->getMetadata()
                 ->getBaseType()
@@ -104,7 +113,7 @@ class PersistenceTest extends ORMDbTestCase
         $user->login = 'test_login';
         $user->isActive = false;
         $user->setValue('height', 163);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $oldPassword = $user->getPassword();
         $oldHeight = $user->getValue('height');
@@ -114,7 +123,7 @@ class PersistenceTest extends ORMDbTestCase
         $user->setDefaultValue('isActive');
         $user->setValue('height', null);
         $user->setValue('rating', null);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $primaryKeyField = $usersCollection->getIdentifyField();
         $primaryKeyColumnName = $primaryKeyField->getColumnName();
@@ -173,14 +182,14 @@ class PersistenceTest extends ORMDbTestCase
         /**
          * @var User $user
          */
-        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
-        $user = $this->objectManager->registerNewObject(
+        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $user = $this->getObjectManager()->registerNewObject(
             $usersCollection,
             $usersCollection->getMetadata()
                 ->getBaseType()
         );
         $user->login = 'test_login';
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $primaryKeyField = $usersCollection->getIdentifyField();
         $primaryKeyColumnName = $primaryKeyField->getColumnName();
@@ -193,8 +202,8 @@ class PersistenceTest extends ORMDbTestCase
             ->expr($primaryKeyColumnName, '=', ':objectId');
         $select->bindValue(':objectId', $user->getId(), $primaryKeyField->getDataType());
 
-        $this->objectPersister->markAsDeleted($user);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->markAsDeleted($user);
+        $this->getObjectPersister()->commit();
 
         $result = $select->execute();
         $this->assertEquals(0, $result->count(), 'Ожидается, что запись пользователя была удалена из бд');

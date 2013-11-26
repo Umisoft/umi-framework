@@ -12,6 +12,9 @@ namespace utest\hmvc;
 use umi\hmvc\component\Component;
 use umi\hmvc\component\request\IComponentRequest;
 use umi\hmvc\toolbox\factory\ComponentRequestFactory;
+use utest\http\THttpSupport;
+use utest\route\TRouteSupport;
+use utest\templating\TTemplatingSupport;
 use utest\TestCase;
 
 /**
@@ -19,6 +22,11 @@ use utest\TestCase;
  */
 abstract class HMVCTestCase extends TestCase
 {
+    use THMVCSupport;
+    use TRouteSupport;
+    use TTemplatingSupport;
+    use THttpSupport;
+
     const DIRECTORY = __DIR__;
 
     /**
@@ -26,12 +34,11 @@ abstract class HMVCTestCase extends TestCase
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolboxes([
-            require(LIBRARY_PATH . '/hmvc/toolbox/config.php'),
-            require(LIBRARY_PATH . '/route/toolbox/config.php'),
-            require(LIBRARY_PATH . '/templating/toolbox/config.php'),
-            require(LIBRARY_PATH . '/http/toolbox/config.php')
-        ]);
+
+        $this->registerHMVCTools();
+        $this->registerRouteTools();
+        $this->registerTemplatingTools();
+        $this->registerHttpTools();
 
         parent::setUp();
     }

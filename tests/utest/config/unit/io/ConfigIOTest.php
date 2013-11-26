@@ -14,12 +14,12 @@ use umi\config\io\ConfigIO;
 use umi\config\io\IConfigIO;
 use umi\config\io\reader\PhpFileReader;
 use umi\config\io\writer\PhpFileWriter;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
 /**
  * Тесты I/O сервиса конфигурации.
  */
-class ConfigIOTest extends TestCase
+class ConfigIOTest extends ConfigTestCase
 {
     /**
      * @var IConfigIO $tools

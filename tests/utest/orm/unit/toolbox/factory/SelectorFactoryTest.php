@@ -9,6 +9,7 @@
 
 namespace utest\orm\unit\toolbox\factory;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\toolbox\factory\ObjectSetFactory;
 use umi\orm\toolbox\factory\SelectorFactory;
 use utest\orm\ORMDbTestCase;
@@ -27,9 +28,17 @@ class SelectorFactoryTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            false
+        ];
     }
 
     protected function setUpFixtures()
@@ -44,7 +53,7 @@ class SelectorFactoryTest extends ORMDbTestCase
     public function testCreate()
     {
         $selector = $this->selectorFactory->createSelector(
-            $this->collectionManager->getCollection(self::USERS_USER)
+            $this->getCollectionManager()->getCollection(self::USERS_USER)
         );
         $this->assertInstanceOf(
             'umi\orm\selector\ISelector',
@@ -53,7 +62,7 @@ class SelectorFactoryTest extends ORMDbTestCase
         );
 
         $emptySelector = $this->selectorFactory->createEmptySelector(
-            $this->collectionManager->getCollection(self::USERS_USER)
+            $this->getCollectionManager()->getCollection(self::USERS_USER)
         );
         $this->assertInstanceOf(
             'umi\orm\selector\ISelector',
