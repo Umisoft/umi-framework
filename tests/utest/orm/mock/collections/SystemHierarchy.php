@@ -7,11 +7,11 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace utest\orm\mock\collections\system;
+namespace utest\orm\mock\collections;
 
-use umi\orm\collection\SimpleHierarchicCollection;
+use umi\orm\collection\CommonHierarchy;
 
-class Menu extends SimpleHierarchicCollection
+class SystemHierarchy extends CommonHierarchy
 {
 
 }

@@ -14,12 +14,12 @@ use umi\config\exception\RuntimeException;
 use umi\config\io\IConfigIO;
 use umi\config\io\reader\PhpFileReader;
 use umi\config\io\writer\PhpFileWriter;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
 /**
  * Тесты reader'а php конфигурации.
  */
-class PhpFileWriterTest extends TestCase
+class PhpFileWriterTest extends ConfigTestCase
 {
     /**
      * @var PhpFileWriter $writer

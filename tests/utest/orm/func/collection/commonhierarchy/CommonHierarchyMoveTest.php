@@ -2,6 +2,7 @@
 use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\cluster\IConnection;
 use umi\event\IEvent;
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
@@ -16,15 +17,32 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::SYSTEM_HIERARCHY,
-            self::BLOGS_BLOG,
-            self::BLOGS_POST,
-            self::USERS_USER,
-            self::USERS_GROUP
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::BLOGS_POST             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
+        ];
     }
 
     public $queries = [];
@@ -71,9 +89,9 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
     protected function setUpFixtures()
     {
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
-        $this->hierarchy = $this->collectionManager->getCollection(self::SYSTEM_HIERARCHY);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $postsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_POST);
+        $this->hierarchy = $this->getCollectionManager()->getCollection(self::SYSTEM_HIERARCHY);
 
         $this->blog1 = $blogsCollection->add('blog1');
         $this->blog1->setValue('title', 'blog');
@@ -99,7 +117,7 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
         $this->blog5 = $blogsCollection->add('blog5');
         $this->blog5->setValue('title', 'blog5');
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->queries = [];
         $this->getDbCluster()

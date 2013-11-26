@@ -9,15 +9,16 @@
 
 namespace utest\authentication\unit\toolbox;
 
+use utest\authentication\TAuthenticationSupport;
 use utest\AwareTestCase;
 
 class AuthAwareToolsTest extends AwareTestCase
 {
 
+    use TAuthenticationSupport;
+
     protected function setUpFixtures() {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/authentication/toolbox/config.php')
-        );
+        $this->registerAuthenticationTools();
     }
 
     public function testAware()

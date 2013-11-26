@@ -15,14 +15,13 @@ use utest\TestCase;
  */
 abstract class RbacTestCase extends TestCase
 {
+    use TRbacSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/rbac/toolbox/config.php')
-        );
+        $this->registerRbacTools();
 
         parent::setUp();
     }

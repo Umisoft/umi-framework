@@ -9,6 +9,7 @@
 
 namespace utest\orm\func\persister;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
 
@@ -26,20 +27,37 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
         return [
-            self::USERS_USER,
-            self::USERS_GROUP,
-            self::BLOGS_BLOG,
-            self::BLOGS_POST,
-            self::SYSTEM_HIERARCHY
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::BLOGS_POST             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
         ];
     }
 
     protected function setUpFixtures()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog1 = $blogsCollection->add('blog1');
         $blog1->setValue('title', 'first_blog');
@@ -49,18 +67,18 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
         $blog2->setValue('title', 'second_blog');
         $this->blog2Guid = $blog2->getGUID();
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
     }
 
     public function testURIConflict()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $blogsCollection->add('blog1');
 
         $e = null;
         try {
-            $this->objectPersister->commit();
+            $this->getObjectPersister()->commit();
         } catch (\Exception $e) {
         }
 
@@ -88,8 +106,8 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
             'SET foreign_key_checks = 0; INSERT INTO `umi_mock_users` set `id` = "10", `type` = "users_user.base", `group_id` = "10", `guid` = "9ee6745f-f40d-46d8-8043-d959594628ce"; SET foreign_key_checks = 1'
         );
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $user1 = $usersCollection->get('9ee6745f-f40d-46d8-8043-d959594628ce');
         $usersCollection->delete($user1);
@@ -99,7 +117,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
 
         $e = null;
         try {
-            $this->objectPersister->commit();
+            $this->getObjectPersister()->commit();
         } catch (\Exception $e) {
         }
 
@@ -127,8 +145,8 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
         $this->getDbCluster()
             ->modifyInternal('DELETE FROM `umi_mock_blogs` WHERE `id` = 1');
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $user1 = $usersCollection->add();
         $user1->setValue('login', 'first_user');
@@ -146,7 +164,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
 
         $e = null;
         try {
-            $this->objectPersister->commit();
+            $this->getObjectPersister()->commit();
         } catch (\Exception $e) {
         }
 
@@ -200,7 +218,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
 
         $this->assertCount(
             2,
-            $this->collectionManager->getCollection(self::SYSTEM_HIERARCHY)
+            $this->getCollectionManager()->getCollection(self::SYSTEM_HIERARCHY)
                 ->select()
                 ->fields(['id'])
                 ->getResult()
@@ -223,14 +241,14 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
         $this->getDbCluster()
             ->modifyInternal('DELETE FROM `umi_mock_blogs` WHERE `id` = 1');
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $blog1->setValue('title', 'new_blog_title');
 
         $e = null;
         try {
-            $this->objectPersister->commit();
+            $this->getObjectPersister()->commit();
         } catch (\Exception $e) {
         }
 
@@ -255,7 +273,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
 
     public function testWrongVersionRollback()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $blog1->setVersion('3');
@@ -263,7 +281,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
 
         $e = null;
         try {
-            $this->objectPersister->commit();
+            $this->getObjectPersister()->commit();
         } catch (\Exception $e) {
         }
 
@@ -296,14 +314,14 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
             'ALTER TABLE `umi_mock_users` DROP PRIMARY KEY, MODIFY `id` bigint(20) unsigned DEFAULT NULL'
         );
 
-        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $user1 = $usersCollection->add();
         $user1->setValue('login', 'first_user');
 
         $e = null;
         try {
-            $this->objectPersister->commit();
+            $this->getObjectPersister()->commit();
         } catch (\Exception $e) {
         }
 
@@ -342,7 +360,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
         $this->getDbCluster()
             ->modifyInternal('INSERT INTO `umi_mock_hierarchy` SET `id` = 3');
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog3 = $blogsCollection->add('blog5');
         $blog3->getProperty(IObject::FIELD_IDENTIFY)
@@ -351,7 +369,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
 
         $e = null;
         try {
-            $this->objectPersister->commit();
+            $this->getObjectPersister()->commit();
         } catch (\Exception $e) {
         }
 

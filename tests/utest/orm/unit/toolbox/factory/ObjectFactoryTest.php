@@ -9,6 +9,7 @@
 
 namespace utest\orm\unit\toolbox\factory;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\toolbox\factory\ObjectFactory;
 use umi\orm\toolbox\factory\PropertyFactory;
 use utest\orm\ORMDbTestCase;
@@ -27,9 +28,28 @@ class ObjectFactoryTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            false
+        ];
     }
 
     protected function setUpFixtures()
@@ -41,8 +61,8 @@ class ObjectFactoryTest extends ORMDbTestCase
     public function testObjectCreation()
     {
         $user = $this->objectFactory->createObject(
-            $this->collectionManager->getCollection(self::USERS_USER),
-            $this->metadataManager->getMetadata(self::USERS_USER)
+            $this->getCollectionManager()->getCollection(self::USERS_USER),
+            $this->getMetadataManager()->getMetadata(self::USERS_USER)
                 ->getBaseType()
         );
 
@@ -52,14 +72,14 @@ class ObjectFactoryTest extends ORMDbTestCase
             'Ожидается, что IObjectFactory::createObject() вернет IObject'
         );
         $this->assertInstanceOf(
-            'utest\orm\mock\collections\users\User',
+            'utest\orm\mock\collections\User',
             $user,
             'Ожидается, что IObjectFactory::createObject() вернет объект класса, соответсвующего заданному типу'
         );
 
         $userGroup = $this->objectFactory->createObject(
-            $this->collectionManager->getCollection(self::USERS_GROUP),
-            $this->metadataManager->getMetadata(self::USERS_GROUP)
+            $this->getCollectionManager()->getCollection(self::USERS_GROUP),
+            $this->getMetadataManager()->getMetadata(self::USERS_GROUP)
                 ->getBaseType()
         );
         $this->assertInstanceOf(
@@ -69,8 +89,8 @@ class ObjectFactoryTest extends ORMDbTestCase
         );
 
         $blog = $this->objectFactory->createObject(
-            $this->collectionManager->getCollection(self::BLOGS_BLOG),
-            $this->metadataManager->getMetadata(self::BLOGS_BLOG)
+            $this->getCollectionManager()->getCollection(self::BLOGS_BLOG),
+            $this->getMetadataManager()->getMetadata(self::BLOGS_BLOG)
                 ->getBaseType()
         );
         $this->assertInstanceOf(

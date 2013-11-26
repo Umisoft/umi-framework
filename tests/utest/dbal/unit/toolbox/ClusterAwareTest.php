@@ -10,12 +10,19 @@
 namespace utest\dbal\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\dbal\TDbalSupport;
 
 /**
  * Тестирование внедрения компонента для работы с бд
  */
 class ClusterAwareTest extends AwareTestCase
 {
+    use TDbalSupport;
+
+    protected function setUpFixtures()
+    {
+        $this->registerDbalTools();
+    }
 
     public function testClusterAware()
     {

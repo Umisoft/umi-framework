@@ -13,12 +13,12 @@ use umi\config\entity\ConfigSource;
 use umi\config\entity\IConfigSource;
 use umi\config\entity\value\ConfigValue;
 use umi\config\entity\value\IConfigValue;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
 /**
  * Тесты конфигурации.
  */
-class ConfigSourceTest extends TestCase
+class ConfigSourceTest extends ConfigTestCase
 {
     /**
      * @var IConfigSource $source

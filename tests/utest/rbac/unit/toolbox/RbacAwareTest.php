@@ -10,14 +10,14 @@
 namespace utest\rbac\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\rbac\TRbacSupport;
 
 class RbacAwareTest extends AwareTestCase
 {
+    use TRbacSupport;
 
     protected function setUpFixtures() {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/rbac/toolbox/config.php')
-        );
+        $this->registerRbacTools();
     }
 
     public function testRbacAware()

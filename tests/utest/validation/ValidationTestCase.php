@@ -15,14 +15,13 @@ use utest\TestCase;
  */
 abstract class ValidationTestCase extends TestCase
 {
+    use TValidationSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/validation/toolbox/config.php')
-        );
+       $this->registerValidationTools();
 
         parent::setUp();
     }
