@@ -8,7 +8,6 @@
  */
 namespace utest\dbal;
 
-use umi\config\entity\IConfig;
 use umi\dbal\cluster\IDbCluster;
 use umi\dbal\cluster\server\IMasterServer;
 use umi\toolkit\IToolkit;
@@ -19,17 +18,24 @@ use umi\toolkit\IToolkit;
 trait TDbalSupport
 {
     /**
+     * @var string $_defaultServerId идентификатор мастер-сервера БД для тестирования по умолчанию
+     */
+    private $_defaultServerId = 'sqliteMaster';
+    /**
+     * @var string $_sqliteServerId идентификатор мастер-сервера для тестов, использующих sqlite
+     */
+    private $_sqliteServerId  = 'sqliteMaster';
+    /**
+     * @var string $_mysqlServerId идентификатор мастер-сервера для для тестов, использующих mysql
+     */
+    private $_mysqlServerId   = 'mysqlMaster';
+
+    /**
      * Получить тестовый тулкит
      * @throws \RuntimeException
      * @return IToolkit
      */
     abstract protected function getTestToolkit();
-
-    /**
-     * Возвращает конфигурацию для тестов
-     * @return IConfig
-     */
-    abstract protected function config();
 
     protected function registerDbalTools()
     {
@@ -68,17 +74,8 @@ trait TDbalSupport
      */
     protected function getDbServer()
     {
-        if (!$this->config()
-            ->has('defaultServer')
-        ) {
-            throw new \RuntimeException("Invalid default server id.");
-        }
-
-        $serverId = $this->config()
-            ->get('defaultServer');
-
         return $this->getDbCluster()
-            ->getServer($serverId);
+            ->getServer($this->_defaultServerId);
     }
 
     /**
@@ -88,17 +85,8 @@ trait TDbalSupport
      */
     protected function getMysqlServer()
     {
-        if (!$this->config()
-            ->has('mysqlServer')
-        ) {
-            throw new \RuntimeException("Invalid mysql server id.");
-        }
-
-        $serverId = $this->config()
-            ->get('mysqlServer');
-
         return $this->getDbCluster()
-            ->getServer($serverId);
+            ->getServer($this->_mysqlServerId);
     }
 
     /**
@@ -108,17 +96,8 @@ trait TDbalSupport
      */
     protected function getSqliteServer()
     {
-        if (!$this->config()
-            ->has('mysqlServer')
-        ) {
-            throw new \RuntimeException("Invalid SQLite server id.");
-        }
-
-        $serverId = $this->config()
-            ->get('sqliteServer');
-
         return $this->getDbCluster()
-            ->getServer($serverId);
+            ->getServer($this->_sqliteServerId);
     }
 
 

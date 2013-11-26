@@ -6,28 +6,23 @@
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
-namespace utest\dbal;
+namespace utest\config;
 
-use umi\dbal\cluster\server\IMasterServer;
-use utest\event\TEventSupport;
 use utest\TestCase;
 
 /**
- * Тест кейс для работы с БД
+ * Тест кейс для конфигурации
  */
-abstract class DbalTestCase extends TestCase
+class ConfigTestCase extends TestCase
 {
-    use TEventSupport;
-    use TDbalSupport;
+    use TConfigSupport;
 
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->registerEventTools();
-        $this->registerDbalTools();
-
+        $this->registerConfigTools();
         parent::setUp();
     }
 }

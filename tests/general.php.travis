@@ -2,32 +2,30 @@
 use umi\dbal\toolbox\DbalTools;
 
 return [
-    'settings' => [
-        DbalTools::NAME => [
-            'servers' => [
-                [
-                    'id'     => 'mysqlMaster',
-                    'type'   => 'master',
-                    'driver' => [
-                        'type'    => 'mysql',
-                        'options' => [
-                            'dsn'      => 'mysql:dbname=umiframework;host=localhost',
-                            'user'     => 'travis',
-                            'password' => ''
-                        ]
+    DbalTools::NAME => [
+        'servers' => [
+            [
+                'id'     => 'mysqlMaster',
+                'type'   => 'master',
+                'driver' => [
+                    'type'    => 'mysql',
+                    'options' => [
+                        'dsn'      => 'mysql:dbname=umiframework;host=localhost',
+                        'user'     => 'travis',
+                        'password' => ''
                     ]
-                ],
-                [
-                    'id'     => 'sqliteMaster',
-                    'type'   => 'master',
-                    'driver' => [
-                        'type'    => 'sqlite',
-                        'options' => [
-                            'dsn' => 'sqlite::memory:'
-                        ]
+                ]
+            ],
+            [
+                'id'     => 'sqliteMaster',
+                'type'   => 'master',
+                'driver' => [
+                    'type'    => 'sqlite',
+                    'options' => [
+                        'dsn' => 'sqlite::memory:'
                     ]
                 ]
             ]
-        ],
+        ]
     ]
 ];

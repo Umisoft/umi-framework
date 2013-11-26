@@ -29,9 +29,25 @@ class CollectionFactoryTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            false
+        ];
     }
 
     protected function setUpFixtures()
@@ -44,7 +60,7 @@ class CollectionFactoryTest extends ORMDbTestCase
 
     public function testWrongConfig()
     {
-        $metadata = $this->metadataManager->getMetadata(self::USERS_USER);
+        $metadata = $this->getMetadataManager()->getMetadata(self::USERS_USER);
         $e = null;
         try {
             $this->collectionFactory->create(self::USERS_USER, $metadata, []);
@@ -71,7 +87,7 @@ class CollectionFactoryTest extends ORMDbTestCase
     public function testSimpleCollection()
     {
 
-        $metadata = $this->metadataManager->getMetadata(self::USERS_USER);
+        $metadata = $this->getMetadataManager()->getMetadata(self::USERS_USER);
         $collection = $this->collectionFactory->create(
             self::USERS_USER,
             $metadata,
@@ -91,7 +107,7 @@ class CollectionFactoryTest extends ORMDbTestCase
         $collection = $this->collectionFactory->create(
             self::USERS_USER,
             $metadata,
-            ['type' => ICollectionFactory::TYPE_SIMPLE, 'class' => 'utest\orm\mock\collections\users\UsersCollection']
+            ['type' => ICollectionFactory::TYPE_SIMPLE, 'class' => 'utest\orm\mock\collections\UsersCollection']
         );
         $this->assertInstanceOf(
             'umi\orm\collection\ISimpleCollection',
@@ -99,7 +115,7 @@ class CollectionFactoryTest extends ORMDbTestCase
             'Ожидается, что CollectionFactory::create() вернет ISimpleCollection'
         );
         $this->assertEquals(
-            'utest\orm\mock\collections\users\UsersCollection',
+            'utest\orm\mock\collections\UsersCollection',
             get_class($collection),
             'Ожидается, что была создана коллекция с заданным классом'
         );
@@ -109,7 +125,7 @@ class CollectionFactoryTest extends ORMDbTestCase
     public function testSimpleHierarchicCollection()
     {
 
-        $metadata = $this->metadataManager->getMetadata(self::SYSTEM_HIERARCHY);
+        $metadata = $this->getMetadataManager()->getMetadata(self::SYSTEM_HIERARCHY);
         $collection = $this->collectionFactory->create(
             self::SYSTEM_HIERARCHY,
             $metadata,
@@ -129,7 +145,7 @@ class CollectionFactoryTest extends ORMDbTestCase
         $collection = $this->collectionFactory->create(
             self::SYSTEM_HIERARCHY,
             $metadata,
-            ['type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC, 'class' => 'utest\orm\mock\collections\system\Menu']
+            ['type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC, 'class' => 'utest\orm\mock\collections\Menu']
         );
         $this->assertInstanceOf(
             'umi\orm\collection\ISimpleHierarchicCollection',
@@ -137,7 +153,7 @@ class CollectionFactoryTest extends ORMDbTestCase
             'Ожидается, что CollectionFactory::create() вернет ISimpleHierarchicCollection'
         );
         $this->assertEquals(
-            'utest\orm\mock\collections\system\Menu',
+            'utest\orm\mock\collections\Menu',
             get_class($collection),
             'Ожидается, что была создана коллекция с заданным классом'
         );
@@ -147,7 +163,7 @@ class CollectionFactoryTest extends ORMDbTestCase
     public function testCommonHierarchy()
     {
 
-        $metadata = $this->metadataManager->getMetadata(self::SYSTEM_HIERARCHY);
+        $metadata = $this->getMetadataManager()->getMetadata(self::SYSTEM_HIERARCHY);
         $collection = $this->collectionFactory->create(
             self::SYSTEM_HIERARCHY,
             $metadata,
@@ -169,7 +185,7 @@ class CollectionFactoryTest extends ORMDbTestCase
             $metadata,
             [
                 'type'  => ICollectionFactory::TYPE_COMMON_HIERARCHY,
-                'class' => 'utest\orm\mock\collections\system\SystemHierarchy'
+                'class' => 'utest\orm\mock\collections\SystemHierarchy'
             ]
         );
         $this->assertInstanceOf(
@@ -178,7 +194,7 @@ class CollectionFactoryTest extends ORMDbTestCase
             'Ожидается, что CollectionFactory::create() вернет ICommonHierarchy'
         );
         $this->assertEquals(
-            'utest\orm\mock\collections\system\SystemHierarchy',
+            'utest\orm\mock\collections\SystemHierarchy',
             get_class($collection),
             'Ожидается, что была создана коллекция с заданным классом'
         );
@@ -188,7 +204,7 @@ class CollectionFactoryTest extends ORMDbTestCase
     public function testLinkedHierarchicCollection()
     {
 
-        $metadata = $this->metadataManager->getMetadata(self::BLOGS_BLOG);
+        $metadata = $this->getMetadataManager()->getMetadata(self::BLOGS_BLOG);
 
         $e = null;
         try {
@@ -242,7 +258,7 @@ class CollectionFactoryTest extends ORMDbTestCase
             [
                 'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
                 'hierarchy' => self::SYSTEM_HIERARCHY,
-                'class'     => 'utest\orm\mock\collections\blogs\BlogsCollection'
+                'class'     => 'utest\orm\mock\collections\BlogsCollection'
             ]
         );
         $this->assertInstanceOf(
@@ -251,7 +267,7 @@ class CollectionFactoryTest extends ORMDbTestCase
             'Ожидается, что CollectionFactory::create() вернет ISimpleCollection'
         );
         $this->assertEquals(
-            'utest\orm\mock\collections\blogs\BlogsCollection',
+            'utest\orm\mock\collections\BlogsCollection',
             get_class($collection),
             'Ожидается, что была создана коллекция с заданным классом'
         );

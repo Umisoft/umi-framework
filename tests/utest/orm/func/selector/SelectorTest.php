@@ -9,11 +9,12 @@
 
 namespace utest\orm\func\selector;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use umi\orm\selector\ISelector;
 use umi\orm\selector\Selector;
-use utest\orm\mock\collections\users\Supervisor;
-use utest\orm\mock\collections\users\User;
+use utest\orm\mock\collections\Supervisor;
+use utest\orm\mock\collections\User;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -31,18 +32,26 @@ class SelectorTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::USERS_USER,
-            self::USERS_GROUP
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
+        ];
     }
 
     protected function setUpFixtures()
     {
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         /**
          * @var User $user1
          * @var User $user2
@@ -73,7 +82,7 @@ class SelectorTest extends ORMDbTestCase
         $sv2->login = 'admin';
         $sv2->setValue('height', 170);
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->selector = $userCollection->select();
 
@@ -464,9 +473,9 @@ class SelectorTest extends ORMDbTestCase
             'Ожидается, что всего 5 объектов удовлетворяют выборке, несмотря на лимит'
         );
 
-        $this->collectionManager->getCollection(self::USERS_USER)
+        $this->getCollectionManager()->getCollection(self::USERS_USER)
             ->add();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->assertEquals(
             5,

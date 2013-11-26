@@ -9,6 +9,7 @@
 
 namespace utest\orm\unit\toolbox\factory;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\metadata\field\relation\ManyToManyRelationField;
 use umi\orm\toolbox\factory\ObjectFactory;
 use umi\orm\toolbox\factory\ObjectSetFactory;
@@ -34,9 +35,22 @@ class ObjectSetFactoryTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ]
+            ],
+            false
+        ];
     }
 
     protected function setUpFixtures()
@@ -62,9 +76,9 @@ class ObjectSetFactoryTest extends ORMDbTestCase
             'Ожидается, что IObjectFactory::createEmptyObjectSet() вернет IEmptyObjectSet'
         );
 
-        $blogMetadata = $this->metadataManager->getMetadata(self::BLOGS_BLOG);
+        $blogMetadata = $this->getMetadataManager()->getMetadata(self::BLOGS_BLOG);
         $blog = $this->objectFactory->createObject(
-            $this->collectionManager->getCollection(self::BLOGS_BLOG),
+            $this->getCollectionManager()->getCollection(self::BLOGS_BLOG),
             $blogMetadata->getBaseType()
         );
         /**

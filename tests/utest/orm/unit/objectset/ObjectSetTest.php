@@ -9,16 +9,17 @@
 
 namespace utest\orm\unit\objectset;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use umi\orm\objectset\IObjectSet;
 use umi\orm\selector\ISelector;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тест класса ObjectSet
 
  */
-class ObjectSetTest extends ORMTestCase
+class ObjectSetTest extends ORMDbTestCase
 {
 
     /**
@@ -30,9 +31,17 @@ class ObjectSetTest extends ORMTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            false
+        ];
     }
 
     protected function setUpFixtures()

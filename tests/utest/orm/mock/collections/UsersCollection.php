@@ -7,14 +7,14 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace utest\orm\mock\collections\blogs;
+namespace utest\orm\mock\collections;
 
-use umi\orm\collection\LinkedHierarchicCollection;
+use umi\orm\collection\SimpleCollection;
 
 /**
  *
  */
-class BlogsCollection extends LinkedHierarchicCollection
+class UsersCollection extends SimpleCollection
 {
 
 }

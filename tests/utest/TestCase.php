@@ -10,10 +10,6 @@
 namespace utest;
 
 use ReflectionClass;
-use umi\config\entity\IConfig;
-use umi\config\io\IConfigIO;
-use umi\dbal\cluster\IDbCluster;
-use umi\dbal\cluster\server\IMasterServer;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\IToolkit;
 use umi\toolkit\prototype\IPrototypeFactory;
@@ -26,12 +22,6 @@ use umi\toolkit\Toolkit;
  */
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     * Имя конфигурации для тестирования
-     */
-    const CONFIG_TESTS = '~/general.php';
-
     /**
      * @var IToolkit $toolkit
      */
@@ -40,10 +30,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      * @var IPrototypeFactory $prototypeFactory
      */
     private $prototypeFactory;
-    /**
-     * @var IConfig $config конфигурация для тестов
-     */
-    private $config;
 
     /**
      * Общий метод установки окружения, переопределять нельзя.
@@ -96,28 +82,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             $this->toolkit = new Toolkit();
             $this->prototypeFactory = new PrototypeFactory($this->toolkit);
             $this->toolkit->setPrototypeFactory($this->prototypeFactory);
-
-            $toolkitConfig = require(TESTS_CONFIGURATION . '/toolkit.config.php');
-
-            if (!empty($toolkitConfig['toolkit'])) {
-                $this->toolkit->registerToolboxes($toolkitConfig['toolkit']);
-            }
-            if (!empty($toolkitConfig['settings'])) {
-                $this->toolkit->setSettings($toolkitConfig['settings']);
-            }
-
-            /**
-             * @var IConfigIO $configIO
-             */
-            $configIO = $this->toolkit->getService('umi\config\io\IConfigIO');
-            $this->config = $configIO->read(self::CONFIG_TESTS);
-
-            if (!$this->config->has('settings')) {
-                throw new \RuntimeException("Toolkit settings not found.");
-            }
-
-            $toolkitConfig = $this->config->get('settings');
-            $this->toolkit->setSettings($toolkitConfig);
         }
 
         return $this->toolkit;
@@ -139,30 +103,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         }
 
         $prototype->wakeUpInstance($object);
-
-        /*if ($object instanceof InitializationInterface) {
-            $object->init();
-        }*/
-    }
-
-    /**
-     * Возвращает конфигурацию для тестов
-     * @return IConfig
-     */
-    protected function config()
-    {
-        /**
-         * @var IConfigIO $configIO
-         */
-        $configIO = $this->getTestToolkit()
-            ->getService('umi\config\io\IConfigIO');
-
-        /**
-         * @var IConfig $config
-         */
-        $config = $configIO->read(self::CONFIG_TESTS);
-
-        return $config;
     }
 
     /**

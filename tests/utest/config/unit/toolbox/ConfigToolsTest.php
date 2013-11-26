@@ -11,9 +11,9 @@ namespace utest\config\unit\toolbox;
 
 use umi\config\exception\OutOfBoundsException;
 use umi\config\toolbox\ConfigTools;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
-class ConfigToolsTest extends TestCase
+class ConfigToolsTest extends ConfigTestCase
 {
     /**
      * @var ConfigTools $tools

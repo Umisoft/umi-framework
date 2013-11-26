@@ -13,12 +13,12 @@ use umi\config\entity\factory\IConfigEntityFactory;
 use umi\config\exception\OutOfBoundsException;
 use umi\config\toolbox\factory\ConfigEntityFactory;
 use umi\toolkit\exception\DomainException;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
 /**
  * Тесты фабрики сущностей конфигурации.
  */
-class ConfigFactoryTest extends TestCase
+class ConfigFactoryTest extends ConfigTestCase
 {
     /***
      * @var ConfigEntityFactory $factory

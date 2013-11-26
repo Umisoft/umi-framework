@@ -16,12 +16,12 @@ use umi\config\exception\UnexpectedValueException;
 use umi\config\io\IConfigIO;
 use umi\config\io\reader\IReader;
 use umi\config\io\reader\PhpFileReader;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
 /**
  * Тесты reader'а php конфигурации.
  */
-class PhpFileReaderTest extends TestCase
+class PhpFileReaderTest extends ConfigTestCase
 {
     /**
      * @var IReader $reader
