@@ -258,12 +258,12 @@ abstract class ORMDbTestCase extends TestCase
      */
     protected function getOnlyQueries($type)
     {
-        return array_filter(
+        return array_values(array_filter(
             $this->getQueries(),
             function ($q) use ($type) {
                 return preg_match('/^'.$type.'\s+/i', $q);
             }
-        );
+        ));
     }
 
     /**

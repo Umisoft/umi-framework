@@ -78,7 +78,6 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
                 [
                     ':login'      => 'new_test_login',
                     ':objectId'   => 1,
-                    //':newversion' => '"version" + (1)',//todo! doctrine don't log expression
                     ':version'    => 1,
                 ]
             ],
@@ -92,6 +91,13 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
             $queries,
             $queryTypesWithParams,
             'После изменения объекта ожидается один UPDATE-запрос'
+        );
+        $this->assertEquals(
+            'UPDATE "umi_mock_users"
+SET "login" = :login, "version" = "version" + (1)
+WHERE "id" = :objectId AND "version" = :version',
+            $this->getOnlyQueries('update')[0],
+            'Запрос должен содержать инкремент версии'
         );
 
         $this->resetQueries();
@@ -170,7 +176,6 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
                 'update',
                 [
                     ':group_id'   => 1,
-//                    ':newversion' => '`version` + (1)', //todo! log to Doctrine
                     ':objectId'   => 1,
                     ':version'    => 1
                 ]
@@ -183,6 +188,15 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
             $this->getQueryTypesWithParams(),
             'После добавления двух связанных объектов ожидаются два INSERT-запроса и 1 UPDATE-запрос'
         );
+
+        $this->assertEquals(
+            'UPDATE "umi_mock_users"
+SET "group_id" = :group_id, "version" = "version" + (1)
+WHERE "id" = :objectId AND "version" = :version',
+            $this->getOnlyQueries('update')[0],
+            'После добавления двух связанных объектов ожидается UPDATE с инкрементом версий'
+        );
+
 
         $this->assertEquals(2, $user->getVersion(), 'Ожидается, что у пользователя версия 2');
 
@@ -209,7 +223,6 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
                 [
                     ':group_id'   => 2,
                     ':objectId'   => 1,
-//                    ':newversion' => '`version` + (1)', //todo! Doctrine don't log it
                     ':version'    => 2
                 ]
             ],
@@ -219,9 +232,18 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
         $this->assertEquals(
             $queries,
             $this->getQueryTypesWithParams(),
-            'После добавления объекта и выставления его в качестве значения ожидается один INSERT-запрос и один UPDATE-запрос'
+            'После добавления объекта и выставления его в качестве значения ожидается один INSERT-запрос '
+            . 'и один UPDATE-запрос'
         );
         $this->assertEquals(3, $user->getVersion(), 'Ожидается, что у пользователя версия 3');
+
+        $this->assertEquals(
+            'UPDATE "umi_mock_users"
+SET "group_id" = :group_id, "version" = "version" + (1)
+WHERE "id" = :objectId AND "version" = :version',
+            $this->getOnlyQueries('update')[0],
+            'После добавления двух связанных объектов ожидается UPDATE с инкрементом версии'
+        );
 
         $this->resetQueries();
         $user->setValue('group', $group);
@@ -234,7 +256,6 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
                 [
                     ':group_id'   => 1,
                     ':objectId'   => 1,
-//                    ':newversion' => '`version` + (1)', //todo! Doctrine don't log it
                     ':version'    => 3,
                 ]
             ],
@@ -276,7 +297,6 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
                 [
                     ':group_id'   => 2,
                     ':objectId'   => 1,
-//                    ':newversion' => '`version` + (1)', //todo! Doctrine don't log this
                     ':version'    => 4
                 ]
             ],
@@ -285,7 +305,15 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
         $this->assertEquals(
             $queries,
             $this->getQueryTypesWithParams(),
-            'Ожидается два SELECT-запроса и один UPDATE запрос при выставления значения незагруженному объекту с существующим значением'
+            'Ожидается два SELECT-запроса и один UPDATE запрос при выставления значения незагруженному объекту '
+            . 'с существующим значением'
+        );
+        $this->assertEquals(
+            'UPDATE "umi_mock_users"
+SET "group_id" = :group_id, "version" = "version" + (1)
+WHERE "id" = :objectId AND "version" = :version',
+            $this->getOnlyQueries('update')[0],
+            'Ожидается инкремент версии при выставления значения незагруженному объекту с существующим значением'
         );
         $this->assertEquals(5, $user->getVersion(), 'Ожидается, что у пользователя версия 5');
     }

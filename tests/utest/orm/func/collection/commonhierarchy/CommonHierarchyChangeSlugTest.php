@@ -123,7 +123,6 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
 
     public function testChangeSlug()
     {
-        //todo! check logic
         $blog1 = $this->blogsCollection->get($this->guid4);
         $this->resetQueries();
         $this->hierarchy->changeSlug($blog1, 'new_slug');

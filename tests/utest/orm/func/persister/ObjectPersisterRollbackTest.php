@@ -61,7 +61,6 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
 
         $e = null;
         try {
-            //todo! make unique index for url, slug etc
             $this->objectPersister->commit();
         } catch (\Exception $e) {
         }

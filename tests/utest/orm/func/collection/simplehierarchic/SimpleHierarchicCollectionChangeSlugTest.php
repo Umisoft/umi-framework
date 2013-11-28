@@ -70,7 +70,6 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
         $item1 = $this->menu->get($this->guid1);
         $this->resetQueries();
         $this->menu->changeSlug($item1, 'new_slug');
-        //todo! check logic
         $this->assertEquals(
             [
                 '"START TRANSACTION"',
