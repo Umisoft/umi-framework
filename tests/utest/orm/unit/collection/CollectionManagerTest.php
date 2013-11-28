@@ -12,6 +12,9 @@ namespace utest\orm\unit\collection;
 use umi\config\entity\Config;
 use umi\orm\collection\CollectionManager;
 use umi\orm\collection\ICollectionFactory;
+use umi\orm\toolbox\factory\CollectionFactory;
+use umi\orm\toolbox\factory\ObjectSetFactory;
+use umi\orm\toolbox\factory\SelectorFactory;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -21,39 +24,46 @@ class CollectionManagerTest extends ORMDbTestCase
 {
 
     /**
-     * @var CollectionManager
-     */
-    protected $collectionManager;
-
-    /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            $this->collections,
+            false
+        ];
     }
+
+    private $collections = [
+        self::USERS_USER    => [
+            'type'  => ICollectionFactory::TYPE_SIMPLE,
+            'class' => 'utest\orm\mock\collections\UsersCollection'
+        ],
+        self::USERS_GROUP  => ['type' => ICollectionFactory::TYPE_SIMPLE],
+        self::USERS_PROFILE => ''
+    ];
 
     public function testConfigCollections()
     {
-        $collections = [
-            'users_user'    => [
-                'type'  => ICollectionFactory::TYPE_SIMPLE,
-                'class' => 'utest\orm\mock\collections\users\UsersCollection'
-            ],
-            'users_group'   => ['type' => ICollectionFactory::TYPE_SIMPLE],
-            'users_profile' => ''
-        ];
+        $objectSetFactory = new ObjectSetFactory();
+        $this->resolveOptionalDependencies($objectSetFactory);
+        $selectorFactory = new SelectorFactory($objectSetFactory);
+        $this->resolveOptionalDependencies($selectorFactory);
+        $collectionFactory = new CollectionFactory($selectorFactory);
+        $this->resolveOptionalDependencies($collectionFactory);
 
-        $this->collectionManager->collections = new Config($collections);
+        $collectionManager = new CollectionManager($collectionFactory, new Config($this->collections));
+        $this->resolveOptionalDependencies($collectionManager);
 
         $this->assertEquals(
             ['users_user', 'users_group', 'users_profile'],
-            $this->collectionManager->getList(),
+            $collectionManager->getList(),
             'Ожидается, что у менеджера объектов 3 коллекции'
         );
         $this->assertInstanceOf(
             'umi\orm\collection\ICollection',
-            $this->collectionManager->getCollection('users_group'),
+            $collectionManager->getCollection('users_group'),
             'Ожидается, что IObjectManager::getCollection() вернет ICollection'
         );
     }
@@ -61,43 +71,44 @@ class CollectionManagerTest extends ORMDbTestCase
     public function testArrayCollections()
     {
 
-        $this->collectionManager->collections = [
-            'users_user'    => [
-                'type'  => ICollectionFactory::TYPE_SIMPLE,
-                'class' => 'utest\orm\mock\collections\users\UsersCollection'
-            ],
-            'users_group'   => ['type' => ICollectionFactory::TYPE_SIMPLE],
-            'users_profile' => ''
-        ];
+        $objectSetFactory = new ObjectSetFactory();
+        $this->resolveOptionalDependencies($objectSetFactory);
+        $selectorFactory = new SelectorFactory($objectSetFactory);
+        $this->resolveOptionalDependencies($selectorFactory);
+        $collectionFactory = new CollectionFactory($selectorFactory);
+        $this->resolveOptionalDependencies($collectionFactory);
+
+        $collectionManager = new CollectionManager($collectionFactory, $this->collections);
+        $this->resolveOptionalDependencies($collectionManager);
 
         $this->assertEquals(
             ['users_user', 'users_group', 'users_profile'],
-            $this->collectionManager->getList(),
+            $collectionManager->getList(),
             'Ожидается, что у менеджера объектов 3 коллекции'
         );
         $this->assertTrue(
-            $this->collectionManager->hasCollection('users_user'),
+            $collectionManager->hasCollection('users_user'),
             'Ожидается, что коллекция users_user существует'
         );
         $this->assertFalse(
-            $this->collectionManager->hasCollection('users_user_1'),
+            $collectionManager->hasCollection('users_user_1'),
             'Ожидается, что коллекция users_user_1 не существует'
         );
 
-        $collection = $this->collectionManager->getCollection('users_user');
+        $collection = $collectionManager->getCollection('users_user');
         $this->assertInstanceOf(
             'umi\orm\collection\ICollection',
             $collection,
             'Ожидается, что IObjectManager::getCollection() вернет ICollection'
         );
         $this->assertTrue(
-            $collection === $this->collectionManager->getCollection('users_user'),
+            $collection === $collectionManager->getCollection('users_user'),
             'Ожидается, что при повторном запросе коллекции вернется тот же самый экземпляр'
         );
 
         $e = null;
         try {
-            $this->collectionManager->getCollection('users_user_1');
+            $collectionManager->getCollection('users_user_1');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -113,7 +124,7 @@ class CollectionManagerTest extends ORMDbTestCase
 
         $e = null;
         try {
-            $this->collectionManager->getCollection('users_profile');
+            $collectionManager->getCollection('users_profile');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(

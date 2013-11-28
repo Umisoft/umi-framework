@@ -10,6 +10,7 @@
 namespace utest\http\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\http\THttpSupport;
 
 /**
  * Класс HttpAwareTest
@@ -17,11 +18,11 @@ use utest\AwareTestCase;
 class HttpAwareTest extends AwareTestCase
 {
 
+    use THttpSupport;
+
     protected function setUpFixtures()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/http/toolbox/config.php')
-        );
+        $this->registerHttpTools();
     }
 
     public function testHttpAware()
@@ -33,33 +34,5 @@ class HttpAwareTest extends AwareTestCase
         );
 
         $this->successfulInjectionTest('utest\http\mock\toolbox\MockHttpAware', 'umi\http\IHttpFactory');
-    }
-
-    public function testHttpParamCollectionAware()
-    {
-        $this->awareClassTest(
-            'utest\http\mock\toolbox\MockParamCollectionAware',
-            'umi\http\exception\RequiredDependencyException',
-            'Param collection factory is not injected in class "utest\http\mock\toolbox\MockParamCollectionAware".'
-        );
-
-        $this->successfulInjectionTest(
-            'utest\http\mock\toolbox\MockParamCollectionAware',
-            'umi\http\request\param\IParamCollectionFactory'
-        );
-    }
-
-    public function testHttpHeaderCollectionAware()
-    {
-        $this->awareClassTest(
-            'utest\http\mock\toolbox\MockHeaderCollectionAware',
-            'umi\http\exception\RequiredDependencyException',
-            'HTTP response header collection factory is not injected in class "utest\http\mock\toolbox\MockHeaderCollectionAware".'
-        );
-
-        $this->successfulInjectionTest(
-            'utest\http\mock\toolbox\MockHeaderCollectionAware',
-            'umi\http\response\header\IHeaderCollectionFactory'
-        );
     }
 }

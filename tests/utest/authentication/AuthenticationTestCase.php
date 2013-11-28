@@ -8,6 +8,10 @@
  */
 namespace utest\authentication;
 
+use utest\dbal\TDbalSupport;
+use utest\event\TEventSupport;
+use utest\http\THttpSupport;
+use utest\session\TSessionSupport;
 use utest\TestCase;
 
 /**
@@ -15,17 +19,21 @@ use utest\TestCase;
  */
 abstract class AuthenticationTestCase extends TestCase
 {
+    use TAuthenticationSupport;
+    use TEventSupport;
+    use THttpSupport;
+    use TDbalSupport;
+    use TSessionSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolboxes([
-            require(LIBRARY_PATH . '/event/toolbox/config.php'),
-            require(LIBRARY_PATH . '/http/toolbox/config.php'),
-            require(LIBRARY_PATH . '/session/toolbox/config.php'),
-            require(LIBRARY_PATH . '/authentication/toolbox/config.php')
-        ]);
+        $this->registerEventTools();
+        $this->registerHttpTools();
+        $this->registerSessionTools();
+        $this->registerDbalTools();
+        $this->registerAuthenticationTools();
 
         parent::setUp();
     }

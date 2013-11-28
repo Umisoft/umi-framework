@@ -9,7 +9,14 @@
 
 namespace umi\hmvc\view\extension;
 
+/**
+ * Интерфейс для внедрения фабрики расширений для отображения.
+ */
 interface IViewExtensionFactoryAware
 {
+    /**
+     * Устанавливает фабрику расширений для отображения.
+     * @param IViewExtensionFactory $factory
+     */
     public function setViewExtensionFactory(IViewExtensionFactory $factory);
 }

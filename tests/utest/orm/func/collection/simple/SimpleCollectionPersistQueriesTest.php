@@ -9,6 +9,10 @@
 
 namespace utest\orm\func\collection\simple;
 
+use umi\dbal\builder\IQueryBuilder;
+use umi\dbal\cluster\IConnection;
+use umi\event\IEvent;
+use umi\orm\collection\ICollectionFactory;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -19,27 +23,40 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+        protected function getCollectionConfig()
     {
         return [
-            self::SYSTEM_HIERARCHY,
-            self::GUIDES_COUNTRY,
-            self::GUIDES_CITY,
-            self::USERS_GROUP,
-            self::USERS_USER,
-            self::USERS_PROFILE,
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_PROFILE            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
+                ],
+                self::GUIDES_COUNTRY            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
+                ],
+                self::GUIDES_CITY            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
+                ]
+            ],
+            true
         ];
     }
 
     public function testAddModifyDeleteObjectQueries()
     {
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $user = $userCollection->add();
         $user->setValue('login', 'test_login');
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $queries = [
             ['start', []],
             [
@@ -60,7 +77,7 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
         );
 
         $this->resetQueries();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->assertEquals(
             [],
             $this->getQueries(),
@@ -69,7 +86,7 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
 
         $this->resetQueries();
         $user->setValue('login', 'new_test_login');
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $queries = [
             ['start', []],
@@ -101,7 +118,7 @@ WHERE "id" = :objectId AND "version" = :version',
         );
 
         $this->resetQueries();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->assertEquals(
             [],
             $this->getQueries(),
@@ -109,8 +126,8 @@ WHERE "id" = :objectId AND "version" = :version',
         );
 
         $this->resetQueries();
-        $this->objectPersister->markAsDeleted($user);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->markAsDeleted($user);
+        $this->getObjectPersister()->commit();
         $queries = [
             ['start', []],
             [
@@ -128,7 +145,7 @@ WHERE "id" = :objectId AND "version" = :version',
         );
 
         $this->resetQueries();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->assertEquals(
             [],
             $this->getQueries(),
@@ -140,18 +157,18 @@ WHERE "id" = :objectId AND "version" = :version',
     public function testBelongsToRelationQueries()
     {
 
-        $groupCollection = $this->collectionManager->getCollection(self::USERS_GROUP);
+        $groupCollection = $this->getCollectionManager()->getCollection(self::USERS_GROUP);
 
         $group = $groupCollection->add();
         $group->setValue('name', 'test_group1');
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $user = $userCollection->add();
         $user->setValue('login', 'test_login');
         $user->setValue('group', $group);
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $queries = [
             ['start', []],
@@ -206,7 +223,7 @@ WHERE "id" = :objectId AND "version" = :version',
         $group2->setValue('name', 'test_group2');
         $user->setValue('group', $group2);
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $queries = [
             ['start', []],
@@ -247,7 +264,7 @@ WHERE "id" = :objectId AND "version" = :version',
 
         $this->resetQueries();
         $user->setValue('group', $group);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $queries = [
             ['start', []],
@@ -273,10 +290,10 @@ WHERE "id" = :objectId AND "version" = :version',
         $user->unload();
         $group->unload();
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $user = $userCollection->getById(1);
         $user->setValue('group', $group2);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $queries = [
             [

@@ -11,6 +11,10 @@ namespace utest\orm\func\object;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Logging\DebugStack;
+use umi\dbal\builder\IQueryBuilder;
+use umi\dbal\cluster\IConnection;
+use umi\event\IEvent;
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
 
@@ -29,20 +33,34 @@ class ObjectSerializeTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
         return [
-            self::USERS_GROUP,
-            self::USERS_USER,
-            self::SYSTEM_HIERARCHY,
-            self::BLOGS_BLOG
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
         ];
     }
 
     protected function setUpFixtures()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
-        $blogCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $blogCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $this->blog = $blogCollection->add('blog');
         $user = $userCollection->add();
@@ -63,10 +81,10 @@ class ObjectSerializeTest extends ORMDbTestCase
         }
         $this->assertInstanceOf('\Exception', $e, 'Ожидается исключение при попытке сериализовать новый объект');
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
 
-        $blog = $this->collectionManager->getCollection(self::BLOGS_BLOG)
+        $blog = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG)
             ->get($this->guid);
         $this->resetQueries();
 
@@ -89,7 +107,7 @@ WHERE (("blogs_blog"."id" = :value0))'
     public function testUnserializeObject()
     {
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->resetQueries();
 
         /**
@@ -113,7 +131,7 @@ WHERE (("blogs_blog"."id" = :value0))'
             'Ожидается исключение при попытке изменить ансериализованный, но не инициированный объект'
         );
 
-        $this->objectManager->wakeUpObject($blog);
+        $this->getObjectManager()->wakeUpObject($blog);
 
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
@@ -142,15 +160,15 @@ WHERE (("blogs_blog"."id" = :value0))'
     public function testUnserializeObjectAfterUnload()
     {
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
         $this->resetQueries();
 
         /**
          * @var IObject $blog
          */
         $blog = unserialize($this->serialized);
-        $this->objectManager->wakeUpObject($blog);
+        $this->getObjectManager()->wakeUpObject($blog);
 
         $this->assertInstanceOf(
             'umi\orm\object\IObject',

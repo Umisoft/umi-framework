@@ -15,14 +15,13 @@ use utest\TestCase;
  */
 abstract class EventTestCase extends TestCase
 {
+    use TEventSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/event/toolbox/config.php')
-        );
+        $this->registerEventTools();
 
         parent::setUp();
     }

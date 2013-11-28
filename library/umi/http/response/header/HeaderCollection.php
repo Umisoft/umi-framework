@@ -9,17 +9,11 @@
 
 namespace umi\http\response\header;
 
-use umi\http\exception\RuntimeException;
-use umi\i18n\ILocalizable;
-use umi\i18n\TLocalizable;
-
 /**
  * Класс для заголовков HTTP ответа.
  */
-class HeaderCollection implements IHeaderCollection, ILocalizable
+class HeaderCollection implements IHeaderCollection
 {
-    use TLocalizable;
-
     /**
      * @var array $headers заголовки ответа
      */
@@ -67,12 +61,6 @@ class HeaderCollection implements IHeaderCollection, ILocalizable
 
     public function send()
     {
-        if (headers_sent()) {
-            throw new RuntimeException($this->translate(
-                'Response headers already sent.'
-            ));
-        }
-
         foreach ($this->headers as $name => $value) {
             header($name . ': ' . $value);
         }

@@ -15,6 +15,7 @@ namespace utest\toolkit\mock;
 interface MockServicingInterface
 {
     /**
+     * Метод, через который тулбоксом внедряется зависимость
      * @param $value
      * @return self
      */
@@ -27,8 +28,9 @@ interface MockServicingInterface
     public function setService($value);
 
     /**
+     * Метод, используемый инициализатором прототипа
      * @param $value
      * @return self
      */
-    public function setFactoryService($value);
+    public function setInitializerService($value);
 }

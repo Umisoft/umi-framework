@@ -34,7 +34,11 @@ class EventFactory implements IEventFactory, IFactory
      */
     public function createEventManager()
     {
-        return $this->createInstance($this->eventManagerClass, [$this], ['umi\event\IEventManager']);
+        return $this->getPrototype(
+                $this->eventManagerClass,
+                ['umi\event\IEventManager']
+            )
+            ->createInstance([$this]);
     }
 
     /**
@@ -42,7 +46,11 @@ class EventFactory implements IEventFactory, IFactory
      */
     public function createEvent($type, $target, array $params = [], array $tags = [])
     {
-        return $this->createInstance($this->eventClass, [$type, $target, $params, $tags], ['umi\event\IEvent']);
+        return $this->getPrototype(
+                $this->eventClass,
+                ['umi\event\IEvent']
+            )
+            ->createInstance([$type, $target, $params, $tags]);
     }
 }
 

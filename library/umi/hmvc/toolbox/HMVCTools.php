@@ -15,8 +15,6 @@ use umi\hmvc\component\request\IComponentRequestAware;
 use umi\hmvc\component\request\IComponentRequestFactory;
 use umi\hmvc\component\response\IComponentResponseAware;
 use umi\hmvc\component\response\IComponentResponseFactory;
-use umi\hmvc\controller\result\IControllerResultAware;
-use umi\hmvc\controller\result\IControllerResultFactory;
 use umi\hmvc\IMVCLayerAware;
 use umi\hmvc\IMVCLayerFactory;
 use umi\toolkit\exception\UnsupportedServiceException;
@@ -35,10 +33,6 @@ class HMVCTools implements IToolbox
 
     use TToolbox;
 
-    /**
-     * @var string $controllerResultFactoryClass фабрика результатов работы контроллера
-     */
-    public $controllerResultFactoryClass = 'umi\hmvc\toolbox\factory\ControllerResultFactory';
     /**
      * @var string $componentResponseFactoryClass фабрика результатов работы компонента
      */
@@ -61,11 +55,6 @@ class HMVCTools implements IToolbox
      */
     public function __construct()
     {
-        $this->registerFactory(
-            'controllerResult',
-            $this->controllerResultFactoryClass,
-            ['umi\hmvc\controller\result\IControllerResultFactory']
-        );
         $this->registerFactory(
             'componentResponse',
             $this->componentResponseFactoryClass,
@@ -121,10 +110,6 @@ class HMVCTools implements IToolbox
             $object->setHMVCComponentFactory($this->getComponentFactory());
         }
 
-        if ($object instanceof IControllerResultAware) {
-            $object->setControllerResultFactory($this->getControllerResultFactory());
-        }
-
         if ($object instanceof IComponentResponseAware) {
             $object->setComponentResponseFactory($this->getComponentResponseFactory());
         }
@@ -150,15 +135,6 @@ class HMVCTools implements IToolbox
     protected function getComponentRequestFactory()
     {
         return $this->getFactory('componentRequest');
-    }
-
-    /**
-     * Возвращает фабрику результатов работы контроллера.
-     * @return IControllerResultFactory
-     */
-    protected function getControllerResultFactory()
-    {
-        return $this->getFactory('controllerResult');
     }
 
     /**

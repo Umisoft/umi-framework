@@ -44,11 +44,11 @@ class RouteFactory implements IRouteFactory, IFactory
     {
         $routes = $this->createRoutes($config);
 
-        return $this->createInstance(
-            $this->routerClass,
-            [$routes],
-            ['umi\route\IRouter']
-        );
+        return $this->getPrototype(
+                $this->routerClass,
+                ['umi\route\IRouter']
+            )
+            ->createInstance([$routes]);
     }
 
     /**
@@ -83,11 +83,11 @@ class RouteFactory implements IRouteFactory, IFactory
         unset($config[self::OPTION_TYPE]);
         unset($config[self::OPTION_SUBROUTES]);
 
-        return $this->createInstance(
-            $this->types[$type],
-            [$config, $subroutes],
-            ['umi\route\type\IRoute']
-        );
+        return $this->getPrototype(
+                $this->types[$type],
+                ['umi\route\type\IRoute']
+            )
+            ->createInstance([$config, $subroutes]);
     }
 
     /**

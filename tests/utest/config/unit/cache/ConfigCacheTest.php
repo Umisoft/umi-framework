@@ -15,34 +15,38 @@ use umi\config\entity\LazyConfigSource;
 use umi\config\entity\value\ConfigValue;
 use umi\config\entity\value\IConfigValue;
 use umi\config\exception\RuntimeException;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
-class ConfigCacheTest extends TestCase
+class ConfigCacheTest extends ConfigTestCase
 {
     /**
      * @var ConfigCacheEngine $cacheEngine
      */
     private $cacheEngine;
+    /**
+     * @var string $directory директория с кешем
+     */
+    private $directory;
 
     public function setUpFixtures()
     {
-        $this->cacheEngine = new ConfigCacheEngine();
-        $this->cacheEngine->directory = __DIR__ . '/data';
+        $this->directory = __DIR__ . '/data';
+        $this->cacheEngine = new ConfigCacheEngine(['directory' => $this->directory]);
 
-        @mkdir($this->cacheEngine->directory);
+        @mkdir($this->directory);
     }
 
     public function tearDownFixtures()
     {
-        $files = scandir($this->cacheEngine->directory);
+        $files = scandir($this->directory);
 
         foreach ($files as $file) {
             if ($file != '.' && $file != '..') {
-                unlink($this->cacheEngine->directory . '/' . $file);
+                unlink($this->directory . '/' . $file);
             }
         }
 
-        @rmdir($this->cacheEngine->directory);
+        @rmdir($this->directory);
     }
 
     public function testCacheEngineLoadSave()

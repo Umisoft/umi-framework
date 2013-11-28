@@ -9,6 +9,7 @@
 
 namespace utest\orm\unit\selector;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\objectset\ObjectSet;
 use umi\orm\selector\Selector;
 use umi\orm\toolbox\factory\ObjectSetFactory;
@@ -25,9 +26,17 @@ class SelectorTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            false
+        ];
     }
 
     /**
@@ -43,9 +52,11 @@ class SelectorTest extends ORMDbTestCase
         $selectorFactory = new SelectorFactory($objectsSetFactory);
         $this->resolveOptionalDependencies($selectorFactory);
 
-        $this->selector = new Selector($this->collectionManager->getCollection(
-            self::USERS_USER
-        ), $objectsSet, $selectorFactory);
+        $this->selector = new Selector(
+            $this->getCollectionManager()->getCollection(self::USERS_USER),
+            $objectsSet,
+            $selectorFactory
+        );
         $this->resolveOptionalDependencies($this->selector);
     }
 
@@ -314,18 +325,14 @@ ORDER BY "users_user"."height" ASC, "users_user"."rating" DESC',
         $this->selector
             ->fields(['id'])
             ->begin()
-            ->begin('OR')
-            ->where('height')
-            ->less(170)
-            ->where('rating')
-            ->equals(5)
-            ->end()
-            ->begin('OR')
-            ->where('height')
-            ->more(154)
-            ->where('rating')
-            ->equalsOrMore(4)
-            ->end()
+                ->begin('OR')
+                    ->where('height')->less(170)
+                    ->where('rating')->equals(5)
+                ->end()
+                ->begin('OR')
+                    ->where('height')->more(154)
+                    ->where('rating')->equalsOrMore(4)
+                ->end()
             ->end();
 
         $this->assertEquals(

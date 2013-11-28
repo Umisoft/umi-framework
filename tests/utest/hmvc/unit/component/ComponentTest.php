@@ -11,6 +11,7 @@ namespace utest\hmvc\unit\component;
 
 use umi\hmvc\component\IComponent;
 use umi\hmvc\exception\OutOfBoundsException;
+use umi\hmvc\exception\UnexpectedValueException;
 use umi\route\IRouteFactory;
 use umi\templating\engine\ITemplateEngineFactory;
 use utest\hmvc\HMVCTestCase;
@@ -252,5 +253,22 @@ class ComponentTest extends HMVCTestCase
 
         $this->assertEquals('Controller result: route data', $response->getContent());
         $this->assertEquals(200, $response->getCode());
+    }
+
+    /**
+     * @test
+     * @expectedException UnexpectedValueException
+     */
+    public function strangeControllerCall()
+    {
+        $component = $this->getComponent(
+            [
+                IComponent::OPTION_CONTROLLERS => [
+                    'test' => 'utest\hmvc\mock\controller\MockStrangeController'
+                ]
+            ]
+        );
+
+        $component->call('test', $this->getRequest('/'));
     }
 }

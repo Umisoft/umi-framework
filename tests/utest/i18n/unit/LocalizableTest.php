@@ -31,13 +31,7 @@ class LocalizableTest extends I18nTestCase implements ILocalizable
     protected function setUpFixtures()
     {
 
-        $localesService = new LocalesService();
-        $localesService->setCurrentLocale('ru');
-        $localesService->setDefaultLocale('en');
-        $this->translator = new Translator();
-        $this->translator->setLocalesService($localesService);
-
-        $this->translator->dictionaries = [
+        $dictionaries = [
             'utest' => [
                 'en' => [
                     'test' => 'utest'
@@ -54,6 +48,13 @@ class LocalizableTest extends I18nTestCase implements ILocalizable
                 ]
             ]
         ];
+
+        $localesService = new LocalesService();
+        $localesService->setCurrentLocale('ru');
+        $localesService->setDefaultLocale('en');
+        $this->translator = new Translator($dictionaries);
+        $this->translator->setLocalesService($localesService);
+
     }
 
     public function testLocalizable()

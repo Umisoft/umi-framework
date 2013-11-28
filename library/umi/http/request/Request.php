@@ -11,15 +11,13 @@ namespace umi\http\request;
 
 use umi\http\exception\RuntimeException;
 use umi\http\request\param\IParamCollection;
-use umi\http\request\param\IParamCollectionAware;
-use umi\http\request\param\TParamCollectionAware;
+use umi\http\request\param\ParamCollection;
 
 /**
  * Компонент работы с HTTP запросом.
  */
-class Request implements IRequest, IParamCollectionAware
+class Request implements IRequest
 {
-    use TParamCollectionAware;
 
     /**
      * @var IParamCollection[] $paramCollectionInstances экземпляры контейнеров
@@ -147,6 +145,6 @@ class Request implements IRequest, IParamCollectionAware
                 $params = [];
         }
 
-        return $this->createParamCollection($params);
+        return new ParamCollection($params);
     }
 }

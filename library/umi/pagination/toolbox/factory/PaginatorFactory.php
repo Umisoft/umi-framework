@@ -41,11 +41,11 @@ class PaginatorFactory implements IPaginatorFactory, IFactory
      */
     public function createPaginator($objects, $itemsPerPage)
     {
-        return $this->createInstance(
+        return $this->getPrototype(
             $this->paginatorClass,
-            [$this->createAdapter($objects), $itemsPerPage],
             ['umi\pagination\IPaginator']
-        );
+        )
+            ->createInstance([$this->createAdapter($objects), $itemsPerPage]);
     }
 
     /**
@@ -55,11 +55,11 @@ class PaginatorFactory implements IPaginatorFactory, IFactory
      */
     protected function createAdapter($objects)
     {
-        return $this->createInstance(
-            $this->selectAdapter($objects),
-            [$objects],
-            ['umi\pagination\adapter\IPaginationAdapter']
-        );
+        return $this->getPrototype(
+                $this->selectAdapter($objects),
+                ['umi\pagination\adapter\IPaginationAdapter']
+            )
+            ->createInstance([$objects]);
     }
 
     /**

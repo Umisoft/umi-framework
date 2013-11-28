@@ -9,6 +9,10 @@
 
 namespace utest\orm\func\selector;
 
+use umi\dbal\builder\IQueryBuilder;
+use umi\dbal\cluster\IConnection;
+use umi\event\IEvent;
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use umi\orm\selector\ISelector;
 use utest\orm\ORMDbTestCase;
@@ -32,31 +36,56 @@ class SelectorRelationTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::SYSTEM_HIERARCHY,
-            self::GUIDES_COUNTRY,
-            self::GUIDES_CITY,
-            self::USERS_GROUP,
-            self::USERS_USER,
-            self::USERS_PROFILE,
-            self::BLOGS_BLOG,
-            self::BLOGS_POST,
-            self::BLOGS_SUBSCRIBER,
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::BLOGS_POST             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::BLOGS_SUBSCRIBER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_PROFILE            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::GUIDES_COUNTRY            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::GUIDES_CITY            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
+        ];
     }
 
     protected function setUpFixtures()
     {
 
-        $countryCollection = $this->collectionManager->getCollection(self::GUIDES_COUNTRY);
+        $countryCollection = $this->getCollectionManager()->getCollection(self::GUIDES_COUNTRY);
         $country = $countryCollection->add();
         $country->setValue('name', 'Россия');
         $country2 = $countryCollection->add();
         $country2->setValue('name', 'Германия');
 
-        $cityCollection = $this->collectionManager->getCollection(self::GUIDES_CITY);
+        $cityCollection = $this->getCollectionManager()->getCollection(self::GUIDES_CITY);
         $city1 = $cityCollection->add();
         $city1->setValue('name', 'Санкт-Петербург');
         $city1->setValue('country', $country);
@@ -69,7 +98,7 @@ class SelectorRelationTest extends ORMDbTestCase
         $city3->setValue('name', 'Берлин');
         $city3->setValue('country', $country2);
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $user1 = $userCollection->add();
         $user1->setValue('login', 'test_login1');
@@ -92,7 +121,7 @@ class SelectorRelationTest extends ORMDbTestCase
         $user5 = $userCollection->add();
         $user5->setValue('login', 'test_login5');
 
-        $profileCollection = $this->collectionManager->getCollection(self::USERS_PROFILE);
+        $profileCollection = $this->getCollectionManager()->getCollection(self::USERS_PROFILE);
 
         $profile1 = $profileCollection->add('natural_person');
         $profile1->setValue('name', 'test_name1');
@@ -110,7 +139,7 @@ class SelectorRelationTest extends ORMDbTestCase
         $profile3->setValue('user', $user4);
         $profile3->setValue('city', $city3);
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog1 = $blogsCollection->add('blog1');
         $blog1->setValue('owner', $user1);
@@ -136,7 +165,7 @@ class SelectorRelationTest extends ORMDbTestCase
         $blog5->setValue('title', 'fifth');
         $this->blog5Guid = $blog5->getGUID();
 
-        $subscribersCollection = $this->collectionManager->getCollection(self::BLOGS_SUBSCRIBER);
+        $subscribersCollection = $this->getCollectionManager()->getCollection(self::BLOGS_SUBSCRIBER);
         $subscription1 = $subscribersCollection->add();
         $subscription1->setValue('blog', $blog1);
         $subscription1->setValue('user', $user1);
@@ -161,12 +190,12 @@ class SelectorRelationTest extends ORMDbTestCase
         $subscription6->setValue('blog', $blog4);
         $subscription6->setValue('user', $user4);
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
     }
 
     public function testHasOneWhere()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile.name')
@@ -199,7 +228,7 @@ WHERE (("users_user:profile"."name" = :value0))'
 
     public function testHasOneIsNull()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile')
@@ -211,7 +240,7 @@ WHERE (("users_user:profile"."name" = :value0))'
 
     public function testHasOneOrderBy()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $result = $userCollection->select()
             ->orderBy('profile.name', ISelector::ORDER_DESC)
@@ -239,8 +268,8 @@ WHERE (("users_user:profile"."name" = :value0))'
 
     public function testHasOneObject()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
-        $profileCollection = $this->collectionManager->getCollection(self::USERS_PROFILE);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $profileCollection = $this->getCollectionManager()->getCollection(self::USERS_PROFILE);
 
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
@@ -281,7 +310,7 @@ WHERE (("users_user:profile"."id" = :value0))'
     public function testHasOneObjectId()
     {
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile')
@@ -318,7 +347,7 @@ WHERE (("users_user:profile"."id" = :value0))'
 
     public function testHasManyWhere()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs.title')
@@ -351,7 +380,7 @@ GROUP BY "users_user"."id"'
 
     public function testHasManyIsNull()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs')
@@ -364,8 +393,8 @@ GROUP BY "users_user"."id"'
 
     public function testHasManyObject()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs')
@@ -399,7 +428,7 @@ GROUP BY "users_user"."id"'
 
     public function testHasManyObjectId()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs')
@@ -431,7 +460,7 @@ GROUP BY "users_user"."id"'
 
     public function testBelongsToWhere()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner.login')
@@ -468,7 +497,7 @@ WHERE (("blogs_blog:owner"."login" = :value0))'
 
     public function testBelongsToIsNull()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner')
@@ -481,8 +510,8 @@ WHERE (("blogs_blog:owner"."login" = :value0))'
 
     public function testBelongsToObject()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner')
@@ -514,7 +543,7 @@ WHERE (("blogs_blog:owner"."id" = :value0))'
 
     public function testBelongsToObjectId()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner')
@@ -545,7 +574,7 @@ WHERE (("blogs_blog:owner"."id" = :value0))'
 
     public function testManyToManyWhere()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('subscribers.height')
@@ -585,7 +614,7 @@ GROUP BY "blogs_blog"."id"'
 
     public function testManyToManyIsNull()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
@@ -600,8 +629,8 @@ GROUP BY "blogs_blog"."id"'
 
     public function testManyToManyObject()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('subscribers')
@@ -641,7 +670,7 @@ GROUP BY "blogs_blog"."id"'
 
     public function testManyToManyObjectId()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('subscribers')
@@ -682,7 +711,7 @@ GROUP BY "blogs_blog"."id"'
     public function testRelationExceptions()
     {
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $selector = $blogsCollection->select();
 
         $e = null;
@@ -698,7 +727,7 @@ GROUP BY "blogs_blog"."id"'
             'Ожидается исключение при наличии в пути к полю несуществующего поля'
         );
 
-        $usersCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $selector = $usersCollection->select();
 
         $e = null;
@@ -723,7 +752,7 @@ GROUP BY "blogs_blog"."id"'
     public function testThroughManyToMany()
     {
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('subscribers.profile.name')
@@ -763,7 +792,7 @@ GROUP BY "blogs_blog"."id"'
     public function testThroughBelongsTo()
     {
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $result = $blogsCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('owner.profile.name')
@@ -800,7 +829,7 @@ WHERE (("blogs_blog:owner:profile"."name" = :value0))'
     public function testThroughHasOne()
     {
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile.city.country.name')
@@ -839,7 +868,7 @@ WHERE (("users_user:profile:city:country"."name" = :value0))'
     public function testThroughHasMany()
     {
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('blogs.subscribers.profile.city.country.name')
@@ -883,7 +912,7 @@ GROUP BY "users_user"."id"'
 
     public function testDoubleWhere()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile.name')
@@ -919,7 +948,7 @@ WHERE (("users_user:profile"."name" = :value0 AND "users_user:profile:city"."nam
 
     public function testOrderBy()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $result = $userCollection->select()
             ->fields([IObject::FIELD_IDENTIFY])
             ->where('profile')

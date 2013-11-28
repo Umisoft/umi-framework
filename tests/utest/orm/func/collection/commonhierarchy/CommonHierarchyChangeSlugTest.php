@@ -1,4 +1,8 @@
 <?php
+use umi\dbal\builder\IQueryBuilder;
+use umi\dbal\cluster\IConnection;
+use umi\event\IEvent;
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\collection\ILinkedHierarchicCollection;
 use umi\orm\metadata\IObjectType;
@@ -18,15 +22,32 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::USERS_GROUP,
-            self::USERS_USER,
-            self::SYSTEM_HIERARCHY,
-            self::BLOGS_BLOG,
-            self::BLOGS_POST,
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::BLOGS_POST             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
+        ];
     }
 
     /**
@@ -44,9 +65,9 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
 
     protected function setUpFixtures()
     {
-        $this->blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $this->postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
-        $this->hierarchy = $this->collectionManager->getCollection(self::SYSTEM_HIERARCHY);
+        $this->blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $this->postsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_POST);
+        $this->hierarchy = $this->getCollectionManager()->getCollection(self::SYSTEM_HIERARCHY);
 
         $blog1 = $this->blogsCollection->add('blog1');
         $blog1->setValue('title', 'test_blog');
@@ -64,8 +85,8 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
         $post3->setValue('title', 'test_post3');
         $this->guid3 = $post3->getGUID();
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
     }
 
     public function testUrl()

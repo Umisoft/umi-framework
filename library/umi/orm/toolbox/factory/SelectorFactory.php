@@ -102,11 +102,11 @@ class SelectorFactory implements ISelectorFactory, IFactory
         IFieldConditionGroup $parentGroup = null
     )
     {
-        return $this->createInstance(
-            $this->fieldConditionsGroupClass,
-            [$mode, $parentGroup],
-            ['umi\orm\selector\condition\IFieldConditionGroup']
-        );
+        return $this->getPrototype(
+                $this->fieldConditionsGroupClass,
+                ['umi\orm\selector\condition\IFieldConditionGroup']
+            )
+            ->createInstance([$mode, $parentGroup]);
     }
 
     /**
@@ -120,11 +120,11 @@ class SelectorFactory implements ISelectorFactory, IFactory
         $localeId = null
     )
     {
-        return $this->createInstance(
-            $this->fieldConditionClass,
-            [$selector, $field, $collectionAlias, $placeholder, $localeId],
-            ['umi\orm\selector\condition\IFieldCondition']
-        );
+        return $this->getPrototype(
+                $this->fieldConditionClass,
+                ['umi\orm\selector\condition\IFieldCondition']
+            )
+            ->createInstance([$selector, $field, $collectionAlias, $placeholder, $localeId]);
     }
 
     /**
@@ -135,11 +135,14 @@ class SelectorFactory implements ISelectorFactory, IFactory
      */
     protected function getSelectorInstance(ICollection $objectsCollection, IObjectSet $objectSet)
     {
-        $selector = $this->createInstance(
-            $this->selectorClass,
-            [$objectsCollection, $objectSet, $this],
-            ['umi\orm\selector\ISelector']
-        );
+        /**
+         * @var ISelector $selector
+         */
+        $selector = $this->getPrototype(
+                $this->selectorClass,
+                ['umi\orm\selector\ISelector']
+            )
+            ->createInstance([$objectsCollection, $objectSet, $this]);
         $objectSet->setSelector($selector);
 
         return $selector;

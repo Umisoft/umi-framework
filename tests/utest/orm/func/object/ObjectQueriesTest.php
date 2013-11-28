@@ -11,6 +11,10 @@ namespace utest\orm\func\object;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Logging\DebugStack;
+use umi\dbal\builder\IQueryBuilder;
+use umi\dbal\cluster\IConnection;
+use umi\event\IEvent;
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -28,23 +32,31 @@ class ObjectQueriesTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
         return [
-            self::USERS_GROUP,
-            self::USERS_USER
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
         ];
     }
 
     protected function setUpFixtures()
     {
-        $this->userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $this->userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $this->userCollection->add()
             ->setValue('login', '123')
             ->setValue('height', 123);
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
     }
 
     public function testQueries()

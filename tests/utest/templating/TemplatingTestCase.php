@@ -15,15 +15,14 @@ use utest\TestCase;
  */
 abstract class TemplatingTestCase extends TestCase
 {
+    use TTemplatingSupport;
+
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/templating/toolbox/config.php')
-        );
-
+        $this->registerTemplatingTools();
         parent::setUp();
     }
 }

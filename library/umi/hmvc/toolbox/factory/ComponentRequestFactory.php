@@ -30,10 +30,10 @@ class ComponentRequestFactory implements IComponentRequestFactory, IFactory
      */
     public function createComponentRequest($uri)
     {
-        return $this->createInstance(
-            $this->componentRequestClass,
-            [$uri],
-            ['umi\hmvc\component\request\IComponentRequest']
-        );
+        return $this->getPrototype(
+                $this->componentRequestClass,
+                ['umi\hmvc\component\request\IComponentRequest']
+            )
+            ->createInstance([$uri]);
     }
 }

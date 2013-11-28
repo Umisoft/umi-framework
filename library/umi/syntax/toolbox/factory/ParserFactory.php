@@ -31,10 +31,10 @@ class ParserFactory implements IParserFactory, IFactory
      */
     public function createParser(array $grammar, array $rules)
     {
-        return $this->createInstance(
-            $this->parserClass,
-            [$grammar, $rules],
-            ['umi\syntax\IParser']
-        );
+        return $this->getPrototype(
+                $this->parserClass,
+                ['umi\syntax\IParser']
+            )
+            ->createInstance([$grammar, $rules]);
     }
 }

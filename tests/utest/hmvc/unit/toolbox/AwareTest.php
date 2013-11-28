@@ -10,18 +10,19 @@
 namespace utest\hmvc\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\hmvc\THMVCSupport;
 
 /**
  * Class AwareTest
  */
 class AwareTest extends AwareTestCase
 {
+    use THMVCSupport;
+
     const EXCEPTION_CLASS = 'umi\hmvc\exception\RequiredDependencyException';
 
     protected function setUpFixtures() {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/hmvc/toolbox/config.php')
-        );
+        $this->registerHMVCTools();
     }
 
     public function testComponentAware()
@@ -63,20 +64,6 @@ class AwareTest extends AwareTestCase
         $this->successfulInjectionTest(
             'utest\hmvc\mock\toolbox\MockComponentResponseAware',
             'umi\hmvc\component\response\IComponentResponseFactory'
-        );
-    }
-
-    public function testControllerResultAware()
-    {
-        $this->awareClassTest(
-            'utest\hmvc\mock\toolbox\MockControllerResultAware',
-            self::EXCEPTION_CLASS,
-            'HMVC controller result factory is not injected in class "utest\hmvc\mock\toolbox\MockControllerResultAware".'
-        );
-
-        $this->successfulInjectionTest(
-            'utest\hmvc\mock\toolbox\MockControllerResultAware',
-            'umi\hmvc\controller\result\IControllerResultFactory'
         );
     }
 

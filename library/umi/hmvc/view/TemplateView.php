@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -10,7 +9,7 @@
 namespace umi\hmvc\view;
 
 use umi\hmvc\context\IContextAware;
-use umi\hmvc\context\TContextInjectorAware;
+use umi\hmvc\context\TContextAware;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
 use umi\hmvc\view\extension\IViewExtensionFactory;
@@ -32,7 +31,7 @@ class TemplateView implements IView,
     use TTemplateEngineAware;
     use TExtensionAdapterAware;
     use TViewExtensionFactoryAware;
-    use TContextInjectorAware;
+    use TContextAware;
 
     /** Опция для установки помощников вида  */
     const OPTION_HELPERS = 'helpers';
@@ -45,7 +44,9 @@ class TemplateView implements IView,
      * @var ITemplateEngine $templateEngine шаблонизатор
      */
     private $templateEngine;
-
+    /**
+     * @var IModelFactory $modelFactory фабрика моделей
+     */
     private $modelFactory;
 
     /**
@@ -57,6 +58,9 @@ class TemplateView implements IView,
         $this->options = $options;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setModelFactory(IModelFactory $factory)
     {
         $this->modelFactory = $factory;
@@ -71,9 +75,20 @@ class TemplateView implements IView,
             ->render($template, $params);
     }
 
+    /**
+     * Внедряет зависимости от контекста в фабрику расширений
+     * шаблонизатора.
+     * @param IViewExtensionFactory $factory
+     */
     protected function injectContextToViewExtensionFactory(IViewExtensionFactory $factory)
     {
-        $this->injectContext($factory);
+        if ($factory instanceof IContextAware) {
+            $factory->clearContext();
+
+            if ($this->hasContext()) {
+                $factory->setContext($this->getContext());
+            }
+        }
 
         if ($factory instanceof IModelAware && $this->modelFactory) {
             $factory->setModelFactory($this->modelFactory);

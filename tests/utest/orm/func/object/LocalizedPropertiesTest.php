@@ -9,7 +9,11 @@
 
 namespace utest\orm\func\object;
 
+use umi\dbal\builder\IQueryBuilder;
+use umi\dbal\cluster\IConnection;
+use umi\event\IEvent;
 use umi\i18n\ILocalesService;
+use umi\orm\collection\ICollectionFactory;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -21,25 +25,34 @@ class LocalizedPropertiesTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::USERS_GROUP,
-            self::USERS_USER,
-            self::SYSTEM_HIERARCHY,
-            self::BLOGS_BLOG,
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ]
+            ],
+            true
+        ];
     }
+
 
     public function testLoadLocalization()
     {
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog = $blogsCollection->add('blog');
         $blogGuid = $blog->getGUID();
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
         $this->resetQueries();
 
         $blog = $blogsCollection->get($blogGuid);
@@ -85,14 +98,14 @@ WHERE (("blogs_blog"."id" = :value0))'
         $locales->setDefaultLocale('en-US');
         $locales->setCurrentLocale('en-US');
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog = $blogsCollection->add('blog');
         $blog->setValue('title', 'current russian title', 'ru-RU');
         $blogGuid = $blog->getGUID();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
-        $this->objectManager->unloadObjects();
+        $this->getObjectManager()->unloadObjects();
         $this->resetQueries();
 
         $blog = $blogsCollection->get($blogGuid);
@@ -113,12 +126,12 @@ WHERE (("blogs_blog"."guid" = :value0))'
 
     public function testCurrentLocaleProperties()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog = $blogsCollection->add('blog');
         $blog->setValue('title', 'current russian title');
         $blogGuid = $blog->getGUID();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $expectedResult = [
             '"START TRANSACTION"',
@@ -144,7 +157,7 @@ WHERE "id" = :objectId',
             'Неверные запросы на добавления объекта без указания локали'
         );
         $this->resetQueries();
-        $this->objectManager->unloadObjects();
+        $this->getObjectManager()->unloadObjects();
 
         $blog = $blogsCollection->get($blogGuid);
         $this->assertEquals(
@@ -173,12 +186,12 @@ WHERE (("blogs_blog"."guid" = :value0))'
 
     public function testDefaultLocaleProperties()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog = $blogsCollection->add('blog');
         $blog->setValue('title', 'default english title', 'en-US');
         $blogGuid = $blog->getGUID();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $expectedResult = [
             '"START TRANSACTION"',
@@ -204,7 +217,7 @@ WHERE "id" = :objectId',
             'Неверные запросы на добавления объекта в конкретной локали'
         );
         $this->resetQueries();
-        $this->objectManager->unloadObjects();
+        $this->getObjectManager()->unloadObjects();
 
         $blog = $blogsCollection->get($blogGuid);
         $this->assertEquals(
@@ -221,13 +234,13 @@ WHERE "id" = :objectId',
 
     public function testAddLocalesProperties()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog = $blogsCollection->add('blog');
         $blog->setValue('title', 'russian current title');
         $blog->setValue('title', 'english default title', 'en-US');
         $blogGuid = $blog->getGUID();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $expectedResult = [
             '"START TRANSACTION"',
@@ -252,7 +265,7 @@ WHERE "id" = :objectId',
             $this->getQueries(),
             'Неверные запросы на добавления объекта c указанием локалей'
         );
-        $this->objectManager->unloadObjects();
+        $this->getObjectManager()->unloadObjects();
 
         $blog = $blogsCollection->get($blogGuid);
         $this->assertEquals(
@@ -269,12 +282,12 @@ WHERE "id" = :objectId',
 
     public function testModifyLocalesProperties()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog = $blogsCollection->add('blog');
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $guid = $blog->getGUID();
-        $this->objectManager->unloadObjects();
+        $this->getObjectManager()->unloadObjects();
 
         $blog = $blogsCollection->get($guid);
         $this->resetQueries();
@@ -283,7 +296,7 @@ WHERE "id" = :objectId',
         $blog->setValue('title', 'russian current title');
         $blog->setValue('title', 'english default title', 'en-US');
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $expectedResult = [
             '"START TRANSACTION"',
@@ -301,7 +314,7 @@ WHERE "id" = :objectId AND "version" = :version',
             $this->getQueries(),
             'Неверные запросы на модификацию объекта c указанием локалей'
         );
-        $this->objectManager->unloadObjects();
+        $this->getObjectManager()->unloadObjects();
 
         $blog = $blogsCollection->get($guid);
         $this->assertEquals(
@@ -319,13 +332,13 @@ WHERE "id" = :objectId AND "version" = :version',
     public function testModifyCalculatedProperty()
     {
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog = $blogsCollection->add('blog');
         $blog->setValue('title', 'current title', 'en-US');
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $guid = $blog->getGUID();
-        $this->objectManager->unloadObjects();
+        $this->getObjectManager()->unloadObjects();
 
         $blog = $blogsCollection->get($guid);
         $this->assertEquals(
@@ -342,7 +355,7 @@ WHERE "id" = :objectId AND "version" = :version',
 
         $blog->setValue('title', 'english title', 'en-US');
         $blog->setValue('title', 'current title');
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $blog = $blogsCollection->get($guid);
         $this->assertEquals(
@@ -364,7 +377,7 @@ WHERE "id" = :objectId AND "version" = :version',
 
     public function testCurrentLocaleSetValue()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog = $blogsCollection->add('blog');
         $blog->setValue('title', 'current title', 'ru-RU');

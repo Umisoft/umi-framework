@@ -83,11 +83,11 @@ class CacheTools implements IToolbox
      */
     protected function getCache()
     {
-        return $this->createSingleInstance(
+        return $this->getPrototype(
             $this->cacheServiceClass,
-            [$this->getCacheEngine()],
             ['umi\cache\ICache']
-        );
+        )
+            ->createSingleInstance([$this->getCacheEngine()]);
     }
 
     /**
@@ -104,10 +104,10 @@ class CacheTools implements IToolbox
             ));
         }
 
-        return $this->createSingleInstance(
+        return $this->getPrototype(
             $this->cacheEngineClasses[$this->type],
-            [$this->options],
             ['umi\cache\engine\ICacheEngine']
-        );
+        )
+            ->createSingleInstance([$this->options]);
     }
 }

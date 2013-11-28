@@ -22,7 +22,7 @@ class TestController extends BaseController
      */
     public function __invoke(IComponentRequest $request)
     {
-        return $this->createControllerResult(
+        return $this->createDisplayResponse(
             'test',
             [
                 'name' => 'UMI'

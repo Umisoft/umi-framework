@@ -134,11 +134,11 @@ class ConfigTools implements IToolbox
      */
     protected function getConfigIO()
     {
-        return $this->createSingleInstance(
+        return $this->getPrototype(
             $this->ioServiceClass,
-            [$this->getReader(), $this->getWriter(), $this->aliases],
             ['umi\config\io\IConfigIO']
-        );
+        )
+            ->createSingleInstance([$this->getReader(), $this->getWriter(), $this->aliases]);
     }
 
     /**
@@ -155,11 +155,7 @@ class ConfigTools implements IToolbox
             ));
         }
 
-        return $this->createSingleInstance(
-            $this->readers[$this->type],
-            [],
-            ['umi\config\io\reader\IReader']
-        );
+        return $this->getPrototype($this->readers[$this->type], ['umi\config\io\reader\IReader'])->createSingleInstance();
     }
 
     /**
@@ -176,11 +172,7 @@ class ConfigTools implements IToolbox
             ));
         }
 
-        return $this->createSingleInstance(
-            $this->writers[$this->type],
-            [],
-            ['umi\config\io\writer\IWriter']
-        );
+        return $this->getPrototype($this->writers[$this->type], ['umi\config\io\writer\IWriter'])->createSingleInstance();
     }
 
     /**
@@ -198,11 +190,10 @@ class ConfigTools implements IToolbox
      */
     protected function getConfigCacheEngine()
     {
-        return $this->createSingleInstance(
+        return $this->getPrototype(
             $this->cacheServiceClass,
-            [],
-            ['umi\config\cache\IConfigCacheEngine'],
-            $this->cache
-        );
+            ['umi\config\cache\IConfigCacheEngine']
+        )
+            ->createSingleInstance($this->cache);
     }
 }

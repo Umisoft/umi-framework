@@ -10,7 +10,7 @@
 namespace umi\hmvc\toolbox\factory;
 
 use umi\hmvc\context\IContextAware;
-use umi\hmvc\context\TContextInjectorAware;
+use umi\hmvc\context\TContextAware;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
 use umi\hmvc\view\extension\IViewExtensionFactory;
@@ -24,7 +24,7 @@ use umi\templating\toolbox\factory\ExtensionFactory;
  */
 class ViewExtensionFactory extends ExtensionFactory implements IViewExtensionFactory, IContextAware, IModelAware
 {
-    use TContextInjectorAware;
+    use TContextAware;
 
     /**
      * @var string $viewHelperCollectionClass класс коллекции помощников вида
@@ -94,11 +94,11 @@ class ViewExtensionFactory extends ExtensionFactory implements IViewExtensionFac
      */
     protected function getViewHelperFactory()
     {
-        $factory = $this->createInstance(
-            $this->viewHelperFactoryClass,
-            [],
-            ['umi\templating\extension\helper\IHelperFactory']
-        );
+        $factory = $this->getPrototype(
+                $this->viewHelperFactoryClass,
+                ['umi\templating\extension\helper\IHelperFactory']
+            )
+            ->createInstance();
 
         if ($factory instanceof IModelAware && $this->modelFactory) {
             $factory->setModelFactory($this->modelFactory);
@@ -113,11 +113,11 @@ class ViewExtensionFactory extends ExtensionFactory implements IViewExtensionFac
      */
     private function newViewHelperCollectionInstance()
     {
-        $viewHelperCollection = $this->createInstance(
-            $this->viewHelperCollectionClass,
-            [],
-            ['umi\templating\extension\helper\collection\IHelperCollection']
-        );
+        $viewHelperCollection = $this->getPrototype(
+                $this->viewHelperCollectionClass,
+                ['umi\templating\extension\helper\collection\IHelperCollection']
+            )
+            ->createInstance();
 
         if ($viewHelperCollection instanceof IHelperFactoryAware) {
             $viewHelperCollection->setTemplatingHelperFactory($this->getViewHelperFactory());
@@ -125,5 +125,19 @@ class ViewExtensionFactory extends ExtensionFactory implements IViewExtensionFac
 
         return $viewHelperCollection;
     }
+
+    /**
+     * Внедряет контекст в объект.
+     * @param object $object
+     */
+    private function injectContext($object)
+    {
+        if ($object instanceof IContextAware) {
+            if ($this->hasContext()) {
+                $object->setContext($this->getContext());
+            } else {
+                $object->clearContext();
+            }
+        }
+    }
 }
- 

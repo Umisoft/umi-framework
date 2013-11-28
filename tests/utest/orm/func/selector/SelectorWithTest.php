@@ -9,6 +9,10 @@
 
 namespace utest\orm\func\selector;
 
+use umi\dbal\builder\IQueryBuilder;
+use umi\dbal\cluster\IConnection;
+use umi\event\IEvent;
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -32,37 +36,60 @@ class SelectorWithTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
+
         return [
-            self::SYSTEM_HIERARCHY,
-            self::USERS_GROUP,
-            self::USERS_USER,
-            self::GUIDES_COUNTRY,
-            self::GUIDES_CITY,
-            self::USERS_PROFILE,
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_PROFILE            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::GUIDES_CITY            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::GUIDES_COUNTRY            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+
+            ],
+            true
         ];
     }
 
     protected function setUpFixtures()
     {
 
-        $this->countryCollection = $this->collectionManager->getCollection(self::GUIDES_COUNTRY);
+        $this->countryCollection = $this->getCollectionManager()->getCollection(self::GUIDES_COUNTRY);
 
         $country = $this->countryCollection->add();
         $country->setValue('name', 'Россия');
 
-        $cityCollection = $this->collectionManager->getCollection(self::GUIDES_CITY);
+        $cityCollection = $this->getCollectionManager()->getCollection(self::GUIDES_CITY);
 
         $city = $cityCollection->add();
         $city->setValue('name', 'Санкт-Петербург');
         $city->setValue('country', $country);
 
-        $groupCollection = $this->collectionManager->getCollection(self::USERS_GROUP);
+        $groupCollection = $this->getCollectionManager()->getCollection(self::USERS_GROUP);
         $group = $groupCollection->add();
         $group->setValue('name', 'Группа');
 
-        $this->userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $this->userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $user1 = $this->userCollection->add();
         $user1->setValue('login', 'test_login1');
@@ -71,14 +98,14 @@ class SelectorWithTest extends ORMDbTestCase
         $user2 = $this->userCollection->add();
         $user2->setValue('login', 'test_login2');
 
-        $this->profileCollection = $this->collectionManager->getCollection(self::USERS_PROFILE);
+        $this->profileCollection = $this->getCollectionManager()->getCollection(self::USERS_PROFILE);
 
         $profile = $this->profileCollection->add('natural_person');
         $profile->setValue('name', 'test_name1');
         $profile->setValue('user', $user1);
         $profile->setValue('city', $city);
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->resetQueries();
     }
 

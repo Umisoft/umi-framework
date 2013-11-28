@@ -6,47 +6,65 @@
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
-
 namespace umi\toolkit\prototype;
 
-use umi\toolkit\exception\RequiredDependencyException;
+use umi\toolkit\exception\DomainException;
+use umi\toolkit\exception\RuntimeException;
+use umi\toolkit\factory\IFactory;
+use umi\toolkit\IToolkit;
 
 /**
- * Трейт для поддержки создания прототипов.
+ * Трейт для поддержки работы с прототипами
  */
 trait TPrototypeAware
 {
     /**
-     * @var IPrototypeFactory $_prototypeFactory
+     * @var object[] $_prototypes протитипы для создания экземпляров
      */
-    private $_prototypeFactory;
-
-    /**
-     * Устанавливает фабрику для создания прототипов
-     * @param IPrototypeFactory $prototypeFactory
-     * @return self
-     */
-    public function setPrototypeFactory(IPrototypeFactory $prototypeFactory)
-    {
-        $this->_prototypeFactory = $prototypeFactory;
-
-        return $this;
-    }
+    private $_prototypes = [];
 
     /**
      * Возвращает фабрику прототипов сервисов.
-     * @throws RequiredDependencyException если фабрика не была внедрена
      * @return IPrototypeFactory
      */
-    protected function getPrototypeFactory()
+    abstract protected function getPrototypeFactory();
+
+    /**
+     * Возвращает toolkit.
+     * @return IToolkit
+     */
+    abstract protected function getToolkit();
+
+    /**
+     * Возвращает прототип класса.
+     * @param string $className имя класса
+     * @param array $contracts список контрактов, которые должен реализовывать экземпляр класса
+     * @param callable $prototypeInitializer инициализатор, который будет вызван после создания прототипа
+     * @throws RuntimeException если не существует класса, либо контракта
+     * @throws DomainException если прототип не соответствует какому-либо контракту
+     * @return IPrototype
+     */
+    protected function getPrototype($className, array $contracts = [], callable $prototypeInitializer = null)
     {
-        if (!$this->_prototypeFactory) {
-            throw new RequiredDependencyException(sprintf(
-                'Prototype factory are not injected in class "%s".',
-                get_class($this)
-            ));
+        if (!isset($this->_prototypes[$className])) {
+            $prototype = $this->getPrototypeFactory()
+                ->create($className, $contracts);
+
+            if (is_callable($prototypeInitializer)) {
+                call_user_func_array($prototypeInitializer, [$prototype]);
+            }
+
+            $this->_prototypes[$className] = $prototype;
+
+            $prototypeInstance = $prototype->getPrototypeInstance();
+            if ($prototypeInstance instanceof IFactory) {
+                $prototypeInstance->setPrototypeFactory($this->getPrototypeFactory());
+                $prototypeInstance->setToolkit($this->getToolkit());
+            }
+            $prototype->resolveDependencies();
         }
 
-        return $this->_prototypeFactory;
+        return $this->_prototypes[$className];
     }
 }
+ 

@@ -11,7 +11,7 @@ namespace umi\hmvc\controller;
 
 use umi\hmvc\component\request\IComponentRequest;
 use umi\hmvc\component\response\IComponentResponse;
-use umi\hmvc\controller\result\IControllerResult;
+use umi\hmvc\component\response\model\IDisplayModel;
 
 /**
  * Интерфейс контроллера.
@@ -21,7 +21,7 @@ interface IController
     /**
      * Вызывает контроллер. Передает в контроллер HTTP запрос.
      * @param IComponentRequest $request HTTP запрос
-     * @return IControllerResult|IComponentResponse результат работы контроллера
+     * @return IComponentResponse результат работы контроллера
      */
     public function __invoke(IComponentRequest $request);
 }

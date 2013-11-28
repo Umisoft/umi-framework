@@ -32,9 +32,7 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class ORMTools implements IToolbox
 {
-    /**
-     * Имя набора инструментов
-     */
+    /** Имя набора инструментов */
     const NAME = 'orm';
 
     use TToolbox;
@@ -84,13 +82,13 @@ class ORMTools implements IToolbox
      */
     public $objectPersisterClass = 'umi\orm\persister\ObjectPersister';
     /**
-     * @var array $collectionManager опции менеджера коллекций
+     * @var array $collections конфигурация коллекций для менеджера коллекций
      */
-    public $collectionManager = [];
+    public $collections = [];
     /**
-     * @var array $metadataManager опции менеджера метаданных
+     * @var array $metadata конфигурация метаданных коллекций для менеджера метаданных
      */
-    public $metadataManager = [];
+    public $metadata = [];
 
     /**
      * @var IDbCluster $dbCluster сервис для работы c БД
@@ -178,15 +176,11 @@ class ORMTools implements IToolbox
      */
     public function getObjectManager()
     {
-        if (null != ($instance = $this->getSingleInstance($this->objectManagerClass))) {
-            return $instance;
-        }
-
-        return $this->createSingleInstance(
+        return $this->getPrototype(
             $this->objectManagerClass,
-            [$this->getObjectFactory()],
             ['umi\orm\manager\IObjectManager']
-        );
+        )
+            ->createSingleInstance([$this->getObjectFactory()]);
     }
 
     /**
@@ -195,16 +189,17 @@ class ORMTools implements IToolbox
      */
     protected function getMetadataManager()
     {
-        if (null != ($instance = $this->getSingleInstance($this->metadataManagerClass))) {
-            return $instance;
-        }
 
-        return $this->createSingleInstance(
+        return $this->getPrototype(
             $this->metadataManagerClass,
-            [$this->getMetadataFactory()],
-            ['umi\orm\metadata\IMetadataManager'],
-            $this->metadataManager
-        );
+            ['umi\orm\metadata\IMetadataManager']
+        )
+            ->createSingleInstance(
+                [
+                    $this->getMetadataFactory(),
+                    $this->metadata
+                ]
+            );
     }
 
     /**
@@ -213,16 +208,16 @@ class ORMTools implements IToolbox
      */
     protected function getCollectionManager()
     {
-        if (null != ($instance = $this->getSingleInstance($this->collectionManagerClass))) {
-            return $instance;
-        }
-
-        return $this->createSingleInstance(
+        return $this->getPrototype(
             $this->collectionManagerClass,
-            [$this->getObjectCollectionFactory()],
-            ['umi\orm\collection\ICollectionManager'],
-            $this->collectionManager
-        );
+            ['umi\orm\collection\ICollectionManager']
+        )
+            ->createSingleInstance(
+                [
+                    $this->getObjectCollectionFactory(),
+                    $this->collections
+                ]
+            );
     }
 
     /**
@@ -231,11 +226,7 @@ class ORMTools implements IToolbox
      */
     protected function getObjectPersister()
     {
-        return $this->createSingleInstance(
-            $this->objectPersisterClass,
-            [],
-            ['umi\orm\persister\IObjectPersister']
-        );
+        return $this->getPrototype($this->objectPersisterClass, ['umi\orm\persister\IObjectPersister'])->createSingleInstance();
     }
 
     /**

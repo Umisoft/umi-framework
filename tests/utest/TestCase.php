@@ -10,10 +10,6 @@
 namespace utest;
 
 use ReflectionClass;
-use umi\config\entity\IConfig;
-use umi\config\io\IConfigIO;
-use umi\dbal\cluster\IDbCluster;
-use umi\dbal\cluster\server\IMasterServer;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\IToolkit;
 use umi\toolkit\prototype\IPrototypeFactory;
@@ -26,12 +22,6 @@ use umi\toolkit\Toolkit;
  */
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
-
-    /**
-     * Имя конфигурации для тестирования
-     */
-    const CONFIG_TESTS = '~/general.php';
-
     /**
      * @var IToolkit $toolkit
      */
@@ -40,10 +30,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
      * @var IPrototypeFactory $prototypeFactory
      */
     private $prototypeFactory;
-    /**
-     * @var IConfig $config конфигурация для тестов
-     */
-    private $config;
 
     /**
      * Общий метод установки окружения, переопределять нельзя.
@@ -96,28 +82,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             $this->toolkit = new Toolkit();
             $this->prototypeFactory = new PrototypeFactory($this->toolkit);
             $this->toolkit->setPrototypeFactory($this->prototypeFactory);
-
-            $toolkitConfig = require(TESTS_CONFIGURATION . '/toolkit.config.php');
-
-            if (!empty($toolkitConfig['toolkit'])) {
-                $this->toolkit->registerToolboxes($toolkitConfig['toolkit']);
-            }
-            if (!empty($toolkitConfig['settings'])) {
-                $this->toolkit->setSettings($toolkitConfig['settings']);
-            }
-
-            /**
-             * @var IConfigIO $configIO
-             */
-            $configIO = $this->toolkit->getService('umi\config\io\IConfigIO');
-            $this->config = $configIO->read(self::CONFIG_TESTS);
-
-            if (!$this->config->has('settings')) {
-                throw new \RuntimeException("Toolkit settings not found.");
-            }
-
-            $toolkitConfig = $this->config->get('settings');
-            $this->toolkit->setSettings($toolkitConfig);
         }
 
         return $this->toolkit;
@@ -139,105 +103,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         }
 
         $prototype->wakeUpInstance($object);
-
-        /*if ($object instanceof InitializationInterface) {
-            $object->init();
-        }*/
-    }
-
-    /**
-     * Возвращает конфигурацию для тестов
-     * @return IConfig
-     */
-    protected function config()
-    {
-        /**
-         * @var IConfigIO $configIO
-         */
-        $configIO = $this->getTestToolkit()
-            ->getService('umi\config\io\IConfigIO');
-
-        /**
-         * @var IConfig $config
-         */
-        $config = $configIO->read(self::CONFIG_TESTS);
-
-        return $config;
-    }
-
-    /**
-     * Возвращает кластер баз данных
-     * @return IDbCluster
-     */
-    protected function getDbCluster()
-    {
-        /**
-         * @var IDbCluster $dbCluster
-         */
-        $dbCluster = $this->getTestToolkit()
-            ->getService('umi\dbal\cluster\IDbCluster');
-
-        return $dbCluster;
-    }
-
-    /**
-     * Возвращает мастер-сервер по умолчанию
-     * @throws \RuntimeException
-     * @return IMasterServer
-     */
-    protected function getDbServer()
-    {
-        if (!$this->config()
-            ->has('defaultServer')
-        ) {
-            throw new \RuntimeException("Invalid default server id.");
-        }
-
-        $serverId = $this->config()
-            ->get('defaultServer');
-
-        return $this->getDbCluster()
-            ->getServer($serverId);
-    }
-
-    /**
-     * Возвращает мастер-сервер для тестов, использующих mysql
-     * @throws \RuntimeException
-     * @return IMasterServer
-     */
-    protected function getMysqlServer()
-    {
-        if (!$this->config()
-            ->has('mysqlServer')
-        ) {
-            throw new \RuntimeException("Invalid mysql server id.");
-        }
-
-        $serverId = $this->config()
-            ->get('mysqlServer');
-
-        return $this->getDbCluster()
-            ->getServer($serverId);
-    }
-
-    /**
-     * Возвращает мастер-сервер для тестов, использующих sqlite
-     * @throws \RuntimeException
-     * @return IMasterServer
-     */
-    protected function getSqliteServer()
-    {
-        if (!$this->config()
-            ->has('mysqlServer')
-        ) {
-            throw new \RuntimeException("Invalid SQLite server id.");
-        }
-
-        $serverId = $this->config()
-            ->get('sqliteServer');
-
-        return $this->getDbCluster()
-            ->getServer($serverId);
     }
 
     /**

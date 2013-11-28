@@ -12,6 +12,8 @@ namespace umi\orm\metadata;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\orm\exception\NonexistentEntityException;
+use umi\orm\exception\UnexpectedValueException;
+use umi\spl\config\TConfigSupport;
 
 /**
  * Менеджер метаданных.
@@ -20,12 +22,13 @@ class MetadataManager implements IMetadataManager, ILocalizable
 {
 
     use TLocalizable;
+    use TConfigSupport;
 
     /**
-     * @var array $collections конфигурация метаданных в формате
+     * @var array $metadata конфигурация метаданных в формате
      * ['collectionName' => [], ... ]
      */
-    public $collections = [];
+    protected $metadata = [];
     /**
      * @var IMetadataFactory $metadataFactory фабрика метаданных
      */
@@ -39,10 +42,24 @@ class MetadataManager implements IMetadataManager, ILocalizable
     /**
      * Конструктор.
      * @param IMetadataFactory $metadataFactory фабрика метаданных
+     * @param array|\Traversable $metadata конфигурация метаданных в формате
+     * [
+     *      'collectionName' => [],
+     *      ...
+     * ]
+     * @throws UnexpectedValueException в случае неверной конфигурации
      */
-    public function __construct(IMetadataFactory $metadataFactory)
+    public function __construct(IMetadataFactory $metadataFactory, $metadata)
     {
         $this->metadataFactory = $metadataFactory;
+        try {
+            $metadata = $this->configToArray($metadata);
+        } catch (\InvalidArgumentException $e) {
+            throw new UnexpectedValueException($this->translate(
+                'Invalid collections configuration.'
+            ), 0, $e);
+        }
+        $this->metadata = $metadata;
     }
 
     /**
@@ -53,37 +70,24 @@ class MetadataManager implements IMetadataManager, ILocalizable
         if (isset($this->metadataInstances[$collectionName])) {
             return $this->metadataInstances[$collectionName];
         }
-        if (!$this->hasCollection($collectionName)) {
+        if (!$this->hasMetadata($collectionName)) {
             throw new NonexistentEntityException($this->translate(
-                'Cannot get metadata. Collection "{collection}" does not exist.',
+                'Cannot get metadata. Metadata for collection "{collection}" does not exist.',
                 ['collection' => $collectionName]
             ));
         }
-        $metadata = $this->metadataFactory->create($collectionName, $this->collections[$collectionName]);
+        $metadata = $this->metadataFactory->create($collectionName, $this->metadata[$collectionName]);
 
         return $this->metadataInstances[$collectionName] = $metadata;
     }
 
     /**
-     * Возвращает имена коллекций из конфига
-     * @return array
-     */
-    protected function getList()
-    {
-        if ($this->collections instanceof \Traversable) {
-            $this->collections = iterator_to_array($this->collections, true);
-        }
-
-        return array_keys($this->collections);
-    }
-
-    /**
-     * Проверяет, зарегистрирована ли коллекция объектов
+     * Проверяет, зарегистрирована ли метаданные коллекции объектов
      * @param string $collectionName имя коллекции
      * @return boolean
      */
-    protected function hasCollection($collectionName)
+    protected function hasMetadata($collectionName)
     {
-        return in_array($collectionName, $this->getList());
+        return array_key_exists($collectionName, $this->metadata);
     }
 }

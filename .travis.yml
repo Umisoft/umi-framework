@@ -6,7 +6,7 @@ php:
 before_script:
     - wget http://getcomposer.org/composer.phar
     - php composer.phar install
-    - cp ./tests/general.php.travis ./tests/configuration/local/general.php
+    - cp ./tests/general.php.travis ./tests/configuration/local/db.php
     - mysql -e 'create database umiframework;'
 
-script: phpunit --configuration tests/phpunit.xml .
+script: phpunit --configuration tests/phpunit.xml ./tests

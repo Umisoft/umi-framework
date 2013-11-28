@@ -52,10 +52,10 @@ class TokenFactory implements ITokenFactory, IFactory
      */
     protected function createToken($type, $name, $value)
     {
-        return $this->createInstance(
-            $this->tokenClass,
-            [$type, $name, $value],
-            ['umi\syntax\token\IToken']
-        );
+        return $this->getPrototype(
+                $this->tokenClass,
+                ['umi\syntax\token\IToken']
+            )
+            ->createInstance([$type, $name, $value]);
     }
 }
