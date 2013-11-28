@@ -74,9 +74,16 @@ return function (ICollectionDataSource $dataSource) {
 
     $tableScheme->addUniqueIndex(['guid'], 'menu_guid');
     $tableScheme->addIndex(['pid'], 'menu_parent');
+    if (!$masterServer
+            ->getConnection()
+            ->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform
+    )
+    {
+        $tableScheme->addUniqueIndex(['mpath'], 'menu_mpath');
+        $tableScheme->addIndex(['type'], 'menu_type');
     //    $tableScheme->addUniqueIndex(['mpath'], 'menu_mpath', [], ['mpath' => ['size' => 64]]);
     //    $tableScheme->addIndex(['type'], 'menu_type', [], ['type' => ['size' => 64]]);
-
+    }
 
     $tableScheme->addForeignKeyConstraint(
         $tableScheme,
@@ -86,5 +93,4 @@ return function (ICollectionDataSource $dataSource) {
         'FK_menu_parent'
     );
     $schemaManager->createTable($tableScheme);
-
 };

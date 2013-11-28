@@ -75,8 +75,6 @@ class CounterField extends BaseField implements IScalarField, ICalculableField
             $builder->set($this->getColumnName());
             $builder->bindValue(':' . $this->getColumnName(), $this->calculateDBValue($object), $this->getDataType());
         }
-
         return $this;
     }
-
 }

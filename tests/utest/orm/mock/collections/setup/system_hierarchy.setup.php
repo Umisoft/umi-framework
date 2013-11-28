@@ -71,11 +71,17 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->addUniqueIndex(['guid'], 'hierarchy_guid');
     $tableScheme->addIndex(['pid'], 'hierarchy_parent');
     $tableScheme->addUniqueIndex(['pid', 'slug'], 'hierarchy_pid_slug');
-
+    if (!$masterServer
+            ->getConnection()
+            ->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform
+    ){
+        $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath');
+        $tableScheme->addIndex(['uri'], 'hierarchy_uri');
+        $tableScheme->addIndex(['type'], 'hierarchy_type');
 //    $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath', [], ['mpath' => ['size' => 64]]);
 //    $tableScheme->addIndex(['uri'], 'hierarchy_uri', [], ['uri' => ['size' => 64]]);
 //    $tableScheme->addIndex(['type'], 'hierarchy_type', [], ['type' => ['size' => 64]]);
-
+    }
     $ftParent = $tableScheme;
 
     $schemaManager->createTable($tableScheme);
@@ -87,7 +93,4 @@ return function (ICollectionDataSource $dataSource) {
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_hierarchy_parent'
     );
-
-    //todo move to $tableScheme->addUniqueIndex(['mpath(32)'], 'hierarchy_mpath'); if PR will be accepted
-
 };

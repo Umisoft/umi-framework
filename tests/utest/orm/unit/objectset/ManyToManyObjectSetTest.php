@@ -236,9 +236,9 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscriberLink = $subscribers->attach($user3);
         $this->objectPersister->commit();
 
-        //todo! power up assertion
-        $this->assertTrue(
-            count($this->getOnlyQueries('select'))==1 && count($this->getOnlyQueries('insert'))==1,
+        $this->assertEquals(
+            ['select', 'start', 'insert', 'commit'],
+            $this->getQueryTypesWithParams(false),
             'Неверные запросы на добавление существующего объекта'
         );
         $this->assertCount(3, $subscribers->fetchAll(), 'Ожидается, что теперь у блога 3 подписчика');
@@ -320,8 +320,9 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscriberLink = $subscribers->attach($user4);
         $this->objectPersister->commit();
 
-        $this->assertTrue(
-            2 == count($this->getOnlyQueries('insert')) && 1 == count($this->getOnlyQueries('update')),
+        $this->assertEquals(
+            ['start', 'insert', 'insert', 'update', 'commit'],
+            $this->getQueryTypesWithParams(false),
             'Неверные запросы на добавление нового объекта'
         );
         $this->assertCount(3, $subscribers->fetchAll(), 'Ожидается, что теперь у блога 3 подписчика');
@@ -381,9 +382,10 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscribers->detach($user2);
         $this->objectPersister->commit();
 
-        $this->assertTrue(
-            count($this->getOnlyQueries('select'))==1 && count($this->getOnlyQueries('delete'))==1,
-            'Неверные запросы на удалениие связанного объекта'
+        $this->assertEquals(
+            ['select', 'start', 'delete', 'commit'],
+            $this->getQueryTypesWithParams(false),
+            'Неверные запросы на удаление связанного объекта'
         );
         $this->assertCount(1, $subscribers->fetchAll(), 'Ожидается, что теперь у блога 1 подписчик');
     }
@@ -450,9 +452,9 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $this->resetQueries();
         $this->objectPersister->commit();
         $this->assertEquals(
-            2,
-            count($this->getOnlyQueries('delete')),
-            'Неверные запросы на удалениие связанного объекта'
+            ['start', 'delete', 'delete', 'commit'],
+            $this->getQueryTypesWithParams(false),
+            'Неверные запросы на удаление связанного объекта'
         );
         $this->assertCount(0, $subscribers->fetchAll(), 'Ожидается, что теперь у блога нет подписчиков');
 

@@ -10,6 +10,7 @@ namespace umi\dbal\driver\dialect;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
+use Doctrine\DBAL\Schema\Table;
 use PDO;
 use umi\dbal\builder\IDeleteBuilder;
 use umi\dbal\builder\IExpressionGroup;
@@ -24,6 +25,13 @@ use umi\i18n\TLocalizable;
 class SqliteDialect extends SqlitePlatform implements IDialect
 {
     use TLocalizable;
+
+    private $fkSupported = false;
+
+    public function supportsForeignKeyConstraints()
+    {
+        return $this->fkSupported;
+    }
 
     /**
      * {@inheritdoc}
@@ -162,12 +170,23 @@ class SqliteDialect extends SqlitePlatform implements IDialect
     /**
      * Возвращает запрос на удаление таблицы.
      * По сравнению с Doctrine платформой, поддерживает флаг ifExists
-     * @param string $table �?мя таблицы
+     *
+     * @param string|Table $table Имя таблицы
      * @param bool $ifExists Добавить к запросу проверку на существование
+     *
+     * @throws \InvalidArgumentException
      * @return string
      */
     public function getDropTableSQL($table, $ifExists = true)
     {
+        //todo! add check to other dialects or refer to parent::getDropTableSQL()
+        if ($table instanceof Table) {
+            $table = $table->getQuotedName($this);
+        } elseif (!is_string($table)) {
+            throw new \InvalidArgumentException(
+                'getDropTableSQL() expects $table parameter to be string or \Doctrine\DBAL\Schema\Table.'
+            );
+        }
         return 'DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $table;
     }
 
@@ -496,6 +515,8 @@ class SqliteDialect extends SqlitePlatform implements IDialect
      */
     public function initPDOInstance(Connection $connection, PDO $pdo)
     {
+        // find out, if driver version allows FK Constraints
+        $this->fkSupported = version_compare('3.6.19', $pdo->getAttribute(PDO::ATTR_SERVER_VERSION)) < 0;
         $pdo->exec($this->buildEnableForeignKeysQuery());
     }
 

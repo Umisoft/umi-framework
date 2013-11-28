@@ -43,5 +43,4 @@ class StringField extends BaseField implements IScalarField, ILocalizableField, 
     {
         return is_string($propertyValue);
     }
-
 }

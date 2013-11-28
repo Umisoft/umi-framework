@@ -121,7 +121,8 @@ interface ICollection
     public function getIdentifyField();
 
     /**
-     * Возвращает поле, которое используется у базового типа коллекции для хранения уникального глобального идентификатора объекта
+     * Возвращает поле, которое используется у базового типа коллекции
+     * для хранения уникального глобального идентификатора объекта
      * @throws NonexistentEntityException если такого поля не существует
      * @return GuidField
      */
@@ -187,5 +188,4 @@ interface ICollection
      * @param IObject $object
      */
     public function persistDeletedObject(IObject $object);
-
 }

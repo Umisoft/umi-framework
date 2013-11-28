@@ -23,8 +23,8 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
     {
         return [
             self::SYSTEM_HIERARCHY,
-            self::GUIDES_CITY,
             self::GUIDES_COUNTRY,
+            self::GUIDES_CITY,
             self::USERS_GROUP,
             self::USERS_USER,
             self::USERS_PROFILE,
@@ -41,19 +41,25 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
         $queries = [
+            ['start', []],
             [
-                'umi\dbal\builder\InsertBuilder',
+                'insert',
                 [
-                    ':type'  => ['users_user.base', \PDO::PARAM_STR],
-                    ':guid'  => [$user->getGUID(), \PDO::PARAM_STR],
-                    ':login' => ['test_login', \PDO::PARAM_STR]
+                    ':type'  => 'users_user.base',
+                    ':guid'  => $user->getGUID(),
+                    ':login' => 'test_login',
                 ]
-            ]
+            ],
+            ['commit', []],
         ];
 
-        $this->assertEquals($queries, $this->getQueries(), 'После добавления объекта ожидается один INSERT');
+        $this->assertEquals(
+            $queries,
+            $this->getQueryTypesWithParams(),
+            'После добавления объекта ожидается один INSERT'
+        );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->objectPersister->commit();
         $this->assertEquals(
             [],
@@ -61,25 +67,34 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
             'Ожидается, что после повторного коммита без изменений не будет произведено ни одного запроса'
         );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $user->setValue('login', 'new_test_login');
         $this->objectPersister->commit();
 
         $queries = [
+            ['start', []],
             [
-                'umi\dbal\builder\UpdateBuilder',
+                'update',
                 [
-                    ':login'      => ['new_test_login', \PDO::PARAM_STR],
-                    ':objectId'   => [1, \PDO::PARAM_INT],
-                    ':newversion' => '`version` + (1)',
-                    ':version'    => [1, \PDO::PARAM_INT]
+                    ':login'      => 'new_test_login',
+                    ':objectId'   => 1,
+                    //':newversion' => '"version" + (1)',//todo! doctrine don't log expression
+                    ':version'    => 1,
                 ]
-            ]
+            ],
+            ['commit', []],
         ];
 
-        $this->assertEquals($queries, $this->getQueries(), 'После изменения объекта ожидается один UPDATE-запрос');
+        $queryTypesWithParams = $this->getQueryTypesWithParams();
 
-        $this->setQueries([]);
+
+        $this->assertEquals(
+            $queries,
+            $queryTypesWithParams,
+            'После изменения объекта ожидается один UPDATE-запрос'
+        );
+
+        $this->resetQueries();
         $this->objectPersister->commit();
         $this->assertEquals(
             [],
@@ -87,20 +102,26 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
             'Ожидается, что после повторного коммита без изменений не будет произведено ни одного запроса'
         );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->objectPersister->markAsDeleted($user);
         $this->objectPersister->commit();
         $queries = [
+            ['start', []],
             [
-                'umi\dbal\builder\DeleteBuilder',
+                'delete',
                 [
-                    ':objectId' => [1, \PDO::PARAM_INT]
+                    ':objectId' => 1
                 ]
-            ]
+            ],
+            ['commit', []],
         ];
-        $this->assertEquals($queries, $this->getQueries(), 'После удаления объекта ожидается один DELETE-запрос');
+        $this->assertEquals(
+            $queries,
+            $this->getQueryTypesWithParams(),
+            'После удаления объекта ожидается один DELETE-запрос'
+        );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->objectPersister->commit();
         $this->assertEquals(
             [],
@@ -126,54 +147,46 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
 
-        //todo! improve assertion
         $queries = [
+            ['start', []],
             [
-                'umi\dbal\builder\InsertBuilder',
+                'insert',
                 [
-                    ':type' => ['users_group.base', \PDO::PARAM_STR],
-                    ':guid' => [$group->getGUID(), \PDO::PARAM_STR],
-                    ':name' => ['test_group1', \PDO::PARAM_STR]
+                    ':type' => 'users_group.base',
+                    ':guid' => $group->getGUID(),
+                    ':name' => 'test_group1'
                 ]
             ],
             [
-                'umi\dbal\builder\InsertBuilder',
+                'insert',
                 [
-                    ':type'     => ['users_user.base', \PDO::PARAM_STR],
-                    ':guid'     => [$user->getGUID(), \PDO::PARAM_STR],
-                    ':login'    => ['test_login', \PDO::PARAM_STR],
-                    ':group_id' => [null, \PDO::PARAM_NULL]
+                    ':type'     => 'users_user.base',
+                    ':guid'     => $user->getGUID(),
+                    ':login'    => 'test_login',
+                    ':group_id' => null
                 ]
             ],
             [
-                'umi\dbal\builder\UpdateBuilder',
+                'update',
                 [
-                    ':group_id'   => [1, \PDO::PARAM_INT],
-                    ':newversion' => '`version` + (1)',
-                    ':objectId'   => [1, \PDO::PARAM_INT],
-                    ':version'    => [1, \PDO::PARAM_INT]
+                    ':group_id'   => 1,
+//                    ':newversion' => '`version` + (1)', //todo! log to Doctrine
+                    ':objectId'   => 1,
+                    ':version'    => 1
                 ]
-            ]
+            ],
+            ['commit', []],
         ];
 
-        $insertsExpected = 2;
-        $updatesExpected = 1;
-
-        $insertsActual = count($this->getOnlyQueries('insert'));
-        $updatesActual = count($this->getOnlyQueries('update'));
-        $queriesActual = count($this->getQueries()) /* -2 for commit*/;
-        $this->assertTrue(
-            (
-                $insertsExpected == $insertsActual
-                && ($updatesExpected == $updatesActual)
-                && $queriesActual == ($insertsExpected + $updatesExpected)
-            ),
+        $this->assertEquals(
+            $queries,
+            $this->getQueryTypesWithParams(),
             'После добавления двух связанных объектов ожидаются два INSERT-запроса и 1 UPDATE-запрос'
         );
 
         $this->assertEquals(2, $user->getVersion(), 'Ожидается, что у пользователя версия 2');
 
-        $this->setQueries([]);
+        $this->resetQueries();
 
         $group2 = $groupCollection->add();
         $group2->setValue('name', 'test_group2');
@@ -182,56 +195,60 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
         $this->objectPersister->commit();
 
         $queries = [
+            ['start', []],
             [
-                'umi\dbal\builder\InsertBuilder',
+                'insert',
                 [
-                    ':name' => ['test_group2', \PDO::PARAM_STR],
-                    ':type' => ['users_group.base', \PDO::PARAM_STR],
-                    ':guid' => [$group2->getGUID(), \PDO::PARAM_STR]
+                    ':type' => 'users_group.base',
+                    ':guid' => $group2->getGUID(),
+                    ':name' => 'test_group2',
                 ]
             ],
             [
-                'umi\dbal\builder\UpdateBuilder',
+                'update',
                 [
-                    ':group_id'   => [2, \PDO::PARAM_INT],
-                    ':objectId'   => [1, \PDO::PARAM_INT],
-                    ':newversion' => '`version` + (1)',
-                    ':version'    => [2, \PDO::PARAM_INT]
+                    ':group_id'   => 2,
+                    ':objectId'   => 1,
+//                    ':newversion' => '`version` + (1)', //todo! Doctrine don't log it
+                    ':version'    => 2
                 ]
-            ]
+            ],
+            ['commit', []],
         ];
 
         $this->assertEquals(
             $queries,
-            $this->getQueries(),
+            $this->getQueryTypesWithParams(),
             'После добавления объекта и выставления его в качестве значения ожидается один INSERT-запрос и один UPDATE-запрос'
         );
         $this->assertEquals(3, $user->getVersion(), 'Ожидается, что у пользователя версия 3');
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $user->setValue('group', $group);
         $this->objectPersister->commit();
 
         $queries = [
+            ['start', []],
             [
-                'umi\dbal\builder\UpdateBuilder',
+                'update',
                 [
-                    ':group_id'   => [1, \PDO::PARAM_INT],
-                    ':objectId'   => [1, \PDO::PARAM_INT],
-                    ':newversion' => '`version` + (1)',
-                    ':version'    => [3, \PDO::PARAM_INT]
+                    ':group_id'   => 1,
+                    ':objectId'   => 1,
+//                    ':newversion' => '`version` + (1)', //todo! Doctrine don't log it
+                    ':version'    => 3,
                 ]
-            ]
+            ],
+            ['commit', []],
         ];
 
         $this->assertEquals(
             $queries,
-            $this->getQueries(),
+            $this->getQueryTypesWithParams(),
             'После установления связи между 2-мя существующими запросами ожидается один UPDATE-запрос'
         );
         $this->assertEquals(4, $user->getVersion(), 'Ожидается, что у пользователя версия 4');
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $user->unload();
         $group->unload();
 
@@ -242,30 +259,32 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
 
         $queries = [
             [
-                'umi\dbal\builder\SelectBuilder',
+                'select',
                 [
-                    ':value0' => [1, \PDO::PARAM_INT]
+                    ':value0' => 1
                 ]
             ],
             [
-                'umi\dbal\builder\SelectBuilder',
+                'select',
                 [
-                    ':value0' => [1, \PDO::PARAM_INT]
+                    ':value0' => 1
                 ]
             ],
+            ['start', []],
             [
-                'umi\dbal\builder\UpdateBuilder',
+                'update',
                 [
-                    ':group_id'   => [2, \PDO::PARAM_INT],
-                    ':objectId'   => [1, \PDO::PARAM_INT],
-                    ':newversion' => '`version` + (1)',
-                    ':version'    => [4, \PDO::PARAM_INT]
+                    ':group_id'   => 2,
+                    ':objectId'   => 1,
+//                    ':newversion' => '`version` + (1)', //todo! Doctrine don't log this
+                    ':version'    => 4
                 ]
-            ]
+            ],
+            ['commit', []],
         ];
         $this->assertEquals(
             $queries,
-            $this->getQueries(),
+            $this->getQueryTypesWithParams(),
             'Ожидается два SELECT-запроса и один UPDATE запрос при выставления значения незагруженному объекту с существующим значением'
         );
         $this->assertEquals(5, $user->getVersion(), 'Ожидается, что у пользователя версия 5');

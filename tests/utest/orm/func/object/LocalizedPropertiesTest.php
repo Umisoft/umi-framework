@@ -40,21 +40,21 @@ class LocalizedPropertiesTest extends ORMDbTestCase
         $blogGuid = $blog->getGUID();
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
-        $this->setQueries([]);
+        $this->resetQueries();
 
         $blog = $blogsCollection->get($blogGuid);
 
         $this->assertEquals(
             [
-                'SELECT `blogs_blog`.`id` AS `blogs_blog:id`, `blogs_blog`.`guid` AS `blogs_blog:guid`, `blogs_blog`.`type` AS `blogs_blog:type`, `blogs_blog`.`version` AS `blogs_blog:version`, `blogs_blog`.`pid` AS `blogs_blog:parent`, `blogs_blog`.`mpath` AS `blogs_blog:mpath`, `blogs_blog`.`slug` AS `blogs_blog:slug`, `blogs_blog`.`uri` AS `blogs_blog:uri`, `blogs_blog`.`child_count` AS `blogs_blog:childCount`, `blogs_blog`.`order` AS `blogs_blog:order`, `blogs_blog`.`level` AS `blogs_blog:level`, `blogs_blog`.`title` AS `blogs_blog:title#ru-RU`, `blogs_blog`.`title_en` AS `blogs_blog:title#en-US`, `blogs_blog`.`publish_time` AS `blogs_blog:publishTime`, `blogs_blog`.`owner_id` AS `blogs_blog:owner`
-FROM `umi_mock_blogs` AS `blogs_blog`
-WHERE ((`blogs_blog`.`guid` = :value0))'
+                'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", "blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
+FROM "umi_mock_blogs" AS "blogs_blog"
+WHERE (("blogs_blog"."guid" = :value0))'
             ],
             $this->getQueries(),
             'Ожидается, что при получении объекта в запросе участвуют только текущая и дефолтная локали'
         );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $blog->getValue('title', 'ru-RU');
         $blog->getValue('title', 'en-US');
         $this->assertEmpty(
@@ -66,9 +66,9 @@ WHERE ((`blogs_blog`.`guid` = :value0))'
 
         $this->assertEquals(
             [
-                'SELECT `blogs_blog`.`id` AS `blogs_blog:id`, `blogs_blog`.`guid` AS `blogs_blog:guid`, `blogs_blog`.`type` AS `blogs_blog:type`, `blogs_blog`.`version` AS `blogs_blog:version`, `blogs_blog`.`pid` AS `blogs_blog:parent`, `blogs_blog`.`mpath` AS `blogs_blog:mpath`, `blogs_blog`.`slug` AS `blogs_blog:slug`, `blogs_blog`.`uri` AS `blogs_blog:uri`, `blogs_blog`.`title` AS `blogs_blog:title#ru-RU`, `blogs_blog`.`title_en` AS `blogs_blog:title#en-US`, `blogs_blog`.`title_gb` AS `blogs_blog:title#en-GB`, `blogs_blog`.`title_ua` AS `blogs_blog:title#ru-UA`
-FROM `umi_mock_blogs` AS `blogs_blog`
-WHERE ((`blogs_blog`.`id` = :value0))'
+                'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."title_gb" AS "blogs_blog:title#en-GB", "blogs_blog"."title_ua" AS "blogs_blog:title#ru-UA"
+FROM "umi_mock_blogs" AS "blogs_blog"
+WHERE (("blogs_blog"."id" = :value0))'
             ],
             $this->getQueries(),
             'Ожидается, что при запросе значения для не текущей и не дефолтной локали будут подгружены все локализации объекта'
@@ -93,14 +93,14 @@ WHERE ((`blogs_blog`.`id` = :value0))'
         $this->objectPersister->commit();
 
         $this->objectManager->unloadObjects();
-        $this->setQueries([]);
+        $this->resetQueries();
 
         $blog = $blogsCollection->get($blogGuid);
 
         $expectedResult = [
-            'SELECT `blogs_blog`.`id` AS `blogs_blog:id`, `blogs_blog`.`guid` AS `blogs_blog:guid`, `blogs_blog`.`type` AS `blogs_blog:type`, `blogs_blog`.`version` AS `blogs_blog:version`, `blogs_blog`.`pid` AS `blogs_blog:parent`, `blogs_blog`.`mpath` AS `blogs_blog:mpath`, `blogs_blog`.`slug` AS `blogs_blog:slug`, `blogs_blog`.`uri` AS `blogs_blog:uri`, `blogs_blog`.`child_count` AS `blogs_blog:childCount`, `blogs_blog`.`order` AS `blogs_blog:order`, `blogs_blog`.`level` AS `blogs_blog:level`, `blogs_blog`.`title_en` AS `blogs_blog:title#en-US`, `blogs_blog`.`publish_time` AS `blogs_blog:publishTime`, `blogs_blog`.`owner_id` AS `blogs_blog:owner`
-FROM `umi_mock_blogs` AS `blogs_blog`
-WHERE ((`blogs_blog`.`guid` = :value0))'
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", "blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
+FROM "umi_mock_blogs" AS "blogs_blog"
+WHERE (("blogs_blog"."guid" = :value0))'
         ];
 
         $this->assertEquals(
@@ -121,19 +121,21 @@ WHERE ((`blogs_blog`.`guid` = :value0))'
         $this->objectPersister->commit();
 
         $expectedResult = [
-            'INSERT INTO `umi_mock_hierarchy`
-SET `type` = :type, `guid` = :guid, `slug` = :slug, `title` = :title',
-            'INSERT INTO `umi_mock_blogs`
-SET `id` = :id, `type` = :type, `guid` = :guid, `slug` = :slug, `title` = :title',
-            'SELECT MAX(`order`) AS `order`
-FROM `umi_mock_hierarchy`
-WHERE `pid` IS :parent',
-            'UPDATE `umi_mock_hierarchy`
-SET `mpath` = :mpath, `uri` = :uri, `order` = :order, `level` = :level
-WHERE `id` = :objectId',
-            'UPDATE `umi_mock_blogs`
-SET `mpath` = :mpath, `uri` = :uri, `order` = :order, `level` = :level
-WHERE `id` = :objectId'
+            '"START TRANSACTION"',
+            'INSERT INTO "umi_mock_hierarchy"
+( "type", "guid", "slug", "title" ) VALUES ( :type, :guid, :slug, :title )',
+            'INSERT INTO "umi_mock_blogs"
+( "id", "type", "guid", "slug", "title" ) VALUES ( :id, :type, :guid, :slug, :title )',
+            'SELECT MAX("order") AS "order"
+FROM "umi_mock_hierarchy"
+WHERE "pid" IS :parent',
+            'UPDATE "umi_mock_hierarchy"
+SET "mpath" = :mpath, "uri" = :uri, "order" = :order, "level" = :level
+WHERE "id" = :objectId',
+            'UPDATE "umi_mock_blogs"
+SET "mpath" = :mpath, "uri" = :uri, "order" = :order, "level" = :level
+WHERE "id" = :objectId',
+            '"COMMIT"',
         ];
 
         $this->assertEquals(
@@ -141,7 +143,7 @@ WHERE `id` = :objectId'
             $this->getQueries(),
             'Неверные запросы на добавления объекта без указания локали'
         );
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->objectManager->unloadObjects();
 
         $blog = $blogsCollection->get($blogGuid);
@@ -152,16 +154,16 @@ WHERE `id` = :objectId'
         );
 
         $expectedResult = [
-            'SELECT `blogs_blog`.`id` AS `blogs_blog:id`, `blogs_blog`.`guid` AS `blogs_blog:guid`, `blogs_blog`.`type` AS `blogs_blog:type`, `blogs_blog`.`version` AS `blogs_blog:version`, `blogs_blog`.`pid` AS `blogs_blog:parent`, `blogs_blog`.`mpath` AS `blogs_blog:mpath`, `blogs_blog`.`slug` AS `blogs_blog:slug`, `blogs_blog`.`uri` AS `blogs_blog:uri`, `blogs_blog`.`child_count` AS `blogs_blog:childCount`, `blogs_blog`.`order` AS `blogs_blog:order`, `blogs_blog`.`level` AS `blogs_blog:level`, `blogs_blog`.`title` AS `blogs_blog:title#ru-RU`, `blogs_blog`.`title_en` AS `blogs_blog:title#en-US`, `blogs_blog`.`publish_time` AS `blogs_blog:publishTime`, `blogs_blog`.`owner_id` AS `blogs_blog:owner`
-FROM `umi_mock_blogs` AS `blogs_blog`
-WHERE ((`blogs_blog`.`guid` = :value0))'
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", "blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
+FROM "umi_mock_blogs" AS "blogs_blog"
+WHERE (("blogs_blog"."guid" = :value0))'
         ];
         $this->assertEquals(
             $expectedResult,
             $this->getQueries(),
             'Ожидается, что будут выполнены запросы на получение только свойств текущей локали c учетом значений дефолтной локали'
         );
-        $this->setQueries([]);
+        $this->resetQueries();
 
         $this->assertNull(
             $blog->getValue('title', 'en-US'),
@@ -179,19 +181,21 @@ WHERE ((`blogs_blog`.`guid` = :value0))'
         $this->objectPersister->commit();
 
         $expectedResult = [
-            'INSERT INTO `umi_mock_hierarchy`
-SET `type` = :type, `guid` = :guid, `slug` = :slug, `title_en` = :title_en',
-            'INSERT INTO `umi_mock_blogs`
-SET `id` = :id, `type` = :type, `guid` = :guid, `slug` = :slug, `title_en` = :title_en',
-            'SELECT MAX(`order`) AS `order`
-FROM `umi_mock_hierarchy`
-WHERE `pid` IS :parent',
-            'UPDATE `umi_mock_hierarchy`
-SET `mpath` = :mpath, `uri` = :uri, `order` = :order, `level` = :level
-WHERE `id` = :objectId',
-            'UPDATE `umi_mock_blogs`
-SET `mpath` = :mpath, `uri` = :uri, `order` = :order, `level` = :level
-WHERE `id` = :objectId'
+            '"START TRANSACTION"',
+            'INSERT INTO "umi_mock_hierarchy"
+( "type", "guid", "slug", "title_en" ) VALUES ( :type, :guid, :slug, :title_en )',
+            'INSERT INTO "umi_mock_blogs"
+( "id", "type", "guid", "slug", "title_en" ) VALUES ( :id, :type, :guid, :slug, :title_en )',
+            'SELECT MAX("order") AS "order"
+FROM "umi_mock_hierarchy"
+WHERE "pid" IS :parent',
+            'UPDATE "umi_mock_hierarchy"
+SET "mpath" = :mpath, "uri" = :uri, "order" = :order, "level" = :level
+WHERE "id" = :objectId',
+            'UPDATE "umi_mock_blogs"
+SET "mpath" = :mpath, "uri" = :uri, "order" = :order, "level" = :level
+WHERE "id" = :objectId',
+            '"COMMIT"',
         ];
 
         $this->assertEquals(
@@ -199,7 +203,7 @@ WHERE `id` = :objectId'
             $this->getQueries(),
             'Неверные запросы на добавления объекта в конкретной локали'
         );
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->objectManager->unloadObjects();
 
         $blog = $blogsCollection->get($blogGuid);
@@ -226,19 +230,21 @@ WHERE `id` = :objectId'
         $this->objectPersister->commit();
 
         $expectedResult = [
-            'INSERT INTO `umi_mock_hierarchy`
-SET `type` = :type, `guid` = :guid, `slug` = :slug, `title` = :title, `title_en` = :title_en',
-            'INSERT INTO `umi_mock_blogs`
-SET `id` = :id, `type` = :type, `guid` = :guid, `slug` = :slug, `title` = :title, `title_en` = :title_en',
-            'SELECT MAX(`order`) AS `order`
-FROM `umi_mock_hierarchy`
-WHERE `pid` IS :parent',
-            'UPDATE `umi_mock_hierarchy`
-SET `mpath` = :mpath, `uri` = :uri, `order` = :order, `level` = :level
-WHERE `id` = :objectId',
-            'UPDATE `umi_mock_blogs`
-SET `mpath` = :mpath, `uri` = :uri, `order` = :order, `level` = :level
-WHERE `id` = :objectId'
+            '"START TRANSACTION"',
+            'INSERT INTO "umi_mock_hierarchy"
+( "type", "guid", "slug", "title", "title_en" ) VALUES ( :type, :guid, :slug, :title, :title_en )',
+            'INSERT INTO "umi_mock_blogs"
+( "id", "type", "guid", "slug", "title", "title_en" ) VALUES ( :id, :type, :guid, :slug, :title, :title_en )',
+            'SELECT MAX("order") AS "order"
+FROM "umi_mock_hierarchy"
+WHERE "pid" IS :parent',
+            'UPDATE "umi_mock_hierarchy"
+SET "mpath" = :mpath, "uri" = :uri, "order" = :order, "level" = :level
+WHERE "id" = :objectId',
+            'UPDATE "umi_mock_blogs"
+SET "mpath" = :mpath, "uri" = :uri, "order" = :order, "level" = :level
+WHERE "id" = :objectId',
+            '"COMMIT"',
         ];
 
         $this->assertEquals(
@@ -271,7 +277,7 @@ WHERE `id` = :objectId'
         $this->objectManager->unloadObjects();
 
         $blog = $blogsCollection->get($guid);
-        $this->setQueries([]);
+        $this->resetQueries();
 
         $blog->setValue('title', 'russian title', 'ru-RU');
         $blog->setValue('title', 'russian current title');
@@ -280,12 +286,14 @@ WHERE `id` = :objectId'
         $this->objectPersister->commit();
 
         $expectedResult = [
-            'UPDATE `umi_mock_hierarchy`
-SET `title` = :title, `title_en` = :title_en, `version` = `version` + (1)
-WHERE `id` = :objectId AND `version` = :version',
-            'UPDATE `umi_mock_blogs`
-SET `title` = :title, `title_en` = :title_en, `version` = `version` + (1)
-WHERE `id` = :objectId AND `version` = :version'
+            '"START TRANSACTION"',
+            'UPDATE "umi_mock_hierarchy"
+SET "title" = :title, "title_en" = :title_en, "version" = "version" + (1)
+WHERE "id" = :objectId AND "version" = :version',
+            'UPDATE "umi_mock_blogs"
+SET "title" = :title, "title_en" = :title_en, "version" = "version" + (1)
+WHERE "id" = :objectId AND "version" = :version',
+            '"COMMIT"',
         ];
 
         $this->assertEquals(

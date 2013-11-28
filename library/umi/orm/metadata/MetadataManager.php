@@ -86,5 +86,4 @@ class MetadataManager implements IMetadataManager, ILocalizable
     {
         return in_array($collectionName, $this->getList());
     }
-
 }

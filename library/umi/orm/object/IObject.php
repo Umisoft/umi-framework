@@ -182,7 +182,8 @@ interface IObject extends ArrayAccess, Serializable
     /**
      * Устанавливает в качестве значения свойства значение по умолчанию
      * @param string $propName имя свойства
-     * @param null|string $localeId идентификатор локали свойства. Если null, будет установлено значение в текущей локали
+     * @param null|string $localeId идентификатор локали свойства.
+     * Если null, будет установлено значение в текущей локали
      * @return self
      */
     public function setDefaultValue($propName, $localeId = null);
@@ -327,5 +328,4 @@ interface IObject extends ArrayAccess, Serializable
      * @param string $propName имя свойства
      */
     public function __unset($propName);
-
 }

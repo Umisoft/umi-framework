@@ -141,7 +141,10 @@ trait TLocalizableField
             ));
         }
 
-        $defaultValue = isset($this->localizations[$localeId]['defaultValue']) ? $this->localizations[$localeId]['defaultValue'] : null;
+        $defaultValue =
+            isset($this->localizations[$localeId]['defaultValue'])
+                ? $this->localizations[$localeId]['defaultValue']
+                : null;
 
         return $defaultValue;
     }

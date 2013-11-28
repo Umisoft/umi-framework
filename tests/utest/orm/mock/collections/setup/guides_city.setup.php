@@ -41,7 +41,7 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->setPrimaryKey(['id']);
     $tableScheme->addIndex(['guid'], 'city_guid');
 
-    $ftCountries = $schemaManager->listTableDetails('umi_mock_hierarchy');
+    $ftCountries = $schemaManager->listTableDetails('umi_mock_countries');
 
     $tableScheme->addForeignKeyConstraint(
         $ftCountries,

@@ -51,5 +51,4 @@ interface ILocalizableField extends IField
      * @return string
      */
     public function getLocaleDefaultValue($localeId = null);
-
 }

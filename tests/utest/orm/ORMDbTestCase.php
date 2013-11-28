@@ -186,16 +186,28 @@ abstract class ORMDbTestCase extends TestCase
         parent::tearDown();
     }
 
+    //todo incapsulate queries getters to new DebugStack decorator
+
     /**
      * Логированные запросы, выполненные через $this->usedConnection
+     * @param bool $withValues Подставлять ли реальные значения в логированные запросы
      * @return array
      */
-    protected function getQueries()
+    protected function getQueries($withValues = false)
     {
         return array_values(
             array_map(
-                function ($a) {
-                    if (isset($a['params']) && is_array($a['params'])) {
+                function ($a) use ($withValues) {
+                    if ($withValues && isset($a['params']) && is_array($a['params'])) {
+                        // make correct NULLs
+                        array_walk(
+                            $a['params'],
+                            function (&$param) {
+                                if ($param === null) {
+                                    $param = 'NULL';
+                                }
+                            }
+                        );
                         return strtr($a['sql'], $a['params']);
                     } else {
                         return $a['sql'];
@@ -204,6 +216,38 @@ abstract class ORMDbTestCase extends TestCase
                 $this->sqlLogger()->queries
             )
         );
+    }
+
+    /**
+     * Logged queries as type-params pairs
+     * @param bool $withParams Whether to append logged params in each result
+     *
+     * @return array [ ['select', [':foo'=>'foo', ':bar'=>121 ...]] ]
+     */
+    protected function getQueryTypesWithParams($withParams = true)
+    {
+        $queries = [];
+        $kwRe = '/^\s*[`"]?(select|update|insert|delete|drop|truncate|start|rollback|commit)[`"]?\b/i';
+        foreach ($this->sqlLogger()->queries as $a) {
+            $matches = [];
+            $query = [];
+            if (preg_match($kwRe, $a['sql'], $matches)) {
+                $query[0] = strtolower($matches[1]);
+                if ($withParams) {
+                    $query = [
+                        strtolower($matches[1]),
+                        isset($a['params']) && is_array($a['params']) ? $a['params'] : []
+                    ];
+                } else {
+                    $query = strtolower($matches[1]);
+                }
+                $queries[] = $query;
+            } else {
+                $queries[] = false;
+            }
+        }
+
+        return $queries;
     }
 
     /**
@@ -223,20 +267,11 @@ abstract class ORMDbTestCase extends TestCase
     }
 
     /**
-     * todo! replace all with resetQueries()
-     * @param array $queries
-     */
-    public function setQueries($queries)
-    {
-        $this->sqlLogger()->queries = $queries;
-    }
-
-    /**
      * Сбросить лог запросов
      */
     public function resetQueries()
     {
-        $this->setQueries([]);
+        $this->sqlLogger()->queries = [];
     }
 
     /**

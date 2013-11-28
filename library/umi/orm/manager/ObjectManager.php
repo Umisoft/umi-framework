@@ -221,5 +221,4 @@ class ObjectManager implements IObjectManager, ILocalizable, IObjectPersisterAwa
     {
         return $this->objectsByGuid;
     }
-
 }

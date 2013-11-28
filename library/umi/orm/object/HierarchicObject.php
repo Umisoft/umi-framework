@@ -110,5 +110,4 @@ class HierarchicObject extends Object implements IHierarchicObject
         parent::reset();
         $this->normalizedURL = null;
     }
-
 }

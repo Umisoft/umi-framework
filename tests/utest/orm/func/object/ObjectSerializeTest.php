@@ -68,15 +68,15 @@ class ObjectSerializeTest extends ORMDbTestCase
 
         $blog = $this->collectionManager->getCollection(self::BLOGS_BLOG)
             ->get($this->guid);
-        $this->setQueries([]);
+        $this->resetQueries();
 
         $serialized = serialize($blog);
 
         $this->assertEquals(
             [
-                'SELECT `blogs_blog`.`id` AS `blogs_blog:id`, `blogs_blog`.`guid` AS `blogs_blog:guid`, `blogs_blog`.`type` AS `blogs_blog:type`, `blogs_blog`.`version` AS `blogs_blog:version`, `blogs_blog`.`pid` AS `blogs_blog:parent`, `blogs_blog`.`mpath` AS `blogs_blog:mpath`, `blogs_blog`.`slug` AS `blogs_blog:slug`, `blogs_blog`.`uri` AS `blogs_blog:uri`, `blogs_blog`.`title` AS `blogs_blog:title#ru-RU`, `blogs_blog`.`title_en` AS `blogs_blog:title#en-US`, `blogs_blog`.`title_gb` AS `blogs_blog:title#en-GB`, `blogs_blog`.`title_ua` AS `blogs_blog:title#ru-UA`
-FROM `umi_mock_blogs` AS `blogs_blog`
-WHERE ((`blogs_blog`.`id` = :value0))'
+                'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."title_gb" AS "blogs_blog:title#en-GB", "blogs_blog"."title_ua" AS "blogs_blog:title#ru-UA"
+FROM "umi_mock_blogs" AS "blogs_blog"
+WHERE (("blogs_blog"."id" = :value0))'
             ],
             $this->getQueries(),
             'Ожидается, что при сериализации объекта он полностью догрузит все свои свойства из базы'
@@ -90,7 +90,7 @@ WHERE ((`blogs_blog`.`id` = :value0))'
     {
 
         $this->objectPersister->commit();
-        $this->setQueries([]);
+        $this->resetQueries();
 
         /**
          * @var IObject $blog
@@ -144,7 +144,7 @@ WHERE ((`blogs_blog`.`id` = :value0))'
 
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
-        $this->setQueries([]);
+        $this->resetQueries();
 
         /**
          * @var IObject $blog

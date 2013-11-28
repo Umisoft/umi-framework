@@ -153,5 +153,4 @@ class MetadataFactory implements IMetadataFactory, IFactory
             ['umi\orm\metadata\field\IField']
         );
     }
-
 }

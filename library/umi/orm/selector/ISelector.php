@@ -66,7 +66,8 @@ interface ISelector extends \IteratorAggregate
      * Уточняет выбираемые типы данных.
      * @param array $typeNames массив имен типов. Если после имени типа будет указан asterisk (*),
      * будут выбраны так же все дочерние типы.
-     * Пример: 'notebook*' - будет выбран тип notebook и все дочерние от него, '*' - будут выбран все типы, включая базовый)
+     * Пример: 'notebook*' - будет выбран тип notebook и все дочерние от него, '*' - будут выбран все типы,
+     * включая базовый)
      * @throws NonexistentEntityException если какого-либо из указанных типов не существует в коллекции
      * @return self
      */
@@ -84,7 +85,8 @@ interface ISelector extends \IteratorAggregate
     /**
      * Загрузить связанную через belongs-to сущность вместе с объектом (одним запросом).
      * @param string $relationFieldPath путь к полю, через которое связанна сущность (Ex: city.country).
-     * @param array $fieldNames уточняющий список имен полей связанной сущности, которые нужно загрузить. Если не указан, будут загружены все поля связанной сущности.
+     * @param array $fieldNames уточняющий список имен полей связанной сущности, которые нужно загрузить.
+     * Если не указан, будут загружены все поля связанной сущности.
      * @throws NonexistentEntityException если какое-либо из указанных полей не существует
      * @return self
      */
@@ -169,5 +171,4 @@ interface ISelector extends \IteratorAggregate
      * @return int
      */
     public function getTotal();
-
 }

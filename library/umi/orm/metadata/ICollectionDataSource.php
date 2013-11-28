@@ -93,5 +93,4 @@ interface ICollectionDataSource
      * @return IDeleteBuilder
      */
     public function delete();
-
 }

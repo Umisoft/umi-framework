@@ -222,8 +222,8 @@ abstract class BaseCollection
 
         foreach ($object->getType()
             ->getFields() as $fieldName => $field) {
-            if ((!$withLocalization && !isset($loadedValues[$fieldName])) || ($withLocalization && $field instanceof ILocalizableField && $field->getIsLocalized(
-                    ))
+            if ((!$withLocalization && !isset($loadedValues[$fieldName]))
+                || ($withLocalization && $field instanceof ILocalizableField && $field->getIsLocalized())
             ) {
                 $fieldsToLoad[] = $fieldName;
             }
@@ -374,13 +374,15 @@ abstract class BaseCollection
 
         // set object id
         if ($object->getId()) {
-            $insertBuilder->set($identifyColumnName)
+            $insertBuilder
+                ->set($identifyColumnName)
                 ->bindValue(
-                ':' . $identifyColumnName,
-                $object->getId(),
-                $this->getIdentifyField()
-                    ->getDataType()
-            );
+                    ':' . $identifyColumnName,
+                    $object->getId(),
+                    $this
+                        ->getIdentifyField()
+                        ->getDataType()
+                );
         }
 
         // set type
@@ -533,13 +535,15 @@ abstract class BaseCollection
 
         $deleteBuilder = $dataSource->delete();
 
-        $deleteBuilder->where()
+        $deleteBuilder
+            ->where()
             ->expr(
-            $this->getIdentifyField()
-                ->getColumnName(),
-            '=',
-            ':objectId'
-        );
+                $this
+                    ->getIdentifyField()
+                    ->getColumnName(),
+                '=',
+                ':objectId'
+            );
         $deleteBuilder->bindValue(
             ':objectId',
             $object->getId(),
@@ -569,13 +573,15 @@ abstract class BaseCollection
             ->getCollectionDataSource()
             ->update();
 
-        $updateBuilder->where()
+        $updateBuilder
+            ->where()
             ->expr(
-            $this->getIdentifyField()
-                ->getColumnName(),
-            '=',
-            ':objectId'
-        );
+                $this
+                    ->getIdentifyField()
+                    ->getColumnName(),
+                '=',
+                ':objectId'
+            );
         $updateBuilder->bindValue(
             ':objectId',
             $object->getId(),
@@ -600,7 +606,8 @@ abstract class BaseCollection
 
         if ($result->rowCount() != 1) {
             throw new RuntimeException($this->translate(
-                'Cannot set calculable properties for object with id "{id}" and type "{type}". Database row is not modified.',
+                'Cannot set calculable properties for object with id "{id}" and type "{type}".'
+                . ' Database row is not modified.',
                 ['id' => $object->getId(), 'type' => $object->getTypePath()]
             ));
         }
@@ -623,5 +630,4 @@ abstract class BaseCollection
 
         return $this->metadata->getField($fieldName);
     }
-
 }

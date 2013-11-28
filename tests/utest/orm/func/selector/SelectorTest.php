@@ -34,8 +34,8 @@ class SelectorTest extends ORMDbTestCase
     protected function getCollections()
     {
         return array(
+            self::USERS_GROUP,
             self::USERS_USER,
-            self::USERS_GROUP
         );
     }
 
@@ -469,9 +469,9 @@ class SelectorTest extends ORMDbTestCase
         $this->objectPersister->commit();
 
         $this->assertEquals(
-            5,
+            6,
             $this->selector->getTotal(),
-            'Ожидается, что общее количество закешировалось несмотря на то, что были добавлены новые объекты'
+            'Ожидается, что общее количество обновилось, если были добавлены новые объекты'
         );
 
     }
