@@ -62,5 +62,4 @@ class VersionField extends BaseField implements IScalarField
 
         return $this;
     }
-
 }

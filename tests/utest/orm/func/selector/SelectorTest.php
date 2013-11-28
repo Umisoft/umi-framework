@@ -9,12 +9,11 @@
 
 namespace utest\orm\func\selector;
 
-use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use umi\orm\selector\ISelector;
 use umi\orm\selector\Selector;
-use utest\orm\mock\collections\Supervisor;
-use utest\orm\mock\collections\User;
+use utest\orm\mock\collections\users\Supervisor;
+use utest\orm\mock\collections\users\User;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -32,26 +31,18 @@ class SelectorTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollectionConfig()
+    protected function getCollections()
     {
-        return [
-            self::METADATA_DIR . '/mock/collections',
-            [
-                self::USERS_USER             => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ],
-                self::USERS_GROUP            => [
-                    'type' => ICollectionFactory::TYPE_SIMPLE
-                ]
-            ],
-            true
-        ];
+        return array(
+            self::USERS_GROUP,
+            self::USERS_USER,
+        );
     }
 
     protected function setUpFixtures()
     {
 
-        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
         /**
          * @var User $user1
          * @var User $user2
@@ -82,7 +73,7 @@ class SelectorTest extends ORMDbTestCase
         $sv2->login = 'admin';
         $sv2->setValue('height', 170);
 
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
         $this->selector = $userCollection->select();
 
@@ -473,14 +464,14 @@ class SelectorTest extends ORMDbTestCase
             'Ожидается, что всего 5 объектов удовлетворяют выборке, несмотря на лимит'
         );
 
-        $this->getCollectionManager()->getCollection(self::USERS_USER)
+        $this->collectionManager->getCollection(self::USERS_USER)
             ->add();
-        $this->getObjectPersister()->commit();
+        $this->objectPersister->commit();
 
         $this->assertEquals(
-            5,
+            6,
             $this->selector->getTotal(),
-            'Ожидается, что общее количество закешировалось несмотря на то, что были добавлены новые объекты'
+            'Ожидается, что общее количество обновилось, если были добавлены новые объекты'
         );
 
     }

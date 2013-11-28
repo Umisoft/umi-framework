@@ -51,8 +51,8 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
         $item4 = $this->menu->add('item4', IObjectType::BASE, $item2);
         $this->guid4 = $item4->getGUID();
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
     }
 
     public function testURI()
@@ -68,25 +68,29 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
     {
 
         $item1 = $this->menu->get($this->guid1);
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->menu->changeSlug($item1, 'new_slug');
-
         $this->assertEquals(
             [
+                '"START TRANSACTION"',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 1 AND "version" = 1) AS mainQuery',
                 //проверка актуальности изменяемого объекта
                 'SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 1 AND "version" = 1',
-                //проверка уникальности нового slug
-                'SELECT "id"
-FROM "umi_mock_menu"
 WHERE "uri" = //new_slug AND "id" != 1',
+                //проверка уникальности нового slug
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //new_slug AND "id" != 1) AS mainQuery',
                 //обновление всей slug у всей ветки изменяемого объекта
                 'UPDATE "umi_mock_menu"
 SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//item1\', \'//new_slug\')
-WHERE "uri" like \'//item1/%\' OR "uri" = \'//item1\'',
+WHERE "uri" like //item1/% OR "uri" = //item1',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на изменение slug в простой иерархической коллекции'
         );
 

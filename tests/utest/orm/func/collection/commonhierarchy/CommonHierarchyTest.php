@@ -62,7 +62,7 @@ class CommonHierarchyTest extends ORMDbTestCase
         $this->objectPersister->commit();
         $this->objectManager->unloadObjects();
 
-        $this->setQueries([]);
+        $this->resetQueries();
 
         $set = $hierarchy
             ->select()
@@ -105,7 +105,7 @@ WHERE (("system_hierarchy"."order" = :value0))'
         );
         $this->assertEquals(4, $post->getId(), 'Ожидается, что второй элемент на втором месте имеет id 4');
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $blog->getValue('title');
 
         $queries = [

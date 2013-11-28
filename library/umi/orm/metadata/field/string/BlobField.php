@@ -36,5 +36,4 @@ class BlobField extends BaseField implements IScalarField
     {
         return is_string($propertyValue);
     }
-
 }

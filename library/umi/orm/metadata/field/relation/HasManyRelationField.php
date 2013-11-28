@@ -95,5 +95,4 @@ class HasManyRelationField extends BaseField implements IRelationField, ICollect
     {
         return null;
     }
-
 }

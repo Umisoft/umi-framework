@@ -98,5 +98,4 @@ class FieldConditionGroup implements IFieldConditionGroup
 
         return $this;
     }
-
 }

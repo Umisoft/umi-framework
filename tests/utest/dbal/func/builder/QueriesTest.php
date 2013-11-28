@@ -29,9 +29,8 @@ class QueriesTest extends DbalTestCase
 
     protected function setUpFixtures()
     {
-
         //            $this->server = $this->getSqliteServer();
-        $this->server = $this->getMysqlServer();
+        $this->server = $this->getDbServer();
         $table = new Table('tests_query_table');
 
         $table
@@ -75,7 +74,6 @@ class QueriesTest extends DbalTestCase
 
     public function testQueryResult()
     {
-
         $selectQuery = $this->server
             ->select('id')
             ->from('tests_query_table');
@@ -179,7 +177,11 @@ class QueriesTest extends DbalTestCase
         $insertUpdate->bindBool(':updateActivity', true);
 
         $result = $insertUpdate->execute();
-        // Mysql вернет 2, если вставленная строка существовала
+
+        //     *
+        //    * *
+        //   * ! *     Mysql  вернет 2, если вставленная строка существовала
+        //  * * * *
         $this->assertEquals(2, $result->rowCount(), 'Ожидается 1 модифицированная строка');
 
         /** @var ISelectBuilder $inserted */

@@ -110,5 +110,4 @@ interface IObjectPersister
      * @return self
      */
     public function clearObjectState(IObject $object);
-
 }

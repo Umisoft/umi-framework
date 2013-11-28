@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
@@ -41,23 +42,25 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->addIndex(['user_id'], 'subscriber_user_id');
     $tableScheme->addIndex(['type'], 'subscribers_type');
 
-    $ftUsers = $schemaManager->listTableDetails('umi_mock_users');
-    $ftBlogs = $schemaManager->listTableDetails('umi_mock_blogs');
-
     $tableScheme->addForeignKeyConstraint(
-        $ftUsers,
+        'umi_mock_users',
         ['user_id'],
         ['id'],
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_user'
     );
+
     $tableScheme->addForeignKeyConstraint(
-        $ftBlogs,
+        'umi_mock_blogs',
         ['blog_id'],
         ['id'],
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_blog'
     );
-    $schemaManager->createTable($tableScheme);
+
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 
 };

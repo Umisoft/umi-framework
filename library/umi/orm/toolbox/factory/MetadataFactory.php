@@ -153,5 +153,4 @@ class MetadataFactory implements IMetadataFactory, IFactory
             )
             ->createInstance([$fieldName, $config]);
     }
-
 }

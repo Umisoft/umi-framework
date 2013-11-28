@@ -133,12 +133,17 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         $orderField = $this->getHierarchyOrderField();
         $parentField = $this->getParentField();
 
+        $platform = $dataSource->getConnection()->getDatabasePlatform();
+
         /**
          * @var ISelectBuilder $select
          */
         $select = $dataSource
             ->select(':' . $orderField->getName() . ' as ' . $orderField->getName())
-            ->bindExpression(':' . $orderField->getName(), 'MAX(`' . $orderField->getColumnName() . '`)');
+            ->bindExpression(
+                ':' . $orderField->getName(),
+                'MAX(' . $platform->quoteIdentifier($orderField->getColumnName()) . ')'
+            );
 
         if ($branch) {
             $select
@@ -198,8 +203,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
                 ->getField();
             $parentTargetCollectionName = $parentField->getTargetCollectionName();
 
-            if ($this->getName() != $parentTargetCollectionName && $branch->getCollectionName(
-                ) != $parentTargetCollectionName
+            if ($this->getName() != $parentTargetCollectionName
+                && $branch->getCollectionName() != $parentTargetCollectionName
             ) {
                 throw new RuntimeException($this->translate(
                     'Cannot move object. Branch collection does not match object parent collection.'
@@ -422,8 +427,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
             ->set($urlField->getColumnName())
             ->bindValue(':' . $urlField->getColumnName(), $newParentUrl . $object->getSlug(), $urlField->getDataType());
 
-        $newMpathStart = $newParent ? $newParent->getMaterializedPath(
-            ) . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
+        $newMpathStart = $newParent ? $newParent->getMaterializedPath()
+            . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
         $update
             ->set($mpathField->getColumnName())
             ->bindValue(
@@ -503,9 +508,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         $branchLevel = $branch ? $branch->getLevel() : -1;
         $levelDelta = $branchLevel - $object->getLevel() + 1;
         if ($levelDelta) {
-            $changingLevelExpression = $driver->quoteIdentifier(
-                    $levelField->getColumnName()
-                ) . ' + (' . $levelDelta . ')';
+            $changingLevelExpression = $driver->quoteIdentifier($levelField->getColumnName())
+                . ' + (' . $levelDelta . ')';
             $update
                 ->set($levelField->getColumnName())
                 ->bindExpression(':' . $levelField->getColumnName(), $changingLevelExpression);
@@ -516,22 +520,20 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
             ->set($versionField->getColumnName())
             ->bindExpression(':' . $versionField->getColumnName(), $incrementVersionExpression);
 
-        $branchMpath = $branch ? $branch->getMaterializedPath(
-            ) . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
-        $objectParentMpath = $parent ? $parent->getMaterializedPath(
-            ) . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
-        $changingMpathExpression = 'REPLACE(' . $driver->quoteIdentifier(
-                $mpathField->getColumnName()
-            ) . ', ' . $driver->quote($objectParentMpath) . ', ' . $driver->quote($branchMpath) . ')';
+        $branchMpath = $branch ? $branch->getMaterializedPath()
+            . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
+        $objectParentMpath = $parent ? $parent->getMaterializedPath()
+            . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
+        $changingMpathExpression = 'REPLACE(' . $driver->quoteIdentifier($mpathField->getColumnName())
+            . ', ' . $driver->quote($objectParentMpath) . ', ' . $driver->quote($branchMpath) . ')';
         $update
             ->set($mpathField->getColumnName())
             ->bindExpression(':' . $mpathField->getColumnName(), $changingMpathExpression);
 
         $objectParentUrl = $parent ? $parent->getURI() . '/' : '//';
         $branchUrl = $branch ? $branch->getURI() . '/' : '//';
-        $changingUrlExpression = 'REPLACE(' . $driver->quoteIdentifier(
-                $urlField->getColumnName()
-            ) . ', ' . $driver->quote($objectParentUrl) . ', ' . $driver->quote($branchUrl) . ')';
+        $changingUrlExpression = 'REPLACE(' . $driver->quoteIdentifier($urlField->getColumnName())
+            . ', ' . $driver->quote($objectParentUrl) . ', ' . $driver->quote($branchUrl) . ')';
         $update
             ->set($urlField->getColumnName())
             ->bindExpression(':' . $urlField->getColumnName(), $changingUrlExpression);
@@ -732,9 +734,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
 
         $driver = $update->getConnection();
 
-        $changingUrlExpression = 'REPLACE(' . $driver->quoteIdentifier(
-                $urlField->getColumnName()
-            ) . ', ' . $driver->quote($objectUrl) . ', ' . $driver->quote($newUrl) . ')';
+        $changingUrlExpression = 'REPLACE(' . $driver->quoteIdentifier($urlField->getColumnName()) . ', '
+            . $driver->quote($objectUrl) . ', ' . $driver->quote($newUrl) . ')';
         $incrementVersionExpression = $driver->quoteIdentifier($versionField->getColumnName()) . ' + 1';
 
         $update
@@ -897,8 +898,6 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
                 ['id' => $object->getId(), 'slug' => $newSlug]
             ));
         }
-
         return $this;
     }
-
 }

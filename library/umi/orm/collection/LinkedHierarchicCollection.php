@@ -137,5 +137,4 @@ class LinkedHierarchicCollection extends SimpleHierarchicCollection implements I
         return $this->getCommonHierarchy()
             ->selectAncestry($object);
     }
-
 }

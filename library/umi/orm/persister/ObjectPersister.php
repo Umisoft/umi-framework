@@ -408,5 +408,4 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
             $storage->detach($object);
         }
     }
-
 }

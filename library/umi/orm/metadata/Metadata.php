@@ -164,17 +164,14 @@ class Metadata implements IMetadata, ILocalizable
             if ($name == $typeName) {
                 continue;
             }
-            if ($typeName == IObjectType::BASE && (is_null($depth) || (substr_count(
-                            $name,
-                            IObjectType::NAME_SEPARATOR
-                        ) + 1 <= $depth))
+            if ($typeName == IObjectType::BASE
+                && (is_null($depth) || (substr_count($name, IObjectType::NAME_SEPARATOR) + 1 <= $depth))
             ) {
                 $result[] = $name;
             } elseif ($typeName != IObjectType::BASE && strpos($name, $typeName) === 0) {
-                if (is_null($depth) || substr_count($name, IObjectType::NAME_SEPARATOR) - substr_count(
-                        $typeName,
-                        IObjectType::NAME_SEPARATOR
-                    ) <= $depth
+                if (is_null($depth)
+                    || (substr_count($name, IObjectType::NAME_SEPARATOR)
+                        - substr_count($typeName, IObjectType::NAME_SEPARATOR) <= $depth)
                 ) {
                     $result[] = $name;
                 }
@@ -272,8 +269,9 @@ class Metadata implements IMetadata, ILocalizable
     {
         foreach ($this->getFieldsList() as $fieldName) {
             $field = $this->getField($fieldName);
-            if ($field instanceof ManyToManyRelationField && $field->getRelatedFieldName(
-                ) == $relatedFieldName && $field->getBridgeCollectionName() == $bridgeCollectionName
+            if ($field instanceof ManyToManyRelationField
+                && $field->getRelatedFieldName() == $relatedFieldName
+                && $field->getBridgeCollectionName() == $bridgeCollectionName
             ) {
                 return $field;
             }
@@ -290,9 +288,11 @@ class Metadata implements IMetadata, ILocalizable
     public function getFieldByTarget($targetFieldName, $targetCollectionName)
     {
         foreach ($this->getFieldsList() as $fieldName) {
+            /** @var $field HasManyRelationField|ManyToManyRelationField */
             $field = $this->getField($fieldName);
-            if (($field instanceof HasManyRelationField || $field instanceof ManyToManyRelationField) && $field->getTargetFieldName(
-                ) == $targetFieldName && $field->getTargetCollectionName() == $targetCollectionName
+            if (($field instanceof HasManyRelationField || $field instanceof ManyToManyRelationField)
+                && $field->getTargetFieldName() == $targetFieldName
+                && $field->getTargetCollectionName() == $targetCollectionName
             ) {
                 return $field;
             }
@@ -404,5 +404,4 @@ class Metadata implements IMetadata, ILocalizable
 
         return $config;
     }
-
 }

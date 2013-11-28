@@ -90,5 +90,4 @@ class MetadataManager implements IMetadataManager, ILocalizable
     {
         return array_key_exists($collectionName, $this->metadata);
     }
-
 }

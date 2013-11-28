@@ -62,8 +62,6 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
      */
     protected $hierarchy;
 
-    protected $usedDbServerId = 'sqliteMaster';
-
     protected function setUpFixtures()
     {
         $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
@@ -96,7 +94,7 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
 
         $this->objectPersister->commit();
 
-        $this->setQueries([]);
+        $this->resetQueries();
     }
 
     public function testInitialHierarchyProperties()
@@ -211,13 +209,20 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
 FROM "umi_mock_hierarchy"
 WHERE "pid" = 1
 GROUP BY "type"',
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 4 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 4 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 1 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 1, "version" = "version" + 1
@@ -234,9 +239,10 @@ SET "order" = "order" + 1, "version" = "version" + 1
 WHERE "id" != 4 AND "pid" = 1 AND "order" >= 1',
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = "order" + 1, "version" = "version" + 1
-WHERE "id" != 4 AND "pid" = 1 AND "order" >= 1'
+WHERE "id" != 4 AND "pid" = 1 AND "order" >= 1',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -258,13 +264,20 @@ WHERE "id" != 4 AND "pid" = 1 AND "order" >= 1'
 FROM "umi_mock_hierarchy"
 WHERE "pid" = 1
 GROUP BY "type"',
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 4 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 4 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 1 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 2, "version" = "version" + 1
@@ -281,9 +294,10 @@ SET "order" = "order" + 1, "version" = "version" + 1
 WHERE "id" != 4 AND "pid" = 1 AND "order" >= 2',
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = "order" + 1, "version" = "version" + 1
-WHERE "id" != 4 AND "pid" = 1 AND "order" >= 2'
+WHERE "id" != 4 AND "pid" = 1 AND "order" >= 2',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -310,16 +324,26 @@ GROUP BY "type"',
 FROM "umi_mock_hierarchy"
 WHERE "mpath" like #1.4.5.%
 GROUP BY "type"',
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 5 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 5 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 1 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog1/post2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog1/post2) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 1, "version" = "version" + 1
@@ -369,9 +393,10 @@ WHERE "mpath" like #1.4.5.%',
                 'UPDATE "umi_mock_hierarchy"
 SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.4.\', \'#1.\'),'
                 . ' "uri" = REPLACE("uri", \'//blog1/blog3/\', \'//blog1/\')
-WHERE "mpath" like #1.4.5.%'
+WHERE "mpath" like #1.4.5.%',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -414,16 +439,26 @@ GROUP BY "type"',
 FROM "umi_mock_hierarchy"
 WHERE "mpath" like #1.2.%
 GROUP BY "type"',
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 2 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 2 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 5 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 5 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog1/blog3/post2/blog2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog1/blog3/post2/blog2) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 2, "version" = "version" + 1
@@ -459,8 +494,9 @@ WHERE "id" = 2',
 SET "uri" = //blog1/blog3/post2/blog2, "mpath" = #1.4.5.2, "pid" = 5, "level" = "level" + (2), "version" = "version" + 1
 WHERE "id" = 2',
                 //изменения иерархических свойств детей перемещаемого объекта
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -497,16 +533,26 @@ GROUP BY "type"',
 FROM "umi_mock_hierarchy"
 WHERE "mpath" like #1.%
 GROUP BY "type"',
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 1 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 8 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 8 AND "version" = 1) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog5/blog1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog5/blog1) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 1, "version" = "version" + 1
@@ -543,8 +589,9 @@ WHERE "mpath" like #1.%',
 SET "level" = "level" + (1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#\', \'#8.\'), '
                 . '"uri" = REPLACE("uri", \'//\', \'//blog5/\')
 WHERE "mpath" like #1.%',
+                '"COMMIT"'
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -580,13 +627,20 @@ GROUP BY "type"',
 FROM "umi_mock_hierarchy"
 WHERE "mpath" like #1.4.%
 GROUP BY "type"',
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 4 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 4 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog3',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog3) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 1, "version" = "version" + 1
@@ -627,9 +681,10 @@ WHERE "mpath" like #1.4.%',
                 'UPDATE "umi_mock_hierarchy"
 SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.\', \'#\'), '
                 . '"uri" = REPLACE("uri", \'//blog1/\', \'//\')
-WHERE "mpath" like #1.4.%'
+WHERE "mpath" like #1.4.%',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -660,13 +715,20 @@ GROUP BY "type"',
 FROM "umi_mock_hierarchy"
 WHERE "mpath" like #1.4.%
 GROUP BY "type"',
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 4 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 4 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog3',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //blog3) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 2, "version" = "version" + 1
@@ -707,9 +769,10 @@ WHERE "mpath" like #1.4.%',
                 'UPDATE "umi_mock_hierarchy"
 SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#1.\', \'#\'), '
                 . '"uri" = REPLACE("uri", \'//blog1/\', \'//\')
-WHERE "mpath" like #1.4.%'
+WHERE "mpath" like #1.4.%',
+                '"COMMIT"'
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 

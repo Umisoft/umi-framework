@@ -37,5 +37,4 @@ class BoolField extends BaseField implements IScalarField
     {
         return is_bool($propertyValue);
     }
-
 }

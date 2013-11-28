@@ -35,11 +35,12 @@ class SelectorWithTest extends ORMDbTestCase
     protected function getCollections()
     {
         return [
-            self::USERS_USER,
+            self::SYSTEM_HIERARCHY,
             self::USERS_GROUP,
-            self::USERS_PROFILE,
+            self::USERS_USER,
+            self::GUIDES_COUNTRY,
             self::GUIDES_CITY,
-            self::GUIDES_COUNTRY
+            self::USERS_PROFILE,
         ];
     }
 
@@ -177,10 +178,10 @@ class SelectorWithTest extends ORMDbTestCase
         $sql = $selector1->getSelectBuilder()
             ->getSql();
         $this->assertEquals(
-            'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`, `users_user`.`login` AS `users_user:login`, `users_user`.`email` AS `users_user:email`, `users_user`.`password` AS `users_user:password`, `users_user`.`is_active` AS `users_user:isActive`, `users_user`.`rating` AS `users_user:rating`, `users_user`.`height` AS `users_user:height`, `users_user`.`group_id` AS `users_user:group`, `users_user`.`supervisor_field` AS `users_user:supervisorField`, `users_user`.`guest_field` AS `users_user:guestField`, `users_user:group`.`id` AS `users_user:group:id`, `users_user:group`.`guid` AS `users_user:group:guid`, `users_user:group`.`type` AS `users_user:group:type`, `users_user:group`.`version` AS `users_user:group:version`, `users_user:group`.`name` AS `users_user:group:name`, `users_user:group`.`title` AS `users_user:group:title#ru-RU`, `users_user:group`.`title_en` AS `users_user:group:title#en-US`
-FROM `umi_mock_users` AS `users_user`
-	LEFT JOIN `umi_mock_groups` AS `users_user:group` ON `users_user:group`.`id` = `users_user`.`group_id`
-WHERE ((`users_user`.`login` = :value0))',
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."login" AS "users_user:login", "users_user"."email" AS "users_user:email", "users_user"."password" AS "users_user:password", "users_user"."is_active" AS "users_user:isActive", "users_user"."rating" AS "users_user:rating", "users_user"."height" AS "users_user:height", "users_user"."group_id" AS "users_user:group", "users_user"."supervisor_field" AS "users_user:supervisorField", "users_user"."guest_field" AS "users_user:guestField", "users_user:group"."id" AS "users_user:group:id", "users_user:group"."guid" AS "users_user:group:guid", "users_user:group"."type" AS "users_user:group:type", "users_user:group"."version" AS "users_user:group:version", "users_user:group"."name" AS "users_user:group:name", "users_user:group"."title" AS "users_user:group:title#ru-RU", "users_user:group"."title_en" AS "users_user:group:title#en-US"
+FROM "umi_mock_users" AS "users_user"
+	LEFT JOIN "umi_mock_groups" AS "users_user:group" ON "users_user:group"."id" = "users_user"."group_id"
+WHERE (("users_user"."login" = :value0))',
             $sql,
             'Неверный запрос на выборку со связной сущностью'
         );
@@ -199,10 +200,10 @@ WHERE ((`users_user`.`login` = :value0))',
         $sql = $selector2->getSelectBuilder()
             ->getSql();
         $this->assertEquals(
-            'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`, `users_user`.`login` AS `users_user:login`, `users_user`.`email` AS `users_user:email`, `users_user`.`password` AS `users_user:password`, `users_user`.`is_active` AS `users_user:isActive`, `users_user`.`rating` AS `users_user:rating`, `users_user`.`height` AS `users_user:height`, `users_user`.`group_id` AS `users_user:group`, `users_user`.`supervisor_field` AS `users_user:supervisorField`, `users_user`.`guest_field` AS `users_user:guestField`, `users_user:group`.`id` AS `users_user:group:id`, `users_user:group`.`guid` AS `users_user:group:guid`, `users_user:group`.`type` AS `users_user:group:type`, `users_user:group`.`version` AS `users_user:group:version`, `users_user:group`.`name` AS `users_user:group:name`
-FROM `umi_mock_users` AS `users_user`
-	LEFT JOIN `umi_mock_groups` AS `users_user:group` ON `users_user:group`.`id` = `users_user`.`group_id`
-WHERE ((`users_user`.`login` = :value0))',
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."login" AS "users_user:login", "users_user"."email" AS "users_user:email", "users_user"."password" AS "users_user:password", "users_user"."is_active" AS "users_user:isActive", "users_user"."rating" AS "users_user:rating", "users_user"."height" AS "users_user:height", "users_user"."group_id" AS "users_user:group", "users_user"."supervisor_field" AS "users_user:supervisorField", "users_user"."guest_field" AS "users_user:guestField", "users_user:group"."id" AS "users_user:group:id", "users_user:group"."guid" AS "users_user:group:guid", "users_user:group"."type" AS "users_user:group:type", "users_user:group"."version" AS "users_user:group:version", "users_user:group"."name" AS "users_user:group:name"
+FROM "umi_mock_users" AS "users_user"
+	LEFT JOIN "umi_mock_groups" AS "users_user:group" ON "users_user:group"."id" = "users_user"."group_id"
+WHERE (("users_user"."login" = :value0))',
             $sql,
             'Неверный запрос на выборку со связной сущностью c указанными полями'
         );
@@ -234,10 +235,10 @@ WHERE ((`users_user`.`login` = :value0))',
             ->getSql();
 
         $this->assertEquals(
-            'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`, `users_user`.`group_id` AS `users_user:group`, `users_user:group`.`id` AS `users_user:group:id`, `users_user:group`.`guid` AS `users_user:group:guid`, `users_user:group`.`type` AS `users_user:group:type`, `users_user:group`.`version` AS `users_user:group:version`, `users_user:group`.`name` AS `users_user:group:name`
-FROM `umi_mock_users` AS `users_user`
-	LEFT JOIN `umi_mock_groups` AS `users_user:group` ON `users_user:group`.`id` = `users_user`.`group_id`
-WHERE ((`users_user:group`.`name` = :value0))',
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."group_id" AS "users_user:group", "users_user:group"."id" AS "users_user:group:id", "users_user:group"."guid" AS "users_user:group:guid", "users_user:group"."type" AS "users_user:group:type", "users_user:group"."version" AS "users_user:group:version", "users_user:group"."name" AS "users_user:group:name"
+FROM "umi_mock_users" AS "users_user"
+	LEFT JOIN "umi_mock_groups" AS "users_user:group" ON "users_user:group"."id" = "users_user"."group_id"
+WHERE (("users_user:group"."name" = :value0))',
             $sql,
             'Неверный запрос на выборку со связной сущностью c указанными полями'
         );
@@ -262,10 +263,10 @@ WHERE ((`users_user:group`.`name` = :value0))',
             ->getSql();
 
         $this->assertEquals(
-            'SELECT `users_profile`.`id` AS `users_profile:id`, `users_profile`.`guid` AS `users_profile:guid`, `users_profile`.`type` AS `users_profile:type`, `users_profile`.`version` AS `users_profile:version`, `users_profile`.`city_id` AS `users_profile:city`, `users_profile:city:country`.`id` AS `users_profile:city:country:id`, `users_profile:city:country`.`guid` AS `users_profile:city:country:guid`, `users_profile:city:country`.`type` AS `users_profile:city:country:type`, `users_profile:city:country`.`version` AS `users_profile:city:country:version`, `users_profile:city:country`.`name` AS `users_profile:city:country:name`
-FROM `umi_mock_profiles` AS `users_profile`
-	LEFT JOIN `umi_mock_cities` AS `users_profile:city` ON `users_profile:city`.`id` = `users_profile`.`city_id`
-	LEFT JOIN `umi_mock_countries` AS `users_profile:city:country` ON `users_profile:city:country`.`id` = `users_profile:city`.`country_id`
+            'SELECT "users_profile"."id" AS "users_profile:id", "users_profile"."guid" AS "users_profile:guid", "users_profile"."type" AS "users_profile:type", "users_profile"."version" AS "users_profile:version", "users_profile"."city_id" AS "users_profile:city", "users_profile:city:country"."id" AS "users_profile:city:country:id", "users_profile:city:country"."guid" AS "users_profile:city:country:guid", "users_profile:city:country"."type" AS "users_profile:city:country:type", "users_profile:city:country"."version" AS "users_profile:city:country:version", "users_profile:city:country"."name" AS "users_profile:city:country:name"
+FROM "umi_mock_profiles" AS "users_profile"
+	LEFT JOIN "umi_mock_cities" AS "users_profile:city" ON "users_profile:city"."id" = "users_profile"."city_id"
+	LEFT JOIN "umi_mock_countries" AS "users_profile:city:country" ON "users_profile:city:country"."id" = "users_profile:city"."country_id"
 WHERE 1',
             $sql,
             'Неверный запрос на выборку со связной сущностью c указанными полями'
@@ -296,10 +297,10 @@ WHERE 1',
             ->getSql();
 
         $this->assertEquals(
-            'SELECT `users_profile`.`id` AS `users_profile:id`, `users_profile`.`guid` AS `users_profile:guid`, `users_profile`.`type` AS `users_profile:type`, `users_profile`.`version` AS `users_profile:version`, `users_profile`.`city_id` AS `users_profile:city`, `users_profile:city:country`.`id` AS `users_profile:city:country:id`, `users_profile:city:country`.`guid` AS `users_profile:city:country:guid`, `users_profile:city:country`.`type` AS `users_profile:city:country:type`, `users_profile:city:country`.`version` AS `users_profile:city:country:version`, `users_profile:city`.`id` AS `users_profile:city:id`, `users_profile:city`.`guid` AS `users_profile:city:guid`, `users_profile:city`.`type` AS `users_profile:city:type`, `users_profile:city`.`version` AS `users_profile:city:version`, `users_profile:city`.`name` AS `users_profile:city:name`
-FROM `umi_mock_profiles` AS `users_profile`
-	LEFT JOIN `umi_mock_cities` AS `users_profile:city` ON `users_profile:city`.`id` = `users_profile`.`city_id`
-	LEFT JOIN `umi_mock_countries` AS `users_profile:city:country` ON `users_profile:city:country`.`id` = `users_profile:city`.`country_id`
+            'SELECT "users_profile"."id" AS "users_profile:id", "users_profile"."guid" AS "users_profile:guid", "users_profile"."type" AS "users_profile:type", "users_profile"."version" AS "users_profile:version", "users_profile"."city_id" AS "users_profile:city", "users_profile:city:country"."id" AS "users_profile:city:country:id", "users_profile:city:country"."guid" AS "users_profile:city:country:guid", "users_profile:city:country"."type" AS "users_profile:city:country:type", "users_profile:city:country"."version" AS "users_profile:city:country:version", "users_profile:city"."id" AS "users_profile:city:id", "users_profile:city"."guid" AS "users_profile:city:guid", "users_profile:city"."type" AS "users_profile:city:type", "users_profile:city"."version" AS "users_profile:city:version", "users_profile:city"."name" AS "users_profile:city:name"
+FROM "umi_mock_profiles" AS "users_profile"
+	LEFT JOIN "umi_mock_cities" AS "users_profile:city" ON "users_profile:city"."id" = "users_profile"."city_id"
+	LEFT JOIN "umi_mock_countries" AS "users_profile:city:country" ON "users_profile:city:country"."id" = "users_profile:city"."country_id"
 WHERE 1',
             $sql,
             'Неверный запрос на выборку со связной сущностью c указанными полями'

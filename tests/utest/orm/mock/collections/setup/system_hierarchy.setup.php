@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
@@ -71,23 +72,28 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->addUniqueIndex(['guid'], 'hierarchy_guid');
     $tableScheme->addIndex(['pid'], 'hierarchy_parent');
     $tableScheme->addUniqueIndex(['pid', 'slug'], 'hierarchy_pid_slug');
-
+    if (!$masterServer
+            ->getConnection()
+            ->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform
+    ){
+        $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath');
+        $tableScheme->addIndex(['uri'], 'hierarchy_uri');
+        $tableScheme->addIndex(['type'], 'hierarchy_type');
+        //todo! queue uniques for mysql or drop uniques on TEXT/BLOB
 //    $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath', [], ['mpath' => ['size' => 64]]);
 //    $tableScheme->addIndex(['uri'], 'hierarchy_uri', [], ['uri' => ['size' => 64]]);
 //    $tableScheme->addIndex(['type'], 'hierarchy_type', [], ['type' => ['size' => 64]]);
-
-    $ftParent = $tableScheme;
-
-    $schemaManager->createTable($tableScheme);
+    }
 
     $tableScheme->addForeignKeyConstraint(
-        $ftParent,
+        $tableScheme->getName(),
         ['pid'],
         ['id'],
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_hierarchy_parent'
     );
-
-    //todo move to $tableScheme->addUniqueIndex(['mpath(32)'], 'hierarchy_mpath'); if PR will be accepted
-
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 };

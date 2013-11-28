@@ -9,7 +9,6 @@
 
 namespace utest\dbal\func\drivers\mysql;
 
-//todo join platform-separated similar tests to one, dataProvided
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Logging\DebugStack;
 use umi\dbal\builder\SelectBuilder;
@@ -41,7 +40,6 @@ class MySqlQueriesTest extends DbalTestCase
      */
     final protected function getQueries()
     {
-        //todo move sqlLogger up to testCase
         return array_values(
             array_map(
                 function ($a) {

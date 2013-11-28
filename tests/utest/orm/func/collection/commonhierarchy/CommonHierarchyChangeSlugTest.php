@@ -1,14 +1,8 @@
 <?php
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\collection\ILinkedHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use utest\orm\ORMDbTestCase;
-
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
 
 /**
  * Тест изменения последней части ЧПУ у объектов с общей иерархией
@@ -129,26 +123,28 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
 
     public function testChangeSlug()
     {
-
         $blog1 = $this->blogsCollection->get($this->guid4);
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->hierarchy->changeSlug($blog1, 'new_slug');
 
         $this->assertEquals(
             [
+                '"START TRANSACTION"',
                 //выбор затрагиваемых изменением slug коллекций
                 'SELECT "type"
 FROM "umi_mock_hierarchy"
 WHERE "mpath" like #1.%
 GROUP BY "type"',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1) AS mainQuery',
                 //проверка актуальности изменяемого объекта
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 1 AND "version" = 1',
-                //проверка уникальности нового slug
-                'SELECT "id"
-FROM "umi_mock_hierarchy"
 WHERE "uri" = //new_slug AND "id" != 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //new_slug AND "id" != 1) AS mainQuery',
                 //обновление всей slug у всей ветки изменяемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//blog1\', \'//new_slug\')
@@ -158,9 +154,10 @@ SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//blog1\', \'//new_slug\
 WHERE "uri" like //blog1/% OR "uri" = //blog1',
                 'UPDATE "umi_mock_posts"
 SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//blog1\', \'//new_slug\')
-WHERE "uri" like //blog1/% OR "uri" = //blog1'
+WHERE "uri" like //blog1/% OR "uri" = //blog1',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на изменение slug в общей иерархической коллекции'
         );
 

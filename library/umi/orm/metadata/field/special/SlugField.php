@@ -36,5 +36,4 @@ class SlugField extends BaseField implements IScalarField
     {
         return is_string($propertyValue); // TODO: check slug format
     }
-
 }

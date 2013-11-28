@@ -52,7 +52,7 @@ class PropertyFactory implements IPropertyFactory, IFactory
      */
     public function createProperty(IObject $object, IField $field, $localeId = null)
     {
-
+        /** @var CounterField | ICalculableField | ILocalizableField $field */
         switch (true) {
             case ($field instanceof CounterField):
             {
@@ -145,5 +145,4 @@ class PropertyFactory implements IPropertyFactory, IFactory
 
         return $property;
     }
-
 }

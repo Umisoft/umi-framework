@@ -37,5 +37,4 @@ class IntegerField extends BaseField implements IScalarField
     {
         return is_int($propertyValue);
     }
-
 }

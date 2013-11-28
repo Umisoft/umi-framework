@@ -9,8 +9,6 @@
 
 namespace utest\orm\func\collection\simplehierarchic;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
@@ -58,8 +56,6 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
      * @var ISimpleHierarchicCollection $menu
      */
     protected $menu;
-
-    protected $usedDbServerId = 'sqliteMaster';
 
     /**
      * {@inheritdoc}
@@ -182,10 +178,14 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
 
         $this->assertEquals(
             [
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 5 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 5 AND "version" = 1) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 1, "version" = "version" + 1
@@ -194,8 +194,9 @@ WHERE "id" = 5',
                 'UPDATE "umi_mock_menu"
 SET "order" = "order" + 1, "version" = "version" + 1
 WHERE "id" != 5 AND "pid" IS NULL AND "order" >= 1',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -212,13 +213,20 @@ WHERE "id" != 5 AND "pid" IS NULL AND "order" >= 1',
 
         $this->assertEquals(
             [
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 6 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 6 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 5 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 5 AND "version" = 1) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 3, "version" = "version" + 1
@@ -226,9 +234,10 @@ WHERE "id" = 6',
                 //изменение порядка у остальных объектов
                 'UPDATE "umi_mock_menu"
 SET "order" = "order" + 1, "version" = "version" + 1
-WHERE "id" != 6 AND "pid" = 5 AND "order" >= 3'
+WHERE "id" != 6 AND "pid" = 5 AND "order" >= 3',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -244,16 +253,26 @@ WHERE "id" != 6 AND "pid" = 5 AND "order" >= 3'
 
         $this->assertEquals(
             [
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 6 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 6 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 2 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 2 AND "version" = 1) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "uri" = //item2/item6',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //item2/item6) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 1, "version" = "version" + 1
@@ -277,9 +296,10 @@ WHERE "id" = 6',
                 'UPDATE "umi_mock_menu"
 SET "version" = "version" + 1, "mpath" = '
                 .'REPLACE("mpath", \'#5.\', \'#2.\'), "uri" = REPLACE("uri", \'//item5/\', \'//item2/\')
-WHERE "mpath" like #5.6.%'
+WHERE "mpath" like #5.6.%',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -316,16 +336,26 @@ WHERE "mpath" like #5.6.%'
 
         $this->assertEquals(
             [
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 7 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 7 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 2 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 2 AND "version" = 1) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "uri" = //item2/item7',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //item2/item7) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 2, "version" = "version" + 1
@@ -348,9 +378,10 @@ WHERE "id" = 7',
                 //изменения иерархических свойств детей перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#5.6.\', \'#2.\'), "uri" = REPLACE("uri", \'//item5/item6/\', \'//item2/\')
-WHERE "mpath" like #5.6.7.%'
+WHERE "mpath" like #5.6.7.%',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -377,16 +408,26 @@ WHERE "mpath" like #5.6.7.%'
 
         $this->assertEquals(
             [
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 2 AND "version" = 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 2 AND "version" = 1) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 7 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 7 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "uri" = //item5/item6/item7/item2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //item5/item6/item7/item2) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 1, "version" = "version" + 1
@@ -407,8 +448,9 @@ WHERE "id" = 2',
                 'UPDATE "umi_mock_menu"
 SET "level" = "level" + (3), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#\', \'#5.6.7.\'), "uri" = REPLACE("uri", \'//\', \'//item5/item6/item7/\')
 WHERE "mpath" like #2.%',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 
@@ -435,14 +477,20 @@ WHERE "mpath" like #2.%',
 
         $this->assertEquals(
             [
-
+                '"START TRANSACTION"',
                 //проверка возможности перемещения
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 6 AND "version" = 2',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 6 AND "version" = 2) AS mainQuery',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "uri" = //item6',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //item6) AS mainQuery',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 1, "version" = "version" + 1
@@ -462,9 +510,10 @@ WHERE "id" = 6',
                 //изменения иерархических свойств детей перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#5.\', \'#\'), "uri" = REPLACE("uri", \'//item5/\', \'//\')
-WHERE "mpath" like #5.6.%'
+WHERE "mpath" like #5.6.%',
+                '"COMMIT"',
             ],
-            $this->getQueries(),
+            $this->getQueries(true),
             'Неверные запросы на перемещение'
         );
 

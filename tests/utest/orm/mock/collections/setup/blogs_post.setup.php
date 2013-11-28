@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
@@ -74,20 +75,26 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->addIndex(['pid'], 'post_parent');
     $tableScheme
         ->addUniqueIndex(['pid', 'slug'], 'post_pid_slug');
-    //    $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath', [], ['mpath' => ['size' => 64]]);
-    //    $tableScheme->addIndex(['uri'], 'hierarchy_uri', [], ['uri' => ['size' => 64]]);
-    //    $tableScheme->addIndex(['type'], 'hierarchy_type', [], ['type' => ['size' => 64]]);
-
-
-    $ftHierarchy = $schemaManager->listTableDetails('umi_mock_hierarchy');
+    if (!$masterServer
+            ->getConnection()
+            ->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform
+    ){
+        $tableScheme->addUniqueIndex(['mpath'], 'post_mpath');
+        $tableScheme->addIndex(['uri'], 'post_uri');
+        $tableScheme->addIndex(['type'], 'post_type');
+    }
 
     $tableScheme->addForeignKeyConstraint(
-        $ftHierarchy,
+        'umi_mock_hierarchy',
         ['pid'],
         ['id'],
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_post_parent'
     );
-    $schemaManager->createTable($tableScheme);
+
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 
 };

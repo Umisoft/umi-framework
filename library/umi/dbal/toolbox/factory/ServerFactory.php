@@ -1,6 +1,7 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
+ *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -66,10 +67,10 @@ class ServerFactory implements IServerFactory, IFactory
             ));
         }
 
-        return $this->createInstance(
+        return $this->getPrototype(
             $this->types[$serverType],
-            [$serverId, $connection, $dialect, $this->queryBuilderFactory],
             ['umi\dbal\cluster\server\IServer']
-        );
+        )
+        ->createInstance([$serverId, $connection, $dialect, $this->queryBuilderFactory]);
     }
 }

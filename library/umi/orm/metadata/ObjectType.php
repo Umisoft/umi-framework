@@ -133,5 +133,4 @@ class ObjectType implements IObjectType, ILocalizable
 
         return $field;
     }
-
 }

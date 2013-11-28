@@ -69,11 +69,13 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
      */
     protected $forcedFields = [];
     /**
-     * @var array $withFields массив из выбираемых связанных полей в виде [$relationFieldAlias => [ICollection, IField[] $selectiveFields]]
+     * @var array $withFields массив из выбираемых связанных полей в виде
+     * [$relationFieldAlias => [ICollection, IField[] $selectiveFields]]
      */
     protected $withFields = [];
     /**
-     * @var array $resolvedFieldChains список разобранных цепочек используемых в запросе полей в виде [$fieldPath => [[IField, $fieldSourceAlias, IObjectsCollection], ...], ...]
+     * @var array $resolvedFieldChains список разобранных цепочек используемых в запросе полей в виде
+     * [$fieldPath => [[IField, $fieldSourceAlias, IObjectsCollection], ...], ...]
      */
     protected $resolvedFieldChains = [];
     /**
@@ -300,7 +302,7 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
     {
         $fieldsChain = $this->resolveFieldChain($fieldPath);
         /**
-         * @var IField $conditionField поле по которому формируется условие
+         * @var IField|ILocalizableField $conditionField поле по которому формируется условие
          */
         list($conditionField, $fieldSourceAlias) = end($fieldsChain);
 
@@ -452,8 +454,9 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
 
         if (count($types)) {
             $typeField = $this->collection->getObjectTypeField();
-            $typeFieldColumn = $this->collection->getSourceAlias(
-                ) . ISelector::FIELD_SEPARATOR . $typeField->getColumnName();
+            $typeFieldColumn = $this->collection->getSourceAlias()
+                . ISelector::FIELD_SEPARATOR
+                . $typeField->getColumnName();
             $typeConditionPlaceholder = ':type' . self::PLACEHOLDER_SEPARATOR . $this->collection->getName();
 
             $typeConditions = [];

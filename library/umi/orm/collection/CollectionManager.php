@@ -42,7 +42,8 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
      */
     protected $objectCollectionFactory;
     /**
-     * @var ISimpleCollection[] $instances список созданных экземпляров коллекций: массив вида array(collectionName => ISimpleCollection, ...)
+     * @var ISimpleCollection[] $instances список созданных экземпляров коллекций: массив вида
+     * array(collectionName => ISimpleCollection, ...)
      */
     protected $instances = [];
 
@@ -122,5 +123,4 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
     {
         return array_keys($this->collections);
     }
-
 }

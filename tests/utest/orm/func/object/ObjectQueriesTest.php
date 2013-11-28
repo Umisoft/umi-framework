@@ -59,15 +59,15 @@ class ObjectQueriesTest extends ORMDbTestCase
 
         $this->assertEquals(
             [
-                'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`, `users_user`.`login` AS `users_user:login`
-FROM `umi_mock_users` AS `users_user`
-WHERE ((`users_user`.`id` = :value0))'
+                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."login" AS "users_user:login"
+FROM "umi_mock_users" AS "users_user"
+WHERE (("users_user"."id" = :value0))'
             ],
             $this->getQueries(),
             'Ожидается, что при получении объекта будут выбраны только обязательные и запрошенные свойства'
         );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $this->assertEquals('123', $user->getValue('login'));
         $this->assertEmpty(
             $this->getQueries(),
@@ -77,15 +77,15 @@ WHERE ((`users_user`.`id` = :value0))'
         $this->assertEquals('123', $user->getValue('height'));
         $this->assertEquals(
             [
-                'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`, `users_user`.`email` AS `users_user:email`, `users_user`.`password` AS `users_user:password`, `users_user`.`is_active` AS `users_user:isActive`, `users_user`.`rating` AS `users_user:rating`, `users_user`.`height` AS `users_user:height`, `users_user`.`group_id` AS `users_user:group`
-FROM `umi_mock_users` AS `users_user`
-WHERE ((`users_user`.`id` = :value0))'
+                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."email" AS "users_user:email", "users_user"."password" AS "users_user:password", "users_user"."is_active" AS "users_user:isActive", "users_user"."rating" AS "users_user:rating", "users_user"."height" AS "users_user:height", "users_user"."group_id" AS "users_user:group"
+FROM "umi_mock_users" AS "users_user"
+WHERE (("users_user"."id" = :value0))'
             ],
             $this->getQueries(),
             'Ожидается, что при запросе незагруженного свойства все свойства будут догружены'
         );
 
-        $this->setQueries([]);
+        $this->resetQueries();
         $user->reset();
         $this->assertEquals(1, $user->getId());
         $this->assertEmpty(
@@ -96,9 +96,9 @@ WHERE ((`users_user`.`id` = :value0))'
         $this->assertEquals('123', $user->getValue('height'));
         $this->assertEquals(
             [
-                'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`, `users_user`.`login` AS `users_user:login`, `users_user`.`email` AS `users_user:email`, `users_user`.`password` AS `users_user:password`, `users_user`.`is_active` AS `users_user:isActive`, `users_user`.`rating` AS `users_user:rating`, `users_user`.`height` AS `users_user:height`, `users_user`.`group_id` AS `users_user:group`
-FROM `umi_mock_users` AS `users_user`
-WHERE ((`users_user`.`id` = :value0))'
+                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."login" AS "users_user:login", "users_user"."email" AS "users_user:email", "users_user"."password" AS "users_user:password", "users_user"."is_active" AS "users_user:isActive", "users_user"."rating" AS "users_user:rating", "users_user"."height" AS "users_user:height", "users_user"."group_id" AS "users_user:group"
+FROM "umi_mock_users" AS "users_user"
+WHERE (("users_user"."id" = :value0))'
             ],
             $this->getQueries(),
             'Ожидается, что при запросе незагруженного свойства все свойства будут догружены'

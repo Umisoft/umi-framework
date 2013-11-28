@@ -9,8 +9,8 @@
 
 namespace umi\orm\objectset;
 
+use Doctrine\DBAL\Statement;
 use SplObjectStorage;
-use umi\dbal\builder\IQueryResult;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\orm\collection\ICollectionManagerAware;
@@ -33,7 +33,7 @@ class ObjectSet implements IObjectSet, ILocalizable, ICollectionManagerAware
     protected $fetchedResults;
 
     /**
-     * @var IQueryResult $queryResult результат запроса
+     * @var Statement $queryResult результат запроса
      */
     protected $queryResult;
     /**
@@ -193,13 +193,12 @@ class ObjectSet implements IObjectSet, ILocalizable, ICollectionManagerAware
      */
     public function count()
     {
-        return $this->getQueryResult()
-            ->countRows();
+        return iterator_count($this);
     }
 
     /**
      * Запускает селектор и возвращает результат
-     * @return IQueryResult
+     * @return Statement
      */
     protected function getQueryResult()
     {
@@ -288,7 +287,6 @@ class ObjectSet implements IObjectSet, ILocalizable, ICollectionManagerAware
      */
     protected function loadObject($objectTypePath, array $objectInfo)
     {
-
         $objectTypeInfo = explode(IObjectType::PATH_SEPARATOR, $objectTypePath, 2);
         if (count($objectTypeInfo) < 2) {
             throw new LoadEntityException($this->translate(
@@ -306,7 +304,5 @@ class ObjectSet implements IObjectSet, ILocalizable, ICollectionManagerAware
         $object = $objectCollection->loadObject($objectType, $objectInfo);
 
         return $object;
-
     }
-
 }

@@ -164,5 +164,4 @@ class CollectionDataSource implements ICollectionDataSource, ILocalizable
         return $this->getMasterServer()
             ->delete($this->sourceName);
     }
-
 }

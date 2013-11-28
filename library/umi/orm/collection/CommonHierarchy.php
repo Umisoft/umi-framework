@@ -136,30 +136,39 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
      */
     protected function persistChangedSlug(IHierarchicObject $object, $newSlug)
     {
+        $commonConnection = $this
+            ->getMetadata()
+            ->getCollectionDataSource()
+            ->getConnection();
 
-        $collections = $orderCollections = $this->getCollectionsForChangingSlug($object);
-        /**
-         * @var IUpdateBuilder[] $builders
-         */
-        $builders = [];
-        foreach ($collections as $collection) {
-            $builders[] = $this->buildUpdateUrlQuery($object, $collection, $newSlug);
-        }
+        // start common root transaction and pass used connection inside it
+        $commonConnection->transactional(
+            function () use ($object, $newSlug) {
+                $collections = $orderCollections = $this->getCollectionsForChangingSlug($object);
+                $drivers = $this->detectUsedDriversByCollections($collections);
+                /**
+                 * @var IUpdateBuilder[] $builders
+                 */
+                $builders = [];
+                foreach ($collections as $collection) {
+                    $builders[] = $this->buildUpdateUrlQuery($object, $collection, $newSlug);
+                }
+                $this
+                    ->getObjectPersister()
+                    ->executeTransaction(
+                        function () use ($builders, $object, $newSlug) {
 
-        $drivers = $this->detectUsedDriversByCollections($collections);
-        $this
-            ->getObjectPersister()
-            ->executeTransaction(
-                function () use ($builders, $object, $newSlug) {
+                            $this->checkIfChangeSlugPossible($object, $this, $newSlug);
+                            foreach ($builders as $builder) {
+                                $builder->execute();
+                            }
 
-                    $this->checkIfChangeSlugPossible($object, $this, $newSlug);
-                    foreach ($builders as $builder) {
-                        $builder->execute();
-                    }
+                        },
+                        $drivers
+                    );
+            }
+        );
 
-                },
-                $drivers
-            );
     }
 
     /**
@@ -353,6 +362,5 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
         }
 
         return $drivers;
-
     }
 }

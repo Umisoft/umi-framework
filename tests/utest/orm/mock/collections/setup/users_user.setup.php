@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
@@ -76,14 +77,16 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->addUniqueIndex(['guid'], 'user_guid');
     $tableScheme->addIndex(['group_id'], 'user_group');
 
-    $ftGroups = $schemaManager->listTableDetails('umi_mock_groups');
-
     $tableScheme->addForeignKeyConstraint(
-        $ftGroups,
+        'umi_mock_groups',
         ['group_id'],
         ['id'],
         ['onUpdate' => 'CASCADE', 'onDelete' => 'SET NULL'],
         'FK_user_group'
     );
-    $schemaManager->createTable($tableScheme);
+
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 };
