@@ -83,8 +83,6 @@ class CommonHierarchyMoveTest extends ORMDbTestCase
      */
     protected $hierarchy;
 
-    protected $usedDbServerId = 'sqliteMaster';
-
     protected function setUpFixtures()
     {
 

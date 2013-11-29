@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
@@ -50,5 +51,9 @@ return function (ICollectionDataSource $dataSource) {
 
     $tableScheme->setPrimaryKey(['id']);
     $tableScheme->addUniqueIndex(['guid'], 'group_guid');
-    $schemaManager->createTable($tableScheme);
+
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 };

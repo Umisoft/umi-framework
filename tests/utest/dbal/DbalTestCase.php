@@ -8,7 +8,6 @@
  */
 namespace utest\dbal;
 
-use umi\dbal\cluster\server\IMasterServer;
 use utest\event\TEventSupport;
 use utest\TestCase;
 

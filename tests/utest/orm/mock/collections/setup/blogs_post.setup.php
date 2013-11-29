@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
@@ -81,20 +82,19 @@ return function (ICollectionDataSource $dataSource) {
         $tableScheme->addUniqueIndex(['mpath'], 'post_mpath');
         $tableScheme->addIndex(['uri'], 'post_uri');
         $tableScheme->addIndex(['type'], 'post_type');
-    //    $tableScheme->addUniqueIndex(['mpath'], 'post_mpath', [], ['mpath' => ['size' => 64]]);
-    //    $tableScheme->addIndex(['uri'], 'post_uri', [], ['uri' => ['size' => 64]]);
-    //    $tableScheme->addIndex(['type'], 'post_type', [], ['type' => ['size' => 64]]);
     }
 
-    $ftHierarchy = $schemaManager->listTableDetails('umi_mock_hierarchy');
-
     $tableScheme->addForeignKeyConstraint(
-        $ftHierarchy,
+        'umi_mock_hierarchy',
         ['pid'],
         ['id'],
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_post_parent'
     );
-    $schemaManager->createTable($tableScheme);
+
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 
 };

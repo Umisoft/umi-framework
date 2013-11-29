@@ -9,9 +9,9 @@
 
 namespace utest\orm;
 
-use Closure;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Logging\DebugStack;
+use umi\dbal\cluster\IDbCluster;
 use utest\dbal\TDbalSupport;
 use utest\event\TEventSupport;
 use utest\i18n\TI18nSupport;
@@ -47,7 +47,12 @@ abstract class ORMDbTestCase extends TestCase
      * @var null идентификатор сервера БД, который будет использован для всего тест кейса
      * Если null, будет выбран сервер по умолчанию.
      */
-    protected $usedDbServerId = null;
+    protected $usedDbServerId = 'sqliteMaster';
+
+    /**
+     * @var Connection $usedConnection
+     */
+    protected $usedConnection = null;
 
     public function setUp()
     {
@@ -58,7 +63,15 @@ abstract class ORMDbTestCase extends TestCase
         $this->registerORMTools();
 
         $this->setUpORM($this->usedDbServerId);
+
+        /** @var IDbCluster $cluster */
+        $cluster = $this
+            ->getTestToolkit()
+            ->getService('umi\dbal\cluster\IDbCluster');
+        $this->usedConnection = $cluster->getServer($this->usedDbServerId)->getConnection();
+        $this->usedConnection->getConfiguration()->setSQLLogger(new DebugStack());
         parent::setUp();
+
         $this->resetQueries();
     }
 

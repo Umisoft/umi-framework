@@ -61,8 +61,6 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
      */
     protected $menu;
 
-    protected $usedDbServerId = 'sqliteMaster';
-
     /**
      * {@inheritdoc}
      */

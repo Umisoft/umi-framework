@@ -61,8 +61,8 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
         $item4 = $this->menu->add('item4', IObjectType::BASE, $item2);
         $this->guid4 = $item4->getGUID();
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
     }
 
     public function testURI()

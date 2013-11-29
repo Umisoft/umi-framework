@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
@@ -84,31 +85,28 @@ return function (ICollectionDataSource $dataSource) {
         $table->addUniqueIndex(['mpath'], 'blog_mpath');
         $table->addUniqueIndex(['uri'], 'blog_uri');
         $table->addIndex(['type'], 'blog_type');
-//        $table->addUniqueIndex(['mpath'], 'blog_mpath', [], ['mpath' => ['size' => 64]]);
-//        $table->addIndex(['uri'], 'blog_uri', [], ['uri' => ['size' => 64]]);
-//        $table->addIndex(['type'], 'blog_type', [], ['type' => ['size' => 64]]);
     }
 
     $table->addIndex(['owner_id'], 'blog_owner');
 
-    $fTableHierarchy = $schemaManager->listTableDetails('umi_mock_hierarchy');
     $table->addForeignKeyConstraint(
-        $fTableHierarchy,
+        'umi_mock_hierarchy',
         ['pid'],
         ['id'],
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_blog_parent'
     );
 
-    $fTableUsers = $schemaManager->listTableDetails('umi_mock_users');
     $table->addForeignKeyConstraint(
-        $fTableUsers,
+        'umi_mock_users',
         ['owner_id'],
         ['id'],
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_blog_owner'
     );
 
-    $schemaManager->createTable($table);
-
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $table,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 };

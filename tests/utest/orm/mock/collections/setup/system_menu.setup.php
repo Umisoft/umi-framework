@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
@@ -81,16 +82,17 @@ return function (ICollectionDataSource $dataSource) {
     {
         $tableScheme->addUniqueIndex(['mpath'], 'menu_mpath');
         $tableScheme->addIndex(['type'], 'menu_type');
-    //    $tableScheme->addUniqueIndex(['mpath'], 'menu_mpath', [], ['mpath' => ['size' => 64]]);
-    //    $tableScheme->addIndex(['type'], 'menu_type', [], ['type' => ['size' => 64]]);
     }
 
     $tableScheme->addForeignKeyConstraint(
-        $tableScheme,
+        $tableScheme->getName(),
         ['pid'],
         ['id'],
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_menu_parent'
     );
-    $schemaManager->createTable($tableScheme);
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 };

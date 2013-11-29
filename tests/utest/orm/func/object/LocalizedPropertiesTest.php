@@ -9,9 +9,6 @@
 
 namespace utest\orm\func\object;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\i18n\ILocalesService;
 use umi\orm\collection\ICollectionFactory;
 use utest\orm\ORMDbTestCase;
@@ -37,6 +34,12 @@ class LocalizedPropertiesTest extends ORMDbTestCase
                     'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
                     'class'     => 'utest\orm\mock\collections\BlogsCollection',
                     'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
                 ]
             ],
             true
@@ -46,7 +49,6 @@ class LocalizedPropertiesTest extends ORMDbTestCase
 
     public function testLoadLocalization()
     {
-
         $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog = $blogsCollection->add('blog');

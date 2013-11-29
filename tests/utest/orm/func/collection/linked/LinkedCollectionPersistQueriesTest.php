@@ -30,6 +30,12 @@ class LinkedCollectionPersistQueriesTest extends ORMDbTestCase
                 self::BLOGS_POST             => [
                     'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
                     'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
                 ]
             ],
             true
@@ -38,7 +44,6 @@ class LinkedCollectionPersistQueriesTest extends ORMDbTestCase
 
     public function testAdd()
     {
-
         $this->resetQueries();
 
         $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
