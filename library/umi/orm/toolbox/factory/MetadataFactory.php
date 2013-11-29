@@ -98,10 +98,10 @@ class MetadataFactory implements IMetadataFactory, IFactory
     public function create($collectionName, $config)
     {
         return $this->getPrototype(
-                $this->metadataClassName,
-                ['umi\orm\metadata\IMetadata']
-            )
-            ->createInstance([$collectionName, $config, $this]);
+            $this->metadataClassName,
+            ['umi\orm\metadata\IMetadata']
+        )
+        ->createInstance([$collectionName, $config, $this]);
     }
 
     /**
@@ -110,10 +110,10 @@ class MetadataFactory implements IMetadataFactory, IFactory
     public function createDataSource(array $config)
     {
         return $this->getPrototype(
-                $this->dataSourceClass,
-                ['umi\orm\metadata\ICollectionDataSource']
-            )
-            ->createInstance([$config, $this->dbCluster]);
+            $this->dataSourceClass,
+            ['umi\orm\metadata\ICollectionDataSource']
+        )
+        ->createInstance([$config, $this->dbCluster]);
     }
 
     /**
@@ -122,10 +122,10 @@ class MetadataFactory implements IMetadataFactory, IFactory
     public function createObjectType($typeName, array $config, IMetadata $metadata)
     {
         return $this->getPrototype(
-                $this->objectTypeClass,
-                ['umi\orm\metadata\IObjectType']
-            )
-            ->createInstance([$typeName, $config, $metadata]);
+            $this->objectTypeClass,
+            ['umi\orm\metadata\IObjectType']
+        )
+        ->createInstance([$typeName, $config, $metadata]);
     }
 
     /**
@@ -148,9 +148,9 @@ class MetadataFactory implements IMetadataFactory, IFactory
         }
 
         return $this->getPrototype(
-                $this->fieldTypes[$fieldType],
-                ['umi\orm\metadata\field\IField']
-            )
-            ->createInstance([$fieldName, $config]);
+            $this->fieldTypes[$fieldType],
+            ['umi\orm\metadata\field\IField']
+        )
+        ->createInstance([$fieldName, $config]);
     }
 }

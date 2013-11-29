@@ -234,7 +234,8 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
             list($relationField, $relationFieldAlias) = $fieldInfo;
             if (!$relationField instanceof BelongsToRelationField) {
                 throw new InvalidArgumentException($this->translate(
-                    'Cannot select with related object. Cannot resolve field path "{path}". Field "{name}" is not "belongs-to" relation.',
+                    'Cannot select with related object. Cannot resolve field path "{path}".'
+                    . ' Field "{name}" is not "belongs-to" relation.',
                     ["path" => $relationFieldPath, "name" => $relationField->getName()]
                 ));
             }
@@ -492,7 +493,7 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
 
             $metadata = $latestCollection->getMetadata();
             if (!$metadata->getFieldExists($fieldName)) {
-                throw new InvalidArgumentException ($this->translate(
+                throw new InvalidArgumentException($this->translate(
                     'Cannot resolve field path "{path}". Field "{name}" does not exist in "{metadata}".',
                     ["path" => $fieldPath, "name" => $fieldName, "metadata" => $metadata->getCollectionName()]
                 ));
@@ -816,21 +817,22 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
                 if ($this->withLocalization) {
                     foreach ($field->getLocalizations() as $localeId => $localeInfo) {
                         $columnName = $fieldSourceAlias . self::FIELD_SEPARATOR . $localeInfo['columnName'];
-                        $alias = $fieldSourceAlias . self::ALIAS_SEPARATOR . $fieldName . ILocalizedProperty::LOCALE_SEPARATOR . $localeId;
+                        $alias = $fieldSourceAlias . self::ALIAS_SEPARATOR . $fieldName
+                            . ILocalizedProperty::LOCALE_SEPARATOR . $localeId;
                         $columns[] = [$columnName, $alias];
                     }
                 } else {
-                    $columnName = $fieldSourceAlias . self::FIELD_SEPARATOR . $field->getLocaleColumnName(
-                            $currentLocaleId
-                        );
-                    $alias = $fieldSourceAlias . self::ALIAS_SEPARATOR . $fieldName . ILocalizedProperty::LOCALE_SEPARATOR . $currentLocaleId;
+                    $columnName = $fieldSourceAlias . self::FIELD_SEPARATOR
+                        . $field->getLocaleColumnName($currentLocaleId);
+                    $alias = $fieldSourceAlias . self::ALIAS_SEPARATOR . $fieldName
+                        . ILocalizedProperty::LOCALE_SEPARATOR . $currentLocaleId;
                     $columns[] = [$columnName, $alias];
 
                     if ($currentLocaleId !== $defaultLocaleId) {
-                        $columnName = $fieldSourceAlias . self::FIELD_SEPARATOR . $field->getLocaleColumnName(
-                                $defaultLocaleId
-                            );
-                        $alias = $fieldSourceAlias . self::ALIAS_SEPARATOR . $fieldName . ILocalizedProperty::LOCALE_SEPARATOR . $defaultLocaleId;
+                        $columnName = $fieldSourceAlias . self::FIELD_SEPARATOR
+                            . $field->getLocaleColumnName($defaultLocaleId);
+                        $alias = $fieldSourceAlias . self::ALIAS_SEPARATOR . $fieldName
+                            . ILocalizedProperty::LOCALE_SEPARATOR . $defaultLocaleId;
                         $columns[] = [$columnName, $alias];
                     }
                 }

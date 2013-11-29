@@ -103,10 +103,10 @@ class SelectorFactory implements ISelectorFactory, IFactory
     )
     {
         return $this->getPrototype(
-                $this->fieldConditionsGroupClass,
-                ['umi\orm\selector\condition\IFieldConditionGroup']
-            )
-            ->createInstance([$mode, $parentGroup]);
+            $this->fieldConditionsGroupClass,
+            ['umi\orm\selector\condition\IFieldConditionGroup']
+        )
+        ->createInstance([$mode, $parentGroup]);
     }
 
     /**
@@ -121,10 +121,10 @@ class SelectorFactory implements ISelectorFactory, IFactory
     )
     {
         return $this->getPrototype(
-                $this->fieldConditionClass,
-                ['umi\orm\selector\condition\IFieldCondition']
-            )
-            ->createInstance([$selector, $field, $collectionAlias, $placeholder, $localeId]);
+            $this->fieldConditionClass,
+            ['umi\orm\selector\condition\IFieldCondition']
+        )
+        ->createInstance([$selector, $field, $collectionAlias, $placeholder, $localeId]);
     }
 
     /**
@@ -139,10 +139,10 @@ class SelectorFactory implements ISelectorFactory, IFactory
          * @var ISelector $selector
          */
         $selector = $this->getPrototype(
-                $this->selectorClass,
-                ['umi\orm\selector\ISelector']
-            )
-            ->createInstance([$objectsCollection, $objectSet, $this]);
+            $this->selectorClass,
+            ['umi\orm\selector\ISelector']
+        )
+        ->createInstance([$objectsCollection, $objectSet, $this]);
         $objectSet->setSelector($selector);
 
         return $selector;

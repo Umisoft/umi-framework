@@ -283,9 +283,8 @@ class MySqlDialect extends MySqlPlatform implements IDialect
             $joinConditions = [];
             foreach ($join->getConditions() as $condition) {
                 list($leftColumn, $operator, $rightColumn) = $condition;
-                $joinConditions[] = $this->quoteIdentifier(
-                        $leftColumn
-                    ) . ' ' . $operator . ' ' . $this->quoteIdentifier($rightColumn);
+                $joinConditions[] = $this->quoteIdentifier($leftColumn)
+                    . ' ' . $operator . ' ' . $this->quoteIdentifier($rightColumn);
             }
 
             if (count($joinConditions) === 1) {
