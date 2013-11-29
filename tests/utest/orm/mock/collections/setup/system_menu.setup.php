@@ -75,14 +75,9 @@ return function (ICollectionDataSource $dataSource) {
 
     $tableScheme->addUniqueIndex(['guid'], 'menu_guid');
     $tableScheme->addIndex(['pid'], 'menu_parent');
-    if (!$masterServer
-            ->getConnection()
-            ->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform
-    )
-    {
-        $tableScheme->addUniqueIndex(['mpath'], 'menu_mpath');
-        $tableScheme->addIndex(['type'], 'menu_type');
-    }
+
+    $tableScheme->addUniqueIndex(['mpath'], 'menu_mpath');
+    $tableScheme->addIndex(['type'], 'menu_type');
 
     $tableScheme->addForeignKeyConstraint(
         $tableScheme->getName(),

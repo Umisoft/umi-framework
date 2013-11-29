@@ -72,18 +72,10 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->addUniqueIndex(['guid'], 'hierarchy_guid');
     $tableScheme->addIndex(['pid'], 'hierarchy_parent');
     $tableScheme->addUniqueIndex(['pid', 'slug'], 'hierarchy_pid_slug');
-    if (!$masterServer
-            ->getConnection()
-            ->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform
-    ){
-        $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath');
-        $tableScheme->addIndex(['uri'], 'hierarchy_uri');
-        $tableScheme->addIndex(['type'], 'hierarchy_type');
-        //todo! queue uniques for mysql or drop uniques on TEXT/BLOB
-//    $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath', [], ['mpath' => ['size' => 64]]);
-//    $tableScheme->addIndex(['uri'], 'hierarchy_uri', [], ['uri' => ['size' => 64]]);
-//    $tableScheme->addIndex(['type'], 'hierarchy_type', [], ['type' => ['size' => 64]]);
-    }
+
+    $tableScheme->addUniqueIndex(['mpath'], 'hierarchy_mpath');
+    $tableScheme->addIndex(['uri'], 'hierarchy_uri');
+    $tableScheme->addIndex(['type'], 'hierarchy_type');
 
     $tableScheme->addForeignKeyConstraint(
         $tableScheme->getName(),

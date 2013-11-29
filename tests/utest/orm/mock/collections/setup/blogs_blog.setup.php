@@ -78,14 +78,9 @@ return function (ICollectionDataSource $dataSource) {
     $table->addIndex(['pid'], 'blog_parent');
     $table->addUniqueIndex(['pid', 'slug'], 'blog_pid_slug');
 
-    if (!$masterServer
-            ->getConnection()
-            ->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform
-    ) {
-        $table->addUniqueIndex(['mpath'], 'blog_mpath');
-        $table->addUniqueIndex(['uri'], 'blog_uri');
-        $table->addIndex(['type'], 'blog_type');
-    }
+    $table->addUniqueIndex(['mpath'], 'blog_mpath');
+    $table->addUniqueIndex(['uri'], 'blog_uri');
+    $table->addIndex(['type'], 'blog_type');
 
     $table->addIndex(['owner_id'], 'blog_owner');
 

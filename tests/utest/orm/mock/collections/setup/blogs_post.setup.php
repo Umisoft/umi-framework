@@ -75,14 +75,10 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->addIndex(['pid'], 'post_parent');
     $tableScheme
         ->addUniqueIndex(['pid', 'slug'], 'post_pid_slug');
-    if (!$masterServer
-            ->getConnection()
-            ->getDatabasePlatform() instanceof \Doctrine\DBAL\Platforms\MySqlPlatform
-    ){
-        $tableScheme->addUniqueIndex(['mpath'], 'post_mpath');
-        $tableScheme->addIndex(['uri'], 'post_uri');
-        $tableScheme->addIndex(['type'], 'post_type');
-    }
+
+    $tableScheme->addUniqueIndex(['mpath'], 'post_mpath');
+    $tableScheme->addIndex(['uri'], 'post_uri');
+    $tableScheme->addIndex(['type'], 'post_type');
 
     $tableScheme->addForeignKeyConstraint(
         'umi_mock_hierarchy',
