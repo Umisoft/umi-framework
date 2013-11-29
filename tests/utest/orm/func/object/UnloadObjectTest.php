@@ -9,9 +9,6 @@
 
 namespace utest\orm\func\object;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
@@ -183,5 +180,4 @@ class UnloadObjectTest extends ORMDbTestCase
         $user->unload();
         $this->assertTrue($this->getObjectPersister()->getIsPersisted());
     }
-
 }

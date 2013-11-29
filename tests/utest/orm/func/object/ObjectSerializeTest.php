@@ -9,11 +9,6 @@
 
 namespace utest\orm\func\object;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -92,7 +87,8 @@ class ObjectSerializeTest extends ORMDbTestCase
 
         $this->assertEquals(
             [
-                'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."title_gb" AS "blogs_blog:title#en-GB", "blogs_blog"."title_ua" AS "blogs_blog:title#ru-UA"
+                'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid",'
+                . ' "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."title_gb" AS "blogs_blog:title#en-GB", "blogs_blog"."title_ua" AS "blogs_blog:title#ru-UA"
 FROM "umi_mock_blogs" AS "blogs_blog"
 WHERE (("blogs_blog"."id" = :value0))'
             ],

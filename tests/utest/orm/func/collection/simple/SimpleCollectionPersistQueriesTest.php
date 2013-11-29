@@ -9,9 +9,6 @@
 
 namespace utest\orm\func\collection\simple;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\orm\collection\ICollectionFactory;
 use utest\orm\ORMDbTestCase;
 
@@ -23,7 +20,7 @@ class SimpleCollectionPersistQueriesTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-        protected function getCollectionConfig()
+    protected function getCollectionConfig()
     {
         return [
             self::METADATA_DIR . '/mock/collections',

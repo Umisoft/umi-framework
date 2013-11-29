@@ -1,9 +1,5 @@
 <?php
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\metadata\IObjectType;
@@ -800,7 +796,5 @@ WHERE "mpath" like #1.4.%',
 
         $this->assertEquals(2, $this->blog3->getOrder());
         $this->assertEquals(3, $this->blog5->getOrder());
-
     }
-
 }

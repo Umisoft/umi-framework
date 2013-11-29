@@ -86,5 +86,4 @@ class CollectionTest extends ORMDbTestCase
             'Неверный текст исключения'
         );
     }
-
 }

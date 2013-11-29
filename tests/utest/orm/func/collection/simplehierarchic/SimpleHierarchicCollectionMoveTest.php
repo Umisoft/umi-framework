@@ -9,9 +9,6 @@
 
 namespace utest\orm\func\collection\simplehierarchic;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
@@ -178,7 +175,8 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
         $this->assertInstanceOf(
             'umi\orm\exception\RuntimeException',
             $e,
-            'Ожидается, что в простой иерархической коллекции невозможно переместить объект под не принадлежащий ей объект'
+            'Ожидается, что в простой иерархической коллекции невозможно переместить объект'
+            . ' под не принадлежащий ей объект'
         );
 
         $e = null;
@@ -189,7 +187,8 @@ class SimpleHierarchicCollectionMoveTest extends ORMDbTestCase
         $this->assertInstanceOf(
             'umi\orm\exception\RuntimeException',
             $e,
-            'Ожидается, что в простой иерархической коллекции невозможно переместить объект рядом с не принадлежащим ей объектом'
+            'Ожидается, что в простой иерархической коллекции невозможно переместить объект'
+            . ' рядом с не принадлежащим ей объектом'
         );
 
     }
@@ -400,7 +399,8 @@ SET "uri" = //item2/item7, "mpath" = #2.7, "pid" = 2, "level" = "level" + (-1), 
 WHERE "id" = 7',
                 //изменения иерархических свойств детей перемещаемого объекта
                 'UPDATE "umi_mock_menu"
-SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#5.6.\', \'#2.\'), "uri" = REPLACE("uri", \'//item5/item6/\', \'//item2/\')
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#5.6.\', \'#2.\'),'
+                . ' "uri" = REPLACE("uri", \'//item5/item6/\', \'//item2/\')
 WHERE "mpath" like #5.6.7.%',
                 '"COMMIT"',
             ],
@@ -469,7 +469,8 @@ SET "uri" = //item5/item6/item7/item2, "mpath" = #5.6.7.2, "pid" = 7, "level" = 
 WHERE "id" = 2',
                 //изменения иерархических свойств детей перемещаемого объекта
                 'UPDATE "umi_mock_menu"
-SET "level" = "level" + (3), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#\', \'#5.6.7.\'), "uri" = REPLACE("uri", \'//\', \'//item5/item6/item7/\')
+SET "level" = "level" + (3), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#\', \'#5.6.7.\'),'
+                . ' "uri" = REPLACE("uri", \'//\', \'//item5/item6/item7/\')
 WHERE "mpath" like #2.%',
                 '"COMMIT"',
             ],
@@ -532,7 +533,8 @@ SET "uri" = //item6, "mpath" = #6, "pid" = NULL, "level" = "level" + (-1), "vers
 WHERE "id" = 6',
                 //изменения иерархических свойств детей перемещаемого объекта
                 'UPDATE "umi_mock_menu"
-SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#5.\', \'#\'), "uri" = REPLACE("uri", \'//item5/\', \'//\')
+SET "level" = "level" + (-1), "version" = "version" + 1, "mpath" = REPLACE("mpath", \'#5.\', \'#\'),'
+                . ' "uri" = REPLACE("uri", \'//item5/\', \'//\')
 WHERE "mpath" like #5.6.%',
                 '"COMMIT"',
             ],

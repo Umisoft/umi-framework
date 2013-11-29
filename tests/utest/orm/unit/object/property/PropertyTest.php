@@ -35,7 +35,6 @@ class PropertyTest extends ORMTestCase
 
     protected function setUpFixtures()
     {
-
         /**
          * @var IObject $object
          */

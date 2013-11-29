@@ -10,6 +10,7 @@
 namespace utest\dbal\unit\builder;
 
 use umi\dbal\builder\InsertBuilder;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -28,9 +29,14 @@ class InsertTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
+        /** @var $dialect IDialect */
+        $dialect = $this
+            ->getDbServer()
+            ->getConnection()
+            ->getDatabasePlatform();
         $this->query = new InsertBuilder(
             $this->getDbServer()->getConnection(),
-            $this->getDbServer()->getConnection()->getDatabasePlatform(),
+            $dialect,
             $queryBuilderFactory
         );
     }

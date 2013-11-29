@@ -1,7 +1,5 @@
 <?php
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\metadata\IObjectType;
 use utest\orm\ORMDbTestCase;
@@ -226,5 +224,4 @@ WHERE "id" = :objectId',
             'Неверные запросы при удалении иерархических объектов'
         );
     }
-
 }

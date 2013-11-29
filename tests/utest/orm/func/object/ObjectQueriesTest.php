@@ -9,11 +9,6 @@
 
 namespace utest\orm\func\object;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
@@ -108,7 +103,13 @@ WHERE (("users_user"."id" = :value0))'
         $this->assertEquals('123', $user->getValue('height'));
         $this->assertEquals(
             [
-                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."login" AS "users_user:login", "users_user"."email" AS "users_user:email", "users_user"."password" AS "users_user:password", "users_user"."is_active" AS "users_user:isActive", "users_user"."rating" AS "users_user:rating", "users_user"."height" AS "users_user:height", "users_user"."group_id" AS "users_user:group"
+                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid",'
+                . ' "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version",'
+                . ' "users_user"."login" AS "users_user:login", "users_user"."email" AS "users_user:email",'
+                . ' "users_user"."password" AS "users_user:password",'
+                . ' "users_user"."is_active" AS "users_user:isActive",'
+                . ' "users_user"."rating" AS "users_user:rating", "users_user"."height" AS "users_user:height",'
+                . ' "users_user"."group_id" AS "users_user:group"
 FROM "umi_mock_users" AS "users_user"
 WHERE (("users_user"."id" = :value0))'
             ],

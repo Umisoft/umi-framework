@@ -127,5 +127,4 @@ class SimpleHierarchicCollectionTest extends ORMDbTestCase
         );
 
     }
-
 }

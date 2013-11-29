@@ -10,7 +10,6 @@ use utest\orm\ORMDbTestCase;
  */
 class LinkedCollectionMoveTest extends ORMDbTestCase
 {
-
     /**
      * {@inheritdoc}
      */
@@ -135,7 +134,5 @@ class LinkedCollectionMoveTest extends ORMDbTestCase
             $this->post2->getChildCount(),
             'Ожидается, что перемещение можно выполнять в связанной иерархической коллекции объекта'
         );
-
     }
-
 }

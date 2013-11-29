@@ -314,12 +314,13 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
         $this->markTestIncomplete(
             'SQLite LAST_INSERT_ROWID всегда возвращает коррекнтое число, нужен отдельный тест с MockConnection'
         );
-        $sm = $this->usedConnection->getSchemaManager();
+
         /** @var IDialect|AbstractPlatform $dialect */
         $dialect = $this->usedConnection->getDatabasePlatform();
 
         $this->usedConnection->exec($dialect->getDisableForeignKeysSQL());
 
+//        $sm = $this->usedConnection->getSchemaManager();
 //        $usersTbl = $sm->listTableDetails('umi_mock_users');
 //        $usersTbl->dropPrimaryKey();
 //        $usersTbl->changeColumn(
@@ -382,7 +383,6 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
         $dialect = $this->usedConnection->getDatabasePlatform();
         $this->usedConnection->exec($dialect->getDisableForeignKeysSQL());
 
-        //region modify table
         $hierTbl = $sm->listTableDetails('umi_mock_hierarchy');
         $hierTbl->dropPrimaryKey();
         $hierTbl->dropIndex('hierarchy_mpath');
@@ -390,15 +390,12 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
         $hierTbl->changeColumn(
             'id',
             ['type' => Type::getType('bigint'), 'unsigned' => true,
-             'default' => null, 'notnull'=>false ,'autoincrement'=>false]
+             'default' => null, 'notnull'=>false, 'autoincrement'=>false]
         );
 
         $comparator = new Comparator();
         $tableDiff = $comparator->diffTable($sm->listTableDetails('umi_mock_hierarchy'), $hierTbl);
         $sm->alterTable($tableDiff);
-        //endregion
-
-//        $this->usedConnection->exec($dialect->getEnableForeignKeysSQL());
 
         $this
             ->getDbCluster()
@@ -433,7 +430,8 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
             'Ожидается родительское исключение, когда не удается выполнить запросы на изменения объектов'
         );
         $this->assertEquals(
-            'Cannot set calculable properties for object with id "3" and type "blogs_blog.base". Database row is not modified.',
+            'Cannot set calculable properties for object with id "3" and type "blogs_blog.base".'
+            . ' Database row is not modified.',
             $parentE->getMessage(),
             'Произошло неожидаемое исключение'
         );

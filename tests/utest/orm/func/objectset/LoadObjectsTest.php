@@ -125,9 +125,9 @@ class LoadObjectsTest extends ORMDbTestCase
                 ];
             }
             default:
-                {
+            {
                 return false;
-                }
+            }
         }
 
     }

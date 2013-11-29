@@ -9,8 +9,6 @@
 
 namespace utest\orm\func\collection\linked;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ILinkedHierarchicCollection;
 use umi\orm\metadata\IObjectType;
@@ -103,5 +101,4 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
             .' затронет и его детей из других коллекций'
         );
     }
-
 }

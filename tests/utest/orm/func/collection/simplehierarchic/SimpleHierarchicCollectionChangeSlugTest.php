@@ -9,11 +9,6 @@
 
 namespace utest\orm\func\collection\simplehierarchic;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;

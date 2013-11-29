@@ -161,7 +161,8 @@ class PersistenceTest extends ORMDbTestCase
         $this->assertNull($values['height'], 'Ожидается, что в бд для пользователя значение поля height равно null');
         $this->assertNull(
             $values['rating'],
-            'Ожидается, что в бд для пользователя значение поля rating равно null несмотря на выставленное дефолтное значение'
+            'Ожидается, что в бд для пользователя значение поля rating равно null,'
+            . ' несмотря на выставленное дефолтное значение'
         );
         $this->assertTrue(
             $oldHeight === 163 && $user->getValue('height') === null,
@@ -207,5 +208,4 @@ class PersistenceTest extends ORMDbTestCase
         $select->execute();
         $this->assertEquals(0, $select->getTotal(), 'Ожидается, что запись пользователя была удалена из бд');
     }
-
 }

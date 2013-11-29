@@ -525,5 +525,4 @@ class SelectorTest extends ORMDbTestCase
 EOF;
 
     }
-
 }

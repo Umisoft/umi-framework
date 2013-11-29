@@ -170,7 +170,8 @@ LIMIT :limit OFFSET :offset',
         $this->assertEquals(
             $expectedResult,
             $this->getQueries(),
-            'Неверные запросы для получения общего количества значений в выборке, если был задан лимит и опция SQL_CALC_FOUND_ROWS'
+            'Неверные запросы для получения общего количества значений в выборке, '
+            . 'если был задан лимит и опция SQL_CALC_FOUND_ROWS'
         );
     }
 }

@@ -1,9 +1,5 @@
 <?php
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\metadata\IObjectType;
@@ -100,9 +96,11 @@ class CommonHierarchyTest extends ORMDbTestCase
 
         $queries = [
             'SELECT "system_hierarchy"."id" AS "system_hierarchy:id", '
-            . '"system_hierarchy"."guid" AS "system_hierarchy:guid", "system_hierarchy"."type" AS "system_hierarchy:type",'
+            . '"system_hierarchy"."guid" AS "system_hierarchy:guid", '
+            . '"system_hierarchy"."type" AS "system_hierarchy:type",'
             .' "system_hierarchy"."version" AS "system_hierarchy:version",'
-            .' "system_hierarchy"."pid" AS "system_hierarchy:parent", "system_hierarchy"."mpath" AS "system_hierarchy:mpath",'
+            . ' "system_hierarchy"."pid" AS "system_hierarchy:parent",'
+            . ' "system_hierarchy"."mpath" AS "system_hierarchy:mpath",'
             .' "system_hierarchy"."slug" AS "system_hierarchy:slug", "system_hierarchy"."uri" AS "system_hierarchy:uri"
 FROM "umi_mock_hierarchy" AS "system_hierarchy"
 WHERE (("system_hierarchy"."order" = :value0))'
@@ -159,7 +157,5 @@ WHERE (("blogs_blog"."id" = :value0))'
                 ->fetchAll(),
             'Ожидается, что у blog1 нет родителей'
         );
-
     }
-
 }

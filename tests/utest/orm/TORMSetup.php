@@ -185,9 +185,6 @@ trait TORMSetup
                 $server->modifyInternal($query);
             }
             $server->getConnection()->exec($dialect->getEnableForeignKeysSQL());
-//            $server->getConnection()
-//                ->reset();
         }
     }
 }
- 

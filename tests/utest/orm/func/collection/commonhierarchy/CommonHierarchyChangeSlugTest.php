@@ -1,7 +1,5 @@
 <?php
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\collection\ILinkedHierarchicCollection;
@@ -13,7 +11,6 @@ use utest\orm\ORMDbTestCase;
  */
 class CommonHierarchyChangeSlugTest extends ORMDbTestCase
 {
-
     protected $guid1;
     protected $guid2;
     protected $guid3;

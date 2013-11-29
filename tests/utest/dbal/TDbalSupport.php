@@ -8,6 +8,7 @@
  */
 namespace utest\dbal;
 
+use RuntimeException;
 use umi\dbal\cluster\IDbCluster;
 use umi\dbal\cluster\server\IMasterServer;
 use umi\toolkit\IToolkit;
@@ -32,7 +33,7 @@ trait TDbalSupport
 
     /**
      * Получить тестовый тулкит
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return IToolkit
      */
     abstract protected function getTestToolkit();
@@ -44,11 +45,13 @@ trait TDbalSupport
         );
 
         if (!file_exists(TESTS_CONFIGURATION . '/local/db.php')) {
-            throw new \RuntimeException('Db configuration file "' . TESTS_CONFIGURATION . '/local/db.php' . '" does not exist.' );
+            throw new RuntimeException(
+                'Db configuration file "' . TESTS_CONFIGURATION . '/local/db.php" does not exist.'
+            );
         }
 
         $this->getTestToolkit()->setSettings(
-          include(TESTS_CONFIGURATION . '/local/db.php')
+            include(TESTS_CONFIGURATION . '/local/db.php')
         );
     }
 
@@ -69,7 +72,7 @@ trait TDbalSupport
 
     /**
      * Возвращает мастер-сервер по умолчанию
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return IMasterServer
      */
     protected function getDbServer()
@@ -80,7 +83,7 @@ trait TDbalSupport
 
     /**
      * Возвращает мастер-сервер для тестов, использующих mysql
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return IMasterServer
      */
     protected function getMysqlServer()
@@ -91,7 +94,7 @@ trait TDbalSupport
 
     /**
      * Возвращает мастер-сервер для тестов, использующих sqlite
-     * @throws \RuntimeException
+     * @throws RuntimeException
      * @return IMasterServer
      */
     protected function getSqliteServer()
@@ -99,7 +102,4 @@ trait TDbalSupport
         return $this->getDbCluster()
             ->getServer($this->_sqliteServerId);
     }
-
-
 }
- 
