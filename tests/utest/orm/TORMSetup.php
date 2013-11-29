@@ -120,6 +120,7 @@ trait TORMSetup
 
         $metadataConfig = [];
         foreach ($collectionNames as $collectionName) {
+            /** @noinspection PhpIncludeInspection */
             $metadataConfig[$collectionName] = include($directory . '/metadata/' . $collectionName . '.config.php');
         }
 
@@ -161,9 +162,9 @@ trait TORMSetup
                 $dataSource = $metadata->getCollectionDataSource();
 
                 $setupScriptFile = $directory . '/setup/' . $collectionName . '.setup.php';
-                /**
-                 * @var \Closure $setup
-                 */
+
+                /** @var \Closure $setup */
+                /** @noinspection PhpIncludeInspection */
                 $setup = include($setupScriptFile);
 
                 $sql = $setup($dataSource);
@@ -185,9 +186,6 @@ trait TORMSetup
                 $server->modifyInternal($query);
             }
             $server->getConnection()->exec($dialect->getEnableForeignKeysSQL());
-//            $server->getConnection()
-//                ->reset();
         }
     }
 }
- 

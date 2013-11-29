@@ -102,10 +102,10 @@ class CollectionFactory implements ICollectionFactory, IFactory, ICollectionMana
         }
 
         return $this->getPrototype(
-                $config['class'],
-                ['umi\orm\collection\ISimpleCollection']
-            )
-            ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
+            $config['class'],
+            ['umi\orm\collection\ISimpleCollection']
+        )
+        ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
     }
 
     /**
@@ -122,10 +122,10 @@ class CollectionFactory implements ICollectionFactory, IFactory, ICollectionMana
         }
 
         return $this->getPrototype(
-                $config['class'],
-                ['umi\orm\collection\ISimpleHierarchicCollection']
-            )
-            ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
+            $config['class'],
+            ['umi\orm\collection\ISimpleHierarchicCollection']
+        )
+        ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
     }
 
     /**
@@ -151,10 +151,10 @@ class CollectionFactory implements ICollectionFactory, IFactory, ICollectionMana
          * @var ILinkedHierarchicCollection $linkedCollection
          */
         $linkedCollection = $this->getPrototype(
-                $config['class'],
-                ['umi\orm\collection\ILinkedHierarchicCollection']
-            )
-            ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
+            $config['class'],
+            ['umi\orm\collection\ILinkedHierarchicCollection']
+        )
+        ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
 
         $commonHierarchy = $this->getCollectionManager()
             ->getCollection($config['hierarchy']);
@@ -183,9 +183,9 @@ class CollectionFactory implements ICollectionFactory, IFactory, ICollectionMana
         }
 
         return $this->getPrototype(
-                $config['class'],
-                ['umi\orm\collection\ICommonHierarchy']
-            )
-            ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
+            $config['class'],
+            ['umi\orm\collection\ICommonHierarchy']
+        )
+        ->createInstance([$collectionName, $metadata, $this->selectorFactory]);
     }
 }

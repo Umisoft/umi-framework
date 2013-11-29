@@ -167,8 +167,6 @@ class QueriesTest extends DbalTestCase
                 ->set('name', ':updateName')
                 ->set('is_active', ':updateActivity');
 
-        //todo! Mysql ->onDuplicateKey('id') fail
-
         $insertUpdate->bindInt(':id', 1);
         $insertUpdate->bindString(':name', 'New name');
         $insertUpdate->bindBool(':activity', true);

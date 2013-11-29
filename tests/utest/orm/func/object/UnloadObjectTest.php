@@ -7,8 +7,9 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace utest\orm\func;
+namespace utest\orm\func\object;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -20,7 +21,6 @@ class UnloadObjectTest extends ORMDbTestCase
 {
 
     public $queries = [];
-
 
     protected $userGuid;
     protected $userId;
@@ -37,19 +37,28 @@ class UnloadObjectTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
         return [
-            self::USERS_GROUP,
-            self::USERS_USER,
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
         ];
     }
 
     protected function setUpFixtures()
     {
-        $this->userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+
+        $this->userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $this->user = $this->userCollection->add();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->userGuid = $this->user->getGUID();
         $this->userId = $this->user->getId();
@@ -89,7 +98,7 @@ class UnloadObjectTest extends ORMDbTestCase
 
     public function testGettingObjectByIdAfterObjectManagerUnload()
     {
-        $this->objectManager->unloadObjects();
+        $this->getObjectManager()->unloadObjects();
         $this->userCollection->getById($this->userId);
         $this->userCollection->getById($this->userId);
         $this->assertEquals(
@@ -113,7 +122,7 @@ class UnloadObjectTest extends ORMDbTestCase
 
     public function testGettingObjectByGuidAfterObjectManagerUnload()
     {
-        $this->objectManager->unloadObjects();
+        $this->getObjectManager()->unloadObjects();
         $this->userCollection->get($this->userGuid);
         $this->userCollection->get($this->userGuid);
         $this->assertEquals(
@@ -126,10 +135,10 @@ class UnloadObjectTest extends ORMDbTestCase
     public function testDeletedObjectAfterManagerUnload()
     {
         $this->userCollection->delete($this->user);
-        $this->assertFalse($this->objectPersister->getIsPersisted());
+        $this->assertFalse($this->getObjectPersister()->getIsPersisted());
 
-        $this->objectManager->unloadObjects();
-        $this->assertTrue($this->objectPersister->getIsPersisted());
+        $this->getObjectManager()->unloadObjects();
+        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
     }
 
     public function testDeletedObjectAfterUnload()
@@ -137,39 +146,38 @@ class UnloadObjectTest extends ORMDbTestCase
         $this->userCollection->delete($this->user);
 
         $this->user->unload();
-        $this->assertTrue($this->objectPersister->getIsPersisted());
+        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
     }
 
     public function testModifiedObjectAfterManagerUnload()
     {
         $this->user->setValue('login', 'new_login');
-        $this->assertFalse($this->objectPersister->getIsPersisted());
+        $this->assertFalse($this->getObjectPersister()->getIsPersisted());
 
-        $this->objectManager->unloadObjects();
-        $this->assertTrue($this->objectPersister->getIsPersisted());
+        $this->getObjectManager()->unloadObjects();
+        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
     }
 
     public function testModifiedObjectAfterUnload()
     {
         $this->user->setValue('login', 'new_login');
         $this->user->unload();
-        $this->assertTrue($this->objectPersister->getIsPersisted());
+        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
     }
 
     public function testAddedObjectAfterManagerUnload()
     {
         $this->userCollection->add();
-        $this->assertFalse($this->objectPersister->getIsPersisted());
+        $this->assertFalse($this->getObjectPersister()->getIsPersisted());
 
-        $this->objectManager->unloadObjects();
-        $this->assertTrue($this->objectPersister->getIsPersisted());
+        $this->getObjectManager()->unloadObjects();
+        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
     }
 
     public function testAddedObjectAfterUnload()
     {
         $user = $this->userCollection->add();
         $user->unload();
-        $this->assertTrue($this->objectPersister->getIsPersisted());
+        $this->assertTrue($this->getObjectPersister()->getIsPersisted());
     }
-
 }

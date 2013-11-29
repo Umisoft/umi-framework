@@ -17,7 +17,6 @@ use umi\orm\toolbox\factory\MetadataFactory;
 use umi\orm\toolbox\factory\ObjectSetFactory;
 use umi\orm\toolbox\factory\SelectorFactory;
 use utest\orm\ORMTestCase;
-use utest\TestCase;
 
 /**
  * Тест базового класса коллекции объектов.

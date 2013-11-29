@@ -61,7 +61,16 @@ class LocalizedPropertiesTest extends ORMDbTestCase
 
         $this->assertEquals(
             [
-                'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", "blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
+                'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+                . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+                . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+                . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", '
+                . '"blogs_blog"."child_count" AS "blogs_blog:childCount", '
+                . '"blogs_blog"."order" AS "blogs_blog:order", "blogs_blog"."level" AS "blogs_blog:level", '
+                . '"blogs_blog"."title" AS "blogs_blog:title#ru-RU", '
+                . '"blogs_blog"."title_en" AS "blogs_blog:title#en-US", '
+                . '"blogs_blog"."publish_time" AS "blogs_blog:publishTime", '
+                . '"blogs_blog"."owner_id" AS "blogs_blog:owner"
 FROM "umi_mock_blogs" AS "blogs_blog"
 WHERE (("blogs_blog"."guid" = :value0))'
             ],
@@ -81,12 +90,20 @@ WHERE (("blogs_blog"."guid" = :value0))'
 
         $this->assertEquals(
             [
-                'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."title_gb" AS "blogs_blog:title#en-GB", "blogs_blog"."title_ua" AS "blogs_blog:title#ru-UA"
+                'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+                . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+                . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+                . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", '
+                . '"blogs_blog"."title" AS "blogs_blog:title#ru-RU", '
+                . '"blogs_blog"."title_en" AS "blogs_blog:title#en-US", '
+                . '"blogs_blog"."title_gb" AS "blogs_blog:title#en-GB", '
+                . '"blogs_blog"."title_ua" AS "blogs_blog:title#ru-UA"
 FROM "umi_mock_blogs" AS "blogs_blog"
 WHERE (("blogs_blog"."id" = :value0))'
             ],
             $this->getQueries(),
-            'Ожидается, что при запросе значения для не текущей и не дефолтной локали будут подгружены все локализации объекта'
+            'Ожидается, что при запросе значения для не текущей и не дефолтной локали '
+            . 'будут подгружены все локализации объекта'
         );
     }
 
@@ -113,7 +130,13 @@ WHERE (("blogs_blog"."id" = :value0))'
         $blog = $blogsCollection->get($blogGuid);
 
         $expectedResult = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", "blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", '
+            . '"blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", '
+            . '"blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", '
+            . '"blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
 FROM "umi_mock_blogs" AS "blogs_blog"
 WHERE (("blogs_blog"."guid" = :value0))'
         ];
@@ -169,14 +192,22 @@ WHERE "id" = :objectId',
         );
 
         $expectedResult = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", "blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", '
+            . '"blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", '
+            . '"blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", '
+            . '"blogs_blog"."title_en" AS "blogs_blog:title#en-US", '
+            . '"blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
 FROM "umi_mock_blogs" AS "blogs_blog"
 WHERE (("blogs_blog"."guid" = :value0))'
         ];
         $this->assertEquals(
             $expectedResult,
             $this->getQueries(),
-            'Ожидается, что будут выполнены запросы на получение только свойств текущей локали c учетом значений дефолтной локали'
+            'Ожидается, что будут выполнены запросы на получение только свойств текущей локали '
+            . 'c учетом значений дефолтной локали'
         );
         $this->resetQueries();
 
@@ -322,7 +353,8 @@ WHERE "id" = :objectId AND "version" = :version',
         $this->assertEquals(
             'russian current title',
             $blog->getValue('title'),
-            'Ожидается, что для объекта будет сохранено последнее выставленное значение для текущей локали вне зависимости от того, была ли указана локаль при установки значения'
+            'Ожидается, что для объекта будет сохранено последнее выставленное значение для текущей локали '
+            . 'вне зависимости от того, была ли указана локаль при установки значения'
         );
         $this->assertEquals(
             'english default title',
@@ -346,7 +378,8 @@ WHERE "id" = :objectId AND "version" = :version',
         $this->assertEquals(
             'current title',
             $blog->getValue('title'),
-            'Ожидается, что если значения для текущей локали нет, то для при запросе свойства без локали вернется значение дефолтной локали'
+            'Ожидается, что если значения для текущей локали нет, то для при запросе свойства без локали '
+            . 'вернется значение дефолтной локали'
         );
         $this->assertEquals(
             'current title',
@@ -388,7 +421,8 @@ WHERE "id" = :objectId AND "version" = :version',
         $this->assertEquals(
             'current title',
             $blog->getValue('title'),
-            'Ожидается, что значение без локали будет равно выставленному значению для текущей локали с указанием локали'
+            'Ожидается, что значение без локали будет равно выставленному значению для текущей локали '
+            . 'с указанием локали'
         );
     }
 }

@@ -11,6 +11,7 @@ namespace utest\dbal\unit\builder;
 
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use umi\dbal\builder\DeleteBuilder;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -29,9 +30,14 @@ class DeleteTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
+        /** @var $dialect IDialect */
+        $dialect = $this
+            ->getDbServer()
+            ->getConnection()
+            ->getDatabasePlatform();
         $this->query = new DeleteBuilder(
             $this->getDbServer()->getConnection(),
-            $this->getDbServer()->getConnection()->getDatabasePlatform(),
+            $dialect,
             $queryBuilderFactory
         );
     }

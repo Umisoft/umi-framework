@@ -144,8 +144,7 @@ class DbalTools implements IToolbox
         return $prototype->createSingleInstance(
             [],
             [],
-            function (IDbCluster $dbCluster)
-            {
+            function (IDbCluster $dbCluster) {
                 if ($this->servers instanceof Traversable) {
                     $this->servers = iterator_to_array($this->servers, true);
                 }

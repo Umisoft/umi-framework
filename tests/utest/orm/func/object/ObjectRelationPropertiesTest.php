@@ -17,8 +17,10 @@ use utest\orm\ORMDbTestCase;
  */
 class ObjectRelationPropertiesTest extends ORMDbTestCase
 {
-
-    protected $userGuid, $user3Guid, $groupGuid, $profileGuid;
+    protected $userGuid;
+    protected $user3Guid;
+    protected $groupGuid;
+    protected $profileGuid;
 
     /**
      * {@inheritdoc}
@@ -229,7 +231,5 @@ class ObjectRelationPropertiesTest extends ORMDbTestCase
             $e,
             'Ожидается, что нельзя напрямую установить значение для свойства ManyToMany'
         );
-
     }
-
 }

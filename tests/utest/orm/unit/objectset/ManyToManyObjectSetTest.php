@@ -9,6 +9,7 @@
 
 namespace utest\orm\unit\objectset;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use umi\orm\objectset\IManyToManyObjectSet;
 use utest\orm\ORMDbTestCase;
@@ -29,21 +30,41 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
         return [
-            self::SYSTEM_HIERARCHY,
-            self::USERS_GROUP,
-            self::USERS_USER,
-            self::BLOGS_BLOG,
-            self::BLOGS_POST,
-            self::BLOGS_SUBSCRIBER,
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::BLOGS_POST             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::BLOGS_SUBSCRIBER            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
         ];
     }
 
     protected function setUpFixtures()
     {
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $user1 = $userCollection->add();
         $user1->setValue('login', 'test_login1');
@@ -57,7 +78,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $user3->setValue('login', 'test_login3');
         $this->user3Guid = $user3->getGUID();
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $blog1 = $blogsCollection->add('blog1');
         $blog1->setValue('owner', $user1);
@@ -69,7 +90,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $blog2->setValue('title', 'first_blog');
         $this->blog2Guid = $blog2->getGUID();
 
-        $subscribersCollection = $this->collectionManager->getCollection(self::BLOGS_SUBSCRIBER);
+        $subscribersCollection = $this->getCollectionManager()->getCollection(self::BLOGS_SUBSCRIBER);
 
         $subscription1 = $subscribersCollection->add();
         $subscription1->setValue('blog', $blog1);
@@ -79,12 +100,12 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscription2->setValue('blog', $blog1);
         $subscription2->setValue('user', $user2);
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
     }
 
     public function testManyToManyProperty()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $blog = $blogsCollection->get($this->blog1Guid);
 
         $e = null;
@@ -114,8 +135,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
     public function testContains()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $user1 = $userCollection->get($this->user1Guid);
@@ -158,7 +179,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $this->assertEquals(
             [],
             $this->getQueries(),
-            'Ожидается, что запросы не будут выполнены на проверку наличия объекта в ObjectSet, когда objectsSet не был загружен до конца, но связанный объект уже был загружен'
+            'Ожидается, что запросы не будут выполнены на проверку наличия объекта в ObjectSet,'
+            . ' когда objectsSet не был загружен до конца, но связанный объект уже был загружен'
         );
 
         $subscribers->fetchAll();
@@ -181,15 +203,16 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $this->assertEquals(
             [],
             $this->getQueries(),
-            'Ожидается, что никакие запросы не будут выполнены на проверку наличия объекта в ObjectSet, когда objectsSet загружен до конца'
+            'Ожидается, что никакие запросы не будут выполнены на проверку наличия объекта в ObjectSet, '
+            . 'когда objectsSet загружен до конца'
         );
 
     }
 
     public function testAttachWrongObject()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $blog2 = $blogsCollection->get($this->blog2Guid);
@@ -223,8 +246,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
     public function testAttachExistingObjectWithoutFetch()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $user3 = $userCollection->get($this->user3Guid);
@@ -234,7 +257,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
          */
         $subscribers = $blog1->getValue('subscribers');
         $subscriberLink = $subscribers->attach($user3);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->assertEquals(
             ['select', 'start', 'insert', 'commit'],
@@ -253,8 +276,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
     public function testAttachExistingObjectWithFetch()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $user3 = $userCollection->get($this->user3Guid);
@@ -265,15 +288,15 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->fetchAll();
         $subscribers->attach($user3);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->assertCount(3, $subscribers->fetchAll(), 'Ожидается, что теперь у блога 3 подписчика');
     }
 
     public function testAttachExistingObjectWithPartlyFetch()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $user3 = $userCollection->get($this->user3Guid);
@@ -288,7 +311,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
                 ->getId()
         );
         $subscribers->attach($user3);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->assertEquals(
             3,
             $subscribers->fetch()
@@ -306,8 +329,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
     public function testAttachNewObject()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $user4 = $userCollection->add();
@@ -318,7 +341,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
          */
         $subscribers = $blog1->getValue('subscribers');
         $subscriberLink = $subscribers->attach($user4);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->assertEquals(
             ['start', 'insert', 'insert', 'update', 'commit'],
@@ -337,8 +360,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
     public function testLinkObject()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $user1 = $userCollection->get($this->user1Guid);
@@ -369,8 +392,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
     public function testDetachExistingObjectWithoutFetch()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $user2 = $userCollection->get($this->user2Guid);
@@ -380,7 +403,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
          */
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->detach($user2);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->assertEquals(
             ['select', 'start', 'delete', 'commit'],
@@ -392,8 +415,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
     public function testDetachExistingObjectWithFetch()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $user2 = $userCollection->get($this->user2Guid);
@@ -404,15 +427,15 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->fetchAll();
         $subscribers->detach($user2);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->assertCount(1, $subscribers->fetchAll(), 'Ожидается, что теперь у блога 1 подписчик');
     }
 
     public function testDetachExistingObjectWithPartlyFetch()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
 
         $blog1 = $blogsCollection->get($this->blog1Guid);
         $user2 = $userCollection->get($this->user2Guid);
@@ -427,7 +450,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
                 ->getId()
         );
         $subscribers->detach($user2);
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->assertNull($subscribers->fetch());
         $result = $subscribers->fetchAll();
 
@@ -441,7 +464,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
     public function testDetachAllBeforeFetch()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $blog1 = $blogsCollection->get($this->blog1Guid);
 
         /**
@@ -450,7 +473,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscribers = $blog1->getValue('subscribers');
         $subscribers->detachAll();
         $this->resetQueries();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->assertEquals(
             ['start', 'delete', 'delete', 'commit'],
             $this->getQueryTypesWithParams(false),
@@ -462,7 +485,7 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
 
     public function testDetachAllAfterFetch()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $blog1 = $blogsCollection->get($this->blog1Guid);
         /**
          * @var $subscribers IManyToManyObjectSet
@@ -471,14 +494,14 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $this->assertCount(2, $subscribers->fetchAll(), 'Ожидается, что у блога изначально 2 подписчика');
         $subscribers->detachAll();
         $this->resetQueries();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
         $this->assertCount(0, $subscribers->fetchAll(), 'Ожидается, что теперь у блога нет подписчиков');
 
     }
 
     public function testReset()
     {
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $blog1 = $blogsCollection->get($this->blog1Guid);
         /**
          * @var $subscribers IManyToManyObjectSet
@@ -509,8 +532,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
     public function testAttachForNewObject()
     {
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
 
         $firstUser = $userCollection->add()
             ->setValue('login', '0');
@@ -526,8 +549,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $subscribers->attach($firstUser);
         $subscribers->attach($secondUser);
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
 
         $subscribers = $blogsCollection->get($blogGuid)
             ->getValue('subscribers');
@@ -542,5 +565,4 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         }
 
     }
-
 }

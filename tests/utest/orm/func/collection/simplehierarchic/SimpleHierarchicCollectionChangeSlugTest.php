@@ -9,8 +9,7 @@
 
 namespace utest\orm\func\collection\simplehierarchic;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use utest\orm\ORMDbTestCase;
@@ -23,11 +22,17 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::SYSTEM_MENU
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_MENU            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
+                ]
+            ],
+            true
+        ];
     }
 
     protected $guid1;
@@ -41,7 +46,7 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
 
     protected function setUpFixtures()
     {
-        $this->menu = $this->collectionManager->getCollection(self::SYSTEM_MENU);
+        $this->menu = $this->getCollectionManager()->getCollection(self::SYSTEM_MENU);
 
         $item1 = $this->menu->add('item1');
         $this->guid1 = $item1->getGUID();

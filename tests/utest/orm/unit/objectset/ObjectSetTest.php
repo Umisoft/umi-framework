@@ -220,4 +220,3 @@ class ObjectSetTest extends ORMDbTestCase
         $this->assertEquals(5, $i, 'Неверно работает итератор (ожидается, что инкремент возрос до 5)');
     }
 }
-

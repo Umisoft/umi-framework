@@ -9,8 +9,7 @@
 
 namespace utest\orm\func\object;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleCollection;
 use umi\orm\object\IObject;
 use utest\orm\ORMDbTestCase;
@@ -28,23 +27,31 @@ class ObjectQueriesTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
         return [
-            self::USERS_GROUP,
-            self::USERS_USER
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
         ];
     }
 
     protected function setUpFixtures()
     {
-        $this->userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $this->userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         $this->userCollection->add()
             ->setValue('login', '123')
             ->setValue('height', 123);
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
     }
 
     public function testQueries()
@@ -59,7 +66,9 @@ class ObjectQueriesTest extends ORMDbTestCase
 
         $this->assertEquals(
             [
-                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."login" AS "users_user:login"
+                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+                . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", '
+                . '"users_user"."login" AS "users_user:login"
 FROM "umi_mock_users" AS "users_user"
 WHERE (("users_user"."id" = :value0))'
             ],
@@ -77,7 +86,11 @@ WHERE (("users_user"."id" = :value0))'
         $this->assertEquals('123', $user->getValue('height'));
         $this->assertEquals(
             [
-                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."email" AS "users_user:email", "users_user"."password" AS "users_user:password", "users_user"."is_active" AS "users_user:isActive", "users_user"."rating" AS "users_user:rating", "users_user"."height" AS "users_user:height", "users_user"."group_id" AS "users_user:group"
+                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+                . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", '
+                . '"users_user"."email" AS "users_user:email", "users_user"."password" AS "users_user:password", '
+                . '"users_user"."is_active" AS "users_user:isActive", "users_user"."rating" AS "users_user:rating", '
+                . '"users_user"."height" AS "users_user:height", "users_user"."group_id" AS "users_user:group"
 FROM "umi_mock_users" AS "users_user"
 WHERE (("users_user"."id" = :value0))'
             ],
@@ -96,7 +109,13 @@ WHERE (("users_user"."id" = :value0))'
         $this->assertEquals('123', $user->getValue('height'));
         $this->assertEquals(
             [
-                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."login" AS "users_user:login", "users_user"."email" AS "users_user:email", "users_user"."password" AS "users_user:password", "users_user"."is_active" AS "users_user:isActive", "users_user"."rating" AS "users_user:rating", "users_user"."height" AS "users_user:height", "users_user"."group_id" AS "users_user:group"
+                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid",'
+                . ' "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version",'
+                . ' "users_user"."login" AS "users_user:login", "users_user"."email" AS "users_user:email",'
+                . ' "users_user"."password" AS "users_user:password",'
+                . ' "users_user"."is_active" AS "users_user:isActive",'
+                . ' "users_user"."rating" AS "users_user:rating", "users_user"."height" AS "users_user:height",'
+                . ' "users_user"."group_id" AS "users_user:group"
 FROM "umi_mock_users" AS "users_user"
 WHERE (("users_user"."id" = :value0))'
             ],

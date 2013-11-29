@@ -226,7 +226,9 @@ class ORMTools implements IToolbox
      */
     protected function getObjectPersister()
     {
-        return $this->getPrototype($this->objectPersisterClass, ['umi\orm\persister\IObjectPersister'])->createSingleInstance();
+        return $this
+            ->getPrototype($this->objectPersisterClass, ['umi\orm\persister\IObjectPersister'])
+            ->createSingleInstance();
     }
 
     /**

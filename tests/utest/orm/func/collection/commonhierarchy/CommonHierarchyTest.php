@@ -1,6 +1,13 @@
 <?php
-use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
+/**
+ * UMI.Framework (http://umi-framework.ru/)
+ *
+ * @link      http://github.com/Umisoft/framework for the canonical source repository
+ * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
+ * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
+ */
+
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
@@ -12,15 +19,32 @@ class CommonHierarchyTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::USERS_GROUP,
-            self::USERS_USER,
-            self::SYSTEM_HIERARCHY,
-            self::BLOGS_BLOG,
-            self::BLOGS_POST,
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::BLOGS_POST             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
+        ];
     }
 
     public function testHierarchy()
@@ -28,10 +52,10 @@ class CommonHierarchyTest extends ORMDbTestCase
         /**
          * @var ICommonHierarchy $hierarchy
          */
-        $hierarchy = $this->collectionManager->getCollection(self::SYSTEM_HIERARCHY);
+        $hierarchy = $this->getCollectionManager()->getCollection(self::SYSTEM_HIERARCHY);
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $postsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_POST);
 
         $blog1 = $hierarchy->add($blogsCollection, 'test_blog1');
         $blog1->setValue('title', 'test_blog1');
@@ -59,8 +83,8 @@ class CommonHierarchyTest extends ORMDbTestCase
             'Ожидается, что добавление объекта в общую иерархию добавит объект в указанную связанную коллекцию'
         );
 
-        $this->objectPersister->commit();
-        $this->objectManager->unloadObjects();
+        $this->getObjectPersister()->commit();
+        $this->getObjectManager()->unloadObjects();
 
         $this->resetQueries();
 
@@ -79,9 +103,11 @@ class CommonHierarchyTest extends ORMDbTestCase
 
         $queries = [
             'SELECT "system_hierarchy"."id" AS "system_hierarchy:id", '
-            . '"system_hierarchy"."guid" AS "system_hierarchy:guid", "system_hierarchy"."type" AS "system_hierarchy:type",'
+            . '"system_hierarchy"."guid" AS "system_hierarchy:guid", '
+            . '"system_hierarchy"."type" AS "system_hierarchy:type",'
             .' "system_hierarchy"."version" AS "system_hierarchy:version",'
-            .' "system_hierarchy"."pid" AS "system_hierarchy:parent", "system_hierarchy"."mpath" AS "system_hierarchy:mpath",'
+            . ' "system_hierarchy"."pid" AS "system_hierarchy:parent",'
+            . ' "system_hierarchy"."mpath" AS "system_hierarchy:mpath",'
             .' "system_hierarchy"."slug" AS "system_hierarchy:slug", "system_hierarchy"."uri" AS "system_hierarchy:uri"
 FROM "umi_mock_hierarchy" AS "system_hierarchy"
 WHERE (("system_hierarchy"."order" = :value0))'
@@ -109,7 +135,14 @@ WHERE (("system_hierarchy"."order" = :value0))'
         $blog->getValue('title');
 
         $queries = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", "blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", "blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", "blogs_blog"."title_en" AS "blogs_blog:title#en-US", "blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version",'
+            . ' "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", '
+            . '"blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", '
+            . '"blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", '
+            . '"blogs_blog"."title_en" AS "blogs_blog:title#en-US", '
+            . '"blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
 FROM "umi_mock_blogs" AS "blogs_blog"
 WHERE (("blogs_blog"."id" = :value0))'
         ];
@@ -138,7 +171,5 @@ WHERE (("blogs_blog"."id" = :value0))'
                 ->fetchAll(),
             'Ожидается, что у blog1 нет родителей'
         );
-
     }
-
 }

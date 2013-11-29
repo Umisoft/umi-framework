@@ -87,7 +87,5 @@ class BoolFieldTest extends FieldTestCase
             $this->field->preparePropertyValue($this->getMockObject(), false),
             'Неверная подготовка значения свойства из базы'
         );
-
     }
-
 }

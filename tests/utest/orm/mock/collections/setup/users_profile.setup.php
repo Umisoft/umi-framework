@@ -1,4 +1,11 @@
 <?php
+/**
+ * UMI.Framework (http://umi-framework.ru/)
+ *
+ * @link      http://github.com/Umisoft/framework for the canonical source repository
+ * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
+ * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
+ */
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
@@ -51,6 +58,7 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->addIndex(['user_id'], 'profile_user');
     $tableScheme->addIndex(['city_id'], 'profile_city');
 
+    /** @noinspection PhpParamsInspection */
     $tableScheme->addForeignKeyConstraint(
         'umi_mock_users',
         ['user_id'],
@@ -58,6 +66,7 @@ return function (ICollectionDataSource $dataSource) {
         ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
         'FK_profile_user'
     );
+    /** @noinspection PhpParamsInspection */
     $tableScheme->addForeignKeyConstraint(
         'umi_mock_cities',
         ['city_id'],

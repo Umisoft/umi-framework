@@ -1,5 +1,13 @@
 <?php
+/**
+ * UMI.Framework (http://umi-framework.ru/)
+ *
+ * @link      http://github.com/Umisoft/framework for the canonical source repository
+ * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
+ * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
+ */
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
 use utest\orm\ORMDbTestCase;
@@ -9,21 +17,35 @@ use utest\orm\ORMDbTestCase;
  */
 class LinkedCollectionMoveTest extends ORMDbTestCase
 {
-
-    protected $usedDbServerId = 'mysqlMaster';
-
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::USERS_GROUP,
-            self::USERS_USER,
-            self::SYSTEM_HIERARCHY,
-            self::BLOGS_BLOG,
-            self::BLOGS_POST,
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::BLOGS_POST             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
+        ];
     }
 
     /**
@@ -46,8 +68,8 @@ class LinkedCollectionMoveTest extends ORMDbTestCase
     protected function setUpFixtures()
     {
 
-        $blogsCollection = $this->collectionManager->getCollection(self::BLOGS_BLOG);
-        $postsCollection = $this->collectionManager->getCollection(self::BLOGS_POST);
+        $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
+        $postsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_POST);
 
         $this->blog1 = $blogsCollection->add('blog1');
         $this->blog1->setValue('title', 'blog');
@@ -67,14 +89,14 @@ class LinkedCollectionMoveTest extends ORMDbTestCase
         $this->post3 = $postsCollection->add('post3', IObjectType::BASE, $this->post2);
         $this->post3->setValue('title', 'post3');
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
     }
 
     public function testMoveAfterWithSwitchingBranch()
     {
 
-        $this->collectionManager->getCollection(self::BLOGS_BLOG)
+        $this->getCollectionManager()->getCollection(self::BLOGS_BLOG)
             ->move($this->blog2, $this->post2, $this->post3);
 
         $this->assertEquals(
@@ -119,7 +141,5 @@ class LinkedCollectionMoveTest extends ORMDbTestCase
             $this->post2->getChildCount(),
             'Ожидается, что перемещение можно выполнять в связанной иерархической коллекции объекта'
         );
-
     }
-
 }

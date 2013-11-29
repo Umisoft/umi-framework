@@ -154,7 +154,8 @@ class LinkedHierarchicCollectionTest extends ORMTestCase
         $this->assertInstanceOf(
             'umi\orm\exception\RuntimeException',
             $e,
-            'Ожидается исключение при попытке получить у связанной иерархической коллекции иерархию, если она не была установлена'
+            'Ожидается исключение при попытке получить у связанной иерархической коллекции иерархию, '
+            . 'если она не была установлена'
         );
 
         $this->assertInstanceOf(
@@ -229,7 +230,8 @@ class LinkedHierarchicCollectionTest extends ORMTestCase
         $this->assertInstanceOf(
             'umi\orm\exception\NotAllowedOperationException',
             $e,
-            'Ожидается, что связанная иерархическая коллекция не может определить максимальный порядок среди детей у не принадлежащего ей объекта'
+            'Ожидается, что связанная иерархическая коллекция не может определить '
+            . 'максимальный порядок среди детей у не принадлежащего ей объекта'
         );
     }
 }

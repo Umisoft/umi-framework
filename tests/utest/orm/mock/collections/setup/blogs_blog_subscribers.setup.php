@@ -1,4 +1,11 @@
 <?php
+/**
+ * UMI.Framework (http://umi-framework.ru/)
+ *
+ * @link      http://github.com/Umisoft/framework for the canonical source repository
+ * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
+ * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
+ */
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
@@ -42,6 +49,7 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme->addIndex(['user_id'], 'subscriber_user_id');
     $tableScheme->addIndex(['type'], 'subscribers_type');
 
+    /** @noinspection PhpParamsInspection */
     $tableScheme->addForeignKeyConstraint(
         'umi_mock_users',
         ['user_id'],
@@ -50,6 +58,7 @@ return function (ICollectionDataSource $dataSource) {
         'FK_user'
     );
 
+    /** @noinspection PhpParamsInspection */
     $tableScheme->addForeignKeyConstraint(
         'umi_mock_blogs',
         ['blog_id'],

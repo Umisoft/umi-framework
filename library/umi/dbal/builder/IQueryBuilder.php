@@ -1,6 +1,7 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
+ *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -14,7 +15,7 @@ use PDOStatement;
 use umi\dbal\exception\IException;
 
 /**
- * �?нтерфейс построителя всех типов запросов.
+ * Интерфейс построителя всех типов запросов.
  */
 interface IQueryBuilder
 {
@@ -106,7 +107,7 @@ interface IQueryBuilder
 
     /**
      * Устанавливает значение плейсхолдера, представляющее собой список. <br />
-     * �?спользуйте этот метод только для IN, NOT IN условий.<br />
+     * Используйте этот метод только для IN, NOT IN условий.<br />
      * Подготовленный запрос будет иметь вид: IN (:$placeholder0, :$placeholder1, :$placeholder2) значения
      * плейсхолдеров будет автоматически биндится
      * @param string $placeholder плейсхолдер, в формате ':placeholder'
