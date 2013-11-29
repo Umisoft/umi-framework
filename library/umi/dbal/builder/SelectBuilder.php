@@ -361,14 +361,6 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
     /**
      * {@inheritdoc}
      */
-    public function execute()
-    {
-        return parent::execute();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function build()
     {
         $queryBuilder = $this->dialect;
