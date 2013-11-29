@@ -164,6 +164,7 @@ class InsertBuilder extends BaseQueryBuilder implements IInsertBuilder
         $result = null;
         foreach ($parts as $part) {
             $this->preparedStatement = $this->connection->prepare($part);
+            $this->bind($this->preparedStatement, $part);
             $this->preparedStatement->execute();
             if ($this->preparedStatement->rowCount() > 0) {
                 break;

@@ -107,11 +107,11 @@ class QueriesTest extends DbalTestCase
         // Insert tests
         $insertQuery = $this->server
             ->insert('tests_query_table')
-            ->set('name', ':name')
-            ->set('title', ':title')
-            ->set('is_active', ':activity')
-            ->set('height', ':height')
-            ->set('weight', ':weight');
+                ->set('name', ':name')
+                ->set('title', ':title')
+                ->set('is_active', ':activity')
+                ->set('height', ':height')
+                ->set('weight', ':weight');
 
         $insertQuery->bindVarString(':name', $name);
         $insertQuery->bindVarString(':title', $title);
@@ -160,12 +160,12 @@ class QueriesTest extends DbalTestCase
         // Insert ON DUPLICATE KEY UPDATE
         $insertUpdate = $this->server
             ->insert('tests_query_table')
-            ->set('id', ':id')
-            ->set('name', ':name')
-            ->set('is_active', ':activity')
+                ->set('id', ':id')
+                ->set('name', ':name')
+                ->set('is_active', ':activity')
             ->onDuplicateKey('id')
-            ->set('name', ':updateName')
-            ->set('is_active', ':updateActivity');
+                ->set('name', ':updateName')
+                ->set('is_active', ':updateActivity');
 
         //todo! Mysql ->onDuplicateKey('id') fail
 
@@ -180,17 +180,17 @@ class QueriesTest extends DbalTestCase
 
         //     *
         //    * *
-        //   * ! *     Mysql  вернет 2, если вставленная строка существовала
+        //   * ! *   TODO  Mysql  вернет 2, если вставленная строка существовала
         //  * * * *
-        $this->assertEquals(2, $result->rowCount(), 'Ожидается 1 модифицированная строка');
+        $this->assertEquals(1, $result->rowCount(), 'Ожидается 1 модифицированная строка');
 
         /** @var ISelectBuilder $inserted */
         $duplicateUpdated = $this->server
             ->select('name', 'is_active')
             ->from('tests_query_table')
             ->where()
-            ->expr('id', '=', ':id')
-            ->orderBy('id', 'ASC');
+                ->expr('id', '=', ':id')
+                ->orderBy('id', 'ASC');
         $duplicateUpdatedRow = $duplicateUpdated
             ->bindInt(':id', 1)
             ->execute()
@@ -202,13 +202,13 @@ class QueriesTest extends DbalTestCase
         // UpdateBuilder
         $update = $this->server
             ->update('tests_query_table')
-            ->set('name', ':updateName')
-            ->set('is_active', ':activity')
+                ->set('name', ':updateName')
+                ->set('is_active', ':activity')
             ->where()
-            ->begin(IExpressionGroup::MODE_OR)
-            ->expr('name', 'LIKE', ':name')
-            ->expr('name', 'IS', ':nullName')
-            ->end();
+                ->begin(IExpressionGroup::MODE_OR)
+                ->expr('name', 'LIKE', ':name')
+                ->expr('name', 'IS', ':nullName')
+                ->end();
 
         $update->bindBool(':activity', false);
         $update->bindString(':updateName', 'Record2.3 updated');
