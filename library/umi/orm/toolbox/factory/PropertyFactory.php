@@ -83,10 +83,10 @@ class PropertyFactory implements IPropertyFactory, IFactory
     public function createCommonProperty(IObject $object, IField $field)
     {
         $property = $this->getPrototype(
-                $this->defaultPropertyClass,
-                ['umi\orm\object\property\IProperty']
-            )
-            ->createInstance([$object, $field]);
+            $this->defaultPropertyClass,
+            ['umi\orm\object\property\IProperty']
+        )
+        ->createInstance([$object, $field]);
 
         return $property;
     }

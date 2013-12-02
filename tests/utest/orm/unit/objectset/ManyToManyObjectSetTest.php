@@ -179,7 +179,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $this->assertEquals(
             [],
             $this->getQueries(),
-            'Ожидается, что запросы не будут выполнены на проверку наличия объекта в ObjectSet, когда objectsSet не был загружен до конца, но связанный объект уже был загружен'
+            'Ожидается, что запросы не будут выполнены на проверку наличия объекта в ObjectSet,'
+            . ' когда objectsSet не был загружен до конца, но связанный объект уже был загружен'
         );
 
         $subscribers->fetchAll();
@@ -202,7 +203,8 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         $this->assertEquals(
             [],
             $this->getQueries(),
-            'Ожидается, что никакие запросы не будут выполнены на проверку наличия объекта в ObjectSet, когда objectsSet загружен до конца'
+            'Ожидается, что никакие запросы не будут выполнены на проверку наличия объекта в ObjectSet, '
+            . 'когда objectsSet загружен до конца'
         );
 
     }
@@ -563,5 +565,4 @@ class ManyToManyObjectSetTest extends ORMDbTestCase
         }
 
     }
-
 }

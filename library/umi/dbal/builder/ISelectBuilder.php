@@ -1,6 +1,7 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
+ *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -12,7 +13,7 @@ use umi\dbal\exception\IException;
 use umi\dbal\exception\RuntimeException;
 
 /**
- * �?нтерфейс построителя Select-запросов.
+ * Интерфейс построителя Select-запросов.
  */
 interface ISelectBuilder extends IQueryBuilder
 {
@@ -46,7 +47,7 @@ interface ISelectBuilder extends IQueryBuilder
 
     /**
      * Запрещает серверу БД использовать кэш запросов (SQL_NO_CACHE).
-     * �?спользуется для тестов производительности, не рекомендуется выключать кэш.
+     * Используется для тестов производительности, не рекомендуется выключать кэш.
      * @internal
      * @return self
      */

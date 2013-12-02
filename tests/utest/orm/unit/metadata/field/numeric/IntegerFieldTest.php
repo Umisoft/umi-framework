@@ -101,7 +101,5 @@ class IntegerFieldTest extends FieldTestCase
             $this->field->preparePropertyValue($this->getMockObject(), '-1'),
             'Неверная подготовка значения свойства из базы'
         );
-
     }
-
 }

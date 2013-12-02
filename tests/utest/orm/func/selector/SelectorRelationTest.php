@@ -201,13 +201,18 @@ class SelectorRelationTest extends ORMDbTestCase
         $user = $result->fetch();
 
         $queries = [
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_profiles" AS "users_user:profile" ON "users_user:profile"."user_id" = "users_user"."id"
 WHERE (("users_user:profile"."name" = :value0))'
         ];
 
-        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasOne');
+        $this->assertEquals(
+            $queries,
+            $this->getQueries(),
+            'Неверный запрос для условия выборки по полю со связью hasOne'
+        );
 
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
@@ -247,19 +252,22 @@ WHERE (("users_user:profile"."name" = :value0))'
             'test_login4',
             $result->fetch()
                 ->getValue('login'),
-            'Ожидается, что при обратной сортировке пользователей по имени профиля первым будет пользователь с логином test_login4 (name = test_name3)'
+            'Ожидается, что при обратной сортировке пользователей по имени профиля первым будет '
+            . 'пользователь с логином test_login4 (name = test_name3)'
         );
         $this->assertEquals(
             'test_login1',
             $result->fetch()
                 ->getValue('login'),
-            'Ожидается, что при обратной сортировке пользователей по имени профиля вторым будет пользователь с логином test_login1 (name = test_name2)'
+            'Ожидается, что при обратной сортировке пользователей по имени профиля вторым будет '
+            . 'пользователь с логином test_login1 (name = test_name2)'
         );
         $this->assertEquals(
             'test_login3',
             $result->fetch()
                 ->getValue('login'),
-            'Ожидается, что при обратной сортировке пользователей по имени профиля третьим будет пользователь с логином test_login3 (name = test_name1)'
+            'Ожидается, что при обратной сортировке пользователей по имени профиля '
+            . 'третьим будет пользователь с логином test_login3 (name = test_name1)'
         );
     }
 
@@ -278,7 +286,8 @@ WHERE (("users_user:profile"."name" = :value0))'
         $user = $result->fetch();
 
         $queries = [
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_profiles" AS "users_user:profile" ON "users_user:profile"."user_id" = "users_user"."id"
 WHERE (("users_user:profile"."id" = :value0))'
@@ -316,7 +325,8 @@ WHERE (("users_user:profile"."id" = :value0))'
         $user = $result->fetch();
 
         $queries = [
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_profiles" AS "users_user:profile" ON "users_user:profile"."user_id" = "users_user"."id"
 WHERE (("users_user:profile"."id" = :value0))'
@@ -354,14 +364,19 @@ WHERE (("users_user:profile"."id" = :value0))'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_blogs" AS "users_user:blogs" ON "users_user:blogs"."owner_id" = "users_user"."id"
 WHERE (("users_user:blogs"."title" LIKE :value0))
 GROUP BY "users_user"."id"'
         ];
 
-        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasMany');
+        $this->assertEquals(
+            $queries,
+            $this->getQueries(),
+            'Неверный запрос для условия выборки по полю со связью hasMany'
+        );
         $this->assertCount(
             1,
             $objects,
@@ -402,7 +417,8 @@ GROUP BY "users_user"."id"'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_blogs" AS "users_user:blogs" ON "users_user:blogs"."owner_id" = "users_user"."id"
 WHERE (("users_user:blogs"."id" = :value0))
@@ -435,7 +451,8 @@ GROUP BY "users_user"."id"'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_blogs" AS "users_user:blogs" ON "users_user:blogs"."owner_id" = "users_user"."id"
 WHERE (("users_user:blogs"."id" = :value0))
@@ -468,7 +485,10 @@ GROUP BY "users_user"."id"'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
 FROM "umi_mock_blogs" AS "blogs_blog"
 	LEFT JOIN "umi_mock_users" AS "blogs_blog:owner" ON "blogs_blog:owner"."id" = "blogs_blog"."owner_id"
 WHERE (("blogs_blog:owner"."login" = :value0))'
@@ -519,7 +539,10 @@ WHERE (("blogs_blog:owner"."login" = :value0))'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
 FROM "umi_mock_blogs" AS "blogs_blog"
 	LEFT JOIN "umi_mock_users" AS "blogs_blog:owner" ON "blogs_blog:owner"."id" = "blogs_blog"."owner_id"
 WHERE (("blogs_blog:owner"."id" = :value0))'
@@ -550,7 +573,10 @@ WHERE (("blogs_blog:owner"."id" = :value0))'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
 FROM "umi_mock_blogs" AS "blogs_blog"
 	LEFT JOIN "umi_mock_users" AS "blogs_blog:owner" ON "blogs_blog:owner"."id" = "blogs_blog"."owner_id"
 WHERE (("blogs_blog:owner"."id" = :value0))'
@@ -582,10 +608,15 @@ WHERE (("blogs_blog:owner"."id" = :value0))'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
 FROM "umi_mock_blogs" AS "blogs_blog"
-	LEFT JOIN "umi_mock_blog_subscribers" AS "blogs_blog:subscribers_bridge" ON "blogs_blog:subscribers_bridge"."blog_id" = "blogs_blog"."id"
-	LEFT JOIN "umi_mock_users" AS "blogs_blog:subscribers" ON "blogs_blog:subscribers"."id" = "blogs_blog:subscribers_bridge"."user_id"
+	LEFT JOIN "umi_mock_blog_subscribers" AS "blogs_blog:subscribers_bridge" '
+            . 'ON "blogs_blog:subscribers_bridge"."blog_id" = "blogs_blog"."id"
+	LEFT JOIN "umi_mock_users" AS "blogs_blog:subscribers" '
+            . 'ON "blogs_blog:subscribers"."id" = "blogs_blog:subscribers_bridge"."user_id"
 WHERE (("blogs_blog:subscribers"."height" > :value0))
 GROUP BY "blogs_blog"."id"'
         ];
@@ -639,10 +670,15 @@ GROUP BY "blogs_blog"."id"'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
 FROM "umi_mock_blogs" AS "blogs_blog"
-	LEFT JOIN "umi_mock_blog_subscribers" AS "blogs_blog:subscribers_bridge" ON "blogs_blog:subscribers_bridge"."blog_id" = "blogs_blog"."id"
-	LEFT JOIN "umi_mock_users" AS "blogs_blog:subscribers" ON "blogs_blog:subscribers"."id" = "blogs_blog:subscribers_bridge"."user_id"
+	LEFT JOIN "umi_mock_blog_subscribers" AS "blogs_blog:subscribers_bridge" '
+            . 'ON "blogs_blog:subscribers_bridge"."blog_id" = "blogs_blog"."id"
+	LEFT JOIN "umi_mock_users" AS "blogs_blog:subscribers" '
+            . 'ON "blogs_blog:subscribers"."id" = "blogs_blog:subscribers_bridge"."user_id"
 WHERE (("blogs_blog:subscribers"."id" = :value0))
 GROUP BY "blogs_blog"."id"'
         ];
@@ -679,10 +715,15 @@ GROUP BY "blogs_blog"."id"'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
 FROM "umi_mock_blogs" AS "blogs_blog"
-	LEFT JOIN "umi_mock_blog_subscribers" AS "blogs_blog:subscribers_bridge" ON "blogs_blog:subscribers_bridge"."blog_id" = "blogs_blog"."id"
-	LEFT JOIN "umi_mock_users" AS "blogs_blog:subscribers" ON "blogs_blog:subscribers"."id" = "blogs_blog:subscribers_bridge"."user_id"
+	LEFT JOIN "umi_mock_blog_subscribers" AS "blogs_blog:subscribers_bridge" '
+            . 'ON "blogs_blog:subscribers_bridge"."blog_id" = "blogs_blog"."id"
+	LEFT JOIN "umi_mock_users" AS "blogs_blog:subscribers" '
+            . 'ON "blogs_blog:subscribers"."id" = "blogs_blog:subscribers_bridge"."user_id"
 WHERE (("blogs_blog:subscribers"."id" = :value0))
 GROUP BY "blogs_blog"."id"'
         ];
@@ -759,11 +800,17 @@ GROUP BY "blogs_blog"."id"'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
 FROM "umi_mock_blogs" AS "blogs_blog"
-	LEFT JOIN "umi_mock_blog_subscribers" AS "blogs_blog:subscribers_bridge" ON "blogs_blog:subscribers_bridge"."blog_id" = "blogs_blog"."id"
-	LEFT JOIN "umi_mock_users" AS "blogs_blog:subscribers" ON "blogs_blog:subscribers"."id" = "blogs_blog:subscribers_bridge"."user_id"
-	LEFT JOIN "umi_mock_profiles" AS "blogs_blog:subscribers:profile" ON "blogs_blog:subscribers:profile"."user_id" = "blogs_blog:subscribers"."id"
+	LEFT JOIN "umi_mock_blog_subscribers" AS "blogs_blog:subscribers_bridge" '
+            . 'ON "blogs_blog:subscribers_bridge"."blog_id" = "blogs_blog"."id"
+	LEFT JOIN "umi_mock_users" AS "blogs_blog:subscribers" '
+            . 'ON "blogs_blog:subscribers"."id" = "blogs_blog:subscribers_bridge"."user_id"
+	LEFT JOIN "umi_mock_profiles" AS "blogs_blog:subscribers:profile" '
+            . 'ON "blogs_blog:subscribers:profile"."user_id" = "blogs_blog:subscribers"."id"
 WHERE (("blogs_blog:subscribers:profile"."name" = :value0))
 GROUP BY "blogs_blog"."id"'
         ];
@@ -799,10 +846,14 @@ GROUP BY "blogs_blog"."id"'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", "blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", "blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version", '
+            . '"blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri"
 FROM "umi_mock_blogs" AS "blogs_blog"
 	LEFT JOIN "umi_mock_users" AS "blogs_blog:owner" ON "blogs_blog:owner"."id" = "blogs_blog"."owner_id"
-	LEFT JOIN "umi_mock_profiles" AS "blogs_blog:owner:profile" ON "blogs_blog:owner:profile"."user_id" = "blogs_blog:owner"."id"
+	LEFT JOIN "umi_mock_profiles" AS "blogs_blog:owner:profile" '
+            . 'ON "blogs_blog:owner:profile"."user_id" = "blogs_blog:owner"."id"
 WHERE (("blogs_blog:owner:profile"."name" = :value0))'
         ];
 
@@ -835,15 +886,22 @@ WHERE (("blogs_blog:owner:profile"."name" = :value0))'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_profiles" AS "users_user:profile" ON "users_user:profile"."user_id" = "users_user"."id"
-	LEFT JOIN "umi_mock_cities" AS "users_user:profile:city" ON "users_user:profile:city"."id" = "users_user:profile"."city_id"
-	LEFT JOIN "umi_mock_countries" AS "users_user:profile:city:country" ON "users_user:profile:city:country"."id" = "users_user:profile:city"."country_id"
+	LEFT JOIN "umi_mock_cities" AS "users_user:profile:city" '
+            . 'ON "users_user:profile:city"."id" = "users_user:profile"."city_id"
+	LEFT JOIN "umi_mock_countries" AS "users_user:profile:city:country" '
+            . 'ON "users_user:profile:city:country"."id" = "users_user:profile:city"."country_id"
 WHERE (("users_user:profile:city:country"."name" = :value0))'
         ];
 
-        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasOne');
+        $this->assertEquals(
+            $queries,
+            $this->getQueries(),
+            'Неверный запрос для условия выборки по полю со связью hasOne'
+        );
         $this->assertCount(2, $objects, 'Ожидается, что 2 пользователя имеют профили из России');
         $this->assertContains(
             $userCollection->get($this->user1Guid),
@@ -876,33 +934,47 @@ WHERE (("users_user:profile:city:country"."name" = :value0))'
         $objects = $result->fetchAll();
 
         $queries = [
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_blogs" AS "users_user:blogs" ON "users_user:blogs"."owner_id" = "users_user"."id"
-	LEFT JOIN "umi_mock_blog_subscribers" AS "users_user:blogs:subscribers_bridge" ON "users_user:blogs:subscribers_bridge"."blog_id" = "users_user:blogs"."id"
-	LEFT JOIN "umi_mock_users" AS "users_user:blogs:subscribers" ON "users_user:blogs:subscribers"."id" = "users_user:blogs:subscribers_bridge"."user_id"
-	LEFT JOIN "umi_mock_profiles" AS "users_user:blogs:subscribers:profile" ON "users_user:blogs:subscribers:profile"."user_id" = "users_user:blogs:subscribers"."id"
-	LEFT JOIN "umi_mock_cities" AS "users_user:blogs:subscribers:profile:city" ON "users_user:blogs:subscribers:profile:city"."id" = "users_user:blogs:subscribers:profile"."city_id"
-	LEFT JOIN "umi_mock_countries" AS "users_user:blogs:subscribers:profile:city:country" ON "users_user:blogs:subscribers:profile:city:country"."id" = "users_user:blogs:subscribers:profile:city"."country_id"
+	LEFT JOIN "umi_mock_blog_subscribers" AS "users_user:blogs:subscribers_bridge" '
+            . 'ON "users_user:blogs:subscribers_bridge"."blog_id" = "users_user:blogs"."id"
+	LEFT JOIN "umi_mock_users" AS "users_user:blogs:subscribers" '
+            . 'ON "users_user:blogs:subscribers"."id" = "users_user:blogs:subscribers_bridge"."user_id"
+	LEFT JOIN "umi_mock_profiles" AS "users_user:blogs:subscribers:profile" '
+            . 'ON "users_user:blogs:subscribers:profile"."user_id" = "users_user:blogs:subscribers"."id"
+	LEFT JOIN "umi_mock_cities" AS "users_user:blogs:subscribers:profile:city" '
+            . 'ON "users_user:blogs:subscribers:profile:city"."id" = "users_user:blogs:subscribers:profile"."city_id"
+	LEFT JOIN "umi_mock_countries" AS "users_user:blogs:subscribers:profile:city:country" '
+            . 'ON "users_user:blogs:subscribers:profile:city:country"."id" '
+            . '= "users_user:blogs:subscribers:profile:city"."country_id"
 WHERE (("users_user:blogs:subscribers:profile:city:country"."name" = :value0))
 GROUP BY "users_user"."id"'
         ];
 
-        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки по полю со связью hasOne');
+        $this->assertEquals(
+            $queries,
+            $this->getQueries(),
+            'Неверный запрос для условия выборки по полю со связью hasOne'
+        );
         $this->assertCount(
             2,
             $objects,
-            'Ожидается, что два пользователя являются владельцами блогов, подписчиками которых являются пользователи из России'
+            'Ожидается, что два пользователя являются владельцами блогов, '
+            . 'подписчиками которых являются пользователи из России'
         );
         $this->assertEquals(
             $this->user1Guid,
             $user1->getGUID(),
-            'Ожидается, что пользователь с id 1 является владельцем блогов, подписчиками которых являются пользователи из России'
+            'Ожидается, что пользователь с id 1 является владельцем блогов, '
+            . 'подписчиками которых являются пользователи из России'
         );
         $this->assertEquals(
             $this->user2Guid,
             $user2->getGUID(),
-            'Ожидается, что пользователь с id 2 является владельцем блогов, подписчиками которых являются пользователи из России'
+            'Ожидается, что пользователь с id 2 является владельцем блогов, '
+            . 'подписчиками которых являются пользователи из России'
         );
 
     }
@@ -920,14 +992,20 @@ GROUP BY "users_user"."id"'
         $user = $result->fetch();
 
         $queries = [
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_profiles" AS "users_user:profile" ON "users_user:profile"."user_id" = "users_user"."id"
-	LEFT JOIN "umi_mock_cities" AS "users_user:profile:city" ON "users_user:profile:city"."id" = "users_user:profile"."city_id"
+	LEFT JOIN "umi_mock_cities" AS "users_user:profile:city" '
+            . 'ON "users_user:profile:city"."id" = "users_user:profile"."city_id"
 WHERE (("users_user:profile"."name" = :value0 AND "users_user:profile:city"."name" = :value1))'
         ];
 
-        $this->assertEquals($queries, $this->getQueries(), 'Неверный запрос для условия выборки с двойным сложным where');
+        $this->assertEquals(
+            $queries,
+            $this->getQueries(),
+            'Неверный запрос для условия выборки с двойным сложным where'
+        );
 
         $this->assertInstanceOf(
             'umi\orm\object\IObject',
@@ -964,7 +1042,8 @@ WHERE (("users_user:profile"."name" = :value0 AND "users_user:profile:city"."nam
 
         $this->assertEquals(
             [
-                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+                'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+                . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 	LEFT JOIN "umi_mock_profiles" AS "users_user:profile" ON "users_user:profile"."user_id" = "users_user"."id"
 WHERE (("users_user:profile"."id" IS NOT :value0))

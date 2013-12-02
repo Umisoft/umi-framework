@@ -12,6 +12,7 @@ namespace utest\dbal\unit\cluster;
 use Doctrine\DBAL\DriverManager;
 use umi\dbal\cluster\DbCluster;
 use umi\dbal\cluster\IDbCluster;
+use umi\dbal\cluster\server\MasterServer as MS;
 use umi\dbal\cluster\server\MasterServer;
 use umi\dbal\cluster\server\SlaveServer;
 use umi\dbal\driver\dialect\MySqlDialect;
@@ -57,9 +58,9 @@ class ClusterTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
-        $this->mysqlMaster = new MasterServer('mysqlMaster', $mysqlDriver, new MySqlDialect(), $queryBuilderFactory);
+        $this->mysqlMaster = new MS('mysqlMaster', $mysqlDriver, new MySqlDialect(), $queryBuilderFactory);
         $this->mysqlSlave = new SlaveServer('mysqlSlave', $mysqlDriver, new MySqlDialect(), $queryBuilderFactory);
-        $this->sqliteMaster = new MasterServer('sqliteMaster', $sqliteDriver, new SqliteDialect(), $queryBuilderFactory);
+        $this->sqliteMaster = new MS('sqliteMaster', $sqliteDriver, new SqliteDialect(), $queryBuilderFactory);
         $this->sqliteSlave = new SlaveServer('sqliteSlave', $sqliteDriver, new SqliteDialect(), $queryBuilderFactory);
     }
 

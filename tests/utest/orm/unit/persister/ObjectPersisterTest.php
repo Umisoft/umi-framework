@@ -56,7 +56,5 @@ class ObjectPersisterTest extends ORMTestCase
             $e,
             'Ожидается, что невозможно выполнить никакие транзакции, если объекты не персистентны'
         );
-
     }
-
 }

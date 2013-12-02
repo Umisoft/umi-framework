@@ -287,7 +287,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             3,
             $result->fetchAll(),
-            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 вернет objectsSet из 3x объектов'
+            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 '
+            . 'вернет objectsSet из 3x объектов'
         );
     }
 
@@ -344,7 +345,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             2,
             $result->fetchAll(),
-            'Ожидается, что выборка c указанием supervisor_field is null вернет objectsSet из 2 объекта, так как поле supervisor_field присутствует только в типе supervisor'
+            'Ожидается, что выборка c указанием supervisor_field is null вернет objectsSet из 2 объекта, '
+            . 'так как поле supervisor_field присутствует только в типе supervisor'
         );
     }
 
@@ -355,7 +357,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             2,
             $result->fetchAll(),
-            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, так как поле supervisor_field присутствует только в типе supervisor'
+            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, '
+            . 'так как поле supervisor_field присутствует только в типе supervisor'
         );
     }
 
@@ -387,7 +390,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             3,
             $result->fetchAll(),
-            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 вернет objectsSet из 3x объектов'
+            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 '
+            . 'вернет objectsSet из 3x объектов'
         );
 
         $this->selector->where('height')
@@ -422,7 +426,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             2,
             $result->fetchAll(),
-            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, так как поле supervisor_field присутствует только в типе supervisor'
+            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, '
+            . 'так как поле supervisor_field присутствует только в типе supervisor'
         );
 
         $this->selector->types(['guest']);

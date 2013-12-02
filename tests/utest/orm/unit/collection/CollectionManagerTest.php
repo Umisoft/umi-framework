@@ -139,5 +139,4 @@ class CollectionManagerTest extends ORMDbTestCase
         );
 
     }
-
 }

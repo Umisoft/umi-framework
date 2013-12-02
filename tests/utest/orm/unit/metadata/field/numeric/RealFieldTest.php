@@ -82,7 +82,5 @@ class RealFieldTest extends FieldTestCase
             $this->field->preparePropertyValue($this->getMockObject(), '1.5a'),
             'Неверная подготовка значения свойства из базы'
         );
-
     }
-
 }

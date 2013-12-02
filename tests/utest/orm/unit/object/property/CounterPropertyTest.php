@@ -44,5 +44,4 @@ class CounterPropertyTest extends ORMTestCase
         $this->assertEquals(1, $counterProperty->getValue());
 
     }
-
 }

@@ -60,7 +60,7 @@ class LoadObjectsTest extends ORMDbTestCase
      */
     public function mockGetQueryResultRow()
     {
-
+        //todo! non-PSR https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md#52-switch-case
         switch ($this->counterId) {
             case 1:
             {

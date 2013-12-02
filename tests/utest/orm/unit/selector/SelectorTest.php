@@ -66,7 +66,8 @@ class SelectorTest extends ORMDbTestCase
             [],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора не будут указаны конкретные типы, если не заданы ограничивающие выборку поля'
+            'Ожидается, что в запросе селектора не будут указаны конкретные типы, '
+            . 'если не заданы ограничивающие выборку поля'
         );
     }
 
@@ -77,7 +78,8 @@ class SelectorTest extends ORMDbTestCase
             [],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора не будут указаны конкретные типы, если выбираемые поля присутствуют во всех типах коллекции'
+            'Ожидается, что в запросе селектора не будут указаны конкретные типы,'
+            . ' если выбираемые поля присутствуют во всех типах коллекции'
         );
     }
 
@@ -89,7 +91,8 @@ class SelectorTest extends ORMDbTestCase
             [':type_users_user' => ["users_user.supervisor"], ':value0' => [null, \PDO::PARAM_NULL]],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора будут указаны только те типы, у которых есть участвующие в выборке поля.'
+            'Ожидается, что в запросе селектора будут указаны только те типы,'
+            . ' у которых есть участвующие в выборке поля.'
         );
     }
 
@@ -171,7 +174,8 @@ class SelectorTest extends ORMDbTestCase
             [':type_users_user' => ["users_user.base", "users_user.guest", "users_user.supervisor"]],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора будут участвовать заданные типы всей вложенности, если тип был указан со звездочкой.'
+            'Ожидается, что в запросе селектора будут участвовать заданные типы всей вложенности, '
+            . 'если тип был указан со звездочкой.'
         );
     }
 
@@ -182,7 +186,8 @@ class SelectorTest extends ORMDbTestCase
             [':type_users_user' => ["users_user.base", "users_user.guest", "users_user.supervisor"]],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора будут участвовать заданные типы всей вложенности, если тип был указан со звездочкой.'
+            'Ожидается, что в запросе селектора будут участвовать заданные типы всей вложенности, '
+            . 'если тип был указан со звездочкой.'
         );
     }
 
@@ -206,7 +211,9 @@ class SelectorTest extends ORMDbTestCase
             'Ожидается, что ISelector::fields() вернет себя'
         );
         $this->assertEquals(
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version", "users_user"."height" AS "users_user:height", "users_user"."rating" AS "users_user:rating"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid",'
+            . ' "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version",'
+            . ' "users_user"."height" AS "users_user:height", "users_user"."rating" AS "users_user:rating"
 FROM "umi_mock_users" AS "users_user"
 WHERE 1',
             $this->selector->getSelectBuilder()
@@ -253,7 +260,8 @@ WHERE 1',
         $this->selector->fields(['id']);
 
         $this->assertEquals(
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid",'
+            . ' "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
 WHERE 1
 ORDER BY "users_user"."height" ASC, "users_user"."rating" DESC',
@@ -336,9 +344,11 @@ ORDER BY "users_user"."height" ASC, "users_user"."rating" DESC',
             ->end();
 
         $this->assertEquals(
-            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
 FROM "umi_mock_users" AS "users_user"
-WHERE ((("users_user"."height" < :value0 OR "users_user"."rating" = :value1) AND ("users_user"."height" > :value2 OR "users_user"."rating" >= :value3)))',
+WHERE ((("users_user"."height" < :value0 OR "users_user"."rating" = :value1) '
+            . 'AND ("users_user"."height" > :value2 OR "users_user"."rating" >= :value3)))',
             $this->selector->getSelectBuilder()
                 ->getSql(),
             'Неверный текст запроса с группировками полей'

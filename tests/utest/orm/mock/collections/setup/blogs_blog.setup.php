@@ -1,4 +1,11 @@
 <?php
+/**
+ * UMI.Framework (http://umi-framework.ru/)
+ *
+ * @link      http://github.com/Umisoft/framework for the canonical source repository
+ * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
+ * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
+ */
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Table;
@@ -84,6 +91,7 @@ return function (ICollectionDataSource $dataSource) {
 
     $table->addIndex(['owner_id'], 'blog_owner');
 
+    /** @noinspection PhpParamsInspection */
     $table->addForeignKeyConstraint(
         'umi_mock_hierarchy',
         ['pid'],
@@ -92,6 +100,7 @@ return function (ICollectionDataSource $dataSource) {
         'FK_blog_parent'
     );
 
+    /** @noinspection PhpParamsInspection */
     $table->addForeignKeyConstraint(
         'umi_mock_users',
         ['owner_id'],

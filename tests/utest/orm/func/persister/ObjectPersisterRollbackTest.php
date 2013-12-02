@@ -435,7 +435,5 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
             $parentE->getMessage(),
             'Произошло неожидаемое исключение'
         );
-
     }
-
 }
