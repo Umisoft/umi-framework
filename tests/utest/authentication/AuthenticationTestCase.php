@@ -38,4 +38,3 @@ abstract class AuthenticationTestCase extends TestCase
         parent::setUp();
     }
 }
- 

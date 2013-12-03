@@ -17,7 +17,8 @@ class AuthAwareToolsTest extends AwareTestCase
 
     use TAuthenticationSupport;
 
-    protected function setUpFixtures() {
+    protected function setUpFixtures()
+    {
         $this->registerAuthenticationTools();
     }
 
