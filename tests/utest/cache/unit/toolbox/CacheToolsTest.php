@@ -9,16 +9,16 @@
 
 namespace utest\cache\unit\toolbox;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Type;
 use umi\cache\toolbox\CacheTools;
-use umi\dbal\cluster\server\IServer;
-use umi\dbal\driver\IColumnScheme;
 use utest\cache\CacheTestCase;
 use utest\cache\mock\MockCacheAware;
 
 class CacheToolsTest extends CacheTestCase
 {
     /**
-     * @var IServer
+     * @var Connection
      */
     private $connection;
 
@@ -26,12 +26,12 @@ class CacheToolsTest extends CacheTestCase
 
     protected function setUpFixtures()
     {
-        $this->connection = $this->getDbServer();
+        $this->connection = $this->getDbServer()->getConnection();
     }
 
     protected function tearDownFixtures()
     {
-        $this->connection->getDbDriver()
+        $this->connection->getSchemaManager()
             ->dropTable($this->tableName);
     }
 
@@ -48,25 +48,13 @@ class CacheToolsTest extends CacheTestCase
                             'valueColumnName'  => 'cacheValue',
                             'expireColumnName' => 'cacheExpiration'
                         ],
-                        'serverId' => $this->connection->getId()
+                        'serverId' => $this->getDbServer()->getId()
                     ]
                 ]
             ]
         );
 
-        $driver = $this->connection->getDbDriver();
-        $table = $driver->addTable($this->tableName);
-        $table->addColumn('key', IColumnScheme::TYPE_VARCHAR, [IColumnScheme::OPTION_COMMENT => 'Cache unique key']);
-        $table->addColumn('cacheValue', IColumnScheme::TYPE_BLOB, [IColumnScheme::OPTION_COMMENT => 'Cache value']);
-        $table->addColumn(
-            'cacheExpiration',
-            IColumnScheme::TYPE_INT,
-            [IColumnScheme::OPTION_COMMENT => 'Cache expire timestamp', IColumnScheme::OPTION_UNSIGNED => true]
-        );
-        $table->setPrimaryKey('key');
-        $table->addIndex('expire')
-            ->addColumn('cacheExpiration');
-        $driver->applyMigrations();
+        $this->setupDatabase($this->tableName);
 
         $cachingService = new MockCacheAware();
         $this->resolveOptionalDependencies($cachingService);
@@ -83,7 +71,8 @@ class CacheToolsTest extends CacheTestCase
         $this->assertEquals(
             1,
             $value,
-            'Ожидается, что, если значение еще не было закешировано, выполнится функция, вычисляющая значение для кеша'
+            'Ожидается, что, если значение еще не было закешировано, выполнится функция, '
+            . 'вычисляющая значение для кеша'
         );
 
         $newValue = $cachingService->get(
@@ -97,7 +86,8 @@ class CacheToolsTest extends CacheTestCase
         $this->assertEquals(
             1,
             $newValue,
-            'Ожидается, что, если значение было закешировано, функция, вычисляющая значение для кеша, не выполнится'
+            'Ожидается, что, если значение было закешировано, функция, вычисляющая значение для кеша, '
+            . 'не выполнится'
         );
 
     }
@@ -145,6 +135,4 @@ class CacheToolsTest extends CacheTestCase
             'Ожидается, что, если кеш не был внедрен, функция, вычисляющая значение для кеша, выполнится всегда'
         );
     }
-
 }
- 
