@@ -97,4 +97,3 @@ class AuthTest extends AuthenticationTestCase
         $this->assertNotNull($result->getIdentity(), 'Ожидается, что авторизация уже пройдена');
     }
 }
-
