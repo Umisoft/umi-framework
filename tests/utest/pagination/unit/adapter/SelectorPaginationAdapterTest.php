@@ -46,7 +46,7 @@ class SelectorPaginatorAdapterTest extends PaginationTestCase
         return [
             __DIR__ . '/../../mock/collections',
             [
-                'users_user'             => [
+                'users_user' => [
                     'type' => ICollectionFactory::TYPE_SIMPLE
                 ]
             ],
@@ -62,7 +62,9 @@ class SelectorPaginatorAdapterTest extends PaginationTestCase
         $this->registerEventTools();
         $this->setUpORM();
 
-        $userCollection = $this->getCollectionManager()->getCollection('users_user');
+        $userCollection = $this
+            ->getCollectionManager()
+            ->getCollection('users_user');
 
         $userCollection->add();
         $userCollection->add();
@@ -70,7 +72,9 @@ class SelectorPaginatorAdapterTest extends PaginationTestCase
         $this->user = $userCollection->add();
         $userCollection->add();
 
-        $this->getObjectPersister()->commit();
+        $this
+            ->getObjectPersister()
+            ->commit();
 
         $selector = $userCollection->select();
 
@@ -92,7 +96,12 @@ class SelectorPaginatorAdapterTest extends PaginationTestCase
         $items = $this->adapter->getItems(1, 3);
 
         $this->assertCount(1, $items, 'Ожидается, что список элементов будет сформирован верно.');
-        $this->assertTrue($this->user === $items->fetch(), 'Ожидается, что список элементов будет сформирован верно.');
-
+        $this->assertSame(
+            $this->user,
+            $items
+                ->reset()
+                ->fetch(),
+            'Ожидается, что список элементов будет сформирован верно.'
+        );
     }
 }
