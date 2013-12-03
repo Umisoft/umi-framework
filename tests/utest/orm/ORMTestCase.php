@@ -8,6 +8,7 @@
  */
 namespace utest\orm;
 
+use utest\dbal\TDbalSupport;
 use utest\TestCase;
 
 /**
@@ -15,18 +16,16 @@ use utest\TestCase;
  */
 abstract class ORMTestCase extends TestCase
 {
+    use TORMSupport;
+    use TDbalSupport;
+
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/orm/toolbox/config.php')
-        );
-
+        $this->registerORMTools();
+        $this->registerDbalTools();
         parent::setUp();
     }
-
-
 }
- 

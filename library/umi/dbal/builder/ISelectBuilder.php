@@ -33,7 +33,7 @@ interface ISelectBuilder extends IQueryBuilder
      * );
      * ...
      * </code>
-     * [@param string|array $column,... список столбцов]
+     * @param string|array $column,... список столбцов
      * @return self
      */
     public function select();

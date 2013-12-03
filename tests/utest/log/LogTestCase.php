@@ -15,16 +15,13 @@ use utest\TestCase;
  */
 abstract class LogTestCase extends TestCase
 {
+    use TLogSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/log/toolbox/config.php')
-        );
-
+        $this->registerLogTools();
         parent::setUp();
     }
 }

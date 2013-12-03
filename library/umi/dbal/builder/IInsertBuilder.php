@@ -87,5 +87,4 @@ interface IInsertBuilder extends IQueryBuilder
      * @return array
      */
     public function getOnDuplicateKeyColumns();
-
 }

@@ -15,14 +15,13 @@ use utest\TestCase;
  */
 abstract class I18nTestCase extends TestCase
 {
+    use TI18nSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/i18n/toolbox/config.php')
-        );
+        $this->registerI18nTools();
 
         parent::setUp();
     }

@@ -51,5 +51,4 @@ abstract class FieldTestCase extends ORMTestCase
 
         return $this->object;
     }
-
 }

@@ -8,6 +8,10 @@
  */
 namespace utest\cache;
 
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
+use utest\dbal\TDbalSupport;
+use utest\event\TEventSupport;
 use utest\TestCase;
 
 /**
@@ -15,17 +19,40 @@ use utest\TestCase;
  */
 abstract class CacheTestCase extends TestCase
 {
+    use TCacheSupport;
+    use TEventSupport;
+    use TDbalSupport;
+
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolboxes([
-            require(LIBRARY_PATH . '/event/toolbox/config.php'),
-            require(LIBRARY_PATH . '/cache/toolbox/config.php')
-        ]);
+        $this->registerEventTools();
+        $this->registerDbalTools();
+        $this->registerCacheTools();
 
         parent::setUp();
     }
+
+    protected function setupDatabase($tableName)
+    {
+        $conn = $this
+            ->getDbServer()
+            ->getConnection();
+        $table = new Table($tableName);
+
+        $table->addColumn('key', Type::STRING, ['comment' => 'Cache unique key']);
+        $table->addColumn('cacheValue', Type::BLOB, ['comment' => 'Cache value']);
+        $table->addColumn(
+            'cacheExpiration',
+            Type::INTEGER,
+            ['comment' => 'Cache expire timestamp', 'unsigned' => true]
+        );
+        $table->setPrimaryKey(['key']);
+        $table->addIndex(['cacheExpiration'], 'expire');
+        $conn
+            ->getSchemaManager()
+            ->createTable($table);
+    }
 }
- 

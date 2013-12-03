@@ -15,14 +15,13 @@ use utest\TestCase;
  */
 abstract class PaginationTestCase extends TestCase
 {
+    use TPaginationSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/pagination/toolbox/config.php')
-        );
+        $this->registerPaginationTools();
 
         parent::setUp();
     }

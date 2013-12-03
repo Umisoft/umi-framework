@@ -64,5 +64,4 @@ class StringFieldTest extends FieldTestCase
             'Неверная подготовка значения свойства из базы'
         );
     }
-
 }

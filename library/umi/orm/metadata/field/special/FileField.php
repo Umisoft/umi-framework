@@ -36,5 +36,4 @@ class FileField extends BaseField implements IScalarField
     {
         return false; // TODO: not implemented
     }
-
 }

@@ -123,7 +123,7 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
             ->bindBlob(':value', $value)
             ->bindInt(':expire', $ttl);
 
-        return count($insert->execute()) > 0;
+        return $insert->execute()->rowCount() > 0;
     }
 
     /**
@@ -142,7 +142,7 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
             ->bindBlob(':newValue', $value)
             ->bindInt(':newExpire', $ttl);
 
-        return count($insert->execute()) > 0;
+        return $insert->execute()->rowCount() > 0;
     }
 
     /**
@@ -156,8 +156,13 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
             ->bindInt(':expire', time())
             ->bindInt(':zero', 0);
 
-        $queryResult = $select->execute()
+        $statement = $select->execute();
+        $queryResult = $statement
             ->fetch();
+
+        // PDO sqlite requires to unlock cursor after partial fetch
+        $statement->closeCursor();
+
         $result = $queryResult ? $queryResult[$this->valueColumnName] : false;
 
         return $result;
@@ -192,7 +197,7 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
         $delete = $this->getPreparedDeleteById();
         $delete->bindString(':id', $key);
 
-        return count($delete->execute()) > 0;
+        return $delete->execute()->rowCount() > 0;
     }
 
     /**
@@ -200,9 +205,15 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
      */
     public function clear()
     {
-        return $this->getServer()
-            ->getDbDriver()
-            ->truncateTable($this->tableName);
+        $connection = $this
+            ->getServer()
+            ->getConnection();
+
+        return $connection->exec(
+            $connection
+                ->getDatabasePlatform()
+                ->getTruncateTableSQL($this->tableName)
+        ) > 0;
     }
 
     /**
@@ -219,7 +230,7 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
             ->bindInt(':expire', time())
             ->bindInt(':zero', 0)
             ->execute()
-            ->count() > 0;
+            ->rowCount() > 0;
     }
 
     /**
@@ -293,6 +304,7 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
             return $this->server = $this->getDbCluster()
                 ->getServer($this->options['serverId']);
         }
+        //todo! missing return
         $this->server = $this->getDbCluster()
             ->getMaster();
     }
@@ -395,7 +407,4 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
 
         return $this->preparedMultiSelect;
     }
-
 }
-
-

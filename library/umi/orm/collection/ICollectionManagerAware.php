@@ -20,4 +20,3 @@ interface ICollectionManagerAware
      */
     public function setCollectionManager(ICollectionManager $collectionManager);
 }
-

@@ -68,10 +68,10 @@ class CollectionDataSource implements ICollectionDataSource, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function getDbDriver()
+    public function getConnection()
     {
         return $this->getMasterServer()
-            ->getDbDriver();
+            ->getConnection();
     }
 
     /**
@@ -164,5 +164,4 @@ class CollectionDataSource implements ICollectionDataSource, ILocalizable
         return $this->getMasterServer()
             ->delete($this->sourceName);
     }
-
 }

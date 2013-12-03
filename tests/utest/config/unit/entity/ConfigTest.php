@@ -15,12 +15,12 @@ use umi\config\entity\value\ConfigValue;
 use umi\config\entity\value\IConfigValue;
 use umi\config\exception\InvalidArgumentException;
 use umi\config\exception\UnexpectedValueException;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
 /**
  * Тесты конфигурации.
  */
-class ConfigTest extends TestCase
+class ConfigTest extends ConfigTestCase
 {
     /**
      * @var IConfig $source

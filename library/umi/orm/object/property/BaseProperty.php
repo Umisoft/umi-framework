@@ -285,5 +285,4 @@ abstract class BaseProperty implements IProperty, ILocalizable, IFilterAware
 
         return $propertyValue;
     }
-
 }

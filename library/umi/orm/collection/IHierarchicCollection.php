@@ -83,7 +83,8 @@ interface IHierarchicCollection extends ICollection
     public function getHierarchyOrderField();
 
     /**
-     * Возвращает поле, которое используется у базового типа коллекции для хранения информации об уровне вложенности в иерархии
+     * Возвращает поле, которое используется у базового типа коллекции
+     * для хранения информации об уровне вложенности в иерархии
      * @throws NonexistentEntityException если такого поля не существует
      * @return IField
      */
@@ -109,5 +110,4 @@ interface IHierarchicCollection extends ICollection
      * @return IField
      */
     public function getURIField();
-
 }

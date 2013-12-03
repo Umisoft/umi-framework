@@ -9,11 +9,12 @@
 
 namespace utest\orm\func\selector;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
 use umi\orm\selector\ISelector;
 use umi\orm\selector\Selector;
-use utest\orm\mock\collections\users\Supervisor;
-use utest\orm\mock\collections\users\User;
+use utest\orm\mock\collections\Supervisor;
+use utest\orm\mock\collections\User;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -31,18 +32,26 @@ class SelectorTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return array(
-            self::USERS_USER,
-            self::USERS_GROUP
-        );
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ],
+                self::USERS_GROUP            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            true
+        ];
     }
 
     protected function setUpFixtures()
     {
 
-        $userCollection = $this->collectionManager->getCollection(self::USERS_USER);
+        $userCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
         /**
          * @var User $user1
          * @var User $user2
@@ -59,12 +68,12 @@ class SelectorTest extends ORMDbTestCase
         $sv1->setValue('height', 167);
         $sv1->setValue('rating', 5);
 
-        $user2 = $userCollection->add();;
+        $user2 = $userCollection->add();
         $user2->login = 'test_user';
         $user2->setValue('height', 183);
         $user2->setValue('rating', 4.2);
 
-        $user2 = $userCollection->add();;
+        $user2 = $userCollection->add();
         $user2->login = 'user_test';
         $user2->setValue('height', 181);
         $user2->setValue('rating', 7.2);
@@ -73,7 +82,7 @@ class SelectorTest extends ORMDbTestCase
         $sv2->login = 'admin';
         $sv2->setValue('height', 170);
 
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->selector = $userCollection->select();
 
@@ -278,7 +287,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             3,
             $result->fetchAll(),
-            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 вернет objectsSet из 3x объектов'
+            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 '
+            . 'вернет objectsSet из 3x объектов'
         );
     }
 
@@ -335,7 +345,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             2,
             $result->fetchAll(),
-            'Ожидается, что выборка c указанием supervisor_field is null вернет objectsSet из 2 объекта, так как поле supervisor_field присутствует только в типе supervisor'
+            'Ожидается, что выборка c указанием supervisor_field is null вернет objectsSet из 2 объекта, '
+            . 'так как поле supervisor_field присутствует только в типе supervisor'
         );
     }
 
@@ -346,7 +357,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             2,
             $result->fetchAll(),
-            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, так как поле supervisor_field присутствует только в типе supervisor'
+            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, '
+            . 'так как поле supervisor_field присутствует только в типе supervisor'
         );
     }
 
@@ -378,7 +390,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             3,
             $result->fetchAll(),
-            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 вернет objectsSet из 3x объектов'
+            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 '
+            . 'вернет objectsSet из 3x объектов'
         );
 
         $this->selector->where('height')
@@ -413,7 +426,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             2,
             $result->fetchAll(),
-            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, так как поле supervisor_field присутствует только в типе supervisor'
+            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, '
+            . 'так как поле supervisor_field присутствует только в типе supervisor'
         );
 
         $this->selector->types(['guest']);
@@ -464,20 +478,21 @@ class SelectorTest extends ORMDbTestCase
             'Ожидается, что всего 5 объектов удовлетворяют выборке, несмотря на лимит'
         );
 
-        $this->collectionManager->getCollection(self::USERS_USER)
+        $this->getCollectionManager()->getCollection(self::USERS_USER)
             ->add();
-        $this->objectPersister->commit();
+        $this->getObjectPersister()->commit();
 
         $this->assertEquals(
-            5,
+            6,
             $this->selector->getTotal(),
-            'Ожидается, что общее количество закешировалось несмотря на то, что были добавлены новые объекты'
+            'Ожидается, что общее количество обновилось, если были добавлены новые объекты'
         );
 
     }
 
     public function _testSelector()
     {
+        //todo remove?
         /**
          * @var ISelector $selector
          */
@@ -515,5 +530,4 @@ class SelectorTest extends ORMDbTestCase
 EOF;
 
     }
-
 }

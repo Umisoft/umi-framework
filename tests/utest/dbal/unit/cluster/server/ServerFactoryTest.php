@@ -9,10 +9,10 @@
 
 namespace utest\dbal\unit\cluster\server;
 
-use umi\dbal\driver\sqlite\SqliteDriver;
-use umi\dbal\toolbox\factory\QueryBuilderFactory;
+use Doctrine\DBAL\DriverManager;
+use umi\dbal\driver\dialect\SqliteDialect;
 use umi\dbal\toolbox\factory\ServerFactory;
-use umi\dbal\toolbox\factory\TableFactory;
+use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
 /**
@@ -26,22 +26,16 @@ class ServerFactoryTest extends DbalTestCase
     {
 
         $queryBuilderFactory = new QueryBuilderFactory();
-        $this->resolveOptionalDependencies($queryBuilderFactory);
-
         $serverFactory = new ServerFactory($queryBuilderFactory);
+
+        $this->resolveOptionalDependencies($queryBuilderFactory);
         $this->resolveOptionalDependencies($serverFactory);
 
-        $sqliteTableFactory = new TableFactory();
-        $sqliteTableFactory->columnSchemeClass = 'umi\dbal\driver\ColumnScheme';
-        $sqliteTableFactory->constraintSchemeClass = 'umi\dbal\driver\ConstraintScheme';
-        $sqliteTableFactory->tableSchemeClass = 'umi\dbal\driver\sqlite\SqliteTable';
-        $sqliteTableFactory->indexSchemeClass = 'umi\dbal\driver\sqlite\SqliteIndex';
-
-        $driver = new SqliteDriver($sqliteTableFactory);
+        $driver = DriverManager::getConnection(['driver' => 'pdo_sqlite']);
 
         $e = null;
         try {
-            $serverFactory->create('wrongType', $driver, 'wrongType');
+            $serverFactory->create('wrongType', $driver, new SqliteDialect(), 'wrongType');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -52,22 +46,22 @@ class ServerFactoryTest extends DbalTestCase
 
         $this->assertInstanceOf(
             'umi\dbal\cluster\server\IMasterServer',
-            $serverFactory->create('sqlite', $driver),
+            $serverFactory->create('sqlite', $driver, new SqliteDialect()),
             'Ожидается, что IServerFactory::create() по умолчанию вернет IMasterServer'
         );
         $this->assertInstanceOf(
             'umi\dbal\cluster\server\IMasterServer',
-            $serverFactory->create('sqlite', $driver, 'master'),
+            $serverFactory->create('sqlite', $driver, new SqliteDialect(), 'master'),
             'Ожидается, что IServerFactory::create() вернет сервер заданного типа'
         );
         $this->assertInstanceOf(
             'umi\dbal\cluster\server\ISlaveServer',
-            $serverFactory->create('sqlite', $driver, 'slave'),
+            $serverFactory->create('sqlite', $driver, new SqliteDialect(), 'slave'),
             'Ожидается, что IServerFactory::create() вернет сервер заданного типа'
         );
         $this->assertInstanceOf(
             'umi\dbal\cluster\server\IShardServer',
-            $serverFactory->create('sqlite', $driver, 'shard'),
+            $serverFactory->create('sqlite', $driver, new SqliteDialect(), 'shard'),
             'Ожидается, что IServerFactory::create() вернет сервер заданного типа'
         );
     }

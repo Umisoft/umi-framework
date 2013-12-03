@@ -12,6 +12,7 @@ namespace umi\orm\collection;
 use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\builder\IUpdateBuilder;
+use umi\dbal\builder\SelectBuilder;
 use umi\orm\exception\NotAllowedOperationException;
 use umi\orm\exception\RuntimeException;
 use umi\orm\metadata\field\relation\BelongsToRelationField;
@@ -127,30 +128,39 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
             ));
         }
 
-        $dataSource = $this->getMetadata()
+        $dataSource = $this
+            ->getMetadata()
             ->getCollectionDataSource();
         $orderField = $this->getHierarchyOrderField();
         $parentField = $this->getParentField();
+
+        $platform = $dataSource->getConnection()->getDatabasePlatform();
 
         /**
          * @var ISelectBuilder $select
          */
         $select = $dataSource
             ->select(':' . $orderField->getName() . ' as ' . $orderField->getName())
-            ->bindExpression(':' . $orderField->getName(), 'MAX(`' . $orderField->getColumnName() . '`)');
+            ->bindExpression(
+                ':' . $orderField->getName(),
+                'MAX(' . $platform->quoteIdentifier($orderField->getColumnName()) . ')'
+            );
 
         if ($branch) {
-            $select->where()
+            $select
+                ->where()
                 ->expr($parentField->getColumnName(), '=', ':' . $parentField->getName())
                 ->bindValue(':' . $parentField->getName(), $branch->getId(), $parentField->getDataType());
         } else {
-            $select->where()
+            $select
+                ->where()
                 ->expr($parentField->getColumnName(), 'IS', ':' . $parentField->getName())
                 ->bindNull(':' . $parentField->getName());
         }
 
-        return (int) $select->execute()
-            ->fetchVal();
+        return (int) $select
+            ->execute()
+            ->fetchColumn();
 
     }
 
@@ -164,7 +174,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
     )
     {
 
-        if (!$this->getObjectPersister()
+        if (!$this
+            ->getObjectPersister()
             ->getIsPersisted()
         ) {
             throw new RuntimeException($this->translate(
@@ -188,12 +199,13 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
             /**
              * @var BelongsToRelationField $parentField
              */
-            $parentField = $object->getProperty(IHierarchicObject::FIELD_PARENT)
+            $parentField = $object
+                ->getProperty(IHierarchicObject::FIELD_PARENT)
                 ->getField();
             $parentTargetCollectionName = $parentField->getTargetCollectionName();
 
-            if ($this->getName() != $parentTargetCollectionName && $branch->getCollectionName(
-                ) != $parentTargetCollectionName
+            if ($this->getName() != $parentTargetCollectionName
+                && $branch->getCollectionName() != $parentTargetCollectionName
             ) {
                 throw new RuntimeException($this->translate(
                     'Cannot move object. Branch collection does not match object parent collection.'
@@ -235,7 +247,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
     public function changeSlug(IHierarchicObject $object, $slug)
     {
 
-        if (!$this->getObjectPersister()
+        if (!$this
+            ->getObjectPersister()
             ->getIsPersisted()
         ) {
             throw new RuntimeException($this->translate(
@@ -264,7 +277,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         array_pop($ids);
 
         $selector = $this->select();
-        $selector->where(IHierarchicObject::FIELD_IDENTIFY)
+        $selector
+            ->where(IHierarchicObject::FIELD_IDENTIFY)
             ->in($ids);
 
         return $selector;
@@ -276,7 +290,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
      */
     protected function resetObjects()
     {
-        $objects = $this->getObjectManager()
+        $objects = $this
+            ->getObjectManager()
             ->getObjects();
         foreach ($objects as $object) {
             if ($this->contains($object)) {
@@ -298,49 +313,55 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         IHierarchicObject $previousSibling = null
     )
     {
-        $affectedDriver = $this->getMetadata()
+        $affectedDriver = $this
+            ->getMetadata()
             ->getCollectionDataSource()
             ->getMasterServer()
-            ->getDbDriver();
+            ->getConnection();
 
-        $this->getObjectPersister()
+        $this
+            ->getObjectPersister()
             ->executeTransaction(
-            function () use ($object, $branch, $previousSibling) {
+                function () use ($object, $branch, $previousSibling) {
 
-                $this->checkIfMovePossible($object, $this, $branch);
+                    $this->checkIfMovePossible($object, $this, $branch);
 
-                $order = $previousSibling ? $previousSibling->getOrder() + 1 : 1;
+                    $order = $previousSibling ? $previousSibling->getOrder() + 1 : 1;
 
-                /**
-                 * @var IUpdateBuilder[] $builders
-                 */
-                $builders = [
-                    $this->buildUpdateOrderQueryForMovedObject($object, $this, $order),
-                    $this->buildUpdateOrderQueryForSiblings($object, $this, $order, $branch)
-                ];
+                    /**
+                     * @var IUpdateBuilder[] $builders
+                     */
+                    $builders = [
+                        $this->buildUpdateOrderQueryForMovedObject($object, $this, $order),
+                        $this->buildUpdateOrderQueryForSiblings($object, $this, $order, $branch)
+                    ];
 
-                if ($object->getParent() !== $branch) {
-                    if (null != ($parent = $object->getParent())) {
-                        $builders[] = $this->buildUpdateChildCountQuery($parent, $this, -1);
+                    if ($object->getParent() !== $branch) {
+                        if (null != ($parent = $object->getParent())) {
+                            $builders[] = $this->buildUpdateChildCountQuery($parent, $this, -1);
+                        }
+                        if ($branch) {
+                            $builders[] = $this->buildUpdateChildCountQuery($branch, $this, 1);
+                        }
+                        $builders[] = $this->buildUpdateHierarchicPropertiesQueryForMovedObject(
+                            $object,
+                            $this,
+                            $branch
+                        );
+                        $builders[] = $this->buildUpdateHierarchicPropertiesQueryForMovedObjectChildren(
+                            $object,
+                            $this,
+                            $branch
+                        );
                     }
-                    if ($branch) {
-                        $builders[] = $this->buildUpdateChildCountQuery($branch, $this, 1);
+
+                    foreach ($builders as $builder) {
+                        $builder->execute();
                     }
-                    $builders[] = $this->buildUpdateHierarchicPropertiesQueryForMovedObject($object, $this, $branch);
-                    $builders[] = $this->buildUpdateHierarchicPropertiesQueryForMovedObjectChildren(
-                        $object,
-                        $this,
-                        $branch
-                    );
-                }
 
-                foreach ($builders as $builder) {
-                    $builder->execute();
-                }
-
-            },
-            [$affectedDriver]
-        );
+                },
+                [$affectedDriver]
+            );
     }
 
     /**
@@ -352,22 +373,25 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
     protected function persistChangedSlug(IHierarchicObject $object, $newSlug)
     {
 
-        $affectedDriver = $this->getMetadata()
+        $affectedDriver = $this
+            ->getMetadata()
             ->getCollectionDataSource()
             ->getMasterServer()
-            ->getDbDriver();
+            ->getConnection();
 
-        $this->getObjectPersister()
+        $this
+            ->getObjectPersister()
             ->executeTransaction(
-            function () use ($object, $newSlug) {
+                function () use ($object, $newSlug) {
 
-                $this->checkIfChangeSlugPossible($object, $this, $newSlug);
-                $this->buildUpdateUrlQuery($object, $this, $newSlug)
-                    ->execute();
+                    $this->checkIfChangeSlugPossible($object, $this, $newSlug);
+                    $this
+                        ->buildUpdateUrlQuery($object, $this, $newSlug)
+                        ->execute();
 
-            },
-            [$affectedDriver]
-        );
+                },
+                [$affectedDriver]
+            );
     }
 
     /**
@@ -384,7 +408,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
     )
     {
 
-        $dataSource = $collection->getMetadata()
+        $dataSource = $collection
+            ->getMetadata()
             ->getCollectionDataSource();
         $idField = $collection->getIdentifyField();
         $parentField = $collection->getParentField();
@@ -403,8 +428,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
             ->set($urlField->getColumnName())
             ->bindValue(':' . $urlField->getColumnName(), $newParentUrl . $object->getSlug(), $urlField->getDataType());
 
-        $newMpathStart = $newParent ? $newParent->getMaterializedPath(
-            ) . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
+        $newMpathStart = $newParent ? $newParent->getMaterializedPath()
+            . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
         $update
             ->set($mpathField->getColumnName())
             ->bindValue(
@@ -426,15 +451,17 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         $branchLevel = $newParent ? $newParent->getLevel() : -1;
         $levelDelta = $branchLevel - $object->getLevel() + 1;
         if ($levelDelta) {
-            $changingLevelExpression = $update->getDbDriver()
-                    ->sanitizeColumnName($levelField->getColumnName()) . ' + (' . $levelDelta . ')';
+            $changingLevelExpression = $update
+                    ->getConnection()
+                    ->quoteIdentifier($levelField->getColumnName()) . ' + (' . $levelDelta . ')';
             $update
                 ->set($levelField->getColumnName())
                 ->bindExpression(':' . $levelField->getColumnName(), $changingLevelExpression);
         }
 
-        $incrementVersionExpression = $update->getDbDriver()
-                ->sanitizeColumnName($versionField->getColumnName()) . ' + 1';
+        $incrementVersionExpression = $update
+                ->getConnection()
+                ->quoteIdentifier($versionField->getColumnName()) . ' + 1';
         $update
             ->set($versionField->getColumnName())
             ->bindExpression(':' . $versionField->getColumnName(), $incrementVersionExpression);
@@ -451,7 +478,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
      * Возвращает запрос на изменения материализованного пути и уровня вложенности.
      * @param IHierarchicObject $object объект-инициатор перемещения
      * @param IHierarchicCollection $collection коллекция, в которой происходит перемещение
-     * @param IHierarchicObject|null $branch ветка, в которую происходит перемещение, null, если перемещение происходит в корень
+     * @param IHierarchicObject|null $branch ветка, в которую происходит перемещение, null,
+     * если перемещение происходит в корень
      * @return IUpdateBuilder
      */
     protected function buildUpdateHierarchicPropertiesQueryForMovedObjectChildren(
@@ -468,47 +496,45 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         $levelField = $collection->getHierarchyLevelField();
         $urlField = $collection->getURIField();
 
-        $dataSource = $collection->getMetadata()
+        $dataSource = $collection
+            ->getMetadata()
             ->getCollectionDataSource();
 
         /**
          * @var $update IUpdateBuilder
          */
         $update = $dataSource->update();
-        $driver = $update->getDbDriver();
+        $driver = $update->getConnection();
 
         $branchLevel = $branch ? $branch->getLevel() : -1;
         $levelDelta = $branchLevel - $object->getLevel() + 1;
         if ($levelDelta) {
-            $changingLevelExpression = $driver->sanitizeColumnName(
-                    $levelField->getColumnName()
-                ) . ' + (' . $levelDelta . ')';
+            $changingLevelExpression = $driver->quoteIdentifier($levelField->getColumnName())
+                . ' + (' . $levelDelta . ')';
             $update
                 ->set($levelField->getColumnName())
                 ->bindExpression(':' . $levelField->getColumnName(), $changingLevelExpression);
         }
 
-        $incrementVersionExpression = $driver->sanitizeColumnName($versionField->getColumnName()) . ' + 1';
+        $incrementVersionExpression = $driver->quoteIdentifier($versionField->getColumnName()) . ' + 1';
         $update
             ->set($versionField->getColumnName())
             ->bindExpression(':' . $versionField->getColumnName(), $incrementVersionExpression);
 
-        $branchMpath = $branch ? $branch->getMaterializedPath(
-            ) . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
-        $objectParentMpath = $parent ? $parent->getMaterializedPath(
-            ) . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
-        $changingMpathExpression = 'REPLACE(' . $driver->sanitizeColumnName(
-                $mpathField->getColumnName()
-            ) . ', ' . $driver->quote($objectParentMpath) . ', ' . $driver->quote($branchMpath) . ')';
+        $branchMpath = $branch ? $branch->getMaterializedPath()
+            . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
+        $objectParentMpath = $parent ? $parent->getMaterializedPath()
+            . MaterializedPathField::MPATH_SEPARATOR : MaterializedPathField::MPATH_START_SYMBOL;
+        $changingMpathExpression = 'REPLACE(' . $driver->quoteIdentifier($mpathField->getColumnName())
+            . ', ' . $driver->quote($objectParentMpath) . ', ' . $driver->quote($branchMpath) . ')';
         $update
             ->set($mpathField->getColumnName())
             ->bindExpression(':' . $mpathField->getColumnName(), $changingMpathExpression);
 
         $objectParentUrl = $parent ? $parent->getURI() . '/' : '//';
         $branchUrl = $branch ? $branch->getURI() . '/' : '//';
-        $changingUrlExpression = 'REPLACE(' . $driver->sanitizeColumnName(
-                $urlField->getColumnName()
-            ) . ', ' . $driver->quote($objectParentUrl) . ', ' . $driver->quote($branchUrl) . ')';
+        $changingUrlExpression = 'REPLACE(' . $driver->quoteIdentifier($urlField->getColumnName())
+            . ', ' . $driver->quote($objectParentUrl) . ', ' . $driver->quote($branchUrl) . ')';
         $update
             ->set($urlField->getColumnName())
             ->bindExpression(':' . $urlField->getColumnName(), $changingUrlExpression);
@@ -540,7 +566,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
     )
     {
 
-        $dataSource = $collection->getMetadata()
+        $dataSource = $collection
+            ->getMetadata()
             ->getCollectionDataSource();
         $childCountField = $collection->getHierarchyChildCountField();
         $idField = $collection->getIdentifyField();
@@ -550,8 +577,9 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
          */
         $update = $dataSource->update();
 
-        $modifierExpression = $update->getDbDriver()
-                ->sanitizeColumnName($childCountField->getColumnName()) . ' + (' . $childCountModifier . ')';
+        $modifierExpression = $update
+                ->getConnection()
+                ->quoteIdentifier($childCountField->getColumnName()) . ' + (' . $childCountModifier . ')';
         $update
             ->set($childCountField->getColumnName())
             ->bindExpression(':' . $childCountField->getColumnName(), $modifierExpression);
@@ -582,7 +610,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         $orderField = $collection->getHierarchyOrderField();
         $idField = $collection->getIdentifyField();
         $versionField = $collection->getVersionField();
-        $dataSource = $collection->getMetadata()
+        $dataSource = $collection
+            ->getMetadata()
             ->getCollectionDataSource();
 
         /**
@@ -590,8 +619,9 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
          */
         $update = $dataSource->update();
 
-        $incrementVersionExpression = $update->getDbDriver()
-                ->sanitizeColumnName($versionField->getColumnName()) . ' + 1';
+        $incrementVersionExpression = $update
+                ->getConnection()
+                ->quoteIdentifier($versionField->getColumnName()) . ' + 1';
 
         $update
             ->set($orderField->getColumnName())
@@ -629,7 +659,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         $parentField = $collection->getParentField();
         $versionField = $collection->getVersionField();
 
-        $dataSource = $collection->getMetadata()
+        $dataSource = $collection
+            ->getMetadata()
             ->getCollectionDataSource();
 
         /**
@@ -637,10 +668,12 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
          */
         $update = $dataSource->update();
 
-        $incrementOrderExpression = $update->getDbDriver()
-                ->sanitizeColumnName($orderField->getColumnName()) . ' + 1';
-        $incrementVersionExpression = $update->getDbDriver()
-                ->sanitizeColumnName($versionField->getColumnName()) . ' + 1';
+        $incrementOrderExpression = $update
+                ->getConnection()
+                ->quoteIdentifier($orderField->getColumnName()) . ' + 1';
+        $incrementVersionExpression = $update
+                ->getConnection()
+                ->quoteIdentifier($versionField->getColumnName()) . ' + 1';
 
         $update
             ->set($orderField->getColumnName())
@@ -691,7 +724,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
 
         $versionField = $collection->getVersionField();
         $urlField = $collection->getURIField();
-        $dataSource = $collection->getMetadata()
+        $dataSource = $collection
+            ->getMetadata()
             ->getCollectionDataSource();
 
         /**
@@ -699,12 +733,11 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
          */
         $update = $dataSource->update();
 
-        $driver = $update->getDbDriver();
+        $driver = $update->getConnection();
 
-        $changingUrlExpression = 'REPLACE(' . $driver->sanitizeColumnName(
-                $urlField->getColumnName()
-            ) . ', ' . $driver->quote($objectUrl) . ', ' . $driver->quote($newUrl) . ')';
-        $incrementVersionExpression = $driver->sanitizeColumnName($versionField->getColumnName()) . ' + 1';
+        $changingUrlExpression = 'REPLACE(' . $driver->quoteIdentifier($urlField->getColumnName()) . ', '
+            . $driver->quote($objectUrl) . ', ' . $driver->quote($newUrl) . ')';
+        $incrementVersionExpression = $driver->quoteIdentifier($versionField->getColumnName()) . ' + 1';
 
         $update
             ->set($versionField->getColumnName())
@@ -747,19 +780,22 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         $idField = $collection->getIdentifyField();
         $urlField = $collection->getURIField();
 
-        $dataSource = $collection->getMetadata()
+        $dataSource = $collection
+            ->getMetadata()
             ->getCollectionDataSource();
 
-        $selectBuilder = $dataSource->select($idField->getColumnName())
+        $selectBuilder = $dataSource
+            ->select($idField->getColumnName())
             ->where()
             ->expr($idField->getColumnName(), '=', ':' . $idField->getName())
             ->expr($versionField->getColumnName(), '=', ':' . $versionField->getName());
 
-        $objectFound = $selectBuilder
+        $selectBuilder
             ->bindValue(':' . $idField->getName(), $object->getId(), $idField->getDataType())
             ->bindValue(':' . $versionField->getName(), $object->getVersion(), $versionField->getDataType())
-            ->execute()
-            ->countRows();
+            ->execute();
+
+        $objectFound = $selectBuilder->getTotal();
 
         if ($objectFound != 1) {
             throw new RuntimeException($this->translate(
@@ -769,11 +805,11 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         }
 
         if ($branch) {
-            $branchFound = $selectBuilder
+             $selectBuilder
                 ->bindValue(':' . $idField->getName(), $branch->getId(), $idField->getDataType())
                 ->bindValue(':' . $versionField->getName(), $branch->getVersion(), $versionField->getDataType())
-                ->execute()
-                ->countRows();
+                ->execute();
+            $branchFound = $selectBuilder->getTotal();
 
             if ($branchFound != 1) {
                 throw new RuntimeException($this->translate(
@@ -784,17 +820,17 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         }
         if ($object->getParent() !== $branch) {
 
-            $selectBuilder = $dataSource->select($idField->getColumnName())
+            $selectBuilder = $dataSource
+                ->select($idField->getColumnName())
                 ->where()
                 ->expr($urlField->getColumnName(), '=', ':' . $urlField->getName());
 
             $baseUrl = $branch ? $branch->getURI() . '/' : '//';
-            $slugConflict = $selectBuilder
+            $selectBuilder
                 ->bindValue(':' . $idField->getName(), $object->getId(), $idField->getDataType())
                 ->bindValue(':' . $urlField->getName(), $baseUrl . $object->getSlug(), $urlField->getDataType())
-                ->execute()
-                ->countRows();
-
+                ->execute();
+            $slugConflict = $selectBuilder->getTotal();
             if ($slugConflict) {
                 throw new RuntimeException($this->translate(
                     'Cannot move object with id "{id}". Slug {slug} is not unique.',
@@ -821,7 +857,9 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         $idField = $collection->getIdentifyField();
         $urlField = $collection->getURIField();
 
-        $selectBuilder = $collection->getMetadata()
+        /** @var $selectBuilder SelectBuilder */
+        $selectBuilder = $collection
+            ->getMetadata()
             ->getCollectionDataSource()
             ->select($idField->getColumnName())
             ->where()
@@ -830,8 +868,7 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
             ->bindValue(':' . $idField->getName(), $object->getId(), $idField->getDataType())
             ->bindValue(':' . $versionField->getName(), $object->getVersion(), $versionField->getDataType());
 
-        $objectFound = $selectBuilder->execute()
-            ->countRows();
+        $objectFound = $selectBuilder->getTotal();
 
         if ($objectFound != 1) {
             throw new RuntimeException($this->translate(
@@ -843,7 +880,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
         $parent = $object->getParent();
         $newUrl = $parent ? $parent->getURI() . '/' . $newSlug : '//' . $newSlug;
 
-        $selectBuilder = $collection->getMetadata()
+        $selectBuilder = $collection
+            ->getMetadata()
             ->getCollectionDataSource()
             ->select($idField->getColumnName())
             ->where()
@@ -852,8 +890,8 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
             ->bindValue(':' . $idField->getName(), $object->getId(), $idField->getDataType())
             ->bindValue(':' . $urlField->getName(), $newUrl, $urlField->getDataType());
 
-        $slugConflict = $selectBuilder->execute()
-            ->countRows();
+        $selectBuilder->execute();
+        $slugConflict = $selectBuilder->getTotal();
 
         if ($slugConflict) {
             throw new RuntimeException($this->translate(
@@ -861,8 +899,6 @@ abstract class BaseHierarchicCollection extends BaseCollection implements IHiera
                 ['id' => $object->getId(), 'slug' => $newSlug]
             ));
         }
-
         return $this;
     }
-
 }

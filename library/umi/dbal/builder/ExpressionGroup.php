@@ -1,4 +1,5 @@
 <?php
+
 /**
  * UMI.Framework (http://umi-framework.ru/)
  *
@@ -96,5 +97,4 @@ class ExpressionGroup implements IExpressionGroup
     {
         return $this->groups;
     }
-
 }

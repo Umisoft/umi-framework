@@ -9,6 +9,7 @@
 
 namespace utest\orm\func\collection\simplehierarchic;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\SimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
 use utest\orm\ORMDbTestCase;
@@ -19,9 +20,25 @@ class SimpleHierarchicCollectionTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::SYSTEM_MENU            => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE_HIERARCHIC
+                ]
+            ],
+            false
+        ];
     }
 
     public function testMethods()
@@ -30,7 +47,7 @@ class SimpleHierarchicCollectionTest extends ORMDbTestCase
         /**
          * @var SimpleHierarchicCollection $collection
          */
-        $collection = $this->collectionManager->getCollection(self::SYSTEM_MENU);
+        $collection = $this->getCollectionManager()->getCollection(self::SYSTEM_MENU);
 
         $object = $collection->add('menuItem1');
         $this->assertInstanceOf(
@@ -67,7 +84,7 @@ class SimpleHierarchicCollectionTest extends ORMDbTestCase
             'Ожидается, что нельзя добавить объект несуществующего типа'
         );
 
-        $wrongObject = $this->collectionManager->getCollection(self::BLOGS_BLOG)
+        $wrongObject = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG)
             ->add('blog1');
 
         $this->assertTrue($collection->contains($object), 'Ожидается, что коллекция содержит созданный в ней объект');
@@ -110,5 +127,4 @@ class SimpleHierarchicCollectionTest extends ORMDbTestCase
         );
 
     }
-
 }

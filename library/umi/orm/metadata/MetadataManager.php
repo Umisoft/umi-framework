@@ -34,7 +34,8 @@ class MetadataManager implements IMetadataManager, ILocalizable
      */
     protected $metadataFactory;
     /**
-     * @var IMetadata[] $metadataInstances список созданных экземпляров metadata: массив вида array(collectionName => IMetadata, ...)
+     * @var IMetadata[] $metadataInstances список созданных экземпляров metadata:
+     * массив вида array(collectionName => IMetadata, ...)
      */
     protected $metadataInstances = [];
 
@@ -89,5 +90,4 @@ class MetadataManager implements IMetadataManager, ILocalizable
     {
         return array_key_exists($collectionName, $this->metadata);
     }
-
 }

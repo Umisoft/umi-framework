@@ -66,5 +66,4 @@ class UriField extends BaseField implements IScalarField, ICalculableField
             return '//' . $object->getSlug();
         }
     }
-
 }

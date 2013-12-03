@@ -68,7 +68,5 @@ class LevelField extends BaseField implements IScalarField, ICalculableField
         $mpath = $mpathField->calculateDBValue($object);
 
         return substr_count($mpath, MaterializedPathField::MPATH_SEPARATOR);
-
     }
-
 }

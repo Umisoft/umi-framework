@@ -49,5 +49,4 @@ interface IMetadataFactory
      * @return IField
      */
     public function createField($fieldName, array $config);
-
 }

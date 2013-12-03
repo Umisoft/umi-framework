@@ -25,5 +25,4 @@ interface ILocalizedProperty extends IProperty
      * @return null|string null, если свойство не локализовано либо не имеет локалей
      */
     public function getLocaleId();
-
 }

@@ -9,10 +9,10 @@
 
 namespace utest\cache\unit;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Types\Type;
 use umi\cache\Cache;
 use umi\cache\engine\Db;
-use umi\dbal\cluster\IConnection;
-use umi\dbal\driver\IColumnScheme;
 use utest\cache\CacheTestCase;
 use utest\cache\mock\CacheTestFixture;
 use utest\cache\mock\Component;
@@ -25,7 +25,7 @@ class CacheTest extends CacheTestCase
 
     private $tableName = 'test_cache';
     /**
-     * @var IConnection
+     * @var Connection
      */
     private $connection;
     /**
@@ -41,7 +41,7 @@ class CacheTest extends CacheTestCase
     protected function setUpFixtures()
     {
 
-        $this->connection = $this->getDbServer();
+        $this->connection = $this->getDbServer()->getConnection();
 
         $options = [
             'table'    => [
@@ -50,26 +50,13 @@ class CacheTest extends CacheTestCase
                 'valueColumnName'  => 'cacheValue',
                 'expireColumnName' => 'cacheExpiration'
             ],
-            'serverId' => $this->connection->getId()
+            'serverId' => $this->getDbServer()->getId()
         ];
 
         $this->storage = new Db($options);
         $this->resolveOptionalDependencies($this->storage);
 
-        $driver = $this->connection->getDbDriver();
-        $table = $driver->addTable($this->tableName);
-        $table->addColumn('key', IColumnScheme::TYPE_VARCHAR, [IColumnScheme::OPTION_COMMENT => 'Cache unique key']);
-        $table->addColumn('cacheValue', IColumnScheme::TYPE_BLOB, [IColumnScheme::OPTION_COMMENT => 'Cache value']);
-        $table->addColumn(
-            'cacheExpiration',
-            IColumnScheme::TYPE_INT,
-            [IColumnScheme::OPTION_COMMENT => 'Cache expire timestamp', IColumnScheme::OPTION_UNSIGNED => true]
-        );
-
-        $table->setPrimaryKey('key');
-        $table->addIndex('expire')
-            ->addColumn('cacheExpiration');
-        $driver->applyMigrations();
+        $this->setupDatabase($this->tableName);
 
         $this->cache = new Cache($this->storage);
 
@@ -77,7 +64,7 @@ class CacheTest extends CacheTestCase
 
     protected function tearDownFixtures()
     {
-        $this->connection->getDbDriver()
+        $this->connection->getSchemaManager()
             ->dropTable($this->tableName);
     }
 
@@ -219,6 +206,4 @@ class CacheTest extends CacheTestCase
         );
 
     }
-
 }
-

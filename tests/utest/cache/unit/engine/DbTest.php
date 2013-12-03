@@ -9,8 +9,8 @@
 
 namespace utest\cache\unit\engine;
 
+use Doctrine\DBAL\Types\Type;
 use umi\cache\engine\Db;
-use umi\dbal\driver\IColumnScheme;
 use utest\cache\CacheTestCase;
 
 /**
@@ -27,7 +27,6 @@ class DbTest extends CacheTestCase
 
     protected function setUpFixtures()
     {
-
         $server = $this->getDbServer();
         $options = [
             'table'    => [
@@ -39,36 +38,23 @@ class DbTest extends CacheTestCase
             'serverId' => $server->getId()
         ];
 
-        $driver = $server->getDbDriver();
-        $table = $driver->addTable($this->tableName);
-        $table->addColumn('key', IColumnScheme::TYPE_VARCHAR, [IColumnScheme::OPTION_COMMENT => 'Cache unique key']);
-        $table->addColumn('cacheValue', IColumnScheme::TYPE_BLOB, [IColumnScheme::OPTION_COMMENT => 'Cache value']);
-        $table->addColumn(
-            'cacheExpiration',
-            IColumnScheme::TYPE_INT,
-            [IColumnScheme::OPTION_COMMENT => 'Cache expire timestamp', IColumnScheme::OPTION_UNSIGNED => true]
-        );
-
-        $table->setPrimaryKey('key');
-        $table->addIndex('expire')
-            ->addColumn('cacheExpiration');
-        $driver->applyMigrations();
+        $this->setupDatabase($this->tableName);
 
         $this->storage = new Db($options);
         $this->resolveOptionalDependencies($this->storage);
-
     }
 
     protected function tearDownFixtures()
     {
-        $this->getDbServer()
-            ->getDbDriver()
+        $this
+            ->getDbServer()
+            ->getConnection()
+            ->getSchemaManager()
             ->dropTable($this->tableName);
     }
 
     public function testStorage()
     {
-
         $this->assertFalse($this->storage->get('testKey'), 'Значение уже есть в кеше');
 
         $this->assertTrue($this->storage->set('testKey', 'testValue', 1), 'Не удалось сохранить значение в кеш');
@@ -87,7 +73,8 @@ class DbTest extends CacheTestCase
         $this->assertTrue($this->storage->add('newTestKey', 'testValue', 1), 'Не удалось добавить значение в кеш');
         $this->assertEquals('testValue', $this->storage->get('newTestKey'), 'В кеш добавилось неверное значение');
 
-        $update = $this->getDbServer()
+        $update = $this
+            ->getDbServer()
             ->update('test_cache_storage');
         $update
             ->set('cacheExpiration', ':expire')
@@ -108,14 +95,15 @@ class DbTest extends CacheTestCase
         $this->storage->set('testKey2', 'testValue2');
         $this->storage->set('testKey3', 'testValue3', 1);
 
-        $update = $this->getDbServer()
+        $update = $this
+            ->getDbServer()
             ->update('test_cache_storage');
         $update
             ->set('cacheExpiration', ':expire')
             ->where()
             ->expr('key', '=', ':id');
         $update
-            ->bindInt(':expire', time() - 1000)
+            ->bindInt(':expire', time() - 5000)
             ->bindString(':id', 'testKey3');
         $update->execute();
 
@@ -138,5 +126,4 @@ class DbTest extends CacheTestCase
             'Неверное значение для массива ключей после очистки кеша'
         );
     }
-
 }

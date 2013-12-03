@@ -15,21 +15,33 @@ use umi\orm\collection\ICollectionFactory;
 use umi\orm\toolbox\factory\CollectionFactory;
 use umi\orm\toolbox\factory\ObjectSetFactory;
 use umi\orm\toolbox\factory\SelectorFactory;
-use utest\orm\ORMTestCase;
+use utest\orm\ORMDbTestCase;
 
 /**
  * Тесты для ObjectManager
  */
-class CollectionManagerTest extends ORMTestCase
+class CollectionManagerTest extends ORMDbTestCase
 {
 
+    /**
+     * {@inheritdoc}
+     */
+    protected function getCollectionConfig()
+    {
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            $this->collections,
+            false
+        ];
+    }
+
     private $collections = [
-        'users_user'    => [
+        self::USERS_USER    => [
             'type'  => ICollectionFactory::TYPE_SIMPLE,
-            'class' => 'utest\orm\mock\collections\users\UsersCollection'
+            'class' => 'utest\orm\mock\collections\UsersCollection'
         ],
-        'users_group'   => ['type' => ICollectionFactory::TYPE_SIMPLE],
-        'users_profile' => ''
+        self::USERS_GROUP  => ['type' => ICollectionFactory::TYPE_SIMPLE],
+        self::USERS_PROFILE => ''
     ];
 
     public function testConfigCollections()
@@ -127,5 +139,4 @@ class CollectionManagerTest extends ORMTestCase
         );
 
     }
-
 }

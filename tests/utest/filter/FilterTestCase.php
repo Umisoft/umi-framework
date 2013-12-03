@@ -15,14 +15,13 @@ use utest\TestCase;
  */
 abstract class FilterTestCase extends TestCase
 {
+    use TFilterSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/filter/toolbox/config.php')
-        );
+        $this->registerFilterTools();
 
         parent::setUp();
     }

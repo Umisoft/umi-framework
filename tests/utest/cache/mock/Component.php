@@ -22,4 +22,3 @@ class Component
         return 'something';
     }
 }
- 

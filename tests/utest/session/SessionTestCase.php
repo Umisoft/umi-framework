@@ -9,6 +9,7 @@
 
 namespace utest\session;
 
+use utest\http\THttpSupport;
 use utest\TestCase;
 
 /**
@@ -16,15 +17,15 @@ use utest\TestCase;
  */
 abstract class SessionTestCase extends TestCase
 {
+    use TSessionSupport;
+    use THttpSupport;
     /**
      * {@inheritdoc}
      */
     public function setUp()
     {
-        $this->getTestToolkit()->registerToolboxes([
-            require(LIBRARY_PATH . '/http/toolbox/config.php'),
-            require(LIBRARY_PATH . '/session/toolbox/config.php')
-        ]);
+        $this->registerHttpTools();
+        $this->registerSessionTools();
 
         @session_destroy();
 
@@ -41,6 +42,6 @@ abstract class SessionTestCase extends TestCase
         ini_restore('session.use_cookies');
         ini_restore('session.cache_limiter');
 
-        parent::setUp();
+        parent::tearDown();
     }
 }

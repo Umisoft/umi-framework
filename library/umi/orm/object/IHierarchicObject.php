@@ -91,5 +91,4 @@ interface IHierarchicObject extends IObject
      * @return string
      */
     public function getSlug();
-
 }

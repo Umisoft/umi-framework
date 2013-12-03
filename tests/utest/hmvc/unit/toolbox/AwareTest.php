@@ -10,18 +10,19 @@
 namespace utest\hmvc\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\hmvc\THMVCSupport;
 
 /**
  * Class AwareTest
  */
 class AwareTest extends AwareTestCase
 {
+    use THMVCSupport;
+
     const EXCEPTION_CLASS = 'umi\hmvc\exception\RequiredDependencyException';
 
     protected function setUpFixtures() {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/hmvc/toolbox/config.php')
-        );
+        $this->registerHMVCTools();
     }
 
     public function testComponentAware()

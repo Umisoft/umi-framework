@@ -11,4 +11,6 @@ namespace umi\authentication\exception;
 /**
  * Исключение, бросаемое при передаче неверного аргумента.
  */
-class InvalidArgumentException extends \InvalidArgumentException implements IException {}
+class InvalidArgumentException extends \InvalidArgumentException implements IException
+{
+}

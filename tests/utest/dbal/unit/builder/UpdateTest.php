@@ -10,6 +10,7 @@
 namespace utest\dbal\unit\builder;
 
 use umi\dbal\builder\UpdateBuilder;
+use umi\dbal\driver\dialect\MySqlDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -28,9 +29,13 @@ class UpdateTest extends DbalTestCase
     {
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
-
-        $this->query = new UpdateBuilder($this->getDbServer()
-            ->getDbDriver(), $queryBuilderFactory);
+        $this->query = new UpdateBuilder(
+            $this
+                ->getDbServer()
+                ->getConnection(),
+            new MySqlDialect(),
+            $queryBuilderFactory
+        );
     }
 
     public function testUpdateMethod()
@@ -70,7 +75,8 @@ class UpdateTest extends DbalTestCase
             'Expected Exception if empty values for SET.'
         );
 
-        $this->query->set('column1', ':column1')
+        $this->query
+            ->set('column1', ':column1')
             ->setPlaceholders('column2');
 
         $this->assertEquals(
@@ -84,7 +90,8 @@ class UpdateTest extends DbalTestCase
 
     public function testWhereAndLimitMethod()
     {
-        $this->query->where()
+        $this->query
+            ->where()
             ->expr('c', '=', 'd')
             ->limit(':limit');
 
@@ -98,7 +105,8 @@ class UpdateTest extends DbalTestCase
 
     public function testBindValues()
     {
-        $this->query->update('someTable')
+        $this->query
+            ->update('someTable')
             ->set('column1')
             ->bindInt(':column1', 1)
             ->set('column2')

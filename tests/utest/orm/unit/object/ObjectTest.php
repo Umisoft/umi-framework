@@ -9,12 +9,13 @@
 
 namespace utest\orm\unit\object;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\HierarchicObject;
 use umi\orm\object\IHierarchicObject;
 use umi\orm\object\IObject;
 use umi\orm\object\property\ILocalizedProperty;
 use umi\orm\toolbox\factory\PropertyFactory;
-use utest\orm\mock\collections\users\User;
+use utest\orm\mock\collections\User;
 use utest\orm\ORMDbTestCase;
 
 /**
@@ -36,9 +37,25 @@ class ObjectTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::SYSTEM_HIERARCHY       => [
+                    'type' => ICollectionFactory::TYPE_COMMON_HIERARCHY
+                ],
+                self::BLOGS_BLOG             => [
+                    'type'      => ICollectionFactory::TYPE_LINKED_HIERARCHIC,
+                    'class'     => 'utest\orm\mock\collections\BlogsCollection',
+                    'hierarchy' => self::SYSTEM_HIERARCHY
+                ],
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            false
+        ];
     }
 
     protected function setUpFixtures()
@@ -46,15 +63,18 @@ class ObjectTest extends ORMDbTestCase
         $propertyFactory = new PropertyFactory();
         $this->resolveOptionalDependencies($propertyFactory);
 
-        $this->blog = new HierarchicObject($this->collectionManager->getCollection(
-            self::BLOGS_BLOG
-        ), $this->metadataManager->getMetadata(self::BLOGS_BLOG)
-            ->getBaseType(), $propertyFactory);
+        $this->blog = new HierarchicObject(
+            $this->getCollectionManager()->getCollection(self::BLOGS_BLOG),
+            $this->getMetadataManager()->getMetadata(self::BLOGS_BLOG)->getBaseType(),
+            $propertyFactory
+        );
         $this->resolveOptionalDependencies($this->blog);
-        $this->user = new User($this->collectionManager->getCollection(
-            self::USERS_USER
-        ), $this->metadataManager->getMetadata(self::USERS_USER)
-            ->getBaseType(), $propertyFactory);
+
+        $this->user = new User(
+            $this->getCollectionManager()->getCollection(self::USERS_USER),
+            $this->getMetadataManager()->getMetadata(self::USERS_USER)->getBaseType(),
+            $propertyFactory
+        );
         $this->resolveOptionalDependencies($this->user);
 
         $property = $this->user->getProperty('isActive');
@@ -187,7 +207,8 @@ class ObjectTest extends ORMDbTestCase
         $this->assertEquals(
             'ru-RU',
             $titleProperty->getLocaleId(),
-            'Ожидается, что при запросе свойства c локализуемым и локализованным полем будет создано свойство в текущей локали'
+            'Ожидается, что при запросе свойства c локализуемым и локализованным полем '
+            . 'будет создано свойство в текущей локали'
         );
 
         $ruTitle = $this->blog->getProperty('title', 'ru-RU');

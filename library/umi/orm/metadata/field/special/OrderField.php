@@ -62,7 +62,5 @@ class OrderField extends BaseField implements IScalarField, ICalculableField
 
         return $object->getCollection()
             ->getMaxOrder($object->getParent()) + 1;
-
     }
-
 }

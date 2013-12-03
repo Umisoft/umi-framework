@@ -8,27 +8,36 @@
  */
 namespace utest\form;
 
+use utest\event\TEventSupport;
+use utest\filter\TFilterSupport;
+use utest\http\THttpSupport;
+use utest\session\TSessionSupport;
 use utest\TestCase;
+use utest\validation\TValidationSupport;
 
 /**
  * Тест кейс для форм
  */
 abstract class FormTestCase extends TestCase
 {
+    use TFormSupport;
+    use TEventSupport;
+    use TFilterSupport;
+    use THttpSupport;
+    use TSessionSupport;
+    use TValidationSupport;
+
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-
-        $this->getTestToolkit()->registerToolboxes([
-            require(LIBRARY_PATH . '/event/toolbox/config.php'),
-            require(LIBRARY_PATH . '/filter/toolbox/config.php'),
-            require(LIBRARY_PATH . '/http/toolbox/config.php'),
-            require(LIBRARY_PATH . '/session/toolbox/config.php'),
-            require(LIBRARY_PATH . '/validation/toolbox/config.php'),
-            require(LIBRARY_PATH . '/form/toolbox/config.php')
-        ]);
+        $this->registerEventTools();
+        $this->registerFilterTools();
+        $this->registerHttpTools();
+        $this->registerSessionTools();
+        $this->registerValidationTools();
+        $this->registerFormTools();
 
         parent::setUp();
     }

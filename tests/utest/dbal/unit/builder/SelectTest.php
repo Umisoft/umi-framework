@@ -12,12 +12,12 @@ namespace utest\dbal\unit\builder;
 use umi\dbal\builder\ExpressionGroup;
 use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\builder\SelectBuilder;
+use umi\dbal\driver\dialect\MySqlDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
 /**
  * Тест билдера SELECT-запросов
-
  */
 class SelectTest extends DbalTestCase
 {
@@ -31,8 +31,11 @@ class SelectTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
-        $this->query = new SelectBuilder($this->getDbServer()
-            ->getDbDriver(), $queryBuilderFactory);
+        $this->query = new SelectBuilder(
+            $this->getDbServer()->getConnection(),
+            new MySqlDialect(),
+            $queryBuilderFactory
+        );
     }
 
     public function testSelectMethod()
@@ -129,17 +132,21 @@ class SelectTest extends DbalTestCase
         $this->assertInstanceOf('umi\dbal\builder\IQueryBuilder', $this->query->join('joinTable as table', 'LEFT'));
         $this->assertInstanceOf(
             'umi\dbal\builder\IQueryBuilder',
-            $this->query->on('table1.id', '=', 'table2.id')
+            $this->query
+                ->on('table1.id', '=', 'table2.id')
                 ->on('table1.field', '=', 'table2.field')
         );
 
-        $this->query->join('innerJoinTable as table2')
+        $this->query
+            ->join('innerJoinTable as table2')
             ->on('table2.id', '=', 'table1.id');
 
-        $this->query->innerJoin('innerJoinTable2')
+        $this->query
+            ->innerJoin('innerJoinTable2')
             ->on('innerJoinTable2.id', '=', 'table1.id');
 
-        $this->query->leftJoin('leftJoinTable2')
+        $this->query
+            ->leftJoin('leftJoinTable2')
             ->on('leftJoinTable2.id', '=', 'table1.id');
 
         $joins = $this->query->getJoins();
@@ -167,7 +174,8 @@ class SelectTest extends DbalTestCase
 
     public function testOrders()
     {
-        $this->query->orderBy('field1')
+        $this->query
+            ->orderBy('field1')
             ->orderBy('field2', 'ASC')
             ->orderBy('field2', 'DESC')
             ->orderBy('field3', 'ASC')
@@ -183,7 +191,8 @@ class SelectTest extends DbalTestCase
     public function testWhereConditions()
     {
 
-        $this->query->begin(IExpressionGroup::MODE_AND)
+        $this->query
+            ->begin(IExpressionGroup::MODE_AND)
             ->end();
         $this->assertNull($this->query->getWhereExpressionGroup());
 
@@ -274,7 +283,8 @@ class SelectTest extends DbalTestCase
 
     public function testGroupBy()
     {
-        $this->query->groupBy('field1')
+        $this->query
+            ->groupBy('field1')
             ->groupBy('field2', 'ASC')
             ->groupBy('field2', 'DESC')
             ->groupBy('field3', 'ASC')
@@ -288,4 +298,3 @@ class SelectTest extends DbalTestCase
         $this->assertEquals($expected, $this->query->getGroupByConditions());
     }
 }
-

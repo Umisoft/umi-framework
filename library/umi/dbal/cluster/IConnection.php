@@ -9,13 +9,13 @@
 
 namespace umi\dbal\cluster;
 
+use Doctrine\DBAL\Connection;
 use PDOStatement;
 use umi\dbal\builder\IDeleteBuilder;
 use umi\dbal\builder\IInsertBuilder;
 use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\builder\IUpdateBuilder;
-use umi\dbal\driver\IDbDriver;
 use umi\dbal\exception\RuntimeException;
 
 /**
@@ -43,7 +43,7 @@ interface IConnection
      * определяет список столбцов для выборки. <br />
      * Список столбцов передается в параметрах метода.<br />
      * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
-     * [@param string $columnName список имен столбцов]
+     * @param string $columnName,... список имен столбцов
      * @return ISelectBuilder
      */
     public function select();
@@ -95,7 +95,7 @@ interface IConnection
 
     /**
      * Возвращает экземпляр используемого драйвера БД
-     * @return IDbDriver
+     * @return Connection
      */
-    public function getDbDriver();
+    public function getConnection();
 }

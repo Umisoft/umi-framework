@@ -10,6 +10,8 @@
 namespace utest\orm\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\dbal\TDbalSupport;
+use utest\orm\TORMSupport;
 
 /**
  * Тестирование внедрения обслуживающих сервисов ORMTools
@@ -17,14 +19,16 @@ use utest\AwareTestCase;
 class AwareInterfacesTest extends AwareTestCase
 {
 
+    use TORMSupport;
+    use TDbalSupport;
+
     /**
      * {@inheritdoc}
      */
     protected function setUpFixtures()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/orm/toolbox/config.php')
-        );
+        $this->registerDbalTools();
+        $this->registerORMTools();
     }
 
     public function testObjectManagerAware()
@@ -73,5 +77,4 @@ class AwareInterfacesTest extends AwareTestCase
 
         $this->successfulInjectionTest('utest\orm\mock\MockMetadataManagerAware', 'umi\orm\metadata\IMetadataManager');
     }
-
 }

@@ -9,6 +9,7 @@
 
 namespace utest\orm\unit\selector;
 
+use umi\orm\collection\ICollectionFactory;
 use umi\orm\objectset\ObjectSet;
 use umi\orm\selector\Selector;
 use umi\orm\toolbox\factory\ObjectSetFactory;
@@ -25,9 +26,17 @@ class SelectorTest extends ORMDbTestCase
     /**
      * {@inheritdoc}
      */
-    protected function getCollections()
+    protected function getCollectionConfig()
     {
-        return [];
+        return [
+            self::METADATA_DIR . '/mock/collections',
+            [
+                self::USERS_USER             => [
+                    'type' => ICollectionFactory::TYPE_SIMPLE
+                ]
+            ],
+            false
+        ];
     }
 
     /**
@@ -43,9 +52,11 @@ class SelectorTest extends ORMDbTestCase
         $selectorFactory = new SelectorFactory($objectsSetFactory);
         $this->resolveOptionalDependencies($selectorFactory);
 
-        $this->selector = new Selector($this->collectionManager->getCollection(
-            self::USERS_USER
-        ), $objectsSet, $selectorFactory);
+        $this->selector = new Selector(
+            $this->getCollectionManager()->getCollection(self::USERS_USER),
+            $objectsSet,
+            $selectorFactory
+        );
         $this->resolveOptionalDependencies($this->selector);
     }
 
@@ -55,7 +66,8 @@ class SelectorTest extends ORMDbTestCase
             [],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора не будут указаны конкретные типы, если не заданы ограничивающие выборку поля'
+            'Ожидается, что в запросе селектора не будут указаны конкретные типы, '
+            . 'если не заданы ограничивающие выборку поля'
         );
     }
 
@@ -66,7 +78,8 @@ class SelectorTest extends ORMDbTestCase
             [],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора не будут указаны конкретные типы, если выбираемые поля присутствуют во всех типах коллекции'
+            'Ожидается, что в запросе селектора не будут указаны конкретные типы,'
+            . ' если выбираемые поля присутствуют во всех типах коллекции'
         );
     }
 
@@ -78,7 +91,8 @@ class SelectorTest extends ORMDbTestCase
             [':type_users_user' => ["users_user.supervisor"], ':value0' => [null, \PDO::PARAM_NULL]],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора будут указаны только те типы, у которых есть участвующие в выборке поля.'
+            'Ожидается, что в запросе селектора будут указаны только те типы,'
+            . ' у которых есть участвующие в выборке поля.'
         );
     }
 
@@ -160,7 +174,8 @@ class SelectorTest extends ORMDbTestCase
             [':type_users_user' => ["users_user.base", "users_user.guest", "users_user.supervisor"]],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора будут участвовать заданные типы всей вложенности, если тип был указан со звездочкой.'
+            'Ожидается, что в запросе селектора будут участвовать заданные типы всей вложенности, '
+            . 'если тип был указан со звездочкой.'
         );
     }
 
@@ -171,7 +186,8 @@ class SelectorTest extends ORMDbTestCase
             [':type_users_user' => ["users_user.base", "users_user.guest", "users_user.supervisor"]],
             $this->selector->getSelectBuilder()
                 ->getPlaceholderValues(),
-            'Ожидается, что в запросе селектора будут участвовать заданные типы всей вложенности, если тип был указан со звездочкой.'
+            'Ожидается, что в запросе селектора будут участвовать заданные типы всей вложенности, '
+            . 'если тип был указан со звездочкой.'
         );
     }
 
@@ -195,8 +211,10 @@ class SelectorTest extends ORMDbTestCase
             'Ожидается, что ISelector::fields() вернет себя'
         );
         $this->assertEquals(
-            'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`, `users_user`.`height` AS `users_user:height`, `users_user`.`rating` AS `users_user:rating`
-FROM `umi_mock_users` AS `users_user`
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid",'
+            . ' "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version",'
+            . ' "users_user"."height" AS "users_user:height", "users_user"."rating" AS "users_user:rating"
+FROM "umi_mock_users" AS "users_user"
 WHERE 1',
             $this->selector->getSelectBuilder()
                 ->getSql(),
@@ -242,10 +260,11 @@ WHERE 1',
         $this->selector->fields(['id']);
 
         $this->assertEquals(
-            'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`
-FROM `umi_mock_users` AS `users_user`
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid",'
+            . ' "users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+FROM "umi_mock_users" AS "users_user"
 WHERE 1
-ORDER BY `users_user`.`height` ASC, `users_user`.`rating` DESC',
+ORDER BY "users_user"."height" ASC, "users_user"."rating" DESC',
             $this->selector->getSelectBuilder()
                 ->getSql(),
             'Неверный текст запроса с сортировкой'
@@ -314,24 +333,22 @@ ORDER BY `users_user`.`height` ASC, `users_user`.`rating` DESC',
         $this->selector
             ->fields(['id'])
             ->begin()
-            ->begin('OR')
-            ->where('height')
-            ->less(170)
-            ->where('rating')
-            ->equals(5)
-            ->end()
-            ->begin('OR')
-            ->where('height')
-            ->more(154)
-            ->where('rating')
-            ->equalsOrMore(4)
-            ->end()
+                ->begin('OR')
+                    ->where('height')->less(170)
+                    ->where('rating')->equals(5)
+                ->end()
+                ->begin('OR')
+                    ->where('height')->more(154)
+                    ->where('rating')->equalsOrMore(4)
+                ->end()
             ->end();
 
         $this->assertEquals(
-            'SELECT `users_user`.`id` AS `users_user:id`, `users_user`.`guid` AS `users_user:guid`, `users_user`.`type` AS `users_user:type`, `users_user`.`version` AS `users_user:version`
-FROM `umi_mock_users` AS `users_user`
-WHERE (((`users_user`.`height` < :value0 OR `users_user`.`rating` = :value1) AND (`users_user`.`height` > :value2 OR `users_user`.`rating` >= :value3)))',
+            'SELECT "users_user"."id" AS "users_user:id", "users_user"."guid" AS "users_user:guid", '
+            . '"users_user"."type" AS "users_user:type", "users_user"."version" AS "users_user:version"
+FROM "umi_mock_users" AS "users_user"
+WHERE ((("users_user"."height" < :value0 OR "users_user"."rating" = :value1) '
+            . 'AND ("users_user"."height" > :value2 OR "users_user"."rating" >= :value3)))',
             $this->selector->getSelectBuilder()
                 ->getSql(),
             'Неверный текст запроса с группировками полей'

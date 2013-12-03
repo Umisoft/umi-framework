@@ -10,6 +10,7 @@
 namespace utest\dbal\unit\builder;
 
 use umi\dbal\builder\InsertBuilder;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -28,8 +29,16 @@ class InsertTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
-        $this->query = new InsertBuilder($this->getDbServer()
-            ->getDbDriver(), $queryBuilderFactory);
+        /** @var $dialect IDialect */
+        $dialect = $this
+            ->getDbServer()
+            ->getConnection()
+            ->getDatabasePlatform();
+        $this->query = new InsertBuilder(
+            $this->getDbServer()->getConnection(),
+            $dialect,
+            $queryBuilderFactory
+        );
     }
 
     public function testInsertMethod()
@@ -68,7 +77,8 @@ class InsertTest extends DbalTestCase
             'Expected Exception if empty values for SET.'
         );
 
-        $this->query->set('column1', ':column1')
+        $this->query
+            ->set('column1', ':column1')
             ->setPlaceholders('column2');
 
         $this->assertEquals(
@@ -82,7 +92,8 @@ class InsertTest extends DbalTestCase
 
     public function testInsertOnDuplicateKeyUpdate()
     {
-        $this->query->set('column1')
+        $this->query
+            ->set('column1')
             ->set('column2')
             ->onDuplicateKey('column3', 'column4')
             ->onDuplicateKey('column5')

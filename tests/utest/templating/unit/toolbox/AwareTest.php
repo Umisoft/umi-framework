@@ -10,16 +10,17 @@
 namespace utest\templating\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\templating\TTemplatingSupport;
 
 /**
  * Class AwareTest
  */
 class AwareTest extends AwareTestCase
 {
+    use TTemplatingSupport;
+
     protected function setUpFixtures() {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/templating/toolbox/config.php')
-        );
+        $this->registerTemplatingTools();
     }
     
     public function testTemplatingAware()

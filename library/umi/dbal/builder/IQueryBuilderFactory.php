@@ -9,7 +9,8 @@
 
 namespace umi\dbal\builder;
 
-use umi\dbal\driver\IDbDriver;
+use Doctrine\DBAL\Connection;
+use umi\dbal\driver\IDialect;
 use umi\dbal\exception\DomainException;
 
 /**
@@ -20,31 +21,35 @@ interface IQueryBuilderFactory
 
     /**
      * Создает и возвращает экземпляр построителя INSERT-запросов
-     * @param IDbDriver $driver
+     * @param \Doctrine\DBAL\Connection $connection
+     * @param \umi\dbal\driver\IDialect $dialect
      * @return IInsertBuilder
      */
-    public function createInsertBuilder(IDbDriver $driver);
+    public function createInsertBuilder(Connection $connection, IDialect $dialect);
 
     /**
      * Создает и возвращает экземпляр построителя DELETE-запросов
-     * @param IDbDriver $driver
+     * @param \Doctrine\DBAL\Connection $connection
+     * @param \umi\dbal\driver\IDialect $dialect
      * @return IDeleteBuilder
      */
-    public function createDeleteBuilder(IDbDriver $driver);
+    public function createDeleteBuilder(Connection $connection, IDialect $dialect);
 
     /**
      * Создает и возвращает экземпляр построителя UPDATE-запросов
-     * @param IDbDriver $driver
+     * @param \Doctrine\DBAL\Connection $connection
+     * @param \umi\dbal\driver\IDialect $dialect
      * @return IUpdateBuilder
      */
-    public function createUpdateBuilder(IDbDriver $driver);
+    public function createUpdateBuilder(Connection $connection, IDialect $dialect);
 
     /**
      * Создает и возвращает экземпляр построителя SELECT-запросов
-     * @param IDbDriver $driver
+     * @param \Doctrine\DBAL\Connection $driver
+     * @param \umi\dbal\driver\IDialect $dialect
      * @return ISelectBuilder
      */
-    public function createSelectBuilder(IDbDriver $driver);
+    public function createSelectBuilder(Connection $driver, IDialect $dialect);
 
     /**
      * Создаёт билдер JOIN таблицы.

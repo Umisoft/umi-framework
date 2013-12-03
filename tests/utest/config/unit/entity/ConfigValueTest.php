@@ -12,12 +12,12 @@ namespace utest\config\unit;
 use umi\config\entity\value\ConfigValue;
 use umi\config\entity\value\IConfigValue;
 use umi\config\exception\InvalidArgumentException;
-use utest\TestCase;
+use utest\config\ConfigTestCase;
 
 /**
  * Тесты значения конфигурации.
  */
-class ConfigValueTest extends TestCase
+class ConfigValueTest extends ConfigTestCase
 {
     /**
      * @var IConfigValue $value

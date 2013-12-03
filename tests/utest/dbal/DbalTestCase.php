@@ -8,6 +8,7 @@
  */
 namespace utest\dbal;
 
+use utest\event\TEventSupport;
 use utest\TestCase;
 
 /**
@@ -15,16 +16,17 @@ use utest\TestCase;
  */
 abstract class DbalTestCase extends TestCase
 {
+    use TEventSupport;
+    use TDbalSupport;
+
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/event/toolbox/config.php')
-        );
+        $this->registerEventTools();
+        $this->registerDbalTools();
 
         parent::setUp();
     }
 }
- 

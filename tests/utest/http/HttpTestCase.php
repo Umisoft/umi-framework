@@ -15,14 +15,13 @@ use utest\TestCase;
  */
 abstract class HttpTestCase extends TestCase
 {
+    use THttpSupport;
     /**
      * {@inheritdoc}
      */
     protected function setUp()
     {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/http/toolbox/config.php')
-        );
+        $this->registerHttpTools();
 
         parent::setUp();
     }

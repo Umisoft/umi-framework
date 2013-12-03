@@ -20,4 +20,3 @@ interface IObjectPersisterAware
      */
     public function setObjectPersister(IObjectPersister $objectPersister);
 }
-

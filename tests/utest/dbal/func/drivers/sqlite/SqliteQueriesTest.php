@@ -9,8 +9,9 @@
 
 namespace utest\dbal\func\drivers\mysql;
 
+use Doctrine\DBAL\Connection;
 use umi\dbal\builder\SelectBuilder;
-use umi\dbal\driver\IDbDriver;
+use umi\dbal\driver\dialect\SqliteDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -21,7 +22,7 @@ use utest\dbal\DbalTestCase;
 class SqliteQueriesTest extends DbalTestCase
 {
     /**
-     * @var IDbDriver $dbDriver
+     * @var Connection $dbDriver
      */
     protected $dbDriver;
     /**
@@ -31,44 +32,83 @@ class SqliteQueriesTest extends DbalTestCase
 
     protected function setUpFixtures()
     {
-        $this->dbDriver = $this->getSqliteServer()
-            ->getDbDriver();
-        $this->dbDriver->modify('CREATE TABLE IF NOT EXISTS temp_test_table (id INTEGER)');
-        $this->dbDriver->modify('INSERT INTO temp_test_table(id) VALUES (1)');
-        $this->dbDriver->modify('INSERT INTO temp_test_table(id) VALUES (2)');
-        $this->dbDriver->modify('INSERT INTO temp_test_table(id) VALUES (3)');
+        $this->dbDriver = $this
+            ->getSqliteServer()
+            ->getConnection();
+        $this->dbDriver->exec('CREATE TABLE IF NOT EXISTS temp_test_table (id INTEGER)');
+        $this->dbDriver->exec('INSERT INTO temp_test_table(id) VALUES (1)');
+        $this->dbDriver->exec('INSERT INTO temp_test_table(id) VALUES (2)');
+        $this->dbDriver->exec('INSERT INTO temp_test_table(id) VALUES (3)');
 
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
-
-        $this->select = new SelectBuilder($this->dbDriver, $queryBuilderFactory);
+        $this->select = new SelectBuilder($this->dbDriver, new SqliteDialect(), $queryBuilderFactory);
     }
 
     protected function tearDownFixtures()
     {
-        $this->dbDriver->modify('DROP TABLE temp_test_table');
+        $this->dbDriver->exec('DROP TABLE temp_test_table');
     }
 
     public function testSelectTotal()
     {
+        // @formatter:off
 
-        $this->select->select('t.id')
-            ->from(array('temp_test_table', 't'))
+        $this->select
+            ->select('t.id')
+            ->from(['temp_test_table', 't'])
             ->where()
             ->expr('t.id', '!=', ':zero')
             ->limit(':limit', ':offset');
+        // @formatter:on
+
+        //
 
         $this->select
             ->bindInt(':zero', 0)
             ->bindInt(':limit', 2)
             ->bindInt(':offset', 1);
 
-        $this->select->execute();
+        /* IMPORTANT *
+           если не закрыть курсор явно и выполнить еще запросы (в т.ч. скрытые. например, для подсчета)
+           - не получится сделать DROP TABLE
+        */
+        $this->select
+            ->execute()
+            ->closeCursor();
 
         $this->assertEquals(3, $this->select->getTotal(), 'Ожидается, что записей удовлетворяющих запросу будет 3');
 
-        $this->dbDriver->modify('INSERT INTO temp_test_table(id) VALUES (4)');
-        $this->select->execute();
+        $this->dbDriver->exec('INSERT INTO temp_test_table(id) VALUES (4)');
+        $this->select
+            ->execute()
+            ->closeCursor();
+        $this->assertEquals(
+            4,
+            $this->select->getTotal(),
+            'Ожидается, что после добавления записи записей удовлетворяющих запросу будет 4'
+        );
+    }
+
+    public function testResultsCount()
+    {
+        $this->select
+            ->select('t.id')
+            ->from(['temp_test_table', 't'])
+            ->where()
+            ->expr('t.id', '!=', ':zero');
+        $this->select
+            ->bindInt(':zero', 0)
+            ->bindInt(':limit', 2)
+            ->bindInt(':offset', 1);
+
+        // запрос на выборку не исполняется, а сразу подсчитывается. Сохраняется внутренний count
+        $this->assertEquals(3, $this->select->getTotal(), 'Ожидается, что записей удовлетворяющих запросу будет 3');
+
+        // тем временем, мы вставляем запись
+        $this->dbDriver->exec('INSERT INTO temp_test_table(id) VALUES (4)');
+
+        // а счетчик-то прежний!
         $this->assertEquals(
             4,
             $this->select->getTotal(),

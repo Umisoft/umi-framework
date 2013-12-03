@@ -10,14 +10,14 @@
 namespace utest\route\unit\toolbox;
 
 use utest\AwareTestCase;
+use utest\route\TRouteSupport;
 
 class RouteAwareTests extends AwareTestCase
 {
+    use TRouteSupport;
 
     protected function setUpFixtures() {
-        $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/route/toolbox/config.php')
-        );
+        $this->registerRouteTools();
     }
 
     public function testRouteAware()
