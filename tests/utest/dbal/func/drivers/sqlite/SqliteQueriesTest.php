@@ -62,13 +62,11 @@ class SqliteQueriesTest extends DbalTestCase
             ->limit(':limit', ':offset');
         // @formatter:on
 
-        //
-
         $this->select
             ->bindInt(':zero', 0)
             ->bindInt(':limit', 2)
             ->bindInt(':offset', 1);
-
+        //todo! как это комментировать?
         /* IMPORTANT *
            если не закрыть курсор явно и выполнить еще запросы (в т.ч. скрытые. например, для подсчета)
            - не получится сделать DROP TABLE
@@ -102,13 +100,10 @@ class SqliteQueriesTest extends DbalTestCase
             ->bindInt(':limit', 2)
             ->bindInt(':offset', 1);
 
-        // запрос на выборку не исполняется, а сразу подсчитывается. Сохраняется внутренний count
         $this->assertEquals(3, $this->select->getTotal(), 'Ожидается, что записей удовлетворяющих запросу будет 3');
 
-        // тем временем, мы вставляем запись
         $this->dbDriver->exec('INSERT INTO temp_test_table(id) VALUES (4)');
 
-        // а счетчик-то прежний!
         $this->assertEquals(
             4,
             $this->select->getTotal(),

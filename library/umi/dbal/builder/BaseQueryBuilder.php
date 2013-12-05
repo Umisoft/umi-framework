@@ -258,6 +258,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindString($placeholder, $value)
     {
+        //todo bind{type}() replace plain strings with Type::TYPENAME
         return $this->bindValue($placeholder, strval($value), 'string');
     }
 

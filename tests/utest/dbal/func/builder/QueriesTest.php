@@ -29,7 +29,6 @@ class QueriesTest extends DbalTestCase
 
     protected function setUpFixtures()
     {
-        //            $this->server = $this->getSqliteServer();
         $this->server = $this->getDbServer();
         $table = new Table('tests_query_table');
 
@@ -176,10 +175,7 @@ class QueriesTest extends DbalTestCase
 
         $result = $insertUpdate->execute();
 
-        //     *
-        //    * *
-        //   * ! *   TODO  Mysql  вернет 2, если вставленная строка существовала
-        //  * * * *
+        // TODO: Mysql  вернет 2, если вставленная строка существовала
         $this->assertEquals(1, $result->rowCount(), 'Ожидается 1 модифицированная строка');
 
         /** @var ISelectBuilder $inserted */
@@ -221,45 +217,6 @@ class QueriesTest extends DbalTestCase
             ->select('id', 'name', 'title', 'is_active as activity')
             ->from('tests_query_table');
 
-//            $selectQuery
-//                ->bindInt('id', $id)
-//                ->bindString('name', $name)
-//                ->bindString('title', $title)
-//                ->bindBool('activity', $activity)
-//                ->bindFloat('float_val', $float);
-//
-//            $expectedResult = [
-//                0 => ['id' => 1, 'name' => 'Record1 updated', 'title' => 'Title1', 'activity' => 1],
-//                1 => ['id' => 2, 'name' => 'Record2.3 updated', 'title' => 'Title2', 'activity' => 0],
-//                2 => ['id' => 3, 'name' => 'Record2.3 updated', 'title' => 'Title2', 'activity' => 0]
-//            ];
-//
-//            $result = $selectQuery->execute();
-//            $rows = $result->fetchAll();
-//
-//            $this->assertEquals($expectedResult, $rows);
-//            $this->assertSame($rows, $result->fetchAll(), 'Ожидается такой же результат для повторного fetchAll');
-
-//            $i = 0;
-//            foreach ($result as $key => $value) {
-//                $this->assertTrue($key == $i, $value == $expectedResult[$i], 'Неверная итерация результата запроса');
-//                $i++;
-//            }
-//
-//            $result = $selectQuery->execute();
-//            $iteratorResult = [];
-//            while ($result->fetch()) {
-//                $iteratorResult[] = ['id' => $id, 'name' => $name, 'title' => $title, 'activity' => $activity, 'float_val' => $float];
-//            }
-//
-//            $expectedResult = [
-//                0 => ['id' => 1, 'name' => 'Record1 updated', 'title' => 'Title1', 'activity' => 1, 'float_val' => null],
-//                1 => ['id' => 2, 'name' => 'Record2.3 updated', 'title' => 'Title2', 'activity' => 0, 'float_val' => null],
-//                2 => ['id' => 3, 'name' => 'Record2.3 updated', 'title' => 'Title2', 'activity' => 0, 'float_val' => null]
-//            ];
-//
-//            $this->assertEquals($expectedResult, $iteratorResult, 'Bound variables should refresh their values after select');
-
         // test IN expression
         $selectQuery = $this->server
             ->select('id')
@@ -292,5 +249,64 @@ class QueriesTest extends DbalTestCase
                 ->execute()
                 ->fetchAll()
         );
+    }
+
+    public function testBindReferences()
+    {
+        $this->markTestIncomplete('Реализовать привязку переменных к результатам');
+
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $name = 'Record2';
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $title = 'Title2';
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $activity = true;
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $height = 170;
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $weight = 48.2;
+
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $selectQuery = $this->server
+            ->select('id', 'name', 'title', 'is_active as activity')
+            ->from('tests_query_table');
+        $selectQuery
+            ->bindInt('id', $id)
+            ->bindString('name', $name)
+            ->bindString('title', $title)
+            ->bindBool('activity', $activity)
+            ->bindFloat('float_val', $float);
+
+        $expectedResult = [
+            0 => ['id' => 1, 'name' => 'Record1 updated', 'title' => 'Title1', 'activity' => 1],
+            1 => ['id' => 2, 'name' => 'Record2.3 updated', 'title' => 'Title2', 'activity' => 0],
+            2 => ['id' => 3, 'name' => 'Record2.3 updated', 'title' => 'Title2', 'activity' => 0]
+        ];
+
+        $result = $selectQuery->execute();
+        $rows = $result->fetchAll();
+
+        $this->assertEquals($expectedResult, $rows);
+        $this->assertSame($rows, $result->fetchAll(), 'Ожидается такой же результат для повторного fetchAll');
+
+        $i = 0;
+        foreach ($result as $key => $value) {
+            $this->assertTrue($key == $i, $value == $expectedResult[$i], 'Неверная итерация результата запроса');
+            $i++;
+        }
+
+        $result = $selectQuery->execute();
+        $iteratorResult = [];
+        while ($result->fetch()) {
+            $iteratorResult[] = ['id' => $id, 'name' => $name, 'title' => $title, 'activity' => $activity, 'float_val' => $float];
+        }
+
+        $expectedResult = [
+            0 => ['id' => 1, 'name' => 'Record1 updated', 'title' => 'Title1', 'activity' => 1, 'float_val' => null],
+            1 => ['id' => 2, 'name' => 'Record2.3 updated', 'title' => 'Title2', 'activity' => 0, 'float_val' => null],
+            2 => ['id' => 3, 'name' => 'Record2.3 updated', 'title' => 'Title2', 'activity' => 0, 'float_val' => null]
+        ];
+
+        $this->assertEquals($expectedResult, $iteratorResult, 'Bound variables should refresh their values after select');
     }
 }
