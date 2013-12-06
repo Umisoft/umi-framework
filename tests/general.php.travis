@@ -8,11 +8,13 @@ return [
                 'id'     => 'mysqlMaster',
                 'type'   => 'master',
                 'driver' => [
-                    'type'    => 'mysql',
+                    'type'    => DbalTools::CONNECTION_TYPE_PDOMYSQL,
                     'options' => [
-                        'dsn'      => 'mysql:dbname=umiframework;host=localhost',
+                        'dbname'   => 'umiframework',
+                        'host'     => 'localhost',
                         'user'     => 'travis',
-                        'password' => ''
+                        'password' => '',
+                        'charset'  => '',
                     ]
                 ]
             ],
@@ -20,9 +22,9 @@ return [
                 'id'     => 'sqliteMaster',
                 'type'   => 'master',
                 'driver' => [
-                    'type'    => 'sqlite',
+                    'type'    => DbalTools::CONNECTION_TYPE_PDOSQLITE,
                     'options' => [
-                        'dsn' => 'sqlite::memory:'
+                        'memory' => true
                     ]
                 ]
             ]
