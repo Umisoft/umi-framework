@@ -29,4 +29,5 @@ abstract class DbalTestCase extends TestCase
 
         parent::setUp();
     }
+    //todo! drop all mysql tables if exists on tearDown and/or __destruct
 }
