@@ -7,7 +7,7 @@ return [
             [
                 'id'     => 'mysqlMaster',
                 'type'   => 'master',
-                'driver' => [
+                'connection' => [
                     'type'    => DbalTools::CONNECTION_TYPE_PDOMYSQL,
                     'options' => [
                         'dbname'   => 'umiframework',
@@ -21,7 +21,7 @@ return [
             [
                 'id'     => 'sqliteMaster',
                 'type'   => 'master',
-                'driver' => [
+                'connection' => [
                     'type'    => DbalTools::CONNECTION_TYPE_PDOSQLITE,
                     'options' => [
                         'memory' => true
