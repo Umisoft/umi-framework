@@ -87,13 +87,13 @@ class DbTest extends CacheTestCase
 
         $this->assertFalse($this->storage->get('testKey'), 'Время кеша должно было истечь');
 
-        $this->storage->set('testKey', 'newTestValue', 1);
+        $this->storage->set('testKey', 'newTestValue', 3);
         $this->assertTrue($this->storage->remove('testKey'), 'Не удалось удалить значение из кеша');
         $this->assertFalse($this->storage->get('testKey'), 'Значение в кеше существует после удаления');
 
-        $this->storage->set('testKey1', 'testValue1', 1);
+        $this->storage->set('testKey1', 'testValue1', 3);
         $this->storage->set('testKey2', 'testValue2');
-        $this->storage->set('testKey3', 'testValue3', 1);
+        $this->storage->set('testKey3', 'testValue3', 3);
 
         $update = $this
             ->getDbServer()
@@ -103,7 +103,7 @@ class DbTest extends CacheTestCase
             ->where()
             ->expr('key', '=', ':id');
         $update
-            ->bindInt(':expire', time() - 5000)
+            ->bindInt(':expire', time() - 1000)
             ->bindString(':id', 'testKey3');
         $update->execute();
 
