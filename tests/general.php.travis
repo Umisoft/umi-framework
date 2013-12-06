@@ -14,7 +14,7 @@ return [
                         'host'     => 'localhost',
                         'user'     => 'travis',
                         'password' => '',
-                        'charset'  => '',
+                        'charset'  => 'utf8',
                     ]
                 ]
             ],
