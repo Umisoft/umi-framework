@@ -127,11 +127,11 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
      * @param IObjectSet $objectsSet набор объектов с которым связан селектор
      * @param ISelectorFactory $selectorFactory фабрика селекторов
      */
-    public function __construct(ICollection $collection, IObjectSet $objectsSet, ISelectorFactory $selectorFactory)
+    public function __construct(ICollection $collection, IObjectSet $objectSet, ISelectorFactory $selectorFactory)
     {
         $this->collection = $collection;
         $this->metadata = $collection->getMetadata();
-        $this->objectSet = $objectsSet;
+        $this->objectSet = $objectSet;
 
         $this->selectorFactory = $selectorFactory;
     }
