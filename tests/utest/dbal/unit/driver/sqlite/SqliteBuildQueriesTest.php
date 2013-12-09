@@ -30,16 +30,16 @@ class SqliteBuildQueriesTest extends DbalTestCase
 
     public function testBuildSelectQuery()
     {
-        $select = $this->connection->select(
+        $select = $this->connection->select([
             'p.id',
             'p.date',
             'p.post',
             'u.login',
             'c.comment as last""\0\"\'_comment',
             'c.date as last_comment_date'
-        )
+        ])
             ->distinct()
-            ->from(['tests_post', 'p'])
+            ->from('tests_post as p')
                 ->join('tests_user as u')
                     ->on('u.id', '=', 'p.user_id')
                     ->on('u.id', '=', 'p.user_id')

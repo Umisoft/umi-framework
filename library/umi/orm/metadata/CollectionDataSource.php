@@ -125,14 +125,14 @@ class CollectionDataSource implements ICollectionDataSource, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function select()
+    public function select($columns = [])
     {
         /**
          * @var ISelectBuilder $select
          */
         $select = $this->getSlaveServer()
             ->select();
-        $select->setColumns(func_get_args());
+        $select->setColumns((array) $columns);
         $select->from($this->sourceName);
 
         return $select;

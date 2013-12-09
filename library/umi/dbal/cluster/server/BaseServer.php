@@ -115,10 +115,10 @@ abstract class BaseServer implements IServer, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function select()
+    public function select($columns = [])
     {
         $builder = clone $this->selectBuilderPrototype;
-        $builder->setColumns(func_get_args());
+        $builder->setColumns((array)$columns);
 
         return $builder;
     }

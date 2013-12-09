@@ -180,7 +180,7 @@ class QueriesTest extends DbalTestCase
 
         /** @var ISelectBuilder $inserted */
         $duplicateUpdated = $this->server
-            ->select('name', 'is_active')
+            ->select(['name', 'is_active'])
             ->from('tests_query_table')
             ->where()
                 ->expr('id', '=', ':id')
@@ -214,7 +214,7 @@ class QueriesTest extends DbalTestCase
 
         /** @noinspection PhpUnusedLocalVariableInspection */
         $selectQuery = $this->server
-            ->select('id', 'name', 'title', 'is_active as activity')
+            ->select(['id', 'name', 'title', 'is_active as activity'])
             ->from('tests_query_table');
 
         // test IN expression
@@ -268,7 +268,7 @@ class QueriesTest extends DbalTestCase
 
         /** @noinspection PhpUnusedLocalVariableInspection */
         $selectQuery = $this->server
-            ->select('id', 'name', 'title', 'is_active as activity')
+            ->select(['id', 'name', 'title', 'is_active as activity'])
             ->from('tests_query_table');
         $selectQuery
             ->bindInt('id', $id)
@@ -298,7 +298,13 @@ class QueriesTest extends DbalTestCase
         $result = $selectQuery->execute();
         $iteratorResult = [];
         while ($result->fetch()) {
-            $iteratorResult[] = ['id' => $id, 'name' => $name, 'title' => $title, 'activity' => $activity, 'float_val' => $float];
+            $iteratorResult[] = [
+                'id'        => $id,
+                'name'      => $name,
+                'title'     => $title,
+                'activity'  => $activity,
+                'float_val' => $float
+            ];
         }
 
         $expectedResult = [
@@ -307,6 +313,10 @@ class QueriesTest extends DbalTestCase
             2 => ['id' => 3, 'name' => 'Record2.3 updated', 'title' => 'Title2', 'activity' => 0, 'float_val' => null]
         ];
 
-        $this->assertEquals($expectedResult, $iteratorResult, 'Bound variables should refresh their values after select');
+        $this->assertEquals(
+            $expectedResult,
+            $iteratorResult,
+            'Bound variables should refresh their values after select'
+        );
     }
 }

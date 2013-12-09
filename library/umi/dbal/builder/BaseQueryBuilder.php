@@ -404,12 +404,13 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      * Разбирает алиас в имени таблицы / столбца, если он есть
      * @internal
      * @param string $name
-     * @return array в виде ['name', 'alias']
+     *
+     * @return array В виде ['name', 'alias']
      */
     protected function parseAlias($name)
     {
         if (strpos($name, ' ') !== false && preg_match('/^\s*(.+)(\s+as\s+)(.+)\s*$/i', $name, $matches)) {
-            return [$matches[1], $matches[3]];
+            return [trim($matches[1]), trim($matches[3])];
         }
 
         return [$name, null];

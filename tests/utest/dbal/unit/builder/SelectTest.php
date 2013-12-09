@@ -40,14 +40,14 @@ class SelectTest extends DbalTestCase
 
     public function testSelectMethod()
     {
-        $what = $this->query->select(
+        $what = $this->query->select([
             'field1',
             ['field1', 'fld1'],
             ['field2', 'fld2'],
             ['field3', 'fld3'],
             ['tbl_name.field4', 'fld4'],
             ['(SELECT subfield as subalias FROM subtable)', 'fld5']
-        );
+        ]);
 
         $this->assertInstanceOf('umi\dbal\builder\IQueryBuilder', $what);
 
@@ -72,7 +72,7 @@ class SelectTest extends DbalTestCase
 
         $this->assertInstanceOf(
             'umi\dbal\builder\IQueryBuilder',
-            $this->query->from('table1', 'table1 as tbl1', ['table2', 'tbl2'])
+            $this->query->from(['table1', 'table1 as tbl1', ['table2', 'tbl2']])
         );
 
         $expectedResult = [

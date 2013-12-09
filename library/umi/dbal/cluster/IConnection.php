@@ -24,6 +24,7 @@ use umi\dbal\exception\RuntimeException;
  */
 interface IConnection
 {
+
     /**
      * Тип события, которое происходит перед подготовкой запроса.
      * @param string $sql шаблон запроса
@@ -43,17 +44,17 @@ interface IConnection
      * Список столбцов передается в параметрах метода.<br />
      * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
      *
-     * @param string $columnName,... список имен столбцов
+     * @param string|string[] $columns
      *
+     * @internal param string $columnName список имен столбцов
      * @return ISelectBuilder
      */
-    public function select();
+    public function select($columns = []);
 
     /**
      * Подготавливает запрос на вставку данных
      * @param string $tableName имя таблицы
      * @param bool $isIgnore игнорировать ошибки и duplicate-key конфликты
-     *
      * @return IInsertBuilder
      */
     public function insert($tableName, $isIgnore = false);
@@ -62,7 +63,6 @@ interface IConnection
      * Подготавливает запрос на обновление данных
      * @param string $tableName имя таблицы для
      * @param bool $isIgnore игнорировать ошибки и duplicate-key конфликты
-     *
      * @return IUpdateBuilder
      */
     public function update($tableName, $isIgnore = false);
@@ -70,7 +70,6 @@ interface IConnection
     /**
      * Подготавливает запрос на удаление данных
      * @param string $tableName имя таблицы
-     *
      * @return IDeleteBuilder
      */
     public function delete($tableName);
@@ -80,10 +79,8 @@ interface IConnection
      * Можно использовать только для тестов, для реализации драйверов БД,
      * для быстрых операций с БД не в "коробочных" целях
      * @internal
-     *
      * @param string $sql sql-запрос
      * @param array $params массив параметров для подготовленных запросов
-     *
      * @throws RuntimeException если в процессе выполнения запроса произошли ошибки
      * @return PDOStatement
      */

@@ -395,7 +395,7 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
         if (is_null($this->preparedMultiSelect)) {
             $this->preparedMultiSelect = $this->getServer()
                 ->select()
-                ->select($this->keyColumnName, $this->valueColumnName)
+                ->select([$this->keyColumnName, $this->valueColumnName])
                 ->from($this->tableName)
                 ->where('AND')
                 ->expr($this->keyColumnName, 'in', ':ids')

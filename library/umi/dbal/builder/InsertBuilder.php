@@ -55,13 +55,13 @@ class InsertBuilder extends BaseQueryBuilder implements IInsertBuilder
     /**
      * {@inheritdoc}
      */
-    public function onDuplicateKey($columnName, $_ = null)
+    public function onDuplicateKey($columnName, $columns = [])
     {
         $this->onDuplicateKeyMode = true;
-        if (!is_null($_)) {
-            $this->onDuplicateKeyColumns = func_get_args();
+        if (!empty($columns)) {
+            $this->onDuplicateKeyColumns = $columns;
         } else {
-            $this->onDuplicateKeyColumns = array($columnName);
+            $this->onDuplicateKeyColumns = [$columnName];
         }
 
         return $this;
