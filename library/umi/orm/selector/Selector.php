@@ -124,7 +124,7 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
     /**
      * Конструктор
      * @param ICollection $collection коллекция объектов, из которой осуществляется выборка
-     * @param IObjectSet $objectsSet набор объектов с которым связан селектор
+     * @param IObjectSet $objectSet набор объектов с которым связан селектор
      * @param ISelectorFactory $selectorFactory фабрика селекторов
      */
     public function __construct(ICollection $collection, IObjectSet $objectSet, ISelectorFactory $selectorFactory)
