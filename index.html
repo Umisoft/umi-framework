@@ -1,30 +1,137 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="chrome=1">
-		<title>UMI.Framework by Umisoft</title>
-
-		<link rel="stylesheet" href="stylesheets/styles.css">
-		<link rel="stylesheet" href="stylesheets/pygment_trac.css">
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-		<!--[if lt IE 9]>
-		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-	</head>
-	<body>
+    <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no" />
+		<title>umi-framework</title>
+		<link rel="stylesheet" href="/assets/style.css" />
+		<script type='text/javascript' src="/assets/jquery-2.0.3.min.js"></script>
+		<script type='text/javascript' src="/assets/knockout-3.0.0.js"></script>
+		<script type='text/javascript' src="/assets/news-model.js"></script>
+    </head>
+    <body>
 		<div class="wrapper">
-			<div class="text-center">
-				<img src="images/auth-logo.png" alt="UMI.Framework" />
-				<h1> UMI.Framework</h1>
-				<a href="https://github.com/Umisoft/umi-framework" class="button">View the Project on GitHub</a>
-				<a href="api" class="button">View the Project API</a>
-				<div class="buttons-group">
-					<iframe src="http://ghbtns.com/github-btn.html?user=umisoft&repo=umi-framework&type=watch&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="82" height="20"></iframe>
-					<iframe src="http://ghbtns.com/github-btn.html?user=umisoft&repo=umi-framework&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="82" height="20"></iframe>
+			<div class="header main">
+				<div class="row">
+					<div class="columns small-12 large-7">
+						<a href="/" title="В начало">
+							<img src="/assets/logo_main.png" />
+						</a>
+						<div class="menu">
+							<a href="index.html" class="active">Описание</a>
+							<a href="documentation.html">Документация</a>
+							<a href="#">Участие в развитии</a>
+						</div>
+					</div>
+					<div class="columns small-12 large-5">
+						<a href="/" class="right download"><img src="/assets/download.png" /></a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<h1 class="large">Почему надо использовать наш фрейморк?</h1>
+				<div class="row">
+					<div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
+						<div class="bg_gray padding-inside text-center">
+							<h2 class="text-center">Model View Controller</h2>
+							<div class="icon_2"></div>
+							<p>Компонент для создания MVC приложений с иерархической структурой.</p>
+						</div>
+					</div>
+					<div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
+						<div class="bg_gray padding-inside text-center">
+							<h2 class="text-center">SOA</h2>
+							<div class="icon_1"></div>
+							<p>Построение системы на интерфейсах, внедрение зависимостей через конструктор и Aware-интерфейсы.</p>
+						</div>
+					</div>
+					<div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
+						<div class="bg_gray padding-inside text-center">
+							<h2 class="text-center">ORM</h2>
+							<div class="icon_3"></div>
+							<p>Data mapper, lazy подход к загрузке данных, масштабирование из коробки, иерархические коллекции.</p>
+						</div>
+					</div>
+					<div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
+						<div class="bg_gray padding-inside text-center">
+							<h2 class="text-center">PHP 5.4</h2>
+							<div class="icon_4"></div>
+							<p>Повсеместное использование в системе трейтов - позволяет сделать горизонтальную композицию поведения.</p>
+						</div>
+					</div>
+				</div>
+				<!--<div class="row news">
+					<div class="large-6 small-12 columns">
+						<div class="menu" data-bind="foreach: sections">
+							<div class="button" data-bind="click: $parent.selectedSection, css: { active: isSelected }">
+								<span data-bind="text: name" />
+							</div>
+						</div>
+						<div class="tab-content" data-bind="foreach: sections, visible: sections().length > 0">
+							<div class="tabs" data-bind="css: { active: isSelected }, foreach: items">
+								<div class="tab-item">
+									<span data-bind="text: publish_time"></span>
+									<p data-bind="text: name"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="large-6 small-12 columns">
+						<div class="banner">
+							<img src="/assets/box.png" alt="umi-cms" />
+							<div>
+								<h2>Попробуйте</h2>
+								<span>коробочную версию!</span>
+								<h2>Смотрите</h2>
+								<span>какая красивая!</span>
+							</div>
+						</div>
+					</div>
+				</div>-->
+			</div>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<p>&nbsp;</p>
+			<div class="for_footer"></div>
+		</div>
+		<div class="footer">
+			<div class="row">
+				<div class="columns small-12">
+					<ul>
+						<span>Описание</span>
+						<li>Что нового</li>
+						<li>Преимущества</li>
+						<li>Введение</li>
+					</ul>
+					<ul>
+						<span>Документация</span>
+						<li>Сравнение</li>
+						<li>Commerce</li>
+						<li>Business</li>
+					</ul>
+					<ul>
+						<span>Участие в развитии</span>
+						<li>Сравнение</li>
+						<li>Commerce</li>
+						<li>Business</li>
+					</ul>
+				</div>
+				<div>
+					<div class="number">
+						<span>Санкт-Петербург</span>
+						<span>+7(812)653-43-54</span>
+					</div>
+					<div class="number">
+						<span>Бесплатный звонок</span>
+						<span>+7(800)359-78-55</span>
+					</div>
+					<div class="number">
+						<span>Москва</span>
+						<span>+7(495)658-54-66</span>
+					</div>
 				</div>
 			</div>
 		</div>
-		<script src="javascripts/scale.fix.js"></script>
-	</body>
+    </body>
 </html>

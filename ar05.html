@@ -1,0 +1,201 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no"><title>&#1052;&#1086;&#1076;&#1077;&#1083;&#1080; &#1080; &#1073;&#1072;&#1079;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</title><link rel="stylesheet" type="text/css" href="/assets/style.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"><link rel="stylesheet" href="/assets/highlight/styles/mono-blue.css"><script type="text/javascript" src="/assets/jquery-2.0.3.min.js"></script><script type="text/javascript" src="/assets/highlight/highlight.pack.js"></script><script type="text/javascript" src="/assets/layout.js"></script></head><body><div class="wrapper"><div class="header fixed"><div class="row"><div class="columns small-3 large-4"><a href="index.html" title="&#1042; &#1085;&#1072;&#1095;&#1072;&#1083;&#1086;" class="logo"><img src="/assets/logo.png"></a></div><div class="columns small-9 large-8"><div class="menu"><a href="/">&#1054;&#1087;&#1080;&#1089;&#1072;&#1085;&#1080;&#1077;</a><a href="documentation.html" class="active">&#1044;&#1086;&#1082;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072;&#1094;&#1080;&#1103;</a><a href="#">&#1059;&#1095;&#1072;&#1089;&#1090;&#1080;&#1077; &#1074; &#1088;&#1072;&#1079;&#1074;&#1080;&#1090;&#1080;&#1080;</a></div></div></div></div><div class="body row"><div class="side-nav columns small-4"><div class="menu article"><i class="pull-nav"></i><ul><li><a class="side-nav-anchor" href="ar05.html">Модели и база данных</a><ul><li><a class="side-nav-anchor" href="ar05.html#d5e272">Подключение к БД и создание структуры таблиц</a></li><li><a class="side-nav-anchor" href="ar05.html#d5e287">Подключение и настройка ORM</a></li><li><a class="side-nav-anchor" href="ar05.html#d5e297">Создание модели</a></li><li><a class="side-nav-anchor" href="ar05.html#d5e308">Регистрация модели в компоненте</a></li></ul></li></ul></div></div><div class="content columns small-12"><div class="breadcrumbs"><span class="breadcrumb-link"><a href="documentation.html">UMI.Framework</a></span> &gt; <span class="breadcrumb-node">&#1052;&#1086;&#1076;&#1077;&#1083;&#1080; &#1080; &#1073;&#1072;&#1079;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</span></div><div class="article"><div><h1 class="title"><a name="d5e267"></a>&#1052;&#1086;&#1076;&#1077;&#1083;&#1080; &#1080; &#1073;&#1072;&#1079;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</h1></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e272"></a>&#1055;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1077; &#1082; &#1041;&#1044; &#1080; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1077; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1099; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;</h2></div></div></div><p>&#1058;&#1072;&#1082; &#1082;&#1072;&#1082; &#1084;&#1099; &#1073;&#1091;&#1076;&#1077;&#1084; &#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1102; &#1086; &#1087;&#1086;&#1089;&#1090;&#1072;&#1093;  &#1073;&#1083;&#1086;&#1075;&#1072; &#1074; &#1073;&#1072;&#1079;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;, &#1085;&#1072;&#1084; &#1087;&#1086;&#1085;&#1072;&#1076;&#1086;&#1073;&#1080;&#1090;&#1089;&#1103; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1080;&#1090;&#1100;
+			&#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1077; &#1082; &#1073;&#1072;&#1079;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1080; &#1089;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100; &#1089;&#1086;&#1086;&#1090;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1091;&#1102;&#1097;&#1091;&#1102; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1091;. </p><p>&#1044;&#1083;&#1103; &#1090;&#1086;&#1075;&#1086; &#1095;&#1090;&#1086;&#1073;&#1099; &#1074; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1080; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1100; &#1089;&#1086;&#1077;&#1076;&#1080;&#1085;&#1077;&#1085;&#1080;&#1077; &#1089; &#1073;&#1072;&#1079;&#1086;&#1081; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;, &#1085;&#1077;&#1086;&#1073;&#1093;&#1086;&#1076;&#1080;&#1084;&#1086;
+			&#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1080;&#1090;&#1100; &#1086;&#1090;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1077;&#1085;&#1085;&#1099;&#1081; &#1079;&#1072; &#1088;&#1072;&#1073;&#1086;&#1090;&#1091; &#1089; &#1041;&#1044; Toolbox &#1080; &#1089;&#1082;&#1086;&#1085;&#1092;&#1080;&#1075;&#1091;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080;
+			&#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1103;.</p><p>&#1056;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1103; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1084;&#1099;&#1093; &#1074; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1080; Toolbox &#1089;&#1086;&#1089;&#1090;&#1086;&#1080;&#1090; &#1074; &#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1080; &#1080;&#1093; &#1082;&#1086;&#1085;&#1092;&#1080;&#1075;&#1086;&#1074; &#1074; &#1092;&#1072;&#1081;&#1083;&#1077;
+				<code class="filename">/configuration/bootstrap.php</code>. &#1044;&#1083;&#1103; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; &#1089; &#1041;&#1044; &#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1072;&#1077;&#1084;
+			&#1082;&#1086;&#1084;&#1087;&#1086;&#1085;&#1077;&#1085;&#1090; DBAL, &#1072; &#1090;&#1072;&#1082; &#1082;&#1072;&#1082; DBAL &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1090; &#1089;&#1086;&#1073;&#1099;&#1090;&#1080;&#1103;, &#1090;&#1086; &#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1072;&#1077;&#1084; &#1080; &#1082;&#1086;&#1084;&#1087;&#1086;&#1085;&#1077;&#1085;&#1090; &#1089;&#1086;&#1073;&#1099;&#1090;&#1080;&#1081;: </p><pre class="programlisting">
+<strong class="hl-tag" style="color: blue">/**
+* &#1050;&#1086;&#1085;&#1092;&#1080;&#1075;&#1091;&#1088;&#1072;&#1094;&#1080;&#1103; &#1076;&#1083;&#1103; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; &#1085;&#1072;&#1073;&#1086;&#1088;&#1086;&#1074; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1084;&#1077;&#1085;&#1090;&#1086;&#1074;.
+*/</strong>
+Bootstrap::OPTION_TOOLKIT =&gt; [
+	<em class="hl-comment" style="color: silver">// ...</em>
+	<em class="hl-comment" style="color: silver">// &#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1077; &#1082;&#1086;&#1084;&#1087;&#1086;&#1085;&#1077;&#1085;&#1090;&#1072; DBAL</em>
+    <strong class="hl-keyword">require</strong>($libraryPath . <strong class="hl-string"><em style="color:red">'/dbal/toolbox/config.php'</em></strong>),
+    <em class="hl-comment" style="color: silver">// &#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1077; &#1082;&#1086;&#1084;&#1087;&#1086;&#1085;&#1077;&#1085;&#1090;&#1072; &#1089;&#1086;&#1073;&#1099;&#1090;&#1080;&#1081;</em>
+    <strong class="hl-keyword">require</strong>($libraryPath . <strong class="hl-string"><em style="color:red">'/event/toolbox/config.php'</em></strong>),
+    <em class="hl-comment" style="color: silver">// ...</em>
+]				
+</pre><p>&#1042; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1072;&#1093; DBAL &#1091;&#1082;&#1072;&#1079;&#1099;&#1074;&#1072;&#1077;&#1090;&#1089;&#1103; &#1089;&#1087;&#1080;&#1089;&#1086;&#1082; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1084;&#1099;&#1093; &#1074; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1080; &#1089;&#1077;&#1088;&#1074;&#1077;&#1088;&#1086;&#1074;, &#1090;&#1080;&#1087;&#1099; &#1080;&#1093;
+			&#1076;&#1088;&#1072;&#1081;&#1074;&#1077;&#1088;&#1086;&#1074; &#1041;&#1044; &#1080; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080; &#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1103;. &#1053;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080; &#1087;&#1088;&#1086;&#1087;&#1080;&#1089;&#1099;&#1074;&#1072;&#1102;&#1090;&#1089;&#1103; &#1074; &#1082;&#1086;&#1085;&#1092;&#1080;&#1075;&#1091;&#1088;&#1072;&#1094;&#1080;&#1080; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1103;
+			&#1074; &#1092;&#1072;&#1081;&#1083;&#1077; <code class="filename">/configuration/general.php</code> &#1074; &#1086;&#1087;&#1094;&#1080;&#1080; <code class="option">toolkit</code>:</p><pre class="programlisting">
+<strong class="hl-tag" style="color: blue">/**
+* &#1050;&#1086;&#1085;&#1092;&#1080;&#1075;&#1091;&#1088;&#1072;&#1094;&#1080;&#1103; &#1076;&#1083;&#1103; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; &#1085;&#1072;&#1073;&#1086;&#1088;&#1086;&#1074; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1084;&#1077;&#1085;&#1090;&#1086;&#1074;.
+*/</strong>
+<strong class="hl-string"><em style="color:red">'toolkit'</em></strong> =&gt; [
+	<em class="hl-comment" style="color: silver">// ...</em>
+	<em class="hl-comment" style="color: silver">// &#1082;&#1086;&#1085;&#1092;&#1080;&#1075;&#1091;&#1088;&#1072;&#1094;&#1080;&#1103; &#1089;&#1077;&#1088;&#1074;&#1077;&#1088;&#1086;&#1074; &#1073;&#1072;&#1079; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</em>
+	DbalTools::NAME =&gt; [
+        <strong class="hl-string"><em style="color:red">'servers'</em></strong> =&gt; [
+            [
+                <strong class="hl-string"><em style="color:red">'id'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'yourServerId'</em></strong>,
+                <strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'master'</em></strong>,
+                <strong class="hl-string"><em style="color:red">'driver'</em></strong> =&gt; [
+                    <strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'mysql'</em></strong>,
+                     <strong class="hl-string"><em style="color:red">'options'</em></strong> =&gt; [
+                        <strong class="hl-string"><em style="color:red">'dsn'</em></strong>      =&gt; <strong class="hl-string"><em style="color:red">'mysql:dbname=yourDBName;host=yourDBHost'</em></strong>,
+                        <strong class="hl-string"><em style="color:red">'user'</em></strong>     =&gt; <strong class="hl-string"><em style="color:red">'yourDBUserName'</em></strong>,
+                        <strong class="hl-string"><em style="color:red">'password'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'yourDBUserPassword'</em></strong>
+                    ]
+                ]
+            ]
+        ],
+    ],
+    <em class="hl-comment" style="color: silver">// ...</em>
+]				
+</pre><p>&#1042; &#1076;&#1072;&#1085;&#1085;&#1086;&#1084; &#1089;&#1083;&#1091;&#1095;&#1072;&#1077; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1090;&#1089;&#1103; MySql &#1089;&#1077;&#1088;&#1074;&#1077;&#1088;, &#1073;&#1072;&#1079;&#1072; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; 'yourDBName' &#1089;
+			&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1077;&#1084; 'yourDBUserName' &#1080; &#1087;&#1072;&#1088;&#1086;&#1083;&#1077;&#1084; 'yourDBUserPassword'.</p><p>&#1042; &#1091;&#1082;&#1072;&#1079;&#1072;&#1085;&#1085;&#1086;&#1081; &#1074; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1072;&#1093; DBAL &#1073;&#1072;&#1079;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1089;&#1086;&#1079;&#1076;&#1072;&#1076;&#1080;&#1084; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1091; &#1076;&#1083;&#1103; &#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1080;&#1103; &#1085;&#1077;&#1086;&#1073;&#1093;&#1086;&#1076;&#1080;&#1084;&#1086;&#1081;
+			&#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1080; &#1086; &#1087;&#1086;&#1089;&#1090;&#1077;:</p><pre class="programlisting"><strong class="hl-keyword">CREATE</strong> <strong class="hl-keyword">TABLE</strong> `post` (
+    `id` <strong class="hl-keyword">bigint</strong>(<span class="hl-number">20</span>) unsigned <strong class="hl-keyword">NOT</strong> <strong class="hl-keyword">NULL</strong> AUTO_INCREMENT,
+    `guid` <strong class="hl-keyword">varchar</strong>(<span class="hl-number">255</span>) <strong class="hl-keyword">NOT</strong> <strong class="hl-keyword">NULL</strong>,
+    `version` <strong class="hl-keyword">int</strong>(<span class="hl-number">10</span>) unsigned <strong class="hl-keyword">DEFAULT</strong> <strong class="hl-string"><em style="color:red">'1'</em></strong>,
+    `<strong class="hl-keyword">type</strong>` <strong class="hl-keyword">varchar</strong>(<span class="hl-number">255</span>) <strong class="hl-keyword">NOT</strong> <strong class="hl-keyword">NULL</strong>,
+    `content` text,
+    `title` <strong class="hl-keyword">varchar</strong>(<span class="hl-number">255</span>) <strong class="hl-keyword">DEFAULT</strong> <strong class="hl-keyword">NULL</strong>,
+    `publish_time` <strong class="hl-keyword">int</strong>(<span class="hl-number">10</span>) unsigned <strong class="hl-keyword">DEFAULT</strong> <strong class="hl-keyword">NULL</strong>,
+    <strong class="hl-keyword">PRIMARY</strong> <strong class="hl-keyword">KEY</strong> (`id`)
+) ENGINE=InnoDB <strong class="hl-keyword">DEFAULT</strong> CHARSET=utf8;	</pre><p>&#1063;&#1090;&#1086;&#1073;&#1099; &#1079;&#1072;&#1087;&#1086;&#1083;&#1085;&#1080;&#1090;&#1100; &#1089;&#1086;&#1079;&#1076;&#1072;&#1085;&#1085;&#1091;&#1102; &#1090;&#1072;&#1073;&#1083;&#1080;&#1094;&#1091; &#1076;&#1077;&#1084;&#1086;&#1085;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1086;&#1085;&#1085;&#1099;&#1084;&#1080; &#1076;&#1072;&#1085;&#1085;&#1099;&#1084;&#1080;, &#1076;&#1086;&#1073;&#1072;&#1074;&#1080;&#1084; &#1074; &#1085;&#1077;&#1077; &#1090;&#1088;&#1080; &#1087;&#1086;&#1089;&#1090;&#1072;:</p><pre class="programlisting">
+<strong class="hl-keyword">INSERT</strong> <strong class="hl-keyword">INTO</strong> `post` <strong class="hl-keyword">VALUES</strong> (<span class="hl-number">1</span>, <strong class="hl-string"><em style="color:red">'c7b42aa9-0e5d-461e-988b-1ea25232145d'</em></strong>, <span class="hl-number">1</span>, <strong class="hl-string"><em style="color:red">'posts.base'</em></strong>, <strong class="hl-string"><em style="color:red">'First post content'</em></strong>, <strong class="hl-string"><em style="color:red">'First post title'</em></strong>, <span class="hl-number">1386143035</span>);
+<strong class="hl-keyword">INSERT</strong> <strong class="hl-keyword">INTO</strong> `post` <strong class="hl-keyword">VALUES</strong> (<span class="hl-number">2</span>, <strong class="hl-string"><em style="color:red">'dd214a86-df1e-4d8b-888d-c649f71d3dfc'</em></strong>, <span class="hl-number">1</span>, <strong class="hl-string"><em style="color:red">'posts.base'</em></strong>, <strong class="hl-string"><em style="color:red">'Second post content'</em></strong>, <strong class="hl-string"><em style="color:red">'Second post title'</em></strong>, <span class="hl-number">1386243035</span>);
+<strong class="hl-keyword">INSERT</strong> <strong class="hl-keyword">INTO</strong> `post` <strong class="hl-keyword">VALUES</strong> (<span class="hl-number">3</span>, <strong class="hl-string"><em style="color:red">'1a907585-76e7-42a5-9ef3-3c46828d9b0e'</em></strong>, <span class="hl-number">1</span>, <strong class="hl-string"><em style="color:red">'posts.base'</em></strong>, <strong class="hl-string"><em style="color:red">'Third post content'</em></strong>, <strong class="hl-string"><em style="color:red">'Third post title'</em></strong>, <span class="hl-number">1386253035</span>);
+    	</pre></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e287"></a>&#1055;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1077; &#1080; &#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1072; ORM</h2></div></div></div><p>&#1056;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1080;&#1088;&#1091;&#1077;&#1084; Toolbox ORM &#1074; &#1092;&#1072;&#1081;&#1083;&#1077; <code class="filename">/configuration/bootstrap.php</code>: </p><pre class="programlisting">
+<strong class="hl-tag" style="color: blue">/**
+* &#1050;&#1086;&#1085;&#1092;&#1080;&#1075;&#1091;&#1088;&#1072;&#1094;&#1080;&#1103; &#1076;&#1083;&#1103; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; &#1085;&#1072;&#1073;&#1086;&#1088;&#1086;&#1074; &#1080;&#1085;&#1089;&#1090;&#1088;&#1091;&#1084;&#1077;&#1085;&#1090;&#1086;&#1074;.
+*/</strong>
+Bootstrap::OPTION_TOOLKIT =&gt; [
+	<em class="hl-comment" style="color: silver">// ...</em>
+	<em class="hl-comment" style="color: silver">// &#1087;&#1086;&#1076;&#1082;&#1083;&#1102;&#1095;&#1077;&#1085;&#1080;&#1077; &#1082;&#1086;&#1084;&#1087;&#1086;&#1085;&#1077;&#1085;&#1090;&#1072; ORM</em>
+    <strong class="hl-keyword">require</strong>($libraryPath . <strong class="hl-string"><em style="color:red">'/orm/toolbox/config.php'</em></strong>), 
+    <em class="hl-comment" style="color: silver">// ...</em>
+]				
+</pre><p>&#1042; UMI.Framework &#1077;&#1089;&#1090;&#1100; &#1087;&#1086;&#1085;&#1103;&#1090;&#1080;&#1077; &#1082;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1080; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1086;&#1074;. &#1050;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1080; &#1087;&#1086;&#1079;&#1074;&#1086;&#1083;&#1103;&#1102;&#1090; &#1089;&#1086;&#1074;&#1077;&#1088;&#1096;&#1072;&#1090;&#1100;
+			&#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; &#1085;&#1072;&#1076; &#1087;&#1088;&#1080;&#1085;&#1072;&#1076;&#1083;&#1077;&#1078;&#1072;&#1097;&#1080;&#1084;&#1080; &#1080;&#1084; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1072;&#1084;&#1080;. &#1044;&#1083;&#1103; &#1085;&#1072;&#1096;&#1077;&#1075;&#1086; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1103; &#1084;&#1099; &#1073;&#1091;&#1076;&#1077;&#1084; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1100;
+			&#1082;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1102; &#1087;&#1086;&#1089;&#1090;&#1086;&#1074; &#1073;&#1083;&#1086;&#1075;&#1072;. &#1044;&#1083;&#1103; &#1101;&#1090;&#1086;&#1075;&#1086; &#1085;&#1072;&#1084; &#1085;&#1091;&#1078;&#1085;&#1086; &#1079;&#1072;&#1088;&#1077;&#1075;&#1077;&#1089;&#1090;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1077;&#1077; &#1074; &#1089;&#1087;&#1080;&#1089;&#1082;&#1077; &#1082;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1081; ORM
+			&#1082;&#1072;&#1082; &#1087;&#1088;&#1086;&#1089;&#1090;&#1091;&#1102; &#1082;&#1086;&#1083;&#1083;&#1077;&#1082;&#1094;&#1080;&#1102; <code class="option">posts</code> &#1080; &#1086;&#1087;&#1080;&#1089;&#1072;&#1090;&#1100; &#1077;&#1077; &#1084;&#1077;&#1090;&#1072;&#1076;&#1072;&#1085;&#1085;&#1099;&#1077;. &#1044;&#1086;&#1073;&#1072;&#1074;&#1083;&#1103;&#1077;&#1084;
+			&#1085;&#1072;&#1089;&#1090;&#1088;&#1086;&#1081;&#1082;&#1080; ORM &#1074; &#1082;&#1086;&#1085;&#1092;&#1080;&#1075;&#1091;&#1088;&#1072;&#1094;&#1080;&#1080; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1103; &#1074; &#1092;&#1072;&#1081;&#1083;&#1077;
+				<code class="filename">/configuration/general.php</code> &#1074; &#1086;&#1087;&#1094;&#1080;&#1080;
+			<code class="option">toolkit</code>:</p><pre class="programlisting">
+<strong class="hl-string"><em style="color:red">'toolkit'</em></strong> =&gt; [
+	<em class="hl-comment" style="color: silver">// ...</em>
+	ORMTools::NAME =&gt; [
+	    <strong class="hl-string"><em style="color:red">'collections'</em></strong> =&gt; [
+	    	<strong class="hl-string"><em style="color:red">'posts'</em></strong> =&gt; [
+	    		<strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; ICollectionFactory::TYPE_SIMPLE
+	    	]
+		],
+		<strong class="hl-string"><em style="color:red">'metadata'</em></strong> =&gt; [
+	    	<strong class="hl-string"><em style="color:red">'posts'</em></strong> =&gt; [
+				<strong class="hl-string"><em style="color:red">'dataSource'</em></strong> =&gt; [
+					<strong class="hl-string"><em style="color:red">'sourceName'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'post'</em></strong>
+				],
+				<strong class="hl-string"><em style="color:red">'fields'</em></strong> =&gt; [
+					IObject::FIELD_IDENTIFY =&gt; [<strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; IField::TYPE_IDENTIFY, <strong class="hl-string"><em style="color:red">'columnName'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'id'</em></strong>, <strong class="hl-string"><em style="color:red">'accessor'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'getId'</em></strong>],
+					IObject::FIELD_GUID =&gt; [<strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; IField::TYPE_GUID, <strong class="hl-string"><em style="color:red">'columnName'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'guid'</em></strong>, <strong class="hl-string"><em style="color:red">'accessor'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'getGuid'</em></strong>, <strong class="hl-string"><em style="color:red">'mutator'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'setGuid'</em></strong>],
+					IObject::FIELD_TYPE =&gt; [<strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; IField::TYPE_STRING, <strong class="hl-string"><em style="color:red">'columnName'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'type'</em></strong>, <strong class="hl-string"><em style="color:red">'accessor'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'getType'</em></strong>, <strong class="hl-string"><em style="color:red">'readOnly'</em></strong> =&gt; <strong class="hl-keyword">true</strong>],
+					IObject::FIELD_VERSION =&gt; [<strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; IField::TYPE_VERSION, <strong class="hl-string"><em style="color:red">'columnName'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'version'</em></strong>, <strong class="hl-string"><em style="color:red">'accessor'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'getVersion'</em></strong>, <strong class="hl-string"><em style="color:red">'mutator'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'setVersion'</em></strong>, <strong class="hl-string"><em style="color:red">'defaultValue'</em></strong> =&gt; <span class="hl-number">1</span>],
+			
+					<strong class="hl-string"><em style="color:red">'publishTime'</em></strong> =&gt; [<strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; IField::TYPE_INTEGER, <strong class="hl-string"><em style="color:red">'columnName'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'publish_time'</em></strong>],
+					<strong class="hl-string"><em style="color:red">'title'</em></strong> =&gt; [<strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; IField::TYPE_STRING, <strong class="hl-string"><em style="color:red">'columnName'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'title'</em></strong>],
+					<strong class="hl-string"><em style="color:red">'content'</em></strong> =&gt; [<strong class="hl-string"><em style="color:red">'type'</em></strong> =&gt; IField::TYPE_TEXT, <strong class="hl-string"><em style="color:red">'columnName'</em></strong> =&gt; <strong class="hl-string"><em style="color:red">'content'</em></strong>]
+				],
+				<strong class="hl-string"><em style="color:red">'types'</em></strong> =&gt; [
+					<strong class="hl-string"><em style="color:red">'base'</em></strong> =&gt; [
+						<strong class="hl-string"><em style="color:red">'fields'</em></strong> =&gt; [
+							IObject::FIELD_IDENTIFY,
+							IObject::FIELD_GUID,
+							IObject::FIELD_TYPE,
+							IObject::FIELD_VERSION,
+							<strong class="hl-string"><em style="color:red">'publishTime'</em></strong>, <strong class="hl-string"><em style="color:red">'title'</em></strong>, <strong class="hl-string"><em style="color:red">'content'</em></strong>
+						]
+					]
+				]
+			]
+		]
+	],
+	<em class="hl-comment" style="color: silver">// ...</em>
+]
+</pre></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e297"></a>&#1057;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1077; &#1084;&#1086;&#1076;&#1077;&#1083;&#1080;</h2></div></div></div><p>&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1102; &#1073;&#1080;&#1079;&#1085;&#1077;&#1089; &#1083;&#1086;&#1075;&#1080;&#1082;&#1080; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1103; &#1087;&#1088;&#1080;&#1085;&#1103;&#1090;&#1086; &#1087;&#1086;&#1084;&#1077;&#1097;&#1072;&#1090;&#1100; &#1074; &#1084;&#1086;&#1076;&#1077;&#1083;&#1080;. <span class="bold"><strong>UMI.Framework</strong></span> &#1085;&#1077; &#1085;&#1072;&#1082;&#1083;&#1072;&#1076;&#1099;&#1074;&#1072;&#1077;&#1090; &#1085;&#1080;&#1082;&#1072;&#1082;&#1080;&#1093; &#1086;&#1075;&#1088;&#1072;&#1085;&#1080;&#1095;&#1077;&#1085;&#1080;&#1081; &#1085;&#1072; &#1085;&#1072;&#1079;&#1074;&#1072;&#1085;&#1080;&#1077; &#1074;&#1072;&#1096;&#1080;&#1093;
+			&#1084;&#1086;&#1076;&#1077;&#1083;&#1077;&#1081;, &#1085;&#1086;, &#1077;&#1089;&#1083;&#1080; &#1074;&#1099; &#1093;&#1086;&#1090;&#1080;&#1090;&#1077; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1086;&#1074;&#1072;&#1090;&#1100; &#1072;&#1074;&#1090;&#1086;&#1084;&#1072;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1077; &#1074;&#1085;&#1077;&#1076;&#1088;&#1077;&#1085;&#1080;&#1077; &#1084;&#1086;&#1076;&#1077;&#1083;&#1077;&#1081; &#1074; &#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1086;&#1088;&#1099;
+			&#1074;&#1072;&#1096;&#1080;&#1093; &#1082;&#1086;&#1085;&#1090;&#1088;&#1086;&#1083;&#1083;&#1077;&#1088;&#1086;&#1074;, &#1090;&#1086; &#1084;&#1086;&#1076;&#1077;&#1083;&#1100; &#1076;&#1086;&#1083;&#1078;&#1085;&#1072; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1086;&#1074;&#1099;&#1074;&#1072;&#1090;&#1100; &#1080;&#1085;&#1090;&#1077;&#1088;&#1092;&#1077;&#1081;&#1089;
+				<code class="interfacename">umi\hmvc\model\IModel</code>.</p><p>&#1042;&#1089;&#1103; &#1073;&#1080;&#1079;&#1085;&#1077;&#1089; &#1083;&#1086;&#1075;&#1080;&#1082;&#1072; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; &#1076;&#1077;&#1084;&#1086;&#1085;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1086;&#1085;&#1085;&#1086;&#1075;&#1086; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1077;&#1085;&#1080;&#1103; &#1079;&#1072;&#1082;&#1083;&#1102;&#1095;&#1072;&#1077;&#1090;&#1089;&#1103; &#1074; &#1088;&#1072;&#1073;&#1086;&#1090;&#1077; &#1089; &#1087;&#1086;&#1089;&#1090;&#1072;&#1084;&#1080;
+			&#1073;&#1083;&#1086;&#1075;&#1072;. &#1058;&#1072;&#1082;&#1080;&#1084; &#1086;&#1073;&#1088;&#1072;&#1079;&#1086;&#1084; &#1085;&#1077;&#1086;&#1073;&#1093;&#1086;&#1076;&#1080;&#1084;&#1086; &#1089;&#1086;&#1079;&#1076;&#1072;&#1090;&#1100; &#1084;&#1086;&#1076;&#1077;&#1083;&#1100; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; &#1089; &#1073;&#1083;&#1086;&#1075;&#1086;&#1084;. &#1052;&#1086;&#1076;&#1077;&#1083;&#1080; &#1087;&#1088;&#1080;&#1085;&#1103;&#1090;&#1086; &#1093;&#1088;&#1072;&#1085;&#1080;&#1090;&#1100; &#1074;
+			&#1076;&#1080;&#1088;&#1077;&#1082;&#1090;&#1086;&#1088;&#1080;&#1080; <code class="filename">/application/components/&#1080;&#1084;&#1103;_&#1082;&#1086;&#1084;&#1087;&#1086;&#1085;&#1077;&#1085;&#1090;&#1072;/model</code>. &#1057;&#1086;&#1079;&#1076;&#1072;&#1076;&#1080;&#1084;
+			&#1084;&#1086;&#1076;&#1077;&#1083;&#1100; <code class="option">posts</code> &#1074; &#1092;&#1072;&#1081;&#1083;&#1077;
+				<code class="filename">/application/components/blog/model/PostModel.php</code>:</p><pre class="programlisting"> 
+<span class="hl-directive" style="color: maroon">&lt;?php</span>
+<strong class="hl-keyword">namespace</strong> application\components\blog\model;
+
+<strong class="hl-keyword">use</strong> umi\hmvc\model\IModel;
+<strong class="hl-keyword">use</strong> umi\orm\collection\ICollectionManagerAware;
+<strong class="hl-keyword">use</strong> umi\orm\collection\TCollectionManagerAware;
+<strong class="hl-keyword">use</strong> umi\orm\object\IObject;
+<strong class="hl-keyword">use</strong> umi\orm\selector\ISelector;
+
+<strong class="hl-tag" style="color: blue">/**
+ * &#1052;&#1086;&#1076;&#1077;&#1083;&#1100; &#1076;&#1083;&#1103; &#1088;&#1072;&#1073;&#1086;&#1090;&#1099; &#1089; &#1087;&#1086;&#1089;&#1090;&#1072;&#1084;&#1080; &#1073;&#1083;&#1086;&#1075;&#1072;.
+ */</strong>
+<strong class="hl-keyword">class</strong> PostModel <strong class="hl-keyword">implements</strong> IModel, ICollectionManagerAware {
+
+	<strong class="hl-keyword">use</strong> TCollectionManagerAware;
+
+	<strong class="hl-tag" style="color: blue">/**
+	 * &#1055;&#1086;&#1083;&#1091;&#1095;&#1072;&#1077;&#1090; &#1089;&#1087;&#1080;&#1089;&#1086;&#1082; &#1074;&#1089;&#1077;&#1093; &#1087;&#1086;&#1089;&#1090;&#1086;&#1074; &#1073;&#1083;&#1086;&#1075;&#1072;.
+	 * @return ISelector
+	 */</strong>
+	<strong class="hl-keyword">public</strong> <strong class="hl-keyword">function</strong> getPosts() {
+		<strong class="hl-keyword">return</strong> $this-&gt;getCollectionManager()-&gt;getCollection(<strong class="hl-string"><em style="color:red">'posts'</em></strong>)
+			-&gt;select()
+				-&gt;orderBy(<strong class="hl-string"><em style="color:red">'publishTime'</em></strong>, ISelector::ORDER_DESC);
+	}
+
+	<strong class="hl-tag" style="color: blue">/**
+	 * &#1055;&#1086;&#1083;&#1091;&#1095;&#1072;&#1077;&#1090; &#1087;&#1086;&#1089;&#1090; &#1073;&#1083;&#1086;&#1075;&#1072; &#1087;&#1086; &#1077;&#1075;&#1086; &#1080;&#1076;&#1077;&#1085;&#1090;&#1080;&#1092;&#1080;&#1082;&#1072;&#1090;&#1086;&#1088;&#1091;.
+	 * @param int $guid &#1080;&#1076;&#1077;&#1085;&#1090;&#1080;&#1092;&#1080;&#1082;&#1072;&#1090;&#1086;&#1088; &#1087;&#1086;&#1089;&#1090;&#1072;
+	 * @return IObject &#1087;&#1086;&#1089;&#1090;
+	 */</strong>
+	<strong class="hl-keyword">public</strong> <strong class="hl-keyword">function</strong> getPost($guid) {
+		<strong class="hl-keyword">return</strong> $this-&gt;getCollectionManager()-&gt;getCollection(<strong class="hl-string"><em style="color:red">'posts'</em></strong>)-&gt;get($guid);
+	}
+
+	<strong class="hl-tag" style="color: blue">/**
+	 * &#1055;&#1086;&#1084;&#1077;&#1095;&#1072;&#1077;&#1090; &#1087;&#1086;&#1089;&#1090; &#1085;&#1072; &#1091;&#1076;&#1072;&#1083;&#1077;&#1085;&#1080;&#1077;
+	 * @param $postGuid &#1080;&#1076;&#1077;&#1085;&#1090;&#1080;&#1092;&#1080;&#1082;&#1072;&#1090;&#1086;&#1088; &#1087;&#1086;&#1089;&#1090;&#1072;
+	 * @return void
+	 */</strong>
+	<strong class="hl-keyword">public</strong> <strong class="hl-keyword">function</strong> deletePost($postGuid) {
+		$posts = $this-&gt;getCollectionManager()-&gt;getCollection(<strong class="hl-string"><em style="color:red">'posts'</em></strong>);
+		$posts-&gt;delete($posts-&gt;get($postGuid));
+	}
+
+	<strong class="hl-tag" style="color: blue">/**
+	 * &#1057;&#1086;&#1079;&#1076;&#1072;&#1077;&#1090; &#1085;&#1086;&#1074;&#1099;&#1081; &#1087;&#1086;&#1089;&#1090;.
+	 * @return IObject
+	 */</strong>
+	<strong class="hl-keyword">public</strong> <strong class="hl-keyword">function</strong> addPost() {
+		$post = $this-&gt;getCollectionManager()-&gt;getCollection(<strong class="hl-string"><em style="color:red">'posts'</em></strong>)-&gt;add();
+		$post-&gt;setValue(<strong class="hl-string"><em style="color:red">'publishTime'</em></strong>, time());
+
+		<strong class="hl-keyword">return</strong> $post;
+	}
+}
+</pre><p>&#1057;&#1086;&#1079;&#1076;&#1072;&#1085;&#1085;&#1072;&#1103; &#1084;&#1086;&#1076;&#1077;&#1083;&#1100; &#1080;&#1084;&#1077;&#1077;&#1090; &#1084;&#1077;&#1090;&#1086;&#1076;&#1099; &#1087;&#1086;&#1083;&#1091;&#1095;&#1077;&#1085;&#1080;&#1103;, &#1076;&#1086;&#1073;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103; &#1080; &#1091;&#1076;&#1072;&#1083;&#1077;&#1085;&#1080;&#1103; &#1087;&#1086;&#1089;&#1090;&#1086;&#1074; &#1073;&#1083;&#1086;&#1075;&#1072;. </p></div><div class="sect1"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="d5e308"></a>&#1056;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1103; &#1084;&#1086;&#1076;&#1077;&#1083;&#1080; &#1074; &#1082;&#1086;&#1084;&#1087;&#1086;&#1085;&#1077;&#1085;&#1090;&#1077;</h2></div></div></div><p>&#1056;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1103; &#1080;&#1089;&#1087;&#1086;&#1083;&#1100;&#1079;&#1091;&#1077;&#1084;&#1099;&#1093; &#1074; &#1082;&#1086;&#1084;&#1087;&#1086;&#1085;&#1077;&#1085;&#1090;&#1077; &#1084;&#1086;&#1076;&#1077;&#1083;&#1077;&#1081; &#1085;&#1072;&#1093;&#1086;&#1076;&#1080;&#1090;&#1089;&#1103; &#1074; &#1086;&#1087;&#1094;&#1080;&#1080;
+				<code class="option">[IComponent::OPTION_MODELS]</code>. &#1044;&#1083;&#1103; &#1090;&#1086;&#1075;&#1086; &#1095;&#1090;&#1086;&#1073;&#1099; &#1079;&#1072;&#1088;&#1077;&#1075;&#1077;&#1089;&#1090;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1084;&#1086;&#1076;&#1077;&#1083;&#1100;
+			&#1087;&#1086;&#1089;&#1090;&#1086;&#1074; &#1074; &#1082;&#1086;&#1084;&#1087;&#1086;&#1085;&#1077;&#1085;&#1090;&#1077; &#1073;&#1083;&#1086;&#1075;&#1072;, &#1076;&#1086;&#1073;&#1072;&#1074;&#1080;&#1084; &#1074; &#1082;&#1086;&#1085;&#1092;&#1080;&#1075;&#1091;&#1088;&#1072;&#1094;&#1080;&#1102;
+				(<code class="filename">/application/components/blog/component.config.php</code>) &#1089;&#1083;&#1077;&#1076;&#1091;&#1097;&#1080;&#1077;
+			&#1089;&#1090;&#1088;&#1086;&#1082;&#1080;:</p><pre class="programlisting">
+<em class="hl-comment" style="color: silver">// &#1079;&#1072;&#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1077; &#1084;&#1086;&#1076;&#1077;&#1083;&#1080;</em>
+IComponent::OPTION_MODELS =&gt; [
+    <strong class="hl-string"><em style="color:red">'post'</em></strong> =&gt; <strong class="hl-keyword">__NAMESPACE__</strong> . <strong class="hl-string"><em style="color:red">'\model\PostModel'</em></strong>
+],			
+</pre></div></div><div class="umi-siblings-nav"><a class="arrow prev" href="ar04.html"><i class="icon prev"></i>&#1052;&#1072;&#1088;&#1096;&#1088;&#1091;&#1090;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1080; &#1082;&#1086;&#1085;&#1090;&#1088;&#1086;&#1083;&#1083;&#1077;&#1088;&#1099;</a><a class="arrow next" href="ar06.html">&#1057;&#1086;&#1079;&#1076;&#1072;&#1085;&#1080;&#1077; &#1087;&#1077;&#1088;&#1074;&#1086;&#1075;&#1086; &#1082;&#1086;&#1085;&#1090;&#1088;&#1086;&#1083;&#1083;&#1077;&#1088;&#1072;<i class="icon next"></i></a></div><div id="disqus_thread"></div><script type="text/javascript">
+      /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+      var disqus_shortname = 'umiframeworkdoc'; // required: replace example with your forum shortname
+
+      /* * * DON'T EDIT BELOW THIS LINE * * */
+      (function() {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+      })();
+    </script><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript><a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a></div><div class="for_footer"></div></div></div><div class="footer"><div class="row"><div><ul><li>&#1054;&#1087;&#1080;&#1089;&#1072;&#1085;&#1080;&#1077;</li><li>&#1063;&#1090;&#1086; &#1085;&#1086;&#1074;&#1086;&#1075;&#1086;</li><li>&#1055;&#1088;&#1077;&#1080;&#1084;&#1091;&#1097;&#1077;&#1089;&#1090;&#1074;&#1072;</li><li>&#1042;&#1074;&#1077;&#1076;&#1077;&#1085;&#1080;&#1077;</li></ul><ul><li>&#1044;&#1086;&#1082;&#1091;&#1084;&#1077;&#1085;&#1090;&#1072;&#1094;&#1080;&#1103;</li><li>&#1057;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1077;</li><li>Commerce</li><li>Business</li></ul><ul><li>&#1059;&#1095;&#1072;&#1089;&#1090;&#1080;&#1077; &#1074; &#1088;&#1072;&#1079;&#1074;&#1080;&#1090;&#1080;&#1080;</li><li>&#1057;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1077;</li><li>Commerce</li><li>Business</li></ul></div><div><div class="number"><span>&#1057;&#1072;&#1085;&#1082;&#1090;-&#1055;&#1077;&#1090;&#1077;&#1088;&#1073;&#1091;&#1088;&#1075;</span><span>+7(812)653-43-54</span></div><div class="number"><span>&#1041;&#1077;&#1089;&#1087;&#1083;&#1072;&#1090;&#1085;&#1099;&#1081; &#1079;&#1074;&#1086;&#1085;&#1086;&#1082;</span><span>+7(800)359-78-55</span></div><div class="number"><span>&#1052;&#1086;&#1089;&#1082;&#1074;&#1072;</span><span>+7(495)658-54-66</span></div></div></div></div></body></html>
