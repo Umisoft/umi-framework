@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\orm\metadata\MetadataManager | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -34,17 +34,6 @@
         </div>
     
     
-            <h2>Properties</h2>
-
-            <table>
-                    <tr>
-                <td class="type" id="property_collections">
-                    public                                                                                array
-                </td>
-                <td class="last">$collections конфигурация метаданных в формате [&#039;collectionName&#039; =&gt; [], ... ]</td>
-            </tr>
-            </table>
-
     
             <h2>Methods</h2>
 
@@ -54,7 +43,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<a href="../../../umi/orm/metadata/IMetadataFactory.html"><abbr title="umi\orm\metadata\IMetadataFactory">IMetadataFactory</abbr></a> $metadataFactory)
+                    <a href="#method___construct">__construct</a>(<a href="../../../umi/orm/metadata/IMetadataFactory.html"><abbr title="umi\orm\metadata\IMetadataFactory">IMetadataFactory</abbr></a> $metadataFactory, array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $metadata)
                     <p>Конструктор.</p>
                 </td>
                 <td></td>
@@ -75,9 +64,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 42</div>
+        <div class="location">at line 51</div>
         <code>            public            
-    <strong>__construct</strong>(<a href="../../../umi/orm/metadata/IMetadataFactory.html"><abbr title="umi\orm\metadata\IMetadataFactory">IMetadataFactory</abbr></a> $metadataFactory)</code>
+    <strong>__construct</strong>(<a href="../../../umi/orm/metadata/IMetadataFactory.html"><abbr title="umi\orm\metadata\IMetadataFactory">IMetadataFactory</abbr></a> $metadataFactory, array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $metadata)</code>
     </h3>
     <div class="details">
         <p>Конструктор.</p>
@@ -92,16 +81,30 @@
                 <td>$metadataFactory</td>
                 <td>фабрика метаданных</td>
             </tr>
+                    <tr>
+                <td>array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a></td>
+                <td>$metadata</td>
+                <td>конфигурация метаданных в формате [ 'collectionName' => [], ... ]</td>
+            </tr>
             </table>
 
             
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/UnexpectedValueException"><abbr title="UnexpectedValueException">UnexpectedValueException</abbr></a></td>
+                <td>в случае неверной конфигурации</td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
 
                 <h3 id="method_getMetadata">
-        <div class="location">at line 50</div>
+        <div class="location">at line 67</div>
         <code>            public            <a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a>
     <strong>getMetadata</strong>(string $collectionName)</code>
     </h3>

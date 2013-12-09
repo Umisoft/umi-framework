@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\pagination\toolbox\PaginationTools | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,7 +25,7 @@
         <div class="content">
                 <p>    class
     <strong>PaginationTools</strong>        implements
-        <a href="../../../umi/pagination/toolbox/IPaginationTools.html"><abbr title="umi\pagination\toolbox\IPaginationTools">IPaginationTools</abbr></a></p>
+        <a href="../../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a></p>
 
             <div class="description">
             <p>Инструменты работы с пагинатором.</p>
@@ -33,15 +33,30 @@
 </p>
         </div>
     
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>NAME</td>
+                <td class="last">
+                    <p><em>Имя набора инструментов</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
             <table>
                     <tr>
                 <td class="type" id="property_paginatorFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$paginatorFactoryClass класс фабрики для создания пагинатора</td>
+                <td>$paginatorFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
             </table>
 
@@ -61,21 +76,21 @@
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    object
                 </td>
                 <td class="last">
-                    <a href="#method_injectDependencies">injectDependencies</a>(object $object)
-                    <p>Внедряет в объект сервисы, известные набору инструментов.</p>
+                    <a href="#method_getService">getService</a>(string $serviceInterfaceName, string $concreteClassName)
+                    <p>Возвращает сервис из набора по указанному интерфейсу.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    <a href="../../../umi/pagination/IPaginatorFactory.html"><abbr title="umi\pagination\IPaginatorFactory">IPaginatorFactory</abbr></a>
+                    
                 </td>
                 <td class="last">
-                    <a href="#method_getPaginatorFactory">getPaginatorFactory</a>()
-                    <p>Возвращает фабрику пагинаторов.</p>
+                    <a href="#method_injectDependencies">injectDependencies</a>(object $object)
+                    <p>Внедряет в объект сервисы, известные набору инструментов.</p>
                 </td>
                 <td></td>
             </tr>
@@ -85,7 +100,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 31</div>
+        <div class="location">at line 38</div>
         <code>            public            
     <strong>__construct</strong>()</code>
     </h3>
@@ -100,8 +115,58 @@
                     </div>
     </div>
 
+                <h3 id="method_getService">
+        <div class="location">at line 50</div>
+        <code>            public            object
+    <strong>getService</strong>(string $serviceInterfaceName, string $concreteClassName)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает сервис из набора по указанному интерфейсу.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$serviceInterfaceName</td>
+                <td>контракт сервиса</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$concreteClassName</td>
+                <td>имя класса конкретной реализации, может быть использовано для создания нового экземпляра сервиса.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>object</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="UnsupportedServiceException">UnsupportedServiceException</abbr></td>
+                <td>если сервис не поддерживается</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
                 <h3 id="method_injectDependencies">
-        <div class="location">at line 39</div>
+        <div class="location">at line 65</div>
         <code>            public            
     <strong>injectDependencies</strong>(object $object)</code>
     </h3>
@@ -122,32 +187,6 @@
             </table>
 
             
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getPaginatorFactory">
-        <div class="location">at line 49</div>
-        <code>            public            <a href="../../../umi/pagination/IPaginatorFactory.html"><abbr title="umi\pagination\IPaginatorFactory">IPaginatorFactory</abbr></a>
-    <strong>getPaginatorFactory</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает фабрику пагинаторов.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/pagination/IPaginatorFactory.html"><abbr title="umi\pagination\IPaginatorFactory">IPaginatorFactory</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
             
             
                     </div>

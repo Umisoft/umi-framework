@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\templating\engine\twig\TwigHelperExtension | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -24,7 +24,7 @@
     </div>
         <div class="content">
                 <p>    class
-    <strong>TwigHelperExtension</strong>        extends <abbr title="Twig_Extension">Twig_Extension</abbr></p>
+    <strong>TwigHelperExtension</strong>        extends <a href="../../../../Twig_Extension.html"><abbr title="Twig_Extension">Twig_Extension</abbr></a></p>
 
             <div class="description">
             <p>Класс расширения для шаблонизатора Twig.</p>
@@ -41,6 +41,86 @@
                     
                 </td>
                 <td class="last">
+                    <a href="#method_initRuntime">initRuntime</a>(<a href="../../../../Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a> $environment)
+                    <p>Initializes the runtime environment.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Twig_Extension.html#method_initRuntime"><abbr title="Twig_Extension">Twig_Extension</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getTokenParsers">getTokenParsers</a>()
+                    <p>Returns the token parser instances to add to the existing list.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Twig_Extension.html#method_getTokenParsers"><abbr title="Twig_Extension">Twig_Extension</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getNodeVisitors">getNodeVisitors</a>()
+                    <p>Returns the node visitor instances to add to the existing list.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Twig_Extension.html#method_getNodeVisitors"><abbr title="Twig_Extension">Twig_Extension</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getFilters">getFilters</a>()
+                    <p>Returns a list of filters to add to the existing list.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Twig_Extension.html#method_getFilters"><abbr title="Twig_Extension">Twig_Extension</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getTests">getTests</a>()
+                    <p>Returns a list of tests to add to the existing list.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Twig_Extension.html#method_getTests"><abbr title="Twig_Extension">Twig_Extension</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getFunctions">getFunctions</a>()
+                    <p>Returns a list of functions to add to the existing list.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getOperators">getOperators</a>()
+                    <p>Returns a list of operators to add to the existing list.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Twig_Extension.html#method_getOperators"><abbr title="Twig_Extension">Twig_Extension</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getGlobals">getGlobals</a>()
+                    <p>Returns a list of global variables to add to the existing list.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../Twig_Extension.html#method_getGlobals"><abbr title="Twig_Extension">Twig_Extension</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
                     <a href="#method___construct">__construct</a>(string $name, <a href="../../../../umi/templating/extension/helper/collection/IHelperCollection.html"><abbr title="umi\templating\extension\helper\collection\IHelperCollection">IHelperCollection</abbr></a> $helpers)
                     <p>Конструктор.</p>
                 </td>
@@ -48,21 +128,11 @@
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    string
                 </td>
                 <td class="last">
                     <a href="#method_getName">getName</a>()
-                    <p>{@inheritdoc}</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method_getFunctions">getFunctions</a>()
-                    <p>{@inheritdoc}</p>
+                    <p>Returns the name of the extension.</p>
                 </td>
                 <td></td>
             </tr>
@@ -71,7 +141,207 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method___construct">
+                        <h3 id="method_initRuntime">
+        <div class="location">in <a href="../../../../Twig_Extension.html#method_initRuntime"><abbr title="Twig_Extension">Twig_Extension</abbr></a> at line 20</div>
+        <code>            public            
+    <strong>initRuntime</strong>(<a href="../../../../Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a> $environment)</code>
+    </h3>
+    <div class="details">
+        <p>Initializes the runtime environment.</p>
+        <p>This is where you can load some file that contains filter functions for instance.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a></td>
+                <td>$environment</td>
+                <td>The current Twig_Environment instance</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTokenParsers">
+        <div class="location">in <a href="../../../../Twig_Extension.html#method_getTokenParsers"><abbr title="Twig_Extension">Twig_Extension</abbr></a> at line 29</div>
+        <code>            public            array
+    <strong>getTokenParsers</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the token parser instances to add to the existing list.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>An array of Twig<em>TokenParserInterface or Twig</em>TokenParserBrokerInterface instances</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNodeVisitors">
+        <div class="location">in <a href="../../../../Twig_Extension.html#method_getNodeVisitors"><abbr title="Twig_Extension">Twig_Extension</abbr></a> at line 39</div>
+        <code>            public            array
+    <strong>getNodeVisitors</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the node visitor instances to add to the existing list.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>An array of Twig_NodeVisitorInterface instances</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFilters">
+        <div class="location">in <a href="../../../../Twig_Extension.html#method_getFilters"><abbr title="Twig_Extension">Twig_Extension</abbr></a> at line 49</div>
+        <code>            public            array
+    <strong>getFilters</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns a list of filters to add to the existing list.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>An array of filters</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTests">
+        <div class="location">in <a href="../../../../Twig_Extension.html#method_getTests"><abbr title="Twig_Extension">Twig_Extension</abbr></a> at line 59</div>
+        <code>            public            array
+    <strong>getTests</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns a list of tests to add to the existing list.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>An array of tests</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFunctions">
+        <div class="location">at line 51</div>
+        <code>            public            array
+    <strong>getFunctions</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns a list of functions to add to the existing list.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>An array of functions</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getOperators">
+        <div class="location">in <a href="../../../../Twig_Extension.html#method_getOperators"><abbr title="Twig_Extension">Twig_Extension</abbr></a> at line 79</div>
+        <code>            public            array
+    <strong>getOperators</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns a list of operators to add to the existing list.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>An array of operators</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getGlobals">
+        <div class="location">in <a href="../../../../Twig_Extension.html#method_getGlobals"><abbr title="Twig_Extension">Twig_Extension</abbr></a> at line 89</div>
+        <code>            public            array
+    <strong>getGlobals</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns a list of global variables to add to the existing list.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>An array of global variables</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___construct">
         <div class="location">at line 34</div>
         <code>            public            
     <strong>__construct</strong>(string $name, <a href="../../../../umi/templating/extension/helper/collection/IHelperCollection.html"><abbr title="umi\templating\extension\helper\collection\IHelperCollection">IHelperCollection</abbr></a> $helpers)</code>
@@ -105,31 +375,24 @@
 
                 <h3 id="method_getName">
         <div class="location">at line 43</div>
-        <code>            public            
+        <code>            public            string
     <strong>getName</strong>()</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc}</p>
+        <p>Returns the name of the extension.</p>
         <p>
 </p>
         <div class="tags">
             
-            
-            
-                    </div>
-    </div>
+                            <h4>Return Value</h4>
 
-                <h3 id="method_getFunctions">
-        <div class="location">at line 51</div>
-        <code>            public            
-    <strong>getFunctions</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>{@inheritdoc}</p>
-        <p>
-</p>
-        <div class="tags">
-            
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The extension name</td>
+        </tr>
+    </table>
+
             
             
                     </div>

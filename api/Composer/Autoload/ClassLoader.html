@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Composer\Autoload\ClassLoader | </title>
+        	<link rel="stylesheet" type="text/css" href="../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../traits.html">Traits</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../Composer/Autoload.html">Composer\Autoload</a>\ClassLoader</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>ClassLoader</strong></p>
+
+            <div class="description">
+            <p>ClassLoader implements a PSR-0 class loader</p>
+            <p>See https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md</p>
+
+<pre><code>$loader = new \Composer\Autoload\ClassLoader();
+
+// register classes with namespaces
+$loader-&gt;add('Symfony\Component', __DIR__.'/component');
+$loader-&gt;add('Symfony',           __DIR__.'/framework');
+
+// activate the autoloader
+$loader-&gt;register();
+
+// to enable searching the include path (eg. for PEAR packages)
+$loader-&gt;setUseIncludePath(true);
+</code></pre>
+
+<p>In this example, if you try to use a class in the Symfony\Component
+namespace or one of its children (Symfony\Component\Console for instance),
+the autoloader will first look for the class under the component/
+directory, and it will then fallback to the framework/ directory if not
+found before giving up.</p>
+
+<p>This class is loosely based on the Symfony UniversalClassLoader.</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getPrefixes">getPrefixes</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getFallbackDirs">getFallbackDirs</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getClassMap">getClassMap</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addClassMap">addClassMap</a>(array $classMap)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_add">add</a>(string $prefix, array|string $paths, bool $prepend = false)
+                    <p>Registers a set of classes, merging with any others previously set.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_set">set</a>(string $prefix, array|string $paths)
+                    <p>Registers a set of classes, replacing any others previously set.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setUseIncludePath">setUseIncludePath</a>(bool $useIncludePath)
+                    <p>Turns on searching the include path for class files.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getUseIncludePath">getUseIncludePath</a>()
+                    <p>Can be used to check if the autoloader uses the include path to check for classes.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_register">register</a>(bool $prepend = false)
+                    <p>Registers this instance as an autoloader.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_unregister">unregister</a>()
+                    <p>Unregisters this instance as an autoloader.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool|null
+                </td>
+                <td class="last">
+                    <a href="#method_loadClass">loadClass</a>(string $class)
+                    <p>Loads the given class or interface.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string|<abbr title="Composer\Autoload\false">false</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_findFile">findFile</a>(string $class)
+                    <p>Finds the path to the file where the class is defined.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getPrefixes">
+        <div class="location">at line 50</div>
+        <code>            public            
+    <strong>getPrefixes</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFallbackDirs">
+        <div class="location">at line 55</div>
+        <code>            public            
+    <strong>getFallbackDirs</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getClassMap">
+        <div class="location">at line 60</div>
+        <code>            public            
+    <strong>getClassMap</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addClassMap">
+        <div class="location">at line 68</div>
+        <code>            public            
+    <strong>addClassMap</strong>(array $classMap)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$classMap</td>
+                <td>Class to filename map</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_add">
+        <div class="location">at line 84</div>
+        <code>            public            
+    <strong>add</strong>(string $prefix, array|string $paths, bool $prepend = false)</code>
+    </h3>
+    <div class="details">
+        <p>Registers a set of classes, merging with any others previously set.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$prefix</td>
+                <td>The classes prefix</td>
+            </tr>
+                    <tr>
+                <td>array|string</td>
+                <td>$paths</td>
+                <td>The location(s) of the classes</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$prepend</td>
+                <td>Prepend the location(s)</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_set">
+        <div class="location">at line 127</div>
+        <code>            public            
+    <strong>set</strong>(string $prefix, array|string $paths)</code>
+    </h3>
+    <div class="details">
+        <p>Registers a set of classes, replacing any others previously set.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$prefix</td>
+                <td>The classes prefix</td>
+            </tr>
+                    <tr>
+                <td>array|string</td>
+                <td>$paths</td>
+                <td>The location(s) of the classes</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setUseIncludePath">
+        <div class="location">at line 142</div>
+        <code>            public            
+    <strong>setUseIncludePath</strong>(bool $useIncludePath)</code>
+    </h3>
+    <div class="details">
+        <p>Turns on searching the include path for class files.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>bool</td>
+                <td>$useIncludePath</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getUseIncludePath">
+        <div class="location">at line 153</div>
+        <code>            public            bool
+    <strong>getUseIncludePath</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Can be used to check if the autoloader uses the include path to check for classes.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_register">
+        <div class="location">at line 163</div>
+        <code>            public            
+    <strong>register</strong>(bool $prepend = false)</code>
+    </h3>
+    <div class="details">
+        <p>Registers this instance as an autoloader.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>bool</td>
+                <td>$prepend</td>
+                <td>Whether to prepend the autoloader or not</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_unregister">
+        <div class="location">at line 171</div>
+        <code>            public            
+    <strong>unregister</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Unregisters this instance as an autoloader.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_loadClass">
+        <div class="location">at line 182</div>
+        <code>            public            bool|null
+    <strong>loadClass</strong>(string $class)</code>
+    </h3>
+    <div class="details">
+        <p>Loads the given class or interface.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$class</td>
+                <td>The name of the class</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool|null</td>
+            <td>True if loaded, null otherwise</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_findFile">
+        <div class="location">at line 198</div>
+        <code>            public            string|<abbr title="Composer\Autoload\false">false</abbr>
+    <strong>findFile</strong>(string $class)</code>
+    </h3>
+    <div class="details">
+        <p>Finds the path to the file where the class is defined.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$class</td>
+                <td>The name of the class</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string|<abbr title="Composer\Autoload\false">false</abbr></td>
+            <td>The path if found, false otherwise</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

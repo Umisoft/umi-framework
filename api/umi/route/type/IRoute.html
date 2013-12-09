@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\route\type\IRoute | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -36,9 +36,17 @@
 
             <table>
                     <tr>
-                <td>OPTION_FORCE_DEFAULT</td>
+                <td>OPTION_ROUTE</td>
                 <td class="last">
-                    <p><em>Опция, для принудительного выставления в ассемблируемый путь параметров по умолчанию.</em></p>
+                    <p><em>Опция для установки маршрута.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_DEFAULTS</td>
+                <td class="last">
+                    <p><em>Опция для установки значений по умолчанию</em></p>
                     <p>
 </p>
                 </td>
@@ -65,7 +73,7 @@
                     string
                 </td>
                 <td class="last">
-                    <a href="#method_assemble">assemble</a>(array $params = array(), array $options = array())
+                    <a href="#method_assemble">assemble</a>(array $params = array())
                     <p>Собирает часть URL из параметров.</p>
                 </td>
                 <td></td>
@@ -131,9 +139,9 @@
     </div>
 
                 <h3 id="method_assemble">
-        <div class="location">at line 35</div>
+        <div class="location">at line 34</div>
         <code>            public            string
-    <strong>assemble</strong>(array $params = array(), array $options = array())</code>
+    <strong>assemble</strong>(array $params = array())</code>
     </h3>
     <div class="details">
         <p>Собирает часть URL из параметров.</p>
@@ -147,11 +155,6 @@
                 <td>array</td>
                 <td>$params</td>
                 <td>параметры URL</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$options</td>
-                <td>опции сборки</td>
             </tr>
             </table>
 
@@ -171,7 +174,7 @@
     </div>
 
                 <h3 id="method_getParams">
-        <div class="location">at line 41</div>
+        <div class="location">at line 40</div>
         <code>            public            array
     <strong>getParams</strong>()</code>
     </h3>
@@ -197,7 +200,7 @@
     </div>
 
                 <h3 id="method_getSubRoutes">
-        <div class="location">at line 47</div>
+        <div class="location">at line 46</div>
         <code>            public            <a href="../../../umi/route/type/IRoute.html"><abbr title="umi\route\type\IRoute">IRoute</abbr></a>[]
     <strong>getSubRoutes</strong>()</code>
     </h3>

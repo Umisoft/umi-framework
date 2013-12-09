@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Twig_Template | </title>
+        	<link rel="stylesheet" type="text/css" href="css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="classes.html">Classes</a></li>
+                            <li><a href="namespaces.html">Namespaces</a></li>
+                        <li><a href="interfaces.html">Interfaces</a></li>
+            <li><a href="traits.html">Traits</a></li>
+            <li><a href="doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href=".html"></a>Twig_Template</h1>
+    </div>
+        <div class="content">
+                <p>abstract     class
+    <strong>Twig_Template</strong>        implements
+        <a href="Twig_TemplateInterface.html"><abbr title="Twig_TemplateInterface">Twig_TemplateInterface</abbr></a></p>
+
+            <div class="description">
+            <p>Default base class for compiled templates.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a> $env)
+                    <p>Constructor.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getTemplateName">getTemplateName</a>()
+                    <p>Returns the template name.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getEnvironment">getEnvironment</a>()
+                    <p>Returns the bound environment for this template.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_TemplateInterface.html"><abbr title="Twig_TemplateInterface">Twig_TemplateInterface</abbr></a>|<abbr title="false">false</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_getParent">getParent</a>(array $context)
+                    <p>Returns the parent template.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_isTraitable">isTraitable</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_displayParentBlock">displayParentBlock</a>(string $name, array $context, array $blocks = array())
+                    <p>Displays a parent block.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_displayBlock">displayBlock</a>(string $name, array $context, array $blocks = array())
+                    <p>Displays a block.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_renderParentBlock">renderParentBlock</a>(string $name, array $context, array $blocks = array())
+                    <p>Renders a parent block.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_renderBlock">renderBlock</a>(string $name, array $context, array $blocks = array())
+                    <p>Renders a block.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    Boolean
+                </td>
+                <td class="last">
+                    <a href="#method_hasBlock">hasBlock</a>(string $name)
+                    <p>Returns whether a block exists or not.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getBlockNames">getBlockNames</a>()
+                    <p>Returns all block names.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getBlocks">getBlocks</a>()
+                    <p>Returns all blocks.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_display">display</a>(array $context, array $blocks = array())
+                    <p>Displays the template with the given context.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_render">render</a>(array $context)
+                    <p>Renders the template with the given context and returns it as string.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    static&nbsp;
+                </td>
+                <td class="last">
+                    <a href="#method_clearCache">clearCache</a>()
+                    <p>This method is only useful when testing Twig.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 33</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a> $env)</code>
+    </h3>
+    <div class="details">
+        <p>Constructor.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a></td>
+                <td>$env</td>
+                <td>A Twig_Environment instance</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTemplateName">
+        <div class="location">at line 45</div>
+        <code>    abstract        public            string
+    <strong>getTemplateName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the template name.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The template name</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEnvironment">
+        <div class="location">at line 50</div>
+        <code>            public            <a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a>
+    <strong>getEnvironment</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the bound environment for this template.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a></td>
+            <td>The current environment</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getParent">
+        <div class="location">at line 63</div>
+        <code>            public            <a href="Twig_TemplateInterface.html"><abbr title="Twig_TemplateInterface">Twig_TemplateInterface</abbr></a>|<abbr title="false">false</abbr>
+    <strong>getParent</strong>(array $context)</code>
+    </h3>
+    <div class="details">
+        <p>Returns the parent template.</p>
+        <p>This method is for internal use only and should never be called
+directly.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$context</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_TemplateInterface.html"><abbr title="Twig_TemplateInterface">Twig_TemplateInterface</abbr></a>|<abbr title="false">false</abbr></td>
+            <td>The parent template or false if there is no parent</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isTraitable">
+        <div class="location">at line 88</div>
+        <code>            public            
+    <strong>isTraitable</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_displayParentBlock">
+        <div class="location">at line 103</div>
+        <code>            public            
+    <strong>displayParentBlock</strong>(string $name, array $context, array $blocks = array())</code>
+    </h3>
+    <div class="details">
+        <p>Displays a parent block.</p>
+        <p>This method is for internal use only and should never be called
+directly.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The block name to display from the parent</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$context</td>
+                <td>The context</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$blocks</td>
+                <td>The current set of blocks</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_displayBlock">
+        <div class="location">at line 126</div>
+        <code>            public            
+    <strong>displayBlock</strong>(string $name, array $context, array $blocks = array())</code>
+    </h3>
+    <div class="details">
+        <p>Displays a block.</p>
+        <p>This method is for internal use only and should never be called
+directly.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The block name to display</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$context</td>
+                <td>The context</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$blocks</td>
+                <td>The current set of blocks</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_renderParentBlock">
+        <div class="location">at line 165</div>
+        <code>            public            string
+    <strong>renderParentBlock</strong>(string $name, array $context, array $blocks = array())</code>
+    </h3>
+    <div class="details">
+        <p>Renders a parent block.</p>
+        <p>This method is for internal use only and should never be called
+directly.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The block name to render from the parent</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$context</td>
+                <td>The context</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$blocks</td>
+                <td>The current set of blocks</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The rendered block</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_renderBlock">
+        <div class="location">at line 185</div>
+        <code>            public            string
+    <strong>renderBlock</strong>(string $name, array $context, array $blocks = array())</code>
+    </h3>
+    <div class="details">
+        <p>Renders a block.</p>
+        <p>This method is for internal use only and should never be called
+directly.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The block name to render</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$context</td>
+                <td>The context</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$blocks</td>
+                <td>The current set of blocks</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The rendered block</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasBlock">
+        <div class="location">at line 210</div>
+        <code>            public            Boolean
+    <strong>hasBlock</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Returns whether a block exists or not.</p>
+        <p>This method is for internal use only and should never be called
+directly.</p>
+
+<p>This method does only return blocks defined in the current template
+or defined in "used" traits.</p>
+
+<p>It does not return blocks from parent templates as the parent
+template name can be dynamic, which is only known based on the
+current context.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The block name</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>Boolean</td>
+            <td>true if the block exists, false otherwise</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getBlockNames">
+        <div class="location">at line 225</div>
+        <code>            public            array
+    <strong>getBlockNames</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns all block names.</p>
+        <p>This method is for internal use only and should never be called
+directly.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>An array of block names</td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table>
+                    <tr>
+                <td>hasBlock</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+                <h3 id="method_getBlocks">
+        <div class="location">at line 240</div>
+        <code>            public            array
+    <strong>getBlocks</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns all blocks.</p>
+        <p>This method is for internal use only and should never be called
+directly.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>An array of blocks</td>
+        </tr>
+    </table>
+
+            
+            
+                            <h4>See also</h4>
+
+                    <table>
+                    <tr>
+                <td>hasBlock</td>
+                <td></td>
+            </tr>
+            </table>
+
+                    </div>
+    </div>
+
+                <h3 id="method_display">
+        <div class="location">at line 248</div>
+        <code>            public            
+    <strong>display</strong>(array $context, array $blocks = array())</code>
+    </h3>
+    <div class="details">
+        <p>Displays the template with the given context.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$context</td>
+                <td>An array of parameters to pass to the template</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$blocks</td>
+                <td>An array of blocks to pass to the template</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_render">
+        <div class="location">at line 256</div>
+        <code>            public            string
+    <strong>render</strong>(array $context)</code>
+    </h3>
+    <div class="details">
+        <p>Renders the template with the given context and returns it as string.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$context</td>
+                <td>An array of parameters to pass to the template</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The rendered template</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_clearCache">
+        <div class="location">at line 463</div>
+        <code>        static    public            
+    <strong>clearCache</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>This method is only useful when testing Twig.</p>
+        <p>Do not use it.</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

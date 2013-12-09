@@ -3,16 +3,19 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>UMI.Framework API</title>
+        <title>UMI.Framework | API</title>
                     <link rel="stylesheet" type="text/css" href="stylesheet.css">
                             </head>
-        <frameset cols="20%,80%" frameborder="1" border="1" bordercolor="#bbb" framespacing="1">
-        <frame src="panel.html" name="index">
-        <frame src="namespaces.html" name="main">
-        <noframes>
-            <body>
-                Your browser does not support frames. Go to the <a href="namespaces.html">non-frame version</a>.
-            </body>
-        </noframes>
-    </frameset>
+    	<frameset rows="46px,*" frameborder="0" border="0" bordercolor="none" framespacing="0">
+		<frame src="header.html" name="umi-header">
+		<frameset cols="20%,80%" frameborder="0" border="0" bordercolor="none" framespacing="0">
+			<frame src="panel.html" name="index">
+			<frame src="namespaces.html" name="main">
+		</frameset>
+		<noframes>
+			<body>
+			Your browser does not support frames. Go to the <a href="namespaces.html">non-frame version</a>.
+			</body>
+		</noframes>
+	</frameset>
 </html>

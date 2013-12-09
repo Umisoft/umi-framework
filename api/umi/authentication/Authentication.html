@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\authentication\Authentication | </title>
-                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,7 +25,7 @@
         <div class="content">
                 <p>    class
     <strong>Authentication</strong>        implements
-        <a href="../../umi/authentication/IAuthentication.html"><abbr title="umi\authentication\IAuthentication">IAuthentication</abbr></a>, <a href="../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>, <a href="../../umi/authentication/result/IAuthenticationResultAware.html"><abbr title="umi\authentication\result\IAuthenticationResultAware">IAuthenticationResultAware</abbr></a></p>
+        <a href="../../umi/authentication/IAuthentication.html"><abbr title="umi\authentication\IAuthentication">IAuthentication</abbr></a>, <a href="../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
 
             <div class="description">
             <p>Класс менеджера аутентификации.</p>
@@ -33,6 +33,65 @@
 </p>
         </div>
     
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>OPTION_HASH_METHOD</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_HASH_SALT</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HASH_NONE</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HASH_SHA1</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HASH_MD5</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HASH_CRYPT</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
     
     
             <h2>Methods</h2>
@@ -43,7 +102,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a> $adapter, <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a> $storage)
+                    <a href="#method___construct">__construct</a>(array $options, <a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a> $adapter, <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a> $storage)
                     <p>Конструктор.</p>
                 </td>
                 <td></td>
@@ -54,7 +113,8 @@
                 </td>
                 <td class="last">
                     <a href="#method_getStorage">getStorage</a>()
-                    <p>Возвращает хранилище авторизации.</p>
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
@@ -94,9 +154,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 45</div>
+        <div class="location">at line 60</div>
         <code>            public            
-    <strong>__construct</strong>(<a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a> $adapter, <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a> $storage)</code>
+    <strong>__construct</strong>(array $options, <a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a> $adapter, <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a> $storage)</code>
     </h3>
     <div class="details">
         <p>Конструктор.</p>
@@ -107,14 +167,19 @@
 
                     <table>
                     <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции менеджера аутентификации</td>
+            </tr>
+                    <tr>
                 <td><a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a></td>
                 <td>$adapter</td>
-                <td>адаптер авторизации</td>
+                <td>адаптер аутентификации</td>
             </tr>
                     <tr>
                 <td><a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a></td>
                 <td>$storage</td>
-                <td>хранилище авторизации</td>
+                <td>хранилище аутентификации</td>
             </tr>
             </table>
 
@@ -125,12 +190,13 @@
     </div>
 
                 <h3 id="method_getStorage">
-        <div class="location">at line 55</div>
+        <div class="location">at line 73</div>
         <code>            public            <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
     <strong>getStorage</strong>()</code>
     </h3>
     <div class="details">
-        <p>Возвращает хранилище авторизации.</p>
+        <p>
+</p>
         <p>
 </p>
         <div class="tags">
@@ -151,7 +217,7 @@
     </div>
 
                 <h3 id="method_authenticate">
-        <div class="location">at line 63</div>
+        <div class="location">at line 81</div>
         <code>            public            <a href="../../umi/authentication/result/IAuthResult.html"><abbr title="umi\authentication\result\IAuthResult">IAuthResult</abbr></a>
     <strong>authenticate</strong>(<a href="../../umi/authentication/provider/IAuthProvider.html"><abbr title="umi\authentication\provider\IAuthProvider">IAuthProvider</abbr></a> $provider)</code>
     </h3>
@@ -187,7 +253,7 @@
     </div>
 
                 <h3 id="method_isAuthenticated">
-        <div class="location">at line 97</div>
+        <div class="location">at line 119</div>
         <code>            public            bool
     <strong>isAuthenticated</strong>()</code>
     </h3>
@@ -213,7 +279,7 @@
     </div>
 
                 <h3 id="method_forget">
-        <div class="location">at line 105</div>
+        <div class="location">at line 127</div>
         <code>            public            <abbr title="umi\authentication\$this">$this</abbr>
     <strong>forget</strong>()</code>
     </h3>

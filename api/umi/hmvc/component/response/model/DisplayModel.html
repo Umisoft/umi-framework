@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\hmvc\component\response\model\DisplayModel | </title>
+        	<link rel="stylesheet" type="text/css" href="../../../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../../umi/hmvc/component/response/model.html">umi\hmvc\component\response\model</a>\DisplayModel</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>DisplayModel</strong>        implements
+        <a href="../../../../../umi/hmvc/component/response/model/IDisplayModel.html"><abbr title="umi\hmvc\component\response\model\IDisplayModel">IDisplayModel</abbr></a>, <a href="http://php.net/ArrayAccess"><abbr title="ArrayAccess">ArrayAccess</abbr></a></p>
+
+            <div class="description">
+            <p>Реализация обертки для результата работы контроллера.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(string $template, array $variables = array(), int $code = 200)
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(string $attribute)
+                    <p>Возвращает значение аттрибута из контейнера</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_set">set</a>(string $attribute, mixed $value)
+                    <p>Устанавливает значение аттрибута из контейнера</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_has">has</a>(string $attribute)
+                    <p>Проверяет, существет ли аттрибут в контейнере</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_del">del</a>(string $attribute)
+                    <p>Удаляет аттрибут из контейнера</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getVariables">getVariables</a>()
+                    <p>Возвращает все переменные результата.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../../umi/hmvc/component/response/model/IDisplayModel.html"><abbr title="umi\hmvc\component\response\model\IDisplayModel">IDisplayModel</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setVariables">setVariables</a>(array $variables)
+                    <p>Устанавливает переменные результата.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../../umi/hmvc/component/response/model/IDisplayModel.html"><abbr title="umi\hmvc\component\response\model\IDisplayModel">IDisplayModel</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setCode">setCode</a>(int $code)
+                    <p>Устанавливает код ответа для результата.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCode">getCode</a>()
+                    <p>Возвращает установленный код ответа результата.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getTemplate">getTemplate</a>()
+                    <p>Возвращает шаблон для результата.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 42</div>
+        <code>            public            
+    <strong>__construct</strong>(string $template, array $variables = array(), int $code = 200)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$template</td>
+                <td>имя шаблона</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$variables</td>
+                <td>переменные шаблона</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$code</td>
+                <td>HTTP код ответа</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_get">
+        <div class="location">at line 52</div>
+        <code>            public            mixed
+    <strong>get</strong>(string $attribute)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает значение аттрибута из контейнера</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$attribute</td>
+                <td>аттрибут</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>значение</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_set">
+        <div class="location">at line 60</div>
+        <code>            public            <a href="../../../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
+    <strong>set</strong>(string $attribute, mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает значение аттрибута из контейнера</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$attribute</td>
+                <td>аттрибут</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_has">
+        <div class="location">at line 70</div>
+        <code>            public            bool
+    <strong>has</strong>(string $attribute)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, существет ли аттрибут в контейнере</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$attribute</td>
+                <td>аттрибут</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>true - если существует, иначе false</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_del">
+        <div class="location">at line 78</div>
+        <code>            public            <a href="../../../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
+    <strong>del</strong>(string $attribute)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет аттрибут из контейнера</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$attribute</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getVariables">
+        <div class="location">at line 88</div>
+        <code>            public            array
+    <strong>getVariables</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает все переменные результата.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>переменные</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setVariables">
+        <div class="location">at line 96</div>
+        <code>            public            <a href="../../../../../umi/hmvc/component/response/model/IDisplayModel.html"><abbr title="umi\hmvc\component\response\model\IDisplayModel">IDisplayModel</abbr></a>
+    <strong>setVariables</strong>(array $variables)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает переменные результата.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$variables</td>
+                <td>переменные</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../../umi/hmvc/component/response/model/IDisplayModel.html"><abbr title="umi\hmvc\component\response\model\IDisplayModel">IDisplayModel</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setCode">
+        <div class="location">at line 106</div>
+        <code>            public            <a href="../../../../../umi/hmvc/component/response/model/IDisplayModel.html"><abbr title="umi\hmvc\component\response\model\IDisplayModel">IDisplayModel</abbr></a>
+    <strong>setCode</strong>(int $code)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает код ответа для результата.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>int</td>
+                <td>$code</td>
+                <td>код ответа</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../../umi/hmvc/component/response/model/IDisplayModel.html"><abbr title="umi\hmvc\component\response\model\IDisplayModel">IDisplayModel</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCode">
+        <div class="location">at line 116</div>
+        <code>            public            string
+    <strong>getCode</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает установленный код ответа результата.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>код ответа</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTemplate">
+        <div class="location">at line 124</div>
+        <code>final            public            string
+    <strong>getTemplate</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает шаблон для результата.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

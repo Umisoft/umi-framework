@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\route\type\ExtendedRoute | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -35,42 +35,68 @@
    ]</p>
         </div>
     
-    
-            <h2>Properties</h2>
+            <h2>Constants</h2>
 
             <table>
                     <tr>
-                <td class="type" id="property_route">
-                    public                                                                                string
+                <td>TYPE_INTEGER</td>
+                <td class="last">
+                    <p><em>Тип параметра - целое число</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$route правило маршрутизатора</td>
             </tr>
                     <tr>
-                <td class="type" id="property_defaults">
-                    public                                                                                array
+                <td>TYPE_FLOAT</td>
+                <td class="last">
+                    <p><em>Тип параметра - число с плавающей точкой</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$defaults параметры по-умолчанию</td>
             </tr>
                     <tr>
-                <td class="type" id="property_types">
-                    public                                                                                array
+                <td>TYPE_STRING</td>
+                <td class="last">
+                    <p><em>Тип параметра - строка(до управляющего символа - /)</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$types типы параметров маршрутизатора. [ integer =&gt; целое число float =&gt; число с плавающей точкой string =&gt; строка(до управляющего символа - /) text =&gt; строка(до конца URL, игнорирует управляющий символ) ]</td>
             </tr>
                     <tr>
-                <td class="type" id="property_rules">
-                    public                                                                                array
+                <td>TYPE_TEXT</td>
+                <td class="last">
+                    <p><em>Тип параметра - строка(до конца URL, игнорирует управляющий символ)</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$rules правила переменных маршрутизатора</td>
             </tr>
                     <tr>
-                <td class="type" id="property_defaultRule">
-                    public                                                                                string
+                <td>TYPE_GUID</td>
+                <td class="last">
+                    <p><em>Тип параметра - GUID</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$defaultRule правило по-умолчанию</td>
+            </tr>
+                    <tr>
+                <td>OPTION_RULES</td>
+                <td class="last">
+                    <p><em>Опция для установки правил для параметров маршрута</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPTION_DEFAULT_RULE</td>
+                <td class="last">
+                    <p><em>Опция для установки правила маршрута по-умолчанию.</em></p>
+                    <p>
+</p>
+                </td>
             </tr>
             </table>
 
+    
     
             <h2>Methods</h2>
 
@@ -90,8 +116,19 @@
                     string
                 </td>
                 <td class="last">
-                    <a href="#method_assemble">assemble</a>(array $params = array(), array $options = array())
-                    <p>{@inheritdoc]</p>
+                    <a href="#method_assemble">assemble</a>(array $params = array())
+                    <p>Собирает часть URL из параметров.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array $options = array(), array $subroutes = array())
+                    <p>
+</p>
                 </td>
                 <td></td>
             </tr>
@@ -111,7 +148,7 @@
         <h2>Details</h2>
 
                         <h3 id="method_match">
-        <div class="location">in <a href="../../../umi/route/type/SimpleRoute.html#method_match"><abbr title="umi\route\type\SimpleRoute">SimpleRoute</abbr></a> at line 46</div>
+        <div class="location">in <a href="../../../umi/route/type/SimpleRoute.html#method_match"><abbr title="umi\route\type\SimpleRoute">SimpleRoute</abbr></a> at line 51</div>
         <code>            public            int|bool
     <strong>match</strong>(string $url)</code>
     </h3>
@@ -146,12 +183,12 @@
     </div>
 
                 <h3 id="method_assemble">
-        <div class="location">at line 37</div>
+        <div class="location">at line 49</div>
         <code>            public            string
-    <strong>assemble</strong>(array $params = array(), array $options = array())</code>
+    <strong>assemble</strong>(array $params = array())</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc]</p>
+        <p>Собирает часть URL из параметров.</p>
         <p>
 </p>
         <div class="tags">
@@ -162,11 +199,6 @@
                 <td>array</td>
                 <td>$params</td>
                 <td>параметры URL</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$options</td>
-                <td>опции сборки</td>
             </tr>
             </table>
 
@@ -185,8 +217,42 @@
                     </div>
     </div>
 
+                <h3 id="method___construct">
+        <div class="location">at line 38</div>
+        <code>            public            
+    <strong>__construct</strong>(array $options = array(), array $subroutes = array())</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$subroutes</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
                 <h3 id="method_getRegExpRoute">
-        <div class="location">at line 79</div>
+        <div class="location">at line 89</div>
         <code>            public            
     <strong>getRegExpRoute</strong>($route)</code>
     </h3>

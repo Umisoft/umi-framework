@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Twig_Tests_ExpressionParserTest | </title>
+        	<link rel="stylesheet" type="text/css" href="css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="classes.html">Classes</a></li>
+                            <li><a href="namespaces.html">Namespaces</a></li>
+                        <li><a href="interfaces.html">Interfaces</a></li>
+            <li><a href="traits.html">Traits</a></li>
+            <li><a href="doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href=".html"></a>Twig_Tests_ExpressionParserTest</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>Twig_Tests_ExpressionParserTest</strong>        extends <abbr title="PHPUnit_Framework_TestCase">PHPUnit_Framework_TestCase</abbr></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testCanOnlyAssignToNames">testCanOnlyAssignToNames</a>($template)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getFailingTestsForAssignment">getFailingTestsForAssignment</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testArrayExpression">testArrayExpression</a>($template, $expected)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testArraySyntaxError">testArraySyntaxError</a>($template)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getFailingTestsForArray">getFailingTestsForArray</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getTestsForArray">getTestsForArray</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testStringExpressionDoesNotConcatenateTwoConsecutiveStrings">testStringExpressionDoesNotConcatenateTwoConsecutiveStrings</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testStringExpression">testStringExpression</a>($template, $expected)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getTestsForString">getTestsForString</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testAttributeCallDoesNotSupportNamedArguments">testAttributeCallDoesNotSupportNamedArguments</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testMacroCallDoesNotSupportNamedArguments">testMacroCallDoesNotSupportNamedArguments</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testMacroDefinitionDoesNotSupportNonNameVariableName">testMacroDefinitionDoesNotSupportNonNameVariableName</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testMacroDefinitionDoesNotSupportNonConstantDefaultValues">testMacroDefinitionDoesNotSupportNonConstantDefaultValues</a>($template)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getMacroDefinitionDoesNotSupportNonConstantDefaultValues">getMacroDefinitionDoesNotSupportNonConstantDefaultValues</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testMacroDefinitionSupportsConstantDefaultValues">testMacroDefinitionSupportsConstantDefaultValues</a>($template)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getMacroDefinitionSupportsConstantDefaultValues">getMacroDefinitionSupportsConstantDefaultValues</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testUnknownFunction">testUnknownFunction</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testUnknownFilter">testUnknownFilter</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testUnknownTest">testUnknownTest</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_testCanOnlyAssignToNames">
+        <div class="location">at line 18</div>
+        <code>            public            
+    <strong>testCanOnlyAssignToNames</strong>($template)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$template</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFailingTestsForAssignment">
+        <div class="location">at line 26</div>
+        <code>            public            
+    <strong>getFailingTestsForAssignment</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testArrayExpression">
+        <div class="location">at line 42</div>
+        <code>            public            
+    <strong>testArrayExpression</strong>($template, $expected)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$template</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$expected</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testArraySyntaxError">
+        <div class="location">at line 55</div>
+        <code>            public            
+    <strong>testArraySyntaxError</strong>($template)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$template</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFailingTestsForArray">
+        <div class="location">at line 63</div>
+        <code>            public            
+    <strong>getFailingTestsForArray</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTestsForArray">
+        <div class="location">at line 71</div>
+        <code>            public            
+    <strong>getTestsForArray</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testStringExpressionDoesNotConcatenateTwoConsecutiveStrings">
+        <div class="location">at line 150</div>
+        <code>            public            
+    <strong>testStringExpressionDoesNotConcatenateTwoConsecutiveStrings</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testStringExpression">
+        <div class="location">at line 162</div>
+        <code>            public            
+    <strong>testStringExpression</strong>($template, $expected)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$template</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$expected</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTestsForString">
+        <div class="location">at line 171</div>
+        <code>            public            
+    <strong>getTestsForString</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testAttributeCallDoesNotSupportNamedArguments">
+        <div class="location">at line 221</div>
+        <code>            public            
+    <strong>testAttributeCallDoesNotSupportNamedArguments</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testMacroCallDoesNotSupportNamedArguments">
+        <div class="location">at line 232</div>
+        <code>            public            
+    <strong>testMacroCallDoesNotSupportNamedArguments</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testMacroDefinitionDoesNotSupportNonNameVariableName">
+        <div class="location">at line 244</div>
+        <code>            public            
+    <strong>testMacroDefinitionDoesNotSupportNonNameVariableName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testMacroDefinitionDoesNotSupportNonConstantDefaultValues">
+        <div class="location">at line 257</div>
+        <code>            public            
+    <strong>testMacroDefinitionDoesNotSupportNonConstantDefaultValues</strong>($template)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$template</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getMacroDefinitionDoesNotSupportNonConstantDefaultValues">
+        <div class="location">at line 265</div>
+        <code>            public            
+    <strong>getMacroDefinitionDoesNotSupportNonConstantDefaultValues</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testMacroDefinitionSupportsConstantDefaultValues">
+        <div class="location">at line 276</div>
+        <code>            public            
+    <strong>testMacroDefinitionSupportsConstantDefaultValues</strong>($template)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$template</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getMacroDefinitionSupportsConstantDefaultValues">
+        <div class="location">at line 284</div>
+        <code>            public            
+    <strong>getMacroDefinitionSupportsConstantDefaultValues</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testUnknownFunction">
+        <div class="location">at line 301</div>
+        <code>            public            
+    <strong>testUnknownFunction</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testUnknownFilter">
+        <div class="location">at line 313</div>
+        <code>            public            
+    <strong>testUnknownFilter</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testUnknownTest">
+        <div class="location">at line 325</div>
+        <code>            public            
+    <strong>testUnknownTest</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

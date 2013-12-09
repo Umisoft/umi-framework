@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Twig_TokenParserBrokerInterface | </title>
+        	<link rel="stylesheet" type="text/css" href="css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="classes.html">Classes</a></li>
+                            <li><a href="namespaces.html">Namespaces</a></li>
+                        <li><a href="interfaces.html">Interfaces</a></li>
+            <li><a href="traits.html">Traits</a></li>
+            <li><a href="doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href=".html"></a>Twig_TokenParserBrokerInterface</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>Twig_TokenParserBrokerInterface</strong></p>
+
+            <div class="description">
+            <p>Interface implemented by token parser brokers.</p>
+            <p>Token parser brokers allows to implement custom logic in the process of resolving a token parser for a given tag name.</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    null|<a href="Twig_TokenParserInterface.html"><abbr title="Twig_TokenParserInterface">Twig_TokenParserInterface</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getTokenParser">getTokenParser</a>(string $tag)
+                    <p>Gets a TokenParser suitable for a tag.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setParser">setParser</a>(<a href="Twig_ParserInterface.html"><abbr title="Twig_ParserInterface">Twig_ParserInterface</abbr></a> $parser)
+                    <p>Calls Twig_TokenParserInterface::setParser on all parsers the implementation knows of.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    null|<a href="Twig_ParserInterface.html"><abbr title="Twig_ParserInterface">Twig_ParserInterface</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getParser">getParser</a>()
+                    <p>Gets the Twig_ParserInterface.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getTokenParser">
+        <div class="location">at line 30</div>
+        <code>            public            null|<a href="Twig_TokenParserInterface.html"><abbr title="Twig_TokenParserInterface">Twig_TokenParserInterface</abbr></a>
+    <strong>getTokenParser</strong>(string $tag)</code>
+    </h3>
+    <div class="details">
+        <p>Gets a TokenParser suitable for a tag.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$tag</td>
+                <td>A tag name</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>null|<a href="Twig_TokenParserInterface.html"><abbr title="Twig_TokenParserInterface">Twig_TokenParserInterface</abbr></a></td>
+            <td>A Twig_TokenParserInterface or null if no suitable TokenParser was found</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setParser">
+        <div class="location">at line 37</div>
+        <code>            public            
+    <strong>setParser</strong>(<a href="Twig_ParserInterface.html"><abbr title="Twig_ParserInterface">Twig_ParserInterface</abbr></a> $parser)</code>
+    </h3>
+    <div class="details">
+        <p>Calls Twig_TokenParserInterface::setParser on all parsers the implementation knows of.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_ParserInterface.html"><abbr title="Twig_ParserInterface">Twig_ParserInterface</abbr></a></td>
+                <td>$parser</td>
+                <td>A Twig_ParserInterface interface</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getParser">
+        <div class="location">at line 44</div>
+        <code>            public            null|<a href="Twig_ParserInterface.html"><abbr title="Twig_ParserInterface">Twig_ParserInterface</abbr></a>
+    <strong>getParser</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Gets the Twig_ParserInterface.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>null|<a href="Twig_ParserInterface.html"><abbr title="Twig_ParserInterface">Twig_ParserInterface</abbr></a></td>
+            <td>A Twig_ParserInterface instance or null</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

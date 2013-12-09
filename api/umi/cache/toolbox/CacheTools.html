@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\cache\toolbox\CacheTools | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,7 +25,7 @@
         <div class="content">
                 <p>    class
     <strong>CacheTools</strong>        implements
-        <a href="../../../umi/cache/toolbox/ICacheTools.html"><abbr title="umi\cache\toolbox\ICacheTools">ICacheTools</abbr></a></p>
+        <a href="../../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a></p>
 
             <div class="description">
             <p>Набор инструментов кеширования.</p>
@@ -33,33 +33,85 @@
 </p>
         </div>
     
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>NAME</td>
+                <td class="last">
+                    <p><em>Имя набора инструмента</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_APC</td>
+                <td class="last">
+                    <p><em>Кеширование с помощью APC</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_DB</td>
+                <td class="last">
+                    <p><em>Кеширование в простой таблице БД</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_MEMCACHED</td>
+                <td class="last">
+                    <p><em>Кеширование с помощью Memcached</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_XCACHE</td>
+                <td class="last">
+                    <p><em>Кеширование с помощью XCache</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
             <table>
                     <tr>
                 <td class="type" id="property_cacheEngineClasses">
-                    public                                                                                
+                                                            
                 </td>
-                <td class="last"></td>
+                <td>$cacheEngineClasses</td>
+                <td class="last">Типы поддерживаемых кеширующих механизмов.</td>
             </tr>
                     <tr>
                 <td class="type" id="property_cacheServiceClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$cacheServiceClass класс для создания сервиса кеширования</td>
+                <td>$cacheServiceClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_type">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$type тип используемого кеширующего механизма</td>
+                <td>$type</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_options">
-                    public                                                                                array
+                                                            array
                 </td>
-                <td class="last">$options опции кеширующего механизма</td>
+                <td>$options</td>
+                <td class="last">
+</td>
             </tr>
             </table>
 
@@ -83,7 +135,7 @@
         <h2>Details</h2>
 
                         <h3 id="method_injectDependencies">
-        <div class="location">at line 51</div>
+        <div class="location">at line 73</div>
         <code>            public            
     <strong>injectDependencies</strong>(object $object)</code>
     </h3>

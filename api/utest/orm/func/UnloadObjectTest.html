@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>utest\orm\func\UnloadObjectTest | </title>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../utest/orm/func.html">utest\orm\func</a>\UnloadObjectTest</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>UnloadObjectTest</strong>        extends <a href="../../../utest/orm/ORMDbTestCase.html"><abbr title="utest\orm\ORMDbTestCase">ORMDbTestCase</abbr></a></p>
+
+            <div class="description">
+            <p>Тесты выгрузки объектов</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>CONFIG_TESTS</td>
+                <td class="last">
+                    <p><em>Имя конфигурации для тестирования</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SYSTEM_HIERARCHY</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>SYSTEM_MENU</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>USERS_USER</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>USERS_GROUP</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>USERS_PROFILE</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>BLOGS_BLOG</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>BLOGS_POST</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>BLOGS_SUBSCRIBER</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>GUIDES_CITY</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>GUIDES_COUNTRY</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+            <h2>Properties</h2>
+
+            <table>
+                    <tr>
+                <td class="type" id="property_queries">
+                                                            
+                </td>
+                <td>$queries</td>
+                <td class="last">
+</td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setUp">setUp</a>()
+                    <p>
+</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../utest/orm/ORMDbTestCase.html#method_setUp"><abbr title="utest\orm\ORMDbTestCase">ORMDbTestCase</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testGettingStoredObjectById">testGettingStoredObjectById</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testGettingStoredObjectByGuid">testGettingStoredObjectByGuid</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testGettingUnloadedObjectById">testGettingUnloadedObjectById</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testGettingObjectByIdAfterObjectManagerUnload">testGettingObjectByIdAfterObjectManagerUnload</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testGettingUnloadedObjectByGuid">testGettingUnloadedObjectByGuid</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testGettingObjectByGuidAfterObjectManagerUnload">testGettingObjectByGuidAfterObjectManagerUnload</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testDeletedObjectAfterManagerUnload">testDeletedObjectAfterManagerUnload</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testDeletedObjectAfterUnload">testDeletedObjectAfterUnload</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testModifiedObjectAfterManagerUnload">testModifiedObjectAfterManagerUnload</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testModifiedObjectAfterUnload">testModifiedObjectAfterUnload</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testAddedObjectAfterManagerUnload">testAddedObjectAfterManagerUnload</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_testAddedObjectAfterUnload">testAddedObjectAfterUnload</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_setUp">
+        <div class="location">in <a href="../../../utest/orm/ORMDbTestCase.html#method_setUp"><abbr title="utest\orm\ORMDbTestCase">ORMDbTestCase</abbr></a> at line 73</div>
+        <code>            public            
+    <strong>setUp</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testGettingStoredObjectById">
+        <div class="location">at line 78</div>
+        <code>            public            
+    <strong>testGettingStoredObjectById</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testGettingStoredObjectByGuid">
+        <div class="location">at line 88</div>
+        <code>            public            
+    <strong>testGettingStoredObjectByGuid</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testGettingUnloadedObjectById">
+        <div class="location">at line 98</div>
+        <code>            public            
+    <strong>testGettingUnloadedObjectById</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testGettingObjectByIdAfterObjectManagerUnload">
+        <div class="location">at line 110</div>
+        <code>            public            
+    <strong>testGettingObjectByIdAfterObjectManagerUnload</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testGettingUnloadedObjectByGuid">
+        <div class="location">at line 122</div>
+        <code>            public            
+    <strong>testGettingUnloadedObjectByGuid</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testGettingObjectByGuidAfterObjectManagerUnload">
+        <div class="location">at line 134</div>
+        <code>            public            
+    <strong>testGettingObjectByGuidAfterObjectManagerUnload</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testDeletedObjectAfterManagerUnload">
+        <div class="location">at line 146</div>
+        <code>            public            
+    <strong>testDeletedObjectAfterManagerUnload</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testDeletedObjectAfterUnload">
+        <div class="location">at line 155</div>
+        <code>            public            
+    <strong>testDeletedObjectAfterUnload</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testModifiedObjectAfterManagerUnload">
+        <div class="location">at line 163</div>
+        <code>            public            
+    <strong>testModifiedObjectAfterManagerUnload</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testModifiedObjectAfterUnload">
+        <div class="location">at line 172</div>
+        <code>            public            
+    <strong>testModifiedObjectAfterUnload</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testAddedObjectAfterManagerUnload">
+        <div class="location">at line 179</div>
+        <code>            public            
+    <strong>testAddedObjectAfterManagerUnload</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_testAddedObjectAfterUnload">
+        <div class="location">at line 188</div>
+        <code>            public            
+    <strong>testAddedObjectAfterUnload</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

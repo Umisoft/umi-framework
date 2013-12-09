@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\http\toolbox\HttpTools | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,7 +25,7 @@
         <div class="content">
                 <p>    class
     <strong>HttpTools</strong>        implements
-        <a href="../../../umi/http/toolbox/IHttpTools.html"><abbr title="umi\http\toolbox\IHttpTools">IHttpTools</abbr></a></p>
+        <a href="../../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a></p>
 
             <div class="description">
             <p>Набор инструментов для работы с HTTP запросом и ответом.</p>
@@ -33,27 +33,30 @@
 </p>
         </div>
     
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>NAME</td>
+                <td class="last">
+                    <p><em>Имя набора инструментов</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
             <table>
                     <tr>
                 <td class="type" id="property_httpFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$httpFactoryClass класс фабрики для http элементов</td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_requestParamCollectionFactoryClass">
-                    public                                                                                string
-                </td>
-                <td class="last">$requestParamCollectionFactoryClass класс фабрики для коллекции параметров</td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_responseHeaderCollectionFactoryClass">
-                    public                                                                                string
-                </td>
-                <td class="last">$responseHeaderCollectionFactoryClass класс фабрики для коллекции заголовков</td>
+                <td>$httpFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
             </table>
 
@@ -68,16 +71,6 @@
                 <td class="last">
                     <a href="#method___construct">__construct</a>()
                     <p>Конструктор.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/http/IHttpFactory.html"><abbr title="umi\http\IHttpFactory">IHttpFactory</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getHttpFactory">getHttpFactory</a>()
-                    <p>Возвращает фабрику HTTP сущностей.</p>
                 </td>
                 <td></td>
             </tr>
@@ -107,7 +100,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 43</div>
+        <div class="location">at line 38</div>
         <code>            public            
     <strong>__construct</strong>()</code>
     </h3>
@@ -122,34 +115,8 @@
                     </div>
     </div>
 
-                <h3 id="method_getHttpFactory">
-        <div class="location">at line 68</div>
-        <code>            public            <a href="../../../umi/http/IHttpFactory.html"><abbr title="umi\http\IHttpFactory">IHttpFactory</abbr></a>
-    <strong>getHttpFactory</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает фабрику HTTP сущностей.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/http/IHttpFactory.html"><abbr title="umi\http\IHttpFactory">IHttpFactory</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
                 <h3 id="method_getService">
-        <div class="location">at line 94</div>
+        <div class="location">at line 50</div>
         <code>            public            object
     <strong>getService</strong>(string $serviceInterfaceName, string $concreteClassName)</code>
     </h3>
@@ -199,7 +166,7 @@
     </div>
 
                 <h3 id="method_injectDependencies">
-        <div class="location">at line 111</div>
+        <div class="location">at line 73</div>
         <code>            public            
     <strong>injectDependencies</strong>(object $object)</code>
     </h3>

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Twig_Loader_Filesystem | </title>
+        	<link rel="stylesheet" type="text/css" href="css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="classes.html">Classes</a></li>
+                            <li><a href="namespaces.html">Namespaces</a></li>
+                        <li><a href="interfaces.html">Interfaces</a></li>
+            <li><a href="traits.html">Traits</a></li>
+            <li><a href="doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href=".html"></a>Twig_Loader_Filesystem</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>Twig_Loader_Filesystem</strong>        implements
+        <a href="Twig_LoaderInterface.html"><abbr title="Twig_LoaderInterface">Twig_LoaderInterface</abbr></a>, <a href="Twig_ExistsLoaderInterface.html"><abbr title="Twig_ExistsLoaderInterface">Twig_ExistsLoaderInterface</abbr></a></p>
+
+            <div class="description">
+            <p>Loads template from the filesystem.</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>MAIN_NAMESPACE</td>
+                <td class="last">
+                    <p><em>Identifier of the main namespace.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(string|array $paths = array())
+                    <p>Constructor.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getPaths">getPaths</a>(string $namespace = self::MAIN_NAMESPACE)
+                    <p>Returns the paths to the templates.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getNamespaces">getNamespaces</a>()
+                    <p>Returns the path namespaces.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setPaths">setPaths</a>(string|array $paths, string $namespace = self::MAIN_NAMESPACE)
+                    <p>Sets the paths where templates are stored.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addPath">addPath</a>(string $path, string $namespace = self::MAIN_NAMESPACE)
+                    <p>Adds a path where templates are stored.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_prependPath">prependPath</a>(string $path, string $namespace = self::MAIN_NAMESPACE)
+                    <p>Prepends a path where templates are stored.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getSource">getSource</a>(string $name)
+                    <p>Gets the source code of a template, given its name.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCacheKey">getCacheKey</a>(string $name)
+                    <p>Gets the cache key to use for the cache for a given template name.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_exists">exists</a>(string $name)
+                    <p>Check if we have the source code of a template, given its name.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    Boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isFresh">isFresh</a>(string $name, <abbr title="timestamp">timestamp</abbr> $time)
+                    <p>Returns true if the template is still fresh.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 30</div>
+        <code>            public            
+    <strong>__construct</strong>(string|array $paths = array())</code>
+    </h3>
+    <div class="details">
+        <p>Constructor.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string|array</td>
+                <td>$paths</td>
+                <td>A path or an array of paths where to look for templates</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPaths">
+        <div class="location">at line 44</div>
+        <code>            public            array
+    <strong>getPaths</strong>(string $namespace = self::MAIN_NAMESPACE)</code>
+    </h3>
+    <div class="details">
+        <p>Returns the paths to the templates.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$namespace</td>
+                <td>A path namespace</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>The array of paths where to look for templates</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getNamespaces">
+        <div class="location">at line 56</div>
+        <code>            public            array
+    <strong>getNamespaces</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the path namespaces.</p>
+        <p>The main namespace is always defined.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>The array of defined namespaces</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setPaths">
+        <div class="location">at line 67</div>
+        <code>            public            
+    <strong>setPaths</strong>(string|array $paths, string $namespace = self::MAIN_NAMESPACE)</code>
+    </h3>
+    <div class="details">
+        <p>Sets the paths where templates are stored.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string|array</td>
+                <td>$paths</td>
+                <td>A path or an array of paths where to look for templates</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$namespace</td>
+                <td>A path namespace</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addPath">
+        <div class="location">at line 87</div>
+        <code>            public            
+    <strong>addPath</strong>(string $path, string $namespace = self::MAIN_NAMESPACE)</code>
+    </h3>
+    <div class="details">
+        <p>Adds a path where templates are stored.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td>A path where to look for templates</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$namespace</td>
+                <td>A path name</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Loader.html"><abbr title="Twig_Error_Loader">Twig_Error_Loader</abbr></a></td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_prependPath">
+        <div class="location">at line 107</div>
+        <code>            public            
+    <strong>prependPath</strong>(string $path, string $namespace = self::MAIN_NAMESPACE)</code>
+    </h3>
+    <div class="details">
+        <p>Prepends a path where templates are stored.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$path</td>
+                <td>A path where to look for templates</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$namespace</td>
+                <td>A path name</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Loader.html"><abbr title="Twig_Error_Loader">Twig_Error_Loader</abbr></a></td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSource">
+        <div class="location">at line 128</div>
+        <code>            public            string
+    <strong>getSource</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Gets the source code of a template, given its name.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The name of the template to load</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The template source code</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Loader.html"><abbr title="Twig_Error_Loader">Twig_Error_Loader</abbr></a></td>
+                <td>When $name is not found</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCacheKey">
+        <div class="location">at line 136</div>
+        <code>            public            string
+    <strong>getCacheKey</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Gets the cache key to use for the cache for a given template name.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The name of the template to load</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The cache key</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Loader.html"><abbr title="Twig_Error_Loader">Twig_Error_Loader</abbr></a></td>
+                <td>When $name is not found</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_exists">
+        <div class="location">at line 144</div>
+        <code>            public            boolean
+    <strong>exists</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Check if we have the source code of a template, given its name.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The name of the template to check if we can load</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>If the template source code is handled by this loader or not</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isFresh">
+        <div class="location">at line 163</div>
+        <code>            public            Boolean
+    <strong>isFresh</strong>(string $name, <abbr title="timestamp">timestamp</abbr> $time)</code>
+    </h3>
+    <div class="details">
+        <p>Returns true if the template is still fresh.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The template name</td>
+            </tr>
+                    <tr>
+                <td><abbr title="timestamp">timestamp</abbr></td>
+                <td>$time</td>
+                <td>The last modification time of the cached template</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>Boolean</td>
+            <td>true if the template is fresh, false otherwise</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Loader.html"><abbr title="Twig_Error_Loader">Twig_Error_Loader</abbr></a></td>
+                <td>When $name is not found</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

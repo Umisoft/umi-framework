@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Twig_TokenParserInterface | </title>
+        	<link rel="stylesheet" type="text/css" href="css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="classes.html">Classes</a></li>
+                            <li><a href="namespaces.html">Namespaces</a></li>
+                        <li><a href="interfaces.html">Interfaces</a></li>
+            <li><a href="traits.html">Traits</a></li>
+            <li><a href="doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href=".html"></a>Twig_TokenParserInterface</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>Twig_TokenParserInterface</strong></p>
+
+            <div class="description">
+            <p>Interface implemented by token parsers.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setParser">setParser</a>(<a href="Twig_Parser.html"><abbr title="Twig_Parser">Twig_Parser</abbr></a> $parser)
+                    <p>Sets the parser associated with this token parser</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_parse">parse</a>(<a href="Twig_Token.html"><abbr title="Twig_Token">Twig_Token</abbr></a> $token)
+                    <p>Parses a token and returns a node.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getTag">getTag</a>()
+                    <p>Gets the tag name associated with this token parser.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_setParser">
+        <div class="location">at line 24</div>
+        <code>            public            
+    <strong>setParser</strong>(<a href="Twig_Parser.html"><abbr title="Twig_Parser">Twig_Parser</abbr></a> $parser)</code>
+    </h3>
+    <div class="details">
+        <p>Sets the parser associated with this token parser</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Parser.html"><abbr title="Twig_Parser">Twig_Parser</abbr></a></td>
+                <td>$parser</td>
+                <td>A Twig_Parser instance</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_parse">
+        <div class="location">at line 35</div>
+        <code>            public            <a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a>
+    <strong>parse</strong>(<a href="Twig_Token.html"><abbr title="Twig_Token">Twig_Token</abbr></a> $token)</code>
+    </h3>
+    <div class="details">
+        <p>Parses a token and returns a node.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Token.html"><abbr title="Twig_Token">Twig_Token</abbr></a></td>
+                <td>$token</td>
+                <td>A Twig_Token instance</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a></td>
+            <td>A Twig_NodeInterface instance</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Syntax.html"><abbr title="Twig_Error_Syntax">Twig_Error_Syntax</abbr></a></td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTag">
+        <div class="location">at line 42</div>
+        <code>            public            string
+    <strong>getTag</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Gets the tag name associated with this token parser.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The tag name</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

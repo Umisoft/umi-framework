@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Twig_Compiler | </title>
+        	<link rel="stylesheet" type="text/css" href="css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="classes.html">Classes</a></li>
+                            <li><a href="namespaces.html">Namespaces</a></li>
+                        <li><a href="interfaces.html">Interfaces</a></li>
+            <li><a href="traits.html">Traits</a></li>
+            <li><a href="doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href=".html"></a>Twig_Compiler</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>Twig_Compiler</strong>        implements
+        <a href="Twig_CompilerInterface.html"><abbr title="Twig_CompilerInterface">Twig_CompilerInterface</abbr></a></p>
+
+            <div class="description">
+            <p>Compiles a node to PHP code.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a> $env)
+                    <p>Constructor.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getFilename">getFilename</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getEnvironment">getEnvironment</a>()
+                    <p>Returns the environment instance related to this compiler.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getSource">getSource</a>()
+                    <p>Gets the current PHP code after compilation.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_compile">compile</a>(<a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a> $node, integer $indentation)
+                    <p>Compiles a node.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_subcompile">subcompile</a>(<a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a> $node, $raw = true)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_raw">raw</a>(string $string)
+                    <p>Adds a raw string to the compiled code.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_write">write</a>()
+                    <p>Writes a string to the compiled code by adding indentation.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addIndentation">addIndentation</a>()
+                    <p>Appends an indentation to the current PHP code after compilation.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_string">string</a>(string $value)
+                    <p>Adds a quoted string to the compiled code.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_repr">repr</a>(mixed $value)
+                    <p>Returns a PHP representation of a given value.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addDebugInfo">addDebugInfo</a>(<a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a> $node)
+                    <p>Adds debugging information.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getDebugInfo">getDebugInfo</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_indent">indent</a>(integer $step = 1)
+                    <p>Indents the generated code.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_outdent">outdent</a>(integer $step = 1)
+                    <p>Outdents the generated code.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 34</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a> $env)</code>
+    </h3>
+    <div class="details">
+        <p>Constructor.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a></td>
+                <td>$env</td>
+                <td>The twig environment instance</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFilename">
+        <div class="location">at line 40</div>
+        <code>            public            
+    <strong>getFilename</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEnvironment">
+        <div class="location">at line 50</div>
+        <code>            public            <a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a>
+    <strong>getEnvironment</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Returns the environment instance related to this compiler.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a></td>
+            <td>The environment instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSource">
+        <div class="location">at line 60</div>
+        <code>            public            string
+    <strong>getSource</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Gets the current PHP code after compilation.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The PHP code</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_compile">
+        <div class="location">at line 73</div>
+        <code>            public            <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+    <strong>compile</strong>(<a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a> $node, integer $indentation)</code>
+    </h3>
+    <div class="details">
+        <p>Compiles a node.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a></td>
+                <td>$node</td>
+                <td>The node to compile</td>
+            </tr>
+                    <tr>
+                <td>integer</td>
+                <td>$indentation</td>
+                <td>The current indentation</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a></td>
+            <td>The current compiler instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_subcompile">
+        <div class="location">at line 91</div>
+        <code>            public            
+    <strong>subcompile</strong>(<a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a> $node, $raw = true)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a></td>
+                <td>$node</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$raw</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_raw">
+        <div class="location">at line 109</div>
+        <code>            public            <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+    <strong>raw</strong>(string $string)</code>
+    </h3>
+    <div class="details">
+        <p>Adds a raw string to the compiled code.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$string</td>
+                <td>The string</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a></td>
+            <td>The current compiler instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_write">
+        <div class="location">at line 121</div>
+        <code>            public            <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+    <strong>write</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Writes a string to the compiled code by adding indentation.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a></td>
+            <td>The current compiler instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addIndentation">
+        <div class="location">at line 137</div>
+        <code>            public            <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+    <strong>addIndentation</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Appends an indentation to the current PHP code after compilation.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a></td>
+            <td>The current compiler instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_string">
+        <div class="location">at line 151</div>
+        <code>            public            <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+    <strong>string</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Adds a quoted string to the compiled code.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>The string</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a></td>
+            <td>The current compiler instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_repr">
+        <div class="location">at line 165</div>
+        <code>            public            <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+    <strong>repr</strong>(mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Returns a PHP representation of a given value.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>The value to convert</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a></td>
+            <td>The current compiler instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addDebugInfo">
+        <div class="location">at line 208</div>
+        <code>            public            <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+    <strong>addDebugInfo</strong>(<a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a> $node)</code>
+    </h3>
+    <div class="details">
+        <p>Adds debugging information.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_NodeInterface.html"><abbr title="Twig_NodeInterface">Twig_NodeInterface</abbr></a></td>
+                <td>$node</td>
+                <td>The related twig node</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a></td>
+            <td>The current compiler instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDebugInfo">
+        <div class="location">at line 231</div>
+        <code>            public            
+    <strong>getDebugInfo</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_indent">
+        <div class="location">at line 243</div>
+        <code>            public            <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+    <strong>indent</strong>(integer $step = 1)</code>
+    </h3>
+    <div class="details">
+        <p>Indents the generated code.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$step</td>
+                <td>The number of indentation to add</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a></td>
+            <td>The current compiler instance</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_outdent">
+        <div class="location">at line 259</div>
+        <code>            public            <a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a>
+    <strong>outdent</strong>(integer $step = 1)</code>
+    </h3>
+    <div class="details">
+        <p>Outdents the generated code.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer</td>
+                <td>$step</td>
+                <td>The number of indentation to remove</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Compiler.html"><abbr title="Twig_Compiler">Twig_Compiler</abbr></a></td>
+            <td>The current compiler instance</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/LogicException"><abbr title="LogicException">LogicException</abbr></a></td>
+                <td>When trying to outdent too much so the indentation would become negative</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

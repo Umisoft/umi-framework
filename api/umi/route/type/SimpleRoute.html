@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\route\type\SimpleRoute | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -34,30 +34,52 @@
    {module:string}/{controller:integer}/{action:string}</p>
         </div>
     
-    
-            <h2>Properties</h2>
+            <h2>Constants</h2>
 
             <table>
                     <tr>
-                <td class="type" id="property_route">
-                    public                                                                                string
+                <td>TYPE_INTEGER</td>
+                <td class="last">
+                    <p><em>Тип параметра - целое число</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$route правило маршрутизатора</td>
             </tr>
                     <tr>
-                <td class="type" id="property_defaults">
-                    public                                                                                array
+                <td>TYPE_FLOAT</td>
+                <td class="last">
+                    <p><em>Тип параметра - число с плавающей точкой</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$defaults параметры по-умолчанию</td>
             </tr>
                     <tr>
-                <td class="type" id="property_types">
-                    public                                                                                array
+                <td>TYPE_STRING</td>
+                <td class="last">
+                    <p><em>Тип параметра - строка(до управляющего символа - /)</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$types типы параметров маршрутизатора. [ integer =&gt; целое число float =&gt; число с плавающей точкой string =&gt; строка(до управляющего символа - /) text =&gt; строка(до конца URL, игнорирует управляющий символ) ]</td>
+            </tr>
+                    <tr>
+                <td>TYPE_TEXT</td>
+                <td class="last">
+                    <p><em>Тип параметра - строка(до конца URL, игнорирует управляющий символ)</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_GUID</td>
+                <td class="last">
+                    <p><em>Тип параметра - GUID</em></p>
+                    <p>
+</p>
+                </td>
             </tr>
             </table>
 
+    
     
             <h2>Methods</h2>
 
@@ -77,8 +99,8 @@
                     string
                 </td>
                 <td class="last">
-                    <a href="#method_assemble">assemble</a>(array $params = array(), array $options = array(&#039;forceDefaults&#039; =&gt; false))
-                    <p>{@inheritdoc]</p>
+                    <a href="#method_assemble">assemble</a>(array $params = array())
+                    <p>Собирает часть URL из параметров.</p>
                 </td>
                 <td></td>
             </tr>
@@ -88,7 +110,7 @@
         <h2>Details</h2>
 
                         <h3 id="method_match">
-        <div class="location">at line 46</div>
+        <div class="location">at line 51</div>
         <code>            public            int|bool
     <strong>match</strong>(string $url)</code>
     </h3>
@@ -123,12 +145,12 @@
     </div>
 
                 <h3 id="method_assemble">
-        <div class="location">at line 56</div>
+        <div class="location">at line 61</div>
         <code>            public            string
-    <strong>assemble</strong>(array $params = array(), array $options = array(&#039;forceDefaults&#039; =&gt; false))</code>
+    <strong>assemble</strong>(array $params = array())</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc]</p>
+        <p>Собирает часть URL из параметров.</p>
         <p>
 </p>
         <div class="tags">
@@ -139,11 +161,6 @@
                 <td>array</td>
                 <td>$params</td>
                 <td>параметры URL</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$options</td>
-                <td>опции сборки</td>
             </tr>
             </table>
 

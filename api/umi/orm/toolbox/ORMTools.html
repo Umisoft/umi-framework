@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\orm\toolbox\ORMTools | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,7 +25,7 @@
         <div class="content">
                 <p>    class
     <strong>ORMTools</strong>        implements
-        <a href="../../../umi/orm/toolbox/IORMTools.html"><abbr title="umi\orm\toolbox\IORMTools">IORMTools</abbr></a></p>
+        <a href="../../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a></p>
 
             <div class="description">
             <p>Инструментарий ORM.</p>
@@ -33,87 +33,126 @@
 </p>
         </div>
     
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>NAME</td>
+                <td class="last">
+                    <p><em>Имя набора инструментов</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
             <table>
                     <tr>
                 <td class="type" id="property_collectionFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$collectionFactoryClass класс для создания фабрики коллекции объектов</td>
+                <td>$collectionFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_collectionManagerClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$collectionManagerClass класс для создания менеджера коллекций</td>
+                <td>$collectionManagerClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_selectorFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$selectorFactoryClass класс для создания фабрики селекторов</td>
+                <td>$selectorFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_objectLoaderClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$objectLoaderClass класс для создания загрузчика объектов</td>
+                <td>$objectLoaderClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_metadataFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$metadataFactoryClass класс для создания фабрики метаданных</td>
+                <td>$metadataFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_metadataManagerClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$metadataManagerClass класс для создания менеджера метаданных</td>
+                <td>$metadataManagerClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_objectFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$objectFactoryClass класс для создания фабрики объектов</td>
+                <td>$objectFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_propertyFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$propertyFactoryClass класс для создания фабрики свойств объекта</td>
+                <td>$propertyFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_objectSetFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$objectSetFactoryClass класс для создания фабрики наборов объектов</td>
+                <td>$objectSetFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_objectManagerClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$objectManagerClass класс для создания менеджера объектов</td>
+                <td>$objectManagerClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_objectPersisterClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$objectPersisterClass класс для создания синхронизатора объектов</td>
+                <td>$objectPersisterClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
-                <td class="type" id="property_collectionManager">
-                    public                                                                                array
+                <td class="type" id="property_collections">
+                                                            array
                 </td>
-                <td class="last">$collectionManager опции менеджера коллекций</td>
+                <td>$collections</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
-                <td class="type" id="property_metadataManager">
-                    public                                                                                array
+                <td class="type" id="property_metadata">
+                                                            array
                 </td>
-                <td class="last">$metadataManager опции менеджера метаданных</td>
+                <td>$metadata</td>
+                <td class="last">
+</td>
             </tr>
             </table>
 
@@ -128,6 +167,16 @@
                 <td class="last">
                     <a href="#method___construct">__construct</a>(<a href="../../../umi/dbal/cluster/IDbCluster.html"><abbr title="umi\dbal\cluster\IDbCluster">IDbCluster</abbr></a> $dbCluster)
                     <p>Конструктор</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    object
+                </td>
+                <td class="last">
+                    <a href="#method_getService">getService</a>(string $serviceInterfaceName, string $concreteClassName)
+                    <p>Возвращает сервис из набора по указанному интерфейсу.</p>
                 </td>
                 <td></td>
             </tr>
@@ -151,43 +200,13 @@
                 </td>
                 <td></td>
             </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/orm/metadata/IMetadataManager.html"><abbr title="umi\orm\metadata\IMetadataManager">IMetadataManager</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getMetadataManager">getMetadataManager</a>()
-                    <p>Возвращает менеджер метаданных</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/orm/collection/ICollectionManager.html"><abbr title="umi\orm\collection\ICollectionManager">ICollectionManager</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getCollectionManager">getCollectionManager</a>()
-                    <p>Возвращает менеджер метаданных</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/orm/persister/IObjectPersister.html"><abbr title="umi\orm\persister\IObjectPersister">IObjectPersister</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getObjectPersister">getObjectPersister</a>()
-                    <p>Возвращает синхронизатор объектов</p>
-                </td>
-                <td></td>
-            </tr>
             </table>
 
 
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 93</div>
+        <div class="location">at line 101</div>
         <code>            public            
     <strong>__construct</strong>(<a href="../../../umi/dbal/cluster/IDbCluster.html"><abbr title="umi\dbal\cluster\IDbCluster">IDbCluster</abbr></a> $dbCluster)</code>
     </h3>
@@ -213,8 +232,58 @@
                     </div>
     </div>
 
+                <h3 id="method_getService">
+        <div class="location">at line 136</div>
+        <code>            public            object
+    <strong>getService</strong>(string $serviceInterfaceName, string $concreteClassName)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает сервис из набора по указанному интерфейсу.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$serviceInterfaceName</td>
+                <td>контракт сервиса</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$concreteClassName</td>
+                <td>имя класса конкретной реализации, может быть использовано для создания нового экземпляра сервиса.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>object</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="UnsupportedServiceException">UnsupportedServiceException</abbr></td>
+                <td>если сервис не поддерживается</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
                 <h3 id="method_injectDependencies">
-        <div class="location">at line 128</div>
+        <div class="location">at line 157</div>
         <code>            public            
     <strong>injectDependencies</strong>(object $object)</code>
     </h3>
@@ -241,7 +310,7 @@
     </div>
 
                 <h3 id="method_getObjectManager">
-        <div class="location">at line 147</div>
+        <div class="location">at line 177</div>
         <code>            public            <a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a>
     <strong>getObjectManager</strong>()</code>
     </h3>
@@ -256,84 +325,6 @@
                     <table>
         <tr>
             <td><a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getMetadataManager">
-        <div class="location">at line 163</div>
-        <code>            public            <a href="../../../umi/orm/metadata/IMetadataManager.html"><abbr title="umi\orm\metadata\IMetadataManager">IMetadataManager</abbr></a>
-    <strong>getMetadataManager</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает менеджер метаданных</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/orm/metadata/IMetadataManager.html"><abbr title="umi\orm\metadata\IMetadataManager">IMetadataManager</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getCollectionManager">
-        <div class="location">at line 180</div>
-        <code>            public            <a href="../../../umi/orm/collection/ICollectionManager.html"><abbr title="umi\orm\collection\ICollectionManager">ICollectionManager</abbr></a>
-    <strong>getCollectionManager</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает менеджер метаданных</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/orm/collection/ICollectionManager.html"><abbr title="umi\orm\collection\ICollectionManager">ICollectionManager</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getObjectPersister">
-        <div class="location">at line 197</div>
-        <code>            public            <a href="../../../umi/orm/persister/IObjectPersister.html"><abbr title="umi\orm\persister\IObjectPersister">IObjectPersister</abbr></a>
-    <strong>getObjectPersister</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает синхронизатор объектов</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/orm/persister/IObjectPersister.html"><abbr title="umi\orm\persister\IObjectPersister">IObjectPersister</abbr></a></td>
             <td>
 </td>
         </tr>

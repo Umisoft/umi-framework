@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\log\toolbox\LogTools | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,7 +25,7 @@
         <div class="content">
                 <p>    class
     <strong>LogTools</strong>        implements
-        <a href="../../../umi/log/toolbox/ILogTools.html"><abbr title="umi\log\toolbox\ILogTools">ILogTools</abbr></a></p>
+        <a href="../../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a></p>
 
             <div class="description">
             <p>Набор инструментов логирования.</p>
@@ -33,39 +33,85 @@
 </p>
         </div>
     
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>NAME</td>
+                <td class="last">
+                    <p><em>Имя набора инструментов</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_NULL</td>
+                <td class="last">
+                    <p><em>Заглушка, используется в случае когда логгер выключен</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_FILE</td>
+                <td class="last">
+                    <p><em>Логирование, основаное на файле</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>TYPE_OUTPUT</td>
+                <td class="last">
+                    <p><em>Логирование в буффер вывода</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
             <table>
                     <tr>
                 <td class="type" id="property_loggerClasses">
-                    public                                                                                
+                                                            
                 </td>
-                <td class="last"></td>
+                <td>$loggerClasses</td>
+                <td class="last">Типы поддерживаемых логгеров.</td>
             </tr>
                     <tr>
                 <td class="type" id="property_type">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$logger логгер по умолчанию.</td>
+                <td>$type</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_minLevel">
-                    public                                                                                null
+                                                            null
                 </td>
-                <td class="last">$minLevel минимальный уровень для логгироания</td>
+                <td>$minLevel</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_messageFormat">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$messageFormat формат сообщений</td>
+                <td>$messageFormat</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_options">
-                    public                                                                                array
+                                                            array
                 </td>
-                <td class="last">$options опции логгера</td>
+                <td>$options</td>
+                <td class="last">
+</td>
             </tr>
             </table>
 
@@ -73,6 +119,16 @@
             <h2>Methods</h2>
 
             <table>
+                    <tr>
+                <td class="type">
+                    object
+                </td>
+                <td class="last">
+                    <a href="#method_getService">getService</a>(string $serviceInterfaceName, string $concreteClassName)
+                    <p>Возвращает сервис из набора по указанному интерфейсу.</p>
+                </td>
+                <td></td>
+            </tr>
                     <tr>
                 <td class="type">
                     
@@ -83,23 +139,63 @@
                 </td>
                 <td></td>
             </tr>
-                    <tr>
-                <td class="type">
-                    <abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr>
-                </td>
-                <td class="last">
-                    <a href="#method_getLogger">getLogger</a>()
-                    <p>Возвращает экземпляр логгера</p>
-                </td>
-                <td></td>
-            </tr>
             </table>
 
 
         <h2>Details</h2>
 
-                        <h3 id="method_injectDependencies">
-        <div class="location">at line 53</div>
+                        <h3 id="method_getService">
+        <div class="location">at line 72</div>
+        <code>            public            object
+    <strong>getService</strong>(string $serviceInterfaceName, string $concreteClassName)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает сервис из набора по указанному интерфейсу.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$serviceInterfaceName</td>
+                <td>контракт сервиса</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$concreteClassName</td>
+                <td>имя класса конкретной реализации, может быть использовано для создания нового экземпляра сервиса.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>object</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="UnsupportedServiceException">UnsupportedServiceException</abbr></td>
+                <td>если сервис не поддерживается</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_injectDependencies">
+        <div class="location">at line 87</div>
         <code>            public            
     <strong>injectDependencies</strong>(object $object)</code>
     </h3>
@@ -120,32 +216,6 @@
             </table>
 
             
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getLogger">
-        <div class="location">at line 63</div>
-        <code>            public            <abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr>
-    <strong>getLogger</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает экземпляр логгера</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><abbr title="Psr\Log\LoggerInterface">LoggerInterface</abbr></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
             
             
                     </div>

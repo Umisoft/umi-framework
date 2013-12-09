@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\authentication\IAuthenticationFactory | </title>
-                    <link rel="stylesheet" type="text/css" href="../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -39,6 +39,14 @@
                 <td>STORAGE_SESSION</td>
                 <td class="last">
                     <p><em>Сессионное хранилище</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>STORAGE_ORM_SESSION</td>
+                <td class="last">
+                    <p><em>Сессионное хранилище для объектов ORM</em></p>
                     <p>
 </p>
                 </td>
@@ -83,6 +91,14 @@
 </p>
                 </td>
             </tr>
+                    <tr>
+                <td>ADAPTER_ORM</td>
+                <td class="last">
+                    <p><em>Адаптер ORM</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
             </table>
 
     
@@ -95,8 +111,8 @@
                     <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_createStorage">createStorage</a>(array $config = array())
-                    <p>Возвращает сконфигурированный storage</p>
+                    <a href="#method_createStorage">createStorage</a>(string $type, array $options = array())
+                    <p>Создает хранилище аутентификации.</p>
                 </td>
                 <td></td>
             </tr>
@@ -105,8 +121,8 @@
                     <a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_createAdapter">createAdapter</a>(array $config = array())
-                    <p>Возвращает сконфигурированный адаптер</p>
+                    <a href="#method_createAdapter">createAdapter</a>(string $type, array $options = array())
+                    <p>Создает адаптер аутентификации.</p>
                 </td>
                 <td></td>
             </tr>
@@ -116,17 +132,17 @@
                 </td>
                 <td class="last">
                     <a href="#method_createProvider">createProvider</a>(string $type, array $options = array())
-                    <p>Возвращает сконфигурированный провайдер</p>
+                    <p>Создает провайдер аутентификации.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    <a href="../../umi/authentication/IAuthentication.html"><abbr title="umi\authentication\IAuthentication">IAuthentication</abbr></a>
+                    mixed
                 </td>
                 <td class="last">
-                    <a href="#method_createManager">createManager</a>(array $config = array())
-                    <p>Возвращает менеджер авторизации</p>
+                    <a href="#method_createManager">createManager</a>(array $options = array(), <a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a> $adapter = null, <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a> $storage = null)
+                    <p>Создает менеджер аутентификации.</p>
                 </td>
                 <td></td>
             </tr>
@@ -136,12 +152,12 @@
         <h2>Details</h2>
 
                         <h3 id="method_createStorage">
-        <div class="location">at line 54</div>
+        <div class="location">at line 47</div>
         <code>            public            <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
-    <strong>createStorage</strong>(array $config = array())</code>
+    <strong>createStorage</strong>(string $type, array $options = array())</code>
     </h3>
     <div class="details">
-        <p>Возвращает сконфигурированный storage</p>
+        <p>Создает хранилище аутентификации.</p>
         <p>
 </p>
         <div class="tags">
@@ -149,9 +165,14 @@
 
                     <table>
                     <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>тип хранилища аутентификации</td>
+            </tr>
+                    <tr>
                 <td>array</td>
-                <td>$config</td>
-                <td>конфигурация хранилища</td>
+                <td>$options</td>
+                <td>опции хранилища</td>
             </tr>
             </table>
 
@@ -172,12 +193,12 @@
     </div>
 
                 <h3 id="method_createAdapter">
-        <div class="location">at line 61</div>
+        <div class="location">at line 55</div>
         <code>            public            <a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a>
-    <strong>createAdapter</strong>(array $config = array())</code>
+    <strong>createAdapter</strong>(string $type, array $options = array())</code>
     </h3>
     <div class="details">
-        <p>Возвращает сконфигурированный адаптер</p>
+        <p>Создает адаптер аутентификации.</p>
         <p>
 </p>
         <div class="tags">
@@ -185,9 +206,14 @@
 
                     <table>
                     <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>тип провайдера</td>
+            </tr>
+                    <tr>
                 <td>array</td>
-                <td>$config</td>
-                <td>конфигурация адаптера</td>
+                <td>$options</td>
+                <td>опции адаптера</td>
             </tr>
             </table>
 
@@ -208,12 +234,12 @@
     </div>
 
                 <h3 id="method_createProvider">
-        <div class="location">at line 69</div>
+        <div class="location">at line 63</div>
         <code>            public            <a href="../../umi/authentication/provider/IAuthProvider.html"><abbr title="umi\authentication\provider\IAuthProvider">IAuthProvider</abbr></a>
     <strong>createProvider</strong>(string $type, array $options = array())</code>
     </h3>
     <div class="details">
-        <p>Возвращает сконфигурированный провайдер</p>
+        <p>Создает провайдер аутентификации.</p>
         <p>
 </p>
         <div class="tags">
@@ -228,7 +254,7 @@
                     <tr>
                 <td>array</td>
                 <td>$options</td>
-                <td>опции</td>
+                <td>опции провайдера</td>
             </tr>
             </table>
 
@@ -249,12 +275,12 @@
     </div>
 
                 <h3 id="method_createManager">
-        <div class="location">at line 76</div>
-        <code>            public            <a href="../../umi/authentication/IAuthentication.html"><abbr title="umi\authentication\IAuthentication">IAuthentication</abbr></a>
-    <strong>createManager</strong>(array $config = array())</code>
+        <div class="location">at line 72</div>
+        <code>            public            mixed
+    <strong>createManager</strong>(array $options = array(), <a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a> $adapter = null, <a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a> $storage = null)</code>
     </h3>
     <div class="details">
-        <p>Возвращает менеджер авторизации</p>
+        <p>Создает менеджер аутентификации.</p>
         <p>
 </p>
         <div class="tags">
@@ -263,8 +289,18 @@
                     <table>
                     <tr>
                 <td>array</td>
-                <td>$config</td>
-                <td>конфигруация менеджера</td>
+                <td>$options</td>
+                <td>опции менеджера аутентификации</td>
+            </tr>
+                    <tr>
+                <td><a href="../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a></td>
+                <td>$adapter</td>
+                <td>адаптер аутентификации</td>
+            </tr>
+                    <tr>
+                <td><a href="../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a></td>
+                <td>$storage</td>
+                <td>хранилище аутентификации</td>
             </tr>
             </table>
 
@@ -273,7 +309,7 @@
 
                     <table>
         <tr>
-            <td><a href="../../umi/authentication/IAuthentication.html"><abbr title="umi\authentication\IAuthentication">IAuthentication</abbr></a></td>
+            <td>mixed</td>
             <td>
 </td>
         </tr>

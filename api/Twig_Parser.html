@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Twig_Parser | </title>
+        	<link rel="stylesheet" type="text/css" href="css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="classes.html">Classes</a></li>
+                            <li><a href="namespaces.html">Namespaces</a></li>
+                        <li><a href="interfaces.html">Interfaces</a></li>
+            <li><a href="traits.html">Traits</a></li>
+            <li><a href="doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href=".html"></a>Twig_Parser</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>Twig_Parser</strong>        implements
+        <a href="Twig_ParserInterface.html"><abbr title="Twig_ParserInterface">Twig_ParserInterface</abbr></a></p>
+
+            <div class="description">
+            <p>Default parser implementation.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a> $env)
+                    <p>Constructor.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getEnvironment">getEnvironment</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getVarName">getVarName</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getFilename">getFilename</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Node_Module.html"><abbr title="Twig_Node_Module">Twig_Node_Module</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_parse">parse</a>(<a href="Twig_TokenStream.html"><abbr title="Twig_TokenStream">Twig_TokenStream</abbr></a> $stream, $test = null, $dropNeedle = false)
+                    <p>Converts a token stream to a node tree.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_subparse">subparse</a>($test, $dropNeedle = false)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addHandler">addHandler</a>($name, $class)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addNodeVisitor">addNodeVisitor</a>(<a href="Twig_NodeVisitorInterface.html"><abbr title="Twig_NodeVisitorInterface">Twig_NodeVisitorInterface</abbr></a> $visitor)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getBlockStack">getBlockStack</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_peekBlockStack">peekBlockStack</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_popBlockStack">popBlockStack</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_pushBlockStack">pushBlockStack</a>($name)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_hasBlock">hasBlock</a>($name)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getBlock">getBlock</a>($name)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setBlock">setBlock</a>($name, <a href="Twig_Node_Block.html"><abbr title="Twig_Node_Block">Twig_Node_Block</abbr></a> $value)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_hasMacro">hasMacro</a>($name)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setMacro">setMacro</a>($name, <a href="Twig_Node_Macro.html"><abbr title="Twig_Node_Macro">Twig_Node_Macro</abbr></a> $node)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addTrait">addTrait</a>($trait)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_hasTraits">hasTraits</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_embedTemplate">embedTemplate</a>(<a href="Twig_Node_Module.html"><abbr title="Twig_Node_Module">Twig_Node_Module</abbr></a> $template)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addImportedSymbol">addImportedSymbol</a>($type, $alias, $name = null, <a href="Twig_Node_Expression.html"><abbr title="Twig_Node_Expression">Twig_Node_Expression</abbr></a> $node = null)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getImportedSymbol">getImportedSymbol</a>($type, $alias)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_isMainScope">isMainScope</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_pushLocalScope">pushLocalScope</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_popLocalScope">popLocalScope</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_ExpressionParser.html"><abbr title="Twig_ExpressionParser">Twig_ExpressionParser</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getExpressionParser">getExpressionParser</a>()
+                    <p>Gets the expression parser.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getParent">getParent</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setParent">setParent</a>($parent)
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_TokenStream.html"><abbr title="Twig_TokenStream">Twig_TokenStream</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getStream">getStream</a>()
+                    <p>Gets the token stream.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="Twig_Token.html"><abbr title="Twig_Token">Twig_Token</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getCurrentToken">getCurrentToken</a>()
+                    <p>Gets the current token.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 40</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a> $env)</code>
+    </h3>
+    <div class="details">
+        <p>Constructor.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Environment.html"><abbr title="Twig_Environment">Twig_Environment</abbr></a></td>
+                <td>$env</td>
+                <td>A Twig_Environment instance</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEnvironment">
+        <div class="location">at line 45</div>
+        <code>            public            
+    <strong>getEnvironment</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getVarName">
+        <div class="location">at line 50</div>
+        <code>            public            
+    <strong>getVarName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFilename">
+        <div class="location">at line 55</div>
+        <code>            public            
+    <strong>getFilename</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_parse">
+        <div class="location">at line 63</div>
+        <code>            public            <a href="Twig_Node_Module.html"><abbr title="Twig_Node_Module">Twig_Node_Module</abbr></a>
+    <strong>parse</strong>(<a href="Twig_TokenStream.html"><abbr title="Twig_TokenStream">Twig_TokenStream</abbr></a> $stream, $test = null, $dropNeedle = false)</code>
+    </h3>
+    <div class="details">
+        <p>Converts a token stream to a node tree.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_TokenStream.html"><abbr title="Twig_TokenStream">Twig_TokenStream</abbr></a></td>
+                <td>$stream</td>
+                <td>A token stream instance</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$test</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$dropNeedle</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Node_Module.html"><abbr title="Twig_Node_Module">Twig_Node_Module</abbr></a></td>
+            <td>A node tree</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Syntax.html"><abbr title="Twig_Error_Syntax">Twig_Error_Syntax</abbr></a></td>
+                <td>When the token stream is syntactically or semantically wrong</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_subparse">
+        <div class="location">at line 128</div>
+        <code>            public            
+    <strong>subparse</strong>($test, $dropNeedle = false)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$test</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$dropNeedle</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addHandler">
+        <div class="location">at line 205</div>
+        <code>            public            
+    <strong>addHandler</strong>($name, $class)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$class</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addNodeVisitor">
+        <div class="location">at line 210</div>
+        <code>            public            
+    <strong>addNodeVisitor</strong>(<a href="Twig_NodeVisitorInterface.html"><abbr title="Twig_NodeVisitorInterface">Twig_NodeVisitorInterface</abbr></a> $visitor)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_NodeVisitorInterface.html"><abbr title="Twig_NodeVisitorInterface">Twig_NodeVisitorInterface</abbr></a></td>
+                <td>$visitor</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getBlockStack">
+        <div class="location">at line 215</div>
+        <code>            public            
+    <strong>getBlockStack</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_peekBlockStack">
+        <div class="location">at line 220</div>
+        <code>            public            
+    <strong>peekBlockStack</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_popBlockStack">
+        <div class="location">at line 225</div>
+        <code>            public            
+    <strong>popBlockStack</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_pushBlockStack">
+        <div class="location">at line 230</div>
+        <code>            public            
+    <strong>pushBlockStack</strong>($name)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasBlock">
+        <div class="location">at line 235</div>
+        <code>            public            
+    <strong>hasBlock</strong>($name)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getBlock">
+        <div class="location">at line 240</div>
+        <code>            public            
+    <strong>getBlock</strong>($name)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setBlock">
+        <div class="location">at line 245</div>
+        <code>            public            
+    <strong>setBlock</strong>($name, <a href="Twig_Node_Block.html"><abbr title="Twig_Node_Block">Twig_Node_Block</abbr></a> $value)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="Twig_Node_Block.html"><abbr title="Twig_Node_Block">Twig_Node_Block</abbr></a></td>
+                <td>$value</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasMacro">
+        <div class="location">at line 250</div>
+        <code>            public            
+    <strong>hasMacro</strong>($name)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setMacro">
+        <div class="location">at line 255</div>
+        <code>            public            
+    <strong>setMacro</strong>($name, <a href="Twig_Node_Macro.html"><abbr title="Twig_Node_Macro">Twig_Node_Macro</abbr></a> $node)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="Twig_Node_Macro.html"><abbr title="Twig_Node_Macro">Twig_Node_Macro</abbr></a></td>
+                <td>$node</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addTrait">
+        <div class="location">at line 272</div>
+        <code>            public            
+    <strong>addTrait</strong>($trait)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$trait</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasTraits">
+        <div class="location">at line 277</div>
+        <code>            public            
+    <strong>hasTraits</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_embedTemplate">
+        <div class="location">at line 282</div>
+        <code>            public            
+    <strong>embedTemplate</strong>(<a href="Twig_Node_Module.html"><abbr title="Twig_Node_Module">Twig_Node_Module</abbr></a> $template)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Node_Module.html"><abbr title="Twig_Node_Module">Twig_Node_Module</abbr></a></td>
+                <td>$template</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addImportedSymbol">
+        <div class="location">at line 289</div>
+        <code>            public            
+    <strong>addImportedSymbol</strong>($type, $alias, $name = null, <a href="Twig_Node_Expression.html"><abbr title="Twig_Node_Expression">Twig_Node_Expression</abbr></a> $node = null)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$type</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$alias</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$name</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="Twig_Node_Expression.html"><abbr title="Twig_Node_Expression">Twig_Node_Expression</abbr></a></td>
+                <td>$node</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getImportedSymbol">
+        <div class="location">at line 294</div>
+        <code>            public            
+    <strong>getImportedSymbol</strong>($type, $alias)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$type</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$alias</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isMainScope">
+        <div class="location">at line 303</div>
+        <code>            public            
+    <strong>isMainScope</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_pushLocalScope">
+        <div class="location">at line 308</div>
+        <code>            public            
+    <strong>pushLocalScope</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_popLocalScope">
+        <div class="location">at line 313</div>
+        <code>            public            
+    <strong>popLocalScope</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getExpressionParser">
+        <div class="location">at line 323</div>
+        <code>            public            <a href="Twig_ExpressionParser.html"><abbr title="Twig_ExpressionParser">Twig_ExpressionParser</abbr></a>
+    <strong>getExpressionParser</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Gets the expression parser.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_ExpressionParser.html"><abbr title="Twig_ExpressionParser">Twig_ExpressionParser</abbr></a></td>
+            <td>The expression parser</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getParent">
+        <div class="location">at line 328</div>
+        <code>            public            
+    <strong>getParent</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setParent">
+        <div class="location">at line 333</div>
+        <code>            public            
+    <strong>setParent</strong>($parent)</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$parent</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getStream">
+        <div class="location">at line 343</div>
+        <code>            public            <a href="Twig_TokenStream.html"><abbr title="Twig_TokenStream">Twig_TokenStream</abbr></a>
+    <strong>getStream</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Gets the token stream.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_TokenStream.html"><abbr title="Twig_TokenStream">Twig_TokenStream</abbr></a></td>
+            <td>The token stream</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCurrentToken">
+        <div class="location">at line 353</div>
+        <code>            public            <a href="Twig_Token.html"><abbr title="Twig_Token">Twig_Token</abbr></a>
+    <strong>getCurrentToken</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Gets the current token.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="Twig_Token.html"><abbr title="Twig_Token">Twig_Token</abbr></a></td>
+            <td>The current token</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\toolkit\factory\IFactory | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,7 +25,7 @@
         <div class="content">
                 <p>    interface
     <strong>IFactory</strong>        implements
-        <a href="../../../umi/log/ILoggerAware.html"><abbr title="umi\log\ILoggerAware">ILoggerAware</abbr></a>, <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
+        <a href="../../../umi/log/ILoggerAware.html"><abbr title="umi\log\ILoggerAware">ILoggerAware</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
 
             <div class="description">
             <p>Фабрика для создания объектов.</p>
@@ -40,76 +40,6 @@
             <table>
                     <tr>
                 <td class="type">
-                    <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_setEventManager">setEventManager</a>(<a href="../../../umi/event/IEventManager.html"><abbr title="umi\event\IEventManager">IEventManager</abbr></a> $eventManager)
-                    <p>Устанавливает менеджер событий</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../umi/event/toolbox/IEventObservant.html#method_setEventManager"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/event/IEventManager.html"><abbr title="umi\event\IEventManager">IEventManager</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getEventManager">getEventManager</a>()
-                    <p>Возвращает менеджер событий</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../umi/event/toolbox/IEventObservant.html#method_getEventManager"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_subscribeTo">subscribeTo</a>(<a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> $target)
-                    <p>Подписаться на события другого IEventObservant</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../umi/event/toolbox/IEventObservant.html#method_subscribeTo"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_fireEvent">fireEvent</a>(string $eventType, array $params = array(), array $tags = null)
-                    <p>Генерирует новое событие</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../umi/event/toolbox/IEventObservant.html#method_fireEvent"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_bindEvent">bindEvent</a>(string $eventType, callable $eventHandler, array $tags = null)
-                    <p>Устанавливает обработчик события</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../umi/event/toolbox/IEventObservant.html#method_bindEvent"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_unbindEvent">unbindEvent</a>(string $eventType, callable $eventHandler = null)
-                    <p>Удаляет обработчик(и) события указанного типа</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../umi/event/toolbox/IEventObservant.html#method_unbindEvent"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_bindLocalEvents">bindLocalEvents</a>()
-                    <p>Устанавливает локальные обработчики событий</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../umi/event/toolbox/IEventObservant.html#method_bindLocalEvents"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
                     <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>
                 </td>
                 <td class="last">
@@ -117,16 +47,6 @@
                     <p>Устанавливает транслятор для локализации</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/i18n/ILocalizable.html#method_setTranslator"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    array
-                </td>
-                <td class="last">
-                    <a href="#method_getI18nDictionaries">getI18nDictionaries</a>()
-                    <p>Возвращает список имен словарей в которых будет производиться поиск перевода сообщений и лейблов данного компонента.</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../umi/i18n/ILocalizable.html#method_getI18nDictionaries"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type">
@@ -153,266 +73,7 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method_setEventManager">
-        <div class="location">in <a href="../../../umi/event/toolbox/IEventObservant.html#method_setEventManager"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> at line 24</div>
-        <code>            public            <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-    <strong>setEventManager</strong>(<a href="../../../umi/event/IEventManager.html"><abbr title="umi\event\IEventManager">IEventManager</abbr></a> $eventManager)</code>
-    </h3>
-    <div class="details">
-        <p>Устанавливает менеджер событий</p>
-        <p>
-</p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><a href="../../../umi/event/IEventManager.html"><abbr title="umi\event\IEventManager">IEventManager</abbr></a></td>
-                <td>$eventManager</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getEventManager">
-        <div class="location">in <a href="../../../umi/event/toolbox/IEventObservant.html#method_getEventManager"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> at line 30</div>
-        <code>            public            <a href="../../../umi/event/IEventManager.html"><abbr title="umi\event\IEventManager">IEventManager</abbr></a>
-    <strong>getEventManager</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает менеджер событий</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/event/IEventManager.html"><abbr title="umi\event\IEventManager">IEventManager</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_subscribeTo">
-        <div class="location">in <a href="../../../umi/event/toolbox/IEventObservant.html#method_subscribeTo"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> at line 37</div>
-        <code>            public            <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-    <strong>subscribeTo</strong>(<a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> $target)</code>
-    </h3>
-    <div class="details">
-        <p>Подписаться на события другого IEventObservant</p>
-        <p>
-</p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></td>
-                <td>$target</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_fireEvent">
-        <div class="location">in <a href="../../../umi/event/toolbox/IEventObservant.html#method_fireEvent"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> at line 48</div>
-        <code>            public            <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-    <strong>fireEvent</strong>(string $eventType, array $params = array(), array $tags = null)</code>
-    </h3>
-    <div class="details">
-        <p>Генерирует новое событие</p>
-        <p>
-</p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>string</td>
-                <td>$eventType</td>
-                <td>тип события (уникальный строковый идентификатор)</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$params</td>
-                <td>список параметров события array('paramName' => 'paramVal', 'relParam' => &amp;$var) Параметр может передаваться по ссылке.</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$tags</td>
-                <td>тэги, с которыми происходит событиею Тэги позволяют подписаться на события, которые происходят с конкретными объектами.</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_bindEvent">
-        <div class="location">in <a href="../../../umi/event/toolbox/IEventObservant.html#method_bindEvent"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> at line 59</div>
-        <code>            public            <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-    <strong>bindEvent</strong>(string $eventType, callable $eventHandler, array $tags = null)</code>
-    </h3>
-    <div class="details">
-        <p>Устанавливает обработчик события</p>
-        <p>
-</p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>string</td>
-                <td>$eventType</td>
-                <td>тип события (уникальный строковый идентификатор)</td>
-            </tr>
-                    <tr>
-                <td>callable</td>
-                <td>$eventHandler</td>
-                <td>callable обработчик события</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$tags</td>
-                <td>тэги, с которыми должно происходить событие, на которое устанавливается обработчик. Тэги позволяют подписаться на события, которые происходят с конкретными объектами. Если тэги не указаны, обработчик будет вызван для всех объектов, поднимающих события.</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_unbindEvent">
-        <div class="location">in <a href="../../../umi/event/toolbox/IEventObservant.html#method_unbindEvent"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> at line 68</div>
-        <code>            public            <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-    <strong>unbindEvent</strong>(string $eventType, callable $eventHandler = null)</code>
-    </h3>
-    <div class="details">
-        <p>Удаляет обработчик(и) события указанного типа</p>
-        <p>
-</p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>string</td>
-                <td>$eventType</td>
-                <td>тип события (уникальный строковый идентификатор)</td>
-            </tr>
-                    <tr>
-                <td>callable</td>
-                <td>$eventHandler</td>
-                <td>конкретный обработчик события, если null, будут удалены все обработчики событий указанного типа</td>
-            </tr>
-            </table>
-
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_bindLocalEvents">
-        <div class="location">in <a href="../../../umi/event/toolbox/IEventObservant.html#method_bindLocalEvents"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a> at line 74</div>
-        <code>            public            <a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a>
-    <strong>bindLocalEvents</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Устанавливает локальные обработчики событий</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/event/toolbox/IEventObservant.html"><abbr title="umi\event\toolbox\IEventObservant">IEventObservant</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setTranslator">
+                        <h3 id="method_setTranslator">
         <div class="location">in <a href="../../../umi/i18n/ILocalizable.html#method_setTranslator"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a> at line 25</div>
         <code>            public            <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>
     <strong>setTranslator</strong>(<a href="../../../umi/i18n/translator/ITranslator.html"><abbr title="umi\i18n\translator\ITranslator">ITranslator</abbr></a> $translator)</code>
@@ -449,33 +110,8 @@
                     </div>
     </div>
 
-                <h3 id="method_getI18nDictionaries">
-        <div class="location">in <a href="../../../umi/i18n/ILocalizable.html#method_getI18nDictionaries"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a> at line 32</div>
-        <code>            public            array
-    <strong>getI18nDictionaries</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает список имен словарей в которых будет производиться поиск перевода сообщений и лейблов данного компонента.</p>
-        <p>Приоритет поиска соответсвует последовательности словарей в списке.</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>array</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
                 <h3 id="method_setToolkit">
-        <div class="location">at line 27</div>
+        <div class="location">at line 26</div>
         <code>            public            
     <strong>setToolkit</strong>(<a href="../../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a> $toolkit)</code>
     </h3>
@@ -502,7 +138,7 @@
     </div>
 
                 <h3 id="method_setPrototypeFactory">
-        <div class="location">at line 34</div>
+        <div class="location">at line 33</div>
         <code>            public            <a href="../../../umi/toolkit/factory/IFactory.html"><abbr title="umi\toolkit\factory\IFactory">IFactory</abbr></a>
     <strong>setPrototypeFactory</strong>(<a href="../../../umi/toolkit/prototype/IPrototypeFactory.html"><abbr title="umi\toolkit\prototype\IPrototypeFactory">IPrototypeFactory</abbr></a> $prototypeFactory)</code>
     </h3>

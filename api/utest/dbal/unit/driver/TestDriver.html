@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>utest\dbal\unit\driver\TestDriver | </title>
+        	<link rel="stylesheet" type="text/css" href="../../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../utest/dbal/unit/driver.html">utest\dbal\unit\driver</a>\TestDriver</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>TestDriver</strong>        extends <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a>        implements
+        <a href="../../../../umi/dbal/driver/IDbDriver.html"><abbr title="umi\dbal\driver\IDbDriver">IDbDriver</abbr></a></p>
+
+            <div class="description">
+            <p>Class TestDriver тестовый драйвер</p>
+            <p>
+</p>
+        </div>
+    
+    
+            <h2>Properties</h2>
+
+            <table>
+                    <tr>
+                <td class="type" id="property_columnTypes">
+                                                            array
+                </td>
+                <td>$columnTypes</td>
+                <td class="last">
+</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_dsn">
+                                                            string
+                </td>
+                <td>$dsn</td>
+                <td class="last">
+</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_user">
+                                                            string
+                </td>
+                <td>$user</td>
+                <td class="last">
+</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_password">
+                                                            string
+                </td>
+                <td>$password</td>
+                <td class="last">
+</td>
+            </tr>
+                    <tr>
+                <td class="type" id="property_charset">
+                                                            string
+                </td>
+                <td>$charset</td>
+                <td class="last">
+</td>
+            </tr>
+            </table>
+
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getColumnInternalTypeBySize">getColumnInternalTypeBySize</a>(string $internalType, int $size)
+                    <p>Возвращает внутренний тип столбца в конкретной c учетом его размера</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_getColumnInternalTypeBySize"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_isAvailable">isAvailable</a>()
+                    <p>Проверяет, поддерживается ли используемый PDO-драйвер</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildSelectQuery">buildSelectQuery</a>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на выборку данных</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildSelectQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildUpdateQuery">buildUpdateQuery</a>(<a href="../../../../umi/dbal/builder/IUpdateBuilder.html"><abbr title="umi\dbal\builder\IUpdateBuilder">IUpdateBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на обновление данных.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildUpdateQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildInsertQuery">buildInsertQuery</a>(<a href="../../../../umi/dbal/builder/IInsertBuilder.html"><abbr title="umi\dbal\builder\IInsertBuilder">IInsertBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на вставку данных.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildInsertQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildDeleteQuery">buildDeleteQuery</a>(<a href="../../../../umi/dbal/builder/IDeleteBuilder.html"><abbr title="umi\dbal\builder\IDeleteBuilder">IDeleteBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на удаление данных</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildDeleteQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildDisableKeysQuery">buildDisableKeysQuery</a>(string $tableName)
+                    <p>Строит и возвращает sql-запрос на выключение индексирования данных в таблице.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildDisableKeysQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildEnableKeysQuery">buildEnableKeysQuery</a>(string $tableName)
+                    <p>Построить sql-запрос на включение индексирования данных в таблице.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildEnableKeysQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildDisableForeignKeysQuery">buildDisableForeignKeysQuery</a>()
+                    <p>Строит и возвращает sql-запрос на выключение проверки внешних ключей.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildDisableForeignKeysQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildEnableForeignKeysQuery">buildEnableForeignKeysQuery</a>()
+                    <p>Строит и возвращает sql-запрос на включение проверки внешних ключей.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildEnableForeignKeysQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildSelectFoundRowsQuery">buildSelectFoundRowsQuery</a>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на получение количества записей, удовлетворяюших SELECT-запросу</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildSelectFoundRowsQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a></small></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getColumnInternalTypeBySize">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_getColumnInternalTypeBySize"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 101</div>
+        <code>            public            string
+    <strong>getColumnInternalTypeBySize</strong>(string $internalType, int $size)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает внутренний тип столбца в конкретной c учетом его размера</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$internalType</td>
+                <td>текущий внутренний тип столбца</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$size</td>
+                <td>размер столбца</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isAvailable">
+        <div class="location">at line 56</div>
+        <code>            public            bool
+    <strong>isAvailable</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, поддерживается ли используемый PDO-драйвер</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildSelectQuery">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildSelectQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 247</div>
+        <code>            public            string
+    <strong>buildSelectQuery</strong>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на выборку данных</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>select-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildUpdateQuery">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildUpdateQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 273</div>
+        <code>            public            string
+    <strong>buildUpdateQuery</strong>(<a href="../../../../umi/dbal/builder/IUpdateBuilder.html"><abbr title="umi\dbal\builder\IUpdateBuilder">IUpdateBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на обновление данных.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/IUpdateBuilder.html"><abbr title="umi\dbal\builder\IUpdateBuilder">IUpdateBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>update-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildInsertQuery">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildInsertQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 296</div>
+        <code>            public            string
+    <strong>buildInsertQuery</strong>(<a href="../../../../umi/dbal/builder/IInsertBuilder.html"><abbr title="umi\dbal\builder\IInsertBuilder">IInsertBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на вставку данных.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/IInsertBuilder.html"><abbr title="umi\dbal\builder\IInsertBuilder">IInsertBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>insert-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildDeleteQuery">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildDeleteQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 317</div>
+        <code>            public            string
+    <strong>buildDeleteQuery</strong>(<a href="../../../../umi/dbal/builder/IDeleteBuilder.html"><abbr title="umi\dbal\builder\IDeleteBuilder">IDeleteBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на удаление данных</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/IDeleteBuilder.html"><abbr title="umi\dbal\builder\IDeleteBuilder">IDeleteBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>delete-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildDisableKeysQuery">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildDisableKeysQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 337</div>
+        <code>            public            string
+    <strong>buildDisableKeysQuery</strong>(string $tableName)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на выключение индексирования данных в таблице.</p>
+        <p><br />
+Может ускорить множественные операции вставки/изменения строк.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$tableName</td>
+                <td>имя таблицы</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildEnableKeysQuery">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildEnableKeysQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 347</div>
+        <code>            public            string
+    <strong>buildEnableKeysQuery</strong>(string $tableName)</code>
+    </h3>
+    <div class="details">
+        <p>Построить sql-запрос на включение индексирования данных в таблице.</p>
+        <p><br />
+Используется совместно с методом buildDisableKeysQuery для ускорения множественных
+операций вставки/изменения строк.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$tableName</td>
+                <td>имя таблицы</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildDisableForeignKeysQuery">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildDisableForeignKeysQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 357</div>
+        <code>            public            string
+    <strong>buildDisableForeignKeysQuery</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на выключение проверки внешних ключей.</p>
+        <p><br />
+Используется при непоследовательном удалении, добавлении и редактировании записей во избежании конфликтов.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildEnableForeignKeysQuery">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildEnableForeignKeysQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 365</div>
+        <code>            public            string
+    <strong>buildEnableForeignKeysQuery</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на включение проверки внешних ключей.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildSelectFoundRowsQuery">
+        <div class="location">in <a href="../../../../umi/dbal/driver/mysql/MySqlDriver.html#method_buildSelectFoundRowsQuery"><abbr title="umi\dbal\driver\mysql\MySqlDriver">MySqlDriver</abbr></a> at line 373</div>
+        <code>            public            string
+    <strong>buildSelectFoundRowsQuery</strong>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на получение количества записей, удовлетворяюших SELECT-запросу</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>select-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

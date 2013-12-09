@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\orm\collection\CollectionManager | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -34,17 +34,6 @@
         </div>
     
     
-            <h2>Properties</h2>
-
-            <table>
-                    <tr>
-                <td class="type" id="property_collections">
-                    public                                                                                array
-                </td>
-                <td class="last">$collections конфигурация коллекций в формате [&#039;collectionName&#039; =&gt; [ &#039;type&#039; =&gt; &#039;simple&#039;, &#039;class&#039; =&gt; null | &#039;className&#039;, &#039;hierarchy&#039; =&gt; &#039;collectionName&#039; // для linked коллекций ], ... ]</td>
-            </tr>
-            </table>
-
     
             <h2>Methods</h2>
 
@@ -54,8 +43,8 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<a href="../../../umi/orm/collection/ICollectionFactory.html"><abbr title="umi\orm\collection\ICollectionFactory">ICollectionFactory</abbr></a> $objectCollectionFactory)
-                    <p>Конструктор</p>
+                    <a href="#method___construct">__construct</a>(<a href="../../../umi/orm/collection/ICollectionFactory.html"><abbr title="umi\orm\collection\ICollectionFactory">ICollectionFactory</abbr></a> $objectCollectionFactory, array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $collections)
+                    <p>Конструктор.</p>
                 </td>
                 <td></td>
             </tr>
@@ -95,12 +84,12 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 52</div>
+        <div class="location">at line 63</div>
         <code>            public            
-    <strong>__construct</strong>(<a href="../../../umi/orm/collection/ICollectionFactory.html"><abbr title="umi\orm\collection\ICollectionFactory">ICollectionFactory</abbr></a> $objectCollectionFactory)</code>
+    <strong>__construct</strong>(<a href="../../../umi/orm/collection/ICollectionFactory.html"><abbr title="umi\orm\collection\ICollectionFactory">ICollectionFactory</abbr></a> $objectCollectionFactory, array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $collections)</code>
     </h3>
     <div class="details">
-        <p>Конструктор</p>
+        <p>Конструктор.</p>
         <p>
 </p>
         <div class="tags">
@@ -113,16 +102,30 @@
                 <td>
 </td>
             </tr>
+                    <tr>
+                <td>array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a></td>
+                <td>$collections</td>
+                <td>конфигурация коллекций в формате [ 'collectionName' => [ 'type' => 'simple', 'class' => null | 'className', 'hierarchy' => 'collectionName' // для linked коллекций ], ... ]</td>
+            </tr>
             </table>
 
             
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/UnexpectedValueException"><abbr title="UnexpectedValueException">UnexpectedValueException</abbr></a></td>
+                <td>в случае неверно заданной конфигурации коллекций</td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
 
                 <h3 id="method_hasCollection">
-        <div class="location">at line 60</div>
+        <div class="location">at line 80</div>
         <code>            public            boolean
     <strong>hasCollection</strong>(string $collectionName)</code>
     </h3>
@@ -158,7 +161,7 @@
     </div>
 
                 <h3 id="method_getCollection">
-        <div class="location">at line 68</div>
+        <div class="location">at line 88</div>
         <code>            public            <a href="../../../umi/orm/collection/ISimpleCollection.html"><abbr title="umi\orm\collection\ISimpleCollection">ISimpleCollection</abbr></a>|<a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a>|<a href="../../../umi/orm/collection/ILinkedHierarchicCollection.html"><abbr title="umi\orm\collection\ILinkedHierarchicCollection">ILinkedHierarchicCollection</abbr></a>|<a href="../../../umi/orm/collection/ICommonHierarchy.html"><abbr title="umi\orm\collection\ICommonHierarchy">ICommonHierarchy</abbr></a>
     <strong>getCollection</strong>(string $collectionName)</code>
     </h3>
@@ -207,7 +210,7 @@
     </div>
 
                 <h3 id="method_getList">
-        <div class="location">at line 101</div>
+        <div class="location">at line 121</div>
         <code>            public            array
     <strong>getList</strong>()</code>
     </h3>

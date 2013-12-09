@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>Twig_Loader_Chain | </title>
+        	<link rel="stylesheet" type="text/css" href="css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="classes.html">Classes</a></li>
+                            <li><a href="namespaces.html">Namespaces</a></li>
+                        <li><a href="interfaces.html">Interfaces</a></li>
+            <li><a href="traits.html">Traits</a></li>
+            <li><a href="doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href=".html"></a>Twig_Loader_Chain</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>Twig_Loader_Chain</strong>        implements
+        <a href="Twig_LoaderInterface.html"><abbr title="Twig_LoaderInterface">Twig_LoaderInterface</abbr></a>, <a href="Twig_ExistsLoaderInterface.html"><abbr title="Twig_ExistsLoaderInterface">Twig_ExistsLoaderInterface</abbr></a></p>
+
+            <div class="description">
+            <p>Loads templates from other loaders.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array $loaders = array())
+                    <p>Constructor.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addLoader">addLoader</a>(<a href="Twig_LoaderInterface.html"><abbr title="Twig_LoaderInterface">Twig_LoaderInterface</abbr></a> $loader)
+                    <p>Adds a loader instance.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getSource">getSource</a>(string $name)
+                    <p>Gets the source code of a template, given its name.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_exists">exists</a>(string $name)
+                    <p>Check if we have the source code of a template, given its name.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getCacheKey">getCacheKey</a>(string $name)
+                    <p>Gets the cache key to use for the cache for a given template name.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    Boolean
+                </td>
+                <td class="last">
+                    <a href="#method_isFresh">isFresh</a>(string $name, <abbr title="timestamp">timestamp</abbr> $time)
+                    <p>Returns true if the template is still fresh.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 27</div>
+        <code>            public            
+    <strong>__construct</strong>(array $loaders = array())</code>
+    </h3>
+    <div class="details">
+        <p>Constructor.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$loaders</td>
+                <td>An array of loader instances</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addLoader">
+        <div class="location">at line 39</div>
+        <code>            public            
+    <strong>addLoader</strong>(<a href="Twig_LoaderInterface.html"><abbr title="Twig_LoaderInterface">Twig_LoaderInterface</abbr></a> $loader)</code>
+    </h3>
+    <div class="details">
+        <p>Adds a loader instance.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_LoaderInterface.html"><abbr title="Twig_LoaderInterface">Twig_LoaderInterface</abbr></a></td>
+                <td>$loader</td>
+                <td>A Loader instance</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSource">
+        <div class="location">at line 48</div>
+        <code>            public            string
+    <strong>getSource</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Gets the source code of a template, given its name.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The name of the template to load</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The template source code</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Loader.html"><abbr title="Twig_Error_Loader">Twig_Error_Loader</abbr></a></td>
+                <td>When $name is not found</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_exists">
+        <div class="location">at line 69</div>
+        <code>            public            boolean
+    <strong>exists</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Check if we have the source code of a template, given its name.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The name of the template to check if we can load</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>If the template source code is handled by this loader or not</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCacheKey">
+        <div class="location">at line 100</div>
+        <code>            public            string
+    <strong>getCacheKey</strong>(string $name)</code>
+    </h3>
+    <div class="details">
+        <p>Gets the cache key to use for the cache for a given template name.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The name of the template to load</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>The cache key</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Loader.html"><abbr title="Twig_Error_Loader">Twig_Error_Loader</abbr></a></td>
+                <td>When $name is not found</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isFresh">
+        <div class="location">at line 121</div>
+        <code>            public            Boolean
+    <strong>isFresh</strong>(string $name, <abbr title="timestamp">timestamp</abbr> $time)</code>
+    </h3>
+    <div class="details">
+        <p>Returns true if the template is still fresh.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>The template name</td>
+            </tr>
+                    <tr>
+                <td><abbr title="timestamp">timestamp</abbr></td>
+                <td>$time</td>
+                <td>The last modification time of the cached template</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>Boolean</td>
+            <td>true if the template is fresh, false otherwise</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="Twig_Error_Loader.html"><abbr title="Twig_Error_Loader">Twig_Error_Loader</abbr></a></td>
+                <td>When $name is not found</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

@@ -199,7 +199,6 @@ div.tags {
 
 td.type {
     text-align: right;
-    white-space:nowrap;
 }
 
 #class .content, #overview .content {

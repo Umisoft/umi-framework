@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\session\toolbox\SessionTools | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,7 +25,7 @@
         <div class="content">
                 <p>    class
     <strong>SessionTools</strong>        implements
-        <a href="../../../umi/session/toolbox/ISessionTools.html"><abbr title="umi\session\toolbox\ISessionTools">ISessionTools</abbr></a></p>
+        <a href="../../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a></p>
 
             <div class="description">
             <p>Набор инструментов для работы с сессиями.</p>
@@ -33,27 +33,46 @@
 </p>
         </div>
     
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>NAME</td>
+                <td class="last">
+                    <p><em>Имя набора инструментов.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
     
             <h2>Properties</h2>
 
             <table>
                     <tr>
                 <td class="type" id="property_managerClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$managerClass класс менеджера сессии</td>
+                <td>$managerClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_serviceClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$serviceClass класс сервиса сессии</td>
+                <td>$serviceClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_entityFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$namespaceFactoryClass фабрика создания пространств имен</td>
+                <td>$entityFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
             </table>
 
@@ -83,26 +102,6 @@
             </tr>
                     <tr>
                 <td class="type">
-                    <a href="../../../umi/session/ISessionManager.html"><abbr title="umi\session\ISessionManager">ISessionManager</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getManager">getManager</a>()
-                    <p>Возвращает менеджер сессии.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/session/ISession.html"><abbr title="umi\session\ISession">ISession</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getSession">getSession</a>()
-                    <p>Возвращает сервис сессии.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
                     
                 </td>
                 <td class="last">
@@ -117,7 +116,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 43</div>
+        <div class="location">at line 50</div>
         <code>            public            
     <strong>__construct</strong>()</code>
     </h3>
@@ -133,7 +132,7 @@
     </div>
 
                 <h3 id="method_getService">
-        <div class="location">at line 55</div>
+        <div class="location">at line 62</div>
         <code>            public            object
     <strong>getService</strong>(string $serviceInterfaceName, string $concreteClassName)</code>
     </h3>
@@ -182,60 +181,8 @@
                     </div>
     </div>
 
-                <h3 id="method_getManager">
-        <div class="location">at line 72</div>
-        <code>            public            <a href="../../../umi/session/ISessionManager.html"><abbr title="umi\session\ISessionManager">ISessionManager</abbr></a>
-    <strong>getManager</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает менеджер сессии.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/session/ISessionManager.html"><abbr title="umi\session\ISessionManager">ISessionManager</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getSession">
-        <div class="location">at line 84</div>
-        <code>            public            <a href="../../../umi/session/ISession.html"><abbr title="umi\session\ISession">ISession</abbr></a>
-    <strong>getSession</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает сервис сессии.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/session/ISession.html"><abbr title="umi\session\ISession">ISession</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
                 <h3 id="method_injectDependencies">
-        <div class="location">at line 105</div>
+        <div class="location">at line 106</div>
         <code>            public            
     <strong>injectDependencies</strong>(object $object)</code>
     </h3>

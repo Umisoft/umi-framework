@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\authentication\adapter\DatabaseAdapter | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,49 +25,44 @@
         <div class="content">
                 <p>    class
     <strong>DatabaseAdapter</strong>        implements
-        <a href="../../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>, <a href="../../../umi/authentication/result/IAuthenticationResultAware.html"><abbr title="umi\authentication\result\IAuthenticationResultAware">IAuthenticationResultAware</abbr></a></p>
+        <a href="../../../umi/authentication/adapter/IAuthAdapter.html"><abbr title="umi\authentication\adapter\IAuthAdapter">IAuthAdapter</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
 
             <div class="description">
             <p>Адаптер базы данных для аутентификации.</p>
-            <p>todo: refactor?</p>
+            <p>
+</p>
         </div>
     
-    
-            <h2>Properties</h2>
+            <h2>Constants</h2>
 
             <table>
                     <tr>
-                <td class="type" id="property_serverId">
-                    public                                                                                string
+                <td>OPTION_TABLE</td>
+                <td class="last">
+                    <p><em>Имя таблицы</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$serverId идентификатор сервера</td>
             </tr>
                     <tr>
-                <td class="type" id="property_select">
-                    public                                                                                <a href="../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a>
+                <td>OPTION_LOGIN_COLUMNS</td>
+                <td class="last">
+                    <p><em>Колонки содержащие логин пользователя</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$select запрос</td>
             </tr>
                     <tr>
-                <td class="type" id="property_table">
-                    public                                                                                string
+                <td>OPTION_PASSWORD_COLUMN</td>
+                <td class="last">
+                    <p><em>Колонка содержащая пароль пользователя</em></p>
+                    <p>
+</p>
                 </td>
-                <td class="last">$table таблица</td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_usernameColumn">
-                    public                                                                                string
-                </td>
-                <td class="last">$usernameColumn имя пользователя</td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_passwordColumn">
-                    public                                                                                string
-                </td>
-                <td class="last">$passwordColumn пароль</td>
             </tr>
             </table>
 
+    
     
             <h2>Methods</h2>
 
@@ -77,7 +72,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(<a href="../../../umi/dbal/cluster/IDbCluster.html"><abbr title="umi\dbal\cluster\IDbCluster">IDbCluster</abbr></a> $connection)
+                    <a href="#method___construct">__construct</a>(array $options = array(), <a href="../../../umi/dbal/cluster/IDbCluster.html"><abbr title="umi\dbal\cluster\IDbCluster">IDbCluster</abbr></a> $connection)
                     <p>Инициализация подключения.</p>
                 </td>
                 <td></td>
@@ -98,9 +93,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 61</div>
+        <div class="location">at line 57</div>
         <code>            public            
-    <strong>__construct</strong>(<a href="../../../umi/dbal/cluster/IDbCluster.html"><abbr title="umi\dbal\cluster\IDbCluster">IDbCluster</abbr></a> $connection)</code>
+    <strong>__construct</strong>(array $options = array(), <a href="../../../umi/dbal/cluster/IDbCluster.html"><abbr title="umi\dbal\cluster\IDbCluster">IDbCluster</abbr></a> $connection)</code>
     </h3>
     <div class="details">
         <p>Инициализация подключения.</p>
@@ -111,6 +106,12 @@
 
                     <table>
                     <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
                 <td><a href="../../../umi/dbal/cluster/IDbCluster.html"><abbr title="umi\dbal\cluster\IDbCluster">IDbCluster</abbr></a></td>
                 <td>$connection</td>
                 <td>соединение с БД</td>
@@ -119,12 +120,22 @@
 
             
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>
+</td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
 
                 <h3 id="method_authenticate">
-        <div class="location">at line 79</div>
+        <div class="location">at line 84</div>
         <code>            public            <a href="../../../umi/authentication/result/IAuthResult.html"><abbr title="umi\authentication\result\IAuthResult">IAuthResult</abbr></a>
     <strong>authenticate</strong>(string $username, string $password)</code>
     </h3>

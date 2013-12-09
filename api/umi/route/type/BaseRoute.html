@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\route\type\BaseRoute | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -34,23 +34,6 @@
         </div>
     
     
-            <h2>Properties</h2>
-
-            <table>
-                    <tr>
-                <td class="type" id="property_route">
-                    public                                                                                string
-                </td>
-                <td class="last">$route правило маршрутизатора</td>
-            </tr>
-                    <tr>
-                <td class="type" id="property_defaults">
-                    public                                                                                array
-                </td>
-                <td class="last">$defaults параметры по-умолчанию</td>
-            </tr>
-            </table>
-
     
             <h2>Methods</h2>
 
@@ -60,7 +43,7 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(array $subroutes = array())
+                    <a href="#method___construct">__construct</a>(array $options = array(), array $subroutes = array())
                     <p>Конструктор.</p>
                 </td>
                 <td></td>
@@ -91,9 +74,9 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 38</div>
+        <div class="location">at line 39</div>
         <code>            public            
-    <strong>__construct</strong>(array $subroutes = array())</code>
+    <strong>__construct</strong>(array $options = array(), array $subroutes = array())</code>
     </h3>
     <div class="details">
         <p>Конструктор.</p>
@@ -103,6 +86,11 @@
                             <h4>Parameters</h4>
 
                     <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции маршрута</td>
+            </tr>
                     <tr>
                 <td>array</td>
                 <td>$subroutes</td>
@@ -117,7 +105,7 @@
     </div>
 
                 <h3 id="method_getParams">
-        <div class="location">at line 46</div>
+        <div class="location">at line 50</div>
         <code>            public            array
     <strong>getParams</strong>()</code>
     </h3>
@@ -143,8 +131,8 @@
     </div>
 
                 <h3 id="method_getSubRoutes">
-        <div class="location">at line 54</div>
-        <code>            public            <a href="../../../umi/route/type/IRoute.html"><abbr title="umi\route\type\IRoute">IRoute</abbr></a>[]
+        <div class="location">at line 58</div>
+        <code>final            public            <a href="../../../umi/route/type/IRoute.html"><abbr title="umi\route\type\IRoute">IRoute</abbr></a>[]
     <strong>getSubRoutes</strong>()</code>
     </h3>
     <div class="details">

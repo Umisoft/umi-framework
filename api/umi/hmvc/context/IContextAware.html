@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\hmvc\context\IContextAware | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -24,8 +24,7 @@
     </div>
         <div class="content">
                 <p>    interface
-    <strong>IContextAware</strong>        implements
-        <a href="../../../umi/hmvc/context/IComponentContext.html"><abbr title="umi\hmvc\context\IComponentContext">IComponentContext</abbr></a>, <a href="../../../umi/hmvc/context/IRequestContext.html"><abbr title="umi\hmvc\context\IRequestContext">IRequestContext</abbr></a></p>
+    <strong>IContextAware</strong></p>
 
             <div class="description">
             <p>Интерфейс для поддержки внедрения контекстно зависимых объектов.</p>
@@ -42,24 +41,14 @@
                     
                 </td>
                 <td class="last">
-                    <a href="#method_setContextComponent">setContextComponent</a>(<a href="../../../umi/hmvc/component/IComponent.html"><abbr title="umi\hmvc\component\IComponent">IComponent</abbr></a> $component = null)
-                    <p>Устанавливает контекстно-зависимый компонент.</p>
+                    <a href="#method_setContext">setContext</a>(<a href="../../../umi/hmvc/context/IContext.html"><abbr title="umi\hmvc\context\IContext">IContext</abbr></a> $context)
+                    <p>Устанавливает контекст компонента.</p>
                 </td>
-                <td><small>from&nbsp;<a href="../../../umi/hmvc/context/IComponentContext.html#method_setContextComponent"><abbr title="umi\hmvc\context\IComponentContext">IComponentContext</abbr></a></small></td>
+                <td></td>
             </tr>
                     <tr>
                 <td class="type">
                     
-                </td>
-                <td class="last">
-                    <a href="#method_setContextRequest">setContextRequest</a>(<a href="../../../umi/hmvc/component/request/IComponentRequest.html"><abbr title="umi\hmvc\component\request\IComponentRequest">IComponentRequest</abbr></a> $request = null)
-                    <p>Устанавливает контекстно-зависимый запрос.</p>
-                </td>
-                <td><small>from&nbsp;<a href="../../../umi/hmvc/context/IRequestContext.html#method_setContextRequest"><abbr title="umi\hmvc\context\IRequestContext">IRequestContext</abbr></a></small></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/hmvc/context/IContextAware.html"><abbr title="umi\hmvc\context\IContextAware">IContextAware</abbr></a>
                 </td>
                 <td class="last">
                     <a href="#method_clearContext">clearContext</a>()
@@ -72,13 +61,13 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method_setContextComponent">
-        <div class="location">in <a href="../../../umi/hmvc/context/IComponentContext.html#method_setContextComponent"><abbr title="umi\hmvc\context\IComponentContext">IComponentContext</abbr></a> at line 23</div>
+                        <h3 id="method_setContext">
+        <div class="location">at line 22</div>
         <code>            public            
-    <strong>setContextComponent</strong>(<a href="../../../umi/hmvc/component/IComponent.html"><abbr title="umi\hmvc\component\IComponent">IComponent</abbr></a> $component = null)</code>
+    <strong>setContext</strong>(<a href="../../../umi/hmvc/context/IContext.html"><abbr title="umi\hmvc\context\IContext">IContext</abbr></a> $context)</code>
     </h3>
     <div class="details">
-        <p>Устанавливает контекстно-зависимый компонент.</p>
+        <p>Устанавливает контекст компонента.</p>
         <p>
 </p>
         <div class="tags">
@@ -86,34 +75,8 @@
 
                     <table>
                     <tr>
-                <td><a href="../../../umi/hmvc/component/IComponent.html"><abbr title="umi\hmvc\component\IComponent">IComponent</abbr></a></td>
-                <td>$component</td>
-                <td>компонент</td>
-            </tr>
-            </table>
-
-            
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_setContextRequest">
-        <div class="location">in <a href="../../../umi/hmvc/context/IRequestContext.html#method_setContextRequest"><abbr title="umi\hmvc\context\IRequestContext">IRequestContext</abbr></a> at line 23</div>
-        <code>            public            
-    <strong>setContextRequest</strong>(<a href="../../../umi/hmvc/component/request/IComponentRequest.html"><abbr title="umi\hmvc\component\request\IComponentRequest">IComponentRequest</abbr></a> $request = null)</code>
-    </h3>
-    <div class="details">
-        <p>Устанавливает контекстно-зависимый запрос.</p>
-        <p>
-</p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td><a href="../../../umi/hmvc/component/request/IComponentRequest.html"><abbr title="umi\hmvc\component\request\IComponentRequest">IComponentRequest</abbr></a></td>
-                <td>$request</td>
+                <td><a href="../../../umi/hmvc/context/IContext.html"><abbr title="umi\hmvc\context\IContext">IContext</abbr></a></td>
+                <td>$context</td>
                 <td>
 </td>
             </tr>
@@ -126,8 +89,8 @@
     </div>
 
                 <h3 id="method_clearContext">
-        <div class="location">at line 22</div>
-        <code>            public            <a href="../../../umi/hmvc/context/IContextAware.html"><abbr title="umi\hmvc\context\IContextAware">IContextAware</abbr></a>
+        <div class="location">at line 27</div>
+        <code>            public            
     <strong>clearContext</strong>()</code>
     </h3>
     <div class="details">
@@ -136,16 +99,6 @@
 </p>
         <div class="tags">
             
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/hmvc/context/IContextAware.html"><abbr title="umi\hmvc\context\IContextAware">IContextAware</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
             
             
                     </div>

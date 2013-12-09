@@ -4,8 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
         <title>umi\config\toolbox\ConfigTools | </title>
-                    <link rel="stylesheet" type="text/css" href="../../../stylesheet.css">
-                            </head>
+        	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
         <body id="class">
             <div class="header">
         <ul>
@@ -25,7 +25,7 @@
         <div class="content">
                 <p>    class
     <strong>ConfigTools</strong>        implements
-        <a href="../../../umi/config/toolbox/IConfigTools.html"><abbr title="umi\config\toolbox\IConfigTools">IConfigTools</abbr></a></p>
+        <a href="../../../umi/toolkit/toolbox/IToolbox.html"><abbr title="umi\toolkit\toolbox\IToolbox">IToolbox</abbr></a></p>
 
             <div class="description">
             <p>Набор инструментов для работы с конфигурацией.</p>
@@ -36,6 +36,14 @@
             <h2>Constants</h2>
 
             <table>
+                    <tr>
+                <td>NAME</td>
+                <td class="last">
+                    <p><em>Имя набора инструментов.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
                     <tr>
                 <td>TYPE_PHP</td>
                 <td class="last">
@@ -52,57 +60,75 @@
             <table>
                     <tr>
                 <td class="type" id="property_entityFactoryClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$entityFactoryClass фабрика сущностей конфигурации</td>
+                <td>$entityFactoryClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_ioServiceClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$ioServiceClass сервис I/O конфигурации</td>
+                <td>$ioServiceClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_cacheServiceClass">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$ioServiceClass сервис I/O конфигурации</td>
+                <td>$cacheServiceClass</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_hasCache">
-                    public                                                                                bool
+                                                            bool
                 </td>
-                <td class="last">$hasCache использовать ли кэш?</td>
+                <td>$hasCache</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_cache">
-                    public                                                                                array
+                                                            array
                 </td>
-                <td class="last">$cache настройки для механизма кэширования</td>
+                <td>$cache</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_aliases">
-                    public                                                                                array
+                                                            array
                 </td>
-                <td class="last">$aliases список зарегистрированных символических имен</td>
+                <td>$aliases</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_type">
-                    public                                                                                string
+                                                            string
                 </td>
-                <td class="last">$type установленный тип конфигурации для набора инструментов</td>
+                <td>$type</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_readers">
-                    public                                                                                array
+                                                            array
                 </td>
-                <td class="last">$readers список reader&#039;ов конфигурации</td>
+                <td>$readers</td>
+                <td class="last">
+</td>
             </tr>
                     <tr>
                 <td class="type" id="property_writers">
-                    public                                                                                array
+                                                            array
                 </td>
-                <td class="last">$writers список writer&#039;ов конфигурации</td>
+                <td>$writers</td>
+                <td class="last">
+</td>
             </tr>
             </table>
 
@@ -140,63 +166,13 @@
                 </td>
                 <td></td>
             </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getConfigIO">getConfigIO</a>()
-                    <p>Возвращает сервис ввода-вывода для конфигурации.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/config/io/reader/IReader.html"><abbr title="umi\config\io\reader\IReader">IReader</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getReader">getReader</a>()
-                    <p>Возвращает объект reader'а конфигурации.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/config/io/writer/IWriter.html"><abbr title="umi\config\io\writer\IWriter">IWriter</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getWriter">getWriter</a>()
-                    <p>Возвращает объект writer'а конфигурации.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    <a href="../../../umi/config/entity/factory/IConfigEntityFactory.html"><abbr title="umi\config\entity\factory\IConfigEntityFactory">IConfigEntityFactory</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_getConfigEntityFactory">getConfigEntityFactory</a>()
-                    <p>Возвращает фабрику сущностей конфигурации.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    mixed
-                </td>
-                <td class="last">
-                    <a href="#method_getConfigCacheEngine">getConfigCacheEngine</a>()
-                    <p>Возвращает сервис кэширования конфигурации.</p>
-                </td>
-                <td></td>
-            </tr>
             </table>
 
 
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 77</div>
+        <div class="location">at line 87</div>
         <code>            public            
     <strong>__construct</strong>()</code>
     </h3>
@@ -212,7 +188,7 @@
     </div>
 
                 <h3 id="method_getService">
-        <div class="location">at line 89</div>
+        <div class="location">at line 99</div>
         <code>            public            object
     <strong>getService</strong>(string $serviceInterfaceName, string $concreteClassName)</code>
     </h3>
@@ -262,7 +238,7 @@
     </div>
 
                 <h3 id="method_injectDependencies">
-        <div class="location">at line 104</div>
+        <div class="location">at line 114</div>
         <code>            public            
     <strong>injectDependencies</strong>(object $object)</code>
     </h3>
@@ -283,154 +259,6 @@
             </table>
 
             
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getConfigIO">
-        <div class="location">at line 124</div>
-        <code>            public            <a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a>
-    <strong>getConfigIO</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает сервис ввода-вывода для конфигурации.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getReader">
-        <div class="location">at line 136</div>
-        <code>            public            <a href="../../../umi/config/io/reader/IReader.html"><abbr title="umi\config\io\reader\IReader">IReader</abbr></a>
-    <strong>getReader</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает объект reader'а конфигурации.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/config/io/reader/IReader.html"><abbr title="umi\config\io\reader\IReader">IReader</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table>
-                    <tr>
-                <td><a href="http://php.net/OutOfBoundsException"><abbr title="OutOfBoundsException">OutOfBoundsException</abbr></a></td>
-                <td>если необходимый reader не доступен</td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getWriter">
-        <div class="location">at line 155</div>
-        <code>            public            <a href="../../../umi/config/io/writer/IWriter.html"><abbr title="umi\config\io\writer\IWriter">IWriter</abbr></a>
-    <strong>getWriter</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает объект writer'а конфигурации.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/config/io/writer/IWriter.html"><abbr title="umi\config\io\writer\IWriter">IWriter</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-                            <h4>Exceptions</h4>
-
-                    <table>
-                    <tr>
-                <td><a href="http://php.net/OutOfBoundsException"><abbr title="OutOfBoundsException">OutOfBoundsException</abbr></a></td>
-                <td>если необходимый writer не доступен</td>
-            </tr>
-            </table>
-
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getConfigEntityFactory">
-        <div class="location">at line 174</div>
-        <code>            public            <a href="../../../umi/config/entity/factory/IConfigEntityFactory.html"><abbr title="umi\config\entity\factory\IConfigEntityFactory">IConfigEntityFactory</abbr></a>
-    <strong>getConfigEntityFactory</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает фабрику сущностей конфигурации.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../umi/config/entity/factory/IConfigEntityFactory.html"><abbr title="umi\config\entity\factory\IConfigEntityFactory">IConfigEntityFactory</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_getConfigCacheEngine">
-        <div class="location">at line 182</div>
-        <code>            public            mixed
-    <strong>getConfigCacheEngine</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Возвращает сервис кэширования конфигурации.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td>mixed</td>
-            <td>
-</td>
-        </tr>
-    </table>
-
             
             
                     </div>
