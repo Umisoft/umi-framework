@@ -304,8 +304,8 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
             return $this->server = $this->getDbCluster()
                 ->getServer($this->options['serverId']);
         }
-        //todo! missing return
-        $this->server = $this->getDbCluster()
+
+        return $this->server = $this->getDbCluster()
             ->getMaster();
     }
 

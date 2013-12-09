@@ -53,6 +53,81 @@ class DbTest extends CacheTestCase
             ->dropTable($this->tableName);
     }
 
+    public function testGetServer()
+    {
+        $defaultServer = $this
+            ->getDbCluster()
+            ->getMaster();
+        $nonDefaultServer = $this
+            ->getMysqlServer()
+            ->getId() == $defaultServer->getId()
+            ? $this->getSqliteServer()
+            : $this->getMysqlServer();
+
+        $this->setupDatabase($this->tableName, $nonDefaultServer);
+
+        $tableConfig = [
+            'tableName'        => $this->tableName,
+            'keyColumnName'    => 'key',
+            'valueColumnName'  => 'cacheValue',
+            'expireColumnName' => 'cacheExpiration'
+        ];
+        $dbMysql = new Db([
+            'table'    => $tableConfig,
+            'serverId' => $this
+                ->getMysqlServer()
+                ->getId()
+        ]);
+        $this->resolveOptionalDependencies($dbMysql);
+        $dbMysql->set('first', 'mysqlMaster');
+
+        $dbSqlite = new Db([
+            'table'    => $tableConfig,
+            'serverId' => $this
+                ->getSqliteServer()
+                ->getId()
+        ]);
+        $this->resolveOptionalDependencies($dbSqlite);
+        $dbSqlite->set('first', 'sqliteMaster');
+
+        $dbDefault = new Db([
+            'table' => $tableConfig,
+        ]);
+        $this->resolveOptionalDependencies($dbDefault);
+        $dbDefault->set('second', $defaultServer->getId());
+
+        $recordsNonDefault = $nonDefaultServer
+            ->select(['key', 'cacheValue'])
+            ->from($this->tableName)
+            ->execute()
+            ->fetchAll();
+
+        $this->assertEquals(
+            [
+                ['key' => 'first', 'cacheValue' => $nonDefaultServer->getId()]
+            ],
+            $recordsNonDefault
+        );
+
+        $recordsDefault = $defaultServer
+            ->select(['key', 'cacheValue'])
+            ->from($this->tableName)
+            ->execute()
+            ->fetchAll();
+        $this->assertEquals(
+            [
+                ['key' => 'first', 'cacheValue' => $defaultServer->getId()],
+                ['key' => 'second', 'cacheValue' => $defaultServer->getId()]
+            ],
+            $recordsDefault
+        );
+
+        $nonDefaultServer
+            ->getConnection()
+            ->getSchemaManager()
+            ->dropTable($this->tableName);
+    }
+
     public function testStorage()
     {
         $this->assertFalse($this->storage->get('testKey'), 'Значение уже есть в кеше');

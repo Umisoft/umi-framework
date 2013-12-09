@@ -25,7 +25,7 @@ class CacheTest extends CacheTestCase
 
     private $tableName = 'test_cache';
     /**
-     * @var Connection
+     * @var Connection $connection
      */
     private $connection;
     /**

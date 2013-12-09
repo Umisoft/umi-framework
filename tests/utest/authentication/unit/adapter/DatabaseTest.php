@@ -23,7 +23,7 @@ use utest\authentication\AuthenticationTestCase;
  */
 class DatabaseTest extends AuthenticationTestCase
 {
-    public $connection;
+    protected $connection;
 
     /**
      * @var DatabaseAdapter $adapter
@@ -104,15 +104,15 @@ class DatabaseTest extends AuthenticationTestCase
     }
 
     /**
-     * @param Connection $driver драйвер
+     * @param Connection $connection соединение с БД
      */
-    private function createTables(Connection $driver)
+    private function createTables(Connection $connection)
     {
         $table = new Table('users');
         $table->addColumn('username', Type::STRING);
         $table->addColumn('password', Type::STRING);
         $table->setPrimaryKey(['username']);
-        $driver
+        $connection
             ->getSchemaManager()
             ->createTable($table);
     }

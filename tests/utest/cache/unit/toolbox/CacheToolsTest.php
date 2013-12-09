@@ -18,7 +18,7 @@ use utest\cache\mock\MockCacheAware;
 class CacheToolsTest extends CacheTestCase
 {
     /**
-     * @var Connection
+     * @var Connection $connection
      */
     private $connection;
 
