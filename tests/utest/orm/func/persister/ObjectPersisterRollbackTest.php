@@ -100,16 +100,16 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
     public function testForeignKeyCheck()
     {
         /** @var IDialect|AbstractPlatform $dialect */
-        $dialect = $this->usedConnection->getDatabasePlatform();
+        $dialect = $this->connection->getDatabasePlatform();
         $del = $dialect->getTruncateTableSQL('umi_mock_blogs');
 
-        $this->usedConnection->exec($del);
-        $this->usedConnection->exec($dialect->getDisableForeignKeysSQL());
-        $this->usedConnection->insert(
+        $this->connection->exec($del);
+        $this->connection->exec($dialect->getDisableForeignKeysSQL());
+        $this->connection->insert(
             'umi_mock_users',
             ['id'=>10, 'type'=>'users_user.base', 'group_id'=>10, 'guid'=>'9ee6745f-f40d-46d8-8043-d959594628ce']
         );
-        $this->usedConnection->exec($dialect->getEnableForeignKeysSQL());
+        $this->connection->exec($dialect->getEnableForeignKeysSQL());
 
         $blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
@@ -316,29 +316,29 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
         );
 
         /** @var IDialect|AbstractPlatform $dialect */
-        $dialect = $this->usedConnection->getDatabasePlatform();
+        $dialect = $this->connection->getDatabasePlatform();
 
-        $this->usedConnection->exec($dialect->getDisableForeignKeysSQL());
+        $this->connection->exec($dialect->getDisableForeignKeysSQL());
 
-//        $sm = $this->usedConnection->getSchemaManager();
-//        $usersTbl = $sm->listTableDetails('umi_mock_users');
-//        $usersTbl->dropPrimaryKey();
-//        $usersTbl->changeColumn(
-//            'id',
-//            [
-//                'type'          => Type::getType('bigint'),
-//                 'unsigned'      => true,
-//                 'default'       => null,
-//                 'notnull'       => false,
-//                 'autoincrement' => false
-//            ]
-//        );
-//        $comparator = new Comparator();
-//        $tableDiff = $comparator->diffTable($sm->listTableDetails('umi_mock_users'), $usersTbl);
-//        $sm->alterTable($tableDiff);
+        $sm = $this->connection->getSchemaManager();
+        $usersTbl = $sm->listTableDetails('umi_mock_users');
+        $usersTbl->dropPrimaryKey();
+        $usersTbl->changeColumn(
+            'id',
+            [
+                'type'          => Type::getType('bigint'),
+                 'unsigned'      => true,
+                 'default'       => null,
+                 'notnull'       => false,
+                 'autoincrement' => false
+            ]
+        );
+        $comparator = new Comparator();
+        $tableDiff = $comparator->diffTable($sm->listTableDetails('umi_mock_users'), $usersTbl);
+        $sm->alterTable($tableDiff);
 
-//        $bTable = $sm->listTableDetails('umi_mock_blogs');
-//        $sm->dropConstraint($bTable->getForeignKey('FK_blog_owner'), 'umi_mock_blogs');
+        $bTable = $sm->listTableDetails('umi_mock_blogs');
+        $sm->dropConstraint($bTable->getForeignKey('FK_blog_owner'), 'umi_mock_blogs');
 
 
         $usersCollection = $this->getCollectionManager()->getCollection(self::USERS_USER);
@@ -354,7 +354,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
             $this->getObjectPersister()->commit();
         } catch (\Exception $e) {
         }
-        $this->usedConnection->exec($dialect->getEnableForeignKeysSQL());
+        $this->connection->exec($dialect->getEnableForeignKeysSQL());
 
         $this->assertInstanceOf(
             'umi\orm\exception\RuntimeException',
@@ -377,11 +377,11 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
 
     public function testHierarchyUpdateRollback()
     {
-        $sm = $this->usedConnection->getSchemaManager();
+        $sm = $this->connection->getSchemaManager();
 
         /** @var IDialect|AbstractPlatform $dialect */
-        $dialect = $this->usedConnection->getDatabasePlatform();
-        $this->usedConnection->exec($dialect->getDisableForeignKeysSQL());
+        $dialect = $this->connection->getDatabasePlatform();
+        $this->connection->exec($dialect->getDisableForeignKeysSQL());
 
         $hierTbl = $sm->listTableDetails('umi_mock_hierarchy');
         $hierTbl->dropPrimaryKey();
@@ -412,7 +412,7 @@ class ObjectPersisterRollbackTest extends ORMDbTestCase
         $blog3->setValue('title', 'new_blog_title');
 
         $e = null;
-        $this->usedConnection->exec($dialect->getDisableForeignKeysSQL());
+        $this->connection->exec($dialect->getDisableForeignKeysSQL());
         try {
             $this->getObjectPersister()->commit();
         } catch (\Exception $e) {

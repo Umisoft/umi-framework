@@ -50,9 +50,9 @@ abstract class ORMDbTestCase extends TestCase
     protected $usedDbServerId = 'sqliteMaster';
 
     /**
-     * @var Connection $usedConnection
+     * @var Connection $connection
      */
-    protected $usedConnection = null;
+    protected $connection = null;
 
     public function setUp()
     {
@@ -68,8 +68,8 @@ abstract class ORMDbTestCase extends TestCase
         $cluster = $this
             ->getTestToolkit()
             ->getService('umi\dbal\cluster\IDbCluster');
-        $this->usedConnection = $cluster->getServer($this->usedDbServerId)->getConnection();
-        $this->usedConnection->getConfiguration()->setSQLLogger(new DebugStack());
+        $this->connection = $cluster->getServer($this->usedDbServerId)->getConnection();
+        $this->connection->getConfiguration()->setSQLLogger(new DebugStack());
         parent::setUp();
 
         $this->resetQueries();
@@ -174,7 +174,7 @@ abstract class ORMDbTestCase extends TestCase
      */
     public function sqlLogger()
     {
-        return $this->usedConnection
+        return $this->connection
             ->getConfiguration()
             ->getSQLLogger();
     }

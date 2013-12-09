@@ -60,7 +60,7 @@ interface ICollectionDataSource
     public function getSlaveServerId();
 
     /**
-     * Возвращает драйвер БД, используемый источником
+     * Возвращает соединение с БД, используемое источником
      * @return Connection
      */
     public function getConnection();

@@ -345,7 +345,7 @@ class CommonHierarchy extends BaseHierarchicCollection implements ICommonHierarc
     }
 
     /**
-     * Определяет используемые для коллекций драйверы бд
+     * Определяет используемые для коллекций соединения с БД
      * @param IHierarchicCollection[] $collections
      * @return Connection[]
      */
