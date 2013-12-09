@@ -111,7 +111,7 @@ class DbCluster implements IDbCluster, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function select()
+    public function select($columns = [])
     {
         /**
          * @var ISelectBuilder $select
@@ -119,7 +119,7 @@ class DbCluster implements IDbCluster, ILocalizable
         $select = $this
             ->getSlave()
             ->select();
-        $select->setColumns(func_get_args());
+        $select->setColumns((array)$columns);
 
         return $select;
     }

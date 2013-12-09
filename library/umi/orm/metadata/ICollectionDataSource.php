@@ -70,9 +70,12 @@ interface ICollectionDataSource
      * определить список столбцов для выборки. <br />
      * Список столбцов передается в параметрах метода.<br />
      * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
+     *
+     * @param array $columns
+     *
      * @return ISelectBuilder
      */
-    public function select();
+    public function select($columns = []);
 
     /**
      * Подготавливает запрос на вставку данных в источник

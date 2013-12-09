@@ -139,17 +139,19 @@ trait TORMSetup
     private function configureDataBase($directory, array $collectionNames)
     {
         $cluster = $this->getDbCluster();
-        $dbDriver = $cluster->getConnection();
+        $connection = $cluster->getConnection();
         /** @var IDialect $dialect */
-        $dialect = $dbDriver->getDatabasePlatform();
+        $dialect = $connection->getDatabasePlatform();
 
+        $connection->exec($dialect->getDisableForeignKeysSQL());
         foreach ($collectionNames as $collectionName) {
             $metadata = $this->getMetadataManager()->getMetadata($collectionName);
             $tableName = $metadata->getCollectionDataSource()
                 ->getSourceName();
-            $dbDriver->getSchemaManager()->dropTable($tableName);
+            $connection->getSchemaManager()->dropTable($tableName);
             $this->_affectedTables[] = $tableName;
         }
+        $connection->exec($dialect->getEnableForeignKeysSQL());
 
         static $migrations = [];
         $class = get_class($this);

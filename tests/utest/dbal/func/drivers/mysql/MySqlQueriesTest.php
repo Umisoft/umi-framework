@@ -103,7 +103,7 @@ class MySqlQueriesTest extends DbalTestCase
 
         $this->select
             ->select('t.id')
-            ->from(['temp_test_table1', 't'])
+            ->from('temp_test_table1 as t')
             ->where()
             ->expr('t.id', '!=', ':zero');
         $this->select
@@ -129,7 +129,7 @@ WHERE `t`.`id` != :zero) AS `mainQuery`'
 
         $this->select2
             ->select('t.id')
-            ->from(['temp_test_table1', 't'])
+            ->from('temp_test_table1  as  t')
             ->where()
             ->expr('t.id', '!=', ':zero')
             ->limit(':limit', ':offset', true);

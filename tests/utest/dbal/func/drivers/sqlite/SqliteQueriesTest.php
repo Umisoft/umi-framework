@@ -56,7 +56,7 @@ class SqliteQueriesTest extends DbalTestCase
 
         $this->select
             ->select('t.id')
-            ->from(['temp_test_table', 't'])
+            ->from('temp_test_table as t')
             ->where()
             ->expr('t.id', '!=', ':zero')
             ->limit(':limit', ':offset');
@@ -92,7 +92,7 @@ class SqliteQueriesTest extends DbalTestCase
     {
         $this->select
             ->select('t.id')
-            ->from(['temp_test_table', 't'])
+            ->from('temp_test_table as t')
             ->where()
             ->expr('t.id', '!=', ':zero');
         $this->select

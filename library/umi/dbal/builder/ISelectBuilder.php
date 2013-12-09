@@ -33,10 +33,12 @@ interface ISelectBuilder extends IQueryBuilder
      * );
      * ...
      * </code>
-     * @param string|array $column,... список столбцов
+     *
+     * @param string|string[]|array[] $columns список столбцов
+     *
      * @return self
      */
-    public function select();
+    public function select($columns = []);
 
     /**
      * Устанавливает массив столбцов для выборки.
@@ -73,13 +75,15 @@ interface ISelectBuilder extends IQueryBuilder
      * Пример:
      * <code>
      * ...
-     * $query->from('table1', array('table2', 'alias'));
+     * $query->from(['table1', ['table2', 'alias']]);
      * ...
      * </code>
-     * @throws RuntimeException если не передана ни одна таблица
+     *
+     * @param string|string[]|array[] $tables
+     *
      * @return self
      */
-    public function from();
+    public function from($tables);
 
     /**
      * Задаёт условия WHERE.

@@ -573,7 +573,7 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
             ->getCollectionDataSource()
             ->getSourceName();
         $alias = $this->collection->getSourceAlias();
-        $selectBuilder->from(array($tableName, $alias));
+        $selectBuilder->from([[$tableName, $alias]]);
     }
 
     /**

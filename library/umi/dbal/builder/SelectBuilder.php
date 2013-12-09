@@ -69,9 +69,9 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
     /**
      * {@inheritdoc}
      */
-    public function select()
+    public function select($columns = [])
     {
-        return $this->setColumns(func_get_args());
+        return $this->setColumns((array) $columns);
     }
 
     /**
@@ -126,10 +126,10 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
     /**
      * {@inheritdoc}
      */
-    public function from()
+    public function from($tables = [])
     {
         $this->tables = [];
-        $tables = func_get_args();
+        $tables = (array)$tables;
 
         if (!$tablesCount = count($tables)) {
             throw new RuntimeException($this->translate(
