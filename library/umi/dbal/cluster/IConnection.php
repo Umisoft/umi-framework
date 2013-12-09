@@ -20,11 +20,10 @@ use umi\dbal\exception\RuntimeException;
 
 /**
  * Интерфейс соединения с БД.
- * Оперделяет единый интерфейс доступа к данным.
+ * Определяет единый интерфейс доступа к данным.
  */
 interface IConnection
 {
-
     /**
      * Тип события, которое происходит перед подготовкой запроса.
      * @param string $sql шаблон запроса
@@ -43,7 +42,9 @@ interface IConnection
      * определяет список столбцов для выборки. <br />
      * Список столбцов передается в параметрах метода.<br />
      * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
+     *
      * @param string $columnName,... список имен столбцов
+     *
      * @return ISelectBuilder
      */
     public function select();
@@ -52,6 +53,7 @@ interface IConnection
      * Подготавливает запрос на вставку данных
      * @param string $tableName имя таблицы
      * @param bool $isIgnore игнорировать ошибки и duplicate-key конфликты
+     *
      * @return IInsertBuilder
      */
     public function insert($tableName, $isIgnore = false);
@@ -60,6 +62,7 @@ interface IConnection
      * Подготавливает запрос на обновление данных
      * @param string $tableName имя таблицы для
      * @param bool $isIgnore игнорировать ошибки и duplicate-key конфликты
+     *
      * @return IUpdateBuilder
      */
     public function update($tableName, $isIgnore = false);
@@ -67,6 +70,7 @@ interface IConnection
     /**
      * Подготавливает запрос на удаление данных
      * @param string $tableName имя таблицы
+     *
      * @return IDeleteBuilder
      */
     public function delete($tableName);
@@ -76,25 +80,27 @@ interface IConnection
      * Можно использовать только для тестов, для реализации драйверов БД,
      * для быстрых операций с БД не в "коробочных" целях
      * @internal
+     *
      * @param string $sql sql-запрос
      * @param array $params массив параметров для подготовленных запросов
+     *
      * @throws RuntimeException если в процессе выполнения запроса произошли ошибки
      * @return PDOStatement
      */
-    public function selectInternal($sql, array $params = null);
+    public function selectInternal($sql, array $params = []);
 
     /**
      * Выполняет прямой запрос на модификацию данных
      * @internal
+     *
      * @param string $sql sql-запрос
-     * @param array $params массив параметров для подготовленных запросов
-     * @throws RuntimeException если в процессе выполнения запроса произошли ошибки
+     *
      * @return int количество затронутых запросом строк
      */
-    public function modifyInternal($sql, array $params = null);
+    public function modifyInternal($sql);
 
     /**
-     * Возвращает экземпляр используемого драйвера БД
+     * Возвращает экземпляр используемого соединения с БД
      * @return Connection
      */
     public function getConnection();

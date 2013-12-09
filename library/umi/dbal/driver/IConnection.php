@@ -12,7 +12,7 @@ namespace umi\dbal\driver;
 use Doctrine\DBAL\Driver\Connection;
 
 /**
- * Соединение с БД, унаследованное от Doctrine\DBAL\Connection.
+ * Соединение с БД, расширяющее функционал Doctrine\DBAL\Connection.
  */
 interface IConnection extends Connection
 {

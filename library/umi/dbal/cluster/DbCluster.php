@@ -167,11 +167,11 @@ class DbCluster implements IDbCluster, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function modifyInternal($sql, array $params = null)
+    public function modifyInternal($sql)
     {
         return $this
             ->getMaster()
-            ->modifyInternal($sql, $params);
+            ->modifyInternal($sql);
     }
 
     /**

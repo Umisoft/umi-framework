@@ -22,7 +22,7 @@ use utest\dbal\DbalTestCase;
 class SqliteQueriesTest extends DbalTestCase
 {
     /**
-     * @var Connection $dbDriver
+     * @var Connection $connection
      */
     protected $dbDriver;
     /**
@@ -66,14 +66,8 @@ class SqliteQueriesTest extends DbalTestCase
             ->bindInt(':zero', 0)
             ->bindInt(':limit', 2)
             ->bindInt(':offset', 1);
-        //todo! как это комментировать?
-        /* IMPORTANT *
-           если не закрыть курсор явно и выполнить еще запросы (в т.ч. скрытые. например, для подсчета)
-           - не получится сделать DROP TABLE
-        */
-        $this->select
-            ->execute()
-            ->closeCursor();
+
+        $this->select->execute()->closeCursor();
 
         $this->assertEquals(3, $this->select->getTotal(), 'Ожидается, что записей удовлетворяющих запросу будет 3');
 

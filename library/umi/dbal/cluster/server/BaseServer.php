@@ -32,7 +32,7 @@ abstract class BaseServer implements IServer, ILocalizable
      */
     protected $serverId;
     /**
-     * @var Connection $connection драйвер БД для сервера
+     * @var Connection $connection соединение с БД для сервера
      */
     protected $connection;
     /**
@@ -55,8 +55,8 @@ abstract class BaseServer implements IServer, ILocalizable
     /**
      * Конструктор
      * @param string $serverId идентификатор сервера
-     * @param \Doctrine\DBAL\Connection $connection используемый драйвер БД
-     * @param IDialect $dialect
+     * @param Connection $connection используемое соединение с БД
+     * @param IDialect $dialect диалект построителя запросов
      * @param IQueryBuilderFactory $queryBuilderFactory фабрика построителей запросов
      */
     public function __construct(
@@ -105,11 +105,11 @@ abstract class BaseServer implements IServer, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function modifyInternal($sql, array $params = null)
+    public function modifyInternal($sql)
     {
         return $this
             ->getConnection()
-            ->exec($sql, $params);
+            ->exec($sql);
     }
 
     /**

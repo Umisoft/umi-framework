@@ -20,8 +20,8 @@ interface IServerFactory
     /**
      * Создает и возвращает экземпляр сервера БД
      * @param string $serverId уникальный Id сервера
-     * @param Connection $connection драйвер БД
-     * @param IDialect $dialect
+     * @param Connection $connection соединение с БД
+     * @param IDialect $dialect диалект для построителя запросов
      * @param string $serverType тип сервера
      * @return IServer
      */

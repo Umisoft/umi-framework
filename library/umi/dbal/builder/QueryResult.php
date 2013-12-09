@@ -20,7 +20,7 @@ use PDOStatement;
 class QueryResult implements IQueryResult
 {
     /**
-     * @var Connection $connection драйвер БД
+     * @var Connection $connection соединение с БД
      */
     private $connection;
     /**

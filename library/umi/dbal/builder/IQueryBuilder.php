@@ -30,13 +30,13 @@ interface IQueryBuilder
 
     /**
      * Генерирует и возвращает шаблон запроса.
-     * @param Connection $connection используемый драйвер БД
+     * @param Connection $connection используемое соединение с БД
      * @return string sql
      */
     public function getSql(Connection $connection = null);
 
     /**
-     * Возвращает драйвер БД, используемый для запроса
+     * Возвращает соединение с БД, используемое для запроса
      * @return Connection
      */
     public function getConnection();

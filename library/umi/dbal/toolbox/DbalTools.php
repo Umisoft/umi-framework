@@ -40,6 +40,9 @@ class DbalTools implements IToolbox
 
     use TToolbox;
 
+    /**
+     * @var array $dialectMap сопоставление SQL-диалектов драйверам соединений с БД
+     */
     protected $dialectMap = [
         DbalTools::CONNECTION_TYPE_PDOMYSQL  => 'umi\dbal\driver\dialect\MySqlDialect',
         DbalTools::CONNECTION_TYPE_PDOSQLITE => 'umi\dbal\driver\dialect\SqliteDialect',
@@ -222,10 +225,8 @@ class DbalTools implements IToolbox
             }
         }
 
-        // добавим фабрике соединений тип драйвера - он всегда совпадает с указанным type
         $options['driver'] = $connectionConfig['type'];
 
-        // инжектим в соединение свой Диалект, расширяющий доктриновскую Платформу
         $dialectClass = $this->dialectMap[$connectionConfig['type']];
 
         /** @var IDialect $dialect */

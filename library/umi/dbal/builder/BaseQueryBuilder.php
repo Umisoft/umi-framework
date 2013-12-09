@@ -10,9 +10,9 @@
 namespace umi\dbal\builder;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Statement;
 use Doctrine\DBAL\Types\Type;
 use PDO;
 use umi\dbal\driver\IDialect;
@@ -36,7 +36,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public $expressionGroupClass = 'umi\dbal\builder\ExpressionGroup';
     /**
-     * @var Connection $connection Драйвер БД
+     * @var Connection $connection соединение с БД
      */
     protected $connection;
     /**
@@ -44,7 +44,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     protected $currentExpressionGroup;
     /**
-     * @var \Doctrine\DBAL\Statement $preparedStatement подготовленный запрос
+     * @var Statement $preparedStatement подготовленный запрос
      */
     protected $preparedStatement;
     /**
@@ -80,16 +80,15 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     private $expressions = [];
     /**
-     * @var IDialect $dialect
+     * @var IDialect $dialect диалект, используемый при построении выражений
      */
     protected $dialect;
-
     /**
-     * @var \Doctrine\DBAL\Query\QueryBuilder $doctrineQueryBuilder
+     * @var QueryBuilder $doctrineQueryBuilder
      */
     protected $doctrineQueryBuilder;
     /**
-     * @var  QueryBuilder $currentDoctrineQuery
+     * @var QueryBuilder $currentDoctrineQuery
      */
     protected $currentDoctrineQuery;
     /**
@@ -106,8 +105,8 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
 
     /**
      * Конструктор
-     * @param Connection $connection драйвер БД
-     * @param IDialect $dialect
+     * @param Connection $connection соединение с БД
+     * @param IDialect $dialect диалект, используемый при построении выражений
      * @param IQueryBuilderFactory $queryBuilderFactory
      * @return BaseQueryBuilder
      */
@@ -258,8 +257,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindString($placeholder, $value)
     {
-        //todo bind{type}() replace plain strings with Type::TYPENAME
-        return $this->bindValue($placeholder, strval($value), 'string');
+        return $this->bindValue($placeholder, strval($value), Type::STRING);
     }
 
     /**
@@ -267,7 +265,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindInt($placeholder, $value)
     {
-        return $this->bindValue($placeholder, intval($value), 'integer');
+        return $this->bindValue($placeholder, intval($value), Type::INTEGER);
     }
 
     /**
@@ -275,7 +273,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindBool($placeholder, $value)
     {
-        return $this->bindValue($placeholder, (bool) $value, 'boolean');
+        return $this->bindValue($placeholder, (bool) $value, Type::BOOLEAN);
     }
 
     /**
@@ -283,7 +281,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindBlob($placeholder, $value)
     {
-        return $this->bindValue($placeholder, $value, 'blob');
+        return $this->bindValue($placeholder, $value, Type::BLOB);
     }
 
     /**
@@ -291,7 +289,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindFloat($placeholder, $value)
     {
-        return $this->bindValue($placeholder, floatval($value), 'string');
+        return $this->bindValue($placeholder, floatval($value), Type::STRING);
     }
 
     /**

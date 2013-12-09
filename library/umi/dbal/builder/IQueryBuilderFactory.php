@@ -21,35 +21,35 @@ interface IQueryBuilderFactory
 
     /**
      * Создает и возвращает экземпляр построителя INSERT-запросов
-     * @param \Doctrine\DBAL\Connection $connection
-     * @param \umi\dbal\driver\IDialect $dialect
+     * @param Connection $connection
+     * @param IDialect $dialect
      * @return IInsertBuilder
      */
     public function createInsertBuilder(Connection $connection, IDialect $dialect);
 
     /**
      * Создает и возвращает экземпляр построителя DELETE-запросов
-     * @param \Doctrine\DBAL\Connection $connection
-     * @param \umi\dbal\driver\IDialect $dialect
+     * @param Connection $connection
+     * @param IDialect $dialect
      * @return IDeleteBuilder
      */
     public function createDeleteBuilder(Connection $connection, IDialect $dialect);
 
     /**
      * Создает и возвращает экземпляр построителя UPDATE-запросов
-     * @param \Doctrine\DBAL\Connection $connection
-     * @param \umi\dbal\driver\IDialect $dialect
+     * @param Connection $connection
+     * @param IDialect $dialect
      * @return IUpdateBuilder
      */
     public function createUpdateBuilder(Connection $connection, IDialect $dialect);
 
     /**
      * Создает и возвращает экземпляр построителя SELECT-запросов
-     * @param \Doctrine\DBAL\Connection $driver
-     * @param \umi\dbal\driver\IDialect $dialect
+     * @param Connection $connection
+     * @param IDialect $dialect
      * @return ISelectBuilder
      */
-    public function createSelectBuilder(Connection $driver, IDialect $dialect);
+    public function createSelectBuilder(Connection $connection, IDialect $dialect);
 
     /**
      * Создаёт билдер JOIN таблицы.

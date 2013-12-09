@@ -19,11 +19,14 @@ use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\builder\IUpdateBuilder;
 use umi\dbal\exception\IException;
 
+/**
+ * Инкапсулирует специфику языка запросов соответствующего драйвера БД.
+ */
 interface IDialect
 {
     /**
      * Инициализирует PDO, используя специфику драйвера.
-     * Может быть переопределен в конкретном драйвере.
+     * Может быть переопределен в конкретном диалекте.
      * @param Connection|IConnection $connection
      * @param PDO $pdo
      * @return
