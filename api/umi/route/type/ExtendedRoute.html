@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>umi\route\type\ExtendedRoute | </title>
+        <title>umi\route\type\ExtendedRoute |     UMI.Framework | API
+</title>
         	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
                     </head>
         <body id="class">
@@ -103,6 +104,36 @@
             <table>
                     <tr>
                 <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array $options = array(), array $subroutes = array())
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getParams">getParams</a>()
+                    <p>Возвращает параметры, расширенные параметрами по умолчанию.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/route/type/BaseRoute.html#method_getParams"><abbr title="umi\route\type\BaseRoute">BaseRoute</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/route/type/IRoute.html"><abbr title="umi\route\type\IRoute">IRoute</abbr></a>[]
+                </td>
+                <td class="last">
+                    <a href="#method_getSubRoutes">getSubRoutes</a>()
+                    <p>Возвращает дочерние правила маршрутизатора.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/route/type/BaseRoute.html#method_getSubRoutes"><abbr title="umi\route\type\BaseRoute">BaseRoute</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
                     int|bool
                 </td>
                 <td class="last">
@@ -117,18 +148,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_assemble">assemble</a>(array $params = array())
-                    <p>{@inheritdoc]</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
-                    
-                </td>
-                <td class="last">
-                    <a href="#method___construct">__construct</a>(array $options = array(), array $subroutes = array())
-                    <p>
-</p>
+                    <p>Собирает часть URL из параметров.</p>
                 </td>
                 <td></td>
             </tr>
@@ -147,7 +167,90 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method_match">
+                        <h3 id="method___construct">
+        <div class="location">at line 38</div>
+        <code>            public            
+    <strong>__construct</strong>(array $options = array(), array $subroutes = array())</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции маршрута</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$subroutes</td>
+                <td>дочерние правила маршрутизатора</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getParams">
+        <div class="location">in <a href="../../../umi/route/type/BaseRoute.html#method_getParams"><abbr title="umi\route\type\BaseRoute">BaseRoute</abbr></a> at line 50</div>
+        <code>            public            array
+    <strong>getParams</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает параметры, расширенные параметрами по умолчанию.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSubRoutes">
+        <div class="location">in <a href="../../../umi/route/type/BaseRoute.html#method_getSubRoutes"><abbr title="umi\route\type\BaseRoute">BaseRoute</abbr></a> at line 58</div>
+        <code>final            public            <a href="../../../umi/route/type/IRoute.html"><abbr title="umi\route\type\IRoute">IRoute</abbr></a>[]
+    <strong>getSubRoutes</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает дочерние правила маршрутизатора.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/route/type/IRoute.html"><abbr title="umi\route\type\IRoute">IRoute</abbr></a>[]</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_match">
         <div class="location">in <a href="../../../umi/route/type/SimpleRoute.html#method_match"><abbr title="umi\route\type\SimpleRoute">SimpleRoute</abbr></a> at line 51</div>
         <code>            public            int|bool
     <strong>match</strong>(string $url)</code>
@@ -188,7 +291,7 @@
     <strong>assemble</strong>(array $params = array())</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc]</p>
+        <p>Собирает часть URL из параметров.</p>
         <p>
 </p>
         <div class="tags">
@@ -212,40 +315,6 @@
         </tr>
     </table>
 
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method___construct">
-        <div class="location">at line 38</div>
-        <code>            public            
-    <strong>__construct</strong>(array $options = array(), array $subroutes = array())</code>
-    </h3>
-    <div class="details">
-        <p>
-</p>
-        <p>
-</p>
-        <div class="tags">
-                            <h4>Parameters</h4>
-
-                    <table>
-                    <tr>
-                <td>array</td>
-                <td>$options</td>
-                <td>
-</td>
-            </tr>
-                    <tr>
-                <td>array</td>
-                <td>$subroutes</td>
-                <td>
-</td>
-            </tr>
-            </table>
-
-            
             
             
                     </div>

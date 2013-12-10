@@ -3,7 +3,8 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="robots" content="index, follow, all" />
-        <title>umi\config\entity\LazyConfigSource | </title>
+        <title>umi\config\entity\LazyConfigSource |     UMI.Framework | API
+</title>
         	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
                     </head>
         <body id="class">
@@ -39,41 +40,41 @@
             <table>
                     <tr>
                 <td class="type">
-                    
+                    mixed
                 </td>
                 <td class="last">
                     <a href="#method_get">get</a>($path)
-                    <p>{@inheritdoc}</p>
+                    <p>Возвращает значение аттрибута из контейнера</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_get"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    <a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_set">set</a>($path, $value)
-                    <p>{@inheritdoc}</p>
+                    <a href="#method_set">set</a>($path, mixed $value)
+                    <p>Устанавливает значение аттрибута из контейнера</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_set"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    bool
                 </td>
                 <td class="last">
                     <a href="#method_has">has</a>($path)
-                    <p>{@inheritdoc}</p>
+                    <p>Проверяет, существет ли аттрибут в контейнере</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_has"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    <a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
                 </td>
                 <td class="last">
                     <a href="#method_del">del</a>($path)
-                    <p>{@inheritdoc}</p>
+                    <p>Удаляет аттрибут из контейнера</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_del"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a></small></td>
             </tr>
@@ -89,21 +90,21 @@
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    <a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a>
                 </td>
                 <td class="last">
                     <a href="#method_merge">merge</a>(array $array)
-                    <p>{@inheritdoc}</p>
+                    <p>Устанавливает значения в конфиг, указанные в массиве.</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_merge"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    <a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_reset">reset</a>($path = null)
-                    <p>{@inheritdoc}</p>
+                    <a href="#method_reset">reset</a>(null|string $path = null)
+                    <p>Сбрасывает сессионное значение по заданному пути.</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_reset"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a></small></td>
             </tr>
@@ -179,21 +180,21 @@
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    string
                 </td>
                 <td class="last">
                     <a href="#method_getAlias">getAlias</a>()
-                    <p>{@inheritdoc}</p>
+                    <p>Вовзвращает символическое имя.</p>
                 </td>
                 <td></td>
             </tr>
                     <tr>
                 <td class="type">
-                    
+                    array
                 </td>
                 <td class="last">
                     <a href="#method_toArray">toArray</a>()
-                    <p>{@inheritdoc}</p>
+                    <p>Преобразует конфигурацию в массив значений.</p>
                 </td>
                 <td></td>
             </tr>
@@ -224,11 +225,11 @@
 
                         <h3 id="method_get">
         <div class="location">in <a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_get"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a> at line 25</div>
-        <code>            public            
+        <code>            public            mixed
     <strong>get</strong>($path)</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc}</p>
+        <p>Возвращает значение аттрибута из контейнера</p>
         <p>
 </p>
         <div class="tags">
@@ -244,6 +245,15 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>значение</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -251,11 +261,11 @@
 
                 <h3 id="method_set">
         <div class="location">in <a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_set"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a> at line 34</div>
-        <code>            public            
-    <strong>set</strong>($path, $value)</code>
+        <code>            public            <a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
+    <strong>set</strong>($path, mixed $value)</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc}</p>
+        <p>Устанавливает значение аттрибута из контейнера</p>
         <p>
 </p>
         <div class="tags">
@@ -269,14 +279,23 @@
 </td>
             </tr>
                     <tr>
-                <td></td>
+                <td>mixed</td>
                 <td>$value</td>
-                <td>
-</td>
+                <td>значение</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -284,11 +303,11 @@
 
                 <h3 id="method_has">
         <div class="location">in <a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_has"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a> at line 45</div>
-        <code>            public            
+        <code>            public            bool
     <strong>has</strong>($path)</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc}</p>
+        <p>Проверяет, существет ли аттрибут в контейнере</p>
         <p>
 </p>
         <div class="tags">
@@ -304,6 +323,15 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>true - если существует, иначе false</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -311,11 +339,11 @@
 
                 <h3 id="method_del">
         <div class="location">in <a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_del"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a> at line 54</div>
-        <code>            public            
+        <code>            public            <a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
     <strong>del</strong>($path)</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc}</p>
+        <p>Удаляет аттрибут из контейнера</p>
         <p>
 </p>
         <div class="tags">
@@ -331,6 +359,16 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -354,11 +392,11 @@
 
                 <h3 id="method_merge">
         <div class="location">in <a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_merge"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a> at line 74</div>
-        <code>            public            
+        <code>            public            <a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a>
     <strong>merge</strong>(array $array)</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc}</p>
+        <p>Устанавливает значения в конфиг, указанные в массиве.</p>
         <p>
 </p>
         <div class="tags">
@@ -374,6 +412,16 @@
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -381,26 +429,35 @@
 
                 <h3 id="method_reset">
         <div class="location">in <a href="../../../umi/config/entity/BaseSeparateConfigSource.html#method_reset"><abbr title="umi\config\entity\BaseSeparateConfigSource">BaseSeparateConfigSource</abbr></a> at line 83</div>
-        <code>            public            
-    <strong>reset</strong>($path = null)</code>
+        <code>            public            <a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a>
+    <strong>reset</strong>(null|string $path = null)</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc}</p>
-        <p>
-</p>
+        <p>Сбрасывает сессионное значение по заданному пути.</p>
+        <p>Если путь не указан, то
+будут сброшены значения всего конфига.</p>
         <div class="tags">
                             <h4>Parameters</h4>
 
                     <table>
                     <tr>
-                <td></td>
+                <td>null|string</td>
                 <td>$path</td>
-                <td>
-</td>
+                <td>путь</td>
             </tr>
             </table>
 
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -531,15 +588,25 @@
 
                 <h3 id="method_getAlias">
         <div class="location">at line 43</div>
-        <code>            public            
+        <code>            public            string
     <strong>getAlias</strong>()</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc}</p>
+        <p>Вовзвращает символическое имя.</p>
         <p>
 </p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -547,15 +614,25 @@
 
                 <h3 id="method_toArray">
         <div class="location">at line 51</div>
-        <code>            public            
+        <code>            public            array
     <strong>toArray</strong>()</code>
     </h3>
     <div class="details">
-        <p>{@inheritdoc}</p>
+        <p>Преобразует конфигурацию в массив значений.</p>
         <p>
 </p>
         <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
             
             
                     </div>
