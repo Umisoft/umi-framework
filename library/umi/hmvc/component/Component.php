@@ -244,7 +244,8 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
 
             if (!$result instanceof IComponentResponse) {
                 throw new UnexpectedValueException($this->translate(
-                    'Controller returns unexpected value. Instance of IComponentResponse expected.'
+                    'Controller "{controller}" returns unexpected value. Instance of IComponentResponse expected.',
+                    ['controller' => get_class($controller)]
                 ));
             }
 
