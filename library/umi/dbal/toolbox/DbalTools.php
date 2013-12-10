@@ -32,7 +32,6 @@ class DbalTools implements IToolbox
      * Имя набора инструментов
      */
     const NAME = 'db';
-
     /**
      * Тип соединения PDO к СУБД MySQL
      */

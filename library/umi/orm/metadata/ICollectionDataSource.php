@@ -71,7 +71,7 @@ interface ICollectionDataSource
      * Список столбцов передается в параметрах метода.<br />
      * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
      *
-     * @param array $columns
+     * @param string|array $columns
      *
      * @return ISelectBuilder
      */

@@ -132,20 +132,20 @@ class DbTest extends CacheTestCase
     {
         $this->assertFalse($this->storage->get('testKey'), 'Значение уже есть в кеше');
 
-        $this->assertTrue($this->storage->set('testKey', 'testValue', 1), 'Не удалось сохранить значение в кеш');
+        $this->assertTrue($this->storage->set('testKey', 'testValue', 3), 'Не удалось сохранить значение в кеш');
         $this->assertEquals('testValue', $this->storage->get('testKey'), 'В кеше хранится неверное значение');
 
         $this->assertTrue(
-            $this->storage->set('testKey', 'newTestValue', 1),
+            $this->storage->set('testKey', 'newTestValue', 3),
             'Не удалось переопределить значение в кеше'
         );
         $this->assertFalse(
-            $this->storage->add('testKey', 'newNewTestValue', 1),
+            $this->storage->add('testKey', 'newNewTestValue', 3),
             'Удалось переопределить значение в кеше'
         );
         $this->assertEquals('newTestValue', $this->storage->get('testKey'), 'В кеш добавилось неверное значение');
 
-        $this->assertTrue($this->storage->add('newTestKey', 'testValue', 1), 'Не удалось добавить значение в кеш');
+        $this->assertTrue($this->storage->add('newTestKey', 'testValue', 3), 'Не удалось добавить значение в кеш');
         $this->assertEquals('testValue', $this->storage->get('newTestKey'), 'В кеш добавилось неверное значение');
 
         $update = $this
