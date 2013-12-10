@@ -29,7 +29,7 @@ abstract class DbalTestCase extends TestCase
      */
     protected $usedServerId;
     /**
-     * @var string[] $affectedTables таблицы, используемые в тесте, будут удалены в начале и конце каждого теста
+     * @var array $affectedTables таблицы, используемые в тесте, будут удалены в начале и конце каждого теста
      */
     protected $affectedTables = [];
 

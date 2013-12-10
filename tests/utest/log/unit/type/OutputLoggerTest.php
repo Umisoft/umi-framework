@@ -43,7 +43,7 @@ class OutputLoggerTest extends LoggerInterfaceTest
     /**
      * This must return the log messages in order with a simple formatting: "<LOG LEVEL> <MESSAGE>"
      * Example ->error('Foo') would yield "error Foo"
-     * @return string[]
+     * @return array
      */
     public function getLogs()
     {

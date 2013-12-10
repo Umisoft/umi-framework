@@ -30,7 +30,7 @@ interface IInsertBuilder extends IQueryBuilder
      * ON DUPLICATE KEY секции запроса
      *
      * @param string $columnName имя столбца, значение которого уникально
-     * @param string|string[] $columns можно передать несколько столбцов, значения которых должны быть уникальны
+     * @param string|array $columns можно передать несколько столбцов, значения которых должны быть уникальны
      *
      * @return self
      */

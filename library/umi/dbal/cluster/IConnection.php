@@ -44,7 +44,7 @@ interface IConnection
      * Список столбцов передается в параметрах метода.<br />
      * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
      *
-     * @param string|string[] $columns
+     * @param string|array $columns
      *
      * @internal param string $columnName список имен столбцов
      * @return ISelectBuilder

@@ -34,7 +34,7 @@ interface ISelectBuilder extends IQueryBuilder
      * ...
      * </code>
      *
-     * @param string|string[]|array[] $columns список столбцов
+     * @param string|array $columns список столбцов
      *
      * @return self
      */
@@ -79,7 +79,7 @@ interface ISelectBuilder extends IQueryBuilder
      * ...
      * </code>
      *
-     * @param string|string[]|array[] $tables
+     * @param string|array $tables
      *
      * @return self
      */

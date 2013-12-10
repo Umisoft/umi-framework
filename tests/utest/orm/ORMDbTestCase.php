@@ -149,7 +149,7 @@ abstract class ORMDbTestCase extends TestCase
      * Логированные запросы, выполненные через $this->usedConnection с ограничением по типу
      * @param string $type select|update|insert|delete
      *
-     * @return string[]
+     * @return array
      */
     protected function getOnlyQueries($type)
     {
