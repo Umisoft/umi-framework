@@ -12,21 +12,30 @@ namespace umi\orm\collection;
 use umi\orm\metadata\IMetadata;
 
 /**
- * Фабрика коллекий объектов.
+ * Фабрика коллекций объектов.
  */
 interface ICollectionFactory
 {
 
     /**
-     * Типы коллекций
+     * Тип простой коллекции объектов
      */
     const TYPE_SIMPLE = 'simple';
+    /**
+     * Тип иерархической коллекции объектов
+     */
     const TYPE_SIMPLE_HIERARCHIC = 'hierarchic';
+    /**
+     * Тип связанной иерархической коллекции объектов
+     */
     const TYPE_LINKED_HIERARCHIC = 'linked';
+    /**
+     * Тип общей иерархической коллекции
+     */
     const TYPE_COMMON_HIERARCHY = 'hierarchy';
 
     /**
-     * Создает экземпляр простой коллекции объектов.
+     * Создает экземпляр коллекции объектов.
      * @param string $collectionName имя коллекции.
      * @param IMetadata $metadata метаданные коллекции
      * @param array $config конфигурация коллекции.
