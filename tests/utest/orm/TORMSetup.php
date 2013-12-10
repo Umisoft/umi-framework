@@ -38,6 +38,10 @@ trait TORMSetup
      */
     abstract protected function getCollectionConfig();
 
+    /**
+     * Конфигурирует коллекции и БД-окружение для тестов
+     * @param null $usedDbServerId
+     */
     protected function setUpORM($usedDbServerId = null)
     {
 
@@ -50,17 +54,19 @@ trait TORMSetup
 
     protected function tearDownORM()
     {
-        $dbDriver = $this->getDbCluster()
+        $connection = $this->getDbCluster()
             ->getConnection();
         /** @var IDialect $dialect */
-        $dialect = $dbDriver->getDatabasePlatform();
-        $dbDriver->exec($dialect->getDisableForeignKeysSQL());
+        $dialect = $connection->getDatabasePlatform();
+        $connection->exec($dialect->getDisableForeignKeysSQL());
 
         foreach ($this->_affectedTables as $tableName) {
-            $dbDriver->getSchemaManager()->dropTable($tableName);
+            if($connection->getSchemaManager()->tablesExist($tableName)){
+                $connection->getSchemaManager()->dropTable($tableName);
+            }
         }
 
-        $dbDriver->exec($dialect->getEnableForeignKeysSQL());
+        $connection->exec($dialect->getEnableForeignKeysSQL());
     }
 
     /**
@@ -136,6 +142,10 @@ trait TORMSetup
         return [$directory, $collectionNames, $createDB];
     }
 
+    /**
+     * @param $directory
+     * @param array $collectionNames
+     */
     private function configureDataBase($directory, array $collectionNames)
     {
         $cluster = $this->getDbCluster();
@@ -148,7 +158,9 @@ trait TORMSetup
             $metadata = $this->getMetadataManager()->getMetadata($collectionName);
             $tableName = $metadata->getCollectionDataSource()
                 ->getSourceName();
-            $connection->getSchemaManager()->dropTable($tableName);
+            if($connection->getSchemaManager()->tablesExist($tableName)){
+                $connection->getSchemaManager()->dropTable($tableName);
+            }
             $this->_affectedTables[] = $tableName;
         }
         $connection->exec($dialect->getEnableForeignKeysSQL());
