@@ -8,6 +8,7 @@
  */
 namespace utest\dbal;
 
+use Doctrine\DBAL\Connection;
 use utest\event\TEventSupport;
 use utest\TestCase;
 
@@ -20,6 +21,19 @@ abstract class DbalTestCase extends TestCase
     use TDbalSupport;
 
     /**
+     * @var Connection $connection общее для всех тестов соединение с БД
+     */
+    protected $connection;
+    /**
+     * @var Connection $connection имя сервера БД, с которым устанавливается общее соединение
+     */
+    protected $usedServerId;
+    /**
+     * @var string[] $affectedTables таблицы, используемые в тесте, будут удалены в начале и конце каждого теста
+     */
+    protected $affectedTables = [];
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp()
@@ -27,7 +41,33 @@ abstract class DbalTestCase extends TestCase
         $this->registerEventTools();
         $this->registerDbalTools();
 
+        if ($this->usedServerId === null) {
+            $this->usedServerId = $this
+                ->getDbCluster()
+                ->getMaster()
+                ->getId();
+        }
+        $this->connection = $this
+            ->getDbCluster()
+            ->getServer($this->usedServerId)
+            ->getConnection();
+
         parent::setUp();
     }
-    //todo! drop all mysql tables if exists on tearDown and/or __destruct
+
+    protected function tearDown()
+    {
+        foreach ($this->affectedTables as $tableName) {
+            if ($this->connection
+                ->getSchemaManager()
+                ->tablesExist($tableName)
+            ) {
+                $this->connection
+                    ->getSchemaManager()
+                    ->dropTable($tableName);
+            }
+        }
+
+        parent::tearDown();
+    }
 }

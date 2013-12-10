@@ -29,13 +29,14 @@ class InsertTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
+        //todo! transparent Dialect getting
         /** @var $dialect IDialect */
         $dialect = $this
-            ->getDbServer()
-            ->getConnection()
+            ->connection
             ->getDatabasePlatform();
+        //todo! remove separate Dialect passing, it always in sync with Connection
         $this->query = new InsertBuilder(
-            $this->getDbServer()->getConnection(),
+            $this->connection,
             $dialect,
             $queryBuilderFactory
         );

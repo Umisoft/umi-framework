@@ -98,13 +98,4 @@ interface IDialect
      * @return string
      */
     public function buildDeleteQuery(IDeleteBuilder $query);
-
-    /**
-     * Возвращает запрос на удаление таблицы.
-     * По сравнению с Doctrine платформой, поддерживает флаг ifExists
-     * @param string $table Имя таблицы
-     * @param bool $ifExists Добавить к запросу проверку на существование
-     * @return string
-     */
-    public function getDropTableSQL($table, $ifExists = true);
 }

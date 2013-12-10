@@ -10,7 +10,7 @@
 namespace utest\dbal\unit\builder;
 
 use umi\dbal\builder\UpdateBuilder;
-use umi\dbal\driver\dialect\MySqlDialect;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -29,11 +29,12 @@ class UpdateTest extends DbalTestCase
     {
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
+
+        /** @var $dialect IDialect */
+        $dialect = $this->connection->getDatabasePlatform();
         $this->query = new UpdateBuilder(
-            $this
-                ->getDbServer()
-                ->getConnection(),
-            new MySqlDialect(),
+            $this->connection,
+            $dialect,
             $queryBuilderFactory
         );
     }

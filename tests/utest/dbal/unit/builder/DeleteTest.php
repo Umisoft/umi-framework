@@ -31,12 +31,10 @@ class DeleteTest extends DbalTestCase
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
         /** @var $dialect IDialect */
-        $dialect = $this
-            ->getDbServer()
-            ->getConnection()
-            ->getDatabasePlatform();
+        $dialect = $this->connection->getDatabasePlatform();
+
         $this->query = new DeleteBuilder(
-            $this->getDbServer()->getConnection(),
+            $this->connection,
             $dialect,
             $queryBuilderFactory
         );

@@ -10,7 +10,7 @@
 namespace utest\dbal\unit\builder;
 
 use Doctrine\DBAL\DriverManager;
-use umi\dbal\driver\dialect\SqliteDialect;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -27,28 +27,28 @@ class QueryBuilderFactoryTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
-        $connection = DriverManager::getConnection(
-            ['driver' => 'pdo_sqlite', 'memory' => 1]
-        );
+        $connection = $this->connection;
 
+        /** @var IDialect $dialect */
+        $dialect = $connection->getDatabasePlatform();
         $this->assertInstanceOf(
             'umi\dbal\builder\IInsertBuilder',
-            $queryBuilderFactory->createInsertBuilder($connection, new SqliteDialect()),
+            $queryBuilderFactory->createInsertBuilder($connection, $dialect),
             'Ожидается, что IQueryBuilderFactory::createInsertBuilder() вернет IInsertBuilder'
         );
         $this->assertInstanceOf(
             'umi\dbal\builder\ISelectBuilder',
-            $queryBuilderFactory->createSelectBuilder($connection, new SqliteDialect()),
+            $queryBuilderFactory->createSelectBuilder($connection, $dialect),
             'Ожидается, что IQueryBuilderFactory::createInsertBuilder() вернет ISelectBuilder'
         );
         $this->assertInstanceOf(
             'umi\dbal\builder\IUpdateBuilder',
-            $queryBuilderFactory->createUpdateBuilder($connection, new SqliteDialect()),
+            $queryBuilderFactory->createUpdateBuilder($connection, $dialect),
             'Ожидается, что IQueryBuilderFactory::createInsertBuilder() вернет IUpdateBuilder'
         );
         $this->assertInstanceOf(
             'umi\dbal\builder\IDeleteBuilder',
-            $queryBuilderFactory->createDeleteBuilder($connection, new SqliteDialect()),
+            $queryBuilderFactory->createDeleteBuilder($connection, $dialect),
             'Ожидается, что IQueryBuilderFactory::createInsertBuilder() вернет IDeleteBuilder'
         );
     }

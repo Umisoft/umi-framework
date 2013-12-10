@@ -12,7 +12,7 @@ namespace utest\dbal\unit\builder;
 use umi\dbal\builder\ExpressionGroup;
 use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\builder\SelectBuilder;
-use umi\dbal\driver\dialect\MySqlDialect;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -31,9 +31,11 @@ class SelectTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
+        /** @var $dialect IDialect */
+        $dialect = $this->connection->getDatabasePlatform();
         $this->query = new SelectBuilder(
-            $this->getDbServer()->getConnection(),
-            new MySqlDialect(),
+            $this->connection,
+            $dialect,
             $queryBuilderFactory
         );
     }

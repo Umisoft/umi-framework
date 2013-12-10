@@ -11,7 +11,6 @@ namespace umi\dbal\driver\dialect;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\SqlitePlatform;
-use Doctrine\DBAL\Schema\Table;
 use PDO;
 use umi\dbal\builder\IDeleteBuilder;
 use umi\dbal\builder\IExpressionGroup;
@@ -29,6 +28,9 @@ class SqliteDialect extends SqlitePlatform implements IDialect
 
     private $fkSupported = false;
 
+    /**
+     * {@inheritDoc}
+     */
     public function supportsForeignKeyConstraints()
     {
         return $this->fkSupported;
@@ -166,29 +168,6 @@ class SqliteDialect extends SqlitePlatform implements IDialect
     public function buildEnableForeignKeysQuery()
     {
         return 'PRAGMA foreign_keys = ON';
-    }
-
-    /**
-     * Возвращает запрос на удаление таблицы.
-     * По сравнению с Doctrine платформой, поддерживает флаг ifExists
-     *
-     * @param string|Table $table Имя таблицы
-     * @param bool $ifExists Добавить к запросу проверку на существование
-     *
-     * @throws \InvalidArgumentException
-     * @return string
-     */
-    public function getDropTableSQL($table, $ifExists = true)
-    {
-        //todo! add check to other dialects or refer to parent::getDropTableSQL()
-        if ($table instanceof Table) {
-            $table = $table->getQuotedName($this);
-        } elseif (!is_string($table)) {
-            throw new \InvalidArgumentException(
-                'getDropTableSQL() expects $table parameter to be string or \Doctrine\DBAL\Schema\Table.'
-            );
-        }
-        return 'DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $table;
     }
 
     /**
@@ -499,15 +478,7 @@ class SqliteDialect extends SqlitePlatform implements IDialect
      */
     public function buildTruncateQuery($tableName, $cascade = false)
     {
-        $this->getTruncateTableSQL($tableName, $cascade = false);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function buildDropQuery($tableName, $ifExists = true)
-    {
-        $this->getDropTableSQL($tableName, $ifExists = true);
+        $this->getTruncateTableSQL($tableName, $cascade);
     }
 
     /**

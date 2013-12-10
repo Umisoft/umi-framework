@@ -62,18 +62,6 @@ class MySqlDialect extends MySqlPlatform implements IDialect
     }
 
     /**
-     * Возвращает запрос на удаление таблицы.
-     * По сравнению с Doctrine платформой, поддерживает флаг ifExists
-     * @param string $table Имя таблицы
-     * @param bool $ifExists Добавить к запросу проверку на существование
-     * @return string
-     */
-    public function getDropTableSQL($table, $ifExists = true)
-    {
-        return 'DROP TABLE ' . ($ifExists ? 'IF EXISTS ' : '') . $table;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function buildSelectQuery(ISelectBuilder $query)
@@ -157,14 +145,10 @@ class MySqlDialect extends MySqlPlatform implements IDialect
             $limitSql = "\nLIMIT " . $limit;
         }
 
-        //region ret
-        //@formatter:off
         return 'DELETE FROM ' . $fromSql
-        . $whereSql
-        . $orderBy
-        . $limitSql;
-        //@formatter:on
-        //endregion
+            . $whereSql
+            . $orderBy
+            . $limitSql;
     }
 
     /**

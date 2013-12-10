@@ -9,7 +9,6 @@
 
 namespace utest\dbal\unit\driver\sqlite;
 
-use umi\dbal\cluster\IConnection;
 use utest\dbal\DbalTestCase;
 
 /**
@@ -18,19 +17,10 @@ use utest\dbal\DbalTestCase;
  */
 class SqliteBuildQueriesTest extends DbalTestCase
 {
-    /**
-     * @var IConnection $dbDriver
-     */
-    private $connection;
-
-    protected function setUpFixtures()
-    {
-        $this->connection = $this->getSqliteServer();
-    }
 
     public function testBuildSelectQuery()
     {
-        $select = $this->connection->select([
+        $select = $this->getSqliteServer()->select([
             'p.id',
             'p.date',
             'p.post',
@@ -74,12 +64,12 @@ LIMIT :limit OFFSET :offset';
 
         $this->assertEquals($expectedResult, $select->getSql(), 'Select builder failed!');
 
-        $select = $this->connection->select()->from('tests_post');
+        $select = $this->getSqliteServer()->select()->from('tests_post');
         $expectedResult = 'SELECT *
 FROM "tests_post"';
         $this->assertEquals($expectedResult, $select->getSql(), 'Неверный текст запроса');
 
-        $select = $this->connection->select('SHOW CREATE TABLE tests_post');
+        $select = $this->getSqliteServer()->select('SHOW CREATE TABLE tests_post');
         $e = null;
         try {
             $select->getSql();
@@ -90,7 +80,7 @@ FROM "tests_post"';
 
     public function testBuildUpdateQuery()
     {
-        $query = $this->connection->update('tests_post', true)
+        $query = $this->getSqliteServer()->update('tests_post', true)
             ->set('latest_comment_id', ':comment_id')
             ->set('date', ':date')
             ->where()
@@ -106,7 +96,7 @@ WHERE "user_id" = :user_id';
 
     public function testBuildInsertQuery()
     {
-        $query = $this->connection->insert('tests_post', true)
+        $query = $this->getSqliteServer()->insert('tests_post', true)
             ->set('latest_comment_id', ':comment_id')
             ->set('date', ':date');
 
@@ -117,7 +107,7 @@ WHERE "user_id" = :user_id';
 
     public function testBuildInsertOnDuplicateKeyQuery()
     {
-        $query = $this->connection->insert('tests_post')
+        $query = $this->getSqliteServer()->insert('tests_post')
             ->set('latest_comment_id', ':comment_id')
             ->set('date', ':date')
             ->onDuplicateKey('latest_comment_id')
@@ -134,7 +124,7 @@ WHERE "latest_comment_id" = :comment_id;';
 
     public function testBuildDeleteQuery()
     {
-        $query = $this->connection->delete('tests_post')
+        $query = $this->getSqliteServer()->delete('tests_post')
             ->where()
             ->expr('user_id', '=', ':user_id')
             ->orderBy('id', 'DESC')

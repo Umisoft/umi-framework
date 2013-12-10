@@ -11,7 +11,7 @@ namespace utest\dbal\unit\cluster\server;
 
 use umi\dbal\cluster\server\IServer;
 use umi\dbal\cluster\server\ShardServer;
-use umi\dbal\driver\dialect\MySqlDialect;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -25,37 +25,31 @@ class ServerTest extends DbalTestCase
      * @var IServer $server;
      */
     protected $server;
+    protected $affectedTables = ['test'];
 
     protected function setUpFixtures()
     {
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
-        $connection = $this
-            ->getDbServer()
-            ->getConnection();
 
-        $this->server = new ShardServer('test_server', $connection, new MySqlDialect(), $queryBuilderFactory);
+        /** @var $dialect IDialect */
+        $dialect = $this->connection->getDatabasePlatform();
+        $this->server = new ShardServer('test_server', $this->connection, $dialect, $queryBuilderFactory);
         $this->server->modifyInternal("CREATE TABLE IF NOT EXISTS `test` (`a` text)");
-    }
-
-    protected function tearDownFixtures()
-    {
-        $this->server->getConnection()->getSchemaManager()->dropTable("`test`");
     }
 
     public function testQueryBuilderFactory()
     {
-
         $this->assertInstanceOf(
             'umi\dbal\cluster\server\IServer',
             $this->server,
-            'Ожидается, что любой сервер реалтзует интерфейс IServer'
+            'Ожидается, что любой сервер реализует интерфейс IServer'
         );
         $this->assertEquals('test_server', $this->server->getId(), 'Неверный id сервера');
         $this->assertInstanceOf(
             'Doctrine\DBAL\Connection',
             $this->server->getConnection(),
-            'Ожидается, что IServer::getDbDriver() вернет IDbDriver'
+            'Ожидается, что IServer::getConnection() вернет Doctrine\DBAL\Connection'
         );
 
         $this->assertEquals(1, $this->server->modifyInternal("INSERT INTO `test` (`a`) VALUES('test')"));
@@ -65,6 +59,5 @@ class ServerTest extends DbalTestCase
         $this->assertInstanceOf('umi\dbal\builder\IUpdateBuilder', $this->server->update('test'));
         $this->assertInstanceOf('umi\dbal\builder\IInsertBuilder', $this->server->insert('test'));
         $this->assertInstanceOf('umi\dbal\builder\IDeleteBuilder', $this->server->delete('test'));
-
     }
 }

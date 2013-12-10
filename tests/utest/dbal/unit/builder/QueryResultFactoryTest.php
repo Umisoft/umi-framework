@@ -9,7 +9,9 @@
 
 namespace utest\dbal\unit\builder;
 
-use umi\dbal\cluster\server\IServer;
+use Doctrine\DBAL\Schema\Column;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use utest\dbal\DbalTestCase;
 
 /**
@@ -17,30 +19,21 @@ use utest\dbal\DbalTestCase;
  */
 class QueryResultFactoryTest extends DbalTestCase
 {
-    /**
-     * @var IServer $sqlite
-     */
-    private $sqlite;
-    /**
-     * @var IServer $mysql
-     */
-    private $mysql;
+    protected $affectedTables = ['temp_test_table'];
 
     protected function setUpFixtures()
     {
-        $this->sqlite = $this->getSqliteServer();
-        $this->mysql = $this->getMysqlServer();
-        $this->sqlite
-            ->getConnection()
-            ->exec('DROP TABLE IF EXISTS `temp_test_table`');
-        $this->sqlite
-            ->getConnection()
-            ->exec('CREATE TABLE `temp_test_table` (`id` INTEGER PRIMARY KEY, `field1` TEXT, `field2` TEXT)');
+        $table = new Table('temp_test_table',[
+            new Column('id',Type::getType(Type::INTEGER)),
+            new Column('field1',Type::getType(Type::TEXT), ['notnull'=>false]),
+            new Column('field2',Type::getType(Type::TEXT), ['notnull'=>false]),
+        ]);
+        $this->connection->getSchemaManager()->createTable($table);
     }
 
     public function testResultBuilderFactory()
     {
-        $builder = $this->sqlite
+        $builder = $this->getDbServer()
             ->select()
             ->from('temp_test_table');
         $result = $builder->execute();

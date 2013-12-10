@@ -26,10 +26,12 @@ class QueriesTest extends DbalTestCase
      * @var IServer $server
      */
     protected $server;
+    protected $affectedTables = ['tests_query_table'];
 
     protected function setUpFixtures()
     {
         $this->server = $this->getDbServer();
+        $this->connection = $this->server->getConnection();
         $table = new Table('tests_query_table');
 
         $table
@@ -51,24 +53,15 @@ class QueriesTest extends DbalTestCase
             ->addColumn('weight', Type::DECIMAL)
             ->setNotnull(false);
         $table->setPrimaryKey(['id']);
-        $this->server
-            ->getConnection()
+
+        $this->connection
             ->getSchemaManager()
             ->createTable(
                 $table
             );
-        $this->server
-            ->getConnection()
+        $this->connection
             ->getConfiguration()
             ->setSQLLogger(new DebugStack());
-    }
-
-    protected function tearDownFixtures()
-    {
-        $this->server
-            ->getConnection()
-            ->getSchemaManager()
-            ->dropTable('tests_query_table');
     }
 
     public function testQueryResult()
@@ -265,6 +258,9 @@ class QueriesTest extends DbalTestCase
         $height = 170;
         /** @noinspection PhpUnusedLocalVariableInspection */
         $weight = 48.2;
+
+        $id = 12345;
+        $float = 123.45;
 
         /** @noinspection PhpUnusedLocalVariableInspection */
         $selectQuery = $this->server

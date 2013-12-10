@@ -9,7 +9,6 @@
 
 namespace utest\dbal\func\drivers\mysql;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Logging\DebugStack;
 use umi\dbal\builder\SelectBuilder;
 use umi\dbal\driver\dialect\MySqlDialect;
@@ -23,10 +22,6 @@ use utest\dbal\DbalTestCase;
 class MySqlQueriesTest extends DbalTestCase
 {
     /**
-     * @var Connection $connection
-     */
-    protected $connection;
-    /**
      * @var SelectBuilder $select
      */
     protected $select;
@@ -34,6 +29,9 @@ class MySqlQueriesTest extends DbalTestCase
      * @var SelectBuilder $select2
      */
     protected $select2;
+
+    protected $usedServerId = 'mysqlMaster';
+    protected $affectedTables = ['temp_test_table1'];
 
     /**
      * @return array
@@ -70,14 +68,9 @@ class MySqlQueriesTest extends DbalTestCase
 
     protected function setUpFixtures()
     {
-
-        $this->connection = $this
-            ->getMysqlServer()
-            ->getConnection();
         $this->connection
             ->getConfiguration()
             ->setSQLLogger(new DebugStack());
-        $this->connection->exec('DROP TABLE IF EXISTS `temp_test_table1`');
         $this->connection->exec('CREATE TABLE `temp_test_table1` (id INTEGER)');
         $this->connection->exec('INSERT INTO `temp_test_table1` (id) VALUES (1)');
         $this->connection->exec('INSERT INTO `temp_test_table1` (id) VALUES (2)');
@@ -91,11 +84,6 @@ class MySqlQueriesTest extends DbalTestCase
         $this->setQueries([]);
 
         $this->resolveOptionalDependencies($queryBuilderFactory);
-    }
-
-    protected function tearDownFixtures()
-    {
-        $this->connection->exec('DROP TABLE `temp_test_table1`');
     }
 
     public function testSelectTotal()
