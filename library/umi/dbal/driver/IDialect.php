@@ -27,11 +27,11 @@ interface IDialect
     /**
      * Инициализирует PDO, используя специфику драйвера.
      * Может быть переопределен в конкретном диалекте.
-     * @param IConnection $connection
+     * @param Connection $connection
      * @param PDO $pdo
      * @return
      */
-    public function initPDOInstance(IConnection $connection, PDO $pdo);
+    public function initPDOInstance(Connection $connection, PDO $pdo);
 
     /**
      * Строит и возвращает sql-запрос для отключения индексов в отдельной таблице

@@ -470,11 +470,10 @@ class MySqlDialect extends MySqlPlatform implements IDialect
      */
     public function initPDOInstance(Connection $connection, PDO $pdo)
     {
-        //$pdo->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, true);
         $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
         $params = $connection->getParams();
         if (!isset($params['charset'])) {
-            throw new RuntimeException("No conection charset specified");
+            throw new RuntimeException("No connection charset specified");
         }
         $pdo->exec('SET NAMES ' . $pdo->quote($params['charset']));
     }

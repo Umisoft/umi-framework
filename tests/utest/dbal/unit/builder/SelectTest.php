@@ -83,13 +83,6 @@ class SelectTest extends DbalTestCase
             ['table2', 'tbl2']
         ];
         $this->assertEquals($expectedResult, $this->query->getTables(), 'SelectBuilder::from(a,b,c) failed');
-
-        $e = null;
-        try {
-            $this->query->from();
-        } catch (\Exception $e) {
-        }
-        $this->assertInstanceOf('umi\dbal\exception\RuntimeException', $e, 'Exception for empty from expected.');
     }
 
     public function testDistinctMethod()

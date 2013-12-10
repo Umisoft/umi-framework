@@ -486,7 +486,6 @@ class SqliteDialect extends SqlitePlatform implements IDialect
      */
     public function initPDOInstance(Connection $connection, PDO $pdo)
     {
-        // find out, if driver version allows FK Constraints
         $this->fkSupported = version_compare('3.6.19', $pdo->getAttribute(PDO::ATTR_SERVER_VERSION)) < 0;
         $pdo->exec($this->buildEnableForeignKeysQuery());
     }
