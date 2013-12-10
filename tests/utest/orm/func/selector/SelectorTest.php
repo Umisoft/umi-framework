@@ -487,47 +487,5 @@ class SelectorTest extends ORMDbTestCase
             $this->selector->getTotal(),
             'Ожидается, что общее количество обновилось, если были добавлены новые объекты'
         );
-
-    }
-
-    public function _testSelector()
-    {
-        //todo remove?
-        /**
-         * @var ISelector $selector
-         */
-        //$selector = $usersCollection->select('user');
-        /**
-         * order
-         * order.customer (customer_id)
-         * order.items
-         */
-        $sql = <<<EOF
-	SELECT
-		`result`.`id` as `emarket.order.id`,
-		`result`.`name` as `emarket.order.name`,
-		`result`.`user_name` as `emarket.user.login`,
-		`result`.`user_id` as `emarket.user.id`,
-		`emarket.order_items`.`id` as `emarket.order_items.id`,
-		`emarket.order_items`.`name` as `emarket.order_items.name`
-	FROM
-		(
-			SELECT
-					`emarket.order`.`id` as `id`,
-					`emarket.order`.`name` as `name`,
-					`emarket.user`.`login` as `user_name`,
-					`emarket.user`.`id` as `user_id`
-				FROM
-					`umi_mock_orders` as `emarket.order`
-				INNER JOIN `umi_mock_users` as `emarket.user` ON (`emarket.order`.`owner_id` = `emarket.user`.`id`)
-				WHERE `emarket.order`.`id` > 6
-				ORDER BY `emarket.order`.`id`
-				LIMIT 5
-		) `result`,
-		`umi_mock_order_items` as `emarket.order_items`
-	WHERE `emarket.order_items`.`order_id` = `result`.`id`
-
-EOF;
-
     }
 }
