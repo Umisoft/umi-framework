@@ -59,7 +59,7 @@ class InsertBuilder extends BaseQueryBuilder implements IInsertBuilder
     {
         $this->onDuplicateKeyMode = true;
         if (!empty($columns)) {
-            $this->onDuplicateKeyColumns = $columns;
+            $this->onDuplicateKeyColumns = (array) $columns;
         } else {
             $this->onDuplicateKeyColumns = [$columnName];
         }

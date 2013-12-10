@@ -25,7 +25,7 @@ abstract class DbalTestCase extends TestCase
      */
     protected $connection;
     /**
-     * @var Connection $connection имя сервера БД, с которым устанавливается общее соединение
+     * @var string $usedServerId имя сервера БД, с которым устанавливается общее соединение
      */
     protected $usedServerId;
     /**

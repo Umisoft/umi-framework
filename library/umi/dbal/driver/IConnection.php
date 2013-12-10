@@ -10,6 +10,7 @@
 namespace umi\dbal\driver;
 
 use Doctrine\DBAL\Driver\Connection;
+use Doctrine\DBAL\Driver\PDOConnection;
 
 /**
  * Соединение с БД, расширяющее функционал Doctrine\DBAL\Connection.
@@ -18,7 +19,7 @@ interface IConnection extends Connection
 {
     /**
      * Декорированное соединение с PDO драйвером
-     * @return \Doctrine\DBAL\Driver\PDOConnection
+     * @return PDOConnection
      */
     public function getWrappedConnection();
 

@@ -126,7 +126,7 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
     /**
      * {@inheritdoc}
      */
-    public function from($tables = [])
+    public function from($tables)
     {
         $this->tables = [];
         $tables = (array)$tables;

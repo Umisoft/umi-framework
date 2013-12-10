@@ -33,29 +33,16 @@ class DbalTools implements IToolbox
      */
     const NAME = 'db';
 
+    /**
+     * Тип соединения PDO к СУБД MySQL
+     */
     const CONNECTION_TYPE_PDOMYSQL = 'pdo_mysql';
+    /**
+     * Тип соединения PDO к СУБД Sqlite
+     */
     const CONNECTION_TYPE_PDOSQLITE = 'pdo_sqlite';
-    const CONNECTION_TYPE_PDOPGSQL = 'pdo_pgsql';
-    const CONNECTION_TYPE_PDOOCI = 'pdo_oci';
 
     use TToolbox;
-
-    /**
-     * @var array $dialectMap сопоставление SQL-диалектов драйверам соединений с БД
-     */
-    protected $dialectMap = [
-        DbalTools::CONNECTION_TYPE_PDOMYSQL  => 'umi\dbal\driver\dialect\MySqlDialect',
-        DbalTools::CONNECTION_TYPE_PDOSQLITE => 'umi\dbal\driver\dialect\SqliteDialect',
-        DbalTools::CONNECTION_TYPE_PDOPGSQL  => 'umi\dbal\driver\dialect\PostgreSqlDialect',
-        DbalTools::CONNECTION_TYPE_PDOOCI    => 'umi\dbal\driver\dialect\MySqlDialect',
-    ];
-
-    protected $supportedConnectionTypes = [
-        DbalTools::CONNECTION_TYPE_PDOMYSQL,
-        DbalTools::CONNECTION_TYPE_PDOSQLITE,
-        DbalTools::CONNECTION_TYPE_PDOPGSQL,
-        DbalTools::CONNECTION_TYPE_PDOOCI,
-    ];
 
     /**
      * @var array|Traversable $servers конфигурация серверов, в формате:
@@ -93,6 +80,22 @@ class DbalTools implements IToolbox
      * @var string $queryBuilderFactoryClass имя класса для создания фабрики построителей запросов
      */
     public $queryBuilderFactoryClass = 'umi\dbal\toolbox\factory\QueryBuilderFactory';
+
+    /**
+     * @var array $dialectMap сопоставление SQL-диалектов драйверам соединений с БД
+     */
+    protected $dialectMap = [
+        DbalTools::CONNECTION_TYPE_PDOMYSQL  => 'umi\dbal\driver\dialect\MySqlDialect',
+        DbalTools::CONNECTION_TYPE_PDOSQLITE => 'umi\dbal\driver\dialect\SqliteDialect',
+    ];
+
+    /**
+     * @var array $supportedConnectionTypes поддерживаемые типы соединений с БД
+     */
+    protected $supportedConnectionTypes = [
+        DbalTools::CONNECTION_TYPE_PDOMYSQL,
+        DbalTools::CONNECTION_TYPE_PDOSQLITE,
+    ];
 
     /**
      * Конструктор.
