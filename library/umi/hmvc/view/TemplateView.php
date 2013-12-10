@@ -10,6 +10,7 @@ namespace umi\hmvc\view;
 
 use umi\hmvc\context\IContextAware;
 use umi\hmvc\context\TContextAware;
+use umi\hmvc\exception\InvalidArgumentException;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
 use umi\hmvc\view\extension\IViewExtensionFactory;
@@ -113,8 +114,13 @@ class TemplateView implements IView,
      */
     private function setupTemplateEngine()
     {
-        $templateEngineType = isset($this->options[self::OPTION_TYPE]) ? $this->options[self::OPTION_TYPE] : null;
-        $this->templateEngine = $this->createTemplateEngine($templateEngineType, $this->options);
+        if (!isset($this->options[self::OPTION_TYPE])) {
+            throw new InvalidArgumentException(
+                'Cannot setup template engine. Option "' . self::OPTION_TYPE . '" is required.'
+            );
+        }
+
+        $this->templateEngine = $this->createTemplateEngine($this->options[self::OPTION_TYPE], $this->options);
         $this->setupExtensionAdapter();
     }
 

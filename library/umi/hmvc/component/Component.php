@@ -23,6 +23,7 @@ use umi\hmvc\controller\IControllerFactory;
 use umi\hmvc\component\response\model\IDisplayModel;
 use umi\hmvc\exception\http\HttpNotFound;
 use umi\hmvc\exception\OutOfBoundsException;
+use umi\hmvc\exception\RuntimeException;
 use umi\hmvc\exception\UnexpectedValueException;
 use umi\hmvc\IMVCLayerAware;
 use umi\hmvc\model\IModelAware;
@@ -365,6 +366,7 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
      * Выполняет рендеринг результата при необходимости.
      * @param IComponentResponse $response
      * @param IContext $context контекст работы компонента
+     * @throws RuntimeException в случае ошибки шаблонизации
      * @return IComponentResponse
      */
     protected function render(IComponentResponse $response, IContext $context)
@@ -378,7 +380,22 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
                 $view->setContext($context);
             }
 
-            $response->setContent($view->render($content->getTemplate(), $content->getVariables()));
+            try {
+                $content = $view->render($content->getTemplate(), $content->getVariables());
+            } catch (\Exception $e) {
+                throw new RuntimeException(
+                    $this->translate(
+                        'Cannot render template "{template}".',
+                        [
+                            'template' => $content->getTemplate()
+                        ]
+                    ),
+                    0,
+                    $e
+                );
+            }
+
+            $response->setContent($content);
 
             if ($view instanceof IContextAware) {
                 $view->clearContext();
