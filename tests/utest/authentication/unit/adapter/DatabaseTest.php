@@ -59,11 +59,14 @@ class DatabaseTest extends AuthenticationTestCase
 
     public function tearDownFixtures()
     {
-        $this
+        $connection = $this
             ->getDbCluster()
-            ->getConnection()
-            ->getSchemaManager()
-            ->dropTable('users');
+            ->getConnection();
+        if ($connection->getSchemaManager()->tablesExist('users')) {
+            $connection
+                ->getSchemaManager()
+                ->dropTable('users');
+        }
     }
 
     public function testSuccessAuth()
@@ -108,6 +111,9 @@ class DatabaseTest extends AuthenticationTestCase
      */
     private function createTables(Connection $connection)
     {
+        if($connection->getSchemaManager()->tablesExist('users')){
+            $connection->getSchemaManager()->dropTable('users');
+        }
         $table = new Table('users');
         $table->addColumn('username', Type::STRING);
         $table->addColumn('password', Type::STRING);
