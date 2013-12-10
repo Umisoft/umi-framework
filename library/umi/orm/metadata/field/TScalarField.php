@@ -54,7 +54,7 @@ trait TScalarField
      * @param mixed $propertyValue значение свойства
      * @return mixed
      */
-    public function prepareDbValue(IObject $object, $propertyValue)//todo unused object?
+    public function prepareDbValue(IObject $object, $propertyValue)
     {
         return $propertyValue;
     }
