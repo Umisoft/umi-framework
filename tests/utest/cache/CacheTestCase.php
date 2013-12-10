@@ -43,7 +43,13 @@ abstract class CacheTestCase extends TestCase
     protected function setupDatabase($tableName, $server = null)
     {
         $connection = $server == null ? $this->getDbServer()->getConnection() : $server->getConnection();
-        $connection->getSchemaManager()->dropTable($tableName);
+
+        if ($connection->getSchemaManager()->tablesExist($tableName)) {
+            $connection
+                ->getSchemaManager()
+                ->dropTable($tableName);
+        }
+
         $table = new Table($tableName);
 
         $table->addColumn('key', Type::STRING, ['comment' => 'Cache unique key']);

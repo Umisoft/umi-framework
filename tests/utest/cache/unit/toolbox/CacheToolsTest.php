@@ -31,8 +31,10 @@ class CacheToolsTest extends CacheTestCase
 
     protected function tearDownFixtures()
     {
-        $this->connection->getSchemaManager()
-            ->dropTable($this->tableName);
+        if($this->connection->getSchemaManager()->tablesExist($this->tableName)){
+            $this->connection->getSchemaManager()
+                ->dropTable($this->tableName);
+        }
     }
 
     public function testCacheInjection()
