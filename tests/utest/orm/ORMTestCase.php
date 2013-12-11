@@ -28,7 +28,4 @@ abstract class ORMTestCase extends TestCase
         $this->registerDbalTools();
         parent::setUp();
     }
-
-
 }
- 

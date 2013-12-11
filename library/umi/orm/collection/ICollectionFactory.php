@@ -42,5 +42,4 @@ interface ICollectionFactory
      * @return ICollection
      */
     public function create($collectionName, IMetadata $metadata, array $config);
-
 }

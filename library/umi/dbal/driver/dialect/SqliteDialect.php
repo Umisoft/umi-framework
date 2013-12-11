@@ -7,98 +7,31 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\dbal\driver\sqlite;
+namespace umi\dbal\driver\dialect;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 use PDO;
 use umi\dbal\builder\IDeleteBuilder;
 use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\builder\IInsertBuilder;
 use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\builder\IUpdateBuilder;
-use umi\dbal\driver\BaseDriver;
-use umi\dbal\driver\IColumnScheme;
-use umi\dbal\driver\IDbDriver;
+use umi\dbal\driver\IDialect;
 use umi\dbal\exception\IException;
 use umi\dbal\exception\RuntimeException;
 
-/**
- * Драйвер SQLite.
- */
-class SqliteDriver extends BaseDriver implements IDbDriver
+class SqliteDialect extends SqlitePlatform implements IDialect
 {
-    /**
-     * @var array $columnTypes список опций типов колонок
-     */
-    public $columnTypes = [
-        IColumnScheme::TYPE_INT       => [
-            IColumnScheme::OPTION_TYPE => 'INTEGER'
-        ],
-        IColumnScheme::TYPE_DECIMAL   => [
-            IColumnScheme::OPTION_TYPE => 'NUMERIC'
-        ],
-        IColumnScheme::TYPE_REAL      => [
-            IColumnScheme::OPTION_TYPE => 'REAL'
-        ],
-        IColumnScheme::TYPE_BOOL      => [
-            IColumnScheme::OPTION_TYPE => 'INTEGER',
-        ],
-        IColumnScheme::TYPE_SERIAL    => [
-            IColumnScheme::OPTION_TYPE          => 'INTEGER',
-            IColumnScheme::OPTION_AUTOINCREMENT => true,
-            IColumnScheme::OPTION_PRIMARY_KEY   => true,
-            IColumnScheme::OPTION_NULLABLE      => false
-        ],
-        IColumnScheme::TYPE_RELATION  => [
-            IColumnScheme::OPTION_TYPE => 'INTEGER'
-        ],
-        IColumnScheme::TYPE_VARCHAR   => [
-            IColumnScheme::OPTION_TYPE => 'TEXT'
-        ],
-        IColumnScheme::TYPE_CHAR      => [
-            IColumnScheme::OPTION_TYPE => 'TEXT'
-        ],
-        IColumnScheme::TYPE_TEXT      => [
-            IColumnScheme::OPTION_TYPE => 'TEXT'
-        ],
-        IColumnScheme::TYPE_BLOB      => [
-            IColumnScheme::OPTION_TYPE => 'BLOB'
-        ],
-        IColumnScheme::TYPE_TIMESTAMP => [
-            IColumnScheme::OPTION_TYPE => 'INTEGER'
-        ],
-        IColumnScheme::TYPE_DATE      => [
-            IColumnScheme::OPTION_TYPE => 'TEXT'
-        ],
-        IColumnScheme::TYPE_TIME      => [
-            IColumnScheme::OPTION_TYPE => 'TEXT'
-        ],
-        IColumnScheme::TYPE_DATETIME  => [
-            IColumnScheme::OPTION_TYPE => 'TEXT'
-        ]
-    ];
+
+    private $fkSupported = false;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function getColumnInternalTypeBySize($internalType, $size)
+    public function supportsForeignKeyConstraints()
     {
-        return $internalType;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isAvailable()
-    {
-        return in_array('sqlite', PDO::getAvailableDrivers());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function concat($string1, $string2)
-    {
-        return $string1 . ' || ' . $string2;
+        return $this->fkSupported;
     }
 
     /**
@@ -111,7 +44,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
 
         $limitSql = '';
         if (null != ($limit = $query->getLimit())) {
-            $limitSql = "\nLIMIT " . $limit . ' OFFSET ' . $query->getOffset();
+            $limitSql = $this->buildLimitPart($limit, $query);
         }
 
         $result = $this->buildSelectQueryBody($query)
@@ -127,7 +60,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
     public function buildUpdateQuery(IUpdateBuilder $query)
     {
         $ignoreSql = $query->getIsIgnore() ? ' OR IGNORE' : '';
-        $whatSql = $this->sanitizeTableName($query->getTableName());
+        $whatSql = $this->quoteIdentifier($query->getTableName());
         $whereSql = $this->buildWherePart($query);
         $setSql = $this->buildSetPart($query->getValues());
 
@@ -148,7 +81,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
         }
 
         $ignoreSql = $query->getIsIgnore() ? ' OR IGNORE' : '';
-        $whatSql = $this->sanitizeTableName($query->getTableName());
+        $whatSql = $this->quoteIdentifier($query->getTableName());
         $setSql = $this->buildValuesPart($query->getValues());
 
         $result = 'INSERT' . $ignoreSql . ' INTO ' . $whatSql . $setSql;
@@ -162,10 +95,10 @@ class SqliteDriver extends BaseDriver implements IDbDriver
      * @param IInsertBuilder $query insert-запрос
      * @return string
      */
-    public function buildInsertUpdateQueries(IInsertBuilder $query)
+    protected function buildInsertUpdateQueries(IInsertBuilder $query)
     {
         $values = $query->getValues();
-        $whatSql = $this->sanitizeTableName($query->getTableName());
+        $whatSql = $this->quoteIdentifier($query->getTableName());
         $valuesSql = $this->buildValuesPart($values);
 
         $result = 'INSERT OR IGNORE INTO ' . $whatSql . $valuesSql . ";\n";
@@ -174,7 +107,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
         $columns = $query->getOnDuplicateKeyColumns();
         foreach ($values as $columnName => $placeholder) {
             if (in_array($columnName, $columns)) {
-                $columnName = $this->sanitizeColumnName($columnName);
+                $columnName = $this->quoteIdentifier($columnName);
                 $placeholder = $this->protectExpressionValue($placeholder);
                 $whereConditions[] = $columnName . ' = ' . $placeholder;
             }
@@ -191,7 +124,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
      */
     public function buildDeleteQuery(IDeleteBuilder $query)
     {
-        $fromSql = $this->sanitizeTableName($query->getTableName());
+        $fromSql = $this->quoteIdentifier($query->getTableName());
         $whereSql = $this->buildWherePart($query);
 
         $result = 'DELETE FROM ' . $fromSql . $whereSql;
@@ -204,9 +137,9 @@ class SqliteDriver extends BaseDriver implements IDbDriver
      */
     public function buildDisableKeysQuery($tableName)
     {
-        throw new RuntimeException($this->translate(
+        throw new RuntimeException(
             'Sqlite driver does not support \'alter table ... disable keys\' queries.'
-        ));
+        );
     }
 
     /**
@@ -214,9 +147,9 @@ class SqliteDriver extends BaseDriver implements IDbDriver
      */
     public function buildEnableKeysQuery($tableName)
     {
-        throw new RuntimeException($this->translate(
+        throw new RuntimeException(
             'Sqlite driver does not support \'alter table ... enable keys\' queries.'
-        ));
+        );
     }
 
     /**
@@ -241,14 +174,6 @@ class SqliteDriver extends BaseDriver implements IDbDriver
     public function buildSelectFoundRowsQuery(ISelectBuilder $query)
     {
         return 'SELECT count(*) FROM (' . $this->buildSelectQueryBody($query) . ') AS mainQuery';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function initPDOInstance(PDO $pdo)
-    {
-        $pdo->exec($this->buildEnableForeignKeysQuery());
     }
 
     /**
@@ -278,45 +203,6 @@ class SqliteDriver extends BaseDriver implements IDbDriver
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function loadTableScheme($name)
-    {
-        $table = $this->createTableSchemeInstance($name);
-        try {
-            $table->reload(); // load columns
-        } catch (\Exception $e) {
-            throw new RuntimeException($this->translate(
-                'Cannot load table "{table}" for "{dsn}".',
-                ['table' => $name, 'dsn' => $this->dsn]
-            ), 0, $e);
-        }
-
-        return $table;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadTableNames()
-    {
-        $result = [];
-        try {
-            $tables = $this->select('SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name <> "sqlite_sequence"');
-        } catch (\Exception $e) {
-            throw new RuntimeException($this->translate(
-                'Cannot load tables for "{dsn}".',
-                ['dsn' => $this->dsn]
-            ), 0, $e);
-        }
-        while (null != ($row = $tables->fetchColumn())) {
-            $result[] = $row;
-        }
-
-        return $result;
-    }
-
-    /**
      * Строит WHAT часть запроса (SELECT WHAT)
      * @internal
      * @param ISelectBuilder $query
@@ -334,7 +220,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
             if (is_array($column)) {
                 list($name, $alias) = $column;
                 $name = $this->protectExpressionValue($name);
-                $result[] = $name . ($alias ? ' AS ' . $this->sanitizeColumnName($alias) : '');
+                $result[] = $name . ($alias ? ' AS ' . $this->quoteIdentifier($alias) : '');
             }
         }
 
@@ -358,8 +244,8 @@ class SqliteDriver extends BaseDriver implements IDbDriver
         foreach ($tables as $table) {
             if (is_array($table)) {
                 list($name, $alias) = $table;
-                $name = $this->sanitizeTableName($name);
-                $result[] = $name . ($alias ? ' AS ' . $this->sanitizeTableName($alias) : '');
+                $name = $this->quoteIdentifier($name);
+                $result[] = $name . ($alias ? ' AS ' . $this->quoteIdentifier($alias) : '');
             }
         }
 
@@ -384,13 +270,12 @@ class SqliteDriver extends BaseDriver implements IDbDriver
         foreach ($joins as $join) {
             list($name, $alias) = $join->getTable();
             $result .= "\n\t" . $join->getType() . ' JOIN ';
-            $result .= $this->sanitizeTableName($name) . ($alias ? ' AS ' . $this->sanitizeTableName($alias) : '');
+            $result .= $this->quoteIdentifier($name) . ($alias ? ' AS ' . $this->quoteIdentifier($alias) : '');
             $joinConditions = [];
             foreach ($join->getConditions() as $condition) {
                 list($leftColumn, $operator, $rightColumn) = $condition;
-                $joinConditions[] = $this->sanitizeColumnName(
-                        $leftColumn
-                    ) . ' ' . $operator . ' ' . $this->sanitizeColumnName($rightColumn);
+                $joinConditions[] = $this->quoteIdentifier($leftColumn)
+                    . ' ' . $operator . ' ' . $this->quoteIdentifier($rightColumn);
             }
 
             if (count($joinConditions) === 1) {
@@ -418,7 +303,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
 
         $result = [];
         foreach ($conditions as $column => $direction) {
-            $result[] = $this->sanitizeColumnName($column);
+            $result[] = $this->quoteIdentifier($column);
         }
 
         return "\nGROUP BY " . implode(", ", $result);
@@ -436,7 +321,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
             return $expression;
         }
 
-        return $this->sanitizeColumnName($expression);
+        return $this->quoteIdentifier($expression);
     }
 
     /**
@@ -495,7 +380,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
 
         $result = [];
         foreach ($conditions as $column => $direction) {
-            $result[] = $this->sanitizeColumnName($column) . ' ' . strtoupper($direction);
+            $result[] = $this->quoteIdentifier($column) . ' ' . strtoupper($direction);
         }
 
         return "\nORDER BY " . implode(", ", $result);
@@ -511,7 +396,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
     {
         $result = [];
         foreach ($values as $columnName => $placeholder) {
-            $result[] = $this->sanitizeColumnName($columnName) . ' = ' . $placeholder;
+            $result[] = $this->quoteIdentifier($columnName) . ' = ' . $placeholder;
         }
 
         return "\nSET " . implode(', ', $result);
@@ -528,7 +413,7 @@ class SqliteDriver extends BaseDriver implements IDbDriver
         $columnNames = [];
         $placeholders = [];
         foreach ($values as $columnName => $placeholder) {
-            $columnNames[] = $this->sanitizeColumnName($columnName);
+            $columnNames[] = $this->quoteIdentifier($columnName);
             $placeholders[] = $placeholder;
         }
 
@@ -548,5 +433,73 @@ class SqliteDriver extends BaseDriver implements IDbDriver
         }
 
         return "\nHAVING " . $this->buildExpressionGroup($exprGroup);
+    }
+
+    /**
+     * Строит и возвращает sql-запрос для отключения индексов в отдельной таблице
+     * @param string $tableName
+     * @return string
+     */
+    public function getDisableKeysSQL($tableName)
+    {
+        return $this->buildDisableKeysQuery($tableName);
+    }
+
+    /**
+     * Строит и возвращает sql-запрос для включения индексов в отдельной таблице
+     * @param string $tableName
+     * @return string
+     */
+    public function getEnableKeysSQL($tableName)
+    {
+        return $this->buildEnableKeysQuery($tableName);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDisableForeignKeysSQL()
+    {
+        return $this->buildDisableForeignKeysQuery();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEnableForeignKeysSQL()
+    {
+        return $this->buildEnableForeignKeysQuery();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildTruncateQuery($tableName, $cascade = false)
+    {
+        $this->getTruncateTableSQL($tableName, $cascade);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @param \Doctrine\DBAL\Connection $connection
+     */
+    public function initConnection(Connection $connection)
+    {
+        /** @var $pdo PDO */
+        $pdo = $connection->getWrappedConnection();
+        $this->fkSupported = version_compare('3.6.19', $pdo->getAttribute(PDO::ATTR_SERVER_VERSION)) < 0;
+        $pdo->exec($this->buildEnableForeignKeysQuery());
+    }
+
+    /**
+     * @param int $limit
+     * @param ISelectBuilder $query
+     * @return string
+     */
+    protected function buildLimitPart($limit, ISelectBuilder $query)
+    {
+        $limitSql = "\nLIMIT " . $limit . ' OFFSET ' . $query->getOffset();
+
+        return $limitSql;
     }
 }

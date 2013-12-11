@@ -77,5 +77,4 @@ class AwareInterfacesTest extends AwareTestCase
 
         $this->successfulInjectionTest('utest\orm\mock\MockMetadataManagerAware', 'umi\orm\metadata\IMetadataManager');
     }
-
 }

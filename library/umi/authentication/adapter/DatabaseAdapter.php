@@ -12,6 +12,7 @@ use umi\authentication\exception\InvalidArgumentException;
 use umi\authentication\result\AuthResult;
 use umi\authentication\result\IAuthResult;
 use umi\dbal\builder\IExpressionGroup;
+use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\cluster\IConnection;
 use umi\dbal\cluster\IDbCluster;
 use umi\i18n\ILocalizable;
@@ -86,15 +87,18 @@ class DatabaseAdapter implements IAuthAdapter, ILocalizable
         $select = $this->connection->select()
             ->from($this->table);
 
-        $where = $select->where(IExpressionGroup::MODE_OR);
+        /** @var $select ISelectBuilder */
+        $select = $select->where()
+            ->begin(IExpressionGroup::MODE_OR);
 
         foreach ($this->loginColumns as $loginColumn) {
-            $where->bindColumnString($loginColumn, $username);
+            $select->expr($loginColumn, '=', ':' . $loginColumn);
+            $select->bindString(':'.$loginColumn, $username);
         }
 
         $result = $select->execute();
 
-        if ($result->countRows() != 1) {
+        if ($select->getTotal() != 1) {
             return new AuthResult(IAuthResult::WRONG_USERNAME);
         }
 

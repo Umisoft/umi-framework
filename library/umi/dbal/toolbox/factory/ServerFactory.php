@@ -9,9 +9,10 @@
 
 namespace umi\dbal\toolbox\factory;
 
-use umi\dbal\builder\IQueryBuilderFactory;
+use Doctrine\DBAL\Connection;
 use umi\dbal\cluster\server\IServerFactory;
-use umi\dbal\driver\IDbDriver;
+use umi\dbal\builder\IQueryBuilderFactory;
+use umi\dbal\driver\IDialect;
 use umi\dbal\exception\RuntimeException;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
@@ -54,7 +55,7 @@ class ServerFactory implements IServerFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function create($serverId, IDbDriver $driver, $serverType = null)
+    public function create($serverId, Connection $connection, IDialect $dialect, $serverType = null)
     {
         if (is_null($serverType)) {
             $serverType = $this->defaultType;
@@ -67,9 +68,9 @@ class ServerFactory implements IServerFactory, IFactory
         }
 
         return $this->getPrototype(
-                $this->types[$serverType],
-                ['umi\dbal\cluster\server\IServer']
-            )
-            ->createInstance([$serverId, $driver, $this->queryBuilderFactory]);
+            $this->types[$serverType],
+            ['umi\dbal\cluster\server\IServer']
+        )
+        ->createInstance([$serverId, $connection, $dialect, $this->queryBuilderFactory]);
     }
 }

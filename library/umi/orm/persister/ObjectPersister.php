@@ -9,8 +9,8 @@
 
 namespace umi\orm\persister;
 
+use Doctrine\DBAL\Driver\Connection;
 use SplObjectStorage;
-use umi\dbal\driver\IDbDriver;
 use umi\i18n\ILocalesAware;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalesAware;
@@ -75,26 +75,26 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
     /**
      * {@inheritdoc}
      */
-    public function executeTransaction(callable $transaction, array $affectedDrivers = [])
+    public function executeTransaction(callable $transaction, array $affectedConnections = [])
     {
         if (!$this->getIsPersisted()) {
             throw new NotAllowedOperationException($this->translate(
                 'Cannot execute transaction. Not all objects are persisted.'
             ));
         }
-        $this->startTransaction($affectedDrivers);
+        $this->startTransaction($affectedConnections);
 
         try {
             call_user_func($transaction);
         } catch (\Exception $e) {
-            $this->rollback($affectedDrivers);
+            $this->rollback($affectedConnections);
 
             throw new RuntimeException($this->translate(
                 'Cannot execute transaction.'
             ), 0, $e);
         }
 
-        $this->commitTransaction($affectedDrivers);
+        $this->commitTransaction($affectedConnections);
     }
 
     /**
@@ -229,19 +229,19 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
     {
 
         if (!$this->getIsPersisted()) {
-            $drivers = $this->detectUsedDrivers();
-            $this->startTransaction($drivers);
+            $connections = $this->detectUsedConnections();
+            $this->startTransaction($connections);
 
             try {
                 $this->persist();
             } catch (\Exception $e) {
-                $this->rollback($drivers);
+                $this->rollback($connections);
                 throw new RuntimeException($this->translate(
                     'Cannot persist objects.'
                 ), 0, $e);
             }
 
-            $this->commitTransaction($drivers);
+            $this->commitTransaction($connections);
         }
 
         return $this;
@@ -249,13 +249,13 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
 
     /**
      * Откатывает начатые транзакции и изменения объектов
-     * @param IDbDriver[] $drivers
+     * @param Connection[] $connections
      * @return $this
      */
-    protected function rollback(array $drivers)
+    protected function rollback(array $connections)
     {
-        foreach ($drivers as $driver) {
-            $driver->rollbackTransaction();
+        foreach ($connections as $connection) {
+            $connection->rollback();
         }
         $this->unloadStorageObjects($this->newObjects);
         $this->unloadStorageObjects($this->modifiedObjects);
@@ -266,64 +266,64 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
     }
 
     /**
-     * Страртует транзакцию для указанных драйверов бд
-     * @param IDbDriver[] $drivers
+     * Стартует транзакцию для указанных соединений с БД
+     * @param Connection[] $connections
      * @return $this
      */
-    protected function startTransaction(array $drivers)
+    protected function startTransaction(array $connections)
     {
-        foreach ($drivers as $driver) {
-            $driver->startTransaction();
+        foreach ($connections as $connection) {
+            $connection->beginTransaction();
         }
 
         return $this;
     }
 
     /**
-     * Фиксирует все начатые транзакции для указанных драйверов бд
-     * @param IDbDriver[] $drivers
+     * Фиксирует все начатые транзакции для указанных соединений с БД
+     * @param Connection[] $connections
      * @return $this
      */
-    protected function commitTransaction(array $drivers)
+    protected function commitTransaction(array $connections)
     {
-        foreach ($drivers as $driver) {
-            $driver->commitTransaction();
+        foreach ($connections as $connection) {
+            $connection->commit();
         }
 
         return $this;
     }
 
     /**
-     * Определяет используемые для редактирования объектов драйверы бд
-     * @return IDbDriver[]
+     * Определяет используемые для редактирования объектов соединения с БД
+     * @return Connection[]
      */
-    protected function detectUsedDrivers()
+    protected function detectUsedConnections()
     {
-        $drivers = [];
+        $connections = [];
 
         foreach ($this->newObjects as $object) {
             $source = $object->getCollection()
                 ->getMetadata()
                 ->getCollectionDataSource();
-            $drivers[$source->getMasterServerId()] = $source->getMasterServer()
-                ->getDbDriver();
+            $connections[$source->getMasterServerId()] = $source->getMasterServer()
+                ->getConnection();
         }
         foreach ($this->deletedObjects as $object) {
             $source = $object->getCollection()
                 ->getMetadata()
                 ->getCollectionDataSource();
-            $drivers[$source->getMasterServerId()] = $source->getMasterServer()
-                ->getDbDriver();
+            $connections[$source->getMasterServerId()] = $source->getMasterServer()
+                ->getConnection();
         }
         foreach ($this->modifiedObjects as $object) {
             $source = $object->getCollection()
                 ->getMetadata()
                 ->getCollectionDataSource();
-            $drivers[$source->getMasterServerId()] = $source->getMasterServer()
-                ->getDbDriver();
+            $connections[$source->getMasterServerId()] = $source->getMasterServer()
+                ->getConnection();
         }
 
-        return $drivers;
+        return $connections;
 
     }
 
@@ -408,5 +408,4 @@ class ObjectPersister implements IObjectPersister, ILocalizable, IValidationAwar
             $storage->detach($object);
         }
     }
-
 }

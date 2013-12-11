@@ -9,8 +9,8 @@
 
 namespace utest\cache\unit\engine;
 
+use Doctrine\DBAL\Types\Type;
 use umi\cache\engine\Db;
-use umi\dbal\driver\IColumnScheme;
 use utest\cache\CacheTestCase;
 
 /**
@@ -27,7 +27,6 @@ class DbTest extends CacheTestCase
 
     protected function setUpFixtures()
     {
-
         $server = $this->getDbServer();
         $options = [
             'table'    => [
@@ -39,55 +38,118 @@ class DbTest extends CacheTestCase
             'serverId' => $server->getId()
         ];
 
-        $driver = $server->getDbDriver();
-        $table = $driver->addTable($this->tableName);
-        $table->addColumn('key', IColumnScheme::TYPE_VARCHAR, [IColumnScheme::OPTION_COMMENT => 'Cache unique key']);
-        $table->addColumn('cacheValue', IColumnScheme::TYPE_BLOB, [IColumnScheme::OPTION_COMMENT => 'Cache value']);
-        $table->addColumn(
-            'cacheExpiration',
-            IColumnScheme::TYPE_INT,
-            [IColumnScheme::OPTION_COMMENT => 'Cache expire timestamp', IColumnScheme::OPTION_UNSIGNED => true]
-        );
-
-        $table->setPrimaryKey('key');
-        $table->addIndex('expire')
-            ->addColumn('cacheExpiration');
-        $driver->applyMigrations();
+        $this->setupDatabase($this->tableName);
 
         $this->storage = new Db($options);
         $this->resolveOptionalDependencies($this->storage);
-
     }
 
     protected function tearDownFixtures()
     {
-        $this->getDbServer()
-            ->getDbDriver()
+        $this
+            ->getDbServer()
+            ->getConnection()
+            ->getSchemaManager()
+            ->dropTable($this->tableName);
+    }
+
+    public function testGetServer()
+    {
+        $defaultServer = $this
+            ->getDbCluster()
+            ->getMaster();
+        $nonDefaultServer = $this
+            ->getMysqlServer()
+            ->getId() == $defaultServer->getId()
+            ? $this->getSqliteServer()
+            : $this->getMysqlServer();
+
+        $this->setupDatabase($this->tableName, $nonDefaultServer);
+
+        $tableConfig = [
+            'tableName'        => $this->tableName,
+            'keyColumnName'    => 'key',
+            'valueColumnName'  => 'cacheValue',
+            'expireColumnName' => 'cacheExpiration'
+        ];
+        $dbMysql = new Db([
+            'table'    => $tableConfig,
+            'serverId' => $this
+                ->getMysqlServer()
+                ->getId()
+        ]);
+        $this->resolveOptionalDependencies($dbMysql);
+        $dbMysql->set('first', 'mysqlMaster');
+
+        $dbSqlite = new Db([
+            'table'    => $tableConfig,
+            'serverId' => $this
+                ->getSqliteServer()
+                ->getId()
+        ]);
+        $this->resolveOptionalDependencies($dbSqlite);
+        $dbSqlite->set('first', 'sqliteMaster');
+
+        $dbDefault = new Db([
+            'table' => $tableConfig,
+        ]);
+        $this->resolveOptionalDependencies($dbDefault);
+        $dbDefault->set('second', $defaultServer->getId());
+
+        $recordsNonDefault = $nonDefaultServer
+            ->select(['key', 'cacheValue'])
+            ->from($this->tableName)
+            ->execute()
+            ->fetchAll();
+
+        $this->assertEquals(
+            [
+                ['key' => 'first', 'cacheValue' => $nonDefaultServer->getId()]
+            ],
+            $recordsNonDefault
+        );
+
+        $recordsDefault = $defaultServer
+            ->select(['key', 'cacheValue'])
+            ->from($this->tableName)
+            ->execute()
+            ->fetchAll();
+        $this->assertEquals(
+            [
+                ['key' => 'first', 'cacheValue' => $defaultServer->getId()],
+                ['key' => 'second', 'cacheValue' => $defaultServer->getId()]
+            ],
+            $recordsDefault
+        );
+
+        $nonDefaultServer
+            ->getConnection()
+            ->getSchemaManager()
             ->dropTable($this->tableName);
     }
 
     public function testStorage()
     {
-
         $this->assertFalse($this->storage->get('testKey'), 'Значение уже есть в кеше');
 
-        $this->assertTrue($this->storage->set('testKey', 'testValue', 1), 'Не удалось сохранить значение в кеш');
+        $this->assertTrue($this->storage->set('testKey', 'testValue', 3), 'Не удалось сохранить значение в кеш');
         $this->assertEquals('testValue', $this->storage->get('testKey'), 'В кеше хранится неверное значение');
 
         $this->assertTrue(
-            $this->storage->set('testKey', 'newTestValue', 1),
+            $this->storage->set('testKey', 'newTestValue', 3),
             'Не удалось переопределить значение в кеше'
         );
         $this->assertFalse(
-            $this->storage->add('testKey', 'newNewTestValue', 1),
+            $this->storage->add('testKey', 'newNewTestValue', 3),
             'Удалось переопределить значение в кеше'
         );
         $this->assertEquals('newTestValue', $this->storage->get('testKey'), 'В кеш добавилось неверное значение');
 
-        $this->assertTrue($this->storage->add('newTestKey', 'testValue', 1), 'Не удалось добавить значение в кеш');
+        $this->assertTrue($this->storage->add('newTestKey', 'testValue', 3), 'Не удалось добавить значение в кеш');
         $this->assertEquals('testValue', $this->storage->get('newTestKey'), 'В кеш добавилось неверное значение');
 
-        $update = $this->getDbServer()
+        $update = $this
+            ->getDbServer()
             ->update('test_cache_storage');
         $update
             ->set('cacheExpiration', ':expire')
@@ -100,15 +162,16 @@ class DbTest extends CacheTestCase
 
         $this->assertFalse($this->storage->get('testKey'), 'Время кеша должно было истечь');
 
-        $this->storage->set('testKey', 'newTestValue', 1);
+        $this->storage->set('testKey', 'newTestValue', 3);
         $this->assertTrue($this->storage->remove('testKey'), 'Не удалось удалить значение из кеша');
         $this->assertFalse($this->storage->get('testKey'), 'Значение в кеше существует после удаления');
 
-        $this->storage->set('testKey1', 'testValue1', 1);
+        $this->storage->set('testKey1', 'testValue1', 3);
         $this->storage->set('testKey2', 'testValue2');
-        $this->storage->set('testKey3', 'testValue3', 1);
+        $this->storage->set('testKey3', 'testValue3', 3);
 
-        $update = $this->getDbServer()
+        $update = $this
+            ->getDbServer()
             ->update('test_cache_storage');
         $update
             ->set('cacheExpiration', ':expire')
@@ -138,5 +201,4 @@ class DbTest extends CacheTestCase
             'Неверное значение для массива ключей после очистки кеша'
         );
     }
-
 }

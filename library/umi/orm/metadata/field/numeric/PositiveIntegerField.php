@@ -9,6 +9,7 @@
 
 namespace umi\orm\metadata\field\numeric;
 
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\field\BaseField;
 use umi\orm\metadata\field\IScalarField;
 use umi\orm\metadata\field\TScalarField;
@@ -26,7 +27,7 @@ class PositiveIntegerField extends BaseField implements IScalarField
      */
     public function getDataType()
     {
-        return 'integer';
+        return Type::INTEGER;
     }
 
     /**
@@ -36,5 +37,4 @@ class PositiveIntegerField extends BaseField implements IScalarField
     {
         return is_int($propertyValue) && $propertyValue >= 0;
     }
-
 }

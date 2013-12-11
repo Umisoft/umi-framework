@@ -8,7 +8,7 @@
  */
 namespace utest\dbal;
 
-use umi\dbal\cluster\server\IMasterServer;
+use Doctrine\DBAL\Connection;
 use utest\event\TEventSupport;
 use utest\TestCase;
 
@@ -21,6 +21,19 @@ abstract class DbalTestCase extends TestCase
     use TDbalSupport;
 
     /**
+     * @var Connection $connection общее для всех тестов соединение с БД
+     */
+    protected $connection;
+    /**
+     * @var string $usedServerId имя сервера БД, с которым устанавливается общее соединение
+     */
+    protected $usedServerId;
+    /**
+     * @var array $affectedTables таблицы, используемые в тесте, будут удалены в начале и конце каждого теста
+     */
+    protected $affectedTables = [];
+
+    /**
      * {@inheritdoc}
      */
     protected function setUp()
@@ -28,7 +41,58 @@ abstract class DbalTestCase extends TestCase
         $this->registerEventTools();
         $this->registerDbalTools();
 
+        if ($this->usedServerId === null) {
+            $this->usedServerId = $this
+                ->getDbCluster()
+                ->getMaster()
+                ->getId();
+        }
+        $this->connection = $this
+            ->getDbCluster()
+            ->getServer($this->usedServerId)
+            ->getConnection();
+
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new SqlLogger());
+
+        foreach ($this->affectedTables as $tableName) {
+            if ($this->connection
+                ->getSchemaManager()
+                ->tablesExist($tableName)
+            ) {
+                $this->connection
+                    ->getSchemaManager()
+                    ->dropTable($tableName);
+            }
+        }
+
         parent::setUp();
     }
+
+    /**
+     * @return SqlLogger
+     */
+    protected function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
+    }
+
+    protected function tearDown()
+    {
+        foreach ($this->affectedTables as $tableName) {
+            if ($this->connection
+                ->getSchemaManager()
+                ->tablesExist($tableName)
+            ) {
+                $this->connection
+                    ->getSchemaManager()
+                    ->dropTable($tableName);
+            }
+        }
+
+        parent::tearDown();
+    }
 }
- 

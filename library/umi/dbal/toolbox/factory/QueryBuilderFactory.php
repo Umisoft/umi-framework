@@ -9,10 +9,11 @@
 
 namespace umi\dbal\toolbox\factory;
 
+use Doctrine\DBAL\Connection;
 use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\builder\IQueryBuilderFactory;
-use umi\dbal\driver\IDbDriver;
+use umi\dbal\driver\IDialect;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
 
@@ -56,49 +57,49 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createInsertBuilder(IDbDriver $driver)
+    public function createInsertBuilder(Connection $connection, IDialect $dialect)
     {
         return $this->getPrototype(
-                $this->insertBuilderClass,
-                ['umi\dbal\builder\IInsertBuilder']
-            )
-            ->createInstance([$driver, $this]);
+            $this->insertBuilderClass,
+            ['umi\dbal\builder\IInsertBuilder']
+        )
+        ->createInstance([$connection, $dialect, $this]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createDeleteBuilder(IDbDriver $driver)
+    public function createDeleteBuilder(Connection $connection, IDialect $dialect)
     {
         return $this->getPrototype(
-                $this->deleteBuilderClass,
-                ['umi\dbal\builder\IDeleteBuilder']
-            )
-            ->createInstance([$driver, $this]);
+            $this->deleteBuilderClass,
+            ['umi\dbal\builder\IDeleteBuilder']
+        )
+        ->createInstance([$connection, $dialect, $this]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createUpdateBuilder(IDbDriver $driver)
+    public function createUpdateBuilder(Connection $connection, IDialect $dialect)
     {
         return $this->getPrototype(
-                $this->updateBuilderClass,
-                ['umi\dbal\builder\IUpdateBuilder']
-            )
-            ->createInstance([$driver, $this]);
+            $this->updateBuilderClass,
+            ['umi\dbal\builder\IUpdateBuilder']
+        )
+        ->createInstance([$connection, $dialect, $this]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createSelectBuilder(IDbDriver $driver)
+    public function createSelectBuilder(Connection $connection, IDialect $dialect)
     {
         return $this->getPrototype(
-                $this->selectBuilderClass,
-                ['umi\dbal\builder\ISelectBuilder']
-            )
-            ->createInstance([$driver, $this]);
+            $this->selectBuilderClass,
+            ['umi\dbal\builder\ISelectBuilder']
+        )
+        ->createInstance([$connection, $dialect, $this]);
     }
 
     /**
@@ -107,10 +108,10 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
     public function createJoinBuilder($table, $type)
     {
         return $this->getPrototype(
-                $this->joinBuilderClass,
-                ['umi\dbal\builder\IJoinBuilder']
-            )
-            ->createInstance([$table, $type]);
+            $this->joinBuilderClass,
+            ['umi\dbal\builder\IJoinBuilder']
+        )
+        ->createInstance([$table, $type]);
     }
 
     /**
@@ -119,10 +120,10 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
     public function createQueryResult(IQueryBuilder $query, array $resultVariables)
     {
         return $this->getPrototype(
-                $this->queryResultClass,
-                ['umi\dbal\builder\IQueryResult']
-            )
-            ->createInstance([$query, $resultVariables]);
+            $this->queryResultClass,
+            ['umi\dbal\builder\IQueryResult']
+        )
+        ->createInstance([$query, $resultVariables]);
     }
 
     /**
@@ -131,9 +132,9 @@ class QueryBuilderFactory implements IQueryBuilderFactory, IFactory
     public function createExpressionGroup($mode = IExpressionGroup::MODE_AND, IExpressionGroup $parentGroup = null)
     {
         return $this->getPrototype(
-                $this->expressionGroupClass,
-                ['umi\dbal\builder\IExpressionGroup']
-            )
-            ->createInstance([$mode, $parentGroup]);
+            $this->expressionGroupClass,
+            ['umi\dbal\builder\IExpressionGroup']
+        )
+        ->createInstance([$mode, $parentGroup]);
     }
 }

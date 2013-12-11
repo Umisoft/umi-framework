@@ -20,4 +20,3 @@ interface IMetadataManagerAware
      */
     public function setMetadataManager(IMetadataManager $metadataManager);
 }
-

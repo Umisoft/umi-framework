@@ -9,7 +9,9 @@
 
 namespace utest\dbal\unit\builder;
 
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use umi\dbal\builder\DeleteBuilder;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -28,8 +30,14 @@ class DeleteTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
-        $this->query = new DeleteBuilder($this->getDbServer()
-            ->getDbDriver(), $queryBuilderFactory);
+        /** @var $dialect IDialect */
+        $dialect = $this->connection->getDatabasePlatform();
+
+        $this->query = new DeleteBuilder(
+            $this->connection,
+            $dialect,
+            $queryBuilderFactory
+        );
     }
 
     public function testFromMethod()
@@ -51,7 +59,8 @@ class DeleteTest extends DbalTestCase
 
     public function testWhereAndLimitMethod()
     {
-        $this->query->where()
+        $this->query
+            ->where()
             ->expr('x', '!=', 'y')
             ->limit(':limit');
 
@@ -60,9 +69,9 @@ class DeleteTest extends DbalTestCase
         $this->assertInstanceOf('\umi\dbal\builder\ExpressionGroup', $where);
         $this->assertEquals('AND', $where->getMode());
         $this->assertEquals(
-            array(
-                array('x', '!=', 'y')
-            ),
+            [
+                ['x', '!=', 'y']
+            ],
             $where->getExpressions()
         );
 
@@ -71,16 +80,17 @@ class DeleteTest extends DbalTestCase
 
     public function testOrders()
     {
-        $this->query->orderBy('field1')
+        $this->query
+            ->orderBy('field1')
             ->orderBy('field2', 'ASC')
             ->orderBy('field2', 'DESC')
             ->orderBy('field3', 'ASC')
             ->orderBy('field5', 'Invalid direction');
-        $expected = array(
+        $expected = [
             'field1' => 'ASC',
             'field2' => 'DESC',
             'field3' => 'ASC'
-        );
+        ];
         $this->assertEquals($expected, $this->query->getOrderConditions());
     }
 }

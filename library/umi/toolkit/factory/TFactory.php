@@ -84,7 +84,7 @@ trait TFactory
      * Фабрика всегда имеет только один экземпляр, который можно получить через getFactory().
      * @param string $factoryName имя фабрики
      * @param string $factoryClass имя класса фабрики по умолчанию
-     * @param string[] $contracts список интерфейсов, которые должна реализовывать фабрика
+     * @param array $contracts список интерфейсов, которые должна реализовывать фабрика
      * @throws AlreadyRegisteredException если фабрика уже зарегистрирована
      * @return $this
      */

@@ -59,5 +59,4 @@ class BelongsToRelationFieldTest extends FieldTestCase
             'Ожидается, что тип данных у поля хранителя связи - integer'
         );
     }
-
 }

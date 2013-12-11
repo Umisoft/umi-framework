@@ -116,7 +116,6 @@ class ObjectCalculatedPropertiesTest extends ORMDbTestCase
             $loadedUser->getValue('rating'),
             'Ожидается, что у объекта записалось дефолтное значение у поля с типом float'
         );
-
     }
 
     public function testHierarchicObject()

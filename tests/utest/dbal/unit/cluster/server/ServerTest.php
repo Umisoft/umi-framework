@@ -11,6 +11,7 @@ namespace utest\dbal\unit\cluster\server;
 
 use umi\dbal\cluster\server\IServer;
 use umi\dbal\cluster\server\ShardServer;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;
 
@@ -21,40 +22,34 @@ use utest\dbal\DbalTestCase;
 class ServerTest extends DbalTestCase
 {
     /**
-     * @var IServer $server ;
+     * @var IServer $server;
      */
     protected $server;
+    protected $affectedTables = ['test'];
 
     protected function setUpFixtures()
     {
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
-        $driver = $this->getDbServer()
-            ->getDbDriver();
-
-        $this->server = new ShardServer('test_server', $driver, $queryBuilderFactory);
+        /** @var $dialect IDialect */
+        $dialect = $this->connection->getDatabasePlatform();
+        $this->server = new ShardServer('test_server', $this->connection, $dialect, $queryBuilderFactory);
         $this->server->modifyInternal("CREATE TABLE IF NOT EXISTS `test` (`a` text)");
-    }
-
-    protected function tearDownFixtures()
-    {
-        $this->server->modifyInternal("DROP TABLE IF EXISTS `test`");
     }
 
     public function testQueryBuilderFactory()
     {
-
         $this->assertInstanceOf(
             'umi\dbal\cluster\server\IServer',
             $this->server,
-            'Ожидается, что любой сервер реалтзует интерфейс IServer'
+            'Ожидается, что любой сервер реализует интерфейс IServer'
         );
         $this->assertEquals('test_server', $this->server->getId(), 'Неверный id сервера');
         $this->assertInstanceOf(
-            'umi\dbal\driver\IDbDriver',
-            $this->server->getDbDriver(),
-            'Ожидается, что IServer::getDbDriver() вернет IDbDriver'
+            'Doctrine\DBAL\Connection',
+            $this->server->getConnection(),
+            'Ожидается, что IServer::getConnection() вернет Doctrine\DBAL\Connection'
         );
 
         $this->assertEquals(1, $this->server->modifyInternal("INSERT INTO `test` (`a`) VALUES('test')"));

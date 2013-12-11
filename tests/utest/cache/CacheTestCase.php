@@ -8,6 +8,9 @@
  */
 namespace utest\cache;
 
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
+use umi\dbal\cluster\server\IServer;
 use utest\dbal\TDbalSupport;
 use utest\event\TEventSupport;
 use utest\TestCase;
@@ -32,5 +35,34 @@ abstract class CacheTestCase extends TestCase
 
         parent::setUp();
     }
+
+    /**
+     * @param $tableName
+     * @param IServer $server
+     */
+    protected function setupDatabase($tableName, $server = null)
+    {
+        $connection = $server == null ? $this->getDbServer()->getConnection() : $server->getConnection();
+
+        if ($connection->getSchemaManager()->tablesExist($tableName)) {
+            $connection
+                ->getSchemaManager()
+                ->dropTable($tableName);
+        }
+
+        $table = new Table($tableName);
+
+        $table->addColumn('key', Type::STRING, ['comment' => 'Cache unique key']);
+        $table->addColumn('cacheValue', Type::BLOB, ['comment' => 'Cache value']);
+        $table->addColumn(
+            'cacheExpiration',
+            Type::INTEGER,
+            ['comment' => 'Cache expire timestamp', 'unsigned' => true]
+        );
+        $table->setPrimaryKey(['key']);
+        $table->addIndex(['cacheExpiration'], 'expire');
+        $connection
+            ->getSchemaManager()
+            ->createTable($table);
+    }
 }
- 

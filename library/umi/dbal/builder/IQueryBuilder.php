@@ -9,8 +9,9 @@
 
 namespace umi\dbal\builder;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Statement;
 use PDOStatement;
-use umi\dbal\driver\IDbDriver;
 use umi\dbal\exception\IException;
 
 /**
@@ -29,16 +30,16 @@ interface IQueryBuilder
 
     /**
      * Генерирует и возвращает шаблон запроса.
-     * @param IDbDriver $driver используемый драйвер БД
+     * @param Connection $connection используемое соединение с БД
      * @return string sql
      */
-    public function getSql(IDbDriver $driver = null);
+    public function getSql(Connection $connection = null);
 
     /**
-     * Возвращает драйвер БД, используемый для запроса
-     * @return IDbDriver
+     * Возвращает соединение с БД, используемое для запроса
+     * @return Connection
      */
-    public function getDbDriver();
+    public function getConnection();
 
     /**
      * Проверяет, был ли выполнен запрос
@@ -166,53 +167,9 @@ interface IQueryBuilder
     public function bindVarFloat($placeholder, &$variable);
 
     /**
-     * Связывает результат выборки по указанному столбцу с PHP-переменной.
-     * Результат будет преобразован к строковому типу.
-     * @param string $columnName имя столбца
-     * @param mixed $variable переменная. Принимается по ссылке, нельзя передавать значение!
-     * Если переменная не указана, то значение столбца в любом случае будет
-     * приведено к соответсвующему типу.
-     * @return self
-     */
-    public function bindColumnString($columnName, &$variable = null);
-
-    /**
-     * Связывает результат выборки по указанному столбцу с PHP-переменной.
-     * Результат будет преобразован к целому числу.
-     * @param string $columnName имя столбца
-     * @param mixed $variable переменная. Принимается по ссылке, нельзя передавать значение!
-     * Если переменная не указана, то значение столбца в любом случае будет
-     * приведено к соответсвующему типу.
-     * @return self
-     */
-    public function bindColumnInt($columnName, &$variable = null);
-
-    /**
-     * Связывает результат выборки по указанному столбцу с PHP-переменной.
-     * Результат будет преобразован к целому числу.
-     * @param string $columnName имя столбца
-     * @param mixed $variable переменная. Принимается по ссылке, нельзя передавать значение!
-     * Если переменная не указана, то значение столбца в любом случае будет
-     * приведено к соответсвующему типу.
-     * @return self
-     */
-    public function bindColumnBool($columnName, &$variable = null);
-
-    /**
-     * Связывает результат выборки по указанному столбцу с PHP-переменной.
-     * Результат будет преобразован к целому числу.
-     * @param string $columnName имя столбца
-     * @param mixed $variable переменная. Принимается по ссылке, нельзя передавать значение!
-     * Если переменная не указана, то значение столбца в любом случае будет
-     * приведено к соответсвующему типу.
-     * @return self
-     */
-    public function bindColumnFloat($columnName, &$variable = null);
-
-    /**
      * Запускает запрос и возвращает результат
      * @throws IException
-     * @return IQueryResult
+     * @return Statement
      */
     public function execute();
 

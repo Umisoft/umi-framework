@@ -9,9 +9,9 @@
 
 namespace umi\dbal\builder;
 
+use Doctrine\DBAL\Connection;
 use PDO;
 use PDOStatement;
-use umi\dbal\driver\IDbDriver;
 
 /**
  * Предоставляет интерфейс доступа к результатам запроса.
@@ -20,9 +20,9 @@ use umi\dbal\driver\IDbDriver;
 class QueryResult implements IQueryResult
 {
     /**
-     * @var IDbDriver $dbDriver драйвер БД
+     * @var Connection $connection соединение с БД
      */
-    private $dbDriver;
+    private $connection;
     /**
      * @var array $rows массив строк результата
      */
@@ -47,7 +47,7 @@ class QueryResult implements IQueryResult
      */
     public function __construct(IQueryBuilder $query, array $resultVariables)
     {
-        $this->dbDriver = $query->getDbDriver();
+        $this->connection = $query->getConnection();
         $this->pdoStatement = $query->getPDOStatement();
         $this->resultVariables = $resultVariables;
         $this->fetchAll();
@@ -132,7 +132,8 @@ class QueryResult implements IQueryResult
      */
     public function lastInsertId($name = null)
     {
-        return (int) $this->dbDriver->getPDO()
+        return (int) $this->connection
+            ->getWrappedConnection()
             ->lastInsertId($name);
     }
 

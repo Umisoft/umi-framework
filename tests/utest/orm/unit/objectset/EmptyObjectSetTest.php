@@ -27,5 +27,4 @@ class EmptyObjectSetTest extends ORMTestCase
         $objectSet->reset();
         $this->assertEmpty($objectSet->fetchAll());
     }
-
 }

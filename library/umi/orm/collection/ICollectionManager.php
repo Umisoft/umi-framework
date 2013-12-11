@@ -38,5 +38,4 @@ interface ICollectionManager
      * @return array
      */
     public function getList();
-
 }

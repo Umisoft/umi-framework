@@ -9,7 +9,6 @@
 
 namespace umi\dbal\builder;
 
-use umi\dbal\driver\IDbDriver;
 use umi\dbal\exception\RuntimeException;
 
 /**
@@ -160,13 +159,10 @@ class UpdateBuilder extends BaseQueryBuilder implements IUpdateBuilder
     }
 
     /**
-     * Генерирует и возвращает шаблон UPDATE-запроса
-     * @param IDbDriver $driver используемый драйвер БД
-     * @return string sql
+     * {@inheritdoc}
      */
-    protected function build(IDbDriver $driver)
+    protected function build()
     {
-        return $driver->buildUpdateQuery($this);
+        return $this->dialect->buildUpdateQuery($this);
     }
-
 }

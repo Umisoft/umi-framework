@@ -26,5 +26,4 @@ interface ICounterProperty extends ICalculableProperty
      * @return self
      */
     public function decrement();
-
 }

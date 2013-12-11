@@ -1,7 +1,12 @@
 <?php
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+/**
+ * UMI.Framework (http://umi-framework.ru/)
+ *
+ * @link      http://github.com/Umisoft/framework for the canonical source repository
+ * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
+ * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
+ */
+
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\metadata\IObjectType;
@@ -11,9 +16,6 @@ use utest\orm\ORMDbTestCase;
 
 class CommonHierarchyTest extends ORMDbTestCase
 {
-
-    protected $queries = [];
-
     /**
      * {@inheritdoc}
      */
@@ -45,29 +47,8 @@ class CommonHierarchyTest extends ORMDbTestCase
         ];
     }
 
-    protected function setUpFixtures()
-    {
-
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $this->queries[] = $builder->getSql();
-                }
-            }
-        );
-
-    }
-
     public function testHierarchy()
     {
-
         /**
          * @var ICommonHierarchy $hierarchy
          */
@@ -105,7 +86,7 @@ class CommonHierarchyTest extends ORMDbTestCase
         $this->getObjectPersister()->commit();
         $this->getObjectManager()->unloadObjects();
 
-        $this->queries = [];
+        $this->resetQueries();
 
         $set = $hierarchy
             ->select()
@@ -121,12 +102,18 @@ class CommonHierarchyTest extends ORMDbTestCase
         $post = $set->fetch();
 
         $queries = [
-            "SELECT `system_hierarchy`.`id` AS `system_hierarchy:id`, `system_hierarchy`.`guid` AS `system_hierarchy:guid`, `system_hierarchy`.`type` AS `system_hierarchy:type`, `system_hierarchy`.`version` AS `system_hierarchy:version`, `system_hierarchy`.`pid` AS `system_hierarchy:parent`, `system_hierarchy`.`mpath` AS `system_hierarchy:mpath`, `system_hierarchy`.`slug` AS `system_hierarchy:slug`, `system_hierarchy`.`uri` AS `system_hierarchy:uri`
-FROM `umi_mock_hierarchy` AS `system_hierarchy`
-WHERE ((`system_hierarchy`.`order` = :value0))"
+            'SELECT "system_hierarchy"."id" AS "system_hierarchy:id", '
+            . '"system_hierarchy"."guid" AS "system_hierarchy:guid", '
+            . '"system_hierarchy"."type" AS "system_hierarchy:type",'
+            .' "system_hierarchy"."version" AS "system_hierarchy:version",'
+            . ' "system_hierarchy"."pid" AS "system_hierarchy:parent",'
+            . ' "system_hierarchy"."mpath" AS "system_hierarchy:mpath",'
+            .' "system_hierarchy"."slug" AS "system_hierarchy:slug", "system_hierarchy"."uri" AS "system_hierarchy:uri"
+FROM "umi_mock_hierarchy" AS "system_hierarchy"
+WHERE (("system_hierarchy"."order" = :value0))'
         ];
 
-        $this->assertEquals($queries, $this->queries, 'Ожидается выборка только по таблицы иерархии');
+        $this->assertEquals($queries, $this->getQueries(), 'Ожидается выборка только по таблицы иерархии');
 
         $this->assertEquals(
             'blogs_blog',
@@ -144,18 +131,25 @@ WHERE ((`system_hierarchy`.`order` = :value0))"
         );
         $this->assertEquals(4, $post->getId(), 'Ожидается, что второй элемент на втором месте имеет id 4');
 
-        $this->queries = [];
+        $this->resetQueries();
         $blog->getValue('title');
 
         $queries = [
-            "SELECT `blogs_blog`.`id` AS `blogs_blog:id`, `blogs_blog`.`guid` AS `blogs_blog:guid`, `blogs_blog`.`type` AS `blogs_blog:type`, `blogs_blog`.`version` AS `blogs_blog:version`, `blogs_blog`.`pid` AS `blogs_blog:parent`, `blogs_blog`.`mpath` AS `blogs_blog:mpath`, `blogs_blog`.`slug` AS `blogs_blog:slug`, `blogs_blog`.`uri` AS `blogs_blog:uri`, `blogs_blog`.`child_count` AS `blogs_blog:childCount`, `blogs_blog`.`order` AS `blogs_blog:order`, `blogs_blog`.`level` AS `blogs_blog:level`, `blogs_blog`.`title` AS `blogs_blog:title#ru-RU`, `blogs_blog`.`title_en` AS `blogs_blog:title#en-US`, `blogs_blog`.`publish_time` AS `blogs_blog:publishTime`, `blogs_blog`.`owner_id` AS `blogs_blog:owner`
-FROM `umi_mock_blogs` AS `blogs_blog`
-WHERE ((`blogs_blog`.`id` = :value0))"
+            'SELECT "blogs_blog"."id" AS "blogs_blog:id", "blogs_blog"."guid" AS "blogs_blog:guid", '
+            . '"blogs_blog"."type" AS "blogs_blog:type", "blogs_blog"."version" AS "blogs_blog:version",'
+            . ' "blogs_blog"."pid" AS "blogs_blog:parent", "blogs_blog"."mpath" AS "blogs_blog:mpath", '
+            . '"blogs_blog"."slug" AS "blogs_blog:slug", "blogs_blog"."uri" AS "blogs_blog:uri", '
+            . '"blogs_blog"."child_count" AS "blogs_blog:childCount", "blogs_blog"."order" AS "blogs_blog:order", '
+            . '"blogs_blog"."level" AS "blogs_blog:level", "blogs_blog"."title" AS "blogs_blog:title#ru-RU", '
+            . '"blogs_blog"."title_en" AS "blogs_blog:title#en-US", '
+            . '"blogs_blog"."publish_time" AS "blogs_blog:publishTime", "blogs_blog"."owner_id" AS "blogs_blog:owner"
+FROM "umi_mock_blogs" AS "blogs_blog"
+WHERE (("blogs_blog"."id" = :value0))'
         ];
 
         $this->assertEquals(
             $queries,
-            $this->queries,
+            $this->getQueries(),
             'Ожидается, что после запроса свойства объекта он будет дозагружен из неиерархической таблицы'
         );
 
@@ -177,7 +171,5 @@ WHERE ((`blogs_blog`.`id` = :value0))"
                 ->fetchAll(),
             'Ожидается, что у blog1 нет родителей'
         );
-
     }
-
 }

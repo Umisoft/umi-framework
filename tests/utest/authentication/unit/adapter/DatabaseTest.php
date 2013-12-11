@@ -9,12 +9,13 @@
 
 namespace utest\authentication\unit\adapter;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\authentication\adapter\DatabaseAdapter;
 use umi\authentication\result\IAuthResult;
 use umi\dbal\builder\IInsertBuilder;
 use umi\dbal\cluster\IConnection;
-use umi\dbal\driver\IColumnScheme;
-use umi\dbal\driver\IDbDriver;
 use utest\authentication\AuthenticationTestCase;
 
 /**
@@ -22,6 +23,7 @@ use utest\authentication\AuthenticationTestCase;
  */
 class DatabaseTest extends AuthenticationTestCase
 {
+    protected $connection;
 
     /**
      * @var DatabaseAdapter $adapter
@@ -30,24 +32,26 @@ class DatabaseTest extends AuthenticationTestCase
 
     public function setUpFixtures()
     {
+        $this->connection = $this->getDbCluster();
         /**
          * @var DatabaseAdapter $adapter
          */
         $this->adapter = new DatabaseAdapter([
-            DatabaseAdapter::OPTION_TABLE => 'users',
-            DatabaseAdapter::OPTION_LOGIN_COLUMNS => ['username'],
+            DatabaseAdapter::OPTION_TABLE           => 'users',
+            DatabaseAdapter::OPTION_LOGIN_COLUMNS   => ['username'],
             DatabaseAdapter::OPTION_PASSWORD_COLUMN => 'password',
-        ], $this->getDbCluster());
+        ], $this->connection);
 
         $this->resolveOptionalDependencies($this->adapter);
 
         $this->createTables(
-            $this->getDbServer()->getDbDriver()
+            $this->connection->getConnection()
         );
 
-        $query = $this->addRow($this->getDBCluster());
+        $query = $this->addRow($this->connection);
 
-        $query->bindString(':username', 'root')
+        $query
+            ->bindString(':username', 'root')
             ->bindString(':password', 'root');
 
         $query->execute();
@@ -55,10 +59,14 @@ class DatabaseTest extends AuthenticationTestCase
 
     public function tearDownFixtures()
     {
-        $this->getDbServer()
-            ->getDbDriver()
-            ->deleteTable('users')
-            ->applyMigrations();
+        $connection = $this
+            ->getDbCluster()
+            ->getConnection();
+        if ($connection->getSchemaManager()->tablesExist('users')) {
+            $connection
+                ->getSchemaManager()
+                ->dropTable('users');
+        }
     }
 
     public function testSuccessAuth()
@@ -72,7 +80,6 @@ class DatabaseTest extends AuthenticationTestCase
             'Ожидается, что авторизация будет пройдена.'
         );
 
-
         $this->assertEquals(
             [
                 'username' => 'root',
@@ -83,7 +90,7 @@ class DatabaseTest extends AuthenticationTestCase
         );
     }
 
-    public function testWrongAuth()
+    public function testWrongPassword()
     {
         $result = $this->adapter->authenticate('root', 'password');
         $this->assertFalse($result->isSuccessful());
@@ -91,21 +98,35 @@ class DatabaseTest extends AuthenticationTestCase
         $this->assertNull($result->getIdentity());
     }
 
-    /**
-     * @param IDbDriver $driver драйвер
-     */
-    private function createTables(IDbDriver $driver)
+    public function testWrongUsername()
     {
-        $table = $driver->addTable('users');
-        $table->addColumn('username', IColumnScheme::TYPE_VARCHAR);
-        $table->addColumn('password', IColumnScheme::TYPE_VARCHAR);
-        $table->setPrimaryKey('username');
-        $driver->applyMigrations();
+        $result = $this->adapter->authenticate('foo', 'root');
+        $this->assertFalse($result->isSuccessful());
+        $this->assertEquals(IAuthResult::WRONG_USERNAME, $result->getStatus());
+        $this->assertNull($result->getIdentity());
+    }
+
+    /**
+     * @param Connection $connection соединение с БД
+     */
+    private function createTables(Connection $connection)
+    {
+        if($connection->getSchemaManager()->tablesExist('users')){
+            $connection->getSchemaManager()->dropTable('users');
+        }
+        $table = new Table('users');
+        $table->addColumn('username', Type::STRING);
+        $table->addColumn('password', Type::STRING);
+        $table->setPrimaryKey(['username']);
+        $connection
+            ->getSchemaManager()
+            ->createTable($table);
     }
 
     /**
      * Возвращает запрос добавления пользователя
      * @param IConnection $connection соединение
+     *
      * @return IInsertBuilder
      */
     private function addRow(IConnection $connection)

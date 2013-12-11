@@ -9,6 +9,7 @@
 
 namespace umi\orm\metadata\field\string;
 
+use Doctrine\DBAL\Types\Type;
 use umi\i18n\ILocalesAware;
 use umi\i18n\TLocalesAware;
 use umi\orm\metadata\field\BaseField;
@@ -32,7 +33,7 @@ class StringField extends BaseField implements IScalarField, ILocalizableField, 
      */
     public function getDataType()
     {
-        return 'string';
+        return Type::STRING;
     }
 
     /**
@@ -42,5 +43,4 @@ class StringField extends BaseField implements IScalarField, ILocalizableField, 
     {
         return is_string($propertyValue);
     }
-
 }

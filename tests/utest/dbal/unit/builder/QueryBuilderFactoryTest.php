@@ -9,9 +9,9 @@
 
 namespace utest\dbal\unit\builder;
 
-use umi\dbal\driver\sqlite\SqliteDriver;
+use Doctrine\DBAL\DriverManager;
+use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
-use umi\dbal\toolbox\factory\TableFactory;
 use utest\dbal\DbalTestCase;
 
 /**
@@ -27,34 +27,28 @@ class QueryBuilderFactoryTest extends DbalTestCase
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
-        $tableFactory = new TableFactory();
-        $this->resolveOptionalDependencies($tableFactory);
+        $connection = $this->connection;
 
-        $tableFactory->columnSchemeClass = 'umi\dbal\driver\ColumnScheme';
-        $tableFactory->constraintSchemeClass = 'umi\dbal\driver\ConstraintScheme';
-        $tableFactory->tableSchemeClass = 'umi\dbal\driver\sqlite\SqliteTable';
-        $tableFactory->indexSchemeClass = 'umi\dbal\driver\sqlite\SqliteIndex';
-
-        $driver = new SqliteDriver($tableFactory);
-
+        /** @var IDialect $dialect */
+        $dialect = $connection->getDatabasePlatform();
         $this->assertInstanceOf(
             'umi\dbal\builder\IInsertBuilder',
-            $queryBuilderFactory->createInsertBuilder($driver),
+            $queryBuilderFactory->createInsertBuilder($connection, $dialect),
             'Ожидается, что IQueryBuilderFactory::createInsertBuilder() вернет IInsertBuilder'
         );
         $this->assertInstanceOf(
             'umi\dbal\builder\ISelectBuilder',
-            $queryBuilderFactory->createSelectBuilder($driver),
+            $queryBuilderFactory->createSelectBuilder($connection, $dialect),
             'Ожидается, что IQueryBuilderFactory::createInsertBuilder() вернет ISelectBuilder'
         );
         $this->assertInstanceOf(
             'umi\dbal\builder\IUpdateBuilder',
-            $queryBuilderFactory->createUpdateBuilder($driver),
+            $queryBuilderFactory->createUpdateBuilder($connection, $dialect),
             'Ожидается, что IQueryBuilderFactory::createInsertBuilder() вернет IUpdateBuilder'
         );
         $this->assertInstanceOf(
             'umi\dbal\builder\IDeleteBuilder',
-            $queryBuilderFactory->createDeleteBuilder($driver),
+            $queryBuilderFactory->createDeleteBuilder($connection, $dialect),
             'Ожидается, что IQueryBuilderFactory::createInsertBuilder() вернет IDeleteBuilder'
         );
     }

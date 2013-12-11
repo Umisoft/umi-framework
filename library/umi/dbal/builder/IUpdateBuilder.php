@@ -137,5 +137,4 @@ interface IUpdateBuilder extends IQueryBuilder
      * @return bool
      */
     public function getUpdatePossible();
-
 }

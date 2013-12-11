@@ -9,12 +9,13 @@
 
 namespace umi\dbal\cluster\server;
 
+use Doctrine\DBAL\Connection;
 use umi\dbal\builder\IDeleteBuilder;
 use umi\dbal\builder\IInsertBuilder;
 use umi\dbal\builder\IQueryBuilderFactory;
 use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\builder\IUpdateBuilder;
-use umi\dbal\driver\IDbDriver;
+use umi\dbal\driver\IDialect;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 
@@ -31,9 +32,9 @@ abstract class BaseServer implements IServer, ILocalizable
      */
     protected $serverId;
     /**
-     * @var IDbDriver $dbDriver драйвер БД для сервера
+     * @var Connection $connection соединение с БД для сервера
      */
-    protected $dbDriver;
+    protected $connection;
     /**
      * @var IInsertBuilder $insertBuilderPrototype построитель INSERT-запросов
      */
@@ -54,19 +55,25 @@ abstract class BaseServer implements IServer, ILocalizable
     /**
      * Конструктор
      * @param string $serverId идентификатор сервера
-     * @param IDbDriver $dbDriver используемый драйвер БД
+     * @param Connection $connection используемое соединение с БД
+     * @param IDialect $dialect диалект построителя запросов
      * @param IQueryBuilderFactory $queryBuilderFactory фабрика построителей запросов
      */
-    public function __construct($serverId, IDbDriver $dbDriver, IQueryBuilderFactory $queryBuilderFactory)
+    public function __construct(
+        $serverId,
+        Connection $connection,
+        IDialect $dialect,
+        IQueryBuilderFactory $queryBuilderFactory
+    )
     {
 
-        $this->dbDriver = $dbDriver;
+        $this->connection = $connection;
         $this->serverId = $serverId;
 
-        $this->insertBuilderPrototype = $queryBuilderFactory->createInsertBuilder($dbDriver);
-        $this->deleteBuilderPrototype = $queryBuilderFactory->createDeleteBuilder($dbDriver);
-        $this->updateBuilderPrototype = $queryBuilderFactory->createUpdateBuilder($dbDriver);
-        $this->selectBuilderPrototype = $queryBuilderFactory->createSelectBuilder($dbDriver);
+        $this->insertBuilderPrototype = $queryBuilderFactory->createInsertBuilder($connection, $dialect);
+        $this->deleteBuilderPrototype = $queryBuilderFactory->createDeleteBuilder($connection, $dialect);
+        $this->updateBuilderPrototype = $queryBuilderFactory->createUpdateBuilder($connection, $dialect);
+        $this->selectBuilderPrototype = $queryBuilderFactory->createSelectBuilder($connection, $dialect);
     }
 
     /**
@@ -80,36 +87,38 @@ abstract class BaseServer implements IServer, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function getDbDriver()
+    public function getConnection()
     {
-        return $this->dbDriver;
+        return $this->connection;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function selectInternal($sql, array $params = null)
+    public function selectInternal($sql, array $params = [])
     {
-        return $this->getDbDriver()
-            ->select($sql, $params);
+        return $this
+            ->getConnection()
+            ->executeQuery($sql, $params);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function modifyInternal($sql, array $params = null)
+    public function modifyInternal($sql)
     {
-        return $this->getDbDriver()
-            ->modify($sql, $params);
+        return $this
+            ->getConnection()
+            ->exec($sql);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function select()
+    public function select($columns = [])
     {
         $builder = clone $this->selectBuilderPrototype;
-        $builder->setColumns(func_get_args());
+        $builder->setColumns((array)$columns);
 
         return $builder;
     }
@@ -143,5 +152,4 @@ abstract class BaseServer implements IServer, ILocalizable
 
         return $builder->from($tableName);
     }
-
 }

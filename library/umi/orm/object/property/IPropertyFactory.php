@@ -25,5 +25,4 @@ interface IPropertyFactory
      * @return IProperty
      */
     public function createProperty(IObject $object, IField $field, $localeId = null);
-
 }

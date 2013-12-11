@@ -88,5 +88,4 @@ interface IObjectManager
      * @return IObject[]
      */
     public function getObjects();
-
 }

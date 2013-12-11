@@ -35,7 +35,6 @@ class PropertyTest extends ORMTestCase
 
     protected function setUpFixtures()
     {
-
         /**
          * @var IObject $object
          */
@@ -122,7 +121,8 @@ class PropertyTest extends ORMTestCase
         $this->assertEquals(
             'test_login',
             $this->commonProperty->getPreviousValue(),
-            'Ожидается, что после выставления начального значения свойства test_login это значение также становится старым значением'
+            'Ожидается, что после выставления начального значения свойства test_login '
+            . 'это значение также становится старым значением'
         );
         $this->assertEquals(
             'test_login',
@@ -137,7 +137,8 @@ class PropertyTest extends ORMTestCase
         $this->assertEquals(
             'test_login',
             $this->commonProperty->getPreviousDbValue(),
-            'Ожидается, что после выставления начального значения свойства test_login выставляется соответсвующее внутреннее старое значение'
+            'Ожидается, что после выставления начального значения свойства test_login '
+            . 'выставляется соответсвующее внутреннее старое значение'
         );
     }
 
@@ -238,7 +239,8 @@ class PropertyTest extends ORMTestCase
         $this->assertEquals(
             'test_login',
             $this->commonProperty->getPreviousDbValue(),
-            'Ожидается, что при повторном изменении значения свойства старое внутреннее значение равно начальному значению'
+            'Ожидается, что при повторном изменении значения свойства '
+            . 'старое внутреннее значение равно начальному значению'
         );
 
         $this->commonProperty->setInitialValue('test_login1');
@@ -269,12 +271,14 @@ class PropertyTest extends ORMTestCase
         $this->assertEquals(
             'test_login1',
             $this->commonProperty->getPreviousValue(),
-            'Ожидается, что после выставления начального значения свойства test_login1 это значение также становится старым значением'
+            'Ожидается, что после выставления начального значения свойства test_login1 '
+            . 'это значение также становится старым значением'
         );
         $this->assertEquals(
             'test_login1',
             $this->commonProperty->getPreviousDbValue(),
-            'Ожидается, что после выставления начального значения свойства test_login1 выставляется соответсвующее внутреннее старое значение'
+            'Ожидается, что после выставления начального значения свойства test_login1 '
+            . 'выставляется соответсвующее внутреннее старое значение'
         );
     }
 
@@ -314,5 +318,4 @@ class PropertyTest extends ORMTestCase
             'Ожидается исключение при попытке выставить для свойства значение, не соответвующее типу свойства'
         );
     }
-
 }

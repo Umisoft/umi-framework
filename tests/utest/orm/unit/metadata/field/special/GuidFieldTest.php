@@ -71,7 +71,5 @@ class GuidFieldTest extends FieldTestCase
             $this->field->validateInputPropertyValue('9ee6745f-f40d-46d8-8043-d959594628ce'),
             'Ожидается, что guid в верном формате пройдет валидацию'
         );
-
     }
-
 }

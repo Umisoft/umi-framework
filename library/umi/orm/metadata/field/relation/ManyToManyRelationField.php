@@ -115,5 +115,4 @@ class ManyToManyRelationField extends BaseField implements IRelationField, IColl
     {
         return null;
     }
-
 }

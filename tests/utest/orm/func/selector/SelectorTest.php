@@ -68,12 +68,12 @@ class SelectorTest extends ORMDbTestCase
         $sv1->setValue('height', 167);
         $sv1->setValue('rating', 5);
 
-        $user2 = $userCollection->add();;
+        $user2 = $userCollection->add();
         $user2->login = 'test_user';
         $user2->setValue('height', 183);
         $user2->setValue('rating', 4.2);
 
-        $user2 = $userCollection->add();;
+        $user2 = $userCollection->add();
         $user2->login = 'user_test';
         $user2->setValue('height', 181);
         $user2->setValue('rating', 7.2);
@@ -287,7 +287,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             3,
             $result->fetchAll(),
-            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 вернет objectsSet из 3x объектов'
+            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 '
+            . 'вернет objectsSet из 3x объектов'
         );
     }
 
@@ -344,7 +345,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             2,
             $result->fetchAll(),
-            'Ожидается, что выборка c указанием supervisor_field is null вернет objectsSet из 2 объекта, так как поле supervisor_field присутствует только в типе supervisor'
+            'Ожидается, что выборка c указанием supervisor_field is null вернет objectsSet из 2 объекта, '
+            . 'так как поле supervisor_field присутствует только в типе supervisor'
         );
     }
 
@@ -355,7 +357,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             2,
             $result->fetchAll(),
-            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, так как поле supervisor_field присутствует только в типе supervisor'
+            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, '
+            . 'так как поле supervisor_field присутствует только в типе supervisor'
         );
     }
 
@@ -387,7 +390,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             3,
             $result->fetchAll(),
-            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 вернет objectsSet из 3x объектов'
+            'Ожидается, что выборка c ограничением по полу height со значениями 167, 183 и 181 '
+            . 'вернет objectsSet из 3x объектов'
         );
 
         $this->selector->where('height')
@@ -422,7 +426,8 @@ class SelectorTest extends ORMDbTestCase
         $this->assertCount(
             2,
             $result->fetchAll(),
-            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, так как поле supervisor_field присутствует только в типе supervisor'
+            'Ожидается, что выборка c указанием order by supervisor_field вернет objectsSet из 2 объекта, '
+            . 'так как поле supervisor_field присутствует только в типе supervisor'
         );
 
         $this->selector->types(['guest']);
@@ -478,51 +483,9 @@ class SelectorTest extends ORMDbTestCase
         $this->getObjectPersister()->commit();
 
         $this->assertEquals(
-            5,
+            6,
             $this->selector->getTotal(),
-            'Ожидается, что общее количество закешировалось несмотря на то, что были добавлены новые объекты'
+            'Ожидается, что общее количество обновилось, если были добавлены новые объекты'
         );
-
     }
-
-    public function _testSelector()
-    {
-        /**
-         * @var ISelector $selector
-         */
-        //$selector = $usersCollection->select('user');
-        /**
-         * order
-         * order.customer (customer_id)
-         * order.items
-         */
-        $sql = <<<EOF
-	SELECT
-		`result`.`id` as `emarket.order.id`,
-		`result`.`name` as `emarket.order.name`,
-		`result`.`user_name` as `emarket.user.login`,
-		`result`.`user_id` as `emarket.user.id`,
-		`emarket.order_items`.`id` as `emarket.order_items.id`,
-		`emarket.order_items`.`name` as `emarket.order_items.name`
-	FROM
-		(
-			SELECT
-					`emarket.order`.`id` as `id`,
-					`emarket.order`.`name` as `name`,
-					`emarket.user`.`login` as `user_name`,
-					`emarket.user`.`id` as `user_id`
-				FROM
-					`umi_mock_orders` as `emarket.order`
-				INNER JOIN `umi_mock_users` as `emarket.user` ON (`emarket.order`.`owner_id` = `emarket.user`.`id`)
-				WHERE `emarket.order`.`id` > 6
-				ORDER BY `emarket.order`.`id`
-				LIMIT 5
-		) `result`,
-		`umi_mock_order_items` as `emarket.order_items`
-	WHERE `emarket.order_items`.`order_id` = `result`.`id`
-
-EOF;
-
-    }
-
 }

@@ -69,10 +69,10 @@ class CollectionDataSourceTest extends ORMTestCase
                 ->getId(),
             'Ожидается, что при запросе слейва вернется дефолтный сервер, если он не был выставлен'
         );
-
-        $this->assertInstanceOf(
-            'umi\dbal\driver\sqlite\SqliteDriver',
-            $dataSource->getDbDriver(),
+        $masterDriver = $this->getDbCluster()->getMaster()->getConnection();
+        $this->assertSame(
+            $masterDriver,
+            $dataSource->getConnection(),
             'Ожидается, что при запросе драйвера вернется драйвер мастера'
         );
     }
@@ -111,8 +111,8 @@ class CollectionDataSourceTest extends ORMTestCase
         );
 
         $this->assertInstanceOf(
-            'umi\dbal\driver\mysql\MySqlDriver',
-            $dataSource->getDbDriver(),
+            'Doctrine\DBAL\Driver\PDOMySql\Driver',
+            $dataSource->getConnection()->getDriver(),
             'Ожидается, что при запросе драйвера вернется драйвер мастера'
         );
 

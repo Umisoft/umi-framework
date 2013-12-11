@@ -198,7 +198,8 @@ class SimpleHierarchicCollectionTest extends ORMTestCase
         $this->assertInstanceOf(
             'umi\orm\exception\NonexistentEntityException',
             $e,
-            'Ожидается исключение при попытке получить у коллекции поле для хранения последней части ЧПУ, когда такого нет'
+            'Ожидается исключение при попытке получить у коллекции поле для хранения последней части ЧПУ,'
+            . ' когда такого нет'
         );
 
         $field3 = $collection1->getURIField();
@@ -234,7 +235,8 @@ class SimpleHierarchicCollectionTest extends ORMTestCase
         $this->assertInstanceOf(
             'umi\orm\exception\NonexistentEntityException',
             $e,
-            'Ожидается исключение при попытке получить у коллекции поле для хранения уровня вложенности, когда такого нет'
+            'Ожидается исключение при попытке получить у коллекции поле для хранения уровня вложенности, '
+            . 'когда такого нет'
         );
 
         $field5 = $collection1->getParentField();
@@ -270,7 +272,8 @@ class SimpleHierarchicCollectionTest extends ORMTestCase
         $this->assertInstanceOf(
             'umi\orm\exception\NonexistentEntityException',
             $e,
-            'Ожидается исключение при попытке получить у коллекции поле для хранения иерархического порядка когда такого нет'
+            'Ожидается исключение при попытке получить у коллекции поле для хранения иерархического порядка,'
+            . ' когда такого нет'
         );
 
         $field7 = $collection1->getMPathField();
@@ -288,9 +291,9 @@ class SimpleHierarchicCollectionTest extends ORMTestCase
         $this->assertInstanceOf(
             'umi\orm\exception\NonexistentEntityException',
             $e,
-            'Ожидается исключение при попытке получить у коллекции поле для хранения materialized path когда такого нет'
+            'Ожидается исключение при попытке получить у коллекции поле для хранения materialized path,'
+            . ' когда такого нет'
         );
 
     }
-
 }

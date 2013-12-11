@@ -136,5 +136,4 @@ interface IProperty
      * @return bool
      */
     public function getIsValuePrepared();
-
 }
