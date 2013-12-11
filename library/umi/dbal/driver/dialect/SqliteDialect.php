@@ -481,9 +481,12 @@ class SqliteDialect extends SqlitePlatform implements IDialect
 
     /**
      * {@inheritdoc}
+     * @param \Doctrine\DBAL\Connection $connection
      */
-    public function initPDOInstance(Connection $connection, PDO $pdo)
+    public function initConnection(Connection $connection)
     {
+        /** @var $pdo PDO */
+        $pdo = $connection->getWrappedConnection();
         $this->fkSupported = version_compare('3.6.19', $pdo->getAttribute(PDO::ATTR_SERVER_VERSION)) < 0;
         $pdo->exec($this->buildEnableForeignKeysQuery());
     }

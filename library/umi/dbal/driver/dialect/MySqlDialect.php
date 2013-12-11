@@ -466,9 +466,14 @@ class MySqlDialect extends MySqlPlatform implements IDialect
 
     /**
      * {@inheritdoc}
+     * @param \Doctrine\DBAL\Connection $connection
+     *
+     * @throws \umi\dbal\exception\RuntimeException
      */
-    public function initPDOInstance(Connection $connection, PDO $pdo)
+    public function initConnection(Connection $connection)
     {
+        /** @var $pdo PDO */
+        $pdo = $connection->getWrappedConnection();
         $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
         $params = $connection->getParams();
         if (!isset($params['charset'])) {

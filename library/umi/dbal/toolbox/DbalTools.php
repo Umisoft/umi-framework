@@ -16,7 +16,6 @@ use umi\dbal\cluster\IDbCluster;
 use umi\dbal\cluster\IDbClusterAware;
 use umi\dbal\cluster\server\IServer;
 use umi\dbal\cluster\server\IServerFactory;
-use umi\dbal\driver\IConnection;
 use umi\dbal\driver\IDialect;
 use umi\dbal\exception\InvalidArgumentException;
 use umi\toolkit\exception\UnsupportedServiceException;
@@ -235,12 +234,10 @@ class DbalTools implements IToolbox
         $dialect = new $dialectClass;
 
         $options['platform'] = $dialect;
-        /** @var IConnection $connection */
-        $connection = DriverManager::getConnection(
-            $options
-        );
 
-        $dialect->initPdoInstance($connection, $connection->getWrappedConnection());
+        $connection = DriverManager::getConnection($options);
+
+        $dialect->initConnection($connection);
 
         return [
             $connection,
