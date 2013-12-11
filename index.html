@@ -1,160 +1,166 @@
 <!DOCTYPE html>
 <html>
-    <head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no" />
-		<title>UMI.Framework | Главная</title>
-		<link rel="stylesheet" href="/assets/style.css" />
-		<script type='text/javascript' src="/assets/jquery-2.0.3.min.js"></script>
-		<script type='text/javascript' src="/assets/knockout-3.0.0.js"></script>
-		<script type='text/javascript' src="/assets/news-model.js"></script>
-    </head>
-    <body>
-		<div class="wrapper">
-			<div class="header main">
-				<div class="row">
-					<div class="columns small-12 large-7">
-						<a href="/" title="В начало">
-							<img src="/assets/logo_main.png" />
-						</a>
-						<div class="menu">
-							<a href="/" class="active">Описание</a>
-							<a href="/documentation">Документация</a>
-							<a href="#">Участие в развитии</a>
-						</div>
-					</div>
-					<div class="columns small-12 large-5">
-						<a href="/files/umi-framework-without-vendors.zip" class="right download"><img src="/assets/download.png" /></a>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="columns small-12">
-					<h1 class="large">Почему надо использовать наш фрейморк?</h1>
-					<div class="row">
-						<div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
-							<div class="bg_gray padding-inside text-center">
-								<h2 class="text-center">Model View Controller</h2>
-								<div class="icon_2"></div>
-								<p>Компонент для создания MVC приложений с иерархической структурой.</p>
-							</div>
-						</div>
-						<div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
-							<div class="bg_gray padding-inside text-center">
-								<h2 class="text-center">SOA</h2>
-								<div class="icon_1"></div>
-								<p>Построение системы на интерфейсах, внедрение зависимостей через конструктор и Aware-интерфейсы.</p>
-							</div>
-						</div>
-						<div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
-							<div class="bg_gray padding-inside text-center">
-								<h2 class="text-center">ORM</h2>
-								<div class="icon_3"></div>
-								<p>Data mapper, lazy подход к загрузке данных, масштабирование из коробки, иерархические коллекции.</p>
-							</div>
-						</div>
-						<div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
-							<div class="bg_gray padding-inside text-center">
-								<h2 class="text-center">PHP 5.4</h2>
-								<div class="icon_4"></div>
-								<p>Повсеместное использование в системе трейтов - позволяет сделать горизонтальную композицию поведения.</p>
-							</div>
-						</div>
-					</div>
-				<!--<div class="row news">
-					<div class="large-6 small-12 columns">
-						<div class="menu" data-bind="foreach: sections">
-							<div class="button" data-bind="click: $parent.selectedSection, css: { active: isSelected }">
-								<span data-bind="text: name" />
-							</div>
-						</div>
-						<div class="tab-content" data-bind="foreach: sections, visible: sections().length > 0">
-							<div class="tabs" data-bind="css: { active: isSelected }, foreach: items">
-								<div class="tab-item">
-									<span data-bind="text: publish_time"></span>
-									<p data-bind="text: name"></p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="large-6 small-12 columns">
-						<div class="banner">
-							<img src="/assets/box.png" alt="umi-cms" />
-							<div>
-								<h2>Попробуйте</h2>
-								<span>коробочную версию!</span>
-								<h2>Смотрите</h2>
-								<span>какая красивая!</span>
-							</div>
-						</div>
-					</div>
-				</div>-->
-				</div>
-			</div>
-			<p>&nbsp;</p>
-			<p>&nbsp;</p>
-			<p>&nbsp;</p>
-			<div class="for_footer"></div>
-		</div>
-		<div class="footer">
-			<div class="row">
-				<div class="columns small-12 medium-8">
-					<div class="row">
-						<div class="number columns small-12 medium-4">
-							<div class="row">
-								<span class="columns small-6 medium-12">Санкт-Петербург</span>
-								<span class="columns small-6 medium-12">+7(812)309-03-15</span>
-							</div>
-						</div>
-						<div class="number columns small-12 medium-4">
-							<div class="row">
-								<span class="columns small-6 medium-12">Москва</span>
-								<span class="columns small-6 medium-12">+7(495)662-87-59</span>
-							</div>
-						</div>
-						<div class="number columns small-12 medium-4">
-							<div class="row">
-								<span class="columns small-6 medium-12">Бесплатный звонок</span>
-								<span class="columns small-6 medium-12">8-800-5555-864</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="columns small-12 medium-4">
-					<div class="right">
-						<!-- Facebook -->
-						<div class="fb-like" data-href="http://umi-framework.ru/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
-						<div id="fb-root"></div>
-						<script>(function(d, s, id) {
-							var js, fjs = d.getElementsByTagName(s)[0];
-							if (d.getElementById(id)) return;
-							js = d.createElement(s); js.id = id;
-							js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
-							fjs.parentNode.insertBefore(js, fjs);
-						}(document, 'script', 'facebook-jssdk'));</script>
-						<!-- VK -->
-						<!-- Put this script tag to the <head> of your page -->
-						<script type="text/javascript" src="//vk.com/js/api/openapi.js?105"></script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=no"/>
+    <title>UMI.Framework | Главная</title>
+    <link rel="stylesheet" href="/assets/style.css"/>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header main">
+            <div class="row">
+                <div class="columns small-12 large-7">
+                    <a href="/" title="В начало">
+                        <img src="/assets/logo_main.png"/>
+                    </a>
 
-						<script type="text/javascript">
-							VK.init({apiId: 4050456, onlyWidgets: true});
-						</script>
+                    <div class="menu">
+                        <a href="/" class="active">Описание</a>
+                        <a href="/documentation">Документация</a>
+                        <a href="/contributing">Участие в развитии</a>
+                    </div>
+                </div>
+                <div class="columns small-12 large-5">
+                    <a href="/download.html" class="right download"><img src="/assets/download.png"/></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns small-12">
+                <h1 class="large">Почему надо использовать наш фреймворк?</h1>
 
-						<!-- Put this div tag to the place, where the Like block will be -->
-						<div id="vk_like"></div>
-						<script type="text/javascript">
-							VK.Widgets.Like("vk_like", {type: "button"});
-						</script>
-						<!-- Twitter -->
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="columns small-12">
-					<div class="right copyright">© ООО «Юмисофт» 2007-2013</div>
-				</div>
-			</div>
-		</div>
-	</body>
+                <div class="row">
+                    <div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
+                        <div class="bg_gray padding-inside text-center">
+                            <h2 class="text-center">Современный</h2>
+
+                            <div class="icon_1"></div>
+                            <p>Фреймворк написан с использованием PHP 5.4 и использует все преимущества современной версии
+                                интерпретатора.</p>
+                        </div>
+                    </div>
+                    <div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
+                        <div class="bg_gray padding-inside text-center">
+                            <h2 class="text-center">Готовый к нагрузкам</h2>
+
+                            <div class="icon_3"></div>
+                            <p>Lazy подход к загрузке данных во всей системе повсеместно и масштабирование "из коробки"
+                                позволяет избежать лишних затрат производительности.</p>
+                        </div>
+                    </div>
+                    <div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
+                        <div class="bg_gray padding-inside text-center">
+                            <h2 class="text-center">Расширяемый</h2>
+
+                            <div class="icon_4"></div>
+                            <p>Инверсия зависимостей и хорошо построенная архитектура позволяет гибко расширять и
+                                настраивать поведение фреймворка.</p>
+                        </div>
+                    </div>
+                    <div class="columns small-8 small-centered medium-uncentered medium-3 large-3 teaser">
+                        <div class="bg_gray padding-inside text-center">
+                            <h2 class="text-center">Open Source</h2>
+
+                            <div class="icon_2"></div>
+                            <p>Бесплатность и открытость исходного кода позволяет использовать и развивать фреймворк всем
+                                без исключения.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>&nbsp;</p>
+
+        <p>&nbsp;</p>
+
+        <p>&nbsp;</p>
+
+        <div class="for_footer"></div>
+    </div>
+    <div class="footer">
+        <div class="row">
+            <div class="columns small-12 medium-8">
+                <div class="row">
+                    <div class="number columns small-12 medium-4">
+                        <div class="row">
+                            <span class="columns small-6 medium-12">Санкт-Петербург</span>
+                            <span class="columns small-6 medium-12">+7(812)309-03-15</span>
+                        </div>
+                    </div>
+                    <div class="number columns small-12 medium-4">
+                        <div class="row">
+                            <span class="columns small-6 medium-12">Москва</span>
+                            <span class="columns small-6 medium-12">+7(495)662-87-59</span>
+                        </div>
+                    </div>
+                    <div class="number columns small-12 medium-4">
+                        <div class="row">
+                            <span class="columns small-6 medium-12">Бесплатный звонок</span>
+                            <span class="columns small-6 medium-12">8-800-5555-864</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="columns small-12 medium-9">
+                <ul class="list-social">
+                    <li>
+                        <!-- Facebook -->
+                        <div class="fb-like" data-href="http://umi-framework.ru/" data-layout="button_count" data-action="like"
+                             data-show-faces="true" data-share="false"></div>
+                        <div id="fb-root"></div>
+                        <script>(function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0];
+                            if (d.getElementById(id)) return;
+                            js = d.createElement(s);
+                            js.id = id;
+                            js.src = "//connect.facebook.net/ru_RU/all.js#xfbml=1";
+                            fjs.parentNode.insertBefore(js, fjs);
+                        }(document, 'script', 'facebook-jssdk'));</script>
+                    </li>
+                    <li>
+                        <!-- VK -->
+                        <!-- Put this script tag to the <head> of your page -->
+                        <script type="text/javascript" src="//vk.com/js/api/openapi.js?105"></script>
+
+                        <script type="text/javascript">
+                            VK.init({apiId: 4050456, onlyWidgets: true});
+                        </script>
+
+                        <!-- Put this div tag to the place, where the Like block will be -->
+                        <div id="vk_like"></div>
+                        <script type="text/javascript">
+                            VK.Widgets.Like("vk_like", {type: "mini"});
+                        </script>
+                    </li>
+                    <li>
+                        <!-- Twitter -->
+                        <a href="https://twitter.com/share" class="twitter-share-button" data-lang="ru"
+                           data-dnt="true">Твитнуть</a>
+                        <script>!function (d, s, id) {
+                            var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
+                            if (!d.getElementById(id)) {
+                                js = d.createElement(s);
+                                js.id = id;
+                                js.src = p + '://platform.twitter.com/widgets.js';
+                                fjs.parentNode.insertBefore(js, fjs);
+                            }
+                        }(document, 'script', 'twitter-wjs');</script>
+                    </li>
+                    <li>
+                        <!-- GitHub -->
+                        <iframe src="http://ghbtns.com/github-btn.html?user=Umisoft&repo=umi-framework&type=watch&count=true"
+                                allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+                    </li>
+                </ul>
+            </div>
+            <div class="columns small-12 medium-3">
+                <div class="copyright right">© ООО «Юмисофт» 2007-2013</div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>

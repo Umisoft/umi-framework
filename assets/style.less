@@ -1,7 +1,7 @@
 @import "foundation.min.less";
 
 /** variables **/
-@footer-height: 171px;
+@footer-height: 125px;
 
 @umi_color: #038cd0;
 @link_color: #408bd1;
@@ -160,6 +160,10 @@ table {
 	box-shadow: 0 0 4px #dedede;
 	position: relative;
 	z-index: 2;
+	.logo{
+		display: inline-block;
+		margin-top: 3px;
+	}
 	.menu {
 		.inline;
 		vertical-align: bottom;
@@ -195,6 +199,32 @@ table {
 	padding-top: 47px;
 	overflow: hidden;
 	min-height: 100%;
+}
+
+.list-stripes{
+	border: 1px solid #E7E7E7;
+	margin-bottom: 20px;
+	> li{
+		padding: 10px;
+		position: relative;
+		border-top: 1px solid #E7E7E7;
+		&:nth-child(even){
+			background: #f1f1f1;
+		}
+		&:first-child{
+			border-top: none;
+		}
+	}
+	h2, h3{
+		margin-top: 0;
+	}
+}
+.list-social{
+	margin-top: 20px;
+	li{
+		height: 24px;
+		float: left;
+	}
 }
 
 .content-nav{
