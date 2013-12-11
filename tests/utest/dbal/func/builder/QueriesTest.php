@@ -9,12 +9,11 @@
 
 namespace utest\dbal\func\builder;
 
-use Doctrine\DBAL\Logging\DebugStack;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\DBAL\Types\Type;
+use umi\dbal\builder\IExpressionGroup;
 use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\cluster\server\IServer;
-use umi\dbal\builder\IExpressionGroup;
 use utest\dbal\DbalTestCase;
 
 /**
@@ -58,9 +57,6 @@ class QueriesTest extends DbalTestCase
             ->createTable(
                 $table
             );
-        $this->connection
-            ->getConfiguration()
-            ->setSQLLogger(new DebugStack());
     }
 
     public function testQueryResult()
@@ -85,10 +81,7 @@ class QueriesTest extends DbalTestCase
         $this->assertEquals(1, $result->fetchColumn());
         /** @noinspection PhpUndefinedFieldInspection */
         $this->assertNotEmpty(
-            $this->server
-                ->getConnection()
-                ->getConfiguration()
-                ->getSQLLogger()->queries,
+            $this->sqlLogger()->getQueries(),
             'Ожидается, что была выведена информация о запросе для дебага'
         );
     }

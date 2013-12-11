@@ -52,7 +52,32 @@ abstract class DbalTestCase extends TestCase
             ->getServer($this->usedServerId)
             ->getConnection();
 
+        $this->connection
+            ->getConfiguration()
+            ->setSQLLogger(new SqlLogger());
+
+        foreach ($this->affectedTables as $tableName) {
+            if ($this->connection
+                ->getSchemaManager()
+                ->tablesExist($tableName)
+            ) {
+                $this->connection
+                    ->getSchemaManager()
+                    ->dropTable($tableName);
+            }
+        }
+
         parent::setUp();
+    }
+
+    /**
+     * @return SqlLogger
+     */
+    protected function sqlLogger()
+    {
+        return $this->connection
+            ->getConfiguration()
+            ->getSQLLogger();
     }
 
     protected function tearDown()

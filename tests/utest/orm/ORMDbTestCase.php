@@ -10,8 +10,8 @@
 namespace utest\orm;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Logging\DebugStack;
 use umi\dbal\cluster\IDbCluster;
+use utest\dbal\SqlLogger;
 use utest\dbal\TDbalSupport;
 use utest\event\TEventSupport;
 use utest\i18n\TI18nSupport;
@@ -69,7 +69,7 @@ abstract class ORMDbTestCase extends TestCase
             ->getTestToolkit()
             ->getService('umi\dbal\cluster\IDbCluster');
         $this->connection = $cluster->getServer($this->usedDbServerId)->getConnection();
-        $this->connection->getConfiguration()->setSQLLogger(new DebugStack());
+        $this->connection->getConfiguration()->setSQLLogger(new SqlLogger());
         parent::setUp();
 
         $this->resetQueries();
@@ -81,8 +81,6 @@ abstract class ORMDbTestCase extends TestCase
         parent::tearDown();
     }
 
-    //todo incapsulate queries getters to new DebugStack decorator
-
     /**
      * Логированные запросы, выполненные через $this->usedConnection
      * @param bool $withValues Подставлять ли реальные значения в логированные запросы
@@ -90,27 +88,7 @@ abstract class ORMDbTestCase extends TestCase
      */
     protected function getQueries($withValues = false)
     {
-        return array_values(
-            array_map(
-                function ($a) use ($withValues) {
-                    if ($withValues && isset($a['params']) && is_array($a['params'])) {
-                        // make correct NULLs
-                        array_walk(
-                            $a['params'],
-                            function (&$param) {
-                                if ($param === null) {
-                                    $param = 'NULL';
-                                }
-                            }
-                        );
-                        return strtr($a['sql'], $a['params']);
-                    } else {
-                        return $a['sql'];
-                    }
-                },
-                $this->sqlLogger()->queries
-            )
-        );
+        return $this->sqlLogger()->getQueries($withValues);
     }
 
     /**
@@ -121,28 +99,7 @@ abstract class ORMDbTestCase extends TestCase
      */
     protected function getQueryTypesWithParams($withParams = true)
     {
-        $queries = [];
-        $kwRe = '/^\s*[`"]?(select|update|insert|delete|drop|truncate|start|rollback|commit)[`"]?\b/i';
-        foreach ($this->sqlLogger()->queries as $a) {
-            $matches = [];
-            $query = [];
-            if (preg_match($kwRe, $a['sql'], $matches)) {
-                $query[0] = strtolower($matches[1]);
-                if ($withParams) {
-                    $query = [
-                        strtolower($matches[1]),
-                        isset($a['params']) && is_array($a['params']) ? $a['params'] : []
-                    ];
-                } else {
-                    $query = strtolower($matches[1]);
-                }
-                $queries[] = $query;
-            } else {
-                $queries[] = false;
-            }
-        }
-
-        return $queries;
+        return $this->sqlLogger()->getQueryTypesWithParams($withParams);
     }
 
     /**
@@ -153,26 +110,21 @@ abstract class ORMDbTestCase extends TestCase
      */
     protected function getOnlyQueries($type)
     {
-        return array_values(array_filter(
-            $this->getQueries(),
-            function ($q) use ($type) {
-                return preg_match('/^'.$type.'\s+/i', $q);
-            }
-        ));
+        return $this->sqlLogger()->getOnlyQueries($type);
     }
 
     /**
      * Сбросить лог запросов
      */
-    public function resetQueries()
+    protected function resetQueries()
     {
-        $this->sqlLogger()->queries = [];
+        $this->sqlLogger()->resetQueries();
     }
 
     /**
-     * @return DebugStack
+     * @return SqlLogger
      */
-    public function sqlLogger()
+    protected function sqlLogger()
     {
         return $this->connection
             ->getConfiguration()
