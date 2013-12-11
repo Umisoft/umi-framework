@@ -24,7 +24,6 @@ use umi\dbal\exception\RuntimeException;
 
 class MySqlDialect extends MySqlPlatform implements IDialect
 {
-    //todo use Translator or delete sqlite->tranlate()
     /**
      * {@inheritdoc}
      */

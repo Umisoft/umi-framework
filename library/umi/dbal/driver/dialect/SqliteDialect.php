@@ -20,11 +20,9 @@ use umi\dbal\builder\IUpdateBuilder;
 use umi\dbal\driver\IDialect;
 use umi\dbal\exception\IException;
 use umi\dbal\exception\RuntimeException;
-use umi\i18n\TLocalizable;
 
 class SqliteDialect extends SqlitePlatform implements IDialect
 {
-    use TLocalizable;
 
     private $fkSupported = false;
 
@@ -139,9 +137,9 @@ class SqliteDialect extends SqlitePlatform implements IDialect
      */
     public function buildDisableKeysQuery($tableName)
     {
-        throw new RuntimeException($this->translate(
+        throw new RuntimeException(
             'Sqlite driver does not support \'alter table ... disable keys\' queries.'
-        ));
+        );
     }
 
     /**
@@ -149,9 +147,9 @@ class SqliteDialect extends SqlitePlatform implements IDialect
      */
     public function buildEnableKeysQuery($tableName)
     {
-        throw new RuntimeException($this->translate(
+        throw new RuntimeException(
             'Sqlite driver does not support \'alter table ... enable keys\' queries.'
-        ));
+        );
     }
 
     /**
