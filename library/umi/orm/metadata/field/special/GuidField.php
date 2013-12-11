@@ -96,5 +96,4 @@ class GuidField extends BaseField implements IScalarField
     {
         return strlen($guid) && preg_match('#^\S{8}-\S{4}-\S{4}-\S{4}-\S{12}$#', $guid);
     }
-
 }

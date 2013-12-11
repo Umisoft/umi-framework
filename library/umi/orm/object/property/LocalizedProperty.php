@@ -62,12 +62,11 @@ class LocalizedProperty extends BaseProperty implements ILocalizedProperty, ILoc
     public function getDbValue()
     {
         if (!$this->getIsLoaded()) {
-            $loadLocalization = $this->localeId !== $this->getCurrentLocale(
-                ) && $this->localeId !== $this->getDefaultLocale();
+            $loadLocalization = $this->localeId !== $this->getCurrentLocale()
+                && $this->localeId !== $this->getDefaultLocale();
             $this->object->fullyLoad($loadLocalization);
         }
 
         return $this->dbValue;
     }
-
 }

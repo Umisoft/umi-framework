@@ -39,5 +39,4 @@ class CalculableProperty extends BaseProperty implements ICalculableProperty
 
         return $this;
     }
-
 }

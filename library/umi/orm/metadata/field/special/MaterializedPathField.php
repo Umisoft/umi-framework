@@ -75,7 +75,5 @@ class MaterializedPathField extends BaseField implements IScalarField, ICalculab
         } else {
             return self::MPATH_START_SYMBOL . $object->getId();
         }
-
     }
-
 }

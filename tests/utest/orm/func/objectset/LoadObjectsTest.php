@@ -60,10 +60,8 @@ class LoadObjectsTest extends ORMDbTestCase
      */
     public function mockGetQueryResultRow()
     {
-
         switch ($this->counterId) {
             case 1:
-            {
                 return [
                     'users_user:id'       => "1",
                     'users_user:type'     => "users_user.base",
@@ -71,9 +69,7 @@ class LoadObjectsTest extends ORMDbTestCase
                     'users_user:isActive' => "1",
                     'users_user:login'    => "test_login1"
                 ];
-            }
             case 2:
-            {
                 return [
                     'id'                  => "1",
                     'users_user:type'     => "users_user.base",
@@ -81,18 +77,14 @@ class LoadObjectsTest extends ORMDbTestCase
                     'users_user:isActive' => "1",
                     'users_user:login'    => "test_login1"
                 ];
-            }
             case 3:
-            {
                 return [
                     'users_user:id'       => "1",
                     'users_user:guid'     => "users_user_1",
                     'users_user:isActive' => "1",
                     'users_user:login'    => "test_login1"
                 ];
-            }
             case 4:
-            {
                 return [
                     'users_user:id'       => "1",
                     'users_user:type'     => "users_user",
@@ -100,34 +92,25 @@ class LoadObjectsTest extends ORMDbTestCase
                     'users_user:isActive' => "1",
                     'users_user:login'    => "test_login1"
                 ];
-            }
             case 5:
-            {
                 return [
                     'users_user:type'     => "users_user.base",
                     'users_user:guid'     => "users_user_1",
                     'users_user:isActive' => "1",
                     'users_user:login'    => "test_login1"
                 ];
-            }
             case 6:
-            {
                 return [
                     'users_user:id'   => "1",
                     'users_user:type' => "users_user.base"
                 ];
-            }
             case 7:
-            {
                 return [
                     'users_user:id'   => null,
                     'users_user:type' => null
                 ];
-            }
             default:
-                {
                 return false;
-                }
         }
 
     }

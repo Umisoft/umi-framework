@@ -221,5 +221,4 @@ interface IFieldCondition
      * @return self
      */
     public function apply(ISelectBuilder $selectBuilder);
-
 }

@@ -9,7 +9,6 @@
 
 namespace umi\dbal\builder;
 
-use umi\dbal\driver\IDbDriver;
 use umi\dbal\exception\RuntimeException;
 
 /**
@@ -56,13 +55,13 @@ class InsertBuilder extends BaseQueryBuilder implements IInsertBuilder
     /**
      * {@inheritdoc}
      */
-    public function onDuplicateKey($columnName, $_ = null)
+    public function onDuplicateKey($columnName, $columns = [])
     {
         $this->onDuplicateKeyMode = true;
-        if (!is_null($_)) {
-            $this->onDuplicateKeyColumns = func_get_args();
+        if (!empty($columns)) {
+            $this->onDuplicateKeyColumns = (array) $columns;
         } else {
-            $this->onDuplicateKeyColumns = array($columnName);
+            $this->onDuplicateKeyColumns = [$columnName];
         }
 
         return $this;
@@ -165,22 +164,22 @@ class InsertBuilder extends BaseQueryBuilder implements IInsertBuilder
 
         $result = null;
         foreach ($parts as $part) {
-            $this->preparedStatement = $this->dbDriver->prepareStatement($part, $this);
-            $result = parent::execute();
-            if ($result->count() > 0) {
+            $this->preparedStatement = $this->connection->prepare($part);
+            $this->bind($this->preparedStatement, $part);
+            $this->preparedStatement->execute();
+            if ($this->preparedStatement->rowCount() > 0) {
                 break;
             }
         }
 
-        return $result;
+        return $this->preparedStatement;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function build(IDbDriver $driver)
+    protected function build()
     {
-        return $driver->buildInsertQuery($this);
+        return $this->dialect->buildInsertQuery($this);
     }
-
 }

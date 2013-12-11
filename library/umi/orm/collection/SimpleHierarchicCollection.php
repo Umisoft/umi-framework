@@ -50,5 +50,4 @@ class SimpleHierarchicCollection extends BaseHierarchicCollection implements ISi
 
         return $object;
     }
-
 }

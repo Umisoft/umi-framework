@@ -1,27 +1,29 @@
 <?php
 
-use umi\dbal\driver\IColumnScheme;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
 
 return function (ICollectionDataSource $dataSource) {
 
-    $masterServer = $dataSource->getMasterServer();
-    $tableScheme = $masterServer->getDbDriver()
-        ->addTable($dataSource->getSourceName());
+    $tableScheme = new Table($dataSource->getSourceName());
 
-    $tableScheme->setEngine('InnoDB');
+    $tableScheme->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', IColumnScheme::TYPE_SERIAL);
-    $tableScheme->addColumn('guid', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('type', IColumnScheme::TYPE_TEXT);
+    $tableScheme->addColumn('id', Type::INTEGER);
+    $tableScheme->addColumn('guid', Type::STRING, ['notnull'=>false]);
+    $tableScheme->addColumn('type', Type::TEXT, ['notnull'=>false]);
     $tableScheme->addColumn(
         'version',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 1]
+        Type::INTEGER,
+        ['unsigned' => true, 'default' => 1, 'notnull'=>false]
     );
 
-    $tableScheme->addColumn('login', IColumnScheme::TYPE_VARCHAR);
+    $tableScheme->addColumn('login', Type::STRING, ['notnull'=>false]);
 
-    $tableScheme->setPrimaryKey('id');
-
+    $tableScheme->setPrimaryKey(['id']);
+    return $dataSource
+        ->getMasterServer()
+        ->getConnection()
+        ->getDatabasePlatform()->getCreateTableSQL($tableScheme);
 };

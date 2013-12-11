@@ -1,7 +1,12 @@
 <?php
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
+/**
+ * UMI.Framework (http://umi-framework.ru/)
+ *
+ * @link      http://github.com/Umisoft/framework for the canonical source repository
+ * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
+ * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
+ */
+
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ICommonHierarchy;
 use umi\orm\collection\ILinkedHierarchicCollection;
@@ -13,9 +18,6 @@ use utest\orm\ORMDbTestCase;
  */
 class CommonHierarchyChangeSlugTest extends ORMDbTestCase
 {
-
-    protected $queries = [];
-
     protected $guid1;
     protected $guid2;
     protected $guid3;
@@ -67,7 +69,6 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
 
     protected function setUpFixtures()
     {
-
         $this->blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $this->postsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_POST);
         $this->hierarchy = $this->getCollectionManager()->getCollection(self::SYSTEM_HIERARCHY);
@@ -90,32 +91,6 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
 
         $this->getObjectPersister()->commit();
         $this->getObjectManager()->unloadObjects();
-
-        $this->queries = [];
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $sql = $builder->getSql();
-                    $placeholders = $builder->getPlaceholderValues();
-                    foreach ($placeholders as $placeholderName => $placeholderValue) {
-                        if (is_array($placeholderValue)) {
-                            $replacement = is_null($placeholderValue[0]) ? 'NULL' : $placeholderValue[0];
-                            $sql = str_replace($placeholderName, $replacement, $sql);
-                        }
-                    }
-
-                    $this->queries[] = $sql;
-                }
-            }
-        );
-
     }
 
     public function testUrl()
@@ -173,38 +148,41 @@ class CommonHierarchyChangeSlugTest extends ORMDbTestCase
 
     public function testChangeSlug()
     {
-
         $blog1 = $this->blogsCollection->get($this->guid4);
-        $this->queries = [];
+        $this->resetQueries();
         $this->hierarchy->changeSlug($blog1, 'new_slug');
 
         $this->assertEquals(
             [
+                '"START TRANSACTION"',
                 //выбор затрагиваемых изменением slug коллекций
-                'SELECT `type`
-FROM `umi_mock_hierarchy`
-WHERE `mpath` like #1.%
-GROUP BY `type`',
+                'SELECT "type"
+FROM "umi_mock_hierarchy"
+WHERE "mpath" like #1.%
+GROUP BY "type"',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "id" = 1 AND "version" = 1) AS mainQuery',
                 //проверка актуальности изменяемого объекта
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `id` = 1 AND `version` = 1',
-                //проверка уникальности нового slug
-                'SELECT `id`
-FROM `umi_mock_hierarchy`
-WHERE `uri` = //new_slug AND `id` != 1',
+                'SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //new_slug AND "id" != 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_hierarchy"
+WHERE "uri" = //new_slug AND "id" != 1) AS mainQuery',
                 //обновление всей slug у всей ветки изменяемого объекта
-                "UPDATE `umi_mock_hierarchy`
-SET `version` = `version` + 1, `uri` = REPLACE(`uri`, '//blog1', '//new_slug')
-WHERE `uri` like //blog1/% OR `uri` = //blog1",
-                "UPDATE `umi_mock_blogs`
-SET `version` = `version` + 1, `uri` = REPLACE(`uri`, '//blog1', '//new_slug')
-WHERE `uri` like //blog1/% OR `uri` = //blog1",
-                "UPDATE `umi_mock_posts`
-SET `version` = `version` + 1, `uri` = REPLACE(`uri`, '//blog1', '//new_slug')
-WHERE `uri` like //blog1/% OR `uri` = //blog1"
+                'UPDATE "umi_mock_hierarchy"
+SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//blog1\', \'//new_slug\')
+WHERE "uri" like //blog1/% OR "uri" = //blog1',
+                'UPDATE "umi_mock_blogs"
+SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//blog1\', \'//new_slug\')
+WHERE "uri" like //blog1/% OR "uri" = //blog1',
+                'UPDATE "umi_mock_posts"
+SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//blog1\', \'//new_slug\')
+WHERE "uri" like //blog1/% OR "uri" = //blog1',
+                '"COMMIT"',
             ],
-            $this->queries,
+            $this->getQueries(true),
             'Неверные запросы на изменение slug в общей иерархической коллекции'
         );
 

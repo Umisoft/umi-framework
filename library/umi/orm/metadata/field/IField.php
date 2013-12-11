@@ -161,5 +161,4 @@ interface IField
      * @return self
      */
     public function persistProperty(IObject $object, IProperty $property, IQueryBuilder $builder);
-
 }

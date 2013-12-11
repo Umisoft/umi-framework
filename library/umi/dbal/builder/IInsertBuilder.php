@@ -28,11 +28,13 @@ interface IInsertBuilder extends IQueryBuilder
      * Устанавливает SET условия при duplicate-key конфликте.
      * Все последующие InsertBuilder::set() будут относиться к
      * ON DUPLICATE KEY секции запроса
+     *
      * @param string $columnName имя столбца, значение которого уникально
-     * @param string $_ [optional] можно передать несколько столбцов, значения которых должны быть уникальны
+     * @param string|array $columns можно передать несколько столбцов, значения которых должны быть уникальны
+     *
      * @return self
      */
-    public function onDuplicateKey($columnName, $_ = null);
+    public function onDuplicateKey($columnName, $columns = []);
 
     /**
      * Устанавливает значение столбца
@@ -87,5 +89,4 @@ interface IInsertBuilder extends IQueryBuilder
      * @return array
      */
     public function getOnDuplicateKeyColumns();
-
 }

@@ -94,7 +94,8 @@ class LocalizableFieldTest extends FieldTestCase
         $this->assertEquals(
             'default_ru',
             $field->getLocaleDefaultValue(),
-            'Ожидается, что при запросе локализованного дефолтного значения без указания локали вернется значение по умолчанию'
+            'Ожидается, что при запросе локализованного дефолтного значения без указания локали '
+            . 'вернется значение по умолчанию'
         );
 
         $this->assertEquals(
@@ -129,9 +130,7 @@ class LocalizableFieldTest extends FieldTestCase
             $e,
             'Ожидается исключение при попытке получить значение по умолчанию для несуществующей локали'
         );
-
     }
-
 }
 
 class MockLocalizableField extends BaseField implements ILocalizableField, ILocalesAware

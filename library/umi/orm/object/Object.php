@@ -69,7 +69,8 @@ class Object implements IObject, ILocalizable, ILocalesAware, IObjectManagerAwar
      */
     protected $type;
     /**
-     * @var array $initialValues значения свойств при инициализации в формате array(propName => internalValue, propName => array('localeId' => internalValue), ...)
+     * @var array $initialValues значения свойств при инициализации в формате
+     * array(propName => internalValue, propName => array('localeId' => internalValue), ...)
      */
     protected $initialValues = [];
     /**
@@ -77,7 +78,8 @@ class Object implements IObject, ILocalizable, ILocalesAware, IObjectManagerAwar
      */
     protected $properties = [];
     /**
-     * @var array $validationErrors массив ошибок валидации в формате array('propName' => array('error string', ...), ...)
+     * @var array $validationErrors массив ошибок валидации в формате
+     * array('propName' => array('error string', ...), ...)
      */
     protected $validationErrors = [];
     /**
@@ -717,5 +719,4 @@ class Object implements IObject, ILocalizable, ILocalesAware, IObjectManagerAwar
         return $defaultProperty->getValue();
 
     }
-
 }

@@ -59,5 +59,4 @@ interface IManyToManyObjectSet extends IObjectSet
      * @return IObject $this
      */
     public function detachAll();
-
 }

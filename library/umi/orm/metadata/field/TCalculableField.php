@@ -55,5 +55,4 @@ trait TCalculableField
 
         return $this;
     }
-
 }

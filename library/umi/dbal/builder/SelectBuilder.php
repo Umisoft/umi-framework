@@ -9,7 +9,6 @@
 
 namespace umi\dbal\builder;
 
-use umi\dbal\driver\IDbDriver;
 use umi\dbal\exception\RuntimeException;
 
 /**
@@ -58,11 +57,8 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
      */
     protected $havingExpressionGroup;
     /**
-     * @var int $total общее количество строк, удовлетворяющих запросу.
-     */
-    protected $total;
-    /**
-     * @var bool $useCalcFoundRows использовать в запросе c ограничениями по выборке параметр, позволяющий получить общее количество строк
+     * @var bool $useCalcFoundRows использовать в запросе c ограничениями по выборке параметр,
+     * позволяющий получить общее количество строк
      */
     protected $useCalcFoundRows = false;
     /**
@@ -73,9 +69,9 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
     /**
      * {@inheritdoc}
      */
-    public function select()
+    public function select($columns = [])
     {
-        return $this->setColumns(func_get_args());
+        return $this->setColumns((array) $columns);
     }
 
     /**
@@ -130,10 +126,10 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
     /**
      * {@inheritdoc}
      */
-    public function from()
+    public function from($tables)
     {
         $this->tables = [];
-        $tables = func_get_args();
+        $tables = (array)$tables;
 
         if (!$tablesCount = count($tables)) {
             throw new RuntimeException($this->translate(
@@ -350,41 +346,26 @@ class SelectBuilder extends BaseQueryBuilder implements ISelectBuilder
      */
     public function getTotal()
     {
-        if (!is_null($this->total)) {
-            return $this->total;
-        }
-
-        $sql = $this->dbDriver->buildSelectFoundRowsQuery($this);
+        $sql = $this->dialect->buildSelectFoundRowsQuery($this);
         $sql = $this->prepareArrayPlaceholders($sql);
         $sql = $this->prepareExpressionPlaceholders($sql);
-
-        $preparedStatement = $this->dbDriver->prepareStatement($sql, $this);
-        $this->bind($preparedStatement);
-        $this->dbDriver->executeStatement($preparedStatement, $this);
+        $preparedStatement = $this->connection->prepare($sql);
+        $this->bind($preparedStatement, $sql);
+        $preparedStatement->execute();
 
         $result = $preparedStatement->fetch(\PDO::FETCH_NUM);
         $preparedStatement->closeCursor();
 
-        return $this->total = !empty($result) ? $result[0] : 0;
+        return !empty($result) ? $result[0] : 0;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function execute()
+    protected function build()
     {
-        $this->total = null;
+        $queryBuilder = $this->dialect;
 
-        return parent::execute();
-    }
-
-    /**
-     * Генерирует и возвращает шаблон SELECT-запроса
-     * @param IDbDriver $driver используемый драйвер БД
-     * @return string sql
-     */
-    protected function build(IDbDriver $driver)
-    {
-        return $driver->buildSelectQuery($this);
+        return $queryBuilder->buildSelectQuery($this);
     }
 }

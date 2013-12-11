@@ -1,33 +1,65 @@
 <?php
+/**
+ * UMI.Framework (http://umi-framework.ru/)
+ *
+ * @link      http://github.com/Umisoft/framework for the canonical source repository
+ * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
+ * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
+ */
 
-use umi\dbal\driver\IColumnScheme;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
 
 return function (ICollectionDataSource $dataSource) {
 
     $masterServer = $dataSource->getMasterServer();
-    $tableScheme = $masterServer->getDbDriver()
-        ->addTable($dataSource->getSourceName());
+    $schemaManager = $masterServer
+        ->getConnection()
+        ->getSchemaManager();
+    $tableScheme = new Table($dataSource->getSourceName());
 
-    $tableScheme->setEngine('InnoDB');
+    $tableScheme->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', IColumnScheme::TYPE_SERIAL);
-    $tableScheme->addColumn('guid', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('type', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn(
-        'version',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 1]
+    $tableScheme
+        ->addColumn('id', Type::INTEGER)
+        ->setAutoincrement(true);
+    $tableScheme
+        ->addColumn('guid', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('type', Type::TEXT)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn(
+            'version',
+            Type::INTEGER
+        )
+        ->setUnsigned(true)
+        ->setDefault(1);
+
+    $tableScheme
+        ->addColumn('name', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('country_id', Type::INTEGER)
+        ->setNotnull(false);
+
+    $tableScheme->setPrimaryKey(['id']);
+    $tableScheme->addIndex(['guid'], 'city_guid');
+
+    /** @noinspection PhpParamsInspection */
+    $tableScheme->addForeignKeyConstraint(
+        'umi_mock_countries',
+        ['country_id'],
+        ['id'],
+        ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
+        'FK_country'
     );
-
-    $tableScheme->addColumn('name', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('country_id', IColumnScheme::TYPE_RELATION);
-
-    $tableScheme->setPrimaryKey('id');
-    $tableScheme->addIndex('city_guid')
-        ->addColumn('guid')
-        ->setIsUnique(true);
-
-    $tableScheme->addConstraint('FK_country', 'country_id', 'umi_mock_countries', 'id', 'CASCADE', 'CASCADE');
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 
 };

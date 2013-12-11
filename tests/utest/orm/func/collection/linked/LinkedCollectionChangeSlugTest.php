@@ -16,7 +16,6 @@ use utest\orm\ORMDbTestCase;
 
 class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 {
-
     /**
      * {@inheritdoc}
      */
@@ -62,7 +61,6 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
 
     protected function setUpFixtures()
     {
-
         $this->blogsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_BLOG);
         $this->postsCollection = $this->getCollectionManager()->getCollection(self::BLOGS_POST);
 
@@ -94,13 +92,13 @@ class LinkedCollectionChangeSlugTest extends ORMDbTestCase
         $this->assertEquals(
             '//new_slug',
             $blog->getURI(),
-            'Ожидается, что изменение последней части ЧПУ объекта можно выполнить у его клллекции'
+            'Ожидается, что изменение последней части ЧПУ объекта можно выполнить у его коллекции'
         );
         $this->assertEquals(
             '//new_slug/post1/post2',
             $post->getURI(),
-            'Ожидается, что изменение последней части ЧПУ объекта у его клллекции затронет и его детей из других коллекций'
+            'Ожидается, что изменение последней части ЧПУ объекта у его коллекции'
+            .' затронет и его детей из других коллекций'
         );
     }
-
 }

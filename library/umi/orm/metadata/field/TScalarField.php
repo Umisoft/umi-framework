@@ -58,5 +58,4 @@ trait TScalarField
     {
         return $propertyValue;
     }
-
 }

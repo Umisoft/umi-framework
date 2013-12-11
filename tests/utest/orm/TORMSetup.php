@@ -9,6 +9,7 @@
 namespace utest\orm;
 
 use umi\dbal\cluster\server\IMasterServer;
+use umi\dbal\driver\IDialect;
 use umi\orm\collection\ICollectionManager;
 use umi\orm\manager\IObjectManager;
 use umi\orm\metadata\IMetadataManager;
@@ -37,6 +38,10 @@ trait TORMSetup
      */
     abstract protected function getCollectionConfig();
 
+    /**
+     * Конфигурирует коллекции и БД-окружение для тестов
+     * @param null $usedDbServerId
+     */
     protected function setUpORM($usedDbServerId = null)
     {
 
@@ -49,16 +54,19 @@ trait TORMSetup
 
     protected function tearDownORM()
     {
-        $dbDriver = $this->getDbCluster()
-            ->getDbDriver();
-        $dbDriver->disableForeignKeysCheck();
+        $connection = $this->getDbCluster()
+            ->getConnection();
+        /** @var IDialect $dialect */
+        $dialect = $connection->getDatabasePlatform();
+        $connection->exec($dialect->getDisableForeignKeysSQL());
 
         foreach ($this->_affectedTables as $tableName) {
-            $dbDriver->deleteTable($tableName);
+            if($connection->getSchemaManager()->tablesExist($tableName)){
+                $connection->getSchemaManager()->dropTable($tableName);
+            }
         }
 
-        $dbDriver->applyMigrations();
-        $dbDriver->enableForeignKeysCheck();
+        $connection->exec($dialect->getEnableForeignKeysSQL());
     }
 
     /**
@@ -118,6 +126,7 @@ trait TORMSetup
 
         $metadataConfig = [];
         foreach ($collectionNames as $collectionName) {
+            /** @noinspection PhpIncludeInspection */
             $metadataConfig[$collectionName] = include($directory . '/metadata/' . $collectionName . '.config.php');
         }
 
@@ -133,18 +142,28 @@ trait TORMSetup
         return [$directory, $collectionNames, $createDB];
     }
 
+    /**
+     * @param $directory
+     * @param array $collectionNames
+     */
     private function configureDataBase($directory, array $collectionNames)
     {
         $cluster = $this->getDbCluster();
-        $dbDriver = $cluster->getDbDriver();
+        $connection = $cluster->getConnection();
+        /** @var IDialect $dialect */
+        $dialect = $connection->getDatabasePlatform();
 
+        $connection->exec($dialect->getDisableForeignKeysSQL());
         foreach ($collectionNames as $collectionName) {
             $metadata = $this->getMetadataManager()->getMetadata($collectionName);
             $tableName = $metadata->getCollectionDataSource()
                 ->getSourceName();
-            $dbDriver->dropTable($tableName);
+            if($connection->getSchemaManager()->tablesExist($tableName)){
+                $connection->getSchemaManager()->dropTable($tableName);
+            }
             $this->_affectedTables[] = $tableName;
         }
+        $connection->exec($dialect->getEnableForeignKeysSQL());
 
         static $migrations = [];
         $class = get_class($this);
@@ -155,21 +174,19 @@ trait TORMSetup
             foreach ($collectionNames as $collectionName) {
                 $metadata = $this->getMetadataManager()->getMetadata($collectionName);
                 $dataSource = $metadata->getCollectionDataSource();
-                $tableName = $dataSource->getSourceName();
 
                 $setupScriptFile = $directory . '/setup/' . $collectionName . '.setup.php';
-                /**
-                 * @var \Closure $setup
-                 */
+
+                /** @var \Closure $setup */
+                /** @noinspection PhpIncludeInspection */
                 $setup = include($setupScriptFile);
 
-                $setup($dataSource);
+                $sql = $setup($dataSource);
 
                 $migrations[$class][$collectionName] = [
                     $dataSource->getMasterServer()
                         ->getId(),
-                    $dbDriver->getTable($tableName)
-                        ->getMigrationQueries()
+                    $sql
                 ];
             }
         }
@@ -178,16 +195,11 @@ trait TORMSetup
             $serverId = $collectionMigrations[0];
             $queries = $collectionMigrations[1];
             $server = $cluster->getServer($serverId);
-            $server->getDbDriver()
-                ->disableForeignKeysCheck();
+            $server->getConnection()->exec($dialect->getDisableForeignKeysSQL());
             foreach ($queries as $query) {
                 $server->modifyInternal($query);
             }
-            $server->getDbDriver()
-                ->enableForeignKeysCheck();
-            $server->getDbDriver()
-                ->reset();
+            $server->getConnection()->exec($dialect->getEnableForeignKeysSQL());
         }
     }
 }
- 

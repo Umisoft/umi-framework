@@ -24,5 +24,4 @@ class MockClusterAware implements IDbClusterAware, IMockAware
     {
         return $this->getDbCluster();
     }
-
 }

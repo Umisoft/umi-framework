@@ -9,9 +9,6 @@
 
 namespace utest\orm\func\collection\simplehierarchic;
 
-use umi\dbal\builder\IQueryBuilder;
-use umi\dbal\cluster\IConnection;
-use umi\event\IEvent;
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\collection\ISimpleHierarchicCollection;
 use umi\orm\metadata\IObjectType;
@@ -22,7 +19,6 @@ use utest\orm\ORMDbTestCase;
  */
 class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
 {
-
     /**
      * {@inheritdoc}
      */
@@ -43,8 +39,6 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
     protected $guid3;
     protected $guid4;
 
-    protected $queries = [];
-
     /**
      * @var ISimpleHierarchicCollection $menu
      */
@@ -52,7 +46,6 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
 
     protected function setUpFixtures()
     {
-
         $this->menu = $this->getCollectionManager()->getCollection(self::SYSTEM_MENU);
 
         $item1 = $this->menu->add('item1');
@@ -65,32 +58,6 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
 
         $this->getObjectPersister()->commit();
         $this->getObjectManager()->unloadObjects();
-
-        $this->queries = [];
-        $this->getDbCluster()
-            ->getDbDriver()
-            ->bindEvent(
-            IConnection::EVENT_AFTER_EXECUTE_QUERY,
-            function (IEvent $event) {
-                /**
-                 * @var IQueryBuilder $builder
-                 */
-                $builder = $event->getParam('queryBuilder');
-                if ($builder) {
-                    $sql = $builder->getSql();
-                    $placeholders = $builder->getPlaceholderValues();
-                    foreach ($placeholders as $placeholderName => $placeholderValue) {
-                        if (is_array($placeholderValue)) {
-                            $replacement = is_null($placeholderValue[0]) ? 'NULL' : $placeholderValue[0];
-                            $sql = str_replace($placeholderName, $replacement, $sql);
-                        }
-                    }
-
-                    $this->queries[] = $sql;
-                }
-            }
-        );
-
     }
 
     public function testURI()
@@ -106,25 +73,29 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
     {
 
         $item1 = $this->menu->get($this->guid1);
-        $this->queries = [];
+        $this->resetQueries();
         $this->menu->changeSlug($item1, 'new_slug');
-
         $this->assertEquals(
             [
+                '"START TRANSACTION"',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "id" = 1 AND "version" = 1) AS mainQuery',
                 //проверка актуальности изменяемого объекта
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `id` = 1 AND `version` = 1',
+                'SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //new_slug AND "id" != 1',
                 //проверка уникальности нового slug
-                'SELECT `id`
-FROM `umi_mock_menu`
-WHERE `uri` = //new_slug AND `id` != 1',
+                'SELECT count(*) FROM (SELECT "id"
+FROM "umi_mock_menu"
+WHERE "uri" = //new_slug AND "id" != 1) AS mainQuery',
                 //обновление всей slug у всей ветки изменяемого объекта
-                "UPDATE `umi_mock_menu`
-SET `version` = `version` + 1, `uri` = REPLACE(`uri`, '//item1', '//new_slug')
-WHERE `uri` like //item1/% OR `uri` = //item1",
+                'UPDATE "umi_mock_menu"
+SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//item1\', \'//new_slug\')
+WHERE "uri" like //item1/% OR "uri" = //item1',
+                '"COMMIT"',
             ],
-            $this->queries,
+            $this->getQueries(true),
             'Неверные запросы на изменение slug в простой иерархической коллекции'
         );
 

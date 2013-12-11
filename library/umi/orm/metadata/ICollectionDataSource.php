@@ -9,13 +9,13 @@
 
 namespace umi\orm\metadata;
 
+use Doctrine\DBAL\Connection;
 use umi\dbal\builder\IDeleteBuilder;
 use umi\dbal\builder\IInsertBuilder;
 use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\builder\IUpdateBuilder;
 use umi\dbal\cluster\server\IMasterServer;
 use umi\dbal\cluster\server\ISlaveServer;
-use umi\dbal\driver\IDbDriver;
 use umi\dbal\exception\RuntimeException;
 use umi\orm\exception\DomainException;
 
@@ -60,19 +60,22 @@ interface ICollectionDataSource
     public function getSlaveServerId();
 
     /**
-     * Возвращает драйвер БД, используемый источником
-     * @return IDbDriver
+     * Возвращает соединение с БД, используемое источником
+     * @return Connection
      */
-    public function getDbDriver();
+    public function getConnection();
 
     /**
      * Подготавливает запрос на выборку данных из источника,
      * определить список столбцов для выборки. <br />
      * Список столбцов передается в параметрах метода.<br />
      * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
+     *
+     * @param string|array $columns
+     *
      * @return ISelectBuilder
      */
-    public function select();
+    public function select($columns = []);
 
     /**
      * Подготавливает запрос на вставку данных в источник
@@ -93,5 +96,4 @@ interface ICollectionDataSource
      * @return IDeleteBuilder
      */
     public function delete();
-
 }

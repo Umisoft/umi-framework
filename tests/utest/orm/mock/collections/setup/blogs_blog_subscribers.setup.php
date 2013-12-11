@@ -1,40 +1,75 @@
 <?php
+/**
+ * UMI.Framework (http://umi-framework.ru/)
+ *
+ * @link      http://github.com/Umisoft/framework for the canonical source repository
+ * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
+ * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
+ */
 
-use umi\dbal\driver\IColumnScheme;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
 
 return function (ICollectionDataSource $dataSource) {
 
     $masterServer = $dataSource->getMasterServer();
-    $tableScheme = $masterServer->getDbDriver()
-        ->addTable($dataSource->getSourceName());
+    $schemaManager = $masterServer
+        ->getConnection()
+        ->getSchemaManager();
+    $tableScheme = new Table($dataSource->getSourceName());
 
-    $tableScheme->setEngine('InnoDB');
+    $tableScheme->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', IColumnScheme::TYPE_SERIAL);
-    $tableScheme->addColumn('guid', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('type', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn(
-        'version',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 1]
+    $tableScheme
+        ->addColumn('id', Type::INTEGER)
+        ->setAutoincrement(true);
+    $tableScheme
+        ->addColumn('guid', Type::GUID)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('type', Type::TEXT)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('version', Type::INTEGER)
+        ->setUnsigned(true)
+        ->setDefault(1);
+
+    $tableScheme
+        ->addColumn('user_id', Type::INTEGER)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('blog_id', Type::INTEGER)
+        ->setNotnull(false);
+
+    $tableScheme->setPrimaryKey(['id']);
+    $tableScheme->addUniqueIndex(['guid'], 'blog_subscriber_guid');
+    $tableScheme->addIndex(['blog_id'], 'subscriber_blog_id');
+    $tableScheme->addIndex(['user_id'], 'subscriber_user_id');
+    $tableScheme->addIndex(['type'], 'subscribers_type');
+
+    /** @noinspection PhpParamsInspection */
+    $tableScheme->addForeignKeyConstraint(
+        'umi_mock_users',
+        ['user_id'],
+        ['id'],
+        ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
+        'FK_user'
     );
 
-    $tableScheme->addColumn('user_id', IColumnScheme::TYPE_RELATION);
-    $tableScheme->addColumn('blog_id', IColumnScheme::TYPE_RELATION);
+    /** @noinspection PhpParamsInspection */
+    $tableScheme->addForeignKeyConstraint(
+        'umi_mock_blogs',
+        ['blog_id'],
+        ['id'],
+        ['onUpdate' => 'CASCADE', 'onDelete' => 'CASCADE'],
+        'FK_blog'
+    );
 
-    $tableScheme->setPrimaryKey('id');
-    $tableScheme->addIndex('blog_subscriber_guid')
-        ->addColumn('guid')
-        ->setIsUnique(true);
-    $tableScheme->addIndex('subscriber_blog_id')
-        ->addColumn('blog_id');
-    $tableScheme->addIndex('subscriber_user_id')
-        ->addColumn('user_id');
-    $tableScheme->addIndex('subscribers_type')
-        ->addColumn('type');
-
-    $tableScheme->addConstraint('FK_user', 'user_id', 'umi_mock_users', 'id', 'CASCADE', 'CASCADE');
-    $tableScheme->addConstraint('FK_blog', 'blog_id', 'umi_mock_blogs', 'id', 'CASCADE', 'CASCADE');
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
+    );
 
 };

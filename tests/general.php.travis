@@ -7,22 +7,24 @@ return [
             [
                 'id'     => 'mysqlMaster',
                 'type'   => 'master',
-                'driver' => [
-                    'type'    => 'mysql',
+                'connection' => [
+                    'type'    => DbalTools::CONNECTION_TYPE_PDOMYSQL,
                     'options' => [
-                        'dsn'      => 'mysql:dbname=umiframework;host=localhost',
+                        'dbname'   => 'umiframework',
+                        'host'     => 'localhost',
                         'user'     => 'travis',
-                        'password' => ''
+                        'password' => '',
+                        'charset'  => 'utf8',
                     ]
                 ]
             ],
             [
                 'id'     => 'sqliteMaster',
                 'type'   => 'master',
-                'driver' => [
-                    'type'    => 'sqlite',
+                'connection' => [
+                    'type'    => DbalTools::CONNECTION_TYPE_PDOSQLITE,
                     'options' => [
-                        'dsn' => 'sqlite::memory:'
+                        'memory' => true
                     ]
                 ]
             ]

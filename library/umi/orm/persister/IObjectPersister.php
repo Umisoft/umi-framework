@@ -30,11 +30,11 @@ interface IObjectPersister
      * Запускает произвольную бизнес-транзакцию.
      * @param callable $transaction callable-функция, выполняемая внутри транзакции.
      * Если при транзакция выкидывает исключение, происходит автоматический rollback запросов
-     * @param array $affectedDrivers драйверы, которые задействованы в транзакции
+     * @param array $affectedConnections соединения, которые задействованы в транзакции
      * @throws NotAllowedOperationException если есть не завершенная бизнес-транзакция.
      * @throws RuntimeException если транзакция завершилась не успешно
      */
-    public function executeTransaction(callable $transaction, array $affectedDrivers = []);
+    public function executeTransaction(callable $transaction, array $affectedConnections = []);
 
     /**
      * Записывает изменения всех объектов в БД (бизнес транзакция).
@@ -110,5 +110,4 @@ interface IObjectPersister
      * @return self
      */
     public function clearObjectState(IObject $object);
-
 }

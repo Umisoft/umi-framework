@@ -25,7 +25,8 @@ trait TLocalizableField
 {
 
     /**
-     * @var array $localizations список локализаций в виде [$localeId => ['columnName' => $columnName, 'defaultValue' => $defaultValue], ...]
+     * @var array $localizations список локализаций в виде
+     * [$localeId => ['columnName' => $columnName, 'defaultValue' => $defaultValue], ...]
      */
     protected $localizations = [];
 
@@ -140,7 +141,10 @@ trait TLocalizableField
             ));
         }
 
-        $defaultValue = isset($this->localizations[$localeId]['defaultValue']) ? $this->localizations[$localeId]['defaultValue'] : null;
+        $defaultValue =
+            isset($this->localizations[$localeId]['defaultValue'])
+                ? $this->localizations[$localeId]['defaultValue']
+                : null;
 
         return $defaultValue;
     }

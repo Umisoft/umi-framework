@@ -207,7 +207,8 @@ class ObjectTest extends ORMDbTestCase
         $this->assertEquals(
             'ru-RU',
             $titleProperty->getLocaleId(),
-            'Ожидается, что при запросе свойства c локализуемым и локализованным полем будет создано свойство в текущей локали'
+            'Ожидается, что при запросе свойства c локализуемым и локализованным полем '
+            . 'будет создано свойство в текущей локали'
         );
 
         $ruTitle = $this->blog->getProperty('title', 'ru-RU');

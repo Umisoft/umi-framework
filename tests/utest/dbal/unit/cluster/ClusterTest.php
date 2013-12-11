@@ -9,14 +9,15 @@
 
 namespace utest\dbal\unit\cluster;
 
+use Doctrine\DBAL\DriverManager;
 use umi\dbal\cluster\DbCluster;
 use umi\dbal\cluster\IDbCluster;
+use umi\dbal\cluster\server\MasterServer as MS;
 use umi\dbal\cluster\server\MasterServer;
 use umi\dbal\cluster\server\SlaveServer;
-use umi\dbal\driver\mysql\MySqlDriver;
-use umi\dbal\driver\sqlite\SqliteDriver;
+use umi\dbal\driver\dialect\MySqlDialect;
+use umi\dbal\driver\dialect\SqliteDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
-use umi\dbal\toolbox\factory\TableFactory;
 use utest\dbal\DbalTestCase;
 
 /**
@@ -51,32 +52,16 @@ class ClusterTest extends DbalTestCase
     {
         $this->cluster = new DbCluster;
 
-        $sqliteTableFactory = new TableFactory();
-        $this->resolveOptionalDependencies($sqliteTableFactory);
-
-        $sqliteTableFactory->columnSchemeClass = 'umi\dbal\driver\ColumnScheme';
-        $sqliteTableFactory->constraintSchemeClass = 'umi\dbal\driver\ConstraintScheme';
-        $sqliteTableFactory->tableSchemeClass = 'umi\dbal\driver\sqlite\SqliteTable';
-        $sqliteTableFactory->indexSchemeClass = 'umi\dbal\driver\sqlite\SqliteIndex';
-
-        $mysqlTableFactory = new TableFactory();
-        $this->resolveOptionalDependencies($mysqlTableFactory);
-
-        $mysqlTableFactory->columnSchemeClass = 'umi\dbal\driver\ColumnScheme';
-        $mysqlTableFactory->constraintSchemeClass = 'umi\dbal\driver\ConstraintScheme';
-        $mysqlTableFactory->tableSchemeClass = 'umi\dbal\driver\mysql\MySqlTable';
-        $mysqlTableFactory->indexSchemeClass = 'umi\dbal\driver\IndexScheme';
-
-        $mysqlDriver = new MySqlDriver($mysqlTableFactory);
-        $sqliteDriver = new SqliteDriver($sqliteTableFactory);
+        $mysqlDriver = DriverManager::getConnection(['driver' => 'pdo_mysql']);
+        $sqliteDriver = DriverManager::getConnection(['driver' => 'pdo_sqlite']);
 
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
 
-        $this->mysqlMaster = new MasterServer('mysqlMaster', $mysqlDriver, $queryBuilderFactory);
-        $this->mysqlSlave = new SlaveServer('mysqlSlave', $mysqlDriver, $queryBuilderFactory);
-        $this->sqliteMaster = new MasterServer('sqliteMaster', $sqliteDriver, $queryBuilderFactory);
-        $this->sqliteSlave = new SlaveServer('sqliteSlave', $sqliteDriver, $queryBuilderFactory);
+        $this->mysqlMaster = new MS('mysqlMaster', $mysqlDriver, new MySqlDialect(), $queryBuilderFactory);
+        $this->mysqlSlave = new SlaveServer('mysqlSlave', $mysqlDriver, new MySqlDialect(), $queryBuilderFactory);
+        $this->sqliteMaster = new MS('sqliteMaster', $sqliteDriver, new SqliteDialect(), $queryBuilderFactory);
+        $this->sqliteSlave = new SlaveServer('sqliteSlave', $sqliteDriver, new SqliteDialect(), $queryBuilderFactory);
     }
 
     public function testServers()
@@ -131,7 +116,8 @@ class ClusterTest extends DbalTestCase
         );
         $this->assertEquals(
             'sqliteMaster',
-            $cluster->getMaster()
+            $cluster
+                ->getMaster()
                 ->getId()
         );
     }
@@ -154,7 +140,8 @@ class ClusterTest extends DbalTestCase
         );
         $this->assertEquals(
             'sqliteSlave',
-            $cluster->getSlave()
+            $cluster
+                ->getSlave()
                 ->getId()
         );
     }
@@ -166,7 +153,7 @@ class ClusterTest extends DbalTestCase
         $cluster->addServer($this->mysqlMaster);
         $cluster->addServer($this->mysqlSlave);
 
-        $this->assertInstanceOf('umi\dbal\driver\IDbDriver', $cluster->getDbDriver());
+        $this->assertInstanceOf('Doctrine\DBAL\Connection', $cluster->getConnection());
         $this->assertInstanceOf('umi\dbal\builder\ISelectBuilder', $cluster->select());
         $this->assertInstanceOf('umi\dbal\builder\IUpdateBuilder', $cluster->update('test'));
         $this->assertInstanceOf('umi\dbal\builder\IInsertBuilder', $cluster->insert('test'));
@@ -175,16 +162,19 @@ class ClusterTest extends DbalTestCase
 
     public function testInternalMethods()
     {
-        $this->getDbCluster()
+        $this
+            ->getDbCluster()
             ->modifyInternal("CREATE TEMPORARY TABLE IF NOT EXISTS `test` (`a` int)");
         $this->assertEquals(
             1,
-            $this->getDbCluster()
+            $this
+                ->getDbCluster()
                 ->modifyInternal("INSERT INTO `test` VALUES(1)")
         );
         $this->assertInstanceOf(
             'PDOStatement',
-            $this->getDbCluster()
+            $this
+                ->getDbCluster()
                 ->selectInternal("SELECT * FROM `test`")
         );
     }

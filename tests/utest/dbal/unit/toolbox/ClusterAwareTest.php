@@ -34,5 +34,4 @@ class ClusterAwareTest extends AwareTestCase
 
         $this->successfulInjectionTest('utest\dbal\mock\MockClusterAware', 'umi\dbal\cluster\IDbCluster');
     }
-
 }

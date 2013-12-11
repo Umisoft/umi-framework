@@ -217,5 +217,4 @@ abstract class BaseField implements IField, ILocalizable
     protected function applyConfiguration(array $config)
     {
     }
-
 }

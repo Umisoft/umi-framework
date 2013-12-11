@@ -48,5 +48,4 @@ trait TDbClusterAware
 
         return $this->_dbCluster;
     }
-
 }

@@ -19,7 +19,6 @@ use utest\orm\ORMDbTestCase;
  */
 class PersistenceTest extends ORMDbTestCase
 {
-
     /**
      * {@inheritdoc}
      */
@@ -162,7 +161,8 @@ class PersistenceTest extends ORMDbTestCase
         $this->assertNull($values['height'], 'Ожидается, что в бд для пользователя значение поля height равно null');
         $this->assertNull(
             $values['rating'],
-            'Ожидается, что в бд для пользователя значение поля rating равно null несмотря на выставленное дефолтное значение'
+            'Ожидается, что в бд для пользователя значение поля rating равно null,'
+            . ' несмотря на выставленное дефолтное значение'
         );
         $this->assertTrue(
             $oldHeight === 163 && $user->getValue('height') === null,
@@ -205,8 +205,7 @@ class PersistenceTest extends ORMDbTestCase
         $this->getObjectPersister()->markAsDeleted($user);
         $this->getObjectPersister()->commit();
 
-        $result = $select->execute();
-        $this->assertEquals(0, $result->count(), 'Ожидается, что запись пользователя была удалена из бд');
+        $select->execute();
+        $this->assertEquals(0, $select->getTotal(), 'Ожидается, что запись пользователя была удалена из бд');
     }
-
 }

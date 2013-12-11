@@ -37,5 +37,4 @@ interface IObjectSetFactory
      * @return IManyToManyObjectSet
      */
     public function createManyToManyObjectSet(IObject $object, ManyToManyRelationField $manyToManyRelationField);
-
 }

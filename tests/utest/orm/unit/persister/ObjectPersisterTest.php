@@ -45,8 +45,7 @@ class ObjectPersisterTest extends ORMTestCase
                 function () {
                 },
                 [
-                    $this->getDbCluster()
-                        ->getDbDriver()
+                    $this->getDbCluster()->getConnection()
                 ]
             );
         } catch (\Exception $e) {
@@ -57,7 +56,5 @@ class ObjectPersisterTest extends ORMTestCase
             $e,
             'Ожидается, что невозможно выполнить никакие транзакции, если объекты не персистентны'
         );
-
     }
-
 }

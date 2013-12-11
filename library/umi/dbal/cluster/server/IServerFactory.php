@@ -9,7 +9,8 @@
 
 namespace umi\dbal\cluster\server;
 
-use umi\dbal\driver\IDbDriver;
+use Doctrine\DBAL\Connection;
+use umi\dbal\driver\IDialect;
 
 /**
  * Фабрика для создания серверов.
@@ -19,9 +20,10 @@ interface IServerFactory
     /**
      * Создает и возвращает экземпляр сервера БД
      * @param string $serverId уникальный Id сервера
-     * @param IDbDriver $driver драйвер БД
+     * @param Connection $connection соединение с БД
+     * @param IDialect $dialect диалект для построителя запросов
      * @param string $serverType тип сервера
      * @return IServer
      */
-    public function create($serverId, IDbDriver $driver, $serverType = null);
+    public function create($serverId, Connection $connection, IDialect $dialect, $serverType = null);
 }

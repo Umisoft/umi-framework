@@ -50,5 +50,4 @@ class CounterProperty extends CalculableProperty implements ICounterProperty
 
         return $this;
     }
-
 }

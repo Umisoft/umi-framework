@@ -9,10 +9,10 @@
 
 namespace umi\dbal\cluster;
 
-use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\cluster\server\IMasterServer;
 use umi\dbal\cluster\server\IServer;
 use umi\dbal\cluster\server\ISlaveServer;
+use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\exception\NonexistentEntityException;
 use umi\dbal\exception\RuntimeException;
 use umi\i18n\ILocalizable;
@@ -111,14 +111,15 @@ class DbCluster implements IDbCluster, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function select()
+    public function select($columns = [])
     {
         /**
          * @var ISelectBuilder $select
          */
-        $select = $this->getSlave()
+        $select = $this
+            ->getSlave()
             ->select();
-        $select->setColumns(func_get_args());
+        $select->setColumns((array)$columns);
 
         return $select;
     }
@@ -128,7 +129,8 @@ class DbCluster implements IDbCluster, ILocalizable
      */
     public function insert($tableName, $isIgnore = false)
     {
-        return $this->getMaster()
+        return $this
+            ->getMaster()
             ->insert($tableName, $isIgnore);
     }
 
@@ -137,7 +139,8 @@ class DbCluster implements IDbCluster, ILocalizable
      */
     public function update($tableName, $isIgnore = false)
     {
-        return $this->getMaster()
+        return $this
+            ->getMaster()
             ->update($tableName, $isIgnore);
     }
 
@@ -146,35 +149,39 @@ class DbCluster implements IDbCluster, ILocalizable
      */
     public function delete($tableName)
     {
-        return $this->getMaster()
+        return $this
+            ->getMaster()
             ->delete($tableName);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function selectInternal($sql, array $params = null)
+    public function selectInternal($sql, array $params = [])
     {
-        return $this->getSlave()
+        return $this
+            ->getSlave()
             ->selectInternal($sql, $params);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function modifyInternal($sql, array $params = null)
+    public function modifyInternal($sql)
     {
-        return $this->getMaster()
-            ->modifyInternal($sql, $params);
+        return $this
+            ->getMaster()
+            ->modifyInternal($sql);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDbDriver()
+    public function getConnection()
     {
-        return $this->getMaster()
-            ->getDbDriver();
+        return $this
+            ->getMaster()
+            ->getConnection();
     }
 
     /**

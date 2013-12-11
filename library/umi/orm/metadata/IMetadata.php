@@ -140,5 +140,4 @@ interface IMetadata
      * @return IField
      */
     public function getFieldByRelation($relatedFieldName, $bridgeCollectionName);
-
 }

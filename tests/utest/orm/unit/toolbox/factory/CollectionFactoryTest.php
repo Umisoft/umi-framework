@@ -139,7 +139,8 @@ class CollectionFactoryTest extends ORMDbTestCase
         $this->assertEquals(
             'umi\orm\collection\SimpleHierarchicCollection',
             get_class($collection),
-            'Ожидается, что CollectionFactory::create() вернет SimpleHierarchicCollection, если в конфиге не задан класс'
+            'Ожидается, что CollectionFactory::create() вернет SimpleHierarchicCollection, '
+            . 'если в конфиге не задан класс'
         );
 
         $collection = $this->collectionFactory->create(
@@ -249,7 +250,8 @@ class CollectionFactoryTest extends ORMDbTestCase
         $this->assertEquals(
             'umi\orm\collection\LinkedHierarchicCollection',
             get_class($collection),
-            'Ожидается, что CollectionFactory::create() вернет LinkedHierarchicCollection, если в конфиге не задан класс'
+            'Ожидается, что CollectionFactory::create() вернет LinkedHierarchicCollection, '
+            . 'если в конфиге не задан класс'
         );
 
         $collection = $this->collectionFactory->create(
@@ -271,7 +273,5 @@ class CollectionFactoryTest extends ORMDbTestCase
             get_class($collection),
             'Ожидается, что была создана коллекция с заданным классом'
         );
-
     }
-
 }

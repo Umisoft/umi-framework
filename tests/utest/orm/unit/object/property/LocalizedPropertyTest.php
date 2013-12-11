@@ -48,5 +48,4 @@ class LocalizedPropertyTest extends ORMTestCase
         );
 
     }
-
 }

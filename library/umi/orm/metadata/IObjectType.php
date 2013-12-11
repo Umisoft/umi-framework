@@ -72,5 +72,4 @@ interface IObjectType
      * @return IField
      */
     public function getField($fieldName);
-
 }

@@ -9,18 +9,18 @@
 
 namespace umi\dbal\cluster;
 
+use Doctrine\DBAL\Connection;
 use PDOStatement;
 use umi\dbal\builder\IDeleteBuilder;
 use umi\dbal\builder\IInsertBuilder;
 use umi\dbal\builder\IQueryBuilder;
 use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\builder\IUpdateBuilder;
-use umi\dbal\driver\IDbDriver;
 use umi\dbal\exception\RuntimeException;
 
 /**
  * Интерфейс соединения с БД.
- * Оперделяет единый интерфейс доступа к данным.
+ * Определяет единый интерфейс доступа к данным.
  */
 interface IConnection
 {
@@ -43,10 +43,13 @@ interface IConnection
      * определяет список столбцов для выборки. <br />
      * Список столбцов передается в параметрах метода.<br />
      * Если столбцы не переданы, будет сформирован запрос, содержащий все столбцы (SELECT *)<br />
-     * [@param string $columnName список имен столбцов]
+     *
+     * @param string|array $columns
+     *
+     * @internal param string $columnName список имен столбцов
      * @return ISelectBuilder
      */
-    public function select();
+    public function select($columns = []);
 
     /**
      * Подготавливает запрос на вставку данных
@@ -81,21 +84,21 @@ interface IConnection
      * @throws RuntimeException если в процессе выполнения запроса произошли ошибки
      * @return PDOStatement
      */
-    public function selectInternal($sql, array $params = null);
+    public function selectInternal($sql, array $params = []);
 
     /**
      * Выполняет прямой запрос на модификацию данных
      * @internal
+     *
      * @param string $sql sql-запрос
-     * @param array $params массив параметров для подготовленных запросов
-     * @throws RuntimeException если в процессе выполнения запроса произошли ошибки
+     *
      * @return int количество затронутых запросом строк
      */
-    public function modifyInternal($sql, array $params = null);
+    public function modifyInternal($sql);
 
     /**
-     * Возвращает экземпляр используемого драйвера БД
-     * @return IDbDriver
+     * Возвращает экземпляр используемого соединения с БД
+     * @return Connection
      */
-    public function getDbDriver();
+    public function getConnection();
 }

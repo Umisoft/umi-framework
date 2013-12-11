@@ -9,9 +9,13 @@
 
 namespace umi\dbal\builder;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Query\Expression\CompositeExpression;
+use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\DBAL\Statement;
+use Doctrine\DBAL\Types\Type;
 use PDO;
-use PDOStatement;
-use umi\dbal\driver\IDbDriver;
+use umi\dbal\driver\IDialect;
 use umi\dbal\exception\IException;
 use umi\dbal\exception\RuntimeException;
 use umi\i18n\ILocalizable;
@@ -32,15 +36,15 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public $expressionGroupClass = 'umi\dbal\builder\ExpressionGroup';
     /**
-     * @var IDbDriver $dbDriver Драйвер БД
+     * @var Connection $connection соединение с БД
      */
-    protected $dbDriver;
+    protected $connection;
     /**
      * @var IExpressionGroup $currentExpressionGroup текущая группа выражений
      */
     protected $currentExpressionGroup;
     /**
-     * @var PDOStatement $preparedStatement подготовленный запрос
+     * @var Statement $preparedStatement подготовленный запрос
      */
     protected $preparedStatement;
     /**
@@ -60,17 +64,13 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     protected $queryBuilderFactory;
     /**
-     * @var array $values массив значений плейсхолдеров вида array(':placeholder' => array(value, pdoType), ...)
+     * @var array $values массив значений плейсхолдеров вида [':placeholder' => [value, pdoType], ...]
      */
     private $values = [];
     /**
      * @var array $variables массив переменных, связанных с плейсхолдерами
      */
     private $variables = [];
-    /**
-     * @var array $resultVariables массив переменных, связанных с результатом
-     */
-    private $resultVariables = [];
     /**
      * @var array $arrays значения плейсхолдеров, представляющих собой списки IN (1, 2, 3)
      */
@@ -79,47 +79,55 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      * @var array $expressions значения плейсхолдеров, представляющих собой выражения
      */
     private $expressions = [];
+    /**
+     * @var IDialect $dialect диалект, используемый при построении выражений
+     */
+    protected $dialect;
+    /**
+     * @var QueryBuilder $doctrineQueryBuilder
+     */
+    protected $doctrineQueryBuilder;
+    /**
+     * @var QueryBuilder $currentDoctrineQuery
+     */
+    protected $currentDoctrineQuery;
+    /**
+     * @var  CompositeExpression $currentDoctrineExpression
+     */
+    protected $currentDoctrineExpression;
 
     /**
      * Генерирует и возвращает шаблон запроса.
      * Должен быть реализован в конкретном построителе запроса.
-     * @param IDbDriver $driver используемый драйвер БД
      * @return string sql
      */
-    abstract protected function build(IDbDriver $driver);
+    abstract protected function build();
 
     /**
      * Конструктор
-     * @param IDbDriver $driver драйвер БД
+     * @param Connection $connection соединение с БД
+     * @param IDialect $dialect диалект, используемый при построении выражений
      * @param IQueryBuilderFactory $queryBuilderFactory
+     * @return BaseQueryBuilder
      */
-    public function __construct(IDbDriver $driver, IQueryBuilderFactory $queryBuilderFactory)
+    public function __construct(Connection $connection, IDialect $dialect, IQueryBuilderFactory $queryBuilderFactory)
     {
-        $this->dbDriver = $driver;
+        $this->connection = $connection;
         $this->queryBuilderFactory = $queryBuilderFactory;
-    }
-
-    /**
-     * Деструктор
-     */
-    public function __destruct()
-    {
-        if ($this->preparedStatement) {
-            $this->preparedStatement->closeCursor();
-            $this->preparedStatement = null;
-        }
+        $this->dialect = $dialect;
+        $this->doctrineQueryBuilder = $connection->createQueryBuilder();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getSql(IDbDriver $driver = null)
+    public function getSql(Connection $connection = null)
     {
-        if (is_null($driver)) {
-            $driver = $this->dbDriver;
+        if (is_null($connection)) {
+            $connection = $this->connection;
         }
         if (is_null($this->sql)) {
-            $this->sql = $this->build($driver);
+            $this->sql = $this->build($connection);
             $this->sql = $this->prepareArrayPlaceholders($this->sql);
             $this->sql = $this->prepareExpressionPlaceholders($this->sql);
         }
@@ -130,9 +138,9 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function getDbDriver()
+    public function getConnection()
     {
-        return $this->dbDriver;
+        return $this->connection;
     }
 
     /**
@@ -219,7 +227,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
     /**
      * Возвращает список правил сортировки
      * @internal
-     * @return array в формате array('columnName' => 'ASC', ...)
+     * @return array в формате ['columnName' => 'ASC', ...]
      */
     public function getOrderConditions()
     {
@@ -237,7 +245,8 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindValue($placeholder, $value, $phpType)
     {
-        $pdoType = is_null($value) ? PDO::PARAM_NULL : $this->dbDriver->getPdoType($phpType);
+        $pdoType = is_null($value) ? PDO::PARAM_NULL : Type::getType($phpType)
+            ->getBindingType();
         $this->values[$placeholder] = [$value, $pdoType];
 
         return $this;
@@ -248,7 +257,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindString($placeholder, $value)
     {
-        return $this->bindValue($placeholder, strval($value), 'string');
+        return $this->bindValue($placeholder, strval($value), Type::STRING);
     }
 
     /**
@@ -256,7 +265,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindInt($placeholder, $value)
     {
-        return $this->bindValue($placeholder, intval($value), 'integer');
+        return $this->bindValue($placeholder, intval($value), Type::INTEGER);
     }
 
     /**
@@ -264,7 +273,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindBool($placeholder, $value)
     {
-        return $this->bindValue($placeholder, (bool) $value, 'bool');
+        return $this->bindValue($placeholder, (bool) $value, Type::BOOLEAN);
     }
 
     /**
@@ -272,7 +281,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindBlob($placeholder, $value)
     {
-        return $this->bindValue($placeholder, $value, 'blob');
+        return $this->bindValue($placeholder, $value, Type::BLOB);
     }
 
     /**
@@ -280,7 +289,7 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     public function bindFloat($placeholder, $value)
     {
-        return $this->bindValue($placeholder, floatval($value), 'string');
+        return $this->bindValue($placeholder, floatval($value), Type::STRING);
     }
 
     /**
@@ -368,52 +377,19 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function bindColumnString($columnName, &$variable = null)
-    {
-        return $this->bindColumn($columnName, $variable, 'string');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function bindColumnInt($columnName, &$variable = null)
-    {
-        return $this->bindColumn($columnName, $variable, 'integer');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function bindColumnBool($columnName, &$variable = null)
-    {
-        return $this->bindColumn($columnName, $variable, 'bool');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function bindColumnFloat($columnName, &$variable = null)
-    {
-        return $this->bindColumn($columnName, $variable, 'float');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function execute()
     {
+        $sql = $this->getSql();
         if (is_null($this->preparedStatement)) {
-            $this->preparedStatement = $this->dbDriver->prepareStatement($this->getSql(), $this);
+            $this->preparedStatement = $this->connection->prepare($sql);
         }
 
-        $this->bind($this->preparedStatement);
+        $this->bind($this->preparedStatement, $sql);
 
-        $this->dbDriver->executeStatement($this->preparedStatement, $this);
+        $this->preparedStatement->execute();
         $this->executed = true;
 
-        $result = $this->queryBuilderFactory->createQueryResult($this, $this->resultVariables);
-
-        return $result;
+        return $this->preparedStatement;
     }
 
     /**
@@ -428,29 +404,16 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      * Разбирает алиас в имени таблицы / столбца, если он есть
      * @internal
      * @param string $name
-     * @return array в виде array('name', 'alias')
+     *
+     * @return array В виде ['name', 'alias']
      */
     protected function parseAlias($name)
     {
         if (strpos($name, ' ') !== false && preg_match('/^\s*(.+)(\s+as\s+)(.+)\s*$/i', $name, $matches)) {
-            return array($matches[1], $matches[3]);
+            return [trim($matches[1]), trim($matches[3])];
         }
 
-        return array($name, null);
-    }
-
-    /**
-     * Связывает результат выборки по указанному столбцу с PHP-переменной.
-     * @param string $columnName имя столбца
-     * @param mixed $variable переменная. Принимается по ссылке, нельзя передавать значение!
-     * @param string $phpType тип значения переменной ('string', 'integer', 'boolean', ...)
-     * @return $this|SelectBuilder|InsertBuilder|UpdateBuilder|DeleteBuilder
-     */
-    protected function bindColumn($columnName, &$variable = null, $phpType = 'string')
-    {
-        $this->resultVariables[$columnName] = array(&$variable, $phpType);
-
-        return $this;
+        return [$name, null];
     }
 
     /**
@@ -462,19 +425,21 @@ abstract class BaseQueryBuilder implements IQueryBuilder, ILocalizable
      */
     protected function bindVariable($placeholder, &$variable, $phpType = 'string')
     {
-        $pdoType = $this->dbDriver->getPdoType($phpType);
-        $this->variables[$placeholder] = array(&$variable, $pdoType);
+        $pdoType = Type::getType($phpType)
+            ->getBindingType();
+        $this->variables[$placeholder] = [&$variable, $pdoType];
 
         return $this;
     }
 
     /**
      * Биндит значения плейсхолдеров
-     * @param PDOStatement $preparedStatement
+     * @param Statement $preparedStatement
+     * @param string $query SQL, сформированный билдером для текущего запроса
+     * (например, подзапроса, вложенного в основной)
      */
-    protected function bind(PDOStatement $preparedStatement)
+    protected function bind(Statement $preparedStatement, $query)
     {
-        $query = $preparedStatement->queryString;
         foreach ($this->values as $placeholder => $value) {
             if (strpos($query, $placeholder) !== false) {
                 $preparedStatement->bindValue($placeholder, $value[0], $value[1]);

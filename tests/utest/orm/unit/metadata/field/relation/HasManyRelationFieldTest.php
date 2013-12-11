@@ -48,7 +48,8 @@ class HasManyRelationFieldTest extends FieldTestCase
         $this->assertInstanceOf(
             'umi\orm\exception\UnexpectedValueException',
             $e,
-            'Ожидается исключение при попытке создать поле ManyToManyRelation без указания поля для связи в целевой коллекции'
+            'Ожидается исключение при попытке создать поле ManyToManyRelation '
+            . 'без указания поля для связи в целевой коллекции'
         );
 
         $config['targetField'] = 'targetField';
@@ -68,7 +69,5 @@ class HasManyRelationFieldTest extends FieldTestCase
         ]);
 
         $this->assertNull($field->getDataType(), 'Ожидается, что тип данных у поля один ко многим - null');
-
     }
-
 }

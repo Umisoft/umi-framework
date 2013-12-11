@@ -1,30 +1,46 @@
 <?php
 
-use umi\dbal\driver\IColumnScheme;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Schema\Table;
+use Doctrine\DBAL\Types\Type;
 use umi\orm\metadata\ICollectionDataSource;
 
 return function (ICollectionDataSource $dataSource) {
 
     $masterServer = $dataSource->getMasterServer();
-    $tableScheme = $masterServer->getDbDriver()
-        ->addTable($dataSource->getSourceName());
+    $schemaManager = $masterServer
+        ->getConnection()
+        ->getSchemaManager();
+    $tableScheme = new Table($dataSource->getSourceName());
 
-    $tableScheme->setEngine('InnoDB');
+    $tableScheme->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', IColumnScheme::TYPE_SERIAL);
-    $tableScheme->addColumn('guid', IColumnScheme::TYPE_VARCHAR);
-    $tableScheme->addColumn('type', IColumnScheme::TYPE_TEXT);
-    $tableScheme->addColumn(
-        'version',
-        IColumnScheme::TYPE_INT,
-        [IColumnScheme::OPTION_UNSIGNED => true, IColumnScheme::OPTION_DEFAULT_VALUE => 1]
+    $tableScheme
+        ->addColumn('id', Type::INTEGER)
+        ->setAutoincrement(true);
+    $tableScheme
+        ->addColumn('guid', Type::STRING)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn('type', Type::TEXT)
+        ->setNotnull(false);
+    $tableScheme
+        ->addColumn(
+            'version',
+            Type::INTEGER
+        )
+        ->setUnsigned(true)
+        ->setDefault(1);
+
+    $tableScheme
+        ->addColumn('name', Type::STRING)
+        ->setNotnull(false);
+
+    $tableScheme->setPrimaryKey(['id']);
+    $tableScheme->addUniqueIndex(['guid'], 'country_guid');
+
+    return $schemaManager->getDatabasePlatform()->getCreateTableSQL(
+        $tableScheme,
+        AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS
     );
-
-    $tableScheme->addColumn('name', IColumnScheme::TYPE_VARCHAR);
-
-    $tableScheme->setPrimaryKey('id');
-    $tableScheme->addIndex('country_guid')
-        ->addColumn('guid')
-        ->setIsUnique(true);
-
 };
