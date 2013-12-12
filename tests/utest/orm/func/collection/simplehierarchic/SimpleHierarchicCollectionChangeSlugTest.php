@@ -80,7 +80,7 @@ class SimpleHierarchicCollectionChangeSlugTest extends ORMDbTestCase
                 '"START TRANSACTION"',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 1 AND "version" = 1) AS mainQuery',
+WHERE "id" = 1 AND "version" = 1)',
                 //проверка актуальности изменяемого объекта
                 'SELECT "id"
 FROM "umi_mock_menu"
@@ -88,7 +88,7 @@ WHERE "uri" = //new_slug AND "id" != 1',
                 //проверка уникальности нового slug
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "uri" = //new_slug AND "id" != 1) AS mainQuery',
+WHERE "uri" = //new_slug AND "id" != 1)',
                 //обновление всей slug у всей ветки изменяемого объекта
                 'UPDATE "umi_mock_menu"
 SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//item1\', \'//new_slug\')

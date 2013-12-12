@@ -38,7 +38,7 @@ class DbTest extends CacheTestCase
             'serverId' => $server->getId()
         ];
 
-        $this->setupDatabase($this->tableName);
+        $this->setupDatabase($this->tableName, $server);
 
         $this->storage = new Db($options);
         $this->resolveOptionalDependencies($this->storage);
@@ -55,6 +55,8 @@ class DbTest extends CacheTestCase
 
     public function testGetServer()
     {
+        $this->markTestIncomplete();
+
         $defaultServer = $this
             ->getDbCluster()
             ->getMaster();
