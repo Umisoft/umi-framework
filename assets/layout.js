@@ -1,5 +1,5 @@
 $(function() {
-	var stickyNav = $('.side-nav'),
+	var stickyNav = $('.umi-side-nav'),
 		stickyNavList = stickyNav.find('.menu'),
 		header = $('.header'),
 		headerHeight = header[0].offsetHeight + 1,
@@ -7,40 +7,28 @@ $(function() {
 		footer = $('.footer'),
 		sideNavAnchor = stickyNav.find('.side-nav-anchor');
 
-	function contentSize(){
-		stickyNav[0].style.height = (stickyNav[0].offsetHeight < content[0].offsetHeight ? content[0].offsetHeight : stickyNav[0].offsetHeight) + 'px';
-		stickyNavList[0].style.height = stickyNav[0].offsetHeight + 'px';
-	}
-
 	function correctHeight(){
 		var footerTopPosition = footer.offset().top - $(window).scrollTop();
+		console.log(footerTopPosition , $(window).height());
 		if(footerTopPosition < $(window).height()){
-			stickyNav[0].style.height = footerTopPosition - headerHeight + 'px';
-			stickyNavList[0].style.height = stickyNav[0].style.height;
+			stickyNav[0].style.paddingBottom = $(window).height() - footerTopPosition + 'px';
+		} else{
+			stickyNav[0].style.paddingBottom = '0px';
 		}
 	}
 
 	if(stickyNav.length){
 		header.addClass('fixed');
 
-		function isOfCanvas(){
-			if(stickyNav.offset().left < 0 || $('body').width() < 1100){
-				stickyNav.addClass('of-canvas');
-			}
-			else{
-				stickyNav.removeClass('of-canvas').css({'marginLeft': - stickyNav[0].offsetWidth + 'px'});
-			}
-		}
-		isOfCanvas();
-
 		stickyNav.on('click', '.pull-nav', function(){
 			if( $(this).hasClass('active') ){
 				$(this).removeClass('active');
 				stickyNav.animate({'marginLeft': - stickyNav[0].offsetWidth + 'px'}, 240);
-			}
-			else{
+				stickyNav.removeClass('of-canvas');
+			}else{
 				$(this).addClass('active');
 				stickyNav.animate({'marginLeft': - stickyNav[0].offsetWidth - stickyNav.offset().left +'px'}, 240);
+				stickyNav.addClass('of-canvas');
 			}
 		});
 
@@ -51,15 +39,17 @@ $(function() {
 			}
 		});
 
-		contentSize();
 		window.onscroll = function() {
 			correctHeight();
 		}
 
 		$(window).resize(function(){
-			isOfCanvas();
+			if($('body').width() > 1100){
+				stickyNav.removeAttr('style');
+			}
 		});
 	}
 
 	$('.programlisting').each(function(i, e) {hljs.highlightBlock(e)});
+	$(document).foundation();
 });
