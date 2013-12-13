@@ -37,14 +37,20 @@ abstract class CacheTestCase extends TestCase
     }
 
     /**
-     * @param $tableName
-     * @param IServer $server
+     * Пересоздает таблицу кеша в базе данных
+     * @param string $tableName имя таблицы кеша
+     * @param IServer $server сервер базы данных, в которой будет создана таблица
      */
     protected function setupCacheDatabase($tableName, $server = null)
     {
-        $connection = is_null($server) ? $this->getDefaultDbServer()->getConnection() : $server->getConnection();
+        $connection = is_null($server) ? $this
+            ->getDefaultDbServer()
+            ->getConnection() : $server->getConnection();
 
-        if ($connection->getSchemaManager()->tablesExist($tableName)) {
+        if ($connection
+            ->getSchemaManager()
+            ->tablesExist($tableName)
+        ) {
             $connection
                 ->getSchemaManager()
                 ->dropTable($tableName);
