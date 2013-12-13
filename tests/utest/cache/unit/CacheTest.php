@@ -9,7 +9,6 @@
 
 namespace utest\cache\unit;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use umi\cache\Cache;
 use umi\cache\engine\Db;
@@ -24,10 +23,7 @@ class CacheTest extends CacheTestCase
 {
 
     private $tableName = 'test_cache';
-    /**
-     * @var Connection $connection
-     */
-    private $connection;
+
     /**
      * @var Cache $cache
      */
@@ -40,8 +36,7 @@ class CacheTest extends CacheTestCase
 
     protected function setUpFixtures()
     {
-
-        $this->connection = $this->getDbServer()->getConnection();
+        $this->setupCacheDatabase($this->tableName);
 
         $options = [
             'table'    => [
@@ -50,13 +45,11 @@ class CacheTest extends CacheTestCase
                 'valueColumnName'  => 'cacheValue',
                 'expireColumnName' => 'cacheExpiration'
             ],
-            'serverId' => $this->getDbServer()->getId()
+            'serverId' => $this->getDefaultDbServer()->getId()
         ];
 
         $this->storage = new Db($options);
         $this->resolveOptionalDependencies($this->storage);
-
-        $this->setupDatabase($this->tableName);
 
         $this->cache = new Cache($this->storage);
 
@@ -64,8 +57,8 @@ class CacheTest extends CacheTestCase
 
     protected function tearDownFixtures()
     {
-        if($this->connection->getSchemaManager()->tablesExist($this->tableName)){
-            $this->connection->getSchemaManager()
+        if($this->getDefaultConnection()->getSchemaManager()->tablesExist($this->tableName)){
+            $this->getDefaultConnection()->getSchemaManager()
                 ->dropTable($this->tableName);
         }
     }

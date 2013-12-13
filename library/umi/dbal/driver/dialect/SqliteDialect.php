@@ -173,7 +173,7 @@ class SqliteDialect extends SqlitePlatform implements IDialect
      */
     public function buildSelectFoundRowsQuery(ISelectBuilder $query)
     {
-        return 'SELECT count(*) FROM (' . $this->buildSelectQueryBody($query) . ') AS mainQuery';
+        return 'SELECT count(*) FROM (' . $this->buildSelectQueryBody($query) . ')';
     }
 
     /**

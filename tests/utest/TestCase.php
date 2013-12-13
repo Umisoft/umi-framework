@@ -10,6 +10,7 @@
 namespace utest;
 
 use ReflectionClass;
+use ReflectionProperty;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\IToolkit;
 use umi\toolkit\prototype\IPrototypeFactory;
@@ -57,10 +58,6 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $this->tearDownFixtures();
 
         $this->clearFixtureProperties();
-
-        if ($this->toolkit) {
-            $this->toolkit = null;
-        }
     }
 
     /**
@@ -111,6 +108,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     protected function clearFixtureProperties()
     {
         $reflection = new \ReflectionClass($this);
+
+        $this->toolkit = null;
+        $this->prototypeFactory = null;
+
         foreach ($reflection->getProperties() as $property) {
             $property->setAccessible(true);
             $value = $property->getValue($this);
@@ -118,7 +119,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             if (is_string($value) && strpos($name, 'fs') === 0) {
                 $property->setValue($this, null);
                 $this->clearFsFixture($value);
+            } elseif (is_object($value)) {
+                $property->setValue($this, null);
             }
+
         }
     }
 

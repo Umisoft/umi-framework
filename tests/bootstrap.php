@@ -13,12 +13,16 @@ if (!is_readable($vendorDir . '/autoload.php')) {
     throw new \RuntimeException('Composer autoloader not found. Run composer install.');
 }
 
+if (!defined('TESTS_ROOT')) {
+    define('TESTS_ROOT', __DIR__);
+}
+
 if (!defined('TESTS_CONFIGURATION')) {
-    define('TESTS_CONFIGURATION', __DIR__ . '/configuration');
+    define('TESTS_CONFIGURATION', TESTS_ROOT . '/configuration');
 }
 
 if (!defined('LIBRARY_PATH')) {
-    define('LIBRARY_PATH', __DIR__ . '/../library/umi');
+    define('LIBRARY_PATH', dirname(TESTS_ROOT) . '/library/umi');
 }
 
 $loader = require_once($vendorDir . '/autoload.php');

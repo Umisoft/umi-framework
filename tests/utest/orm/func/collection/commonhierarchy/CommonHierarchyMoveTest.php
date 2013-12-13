@@ -241,13 +241,13 @@ FROM "umi_mock_hierarchy"
 WHERE "id" = 4 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 4 AND "version" = 2) AS mainQuery',
+WHERE "id" = 4 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 1 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 1 AND "version" = 1) AS mainQuery',
+WHERE "id" = 1 AND "version" = 1)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 1, "version" = "version" + 1
@@ -296,13 +296,13 @@ FROM "umi_mock_hierarchy"
 WHERE "id" = 4 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 4 AND "version" = 2) AS mainQuery',
+WHERE "id" = 4 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 1 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 1 AND "version" = 1) AS mainQuery',
+WHERE "id" = 1 AND "version" = 1)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 2, "version" = "version" + 1
@@ -356,19 +356,19 @@ FROM "umi_mock_hierarchy"
 WHERE "id" = 5 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 5 AND "version" = 2) AS mainQuery',
+WHERE "id" = 5 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 1 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 1 AND "version" = 1) AS mainQuery',
+WHERE "id" = 1 AND "version" = 1)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog1/post2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "uri" = //blog1/post2) AS mainQuery',
+WHERE "uri" = //blog1/post2)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 1, "version" = "version" + 1
@@ -471,19 +471,19 @@ FROM "umi_mock_hierarchy"
 WHERE "id" = 2 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 2 AND "version" = 2) AS mainQuery',
+WHERE "id" = 2 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 5 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 5 AND "version" = 2) AS mainQuery',
+WHERE "id" = 5 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog1/blog3/post2/blog2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "uri" = //blog1/blog3/post2/blog2) AS mainQuery',
+WHERE "uri" = //blog1/blog3/post2/blog2)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 2, "version" = "version" + 1
@@ -565,19 +565,19 @@ FROM "umi_mock_hierarchy"
 WHERE "id" = 1 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 1 AND "version" = 1) AS mainQuery',
+WHERE "id" = 1 AND "version" = 1)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "id" = 8 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 8 AND "version" = 1) AS mainQuery',
+WHERE "id" = 8 AND "version" = 1)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog5/blog1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "uri" = //blog5/blog1) AS mainQuery',
+WHERE "uri" = //blog5/blog1)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 1, "version" = "version" + 1
@@ -659,13 +659,13 @@ FROM "umi_mock_hierarchy"
 WHERE "id" = 4 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 4 AND "version" = 2) AS mainQuery',
+WHERE "id" = 4 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog3',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "uri" = //blog3) AS mainQuery',
+WHERE "uri" = //blog3)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 1, "version" = "version" + 1
@@ -747,13 +747,13 @@ FROM "umi_mock_hierarchy"
 WHERE "id" = 4 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 4 AND "version" = 2) AS mainQuery',
+WHERE "id" = 4 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //blog3',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "uri" = //blog3) AS mainQuery',
+WHERE "uri" = //blog3)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "order" = 2, "version" = "version" + 1

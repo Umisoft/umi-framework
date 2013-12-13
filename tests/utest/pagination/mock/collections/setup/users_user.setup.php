@@ -10,20 +10,22 @@ return function (ICollectionDataSource $dataSource) {
 
     $tableScheme->addOption('engine', 'InnoDB');
 
-    $tableScheme->addColumn('id', Type::INTEGER);
-    $tableScheme->addColumn('guid', Type::STRING, ['notnull'=>false]);
-    $tableScheme->addColumn('type', Type::TEXT, ['notnull'=>false]);
+    $tableScheme->addColumn('id', Type::INTEGER, ['autoincrement' => true]);
+    $tableScheme->addColumn('guid', Type::STRING, ['notnull' => false]);
+    $tableScheme->addColumn('type', Type::TEXT, ['notnull' => false]);
     $tableScheme->addColumn(
         'version',
         Type::INTEGER,
-        ['unsigned' => true, 'default' => 1, 'notnull'=>false]
+        ['unsigned' => true, 'default' => 1, 'notnull' => false]
     );
 
-    $tableScheme->addColumn('login', Type::STRING, ['notnull'=>false]);
+    $tableScheme->addColumn('login', Type::STRING, ['notnull' => false]);
 
     $tableScheme->setPrimaryKey(['id']);
+
     return $dataSource
         ->getMasterServer()
         ->getConnection()
-        ->getDatabasePlatform()->getCreateTableSQL($tableScheme);
+        ->getDatabasePlatform()
+        ->getCreateTableSQL($tableScheme);
 };

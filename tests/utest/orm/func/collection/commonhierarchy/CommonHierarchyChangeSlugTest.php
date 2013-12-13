@@ -162,14 +162,14 @@ WHERE "mpath" like #1.%
 GROUP BY "type"',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "id" = 1 AND "version" = 1) AS mainQuery',
+WHERE "id" = 1 AND "version" = 1)',
                 //проверка актуальности изменяемого объекта
                 'SELECT "id"
 FROM "umi_mock_hierarchy"
 WHERE "uri" = //new_slug AND "id" != 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_hierarchy"
-WHERE "uri" = //new_slug AND "id" != 1) AS mainQuery',
+WHERE "uri" = //new_slug AND "id" != 1)',
                 //обновление всей slug у всей ветки изменяемого объекта
                 'UPDATE "umi_mock_hierarchy"
 SET "version" = "version" + 1, "uri" = REPLACE("uri", \'//blog1\', \'//new_slug\')

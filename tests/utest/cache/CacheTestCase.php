@@ -40,9 +40,9 @@ abstract class CacheTestCase extends TestCase
      * @param $tableName
      * @param IServer $server
      */
-    protected function setupDatabase($tableName, $server = null)
+    protected function setupCacheDatabase($tableName, $server = null)
     {
-        $connection = $server == null ? $this->getDbServer()->getConnection() : $server->getConnection();
+        $connection = is_null($server) ? $this->getDefaultDbServer()->getConnection() : $server->getConnection();
 
         if ($connection->getSchemaManager()->tablesExist($tableName)) {
             $connection
@@ -61,8 +61,10 @@ abstract class CacheTestCase extends TestCase
         );
         $table->setPrimaryKey(['key']);
         $table->addIndex(['cacheExpiration'], 'expire');
+
         $connection
             ->getSchemaManager()
             ->createTable($table);
+
     }
 }

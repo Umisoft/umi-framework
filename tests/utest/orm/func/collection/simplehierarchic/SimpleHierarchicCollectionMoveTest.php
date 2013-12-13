@@ -207,7 +207,7 @@ FROM "umi_mock_menu"
 WHERE "id" = 5 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 5 AND "version" = 1) AS mainQuery',
+WHERE "id" = 5 AND "version" = 1)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 1, "version" = "version" + 1
@@ -242,13 +242,13 @@ FROM "umi_mock_menu"
 WHERE "id" = 6 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 6 AND "version" = 2) AS mainQuery',
+WHERE "id" = 6 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 5 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 5 AND "version" = 1) AS mainQuery',
+WHERE "id" = 5 AND "version" = 1)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 3, "version" = "version" + 1
@@ -282,19 +282,19 @@ FROM "umi_mock_menu"
 WHERE "id" = 6 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 6 AND "version" = 2) AS mainQuery',
+WHERE "id" = 6 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 2 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 2 AND "version" = 1) AS mainQuery',
+WHERE "id" = 2 AND "version" = 1)',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "uri" = //item2/item6',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "uri" = //item2/item6) AS mainQuery',
+WHERE "uri" = //item2/item6)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 1, "version" = "version" + 1
@@ -365,19 +365,19 @@ FROM "umi_mock_menu"
 WHERE "id" = 7 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 7 AND "version" = 2) AS mainQuery',
+WHERE "id" = 7 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 2 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 2 AND "version" = 1) AS mainQuery',
+WHERE "id" = 2 AND "version" = 1)',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "uri" = //item2/item7',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "uri" = //item2/item7) AS mainQuery',
+WHERE "uri" = //item2/item7)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 2, "version" = "version" + 1
@@ -438,19 +438,19 @@ FROM "umi_mock_menu"
 WHERE "id" = 2 AND "version" = 1',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 2 AND "version" = 1) AS mainQuery',
+WHERE "id" = 2 AND "version" = 1)',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "id" = 7 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 7 AND "version" = 2) AS mainQuery',
+WHERE "id" = 7 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "uri" = //item5/item6/item7/item2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "uri" = //item5/item6/item7/item2) AS mainQuery',
+WHERE "uri" = //item5/item6/item7/item2)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 1, "version" = "version" + 1
@@ -508,13 +508,13 @@ FROM "umi_mock_menu"
 WHERE "id" = 6 AND "version" = 2',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "id" = 6 AND "version" = 2) AS mainQuery',
+WHERE "id" = 6 AND "version" = 2)',
                 'SELECT "id"
 FROM "umi_mock_menu"
 WHERE "uri" = //item6',
                 'SELECT count(*) FROM (SELECT "id"
 FROM "umi_mock_menu"
-WHERE "uri" = //item6) AS mainQuery',
+WHERE "uri" = //item6)',
                 //изменение порядка у перемещаемого объекта
                 'UPDATE "umi_mock_menu"
 SET "order" = 1, "version" = "version" + 1
