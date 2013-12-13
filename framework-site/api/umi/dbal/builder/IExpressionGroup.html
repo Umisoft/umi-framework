@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\dbal\builder\IExpressionGroup |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/dbal/builder.html">umi\dbal\builder</a>\IExpressionGroup</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IExpressionGroup</strong></p>
+
+            <div class="description">
+            <p>Группа выражений запроса.</p>
+            <p>Группа может состоять из вложенных групп и простых выражений
+Составные группы и простые выражения складываются по OR, AND, XOR
+в зависимости от указанного режима группы.</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>MODE_AND</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>MODE_OR</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>MODE_XOR</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getMode">getMode</a>()
+                    <p>Возвращает режим сложения составных выражений группы</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getParentGroup">getParentGroup</a>()
+                    <p>Возвращает родительскую группу</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_addExpression">addExpression</a>(string $leftCond, string $operator, string $rightCond)
+                    <p>Добавляет простое выражение</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getExpressions">getExpressions</a>()
+                    <p>Возвращает массив простых выражений</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_addGroup">addGroup</a>(<a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a> $group)
+                    <p>Добавляет дочернюю группу условий</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a>[]
+                </td>
+                <td class="last">
+                    <a href="#method_getGroups">getGroups</a>()
+                    <p>Возвращает список дочерних групп</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getMode">
+        <div class="location">at line 29</div>
+        <code>            public            string
+    <strong>getMode</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает режим сложения составных выражений группы</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getParentGroup">
+        <div class="location">at line 36</div>
+        <code>            public            
+    <strong>getParentGroup</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает родительскую группу</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addExpression">
+        <div class="location">at line 45</div>
+        <code>            public            <a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a>
+    <strong>addExpression</strong>(string $leftCond, string $operator, string $rightCond)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет простое выражение</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$leftCond</td>
+                <td>левая часть выражения</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$operator</td>
+                <td>оператор</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$rightCond</td>
+                <td>правая часть выражения</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getExpressions">
+        <div class="location">at line 51</div>
+        <code>            public            array
+    <strong>getExpressions</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает массив простых выражений</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>в формате array(array(leftCond, $operator, $rightCond), ...)</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_addGroup">
+        <div class="location">at line 57</div>
+        <code>            public            
+    <strong>addGroup</strong>(<a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a> $group)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет дочернюю группу условий</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a></td>
+                <td>$group</td>
+                <td>группа</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getGroups">
+        <div class="location">at line 63</div>
+        <code>            public            <a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a>[]
+    <strong>getGroups</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список дочерних групп</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a>[]</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

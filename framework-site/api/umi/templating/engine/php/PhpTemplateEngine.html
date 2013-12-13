@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\templating\engine\php\PhpTemplateEngine |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/templating/engine/php.html">umi\templating\engine\php</a>\PhpTemplateEngine</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>PhpTemplateEngine</strong>        extends <a href="../../../../umi/templating/engine/BaseTemplateEngine.html"><abbr title="umi\templating\engine\BaseTemplateEngine">BaseTemplateEngine</abbr></a>        implements
+        <a href="../../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
+
+            <div class="description">
+            <p>PHP шаблонизатор.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array $options)
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/templating/engine/ITemplateEngine.html"><abbr title="umi\templating\engine\ITemplateEngine">ITemplateEngine</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setExtensionAdapter">setExtensionAdapter</a>(<a href="../../../../umi/templating/extension/adapter/IExtensionAdapter.html"><abbr title="umi\templating\extension\adapter\IExtensionAdapter">IExtensionAdapter</abbr></a> $adapter)
+                    <p>Устанавливает расширение шаблонизатора.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../../umi/templating/engine/BaseTemplateEngine.html#method_setExtensionAdapter"><abbr title="umi\templating\engine\BaseTemplateEngine">BaseTemplateEngine</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_render">render</a>($templateFile, array $variables = array())
+                    <p>Отображает заданный шаблон используя переменные.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_callHelper">callHelper</a>(string $name, array $arguments)
+                    <p>Magic method: вызывает помошник вида.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 37</div>
+        <code>            public            
+    <strong>__construct</strong>(array $options)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setExtensionAdapter">
+        <div class="location">in <a href="../../../../umi/templating/engine/BaseTemplateEngine.html#method_setExtensionAdapter"><abbr title="umi\templating\engine\BaseTemplateEngine">BaseTemplateEngine</abbr></a> at line 45</div>
+        <code>            public            <a href="../../../../umi/templating/engine/ITemplateEngine.html"><abbr title="umi\templating\engine\ITemplateEngine">ITemplateEngine</abbr></a>
+    <strong>setExtensionAdapter</strong>(<a href="../../../../umi/templating/extension/adapter/IExtensionAdapter.html"><abbr title="umi\templating\extension\adapter\IExtensionAdapter">IExtensionAdapter</abbr></a> $adapter)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает расширение шаблонизатора.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/templating/extension/adapter/IExtensionAdapter.html"><abbr title="umi\templating\extension\adapter\IExtensionAdapter">IExtensionAdapter</abbr></a></td>
+                <td>$adapter</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/templating/engine/ITemplateEngine.html"><abbr title="umi\templating\engine\ITemplateEngine">ITemplateEngine</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_render">
+        <div class="location">at line 46</div>
+        <code>            public            string
+    <strong>render</strong>($templateFile, array $variables = array())</code>
+    </h3>
+    <div class="details">
+        <p>Отображает заданный шаблон используя переменные.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$templateFile</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$variables</td>
+                <td>переменные</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>отображение</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_callHelper">
+        <div class="location">at line 59</div>
+        <code>            public            string
+    <strong>callHelper</strong>(string $name, array $arguments)</code>
+    </h3>
+    <div class="details">
+        <p>Magic method: вызывает помошник вида.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$name</td>
+                <td>имя помошника вида</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$arguments</td>
+                <td>аргументы</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если коллекция помощников вида не была внедрена</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

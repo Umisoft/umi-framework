@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\config\entity\value\ConfigValue |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/config/entity/value.html">umi\config\entity\value</a>\ConfigValue</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>ConfigValue</strong>        implements
+        <a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a>, <a href="../../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
+
+            <div class="description">
+            <p>Значение конфигурации</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array $values = array())
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(int $type = self::KEY_AUTO)
+                    <p>Возвращает значение указанного типа.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_set">set</a>(mixed $value, int $type = self::KEY_AUTO)
+                    <p>Устанавливает сессионое значение конфигурации.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_has">has</a>(int $type = self::KEY_AUTO)
+                    <p>Проверяет существование значения заданного типа.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_del">del</a>($type = self::KEY_AUTO)
+                    <p>Удаляет сессионное значение конфигурации.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_reset">reset</a>()
+                    <p>Сбрасывает сессионное значение.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_save">save</a>()
+                    <p>Сохраняет сессионные изменения в конфигурацию.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___sleep">__sleep</a>()
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___wakeup">__wakeup</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 37</div>
+        <code>            public            
+    <strong>__construct</strong>(array $values = array())</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$values</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_get">
+        <div class="location">at line 48</div>
+        <code>            public            mixed
+    <strong>get</strong>(int $type = self::KEY_AUTO)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает значение указанного типа.</p>
+        <p>Если указан тип
+IConfig::KEY_AUTO, то будет выбрано наиболее подходящее значение.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>int</td>
+                <td>$type</td>
+                <td>тип значения</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>значение</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_set">
+        <div class="location">at line 60</div>
+        <code>            public            <a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a>
+    <strong>set</strong>(mixed $value, int $type = self::KEY_AUTO)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает сессионое значение конфигурации.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$type</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_has">
+        <div class="location">at line 79</div>
+        <code>            public            bool
+    <strong>has</strong>(int $type = self::KEY_AUTO)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет существование значения заданного типа.</p>
+        <p>Для типа
+IConfig::KEY_AUTO проверяет наличие какого-либо значения.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>int</td>
+                <td>$type</td>
+                <td>тип значения</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>существует ли значение</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_del">
+        <div class="location">at line 91</div>
+        <code>            public            
+    <strong>del</strong>($type = self::KEY_AUTO)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет сессионное значение конфигурации.</p>
+        <p>При удалении, сессионное значение сбрасывается и выставляется флаг об удалении. Таким образом,
+методы получения автоматического значения, возвращают результаты для master значения. Но при
+явном запросе локального значения, оно будет получено.
+Флаг удаления сбрасывается при установке нового сессионного значения, либо его сбросе.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$type</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_reset">
+        <div class="location">at line 103</div>
+        <code>            public            
+    <strong>reset</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Сбрасывает сессионное значение.</p>
+        <p>Сессионное значение удаляется, также сбрасывается флаг удаленного значения.</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_save">
+        <div class="location">at line 113</div>
+        <code>            public            <a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a>
+    <strong>save</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Сохраняет сессионные изменения в конфигурацию.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___sleep">
+        <div class="location">at line 123</div>
+        <code>            public            
+    <strong>__sleep</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method___wakeup">
+        <div class="location">at line 128</div>
+        <code>            public            
+    <strong>__wakeup</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

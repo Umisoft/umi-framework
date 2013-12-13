@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\cache\ICache |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../classes.html">Classes</a></li>
+                            <li><a href="../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../traits.html">Traits</a></li>
+            <li><a href="../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../umi/cache.html">umi\cache</a>\ICache</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>ICache</strong></p>
+
+            <div class="description">
+            <p>Компонент для работы с кэшем.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/cache/ICache.html"><abbr title="umi\cache\ICache">ICache</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_set">set</a>(string $key, mixed $value, int $ttl)
+                    <p>Записывает в кэш значение по ключу</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(string $key, array $invalidationTags = null)
+                    <p>Возвращает значение из кэша по ключу</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_remove">remove</a>(string $key)
+                    <p>Удаляет значение из кэша по ключу</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_clear">clear</a>()
+                    <p>Очищает весь кэш bool успех операции</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/cache/ICache.html"><abbr title="umi\cache\ICache">ICache</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_invalidateTags">invalidateTags</a>(array $tags, int|null $time = null)
+                    <p>Инвалидирует кеш по тегам</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_algorithm">algorithm</a>(string $key, callable $algorithm, int $ttl, array $invalidationTags = null)
+                    <p>Кэширует и возвращает результат работы какого-либо алгоритма.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_set">
+        <div class="location">at line 25</div>
+        <code>            public            <a href="../../umi/cache/ICache.html"><abbr title="umi\cache\ICache">ICache</abbr></a>
+    <strong>set</strong>(string $key, mixed $value, int $ttl)</code>
+    </h3>
+    <div class="details">
+        <p>Записывает в кэш значение по ключу</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>ключ</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$ttl</td>
+                <td>время жизни кэша в секундах. 0 - никогда не истекает</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/cache/ICache.html"><abbr title="umi\cache\ICache">ICache</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_get">
+        <div class="location">at line 33</div>
+        <code>            public            mixed
+    <strong>get</strong>(string $key, array $invalidationTags = null)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает значение из кэша по ключу</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>ключ</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$invalidationTags</td>
+                <td>массив тегов инвалидации кэша</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>значение, либо null</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_remove">
+        <div class="location">at line 40</div>
+        <code>            public            
+    <strong>remove</strong>(string $key)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет значение из кэша по ключу</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>ключ bool успех операции</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_clear">
+        <div class="location">at line 46</div>
+        <code>            public            
+    <strong>clear</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Очищает весь кэш bool успех операции</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_invalidateTags">
+        <div class="location">at line 54</div>
+        <code>            public            <a href="../../umi/cache/ICache.html"><abbr title="umi\cache\ICache">ICache</abbr></a>
+    <strong>invalidateTags</strong>(array $tags, int|null $time = null)</code>
+    </h3>
+    <div class="details">
+        <p>Инвалидирует кеш по тегам</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$tags</td>
+                <td>список тегов</td>
+            </tr>
+                    <tr>
+                <td>int|null</td>
+                <td>$time</td>
+                <td>метка времени Unix, когда теги стали невалидными. Если не указано, используется текущее время</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/cache/ICache.html"><abbr title="umi\cache\ICache">ICache</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_algorithm">
+        <div class="location">at line 65</div>
+        <code>            public            mixed
+    <strong>algorithm</strong>(string $key, callable $algorithm, int $ttl, array $invalidationTags = null)</code>
+    </h3>
+    <div class="details">
+        <p>Кэширует и возвращает результат работы какого-либо алгоритма.</p>
+        <p>Если кэш данных не валидный, то алгоритм будет перезапущен и кэш будет перезаписан.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>уникальный ключ</td>
+            </tr>
+                    <tr>
+                <td>callable</td>
+                <td>$algorithm</td>
+                <td>алгоритм - callable-функция, результат которой будет положен в кэш и возвращен в использующий компонент</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$ttl</td>
+                <td>время жизни кэша в секундах. 0 - никогда не истекает</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$invalidationTags</td>
+                <td>массив тегов инвалидации кэша</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

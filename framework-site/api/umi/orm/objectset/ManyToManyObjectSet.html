@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\objectset\ManyToManyObjectSet |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/orm/objectset.html">umi\orm\objectset</a>\ManyToManyObjectSet</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>ManyToManyObjectSet</strong>        extends <a href="../../../umi/orm/objectset/ObjectSet.html"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a>        implements
+        <a href="../../../umi/orm/objectset/IManyToManyObjectSet.html"><abbr title="umi\orm\objectset\IManyToManyObjectSet">IManyToManyObjectSet</abbr></a>, <a href="../../../umi/orm/collection/ICollectionManagerAware.html"><abbr title="umi\orm\collection\ICollectionManagerAware">ICollectionManagerAware</abbr></a></p>
+
+            <div class="description">
+            <p>Набор объектов для свойства типа relation с типом связи manyToMany.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, <a href="../../../umi/orm/metadata/field/relation/ManyToManyRelationField.html"><abbr title="umi\orm\metadata\field\relation\ManyToManyRelationField">ManyToManyRelationField</abbr></a> $field)
+                    <p>Конструктор</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/objectset/IObjectSet.html"><abbr title="umi\orm\objectset\IObjectSet">IObjectSet</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setSelector">setSelector</a>(<a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a> $selector)
+                    <p>Устанавливает Selector для набора объектов.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_setSelector"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getSelector">getSelector</a>()
+                    <p>Возвращает Selector, установленный для набора объектов коллекции.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_getSelector"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/objectset/IObjectSet.html"><abbr title="umi\orm\objectset\IObjectSet">IObjectSet</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_reset">reset</a>()
+                    <p>Сбрасывает все загруженные объекты.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_reset"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_fetchAll">fetchAll</a>()
+                    <p>Возвращает весь список объектов IObject</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_fetchAll"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>|null
+                </td>
+                <td class="last">
+                    <a href="#method_fetch">fetch</a>()
+                    <p>Возвращает следующий объект в наборе.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_fetch"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_current">current</a>()
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_current"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_next">next</a>()
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_next"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_key">key</a>()
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_key"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_valid">valid</a>()
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_rewind">rewind</a>()
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_rewind"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    int
+                </td>
+                <td class="last">
+                    <a href="#method_count">count</a>()
+                    <p>Возвращает количество объектов наборе</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/orm/objectset/ObjectSet.html#method_count"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_attach">attach</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Добавляет объект target-коллекции в набор значений свойства</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_link">link</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Добавляет объект target-коллекции в набор значений свойства либо возвращает существующий</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_contains">contains</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Проверяет содержится ли объект target-коллекции в наборе значений свойства</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/objectset/IManyToManyObjectSet.html"><abbr title="umi\orm\objectset\IManyToManyObjectSet">IManyToManyObjectSet</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_detach">detach</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Удаляет объект target-коллекции из набора значений свойства</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_detachAll">detachAll</a>()
+                    <p>Удаляет все объекты target-коллекции из набора значений свойства</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 44</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, <a href="../../../umi/orm/metadata/field/relation/ManyToManyRelationField.html"><abbr title="umi\orm\metadata\field\relation\ManyToManyRelationField">ManyToManyRelationField</abbr></a> $field)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>объект данных</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/metadata/field/relation/ManyToManyRelationField.html"><abbr title="umi\orm\metadata\field\relation\ManyToManyRelationField">ManyToManyRelationField</abbr></a></td>
+                <td>$field</td>
+                <td>поле типа данных объекта</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setSelector">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_setSelector"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 68</div>
+        <code>            public            <a href="../../../umi/orm/objectset/IObjectSet.html"><abbr title="umi\orm\objectset\IObjectSet">IObjectSet</abbr></a>
+    <strong>setSelector</strong>(<a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a> $selector)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает Selector для набора объектов.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+                <td>$selector</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/objectset/IObjectSet.html"><abbr title="umi\orm\objectset\IObjectSet">IObjectSet</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если Selector был установлен ранее</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSelector">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_getSelector"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 83</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>getSelector</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает Selector, установленный для набора объектов коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если Selector не был установлен</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_reset">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_reset"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 97</div>
+        <code>            public            <a href="../../../umi/orm/objectset/IObjectSet.html"><abbr title="umi\orm\objectset\IObjectSet">IObjectSet</abbr></a>
+    <strong>reset</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Сбрасывает все загруженные объекты.</p>
+        <p>Повторный fetch приведет к новому запросу в БД.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/objectset/IObjectSet.html"><abbr title="umi\orm\objectset\IObjectSet">IObjectSet</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fetchAll">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_fetchAll"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 111</div>
+        <code>            public            array
+    <strong>fetchAll</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает весь список объектов IObject</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fetch">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_fetch"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 124</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>|null
+    <strong>fetch</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает следующий объект в наборе.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>|null</td>
+            <td>объект, либо null, если достигли конца результата</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_current">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_current"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 138</div>
+        <code>            public            
+    <strong>current</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_next">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_next"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 146</div>
+        <code>            public            
+    <strong>next</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_key">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_key"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 154</div>
+        <code>            public            
+    <strong>key</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_valid">
+        <div class="location">at line 55</div>
+        <code>            public            
+    <strong>valid</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_rewind">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_rewind"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 185</div>
+        <code>            public            
+    <strong>rewind</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_count">
+        <div class="location">in <a href="../../../umi/orm/objectset/ObjectSet.html#method_count"><abbr title="umi\orm\objectset\ObjectSet">ObjectSet</abbr></a> at line 194</div>
+        <code>            public            int
+    <strong>count</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает количество объектов наборе</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td>кол-во загруженных объектов в наборе</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_attach">
+        <div class="location">at line 90</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+    <strong>attach</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет объект target-коллекции в набор значений свойства</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>добавляемый объект</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+            <td>объект содержащий в себе свойства связи (объект bridge-коллекции)</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="AlreadyExistentEntityException">AlreadyExistentEntityException</abbr></td>
+                <td>если объект уже существует в наборе</td>
+            </tr>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если не удалось добавить объект</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_link">
+        <div class="location">at line 117</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+    <strong>link</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет объект target-коллекции в набор значений свойства либо возвращает существующий</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>добавляемый объект</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+            <td>объект содержащий в себе свойства связи (объект bridge-коллекции)</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось добавить объект</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_contains">
+        <div class="location">at line 130</div>
+        <code>            public            bool
+    <strong>contains</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет содержится ли объект target-коллекции в наборе значений свойства</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>объект</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>если проверяется объект из неподходящей коллекции</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_detach">
+        <div class="location">at line 138</div>
+        <code>            public            <a href="../../../umi/orm/objectset/IManyToManyObjectSet.html"><abbr title="umi\orm\objectset\IManyToManyObjectSet">IManyToManyObjectSet</abbr></a>
+    <strong>detach</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет объект target-коллекции из набора значений свойства</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>удаляемый объект</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/objectset/IManyToManyObjectSet.html"><abbr title="umi\orm\objectset\IManyToManyObjectSet">IManyToManyObjectSet</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_detachAll">
+        <div class="location">at line 159</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+    <strong>detachAll</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет все объекты target-коллекции из набора значений свойства</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+            <td>$this</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

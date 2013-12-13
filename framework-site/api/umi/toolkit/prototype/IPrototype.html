@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\toolkit\prototype\IPrototype |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/toolkit/prototype.html">umi\toolkit\prototype</a>\IPrototype</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IPrototype</strong>        implements
+        <a href="../../../umi/toolkit/IToolkitAware.html"><abbr title="umi\toolkit\IToolkitAware">IToolkitAware</abbr></a></p>
+
+            <div class="description">
+            <p>Прототип объекта</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setToolkit">setToolkit</a>(<a href="../../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a> $toolkit)
+                    <p>Устанавливает toolkit.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/toolkit/IToolkitAware.html#method_setToolkit"><abbr title="umi\toolkit\IToolkitAware">IToolkitAware</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setContracts">setContracts</a>(array $contracts)
+                    <p>Устанавливает контракты, которым должны следовать объекты, созданные на основе прототипа</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_resolveDependencies">resolveDependencies</a>()
+                    <p>Внедряет в прототип зависимости.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getClassName">getClassName</a>()
+                    <p>Возвращает имя класса прототипа.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    object
+                </td>
+                <td class="last">
+                    <a href="#method_createInstance">createInstance</a>(array $constructorArgs = array(), array $options = array())
+                    <p>Создает и возвращает экземпляр объекта на основе прототипа.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    object
+                </td>
+                <td class="last">
+                    <a href="#method_createSingleInstance">createSingleInstance</a>(array $constructorArgs = array(), array $options = array(), callable $initializer = null)
+                    <p>Создает и возвращает единственный экземпляр объекта.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_registerConstructorDependency">registerConstructorDependency</a>(string $contract, callable $builder)
+                    <p>Регистрирует билдер для зависимости, принимаемой в конструкторе</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_invokeConstructor">invokeConstructor</a>(object $object, array $constructorArgs = array())
+                    <p>Вызывает конструктор у экземпляра объекта, внедряет в конструктор известные сервисы.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setOptions">setOptions</a>(<abbr title="umi\toolkit\prototype\$object">$object</abbr> $object, array $options)
+                    <p>Устанавливает опции экземпляру объекта.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_wakeUpInstance">wakeUpInstance</a>(object $object)
+                    <p>Восстанавливает зависимости объекта.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    object
+                </td>
+                <td class="last">
+                    <a href="#method_getPrototypeInstance">getPrototypeInstance</a>()
+                    <p>Возвращает экземпляр прототипа</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_checkContracts">checkContracts</a>(object $object)
+                    <p>Проверяет объект на следование контрактам прототипа.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_setToolkit">
+        <div class="location">in <a href="../../../umi/toolkit/IToolkitAware.html#method_setToolkit"><abbr title="umi\toolkit\IToolkitAware">IToolkitAware</abbr></a> at line 21</div>
+        <code>            public            
+    <strong>setToolkit</strong>(<a href="../../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a> $toolkit)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает toolkit.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/toolkit/IToolkit.html"><abbr title="umi\toolkit\IToolkit">IToolkit</abbr></a></td>
+                <td>$toolkit</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setContracts">
+        <div class="location">at line 27</div>
+        <code>            public            <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+    <strong>setContracts</strong>(array $contracts)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает контракты, которым должны следовать объекты, созданные на основе прототипа</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$contracts</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_resolveDependencies">
+        <div class="location">at line 33</div>
+        <code>            public            <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+    <strong>resolveDependencies</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Внедряет в прототип зависимости.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getClassName">
+        <div class="location">at line 39</div>
+        <code>            public            string
+    <strong>getClassName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя класса прототипа.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createInstance">
+        <div class="location">at line 47</div>
+        <code>            public            object
+    <strong>createInstance</strong>(array $constructorArgs = array(), array $options = array())</code>
+    </h3>
+    <div class="details">
+        <p>Создает и возвращает экземпляр объекта на основе прототипа.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$constructorArgs</td>
+                <td>аргументы конструктора</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции, внедряемые в публичные свойства объекта</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>object</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createSingleInstance">
+        <div class="location">at line 56</div>
+        <code>            public            object
+    <strong>createSingleInstance</strong>(array $constructorArgs = array(), array $options = array(), callable $initializer = null)</code>
+    </h3>
+    <div class="details">
+        <p>Создает и возвращает единственный экземпляр объекта.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$constructorArgs</td>
+                <td>аргументы конструктора</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции, внедряемые в публичные свойства объекта</td>
+            </tr>
+                    <tr>
+                <td>callable</td>
+                <td>$initializer</td>
+                <td>инициализатор, который будет вызван при создании объекта</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>object</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_registerConstructorDependency">
+        <div class="location">at line 64</div>
+        <code>            public            <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+    <strong>registerConstructorDependency</strong>(string $contract, callable $builder)</code>
+    </h3>
+    <div class="details">
+        <p>Регистрирует билдер для зависимости, принимаемой в конструкторе</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$contract</td>
+                <td>контракт</td>
+            </tr>
+                    <tr>
+                <td>callable</td>
+                <td>$builder</td>
+                <td>билдер, разрешающий зависимость</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_invokeConstructor">
+        <div class="location">at line 72</div>
+        <code>            public            <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+    <strong>invokeConstructor</strong>(object $object, array $constructorArgs = array())</code>
+    </h3>
+    <div class="details">
+        <p>Вызывает конструктор у экземпляра объекта, внедряет в конструктор известные сервисы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>object</td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$constructorArgs</td>
+                <td>аргументы конструктора</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setOptions">
+        <div class="location">at line 82</div>
+        <code>            public            <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+    <strong>setOptions</strong>(<abbr title="umi\toolkit\prototype\$object">$object</abbr> $object, array $options)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает опции экземпляру объекта.</p>
+        <p>Опции будут внедрены в публичные свойства.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="umi\toolkit\prototype\$object">$object</abbr></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/UnexpectedValueException"><abbr title="UnexpectedValueException">UnexpectedValueException</abbr></a></td>
+                <td>если какая-либо из опций не соответствует заданному типу по умолчанию.</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_wakeUpInstance">
+        <div class="location">at line 89</div>
+        <code>            public            <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+    <strong>wakeUpInstance</strong>(object $object)</code>
+    </h3>
+    <div class="details">
+        <p>Восстанавливает зависимости объекта.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>object</td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPrototypeInstance">
+        <div class="location">at line 95</div>
+        <code>            public            object
+    <strong>getPrototypeInstance</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает экземпляр прототипа</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>object</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_checkContracts">
+        <div class="location">at line 104</div>
+        <code>            public            <a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a>
+    <strong>checkContracts</strong>(object $object)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет объект на следование контрактам прототипа.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>object</td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/toolkit/prototype/IPrototype.html"><abbr title="umi\toolkit\prototype\IPrototype">IPrototype</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DomainException"><abbr title="DomainException">DomainException</abbr></a></td>
+                <td>если не соответсвует хотя бы одному контракту</td>
+            </tr>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если контракт не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

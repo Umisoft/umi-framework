@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\manager\IObjectManager |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/orm/manager.html">umi\orm\manager</a>\IObjectManager</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IObjectManager</strong></p>
+
+            <div class="description">
+            <p>Менеджер объектов (Identify Map).</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>|null
+                </td>
+                <td class="last">
+                    <a href="#method_getObjectInstanceById">getObjectInstanceById</a>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $collection, string|integer $objectId)
+                    <p>Возвращает загруженный ранее объект коллекции по его идентификатору, либо NULL</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>|null
+                </td>
+                <td class="last">
+                    <a href="#method_getObjectInstanceByGuid">getObjectInstanceByGuid</a>(string $guid)
+                    <p>Возвращает загруженный ранее объект коллекции по его GUID, либо NULL</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_registerNewObject">registerNewObject</a>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $collection, <a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a> $objectType)
+                    <p>Создает и регистрирует новый экземпляр объекта</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_registerLoadedObject">registerLoadedObject</a>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $collection, <a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a> $objectType, string|integer $objectId, string $guid)
+                    <p>Создает и регистрирует экземпляр существующего объекта, загруженного</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_wakeUpObject">wakeUpObject</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Восстанавливает экземпляр объекта в менеджере</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_unloadObjects">unloadObjects</a>()
+                    <p>Выгружает все объекты из памяти.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_storeNewObject">storeNewObject</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Помещает новый объект в хранилище объектов и помечает его как неновый</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_unloadObject">unloadObject</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Выгружает объект.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>[]
+                </td>
+                <td class="last">
+                    <a href="#method_getObjects">getObjects</a>()
+                    <p>Возвращает все зарегестрированные объекты</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getObjectInstanceById">
+        <div class="location">at line 30</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>|null
+    <strong>getObjectInstanceById</strong>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $collection, string|integer $objectId)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает загруженный ранее объект коллекции по его идентификатору, либо NULL</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a></td>
+                <td>$collection</td>
+                <td>коллекция</td>
+            </tr>
+                    <tr>
+                <td>string|integer</td>
+                <td>$objectId</td>
+                <td>уникальный идентификатор объекта</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>|null</td>
+            <td>если объект не найден</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getObjectInstanceByGuid">
+        <div class="location">at line 37</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>|null
+    <strong>getObjectInstanceByGuid</strong>(string $guid)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает загруженный ранее объект коллекции по его GUID, либо NULL</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$guid</td>
+                <td>уникальный GUID объекта</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>|null</td>
+            <td>если объект не найден</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_registerNewObject">
+        <div class="location">at line 46</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+    <strong>registerNewObject</strong>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $collection, <a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a> $objectType)</code>
+    </h3>
+    <div class="details">
+        <p>Создает и регистрирует новый экземпляр объекта</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a></td>
+                <td>$collection</td>
+                <td>коллекция объектов</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a></td>
+                <td>$objectType</td>
+                <td>тип объекта</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось создать объект</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_registerLoadedObject">
+        <div class="location">at line 56</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+    <strong>registerLoadedObject</strong>(<a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a> $collection, <a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a> $objectType, string|integer $objectId, string $guid)</code>
+    </h3>
+    <div class="details">
+        <p>Создает и регистрирует экземпляр существующего объекта, загруженного</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a></td>
+                <td>$collection</td>
+                <td>коллекция объектов</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a></td>
+                <td>$objectType</td>
+                <td>тип объекта</td>
+            </tr>
+                    <tr>
+                <td>string|integer</td>
+                <td>$objectId</td>
+                <td>уникальный идентификатор объекта</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$guid</td>
+                <td>уникальный GUID объекта</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_wakeUpObject">
+        <div class="location">at line 63</div>
+        <code>            public            <a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a>
+    <strong>wakeUpObject</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Восстанавливает экземпляр объекта в менеджере</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_unloadObjects">
+        <div class="location">at line 70</div>
+        <code>            public            <a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a>
+    <strong>unloadObjects</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Выгружает все объекты из памяти.</p>
+        <p><br />
+Все изменения, которые были не применены будут утеряны.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_storeNewObject">
+        <div class="location">at line 77</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+    <strong>storeNewObject</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Помещает новый объект в хранилище объектов и помечает его как неновый</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_unloadObject">
+        <div class="location">at line 84</div>
+        <code>            public            <a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a>
+    <strong>unloadObject</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Выгружает объект.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/manager/IObjectManager.html"><abbr title="umi\orm\manager\IObjectManager">IObjectManager</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getObjects">
+        <div class="location">at line 90</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>[]
+    <strong>getObjects</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает все зарегестрированные объекты</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>[]</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

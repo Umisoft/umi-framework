@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\object\property\BaseProperty |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/orm/object/property.html">umi\orm\object\property</a>\BaseProperty</h1>
+    </div>
+        <div class="content">
+                <p>abstract     class
+    <strong>BaseProperty</strong>        implements
+        <a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>, <a href="../../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>, <a href="../../../../umi/filter/IFilterAware.html"><abbr title="umi\filter\IFilterAware">IFilterAware</abbr></a></p>
+
+            <div class="description">
+            <p>Базовый класс свойства</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getName">getName</a>()
+                    <p>Возвращает имя свойства</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getFullName">getFullName</a>()
+                    <p>Возвращает имя свойства с суффиксом локали</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getField">getField</a>()
+                    <p>Возвращает поле типа данных, которое соответсвует свойству</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_getIsLoaded">getIsLoaded</a>()
+                    <p>Проверяет, загружено ли значение свойства</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setInitialValue">setInitialValue</a>($dbValue)
+                    <p>Инициализирует свойство, устанавливает внутреннее значение свойства и помечает свойство как isLoaded</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getDbValue">getDbValue</a>()
+                    <p>Возвращает внутреннее  значение свойства из БД.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getPreviousDbValue">getPreviousDbValue</a>()
+                    <p>Возвращает прежнее внутреннее значение свойства из БД.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setDefaultValue">setDefaultValue</a>()
+                    <p>Устанавливает значение свойства "по умолчанию"</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setValue">setValue</a>(mixed $value)
+                    <p>Устанавливает новое значение свойства</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getValue">getValue</a>()
+                    <p>Возвращает значение свойства</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_getPreviousValue">getPreviousValue</a>()
+                    <p>Возвращает прежнее значение свойства</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getAccessor">getAccessor</a>()
+                    <p>Возвращает имя getter'а для доступа к значению поля</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getMutator">getMutator</a>()
+                    <p>Возвращает имя setter'а для установки значения поля</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_getIsReadOnly">getIsReadOnly</a>()
+                    <p>Проверяет, доступно ли свойство на запись</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getIsModified">getIsModified</a>()
+                    <p>Проверяет, модифицировано ли значение свойства</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setIsConsistent">setIsConsistent</a>()
+                    <p>Помечает свойство, как консистентное с БД</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_rollback">rollback</a>()
+                    <p>Откатывает состояние свойства.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getIsValuePrepared">getIsValuePrepared</a>()
+                    <p>Возвращает признак подготовленности значения</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getName">
+        <div class="location">at line 69</div>
+        <code>            public            string
+    <strong>getName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя свойства</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFullName">
+        <div class="location">at line 77</div>
+        <code>            public            string
+    <strong>getFullName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя свойства с суффиксом локали</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getField">
+        <div class="location">at line 85</div>
+        <code>            public            <a href="../../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле типа данных, которое соответсвует свойству</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsLoaded">
+        <div class="location">at line 93</div>
+        <code>            public            bool
+    <strong>getIsLoaded</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, загружено ли значение свойства</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setInitialValue">
+        <div class="location">at line 101</div>
+        <code>            public            <a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>
+    <strong>setInitialValue</strong>($dbValue)</code>
+    </h3>
+    <div class="details">
+        <p>Инициализирует свойство, устанавливает внутреннее значение свойства и помечает свойство как isLoaded</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$dbValue</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDbValue">
+        <div class="location">at line 115</div>
+        <code>            public            
+    <strong>getDbValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает внутреннее  значение свойства из БД.</p>
+        <p><br />
+Поднимает событие IProperty.onLazyLoad, если свойство еще не было загружено.</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPreviousDbValue">
+        <div class="location">at line 127</div>
+        <code>            public            
+    <strong>getPreviousDbValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает прежнее внутреннее значение свойства из БД.</p>
+        <p>Для rollback().</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setDefaultValue">
+        <div class="location">at line 135</div>
+        <code>            public            <a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>
+    <strong>setDefaultValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает значение свойства "по умолчанию"</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setValue">
+        <div class="location">at line 148</div>
+        <code>            public            <a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>
+    <strong>setValue</strong>(mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает новое значение свойства</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение свойства</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось установить значение свойства</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getValue">
+        <div class="location">at line 182</div>
+        <code>            public            mixed
+    <strong>getValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает значение свойства</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPreviousValue">
+        <div class="location">at line 198</div>
+        <code>            public            mixed
+    <strong>getPreviousValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает прежнее значение свойства</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getAccessor">
+        <div class="location">at line 210</div>
+        <code>            public            string
+    <strong>getAccessor</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя getter'а для доступа к значению поля</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getMutator">
+        <div class="location">at line 218</div>
+        <code>            public            string
+    <strong>getMutator</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя setter'а для установки значения поля</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsReadOnly">
+        <div class="location">at line 226</div>
+        <code>            public            boolean
+    <strong>getIsReadOnly</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, доступно ли свойство на запись</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsModified">
+        <div class="location">at line 234</div>
+        <code>            public            
+    <strong>getIsModified</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, модифицировано ли значение свойства</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIsConsistent">
+        <div class="location">at line 242</div>
+        <code>            public            
+    <strong>setIsConsistent</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Помечает свойство, как консистентное с БД</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_rollback">
+        <div class="location">at line 254</div>
+        <code>            public            <a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>
+    <strong>rollback</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Откатывает состояние свойства.</p>
+        <p>Устанавливает свойству старое значение,
+помечает свойство как не модифицированное.</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIsValuePrepared">
+        <div class="location">at line 268</div>
+        <code>            public            
+    <strong>getIsValuePrepared</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает признак подготовленности значения</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

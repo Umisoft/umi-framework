@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\dbal\builder\JoinBuilder |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/dbal/builder.html">umi\dbal\builder</a>\JoinBuilder</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>JoinBuilder</strong>        implements
+        <a href="../../../umi/dbal/builder/IJoinBuilder.html"><abbr title="umi\dbal\builder\IJoinBuilder">IJoinBuilder</abbr></a></p>
+
+            <div class="description">
+            <p>Построитель Join - секции запроса.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(string|array $table, string $type = &#039;INNER&#039;)
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/IJoinBuilder.html"><abbr title="umi\dbal\builder\IJoinBuilder">IJoinBuilder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_on">on</a>(string $leftColumn, string $operator, string $rightColumn)
+                    <p>Условие для джойна.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getConditions">getConditions</a>()
+                    <p>Возвращает список условий для джойна</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getTable">getTable</a>()
+                    <p>Возвращает имя таблицы</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getType">getType</a>()
+                    <p>Возвращает тип джойна</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 35</div>
+        <code>            public            
+    <strong>__construct</strong>(string|array $table, string $type = &#039;INNER&#039;)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string|array</td>
+                <td>$table</td>
+                <td>имя таблицы для джойна, может быть массивом вида array('name', 'alias');</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td><ul>
+<li>тип джойна</li>
+</ul>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_on">
+        <div class="location">at line 48</div>
+        <code>            public            <a href="../../../umi/dbal/builder/IJoinBuilder.html"><abbr title="umi\dbal\builder\IJoinBuilder">IJoinBuilder</abbr></a>
+    <strong>on</strong>(string $leftColumn, string $operator, string $rightColumn)</code>
+    </h3>
+    <div class="details">
+        <p>Условие для джойна.</p>
+        <p>Условия для джойна всегда складываются по AND</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$leftColumn</td>
+                <td>имя столбца основной таблицы в формате TableOrAlias.columnName</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$operator</td>
+                <td>логический оператор ("=", ">", "&lt;" ...)</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$rightColumn</td>
+                <td>столбец присоединяемой таблицы в формате TableOrAlias.columnName</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/IJoinBuilder.html"><abbr title="umi\dbal\builder\IJoinBuilder">IJoinBuilder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getConditions">
+        <div class="location">at line 58</div>
+        <code>            public            
+    <strong>getConditions</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список условий для джойна</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTable">
+        <div class="location">at line 66</div>
+        <code>            public            
+    <strong>getTable</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя таблицы</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getType">
+        <div class="location">at line 74</div>
+        <code>            public            
+    <strong>getType</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает тип джойна</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

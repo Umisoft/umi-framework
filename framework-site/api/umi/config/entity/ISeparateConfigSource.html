@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\config\entity\ISeparateConfigSource |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/config/entity.html">umi\config\entity</a>\ISeparateConfigSource</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>ISeparateConfigSource</strong>        implements
+        <a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></p>
+
+            <div class="description">
+            <p>Отделенная конфигурация, загружаемая при необходимости.</p>
+            <p>С помощью данного типа конфигурации реализуется Lazy конфигурационные файлы,
+а также подключаемые удаленные конфигурации и т.п.</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(string $attribute)
+                    <p>Возвращает значение аттрибута из контейнера</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/spl/container/IContainer.html#method_get"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_set">set</a>(string $attribute, mixed $value)
+                    <p>Устанавливает значение аттрибута из контейнера</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/spl/container/IContainer.html#method_set"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_has">has</a>(string $attribute)
+                    <p>Проверяет, существет ли аттрибут в контейнере</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/spl/container/IContainer.html#method_has"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_del">del</a>(string $attribute)
+                    <p>Удаляет аттрибут из контейнера</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/spl/container/IContainer.html#method_del"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_toArray">toArray</a>()
+                    <p>Преобразует конфигурацию в массив значений.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/config/entity/IConfig.html#method_toArray"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_merge">merge</a>(array $source)
+                    <p>Устанавливает значения в конфиг, указанные в массиве.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/config/entity/IConfig.html#method_merge"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_reset">reset</a>(null|string $path = null)
+                    <p>Сбрасывает сессионное значение по заданному пути.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/config/entity/IConfig.html#method_reset"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getAlias">getAlias</a>()
+                    <p>Вовзвращает символическое имя.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/config/entity/IConfigSource.html#method_getAlias"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getSource">getSource</a>()
+                    <p>Возвращает все значения конфигурации в виде массива.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/config/entity/IConfigSource.html#method_getSource"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getSeparateConfig">getSeparateConfig</a>()
+                    <p>Возвращает</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_get">
+        <div class="location">in <a href="../../../umi/spl/container/IContainer.html#method_get"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a> at line 22</div>
+        <code>            public            mixed
+    <strong>get</strong>(string $attribute)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает значение аттрибута из контейнера</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$attribute</td>
+                <td>аттрибут</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>значение</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_set">
+        <div class="location">in <a href="../../../umi/spl/container/IContainer.html#method_set"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a> at line 30</div>
+        <code>            public            <a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
+    <strong>set</strong>(string $attribute, mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает значение аттрибута из контейнера</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$attribute</td>
+                <td>аттрибут</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_has">
+        <div class="location">in <a href="../../../umi/spl/container/IContainer.html#method_has"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a> at line 37</div>
+        <code>            public            bool
+    <strong>has</strong>(string $attribute)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, существет ли аттрибут в контейнере</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$attribute</td>
+                <td>аттрибут</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>true - если существует, иначе false</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_del">
+        <div class="location">in <a href="../../../umi/spl/container/IContainer.html#method_del"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a> at line 44</div>
+        <code>            public            <a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a>
+    <strong>del</strong>(string $attribute)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет аттрибут из контейнера</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$attribute</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/spl/container/IContainer.html"><abbr title="umi\spl\container\IContainer">IContainer</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_toArray">
+        <div class="location">in <a href="../../../umi/config/entity/IConfig.html#method_toArray"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a> at line 43</div>
+        <code>            public            array
+    <strong>toArray</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Преобразует конфигурацию в массив значений.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_merge">
+        <div class="location">in <a href="../../../umi/config/entity/IConfig.html#method_merge"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a> at line 50</div>
+        <code>            public            <a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a>
+    <strong>merge</strong>(array $source)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает значения в конфиг, указанные в массиве.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$source</td>
+                <td>массив значений конфигурации.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_reset">
+        <div class="location">in <a href="../../../umi/config/entity/IConfig.html#method_reset"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a> at line 72</div>
+        <code>            public            <a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a>
+    <strong>reset</strong>(null|string $path = null)</code>
+    </h3>
+    <div class="details">
+        <p>Сбрасывает сессионное значение по заданному пути.</p>
+        <p>Если путь не указан, то
+будут сброшены значения всего конфига.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>null|string</td>
+                <td>$path</td>
+                <td>путь</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/entity/IConfig.html"><abbr title="umi\config\entity\IConfig">IConfig</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getAlias">
+        <div class="location">in <a href="../../../umi/config/entity/IConfigSource.html#method_getAlias"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a> at line 21</div>
+        <code>            public            string
+    <strong>getAlias</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Вовзвращает символическое имя.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSource">
+        <div class="location">in <a href="../../../umi/config/entity/IConfigSource.html#method_getSource"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a> at line 28</div>
+        <code>            public            
+    <strong>getSource</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает все значения конфигурации в виде массива.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSeparateConfig">
+        <div class="location">at line 23</div>
+        <code>            public            <a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
+    <strong>getSeparateConfig</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\config\io\ConfigIO |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/config/io.html">umi\config\io</a>\ConfigIO</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>ConfigIO</strong>        implements
+        <a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>, <a href="../../../umi/config/cache/IConfigCacheEngineAware.html"><abbr title="umi\config\cache\IConfigCacheEngineAware">IConfigCacheEngineAware</abbr></a></p>
+
+            <div class="description">
+            <p>I/O сервис конфигурации.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../../umi/config/io/reader/IReader.html"><abbr title="umi\config\io\reader\IReader">IReader</abbr></a> $reader, <a href="../../../umi/config/io/writer/IWriter.html"><abbr title="umi\config\io\writer\IWriter">IWriter</abbr></a> $writer, array $aliases = array())
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_registerAlias">registerAlias</a>(string $alias, string $masterDirectory, string|null $localDirectory = null)
+                    <p>Регистрирует символическое имя для мастер/локал директорий.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_read">read</a>(string $alias)
+                    <p>Читает конфигурацию с заданным символическим именем.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_write">write</a>(<a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a> $config)
+                    <p>Записывает конфигурацию.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getFilesByAlias">getFilesByAlias</a>($fileAlias)
+                    <p>Возвращает имена локального и мастер файла конфигурации для заданного имени.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 51</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../../umi/config/io/reader/IReader.html"><abbr title="umi\config\io\reader\IReader">IReader</abbr></a> $reader, <a href="../../../umi/config/io/writer/IWriter.html"><abbr title="umi\config\io\writer\IWriter">IWriter</abbr></a> $writer, array $aliases = array())</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/config/io/reader/IReader.html"><abbr title="umi\config\io\reader\IReader">IReader</abbr></a></td>
+                <td>$reader</td>
+                <td>reader</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/config/io/writer/IWriter.html"><abbr title="umi\config\io\writer\IWriter">IWriter</abbr></a></td>
+                <td>$writer</td>
+                <td>writer</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$aliases</td>
+                <td>список символических имен</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>если список сиволических имен неверный</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_registerAlias">
+        <div class="location">at line 63</div>
+        <code>            public            <a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a>
+    <strong>registerAlias</strong>(string $alias, string $masterDirectory, string|null $localDirectory = null)</code>
+    </h3>
+    <div class="details">
+        <p>Регистрирует символическое имя для мастер/локал директорий.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$alias</td>
+                <td>символическое имя</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$masterDirectory</td>
+                <td>мастер директория</td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$localDirectory</td>
+                <td>локальная директория</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_read">
+        <div class="location">at line 87</div>
+        <code>            public            <a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
+    <strong>read</strong>(string $alias)</code>
+    </h3>
+    <div class="details">
+        <p>Читает конфигурацию с заданным символическим именем.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$alias</td>
+                <td>символическое имя</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_write">
+        <div class="location">at line 115</div>
+        <code>            public            <a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a>
+    <strong>write</strong>(<a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a> $config)</code>
+    </h3>
+    <div class="details">
+        <p>Записывает конфигурацию.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></td>
+                <td>$config</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/io/IConfigIO.html"><abbr title="umi\config\io\IConfigIO">IConfigIO</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFilesByAlias">
+        <div class="location">at line 125</div>
+        <code>            public            array
+    <strong>getFilesByAlias</strong>($fileAlias)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имена локального и мастер файла конфигурации для заданного имени.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$fileAlias</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если не найдено соответсвие символического имени</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

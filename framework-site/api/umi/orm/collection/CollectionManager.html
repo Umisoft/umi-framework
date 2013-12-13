@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\collection\CollectionManager |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/orm/collection.html">umi\orm\collection</a>\CollectionManager</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>CollectionManager</strong>        implements
+        <a href="../../../umi/orm/collection/ICollectionManager.html"><abbr title="umi\orm\collection\ICollectionManager">ICollectionManager</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>, <a href="../../../umi/orm/metadata/IMetadataManagerAware.html"><abbr title="umi\orm\metadata\IMetadataManagerAware">IMetadataManagerAware</abbr></a></p>
+
+            <div class="description">
+            <p>Менеджер коллекций.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../../umi/orm/collection/ICollectionFactory.html"><abbr title="umi\orm\collection\ICollectionFactory">ICollectionFactory</abbr></a> $objectCollectionFactory, array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $collections)
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    boolean
+                </td>
+                <td class="last">
+                    <a href="#method_hasCollection">hasCollection</a>(string $collectionName)
+                    <p>Проверяет, зарегистрирована ли коллекция объектов</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/collection/ISimpleCollection.html"><abbr title="umi\orm\collection\ISimpleCollection">ISimpleCollection</abbr></a>|<a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a>|<a href="../../../umi/orm/collection/ILinkedHierarchicCollection.html"><abbr title="umi\orm\collection\ILinkedHierarchicCollection">ILinkedHierarchicCollection</abbr></a>|<a href="../../../umi/orm/collection/ICommonHierarchy.html"><abbr title="umi\orm\collection\ICommonHierarchy">ICommonHierarchy</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getCollection">getCollection</a>(string $collectionName)
+                    <p>Возвращает экземпляр коллекции</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getList">getList</a>()
+                    <p>Возвращает список имен зарегистрированных коллекций</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 64</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../../umi/orm/collection/ICollectionFactory.html"><abbr title="umi\orm\collection\ICollectionFactory">ICollectionFactory</abbr></a> $objectCollectionFactory, array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $collections)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/collection/ICollectionFactory.html"><abbr title="umi\orm\collection\ICollectionFactory">ICollectionFactory</abbr></a></td>
+                <td>$objectCollectionFactory</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a></td>
+                <td>$collections</td>
+                <td>конфигурация коллекций в формате [ 'collectionName' => [ 'type' => 'simple', 'class' => null | 'className', 'hierarchy' => 'collectionName' // для linked коллекций ], ... ]</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/UnexpectedValueException"><abbr title="UnexpectedValueException">UnexpectedValueException</abbr></a></td>
+                <td>в случае неверно заданной конфигурации коллекций</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_hasCollection">
+        <div class="location">at line 81</div>
+        <code>            public            boolean
+    <strong>hasCollection</strong>(string $collectionName)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, зарегистрирована ли коллекция объектов</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$collectionName</td>
+                <td>имя коллекции</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>boolean</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getCollection">
+        <div class="location">at line 89</div>
+        <code>            public            <a href="../../../umi/orm/collection/ISimpleCollection.html"><abbr title="umi\orm\collection\ISimpleCollection">ISimpleCollection</abbr></a>|<a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a>|<a href="../../../umi/orm/collection/ILinkedHierarchicCollection.html"><abbr title="umi\orm\collection\ILinkedHierarchicCollection">ILinkedHierarchicCollection</abbr></a>|<a href="../../../umi/orm/collection/ICommonHierarchy.html"><abbr title="umi\orm\collection\ICommonHierarchy">ICommonHierarchy</abbr></a>
+    <strong>getCollection</strong>(string $collectionName)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает экземпляр коллекции</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$collectionName</td>
+                <td>уникальное имя коллекции объектов</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/collection/ISimpleCollection.html"><abbr title="umi\orm\collection\ISimpleCollection">ISimpleCollection</abbr></a>|<a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a>|<a href="../../../umi/orm/collection/ILinkedHierarchicCollection.html"><abbr title="umi\orm\collection\ILinkedHierarchicCollection">ILinkedHierarchicCollection</abbr></a>|<a href="../../../umi/orm/collection/ICommonHierarchy.html"><abbr title="umi\orm\collection\ICommonHierarchy">ICommonHierarchy</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если не существует коллекции</td>
+            </tr>
+                    <tr>
+                <td><a href="http://php.net/DomainException"><abbr title="DomainException">DomainException</abbr></a></td>
+                <td>если не удалось создать экземпляр коллекции</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getList">
+        <div class="location">at line 122</div>
+        <code>            public            array
+    <strong>getList</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список имен зарегистрированных коллекций</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

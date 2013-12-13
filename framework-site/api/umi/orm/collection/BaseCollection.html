@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\collection\BaseCollection |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/orm/collection.html">umi\orm\collection</a>\BaseCollection</h1>
+    </div>
+        <div class="content">
+                <p>abstract     class
+    <strong>BaseCollection</strong>        implements
+        <a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>, <a href="../../../umi/i18n/ILocalesAware.html"><abbr title="umi\i18n\ILocalesAware">ILocalesAware</abbr></a>, <a href="../../../umi/orm/manager/IObjectManagerAware.html"><abbr title="umi\orm\manager\IObjectManagerAware">IObjectManagerAware</abbr></a>, <a href="../../../umi/orm/persister/IObjectPersisterAware.html"><abbr title="umi\orm\persister\IObjectPersisterAware">IObjectPersisterAware</abbr></a></p>
+
+            <div class="description">
+            <p>Базовый класс коллекции объектов.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(string $collectionName, <a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a> $metadata, <a href="../../../umi/orm/selector/ISelectorFactory.html"><abbr title="umi\orm\selector\ISelectorFactory">ISelectorFactory</abbr></a> $selectorFactory)
+                    <p>Конструктор</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getName">getName</a>()
+                    <p>Возвращает имя коллекции</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getMetadata">getMetadata</a>()
+                    <p>Возвращает метаданные коллекции</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_contains">contains</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Проверяет, принадлежит ли объект данной коллекции</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(integer|string $guid, bool $withLocalization = false)
+                    <p>Возвращает объект по уникальному GUID.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getById">getById</a>($objectId, $withLocalization = false)
+                    <p>Возвращает объект по уникальному идентификатору в БД.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_loadObject">loadObject</a>(<a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a> $objectType, array $objectInfo)
+                    <p>Загружает объект в коллекцию</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_fullyLoadObject">fullyLoadObject</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, bool $withLocalization = false)
+                    <p>Догружает все свойства объекта.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_select">select</a>()
+                    <p>Возвращает новый селектор для формирования выборки объектов коллекции.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_emptySelect">emptySelect</a>()
+                    <p>Возвращает селектор с пустым рельтатом выборки.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_delete">delete</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Удаляет объект из коллекции.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getManyToManySelector">getManyToManySelector</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, <a href="../../../umi/orm/metadata/field/relation/ManyToManyRelationField.html"><abbr title="umi\orm\metadata\field\relation\ManyToManyRelationField">ManyToManyRelationField</abbr></a> $manyToManyRelationField)
+                    <p>Создает селектор для связи ManyToMany на данную коллекцию</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getForcedFieldsToLoad">getForcedFieldsToLoad</a>()
+                    <p>Возвращает поля, которые обязательны для загрузки объекта коллекции.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/special/IdentifyField.html"><abbr title="umi\orm\metadata\field\special\IdentifyField">IdentifyField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getIdentifyField">getIdentifyField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции в качестве первичного ключа</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/special/GuidField.html"><abbr title="umi\orm\metadata\field\special\GuidField">GuidField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getGUIDField">getGUIDField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения уникального глобального идентификатора объекта</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getObjectTypeField">getObjectTypeField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о типе</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getVersionField">getVersionField</a>()
+                    <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о версии объекта</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getSourceAlias">getSourceAlias</a>()
+                    <p>Возвращает alias для источника данных коллекции</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getFieldAlias">getFieldAlias</a>($fieldName)
+                    <p>Возвращает alias для поля в запросе</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    mixed
+                </td>
+                <td class="last">
+                    <a href="#method_persistNewObject">persistNewObject</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Запускает запросы на добавление в БД нового объекта коллекции.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_persistModifiedObject">persistModifiedObject</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Запускает запросы на изменение объекта коллекции.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_persistDeletedObject">persistDeletedObject</a>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)
+                    <p>Запускает запросы на удаление объекта коллекции.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 68</div>
+        <code>            public            
+    <strong>__construct</strong>(string $collectionName, <a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a> $metadata, <a href="../../../umi/orm/selector/ISelectorFactory.html"><abbr title="umi\orm\selector\ISelectorFactory">ISelectorFactory</abbr></a> $selectorFactory)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$collectionName</td>
+                <td>имя коллекции</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a></td>
+                <td>$metadata</td>
+                <td>метаданные коллекции</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/selector/ISelectorFactory.html"><abbr title="umi\orm\selector\ISelectorFactory">ISelectorFactory</abbr></a></td>
+                <td>$selectorFactory</td>
+                <td>фабрика селекторов</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getName">
+        <div class="location">at line 78</div>
+        <code>            public            string
+    <strong>getName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя коллекции</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getMetadata">
+        <div class="location">at line 86</div>
+        <code>            public            <a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a>
+    <strong>getMetadata</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает метаданные коллекции</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_contains">
+        <div class="location">at line 94</div>
+        <code>            public            bool
+    <strong>contains</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, принадлежит ли объект данной коллекции</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_get">
+        <div class="location">at line 107</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+    <strong>get</strong>(integer|string $guid, bool $withLocalization = false)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает объект по уникальному GUID.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>integer|string</td>
+                <td>$guid</td>
+                <td>GUID объекта</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$withLocalization</td>
+                <td>загружать ли значения локализованных свойств объекта. По умолчанию выключено.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось получить объект</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getById">
+        <div class="location">at line 154</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+    <strong>getById</strong>($objectId, $withLocalization = false)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает объект по уникальному идентификатору в БД.</p>
+        <p>Используется ORM для внутренних целей, запрещено использовать в высокоуровневом коде.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$objectId</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$withLocalization</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось получить объект</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_loadObject">
+        <div class="location">at line 185</div>
+        <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
+    <strong>loadObject</strong>(<a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a> $objectType, array $objectInfo)</code>
+    </h3>
+    <div class="details">
+        <p>Загружает объект в коллекцию</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a></td>
+                <td>$objectType</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$objectInfo</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="LoadEntityException">LoadEntityException</abbr></td>
+                <td>если не удалось загрузить объект</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_fullyLoadObject">
+        <div class="location">at line 212</div>
+        <code>            public            
+    <strong>fullyLoadObject</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, bool $withLocalization = false)</code>
+    </h3>
+    <div class="details">
+        <p>Догружает все свойства объекта.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$withLocalization</td>
+                <td>загружать ли все локализованные поля</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_select">
+        <div class="location">at line 255</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>select</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает новый селектор для формирования выборки объектов коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_emptySelect">
+        <div class="location">at line 263</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>emptySelect</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает селектор с пустым рельтатом выборки.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_delete">
+        <div class="location">at line 271</div>
+        <code>            public            <a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a>
+    <strong>delete</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет объект из коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>удаляемый объект</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NotAllowedOperationException">NotAllowedOperationException</abbr></td>
+                <td>при попытке удалить объект, который не принадлежит данной коллекции</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getManyToManySelector">
+        <div class="location">at line 287</div>
+        <code>            public            <a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>getManyToManySelector</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, <a href="../../../umi/orm/metadata/field/relation/ManyToManyRelationField.html"><abbr title="umi\orm\metadata\field\relation\ManyToManyRelationField">ManyToManyRelationField</abbr></a> $manyToManyRelationField)</code>
+    </h3>
+    <div class="details">
+        <p>Создает селектор для связи ManyToMany на данную коллекцию</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/metadata/field/relation/ManyToManyRelationField.html"><abbr title="umi\orm\metadata\field\relation\ManyToManyRelationField">ManyToManyRelationField</abbr></a></td>
+                <td>$manyToManyRelationField</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getForcedFieldsToLoad">
+        <div class="location">at line 295</div>
+        <code>            public            
+    <strong>getForcedFieldsToLoad</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поля, которые обязательны для загрузки объекта коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getIdentifyField">
+        <div class="location">at line 308</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/special/IdentifyField.html"><abbr title="umi\orm\metadata\field\special\IdentifyField">IdentifyField</abbr></a>
+    <strong>getIdentifyField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции в качестве первичного ключа</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/special/IdentifyField.html"><abbr title="umi\orm\metadata\field\special\IdentifyField">IdentifyField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getGUIDField">
+        <div class="location">at line 316</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/special/GuidField.html"><abbr title="umi\orm\metadata\field\special\GuidField">GuidField</abbr></a>
+    <strong>getGUIDField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения уникального глобального идентификатора объекта</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/special/GuidField.html"><abbr title="umi\orm\metadata\field\special\GuidField">GuidField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getObjectTypeField">
+        <div class="location">at line 324</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getObjectTypeField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о типе</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getVersionField">
+        <div class="location">at line 332</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getVersionField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле, которое используется у базового типа коллекции для хранения информации о версии объекта</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="NonexistentEntityException">NonexistentEntityException</abbr></td>
+                <td>если такого поля не существует</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getSourceAlias">
+        <div class="location">at line 340</div>
+        <code>            public            
+    <strong>getSourceAlias</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает alias для источника данных коллекции</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFieldAlias">
+        <div class="location">at line 348</div>
+        <code>            public            string
+    <strong>getFieldAlias</strong>($fieldName)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает alias для поля в запросе</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$fieldName</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_persistNewObject">
+        <div class="location">at line 360</div>
+        <code>            public            mixed
+    <strong>persistNewObject</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Запускает запросы на добавление в БД нового объекта коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>mixed</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_persistModifiedObject">
+        <div class="location">at line 423</div>
+        <code>            public            
+    <strong>persistModifiedObject</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Запускает запросы на изменение объекта коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_persistDeletedObject">
+        <div class="location">at line 526</div>
+        <code>            public            
+    <strong>persistDeletedObject</strong>(<a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Запускает запросы на удаление объекта коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

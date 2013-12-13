@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\hmvc\view\TemplateView |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/hmvc/view.html">umi\hmvc\view</a>\TemplateView</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>TemplateView</strong>        implements
+        <a href="../../../umi/hmvc/view/IView.html"><abbr title="umi\hmvc\view\IView">IView</abbr></a>, <a href="../../../umi/templating/engine/ITemplateEngineAware.html"><abbr title="umi\templating\engine\ITemplateEngineAware">ITemplateEngineAware</abbr></a>, <a href="../../../umi/templating/extension/adapter/IExtensionAdapterAware.html"><abbr title="umi\templating\extension\adapter\IExtensionAdapterAware">IExtensionAdapterAware</abbr></a>, <a href="../../../umi/hmvc/view/extension/IViewExtensionFactoryAware.html"><abbr title="umi\hmvc\view\extension\IViewExtensionFactoryAware">IViewExtensionFactoryAware</abbr></a>, <a href="../../../umi/hmvc/model/IModelAware.html"><abbr title="umi\hmvc\model\IModelAware">IModelAware</abbr></a>, <a href="../../../umi/hmvc/context/IContextAware.html"><abbr title="umi\hmvc\context\IContextAware">IContextAware</abbr></a></p>
+
+            <div class="description">
+            <p>Слой отображения.</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>OPTION_HELPERS</td>
+                <td class="last">
+                    <p><em>Опция для установки помощников вида</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array $options)
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_setModelFactory">setModelFactory</a>(<a href="../../../umi/hmvc/model/IModelFactory.html"><abbr title="umi\hmvc\model\IModelFactory">IModelFactory</abbr></a> $factory)
+                    <p>Устанавливает фабрику моделей.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/hmvc/component/response/IComponentResponse.html"><abbr title="umi\hmvc\component\response\IComponentResponse">IComponentResponse</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_render">render</a>(string $template, array $params = array())
+                    <p>Производит рендеринг результата работы контроллера.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 56</div>
+        <code>            public            
+    <strong>__construct</strong>(array $options)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>опции</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setModelFactory">
+        <div class="location">at line 64</div>
+        <code>            public            
+    <strong>setModelFactory</strong>(<a href="../../../umi/hmvc/model/IModelFactory.html"><abbr title="umi\hmvc\model\IModelFactory">IModelFactory</abbr></a> $factory)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает фабрику моделей.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/hmvc/model/IModelFactory.html"><abbr title="umi\hmvc\model\IModelFactory">IModelFactory</abbr></a></td>
+                <td>$factory</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_render">
+        <div class="location">at line 72</div>
+        <code>            public            <a href="../../../umi/hmvc/component/response/IComponentResponse.html"><abbr title="umi\hmvc\component\response\IComponentResponse">IComponentResponse</abbr></a>
+    <strong>render</strong>(string $template, array $params = array())</code>
+    </h3>
+    <div class="details">
+        <p>Производит рендеринг результата работы контроллера.</p>
+        <p>Возвращает результат
+отображения в виде результата работы компонента.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$template</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$params</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/hmvc/component/response/IComponentResponse.html"><abbr title="umi\hmvc\component\response\IComponentResponse">IComponentResponse</abbr></a></td>
+            <td>результат работы компонента</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

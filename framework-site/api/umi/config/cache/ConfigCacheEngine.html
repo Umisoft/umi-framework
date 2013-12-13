@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\config\cache\ConfigCacheEngine |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/config/cache.html">umi\config\cache</a>\ConfigCacheEngine</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>ConfigCacheEngine</strong>        implements
+        <a href="../../../umi/config/cache/IConfigCacheEngine.html"><abbr title="umi\config\cache\IConfigCacheEngine">IConfigCacheEngine</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
+
+            <div class="description">
+            <p>Кэширующий механизм для конфигурационных файлов.</p>
+            <p>Сохраняет сериализованные конфигурационные файлы в кэш.</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>OPTION_DIRECTORY</td>
+                <td class="last">
+                    <p><em>Директория с кэшем</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $options)
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_isActual">isActual</a>(string $alias, int $timestamp)
+                    <p>Проверяет, актуален ли кэш конфигурации.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_load">load</a>(string $alias)
+                    <p>Загружает конфигурацию из кэша по ее символическому имени.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/config/cache/IConfigCacheEngine.html"><abbr title="umi\config\cache\IConfigCacheEngine">IConfigCacheEngine</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_save">save</a>(<a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a> $config)
+                    <p>Сохраняет конфигурацию в кэш.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 44</div>
+        <code>            public            
+    <strong>__construct</strong>(array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $options)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a></td>
+                <td>$options</td>
+                <td>конфигурация кеша</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/UnexpectedValueException"><abbr title="UnexpectedValueException">UnexpectedValueException</abbr></a></td>
+                <td>если задана неверная конфигурация</td>
+            </tr>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>если задана неверная конфигурация</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isActual">
+        <div class="location">at line 63</div>
+        <code>            public            bool
+    <strong>isActual</strong>(string $alias, int $timestamp)</code>
+    </h3>
+    <div class="details">
+        <p>Проверяет, актуален ли кэш конфигурации.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$alias</td>
+                <td>символическое имя конфигурации</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$timestamp</td>
+                <td>время "актуальности"</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_load">
+        <div class="location">at line 73</div>
+        <code>            public            <a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
+    <strong>load</strong>(string $alias)</code>
+    </h3>
+    <div class="details">
+        <p>Загружает конфигурацию из кэша по ее символическому имени.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$alias</td>
+                <td>символическое имя конфигурации</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если заданная конфигурация не найдена в кэше</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_save">
+        <div class="location">at line 89</div>
+        <code>            public            <a href="../../../umi/config/cache/IConfigCacheEngine.html"><abbr title="umi\config\cache\IConfigCacheEngine">IConfigCacheEngine</abbr></a>
+    <strong>save</strong>(<a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a> $config)</code>
+    </h3>
+    <div class="details">
+        <p>Сохраняет конфигурацию в кэш.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></td>
+                <td>$config</td>
+                <td>конфигурация</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/config/cache/IConfigCacheEngine.html"><abbr title="umi\config\cache\IConfigCacheEngine">IConfigCacheEngine</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

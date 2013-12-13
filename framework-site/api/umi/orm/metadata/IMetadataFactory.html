@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\metadata\IMetadataFactory |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/orm/metadata.html">umi\orm\metadata</a>\IMetadataFactory</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IMetadataFactory</strong></p>
+
+            <div class="description">
+            <p>Фабрика для создания метаданных.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_create">create</a>(string $collectionName, array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $config)
+                    <p>Создает metadata.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/ICollectionDataSource.html"><abbr title="umi\orm\metadata\ICollectionDataSource">ICollectionDataSource</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createDataSource">createDataSource</a>(array $config)
+                    <p>Создает прототип источника данных коллекции.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createObjectType">createObjectType</a>(string $typeName, array $config, <a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a> $metadata)
+                    <p>Создает тип объекта.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createField">createField</a>(string $fieldName, array $config)
+                    <p>Создает поле.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_create">
+        <div class="location">at line 27</div>
+        <code>            public            <a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a>
+    <strong>create</strong>(string $collectionName, array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $config)</code>
+    </h3>
+    <div class="details">
+        <p>Создает metadata.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$collectionName</td>
+                <td>имя коллекции объектов, которую описывает metadata</td>
+            </tr>
+                    <tr>
+                <td>array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a></td>
+                <td>$config</td>
+                <td>конфигурация метаданных</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createDataSource">
+        <div class="location">at line 34</div>
+        <code>            public            <a href="../../../umi/orm/metadata/ICollectionDataSource.html"><abbr title="umi\orm\metadata\ICollectionDataSource">ICollectionDataSource</abbr></a>
+    <strong>createDataSource</strong>(array $config)</code>
+    </h3>
+    <div class="details">
+        <p>Создает прототип источника данных коллекции.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td>конфигурация</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/ICollectionDataSource.html"><abbr title="umi\orm\metadata\ICollectionDataSource">ICollectionDataSource</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createObjectType">
+        <div class="location">at line 43</div>
+        <code>            public            <a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a>
+    <strong>createObjectType</strong>(string $typeName, array $config, <a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a> $metadata)</code>
+    </h3>
+    <div class="details">
+        <p>Создает тип объекта.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$typeName</td>
+                <td>имя типа</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td>конфигурация</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/orm/metadata/IMetadata.html"><abbr title="umi\orm\metadata\IMetadata">IMetadata</abbr></a></td>
+                <td>$metadata</td>
+                <td>метаданные, к которым относится тип</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createField">
+        <div class="location">at line 51</div>
+        <code>            public            <a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>createField</strong>(string $fieldName, array $config)</code>
+    </h3>
+    <div class="details">
+        <p>Создает поле.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$fieldName</td>
+                <td>имя поля</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$config</td>
+                <td>конфигурация</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

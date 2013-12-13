@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\pagination\adapter\SelectorPaginationAdapter |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/pagination/adapter.html">umi\pagination\adapter</a>\SelectorPaginationAdapter</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>SelectorPaginationAdapter</strong>        implements
+        <a href="../../../umi/pagination/adapter/IPaginationAdapter.html"><abbr title="umi\pagination\adapter\IPaginationAdapter">IPaginationAdapter</abbr></a></p>
+
+            <div class="description">
+            <p>Адаптер пагинации для selector'а.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a> $selector)
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    int
+                </td>
+                <td class="last">
+                    <a href="#method_getTotal">getTotal</a>()
+                    <p>Возвращает общее количество элементов.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getItems">getItems</a>(int $limit, int $offset)
+                    <p>Возвращает список элементов для текущей страницы.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 28</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a> $selector)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+                <td>$selector</td>
+                <td>селектор</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getTotal">
+        <div class="location">at line 36</div>
+        <code>            public            int
+    <strong>getTotal</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает общее количество элементов.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>int</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getItems">
+        <div class="location">at line 45</div>
+        <code>            public            array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a>
+    <strong>getItems</strong>(int $limit, int $offset)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список элементов для текущей страницы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>int</td>
+                <td>$limit</td>
+                <td>количество элементов</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$offset</td>
+                <td>смещение</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

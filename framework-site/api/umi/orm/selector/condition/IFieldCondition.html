@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\selector\condition\IFieldCondition |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../../umi/orm/selector/condition.html">umi\orm\selector\condition</a>\IFieldCondition</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IFieldCondition</strong></p>
+
+            <div class="description">
+            <p>Простое выражение селектора для поля.</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>OPERATOR_EQUALS</td>
+                <td class="last">
+                    <p><em>Оператор - эквивалентно.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_NOTEQUALS</td>
+                <td class="last">
+                    <p><em>Оператор - не эквивалентно.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_IN</td>
+                <td class="last">
+                    <p><em>Оператор - содержит.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_LIKE</td>
+                <td class="last">
+                    <p><em>Оператор - эквивалентно(нечеткое сравнение).</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_MORE</td>
+                <td class="last">
+                    <p><em>Оператор - больше.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_LESS</td>
+                <td class="last">
+                    <p><em>Оператор - меньше.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_EQMORE</td>
+                <td class="last">
+                    <p><em>Оператор - больше или равно.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_EQLESS</td>
+                <td class="last">
+                    <p><em>Оператор - меньше или равно.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_BETWEEN</td>
+                <td class="last">
+                    <p><em>Оператор - между.</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_ISNULL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>OPERATOR_NOTNULL</td>
+                <td class="last">
+                    <p><em>
+</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getField">getField</a>()
+                    <p>Возвращает поле для условия</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_getPlaceholder">getPlaceholder</a>()
+                    <p>Возвращает плейсхолдер для условия</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_equals">equals</a>(mixed $value)
+                    <p>Устанавливает поиск по точному значению поля.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_in">in</a>(array $value)
+                    <p>Устанавливает поиск по массиву заданных значений <code>     $selector->where('id')->in(array(1,2,3)); </code></p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_notEquals">notEquals</a>(mixed $value)
+                    <p>Устанавливает поиск по значениям, отличным от заданного.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_more">more</a>(mixed $value)
+                    <p>Устанавливает поиск по значениям больше заданного.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_equalsOrMore">equalsOrMore</a>(mixed $value)
+                    <p>Устанавливает поиск по значениям равным или больше заданного.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_less">less</a>(mixed $value)
+                    <p>Устанавливает поиск по значениям меньше заданного.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_equalsOrLess">equalsOrLess</a>(mixed $value)
+                    <p>Устанавливает поиск по значениям равным или меньше заданного.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_between">between</a>(mixed $minValue, mixed $maxValue)
+                    <p>Устанавливает поиск по граничным значениям (включительно).</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_isNull">isNull</a>()
+                    <p>Устанавливает поиск по значениям равным NULL.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_notNull">notNull</a>()
+                    <p>Устанавливает поиск по значениям неравным NULL.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_like">like</a>(string $value)
+                    <p>Устанавливает поиск по подстроке.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getOperator">getOperator</a>()
+                    <p>Возвращает оператор сравнения для условия.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getExpression">getExpression</a>()
+                    <p>Возвращает выражение для условия.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_apply">apply</a>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $selectBuilder)
+                    <p>Применяет условие выборки к билдеру запросов.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getField">
+        <div class="location">at line 64</div>
+        <code>            public            <a href="../../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a>
+    <strong>getField</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает поле для условия</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/metadata/field/IField.html"><abbr title="umi\orm\metadata\field\IField">IField</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getPlaceholder">
+        <div class="location">at line 71</div>
+        <code>            public            
+    <strong>getPlaceholder</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает плейсхолдер для условия</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_equals">
+        <div class="location">at line 86</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>equals</strong>(mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по точному значению поля.</p>
+        <p><code>
+    $selector->where('login')->equals('guest');
+    ...
+    // $group - объект (IObject), представляющий группу пользователя
+    $selector->where('group')->equals($group);
+    ...
+    $selector->where('price')->equals(100.500);
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение свойства</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_in">
+        <div class="location">at line 96</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>in</strong>(array $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по массиву заданных значений <code>     $selector->where('id')->in(array(1,2,3)); </code></p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$value</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_notEquals">
+        <div class="location">at line 111</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>notEquals</strong>(mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по значениям, отличным от заданного.</p>
+        <p><code>
+    $selector->where('login')->notEquals('guest');
+    ...
+    // $group - объект (IObject), представляющий группу пользователя
+    $selector->where('group')->notEquals($group);
+    ...
+    $selector->where('price')->notEquals(100.500);
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение свойства</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_more">
+        <div class="location">at line 121</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>more</strong>(mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по значениям больше заданного.</p>
+        <p>Применим только для числовых полей.
+<code>
+    $selector->where('price')->more(100);
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение свойства</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_equalsOrMore">
+        <div class="location">at line 131</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>equalsOrMore</strong>(mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по значениям равным или больше заданного.</p>
+        <p>Применим только для числовых полей.
+<code>
+    $selector->where('price')->equalsOrMore(100);
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение свойства</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_less">
+        <div class="location">at line 141</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>less</strong>(mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по значениям меньше заданного.</p>
+        <p>Применим только для числовых полей.
+<code>
+    $selector->where('price')->less(100);
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение свойства</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_equalsOrLess">
+        <div class="location">at line 151</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>equalsOrLess</strong>(mixed $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по значениям равным или меньше заданного.</p>
+        <p>Применим только для числовых полей.
+<code>
+    $selector->where('price')->equalsOrLess(100);
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение свойства</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_between">
+        <div class="location">at line 162</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>between</strong>(mixed $minValue, mixed $maxValue)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по граничным значениям (включительно).</p>
+        <p>Применим только для числовых полей.
+<code>
+    $selector->where('price')->between(100, 200.2);
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$minValue</td>
+                <td>минимальное значение свойства</td>
+            </tr>
+                    <tr>
+                <td>mixed</td>
+                <td>$maxValue</td>
+                <td>максимальное значение свойства</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isNull">
+        <div class="location">at line 176</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>isNull</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по значениям равным NULL.</p>
+        <p><code>
+    $selector->where('login')->isNull();
+    ...
+    // $group - объект (IObject), представляющий группу пользователя
+    $selector->where('group')->isNull();
+    ...
+    $selector->where('price')->isNull();
+</code></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_notNull">
+        <div class="location">at line 190</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>notNull</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по значениям неравным NULL.</p>
+        <p><code>
+    $selector->where('login')->notNull();
+    ...
+    // $group - объект (IObject), представляющий группу пользователя
+    $selector->where('group')->notNull();
+    ...
+    $selector->where('price')->notNull();
+</code></p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_like">
+        <div class="location">at line 203</div>
+        <code>            public            <a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a>
+    <strong>like</strong>(string $value)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает поиск по подстроке.</p>
+        <p>Применим только для строковых полей.
+<code>
+   $selector->where('login')->equals('anon%');
+   ...
+   // внимание! в этом случае индекс для поля не будет использован:
+   $selector->where('login')->equals('%anon%');
+</code></p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>выражение для поиска</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/ISelector.html"><abbr title="umi\orm\selector\ISelector">ISelector</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getOperator">
+        <div class="location">at line 209</div>
+        <code>            public            string
+    <strong>getOperator</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает оператор сравнения для условия.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getExpression">
+        <div class="location">at line 215</div>
+        <code>            public            string
+    <strong>getExpression</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает выражение для условия.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_apply">
+        <div class="location">at line 223</div>
+        <code>            public            <a href="../../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a>
+    <strong>apply</strong>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $selectBuilder)</code>
+    </h3>
+    <div class="details">
+        <p>Применяет условие выборки к билдеру запросов.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a></td>
+                <td>$selectBuilder</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../umi/orm/selector/condition/IFieldCondition.html"><abbr title="umi\orm\selector\condition\IFieldCondition">IFieldCondition</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

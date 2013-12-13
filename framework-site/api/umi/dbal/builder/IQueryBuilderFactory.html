@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\dbal\builder\IQueryBuilderFactory |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/dbal/builder.html">umi\dbal\builder</a>\IQueryBuilderFactory</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IQueryBuilderFactory</strong></p>
+
+            <div class="description">
+            <p>Фабрика для построителей запросов и их сущностей.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/IInsertBuilder.html"><abbr title="umi\dbal\builder\IInsertBuilder">IInsertBuilder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createInsertBuilder">createInsertBuilder</a>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection, <a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a> $dialect)
+                    <p>Создает и возвращает экземпляр построителя INSERT-запросов</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/IDeleteBuilder.html"><abbr title="umi\dbal\builder\IDeleteBuilder">IDeleteBuilder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createDeleteBuilder">createDeleteBuilder</a>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection, <a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a> $dialect)
+                    <p>Создает и возвращает экземпляр построителя DELETE-запросов</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/IUpdateBuilder.html"><abbr title="umi\dbal\builder\IUpdateBuilder">IUpdateBuilder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createUpdateBuilder">createUpdateBuilder</a>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection, <a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a> $dialect)
+                    <p>Создает и возвращает экземпляр построителя UPDATE-запросов</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createSelectBuilder">createSelectBuilder</a>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection, <a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a> $dialect)
+                    <p>Создает и возвращает экземпляр построителя SELECT-запросов</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/IQueryBuilderFactory.html"><abbr title="umi\dbal\builder\IQueryBuilderFactory">IQueryBuilderFactory</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createJoinBuilder">createJoinBuilder</a>(array|string $table, string $type)
+                    <p>Создаёт билдер JOIN таблицы.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createExpressionGroup">createExpressionGroup</a>(string $mode = IExpressionGroup::MODE_AND, <a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a> $parentGroup = null)
+                    <p>Создает и возвращает группу выражений</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/dbal/builder/IQueryResult.html"><abbr title="umi\dbal\builder\IQueryResult">IQueryResult</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createQueryResult">createQueryResult</a>(<a href="../../../umi/dbal/builder/IQueryBuilder.html"><abbr title="umi\dbal\builder\IQueryBuilder">IQueryBuilder</abbr></a> $query, array $resultVariables)
+                    <p>Создает и возвращает интерфейс доступа к результатам запроса</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_createInsertBuilder">
+        <div class="location">at line 28</div>
+        <code>            public            <a href="../../../umi/dbal/builder/IInsertBuilder.html"><abbr title="umi\dbal\builder\IInsertBuilder">IInsertBuilder</abbr></a>
+    <strong>createInsertBuilder</strong>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection, <a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a> $dialect)</code>
+    </h3>
+    <div class="details">
+        <p>Создает и возвращает экземпляр построителя INSERT-запросов</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Doctrine\DBAL\Connection">Connection</abbr></td>
+                <td>$connection</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a></td>
+                <td>$dialect</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/IInsertBuilder.html"><abbr title="umi\dbal\builder\IInsertBuilder">IInsertBuilder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createDeleteBuilder">
+        <div class="location">at line 36</div>
+        <code>            public            <a href="../../../umi/dbal/builder/IDeleteBuilder.html"><abbr title="umi\dbal\builder\IDeleteBuilder">IDeleteBuilder</abbr></a>
+    <strong>createDeleteBuilder</strong>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection, <a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a> $dialect)</code>
+    </h3>
+    <div class="details">
+        <p>Создает и возвращает экземпляр построителя DELETE-запросов</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Doctrine\DBAL\Connection">Connection</abbr></td>
+                <td>$connection</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a></td>
+                <td>$dialect</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/IDeleteBuilder.html"><abbr title="umi\dbal\builder\IDeleteBuilder">IDeleteBuilder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createUpdateBuilder">
+        <div class="location">at line 44</div>
+        <code>            public            <a href="../../../umi/dbal/builder/IUpdateBuilder.html"><abbr title="umi\dbal\builder\IUpdateBuilder">IUpdateBuilder</abbr></a>
+    <strong>createUpdateBuilder</strong>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection, <a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a> $dialect)</code>
+    </h3>
+    <div class="details">
+        <p>Создает и возвращает экземпляр построителя UPDATE-запросов</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Doctrine\DBAL\Connection">Connection</abbr></td>
+                <td>$connection</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a></td>
+                <td>$dialect</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/IUpdateBuilder.html"><abbr title="umi\dbal\builder\IUpdateBuilder">IUpdateBuilder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createSelectBuilder">
+        <div class="location">at line 52</div>
+        <code>            public            <a href="../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a>
+    <strong>createSelectBuilder</strong>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection, <a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a> $dialect)</code>
+    </h3>
+    <div class="details">
+        <p>Создает и возвращает экземпляр построителя SELECT-запросов</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Doctrine\DBAL\Connection">Connection</abbr></td>
+                <td>$connection</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a></td>
+                <td>$dialect</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createJoinBuilder">
+        <div class="location">at line 60</div>
+        <code>            public            <a href="../../../umi/dbal/builder/IQueryBuilderFactory.html"><abbr title="umi\dbal\builder\IQueryBuilderFactory">IQueryBuilderFactory</abbr></a>
+    <strong>createJoinBuilder</strong>(array|string $table, string $type)</code>
+    </h3>
+    <div class="details">
+        <p>Создаёт билдер JOIN таблицы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array|string</td>
+                <td>$table</td>
+                <td>имя таблицы для джойна, может быть массивом вида array('name', 'alias');</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$type</td>
+                <td>тип (LEFT, INNER, ...). По умолчанию INNER</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/IQueryBuilderFactory.html"><abbr title="umi\dbal\builder\IQueryBuilderFactory">IQueryBuilderFactory</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createExpressionGroup">
+        <div class="location">at line 69</div>
+        <code>            public            <a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a>
+    <strong>createExpressionGroup</strong>(string $mode = IExpressionGroup::MODE_AND, <a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a> $parentGroup = null)</code>
+    </h3>
+    <div class="details">
+        <p>Создает и возвращает группу выражений</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$mode</td>
+                <td>режим сложения составных выражений</td>
+            </tr>
+                    <tr>
+                <td><a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a></td>
+                <td>$parentGroup</td>
+                <td>родительская группа выражений</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/IExpressionGroup.html"><abbr title="umi\dbal\builder\IExpressionGroup">IExpressionGroup</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DomainException"><abbr title="DomainException">DomainException</abbr></a></td>
+                <td>если не удалось создать таблицу</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createQueryResult">
+        <div class="location">at line 78</div>
+        <code>            public            <a href="../../../umi/dbal/builder/IQueryResult.html"><abbr title="umi\dbal\builder\IQueryResult">IQueryResult</abbr></a>
+    <strong>createQueryResult</strong>(<a href="../../../umi/dbal/builder/IQueryBuilder.html"><abbr title="umi\dbal\builder\IQueryBuilder">IQueryBuilder</abbr></a> $query, array $resultVariables)</code>
+    </h3>
+    <div class="details">
+        <p>Создает и возвращает интерфейс доступа к результатам запроса</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/dbal/builder/IQueryBuilder.html"><abbr title="umi\dbal\builder\IQueryBuilder">IQueryBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>запрос</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$resultVariables</td>
+                <td>массив переменных, связанных с результатом</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/dbal/builder/IQueryResult.html"><abbr title="umi\dbal\builder\IQueryResult">IQueryResult</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/DomainException"><abbr title="DomainException">DomainException</abbr></a></td>
+                <td>если не удалось создать доступ</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\form\element\IMultiElement |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Interface</div>
+    <h1><a href="../../../umi/form/element.html">umi\form\element</a>\IMultiElement</h1>
+    </div>
+        <div class="content">
+                <p>    interface
+    <strong>IMultiElement</strong>        implements
+        <a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a></p>
+
+            <div class="description">
+            <p>Интерфейс элемента с определенными значениями.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getName">getName</a>()
+                    <p>Возвращает имя элемента.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/IFormEntity.html#method_getName"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getLabel">getLabel</a>()
+                    <p>Возвращает название элемента формы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/IFormEntity.html#method_getLabel"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_setLabel">setLabel</a>(string $label)
+                    <p>Устанавливает название элемента формы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/IFormEntity.html#method_setLabel"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/ArrayObject"><abbr title="ArrayObject">ArrayObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getAttributes">getAttributes</a>()
+                    <p>Возвращает все аттрибуты в виде ассоциативного массива.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/IFormEntity.html#method_getAttributes"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/ArrayObject"><abbr title="ArrayObject">ArrayObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getOptions">getOptions</a>()
+                    <p>Возвращает массив опций.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/IFormEntity.html#method_getOptions"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getMessages">getMessages</a>()
+                    <p>Возвращает сообщения валидации.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/IFormEntity.html#method_getMessages"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_isValid">isValid</a>()
+                    <p>Возвращает значение валидности элемента.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/IFormEntity.html#method_isValid"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getValue">getValue</a>()
+                    <p>Возвращает значение элемента.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/element/IElement.html#method_getValue"><abbr title="umi\form\element\IElement">IElement</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setValue">setValue</a>(mixed $value, bool $isRaw = false)
+                    <p>Устанавливает значение элемента.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/element/IElement.html#method_setValue"><abbr title="umi\form\element\IElement">IElement</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setFilters">setFilters</a>(<a href="../../../umi/filter/IFilterCollection.html"><abbr title="umi\filter\IFilterCollection">IFilterCollection</abbr></a> $filters)
+                    <p>Устанавливает цепочку фильтров.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/element/IElement.html#method_setFilters"><abbr title="umi\form\element\IElement">IElement</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/filter/IFilterCollection.html"><abbr title="umi\filter\IFilterCollection">IFilterCollection</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getFilters">getFilters</a>()
+                    <p>Возвращает установленные валидаторы для формы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/element/IElement.html#method_getFilters"><abbr title="umi\form\element\IElement">IElement</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setValidators">setValidators</a>(<a href="../../../umi/validation/IValidatorCollection.html"><abbr title="umi\validation\IValidatorCollection">IValidatorCollection</abbr></a> $validators)
+                    <p>Устанавливает цепочку валидаторов для элемента формы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/element/IElement.html#method_setValidators"><abbr title="umi\form\element\IElement">IElement</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/validation/IValidatorCollection.html"><abbr title="umi\validation\IValidatorCollection">IValidatorCollection</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getValidators">getValidators</a>()
+                    <p>Возвращает установленные валидаторы для формы.</p>
+                </td>
+                <td><small>from&nbsp;<a href="../../../umi/form/element/IElement.html#method_getValidators"><abbr title="umi\form\element\IElement">IElement</abbr></a></small></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/ArrayObject"><abbr title="ArrayObject">ArrayObject</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getChoices">getChoices</a>()
+                    <p>Возвращает список возможных значений элемента.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getName">
+        <div class="location">in <a href="../../../umi/form/IFormEntity.html#method_getName"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a> at line 26</div>
+        <code>            public            string
+    <strong>getName</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает имя элемента.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getLabel">
+        <div class="location">in <a href="../../../umi/form/IFormEntity.html#method_getLabel"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a> at line 32</div>
+        <code>            public            string
+    <strong>getLabel</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает название элемента формы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setLabel">
+        <div class="location">in <a href="../../../umi/form/IFormEntity.html#method_setLabel"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a> at line 39</div>
+        <code>            public            string
+    <strong>setLabel</strong>(string $label)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает название элемента формы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$label</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getAttributes">
+        <div class="location">in <a href="../../../umi/form/IFormEntity.html#method_getAttributes"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a> at line 45</div>
+        <code>            public            <a href="http://php.net/ArrayObject"><abbr title="ArrayObject">ArrayObject</abbr></a>
+    <strong>getAttributes</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает все аттрибуты в виде ассоциативного массива.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/ArrayObject"><abbr title="ArrayObject">ArrayObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getOptions">
+        <div class="location">in <a href="../../../umi/form/IFormEntity.html#method_getOptions"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a> at line 51</div>
+        <code>            public            <a href="http://php.net/ArrayObject"><abbr title="ArrayObject">ArrayObject</abbr></a>
+    <strong>getOptions</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает массив опций.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/ArrayObject"><abbr title="ArrayObject">ArrayObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getMessages">
+        <div class="location">in <a href="../../../umi/form/IFormEntity.html#method_getMessages"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a> at line 57</div>
+        <code>            public            array
+    <strong>getMessages</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает сообщения валидации.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_isValid">
+        <div class="location">in <a href="../../../umi/form/IFormEntity.html#method_isValid"><abbr title="umi\form\IFormEntity">IFormEntity</abbr></a> at line 63</div>
+        <code>            public            bool
+    <strong>isValid</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает значение валидности элемента.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getValue">
+        <div class="location">in <a href="../../../umi/form/element/IElement.html#method_getValue"><abbr title="umi\form\element\IElement">IElement</abbr></a> at line 25</div>
+        <code>            public            string
+    <strong>getValue</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает значение элемента.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setValue">
+        <div class="location">in <a href="../../../umi/form/element/IElement.html#method_setValue"><abbr title="umi\form\element\IElement">IElement</abbr></a> at line 33</div>
+        <code>            public            <a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a>
+    <strong>setValue</strong>(mixed $value, bool $isRaw = false)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает значение элемента.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>mixed</td>
+                <td>$value</td>
+                <td>значение</td>
+            </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$isRaw</td>
+                <td>если true фильтры применяться не будут</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setFilters">
+        <div class="location">in <a href="../../../umi/form/element/IElement.html#method_setFilters"><abbr title="umi\form\element\IElement">IElement</abbr></a> at line 40</div>
+        <code>            public            <a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a>
+    <strong>setFilters</strong>(<a href="../../../umi/filter/IFilterCollection.html"><abbr title="umi\filter\IFilterCollection">IFilterCollection</abbr></a> $filters)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает цепочку фильтров.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/filter/IFilterCollection.html"><abbr title="umi\filter\IFilterCollection">IFilterCollection</abbr></a></td>
+                <td>$filters</td>
+                <td>фильтры</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFilters">
+        <div class="location">in <a href="../../../umi/form/element/IElement.html#method_getFilters"><abbr title="umi\form\element\IElement">IElement</abbr></a> at line 46</div>
+        <code>            public            <a href="../../../umi/filter/IFilterCollection.html"><abbr title="umi\filter\IFilterCollection">IFilterCollection</abbr></a>
+    <strong>getFilters</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает установленные валидаторы для формы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/filter/IFilterCollection.html"><abbr title="umi\filter\IFilterCollection">IFilterCollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setValidators">
+        <div class="location">in <a href="../../../umi/form/element/IElement.html#method_setValidators"><abbr title="umi\form\element\IElement">IElement</abbr></a> at line 53</div>
+        <code>            public            <a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a>
+    <strong>setValidators</strong>(<a href="../../../umi/validation/IValidatorCollection.html"><abbr title="umi\validation\IValidatorCollection">IValidatorCollection</abbr></a> $validators)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает цепочку валидаторов для элемента формы.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../umi/validation/IValidatorCollection.html"><abbr title="umi\validation\IValidatorCollection">IValidatorCollection</abbr></a></td>
+                <td>$validators</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/form/element/IElement.html"><abbr title="umi\form\element\IElement">IElement</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getValidators">
+        <div class="location">in <a href="../../../umi/form/element/IElement.html#method_getValidators"><abbr title="umi\form\element\IElement">IElement</abbr></a> at line 59</div>
+        <code>            public            <a href="../../../umi/validation/IValidatorCollection.html"><abbr title="umi\validation\IValidatorCollection">IValidatorCollection</abbr></a>
+    <strong>getValidators</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает установленные валидаторы для формы.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/validation/IValidatorCollection.html"><abbr title="umi\validation\IValidatorCollection">IValidatorCollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getChoices">
+        <div class="location">at line 21</div>
+        <code>            public            <a href="http://php.net/ArrayObject"><abbr title="ArrayObject">ArrayObject</abbr></a>
+    <strong>getChoices</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список возможных значений элемента.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/ArrayObject"><abbr title="ArrayObject">ArrayObject</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

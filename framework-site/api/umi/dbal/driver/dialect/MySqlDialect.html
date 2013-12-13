@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\dbal\driver\dialect\MySqlDialect |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/dbal/driver/dialect.html">umi\dbal\driver\dialect</a>\MySqlDialect</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>MySqlDialect</strong>        extends <abbr title="Doctrine\DBAL\Platforms\MySqlPlatform">MySqlPlatform</abbr>        implements
+        <a href="../../../../umi/dbal/driver/IDialect.html"><abbr title="umi\dbal\driver\IDialect">IDialect</abbr></a></p>
+
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getDisableKeysSQL">getDisableKeysSQL</a>(string $tableName)
+                    <p>Строит и возвращает sql-запрос для отключения индексов в отдельной таблице</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getEnableKeysSQL">getEnableKeysSQL</a>(string $tableName)
+                    <p>Строит и возвращает sql-запрос для включения индексов в отдельной таблице</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getDisableForeignKeysSQL">getDisableForeignKeysSQL</a>()
+                    <p>Строит и возвращает sql-запрос для отключения проверки внешних ключей в бд</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getEnableForeignKeysSQL">getEnableForeignKeysSQL</a>()
+                    <p>Строит и возвращает sql-запрос для включения проверки внешних ключей в бд</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildSelectQuery">buildSelectQuery</a>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на выборку данных</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildUpdateQuery">buildUpdateQuery</a>(<a href="../../../../umi/dbal/builder/IUpdateBuilder.html"><abbr title="umi\dbal\builder\IUpdateBuilder">IUpdateBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на обновление данных.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildInsertQuery">buildInsertQuery</a>(<a href="../../../../umi/dbal/builder/IInsertBuilder.html"><abbr title="umi\dbal\builder\IInsertBuilder">IInsertBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на вставку данных.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildDeleteQuery">buildDeleteQuery</a>(<a href="../../../../umi/dbal/builder/IDeleteBuilder.html"><abbr title="umi\dbal\builder\IDeleteBuilder">IDeleteBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на удаление данных</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_buildSelectFoundRowsQuery">buildSelectFoundRowsQuery</a>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $query)
+                    <p>Строит и возвращает sql-запрос на получение количества записей, удовлетворяюших SELECT-запросу</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_buildTruncateQuery">buildTruncateQuery</a>($tableName, $cascade = false)
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_buildDropQuery">buildDropQuery</a>($tableName, $ifExists = true)
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_buildDisableKeysQuery">buildDisableKeysQuery</a>($tableName)
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_buildEnableKeysQuery">buildEnableKeysQuery</a>($tableName)
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_buildDisableForeignKeysQuery">buildDisableForeignKeysQuery</a>()
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_buildEnableForeignKeysQuery">buildEnableForeignKeysQuery</a>()
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_initConnection">initConnection</a>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection)
+                    <p>Инициализирует соединение, используя специфику драйвера.</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method_getDisableKeysSQL">
+        <div class="location">at line 30</div>
+        <code>            public            string
+    <strong>getDisableKeysSQL</strong>(string $tableName)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос для отключения индексов в отдельной таблице</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$tableName</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEnableKeysSQL">
+        <div class="location">at line 40</div>
+        <code>            public            string
+    <strong>getEnableKeysSQL</strong>(string $tableName)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос для включения индексов в отдельной таблице</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$tableName</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getDisableForeignKeysSQL">
+        <div class="location">at line 50</div>
+        <code>            public            string
+    <strong>getDisableForeignKeysSQL</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос для отключения проверки внешних ключей в бд</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getEnableForeignKeysSQL">
+        <div class="location">at line 58</div>
+        <code>            public            string
+    <strong>getEnableForeignKeysSQL</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос для включения проверки внешних ключей в бд</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildSelectQuery">
+        <div class="location">at line 66</div>
+        <code>            public            string
+    <strong>buildSelectQuery</strong>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на выборку данных</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>select-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildUpdateQuery">
+        <div class="location">at line 92</div>
+        <code>            public            string
+    <strong>buildUpdateQuery</strong>(<a href="../../../../umi/dbal/builder/IUpdateBuilder.html"><abbr title="umi\dbal\builder\IUpdateBuilder">IUpdateBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на обновление данных.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/IUpdateBuilder.html"><abbr title="umi\dbal\builder\IUpdateBuilder">IUpdateBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>update-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildInsertQuery">
+        <div class="location">at line 115</div>
+        <code>            public            string
+    <strong>buildInsertQuery</strong>(<a href="../../../../umi/dbal/builder/IInsertBuilder.html"><abbr title="umi\dbal\builder\IInsertBuilder">IInsertBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на вставку данных.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/IInsertBuilder.html"><abbr title="umi\dbal\builder\IInsertBuilder">IInsertBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>insert-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildDeleteQuery">
+        <div class="location">at line 136</div>
+        <code>            public            string
+    <strong>buildDeleteQuery</strong>(<a href="../../../../umi/dbal/builder/IDeleteBuilder.html"><abbr title="umi\dbal\builder\IDeleteBuilder">IDeleteBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на удаление данных</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/IDeleteBuilder.html"><abbr title="umi\dbal\builder\IDeleteBuilder">IDeleteBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>delete-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildSelectFoundRowsQuery">
+        <div class="location">at line 376</div>
+        <code>            public            string
+    <strong>buildSelectFoundRowsQuery</strong>(<a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a> $query)</code>
+    </h3>
+    <div class="details">
+        <p>Строит и возвращает sql-запрос на получение количества записей, удовлетворяюших SELECT-запросу</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/dbal/builder/ISelectBuilder.html"><abbr title="umi\dbal\builder\ISelectBuilder">ISelectBuilder</abbr></a></td>
+                <td>$query</td>
+                <td>select-запрос</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="IException">IException</abbr></td>
+                <td>если не удалось построить запрос</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildTruncateQuery">
+        <div class="location">at line 418</div>
+        <code>            public            
+    <strong>buildTruncateQuery</strong>($tableName, $cascade = false)</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$tableName</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$cascade</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildDropQuery">
+        <div class="location">at line 426</div>
+        <code>            public            
+    <strong>buildDropQuery</strong>($tableName, $ifExists = true)</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$tableName</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td></td>
+                <td>$ifExists</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildDisableKeysQuery">
+        <div class="location">at line 434</div>
+        <code>            public            
+    <strong>buildDisableKeysQuery</strong>($tableName)</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$tableName</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildEnableKeysQuery">
+        <div class="location">at line 444</div>
+        <code>            public            
+    <strong>buildEnableKeysQuery</strong>($tableName)</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$tableName</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildDisableForeignKeysQuery">
+        <div class="location">at line 454</div>
+        <code>            public            
+    <strong>buildDisableForeignKeysQuery</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_buildEnableForeignKeysQuery">
+        <div class="location">at line 462</div>
+        <code>            public            
+    <strong>buildEnableForeignKeysQuery</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_initConnection">
+        <div class="location">at line 473</div>
+        <code>            public            
+    <strong>initConnection</strong>(<abbr title="Doctrine\DBAL\Connection">Connection</abbr> $connection)</code>
+    </h3>
+    <div class="details">
+        <p>Инициализирует соединение, используя специфику драйвера.</p>
+        <p>Может быть переопределен в конкретном диалекте.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><abbr title="Doctrine\DBAL\Connection">Connection</abbr></td>
+                <td>$connection</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

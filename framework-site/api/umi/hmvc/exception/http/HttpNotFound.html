@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\hmvc\exception\http\HttpNotFound |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../umi/hmvc/exception/http.html">umi\hmvc\exception\http</a>\HttpNotFound</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>HttpNotFound</strong>        extends <a href="../../../../umi/hmvc/exception/http/HttpException.html"><abbr title="umi\hmvc\exception\http\HttpException">HttpException</abbr></a></p>
+
+            <div class="description">
+            <p>Исключение бросаемое при невозможности найти маршрут.</p>
+            <p>
+</p>
+        </div>
+    
+            <h2>Constants</h2>
+
+            <table>
+                    <tr>
+                <td>HTTP_BAD_REQUEST</td>
+                <td class="last">
+                    <p><em>400 - Bad Request</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_UNAUTHORIZED</td>
+                <td class="last">
+                    <p><em>401 - Unauthorized</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_PAYMENT_REQUIRED</td>
+                <td class="last">
+                    <p><em>402 - Payment required</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_FORBIDDEN</td>
+                <td class="last">
+                    <p><em>403 - Forbidden</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_NOT_FOUND</td>
+                <td class="last">
+                    <p><em>404 - Page Not Found</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_METHOD_NOT_ALLOWED</td>
+                <td class="last">
+                    <p><em>405 - Method Not Allowed</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_NOT_ACCEPTABLE</td>
+                <td class="last">
+                    <p><em>406 - Not Acceptable</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_PROXY_AUTHENTICATION_REQUIRED</td>
+                <td class="last">
+                    <p><em>407 - Proxy Authentication Required</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_REQUEST_TIMEOUT</td>
+                <td class="last">
+                    <p><em>408 - Request Timeout</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_CONFLICT</td>
+                <td class="last">
+                    <p><em>409 - Conflict</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_GONE</td>
+                <td class="last">
+                    <p><em>410 - Gone</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_LENGTH_REQUIRED</td>
+                <td class="last">
+                    <p><em>411 - Length Required</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_PRECONDITION_FAILED</td>
+                <td class="last">
+                    <p><em>412 - Precondition Failed</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_REQUEST_ENTITY_TOO_LARGE</td>
+                <td class="last">
+                    <p><em>413 - Request Entity Too Large</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_REQUEST_URI_TOO_LONG</td>
+                <td class="last">
+                    <p><em>414 - Request-URI Too Large</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_UNSUPPORTED_MEDIA_TYPE</td>
+                <td class="last">
+                    <p><em>415 - Unsupported Media Type</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_REQUESTED_RANGE_NOT_SATISFIABLE</td>
+                <td class="last">
+                    <p><em>416 - Requested Range Not Satisfiable</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_EXPECTATION_FAILED</td>
+                <td class="last">
+                    <p><em>417 - Expectation Failed</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_UNPROCESSABLE_ENTITY</td>
+                <td class="last">
+                    <p><em>422 - Unprocessable Entity</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_LOCKED</td>
+                <td class="last">
+                    <p><em>423 - Locked</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_FAILED_DEPENDENCY</td>
+                <td class="last">
+                    <p><em>424 - Failed Dependency</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_UPGRADE_REQUIRED</td>
+                <td class="last">
+                    <p><em>426 - Upgrade Required</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_INTERNAL_SERVER_ERROR</td>
+                <td class="last">
+                    <p><em>500 - Internal server error</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_NOT_IMPLEMENTED</td>
+                <td class="last">
+                    <p><em>501 - Not implemented</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_BAD_GATEWAY</td>
+                <td class="last">
+                    <p><em>502 - Bad gateway</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_SERVICE_UNAVAILABLE</td>
+                <td class="last">
+                    <p><em>503 - Service unavailable</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_GATEWAY_TIMEOUT</td>
+                <td class="last">
+                    <p><em>504 - Gateway timeout</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_VERSION_NOT_SUPPORTED</td>
+                <td class="last">
+                    <p><em>505 - Version not supported</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_INSUFFICIENT_STORAGE</td>
+                <td class="last">
+                    <p><em>507 - Insufficient Storage</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_LOOP_DETECTED</td>
+                <td class="last">
+                    <p><em>508 - Loop Detected</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+                    <tr>
+                <td>HTTP_BANDWIDTH_LIMIT_EXCEEDED</td>
+                <td class="last">
+                    <p><em>509 - Bandwidth Limit Exceeded</em></p>
+                    <p>
+</p>
+                </td>
+            </tr>
+            </table>
+
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>($message, <abbr title="umi\hmvc\exception\http\Exception">Exception</abbr> $previous = null)
+                    <p>{@inheritdoc}</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 20</div>
+        <code>            public            
+    <strong>__construct</strong>($message, <abbr title="umi\hmvc\exception\http\Exception">Exception</abbr> $previous = null)</code>
+    </h3>
+    <div class="details">
+        <p>{@inheritdoc}</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td></td>
+                <td>$message</td>
+                <td>
+</td>
+            </tr>
+                    <tr>
+                <td><abbr title="umi\hmvc\exception\http\Exception">Exception</abbr></td>
+                <td>$previous</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

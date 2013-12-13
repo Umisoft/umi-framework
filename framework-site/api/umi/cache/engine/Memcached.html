@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\cache\engine\Memcached |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../classes.html">Classes</a></li>
+                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../traits.html">Traits</a></li>
+            <li><a href="../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../umi/cache/engine.html">umi\cache\engine</a>\Memcached</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>Memcached</strong>        implements
+        <a href="../../../umi/cache/engine/ICacheEngine.html"><abbr title="umi\cache\engine\ICacheEngine">ICacheEngine</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
+
+            <div class="description">
+            <p>Механизм хранения кэша Memcached.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $servers = array())
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_add">add</a>(string $key, string $value, integer $ttl)
+                    <p>Добавляет значение нового ключа в кэш.<br /> Аналогичен методу set, но если ключ существует, операция не будет успешна.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_set">set</a>(string $key, string $value, integer $ttl)
+                    <p>Устанавливает значение ключа в кэше.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_get">get</a>(string $key)
+                    <p>Возврашает значение из кэша по ключу</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    array
+                </td>
+                <td class="last">
+                    <a href="#method_getList">getList</a>(array $keys)
+                    <p>Возвращает список значений указанных ключей</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_remove">remove</a>(string $key)
+                    <p>Удаляет значение по ключу из кэша</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    bool
+                </td>
+                <td class="last">
+                    <a href="#method_clear">clear</a>()
+                    <p>Очищает весь кэш</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 35</div>
+        <code>            public            
+    <strong>__construct</strong>(array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $servers = array())</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a></td>
+                <td>$servers</td>
+                <td>список опций в формате [$host => ['port' => $port, 'weight' => $weight], ...]</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>при неверных опциях</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_add">
+        <div class="location">at line 57</div>
+        <code>            public            bool
+    <strong>add</strong>(string $key, string $value, integer $ttl)</code>
+    </h3>
+    <div class="details">
+        <p>Добавляет значение нового ключа в кэш.<br /> Аналогичен методу set, но если ключ существует, операция не будет успешна.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>новый ключ</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>значение</td>
+            </tr>
+                    <tr>
+                <td>integer</td>
+                <td>$ttl</td>
+                <td>время жизни кэша в секундах. 0 - никогда не истекает.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>успех операции</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_set">
+        <div class="location">at line 67</div>
+        <code>            public            bool
+    <strong>set</strong>(string $key, string $value, integer $ttl)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает значение ключа в кэше.</p>
+        <p>Если ключ существует, его значение будет переопределено.</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>новый ключ</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td>значение</td>
+            </tr>
+                    <tr>
+                <td>integer</td>
+                <td>$ttl</td>
+                <td>время жизни кэша в секундах. 0 - никогда не истекает.</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>успех операции</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_get">
+        <div class="location">at line 77</div>
+        <code>            public            string
+    <strong>get</strong>(string $key)</code>
+    </h3>
+    <div class="details">
+        <p>Возврашает значение из кэша по ключу</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>ключ</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>значение из кэша, либо false, если ключ не существует или время жизни кэша истекло.</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getList">
+        <div class="location">at line 85</div>
+        <code>            public            array
+    <strong>getList</strong>(array $keys)</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает список значений указанных ключей</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$keys</td>
+                <td>список ключей</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>array</td>
+            <td>список значений из кэша</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_remove">
+        <div class="location">at line 96</div>
+        <code>            public            bool
+    <strong>remove</strong>(string $key)</code>
+    </h3>
+    <div class="details">
+        <p>Удаляет значение по ключу из кэша</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$key</td>
+                <td>ключ</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>успех операции</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_clear">
+        <div class="location">at line 104</div>
+        <code>            public            bool
+    <strong>clear</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Очищает весь кэш</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>bool</td>
+            <td>успех операции</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>
