@@ -29,7 +29,7 @@ return function (ICollectionDataSource $dataSource) {
         ->addColumn('guid', Type::GUID)
         ->setNotnull(false);
     $tableScheme
-        ->addColumn('type', Type::TEXT)
+        ->addColumn('type', Type::STRING)
         ->setNotnull(false);
     $tableScheme
         ->addColumn('version', Type::INTEGER)
