@@ -30,7 +30,7 @@ class CSRFElementTest extends FormTestCase
 
     public function testBasic()
     {
-        $this->assertFalse($this->csrf->isValid(), 'Ожидается, что CSRF с неустановленным токеном неверный.');
+        $this->assertTrue($this->csrf->isValid(), 'Ожидается, что CSRF с неустановленным токеном верный.');
 
         $val = $this->csrf->getValue();
         $this->csrf->setValue($val);
@@ -38,5 +38,6 @@ class CSRFElementTest extends FormTestCase
 
         $this->csrf->setValue($val . 'abacaba');
         $this->assertFalse($this->csrf->isValid(), 'Ожидается, что значение токена не верно.');
+        $this->assertEquals($val, $this->csrf->getValue(), 'Ожидается, что getValue возвращает значение токена.');
     }
 }

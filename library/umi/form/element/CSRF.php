@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -20,7 +19,6 @@ use umi\session\TSessionAware;
  */
 class CSRF extends Hidden implements ILocalizable, ISessionAware
 {
-
     use TLocalizable;
     use TSessionAware;
 
@@ -43,11 +41,19 @@ class CSRF extends Hidden implements ILocalizable, ISessionAware
      */
     public function isValid()
     {
+        return $this->token == parent::getValue();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setValue($value, $isRaw = false)
+    {
         if (!$this->token) {
             $this->initToken();
         }
 
-        return $this->token == parent::getValue();
+        parent::setValue($value, $isRaw);
     }
 
     /**
