@@ -27,7 +27,7 @@ class DbTest extends CacheTestCase
 
     protected function setUpFixtures()
     {
-        $server = $this->getDbServer();
+        $server = $this->getDefaultDbServer();
         $options = [
             'table'    => [
                 'tableName'        => $this->tableName,
@@ -38,7 +38,7 @@ class DbTest extends CacheTestCase
             'serverId' => $server->getId()
         ];
 
-        $this->setupDatabase($this->tableName, $server);
+        $this->setupCacheDatabase($this->tableName, $server);
 
         $this->storage = new Db($options);
         $this->resolveOptionalDependencies($this->storage);
@@ -47,7 +47,7 @@ class DbTest extends CacheTestCase
     protected function tearDownFixtures()
     {
         $this
-            ->getDbServer()
+            ->getDefaultDbServer()
             ->getConnection()
             ->getSchemaManager()
             ->dropTable($this->tableName);
@@ -66,7 +66,7 @@ class DbTest extends CacheTestCase
             ? $this->getSqliteServer()
             : $this->getMysqlServer();
 
-        $this->setupDatabase($this->tableName, $nonDefaultServer);
+        $this->setupCacheDatabase($this->tableName, $nonDefaultServer);
 
         $tableConfig = [
             'tableName'        => $this->tableName,
@@ -151,7 +151,7 @@ class DbTest extends CacheTestCase
         $this->assertEquals('testValue', $this->storage->get('newTestKey'), 'В кеш добавилось неверное значение');
 
         $update = $this
-            ->getDbServer()
+            ->getDefaultDbServer()
             ->update('test_cache_storage');
         $update
             ->set('cacheExpiration', ':expire')
@@ -173,7 +173,7 @@ class DbTest extends CacheTestCase
         $this->storage->set('testKey3', 'testValue3', 3);
 
         $update = $this
-            ->getDbServer()
+            ->getDefaultDbServer()
             ->update('test_cache_storage');
         $update
             ->set('cacheExpiration', ':expire')

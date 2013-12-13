@@ -43,7 +43,7 @@ abstract class DbalTestCase extends TestCase
 
         if ($this->usedServerId === null) {
             $this->usedServerId = $this
-                ->getDbServer()
+                ->getDefaultDbServer()
                 ->getId();
         }
         $this->connection = $this

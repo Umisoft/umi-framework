@@ -28,7 +28,7 @@ class QueriesTest extends DbalTestCase
 
     protected function setUpFixtures()
     {
-        $this->server = $this->getDbServer();
+        $this->server = $this->getDefaultDbServer();
         $table = new Table('tests_query_table');
 
         $table
