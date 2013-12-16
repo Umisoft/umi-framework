@@ -23,7 +23,7 @@ class EventManagerTest extends EventTestCase
 {
 
     /**
-     * @var IEventFactory $this->eventFactory 
+     * @var IEventFactory $eventFactory
      */
     protected $eventFactory;
 
