@@ -37,4 +37,16 @@ interface IConfigEntityFactory
      * @return ISeparateConfigSource
      */
     public function createSeparateConfigSource($type, $alias);
+
+    /**
+     * Восстанавливает зависимости для конфигурации.
+     * @param IConfigSource $config
+     */
+    public function wakeUpConfigSource(IConfigSource $config);
+
+    /**
+     * Восстанавливает зависимости для "отдельной" конфигурации.
+     * @param ISeparateConfigSource $config
+     */
+    public function wakeUpSeparateConfigSource(ISeparateConfigSource $config);
 }

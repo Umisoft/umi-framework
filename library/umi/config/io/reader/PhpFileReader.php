@@ -42,7 +42,7 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
         $masterFilename = isset($files[0]) ? $files[0] : null;
         $localFilename = isset($files[1]) ? $files[1] : null;
 
-        if (!file_exists($masterFilename)) {
+        if (!is_readable($masterFilename)) {
             throw new RuntimeException($this->translate(
                 'Master configuration file "{file}" not found.',
                 [
@@ -51,6 +51,7 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
             ));
         }
 
+        /** @noinspection PhpIncludeInspection */
         $config = require $masterFilename;
 
         array_walk_recursive(
@@ -61,7 +62,8 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
             }
         );
 
-        if (file_exists($localFilename)) {
+        if (is_readable($localFilename)) {
+            /** @noinspection PhpIncludeInspection */
             $localSource = require $localFilename;
 
             $this->mergeConfig($config, $localSource);

@@ -120,6 +120,9 @@ class ConfigValue implements IConfigValue
         return ['values'];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __wakeup()
     {
         $this->modifiedValues = $this->values;

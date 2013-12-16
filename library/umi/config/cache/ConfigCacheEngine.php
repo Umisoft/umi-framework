@@ -8,6 +8,8 @@
 
 namespace umi\config\cache;
 
+use umi\config\entity\factory\IConfigEntityFactoryAware;
+use umi\config\entity\factory\TConfigEntityFactoryAware;
 use umi\config\entity\IConfigSource;
 use umi\config\entity\ISeparateConfigSource;
 use umi\config\exception\InvalidArgumentException;
@@ -21,13 +23,14 @@ use umi\spl\config\TConfigSupport;
  * Кэширующий механизм для конфигурационных файлов.
  * Сохраняет сериализованные конфигурационные файлы в кэш.
  */
-class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable
+class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable, IConfigEntityFactoryAware
 {
     /** Директория с кэшем */
     const OPTION_DIRECTORY = 'directory';
 
     use TLocalizable;
     use TConfigSupport;
+    use TConfigEntityFactoryAware;
 
     /**
      * @var string $directory директория с кэшем.
@@ -80,9 +83,16 @@ class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable
             ));
         }
 
+        /** @noinspection PhpIncludeInspection */
         $config = unserialize(require $file);
 
-        // todo: нужно внедрять зависимости в lazy конфиги и в сам конфиг
+        if (!$config instanceof IConfigSource) {
+            throw new \UnexpectedValueException($this->translate(
+                'Restored cache object is not configuration source.'
+            ));
+        }
+
+        $this->restoreConfigDependencies($config);
 
         return $config;
     }
@@ -129,6 +139,25 @@ FILE;
             function ($value) {
                 if ($value instanceof ISeparateConfigSource) {
                     $this->save($value->getSeparateConfig());
+                }
+            }
+        );
+    }
+
+    /**
+     * Восстанавливает зависимости конфигурации после её загрузки из кэша.
+     * @param IConfigSource $config
+     */
+    protected function restoreConfigDependencies(IConfigSource $config) {
+        $this->wakeUpConfigSource($config);
+
+        $source = $config->getSource();
+
+        array_walk(
+            $source,
+            function ($value) {
+                if ($value instanceof ISeparateConfigSource) {
+                    $this->wakeUpSeparateConfigSource($value);
                 }
             }
         );

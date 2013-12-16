@@ -57,6 +57,22 @@ trait TConfigEntityFactoryAware
     }
 
     /**
+     * Восстанавливает зависимости для конфигурации.
+     * @param IConfigSource $config
+     */
+    protected final function wakeUpConfigSource(IConfigSource $config) {
+        $this->getConfigEntityFactory()->wakeUpConfigSource($config);
+    }
+
+    /**
+     * Восстанавливает зависимости для "отдельной" конфигурации.
+     * @param ISeparateConfigSource $config
+     */
+    protected final function wakeUpSeparateConfigSource(ISeparateConfigSource $config) {
+        $this->getConfigEntityFactory()->wakeUpSeparateConfigSource($config);
+    }
+
+    /**
      * Возвращает фабрику сущностей конфигурации.
      * @return IConfigEntityFactory
      * @throws RequiredDependencyException
