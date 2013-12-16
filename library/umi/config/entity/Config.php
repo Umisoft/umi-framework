@@ -11,6 +11,7 @@ namespace umi\config\entity;
 
 use umi\config\entity\factory\IConfigEntityFactoryAware;
 use umi\config\entity\factory\TConfigEntityFactoryAware;
+use umi\config\entity\value\ConfigValue;
 use umi\config\entity\value\IConfigValue;
 use umi\config\exception\InvalidArgumentException;
 use umi\config\exception\UnexpectedValueException;
@@ -204,6 +205,16 @@ class Config implements IConfig, ILocalizable, IConfigEntityFactoryAware
     }
 
     /**
+     * Создает значение конфигурации.
+     * @param string $value
+     * @return IConfigValue
+     */
+    protected function createConfigValue($value)
+    {
+        return (new ConfigValue())->set($value);
+    }
+
+    /**
      * Устанавливает значение по заданной цепочке ключей.
      * @param array $keys цепочка ключей
      * @param mixed $value значение
@@ -220,8 +231,7 @@ class Config implements IConfig, ILocalizable, IConfigEntityFactoryAware
                 $source[$key] = [];
                 $this->setByPath($keys, $value, $source[$key]);
             } else {
-                $source[$key] = $this->createConfigValue()
-                    ->set($value);
+                $source[$key] = $this->createConfigValue($value);
             }
 
             return;
@@ -473,8 +483,7 @@ class Config implements IConfig, ILocalizable, IConfigEntityFactoryAware
                     $source[$key] = [];
                     $this->mergeArrayValues($source[$key], $value);
                 } else {
-                    $source[$key] = $this->createConfigValue()
-                        ->set($value);
+                    $source[$key] = $this->createConfigValue($value);
                 }
             }
         }

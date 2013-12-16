@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -10,17 +9,12 @@
 namespace umi\config\entity\value;
 
 use umi\config\exception\InvalidArgumentException;
-use umi\i18n\ILocalizable;
-use umi\i18n\TLocalizable;
 
 /**
  * Значение конфигурации
  */
-class ConfigValue implements IConfigValue, ILocalizable
+class ConfigValue implements IConfigValue
 {
-
-    use TLocalizable;
-
     /**
      * @var array $values значения
      */
@@ -60,11 +54,12 @@ class ConfigValue implements IConfigValue, ILocalizable
     public function set($value, $type = self::KEY_AUTO)
     {
         if (!is_scalar($value) && !is_null($value)) {
-            throw new InvalidArgumentException($this->translate(
-                'Value should be a scalar, "{type}" has been given.',
-                ['type' => gettype($value)]
+            throw new InvalidArgumentException(sprintf(
+                'Value should be a scalar, "%s" has been given.',
+                gettype($value)
             ));
         }
+
         $type = $type ? : self::KEY_LOCAL;
 
         $this->modifiedValues[$type] = $value;

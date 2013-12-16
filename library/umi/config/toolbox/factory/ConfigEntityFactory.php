@@ -23,10 +23,6 @@ class ConfigEntityFactory implements IConfigEntityFactory, IFactory
     use TFactory;
 
     /**
-     * @var string $valueClass класс для значения конфигурации
-     */
-    public $valueClass = 'umi\config\entity\value\ConfigValue';
-    /**
      * @var string $configSourceClass класс "источника" конфигурации
      */
     public $configSourceClass = 'umi\config\entity\ConfigSource';
@@ -36,18 +32,6 @@ class ConfigEntityFactory implements IConfigEntityFactory, IFactory
     public $separateConfigClasses = [
         self::SEPARATE_LAZY => 'umi\config\entity\LazyConfigSource',
     ];
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createValue()
-    {
-        return $this->getPrototype(
-                $this->valueClass,
-                ['umi\config\entity\value\IConfigValue']
-            )
-            ->createInstance();
-    }
 
     /**
      * {@inheritdoc}
