@@ -431,6 +431,10 @@ table {
 		margin-left: 30px;
 		list-style: disc;
 	}
+	.list-stripes{
+		margin-left: 0;
+		list-style: none;
+	}
 	ol{
 		margin-left: 30px;
 	}
@@ -532,26 +536,23 @@ table {
 	}
 }
 
-[class^="icon_"] {
-	width: 75px;
-	height: 80px;
+.icon.large{
+	width: 90px;
+	height: 87px;
 	margin: 0 auto 25px;
 	background: url("main_icons.png") no-repeat scroll;
+
+	&.hight_load{
+		background-position: -109px 0;
+	}
+	&.flexible{
+		background-position: -223px 0;
+	}
+	&.open-source{
+		background-position: -353px 0;
+	}
 }
-.icon_1 {
-	background-position: 15px 0;
-}
-.icon_2 {
-	background-position: -60px 0;
-}
-.icon_3 {
-	width: 80px;
-	background-position: -140px 0;
-}
-.icon_4 {
-	width: 80px;
-	background-position: -220px 0;
-}
+
 .icon.save{
 	background: url('/assets/icon-download.png') no-repeat center center;
 	width: 35px;
@@ -653,6 +654,9 @@ table {
 
 .teaser{
 	margin-bottom: 30px;
+	h2{
+		margin-bottom: 20px;
+	}
 }
 
 .border-radius(@st){
