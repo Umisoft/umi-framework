@@ -22,7 +22,7 @@ return function (ICollectionDataSource $dataSource) {
         ->addColumn('guid', Type::STRING)
         ->setNotnull(false);
     $tableScheme
-        ->addColumn('type', Type::TEXT)
+        ->addColumn('type', Type::STRING)
         ->setNotnull(false);
     $tableScheme
         ->addColumn(

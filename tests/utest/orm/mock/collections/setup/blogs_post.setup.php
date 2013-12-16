@@ -29,7 +29,7 @@ return function (ICollectionDataSource $dataSource) {
         ->addColumn('guid', Type::STRING)
         ->setNotnull(false);
     $tableScheme
-        ->addColumn('type', Type::TEXT)
+        ->addColumn('type', Type::STRING)
         ->setNotnull(false);
     $tableScheme
         ->addColumn(
@@ -43,10 +43,10 @@ return function (ICollectionDataSource $dataSource) {
         ->addColumn('pid', Type::INTEGER)
         ->setNotnull(false);
     $tableScheme
-        ->addColumn('mpath', Type::TEXT)
+        ->addColumn('mpath', Type::STRING)
         ->setNotnull(false);
     $tableScheme
-        ->addColumn('uri', Type::TEXT)
+        ->addColumn('uri', Type::STRING)
         ->setNotnull(false);
     $tableScheme
         ->addColumn('slug', Type::STRING)
