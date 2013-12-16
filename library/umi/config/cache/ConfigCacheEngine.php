@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -73,14 +72,19 @@ class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable
     public function load($alias)
     {
         $file = $this->getAliasFile($alias);
-        if (!file_exists($file)) {
+
+        if (!is_file($file)) {
             throw new RuntimeException($this->translate(
                 'Config file "{alias}" not cached.',
                 ['alias' => $alias]
             ));
         }
 
-        return unserialize(file_get_contents($file));
+        $config = unserialize(require $file);
+
+        // todo: нужно внедрять зависимости в lazy конфиги и в сам конфиг
+
+        return $config;
     }
 
     /**
@@ -89,7 +93,14 @@ class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable
     public function save(IConfigSource $config)
     {
         $file = $this->getAliasFile($config->getAlias());
-        file_put_contents($file, serialize($config));
+        $configContent = addcslashes(serialize($config), '\'');
+
+        $content = <<<FILE
+<?php
+return '$configContent';
+FILE;
+        file_put_contents($file, $content);
+
         $this->saveSeparateConfig($config);
     }
 
