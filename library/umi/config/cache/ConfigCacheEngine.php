@@ -84,7 +84,7 @@ class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable, IConfigEnti
         }
 
         /** @noinspection PhpIncludeInspection */
-        $config = unserialize(require $file);
+        $config = require $file;
 
         if (!$config instanceof IConfigSource) {
             throw new \UnexpectedValueException($this->translate(
@@ -107,7 +107,7 @@ class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable, IConfigEnti
 
         $content = <<<FILE
 <?php
-return '$configContent';
+return unserialize('$configContent');
 FILE;
         file_put_contents($file, $content);
 
