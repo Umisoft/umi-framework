@@ -9,7 +9,6 @@
 
 namespace utest\cache\unit\toolbox;
 
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Types\Type;
 use umi\cache\toolbox\CacheTools;
 use utest\cache\CacheTestCase;
@@ -17,22 +16,18 @@ use utest\cache\mock\MockCacheAware;
 
 class CacheToolsTest extends CacheTestCase
 {
-    /**
-     * @var Connection $connection
-     */
-    private $connection;
 
     private $tableName = 'test_cache';
 
     protected function setUpFixtures()
     {
-        $this->connection = $this->getDbServer()->getConnection();
+        $this->setupCacheDatabase($this->tableName);
     }
 
     protected function tearDownFixtures()
     {
-        if($this->connection->getSchemaManager()->tablesExist($this->tableName)){
-            $this->connection->getSchemaManager()
+        if ($this->getDefaultConnection()->getSchemaManager()->tablesExist($this->tableName)){
+            $this->getDefaultConnection()->getSchemaManager()
                 ->dropTable($this->tableName);
         }
     }
@@ -50,13 +45,13 @@ class CacheToolsTest extends CacheTestCase
                             'valueColumnName'  => 'cacheValue',
                             'expireColumnName' => 'cacheExpiration'
                         ],
-                        'serverId' => $this->getDbServer()->getId()
+                        'serverId' => $this->getDefaultDbServer()->getId()
                     ]
                 ]
             ]
         );
 
-        $this->setupDatabase($this->tableName);
+        $this->setupCacheDatabase($this->tableName);
 
         $cachingService = new MockCacheAware();
         $this->resolveOptionalDependencies($cachingService);
@@ -65,9 +60,7 @@ class CacheToolsTest extends CacheTestCase
         $value = $cachingService->get(
             'test_closure',
             function () use (&$callsCounter) {
-                $callsCounter++;
-
-                return $callsCounter;
+                return ++$callsCounter;
             }
         );
         $this->assertEquals(

@@ -33,7 +33,7 @@ class QueryResultFactoryTest extends DbalTestCase
 
     public function testResultBuilderFactory()
     {
-        $builder = $this->getDbServer()
+        $builder = $this->getDefaultDbServer()
             ->select()
             ->from('temp_test_table');
         $result = $builder->execute();

@@ -7,7 +7,7 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace utest\dbal\func\drivers\mysql;
+namespace utest\dbal\func\drivers\sqlite;
 
 use umi\dbal\builder\SelectBuilder;
 use umi\dbal\driver\dialect\SqliteDialect;
@@ -23,7 +23,7 @@ class SqliteQueriesTest extends DbalTestCase
     /**
      * @var SelectBuilder $select
      */
-    protected $select;
+    protected $selectBuilder;
     protected $affectedTables = ['temp_test_table'];
 
     protected function setUpFixtures()
@@ -35,57 +35,59 @@ class SqliteQueriesTest extends DbalTestCase
 
         $queryBuilderFactory = new QueryBuilderFactory();
         $this->resolveOptionalDependencies($queryBuilderFactory);
-        $this->select = new SelectBuilder($this->connection, new SqliteDialect(), $queryBuilderFactory);
+        $this->selectBuilder = new SelectBuilder($this->connection, new SqliteDialect(), $queryBuilderFactory);
     }
 
     public function testSelectTotal()
     {
-        $this->select
+        $this->selectBuilder
             ->select('t.id')
             ->from('temp_test_table as t')
             ->where()
             ->expr('t.id', '!=', ':zero')
             ->limit(':limit', ':offset');
 
-        $this->select
+        $this->selectBuilder
             ->bindInt(':zero', 0)
             ->bindInt(':limit', 2)
             ->bindInt(':offset', 1);
 
-        $this->select->execute()->closeCursor();
+        $this->selectBuilder->execute()->closeCursor();
 
-        $this->assertEquals(3, $this->select->getTotal(), 'Ожидается, что записей удовлетворяющих запросу будет 3');
+        $this->assertEquals(3, $this->selectBuilder->getTotal(), 'Ожидается, что записей удовлетворяющих запросу будет 3');
 
         $this->connection->exec('INSERT INTO temp_test_table(id) VALUES (4)');
-        $this->select
+        $this->selectBuilder
             ->execute()
             ->closeCursor();
         $this->assertEquals(
             4,
-            $this->select->getTotal(),
+            $this->selectBuilder->getTotal(),
             'Ожидается, что после добавления записи записей удовлетворяющих запросу будет 4'
         );
     }
 
     public function testResultsCount()
     {
-        $this->select
+        $this->selectBuilder
             ->select('t.id')
             ->from('temp_test_table as t')
             ->where()
             ->expr('t.id', '!=', ':zero');
-        $this->select
+
+        $this->selectBuilder
             ->bindInt(':zero', 0)
             ->bindInt(':limit', 2)
             ->bindInt(':offset', 1);
 
-        $this->assertEquals(3, $this->select->getTotal(), 'Ожидается, что записей удовлетворяющих запросу будет 3');
+
+        $this->assertEquals(3, $this->selectBuilder->getTotal(), 'Ожидается, что записей удовлетворяющих запросу будет 3');
 
         $this->connection->exec('INSERT INTO temp_test_table(id) VALUES (4)');
 
         $this->assertEquals(
             4,
-            $this->select->getTotal(),
+            $this->selectBuilder->getTotal(),
             'Ожидается, что после добавления записи записей удовлетворяющих запросу будет 4'
         );
     }

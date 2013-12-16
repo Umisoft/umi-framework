@@ -1,13 +1,13 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 namespace utest\dbal;
 
+use Doctrine\DBAL\Connection;
 use RuntimeException;
 use umi\dbal\cluster\IDbCluster;
 use umi\dbal\cluster\server\IMasterServer;
@@ -25,11 +25,16 @@ trait TDbalSupport
     /**
      * @var string $_sqliteServerId идентификатор мастер-сервера для тестов, использующих sqlite
      */
-    private $_sqliteServerId  = 'sqliteMaster';
+    private $_sqliteServerId = 'sqliteMaster';
     /**
      * @var string $_mysqlServerId идентификатор мастер-сервера для для тестов, использующих mysql
      */
-    private $_mysqlServerId   = 'mysqlMaster';
+    private $_mysqlServerId = 'mysqlMaster';
+
+    /**
+     * @var IDbCluster $_dbCluster
+     */
+    private static $_dbCluster;
 
     /**
      * Получить тестовый тулкит
@@ -41,7 +46,7 @@ trait TDbalSupport
     protected function registerDbalTools()
     {
         $this->getTestToolkit()->registerToolbox(
-            require(LIBRARY_PATH . '/dbal/toolbox/config.php')
+            require(TESTS_ROOT . '/utest/dbal/toolbox/config.php')
         );
 
         if (!file_exists(TESTS_CONFIGURATION . '/local/db.php')) {
@@ -50,7 +55,9 @@ trait TDbalSupport
             );
         }
 
-        $this->getTestToolkit()->setSettings(
+        $this
+            ->getTestToolkit()
+            ->setSettings(
             include(TESTS_CONFIGURATION . '/local/db.php')
         );
     }
@@ -64,21 +71,31 @@ trait TDbalSupport
         /**
          * @var IDbCluster $dbCluster
          */
-        $dbCluster = $this->getTestToolkit()
+        $dbCluster = $this
+            ->getTestToolkit()
             ->getService('umi\dbal\cluster\IDbCluster');
 
         return $dbCluster;
     }
 
     /**
-     * Возвращает мастер-сервер по умолчанию
+     * Возвращает сервер БД по умолчанию
      * @throws RuntimeException
      * @return IMasterServer
      */
-    protected function getDbServer()
+    protected function getDefaultDbServer()
     {
-        return $this->getDbCluster()
+        return $this
+            ->getDbCluster()
             ->getServer($this->_defaultServerId);
+    }
+
+    /**
+     * Возвращает Connection по умолчанию
+     * @return Connection
+     */
+    protected function getDefaultConnection() {
+        return $this->getDefaultDbServer()->getConnection();
     }
 
     /**
@@ -88,7 +105,8 @@ trait TDbalSupport
      */
     protected function getMysqlServer()
     {
-        return $this->getDbCluster()
+        return $this
+            ->getDbCluster()
             ->getServer($this->_mysqlServerId);
     }
 
@@ -99,7 +117,8 @@ trait TDbalSupport
      */
     protected function getSqliteServer()
     {
-        return $this->getDbCluster()
+        return $this
+            ->getDbCluster()
             ->getServer($this->_sqliteServerId);
     }
 }
