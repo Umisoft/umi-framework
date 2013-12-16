@@ -45,7 +45,7 @@ trait TEventObservant
     {
         if (!$this->_eventManager) {
             if (!$this->_eventFactory) {
-                throw new RequiredDependencyException(sprintf('Event factory is not injected in class "%s".', get_class($this)));
+                $this->_eventFactory = new EventFactory();
             }
             $this->_eventManager = $this->_eventFactory->createEventManager();
             $this->bindLocalEvents();
@@ -69,7 +69,7 @@ trait TEventObservant
      * @param string $eventType тип события (уникальный строковый идентификатор)
      * @param array $params список параметров события array('paramName' => 'paramVal', 'relParam' => &$var)
      * Параметр может передаваться по ссылке.
-     * @param array $tags тэги, с которыми происходит событиею
+     * @param array $tags тэги, с которыми происходит событие
      * Тэги позволяют подписаться на события, которые происходят с конкретными объектами.
      * @return $this
      */
