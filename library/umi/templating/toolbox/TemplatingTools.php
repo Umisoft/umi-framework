@@ -77,6 +77,8 @@ class TemplatingTools implements IToolbox
                 return $this->getTemplateEngineFactory();
             case 'umi\templating\extension\IExtensionFactory':
                 return $this->getExtensionFactory();
+            case 'umi\templating\extension\adapter\IExtensionAdapterFactory':
+                return $this->getExtensionAdapterFactory();
         }
         throw new UnsupportedServiceException($this->translate(
             'Toolbox "{name}" does not support service "{interface}".',
