@@ -40,14 +40,6 @@
 
             <table>
                     <tr>
-                <td class="type" id="property_valueClass">
-                                                            string
-                </td>
-                <td>$valueClass</td>
-                <td class="last">
-</td>
-            </tr>
-                    <tr>
                 <td class="type" id="property_configSourceClass">
                                                             string
                 </td>
@@ -71,16 +63,6 @@
             <table>
                     <tr>
                 <td class="type">
-                    <a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a>
-                </td>
-                <td class="last">
-                    <a href="#method_createValue">createValue</a>()
-                    <p>Создает значение в конфигурации.</p>
-                </td>
-                <td></td>
-            </tr>
-                    <tr>
-                <td class="type">
                     <a href="../../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
                 </td>
                 <td class="last">
@@ -99,39 +81,33 @@
                 </td>
                 <td></td>
             </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_wakeUpConfigSource">wakeUpConfigSource</a>(<a href="../../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a> $object)
+                    <p>Восстанавливает зависимости для конфигурации.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method_wakeUpSeparateConfigSource">wakeUpSeparateConfigSource</a>(<a href="../../../../umi/config/entity/ISeparateConfigSource.html"><abbr title="umi\config\entity\ISeparateConfigSource">ISeparateConfigSource</abbr></a> $object)
+                    <p>Восстанавливает зависимости для "отдельной" конфигурации.</p>
+                </td>
+                <td></td>
+            </tr>
             </table>
 
 
         <h2>Details</h2>
 
-                        <h3 id="method_createValue">
-        <div class="location">at line 43</div>
-        <code>            public            <a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a>
-    <strong>createValue</strong>()</code>
-    </h3>
-    <div class="details">
-        <p>Создает значение в конфигурации.</p>
-        <p>
-</p>
-        <div class="tags">
-            
-                            <h4>Return Value</h4>
-
-                    <table>
-        <tr>
-            <td><a href="../../../../umi/config/entity/value/IConfigValue.html"><abbr title="umi\config\entity\value\IConfigValue">IConfigValue</abbr></a></td>
-            <td>
-</td>
-        </tr>
-    </table>
-
-            
-            
-                    </div>
-    </div>
-
-                <h3 id="method_createConfigSource">
-        <div class="location">at line 55</div>
+                        <h3 id="method_createConfigSource">
+        <div class="location">at line 41</div>
         <code>            public            <a href="../../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
     <strong>createConfigSource</strong>(string $alias, array $source)</code>
     </h3>
@@ -172,7 +148,7 @@
     </div>
 
                 <h3 id="method_createSeparateConfigSource">
-        <div class="location">at line 67</div>
+        <div class="location">at line 53</div>
         <code>            public            <a href="../../../../umi/config/entity/ISeparateConfigSource.html"><abbr title="umi\config\entity\ISeparateConfigSource">ISeparateConfigSource</abbr></a>
     <strong>createSeparateConfigSource</strong>(string $type, string $alias)</code>
     </h3>
@@ -207,6 +183,60 @@
         </tr>
     </table>
 
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_wakeUpConfigSource">
+        <div class="location">at line 72</div>
+        <code>            public            
+    <strong>wakeUpConfigSource</strong>(<a href="../../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Восстанавливает зависимости для конфигурации.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_wakeUpSeparateConfigSource">
+        <div class="location">at line 82</div>
+        <code>            public            
+    <strong>wakeUpSeparateConfigSource</strong>(<a href="../../../../umi/config/entity/ISeparateConfigSource.html"><abbr title="umi\config\entity\ISeparateConfigSource">ISeparateConfigSource</abbr></a> $object)</code>
+    </h3>
+    <div class="details">
+        <p>Восстанавливает зависимости для "отдельной" конфигурации.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../umi/config/entity/ISeparateConfigSource.html"><abbr title="umi\config\entity\ISeparateConfigSource">ISeparateConfigSource</abbr></a></td>
+                <td>$object</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
             
             
                     </div>

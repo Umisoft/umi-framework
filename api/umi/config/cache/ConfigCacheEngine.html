@@ -27,7 +27,7 @@
         <div class="content">
                 <p>    class
     <strong>ConfigCacheEngine</strong>        implements
-        <a href="../../../umi/config/cache/IConfigCacheEngine.html"><abbr title="umi\config\cache\IConfigCacheEngine">IConfigCacheEngine</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a></p>
+        <a href="../../../umi/config/cache/IConfigCacheEngine.html"><abbr title="umi\config\cache\IConfigCacheEngine">IConfigCacheEngine</abbr></a>, <a href="../../../umi/i18n/ILocalizable.html"><abbr title="umi\i18n\ILocalizable">ILocalizable</abbr></a>, <a href="../../../umi/config/entity/factory/IConfigEntityFactoryAware.html"><abbr title="umi\config\entity\factory\IConfigEntityFactoryAware">IConfigEntityFactoryAware</abbr></a></p>
 
             <div class="description">
             <p>Кэширующий механизм для конфигурационных файлов.</p>
@@ -98,7 +98,7 @@
         <h2>Details</h2>
 
                         <h3 id="method___construct">
-        <div class="location">at line 44</div>
+        <div class="location">at line 46</div>
         <code>            public            
     <strong>__construct</strong>(array|<a href="http://php.net/Traversable"><abbr title="Traversable">Traversable</abbr></a> $options)</code>
     </h3>
@@ -137,7 +137,7 @@
     </div>
 
                 <h3 id="method_isActual">
-        <div class="location">at line 63</div>
+        <div class="location">at line 65</div>
         <code>            public            bool
     <strong>isActual</strong>(string $alias, int $timestamp)</code>
     </h3>
@@ -178,7 +178,7 @@
     </div>
 
                 <h3 id="method_load">
-        <div class="location">at line 73</div>
+        <div class="location">at line 75</div>
         <code>            public            <a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a>
     <strong>load</strong>(string $alias)</code>
     </h3>
@@ -223,7 +223,7 @@
     </div>
 
                 <h3 id="method_save">
-        <div class="location">at line 89</div>
+        <div class="location">at line 103</div>
         <code>            public            <a href="../../../umi/config/cache/IConfigCacheEngine.html"><abbr title="umi\config\cache\IConfigCacheEngine">IConfigCacheEngine</abbr></a>
     <strong>save</strong>(<a href="../../../umi/config/entity/IConfigSource.html"><abbr title="umi\config\entity\IConfigSource">IConfigSource</abbr></a> $config)</code>
     </h3>
