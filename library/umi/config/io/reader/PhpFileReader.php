@@ -42,7 +42,7 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
         $masterFilename = isset($files[0]) ? $files[0] : null;
         $localFilename = isset($files[1]) ? $files[1] : null;
 
-        if (!is_readable($masterFilename)) {
+        if (!is_readable($masterFilename) || !is_file($masterFilename)) {
             throw new RuntimeException($this->translate(
                 'Master configuration file "{file}" not found.',
                 [
@@ -62,7 +62,7 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
             }
         );
 
-        if (is_readable($localFilename)) {
+        if (is_readable($localFilename) && is_file($localFilename)) {
             /** @noinspection PhpIncludeInspection */
             $localSource = require $localFilename;
 

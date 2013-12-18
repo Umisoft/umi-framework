@@ -76,7 +76,7 @@ class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable, IConfigEnti
     {
         $file = $this->getAliasFile($alias);
 
-        if (!is_file($file)) {
+        if (!is_readable($file) || !is_file($file)) {
             throw new RuntimeException($this->translate(
                 'Config file "{alias}" not cached.',
                 ['alias' => $alias]
