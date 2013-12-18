@@ -10,6 +10,8 @@
 namespace umi\config\toolbox\factory;
 
 use umi\config\entity\factory\IConfigEntityFactory;
+use umi\config\entity\IConfigSource;
+use umi\config\entity\ISeparateConfigSource;
 use umi\config\exception\OutOfBoundsException;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
@@ -23,10 +25,6 @@ class ConfigEntityFactory implements IConfigEntityFactory, IFactory
     use TFactory;
 
     /**
-     * @var string $valueClass класс для значения конфигурации
-     */
-    public $valueClass = 'umi\config\entity\value\ConfigValue';
-    /**
      * @var string $configSourceClass класс "источника" конфигурации
      */
     public $configSourceClass = 'umi\config\entity\ConfigSource';
@@ -36,18 +34,6 @@ class ConfigEntityFactory implements IConfigEntityFactory, IFactory
     public $separateConfigClasses = [
         self::SEPARATE_LAZY => 'umi\config\entity\LazyConfigSource',
     ];
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createValue()
-    {
-        return $this->getPrototype(
-                $this->valueClass,
-                ['umi\config\entity\value\IConfigValue']
-            )
-            ->createInstance();
-    }
 
     /**
      * {@inheritdoc}
@@ -78,5 +64,25 @@ class ConfigEntityFactory implements IConfigEntityFactory, IFactory
                 ['umi\config\entity\ISeparateConfigSource']
             )
             ->createInstance([$alias]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function wakeUpConfigSource(IConfigSource $object) {
+        $this->getPrototype(
+            $this->configSourceClass,
+            ['umi\config\entity\IConfigSource']
+        )->wakeUpInstance($object);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function wakeUpSeparateConfigSource(ISeparateConfigSource $object) {
+        $this->getPrototype(
+            get_class($object),
+            ['umi\config\entity\ISeparateConfigSource']
+        )->wakeUpInstance($object);
     }
 }

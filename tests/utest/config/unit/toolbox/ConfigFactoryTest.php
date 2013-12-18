@@ -32,23 +32,6 @@ class ConfigFactoryTest extends ConfigTestCase
         $this->resolveOptionalDependencies($this->factory);
     }
 
-    public function testValue()
-    {
-        $value = $this->factory->createValue();
-        $this->assertInstanceOf('umi\config\entity\value\IConfigValue', $value);
-        $this->assertNotSame($value, $this->factory->createValue());
-    }
-
-    /**
-     * @test
-     * @expectedException DomainException
-     */
-    public function wrongValueClass()
-    {
-        $this->factory->valueClass = '\StdClass';
-        $this->factory->createValue();
-    }
-
     public function testSource()
     {
         $s = [];

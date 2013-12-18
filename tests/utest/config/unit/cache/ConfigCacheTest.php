@@ -10,11 +10,8 @@
 namespace umi\config;
 
 use umi\config\cache\ConfigCacheEngine;
-use umi\config\entity\ConfigSource;
-use umi\config\entity\LazyConfigSource;
-use umi\config\entity\value\ConfigValue;
-use umi\config\entity\value\IConfigValue;
 use umi\config\exception\RuntimeException;
+use umi\config\io\IConfigIO;
 use utest\config\ConfigTestCase;
 
 class ConfigCacheTest extends ConfigTestCase
@@ -27,11 +24,22 @@ class ConfigCacheTest extends ConfigTestCase
      * @var string $directory директория с кешем
      */
     private $directory;
+    /**
+     * @var IConfigIO $ioService
+     */
+    private $ioService;
 
     public function setUpFixtures()
     {
+        /** @var IConfigIO $ioService */
+        $this->ioService = $this->getTestToolkit()
+            ->getService('umi\config\io\IConfigIO');
+
+        $this->ioService->registerAlias('~', __DIR__ . '/fixtures/master',  __DIR__ . '/fixtures/local');
+
         $this->directory = __DIR__ . '/data';
         $this->cacheEngine = new ConfigCacheEngine(['directory' => $this->directory]);
+        $this->resolveOptionalDependencies($this->cacheEngine);
 
         @mkdir($this->directory);
     }
@@ -51,33 +59,28 @@ class ConfigCacheTest extends ConfigTestCase
 
     public function testCacheEngineLoadSave()
     {
-        $source = [
-            'key' => new ConfigValue([
-                    IConfigValue::KEY_LOCAL  => 'localValue',
-                    IConfigValue::KEY_MASTER => 'masterValue'
-                ])
-        ];
-        $config = new ConfigSource($source, '~/test.php');
-
+        $config = $this->ioService->read('~/test.php');
         $this->cacheEngine->save($config);
 
         $this->assertTrue($this->cacheEngine->isActual('~/test.php', time() - 3600));
 
         $saved = $this->cacheEngine->load('~/test.php');
         $this->assertEquals($config, $saved);
-
-        $this->markTestIncomplete('Waiting toolbox refactoring.');
     }
 
     public function testCacheSeparateFiles()
     {
-        $source = [
-            'key' => new LazyConfigSource('~/part.php'),
-        ];
+        $config = $this->ioService->read('~/test2.php');
+        $this->assertEquals('value', $config->get('part/key'));
 
-        $config = new ConfigSource($source, '~/test.php');
+        $this->cacheEngine->save($config);
 
-        $this->markTestIncomplete('Waiting toolbox refactoring.');
+        $this->assertTrue($this->cacheEngine->isActual('~/test2.php', time() - 3600));
+
+        $saved = $this->cacheEngine->load('~/test2.php');
+        $this->assertEquals('value', $saved->get('part/key'));
+
+        $this->assertEquals($config, $saved);
     }
 
     public function testIsActual()

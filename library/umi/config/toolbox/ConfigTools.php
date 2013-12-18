@@ -69,13 +69,13 @@ class ConfigTools implements IToolbox
      */
     public $type = self::TYPE_PHP;
     /**
-     * @var array $readers список reader'ов конфигурации
+     * @var array $readers список reader 'ов конфигурации
      */
     public $readers = [
         self::TYPE_PHP => 'umi\config\io\reader\PhpFileReader',
     ];
     /**
-     * @var array $writers список writer'ов конфигурации
+     * @var array $writers список writer 'ов конфигурации
      */
     public $writers = [
         self::TYPE_PHP => 'umi\config\io\writer\PhpFileWriter',

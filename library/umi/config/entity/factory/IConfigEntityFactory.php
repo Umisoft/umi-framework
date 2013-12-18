@@ -11,7 +11,6 @@ namespace umi\config\entity\factory;
 
 use umi\config\entity\IConfigSource;
 use umi\config\entity\ISeparateConfigSource;
-use umi\config\entity\value\IConfigValue;
 
 /**
  * Интерфейс фабрики сущностей конфигурации.
@@ -22,12 +21,6 @@ interface IConfigEntityFactory
      * Тип отдельной конфигурации - лениво загружаемая конфигурация.
      */
     const SEPARATE_LAZY = 'lazy';
-
-    /**
-     * Создает значение в конфигурации.
-     * @return IConfigValue
-     */
-    public function createValue();
 
     /**
      * Создает конфигурацию, на основе источника данных.
@@ -44,4 +37,16 @@ interface IConfigEntityFactory
      * @return ISeparateConfigSource
      */
     public function createSeparateConfigSource($type, $alias);
+
+    /**
+     * Восстанавливает зависимости для конфигурации.
+     * @param IConfigSource $config
+     */
+    public function wakeUpConfigSource(IConfigSource $config);
+
+    /**
+     * Восстанавливает зависимости для "отдельной" конфигурации.
+     * @param ISeparateConfigSource $config
+     */
+    public function wakeUpSeparateConfigSource(ISeparateConfigSource $config);
 }

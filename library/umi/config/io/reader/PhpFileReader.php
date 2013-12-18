@@ -1,7 +1,6 @@
 <?php
 /**
  * UMI.Framework (http://umi-framework.ru/)
- *
  * @link      http://github.com/Umisoft/framework for the canonical source repository
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
@@ -13,6 +12,7 @@ use umi\config\entity\factory\IConfigEntityFactoryAware;
 use umi\config\entity\factory\TConfigEntityFactoryAware;
 use umi\config\entity\IConfigSource;
 use umi\config\entity\ISeparateConfigSource;
+use umi\config\entity\value\ConfigValue;
 use umi\config\entity\value\IConfigValue;
 use umi\config\exception\InvalidArgumentException;
 use umi\config\exception\RuntimeException;
@@ -42,7 +42,7 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
         $masterFilename = isset($files[0]) ? $files[0] : null;
         $localFilename = isset($files[1]) ? $files[1] : null;
 
-        if (!file_exists($masterFilename)) {
+        if (!is_readable($masterFilename) || !is_file($masterFilename)) {
             throw new RuntimeException($this->translate(
                 'Master configuration file "{file}" not found.',
                 [
@@ -51,6 +51,7 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
             ));
         }
 
+        /** @noinspection PhpIncludeInspection */
         $config = require $masterFilename;
 
         array_walk_recursive(
@@ -61,7 +62,8 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
             }
         );
 
-        if (file_exists($localFilename)) {
+        if (is_readable($localFilename) && is_file($localFilename)) {
+            /** @noinspection PhpIncludeInspection */
             $localSource = require $localFilename;
 
             $this->mergeConfig($config, $localSource);
@@ -112,17 +114,21 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
                     array_walk_recursive(
                         $localValue,
                         function (&$v) {
-                            $v = $this->createConfigValue()
-                                ->set($v, IConfigValue::KEY_LOCAL)
-                                ->save();
+                            $v = $this->createConfigValue(
+                                [
+                                    IConfigValue::KEY_LOCAL => $v
+                                ]
+                            );
                         }
                     );
 
                     $master[$key] = $localValue;
                 } else {
-                    $master[$key] = $this->createConfigValue()
-                        ->set($localValue, IConfigValue::KEY_LOCAL)
-                        ->save();
+                    $master[$key] = $this->createConfigValue(
+                        [
+                            IConfigValue::KEY_LOCAL => $localValue,
+                        ]
+                    );
                 }
             }
         }
@@ -153,8 +159,19 @@ class PhpFileReader implements IReader, ILocalizable, IConfigAliasResolverAware,
             }
         }
 
-        return $this->createConfigValue()
-            ->set($masterValue, IConfigValue::KEY_MASTER)
-            ->save();
+        return $this->createConfigValue(
+            [
+                IConfigValue::KEY_MASTER => $masterValue
+            ]
+        );
+    }
+
+    /**
+     * @param array $values
+     * @return ConfigValue
+     */
+    protected function createConfigValue(array $values = [])
+    {
+        return new ConfigValue($values);
     }
 }

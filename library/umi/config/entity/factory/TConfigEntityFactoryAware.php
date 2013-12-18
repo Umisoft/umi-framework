@@ -11,7 +11,6 @@ namespace umi\config\entity\factory;
 
 use umi\config\entity\IConfigSource;
 use umi\config\entity\ISeparateConfigSource;
-use umi\config\entity\value\IConfigValue;
 use umi\config\exception\RequiredDependencyException;
 
 /**
@@ -31,16 +30,6 @@ trait TConfigEntityFactoryAware
     public final function setConfigEntityFactory(IConfigEntityFactory $configFactory)
     {
         $this->_configEntityFactory = $configFactory;
-    }
-
-    /**
-     * Создает значение в конфигурации.
-     * @return IConfigValue
-     */
-    protected final function createConfigValue()
-    {
-        return $this->getConfigEntityFactory()
-            ->createValue();
     }
 
     /**
@@ -65,6 +54,22 @@ trait TConfigEntityFactoryAware
     {
         return $this->getConfigEntityFactory()
             ->createSeparateConfigSource($type, $alias);
+    }
+
+    /**
+     * Восстанавливает зависимости для конфигурации.
+     * @param IConfigSource $config
+     */
+    protected final function wakeUpConfigSource(IConfigSource $config) {
+        $this->getConfigEntityFactory()->wakeUpConfigSource($config);
+    }
+
+    /**
+     * Восстанавливает зависимости для "отдельной" конфигурации.
+     * @param ISeparateConfigSource $config
+     */
+    protected final function wakeUpSeparateConfigSource(ISeparateConfigSource $config) {
+        $this->getConfigEntityFactory()->wakeUpSeparateConfigSource($config);
     }
 
     /**

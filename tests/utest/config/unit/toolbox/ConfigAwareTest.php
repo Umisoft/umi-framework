@@ -10,6 +10,7 @@
 namespace utest\config\unit\toolbox;
 
 use umi\config\entity\ConfigSource;
+use umi\config\entity\LazyConfigSource;
 use utest\AwareTestCase;
 
 /**
@@ -55,6 +56,8 @@ class ConfigAwareTest extends AwareTestCase
                 $src = [];
 
                 return new ConfigSource($src, '~/alias.php');
+            case 'umi\config\entity\ISeparateConfigSource':
+                return new LazyConfigSource('~/alias.php');
         }
 
         return parent::resolveParam($className);
