@@ -21,6 +21,7 @@ return [
     ],
     'services' => [
         'umi\templating\engine\ITemplateEngineFactory',
-        'umi\templating\extension\IExtensionFactory'
+        'umi\templating\extension\IExtensionFactory',
+        'umi\templating\extension\adapter\IExtensionAdapterFactory',
     ]
 ];
