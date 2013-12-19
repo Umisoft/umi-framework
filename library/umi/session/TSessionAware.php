@@ -10,7 +10,9 @@
 namespace umi\session;
 
 use umi\session\entity\ns\ISessionNamespace;
+use umi\session\exception\OutOfBoundsException;
 use umi\session\exception\RequiredDependencyException;
+use umi\session\exception\RuntimeException;
 
 /**
  * Трейт для внедрения функциональности работы с сессией.
@@ -34,6 +36,7 @@ trait TSessionAware
      * Регистрирует пространство имен сессии.
      * @param string $name имя
      * @param array $validators валидаторы
+     * @throws RuntimeException если такое пространство имен уже было зарегистрировано
      * @return self
      */
     protected final function registerSessionNamespace($name, array $validators = [])
@@ -58,6 +61,7 @@ trait TSessionAware
     /**
      * Возвращает экземпляр ранее зарегистрированного пространства имен.
      * @param string $name имя
+     * @throws OutOfBoundsException если пространство имен с таким именем не зарегистрировано
      * @return ISessionNamespace
      */
     protected final function getSessionNamespace($name)
