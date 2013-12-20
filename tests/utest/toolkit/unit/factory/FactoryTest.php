@@ -72,7 +72,7 @@ class FactoryTest extends TestCase implements IFactory
         $this->assertInstanceOf(
             'umi\toolkit\exception\AlreadyRegisteredException',
             $e,
-            'Ожидается, что нельзя повторно зарегестрировать фабрику'
+            'Ожидается, что нельзя повторно зарегистрировать фабрику'
         );
     }
 
@@ -91,7 +91,7 @@ class FactoryTest extends TestCase implements IFactory
         $this->assertInstanceOf(
             'umi\toolkit\factory\IFactory',
             $factory,
-            'Ожидается, что, если фабрика была зарегестрирована, ее можно получить'
+            'Ожидается, что, если фабрика была зарегистрирована, ее можно получить'
         );
         $this->assertTrue(
             $factory === $this->getFactory('TestFactory'),
@@ -107,7 +107,7 @@ class FactoryTest extends TestCase implements IFactory
         $this->assertInstanceOf(
             'umi\toolkit\factory\IFactory',
             $createdFactory,
-            'Ожидается, что, если фабрика была зарегестрирована, можно создать ее экземпляр'
+            'Ожидается, что, если фабрика была зарегистрирована, можно создать ее экземпляр'
         );
 
         $this->assertFalse(
@@ -197,7 +197,7 @@ class FactoryTest extends TestCase implements IFactory
         $this->assertInstanceOf(
             'umi\toolkit\exception\NotRegisteredException',
             $e,
-            'Ожидается, что нельзя получить незарегестрированную фабрику'
+            'Ожидается, что нельзя получить незарегистрированную фабрику'
         );
     }
 

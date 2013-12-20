@@ -9,7 +9,6 @@
 
 namespace umi\form;
 
-use umi\event\IEventObservant;
 use umi\form\binding\IDataBinding;
 use umi\form\fieldset\IFieldset;
 
@@ -17,7 +16,7 @@ use umi\form\fieldset\IFieldset;
  * Интерфейс формы.
  * Форма является именнованой группой полей.
  */
-interface IForm extends IFieldset, IEventObservant
+interface IForm extends IFieldset
 {
     /**
      * Возвращает action формы.

@@ -84,7 +84,7 @@ interface IObjectManager
     public function unloadObject(IObject $object);
 
     /**
-     * Возвращает все зарегестрированные объекты
+     * Возвращает все зарегистрированные объекты
      * @return IObject[]
      */
     public function getObjects();

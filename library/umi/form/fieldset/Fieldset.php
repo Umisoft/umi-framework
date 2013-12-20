@@ -42,7 +42,7 @@ class Fieldset extends FormEntity implements \Iterator, IFieldset, ILocalizable
      * @param array $attributes
      * @param array $options опции
      * @param IFormEntity[] $elements
-     * @throws \umi\form\exception\RuntimeException
+     * @throws RuntimeException
      */
     public function __construct($name, array $attributes = [], array $options = [], array $elements = [])
     {

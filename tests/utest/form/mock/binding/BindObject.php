@@ -9,13 +9,14 @@
 
 namespace utest\form\mock\binding;
 
+use umi\event\IEventObservant;
 use umi\event\TEventObservant;
 use umi\form\binding\IDataBinding;
 
 /**
  * Мок-класс для биндинга формы в свойства.
  */
-class BindObject implements IDataBinding
+class BindObject implements IDataBinding, IEventObservant
 {
 
     use TEventObservant;
