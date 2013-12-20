@@ -1,4 +1,5 @@
 @import "foundation.min.less";
+@import "foundation-fonts/foundation-icons.css";
 
 /** variables **/
 @footer-height: 171px;
@@ -30,7 +31,7 @@ body {
 	.no-gap;
 	background-color: white;
 	font-family: "Trebuchet MS";
-	font-size: 13px;
+	font-size: 14px;
 	line-height: normal;
 	min-width: 360px;
 }
@@ -61,7 +62,7 @@ td, th{
 h1 {
 	.no-gap;
 	color: #3F3F3F;
-	font-size: 27px;
+	font-size: 32px;
 	font-weight: normal;
 	margin-bottom: 10px;
 	&.large{
@@ -72,7 +73,23 @@ h1 {
 }
 
 h2{
+	font-size: 24px;
+}
+
+h3{
 	font-size: 18px;
+}
+
+h4{
+	font-size: 15px;
+}
+
+h5{
+	font-size: 13px;
+}
+
+h6{
+	font-size: 11px;
 }
 
 ul {
@@ -122,22 +139,11 @@ table {
 	}
 }
 
-.tip, .note, .warning, .caution, .tip, .important{
-	table{
-		th{
-			h3{
-				margin: 0;
-				text-align: left;
-				padding: 10px 0;
-			}
-		}
-	}
-}
-
 .programlisting{
 	overflow-x: auto;
 	background: #f8f8ff;
 	padding: 10px;
+	margin-bottom: 20px;
 }
 
 .bg_gray{
@@ -151,6 +157,66 @@ table {
 	padding: 10px 15px;
 }
 
+// Foundation custom
+[class^="fi-"], [class*=" fi-"]{
+	&.large{
+		font-size: 28px;
+	}
+}
+
+.fi-print{
+	font-size: 17px;
+}
+.alert-box{
+	background: transparent;
+	color: #222;
+	padding-left: 60px;
+	position: relative;
+	&.warning,
+	&.tip,
+	&.note,
+	&.caution,
+	&.important{
+		background: transparent;
+		color: #222;
+	}
+	&.warning{
+		border-color: #ea7d10;
+		> [class^="fi-"], [class*=" fi-"]{
+			color: #ea7d10;
+		}
+	}
+	&.tip{
+		border-color: #2ACE51;
+		> [class^="fi-"], [class*=" fi-"]{
+			color: #2ACE51;
+		}
+	}
+	&.note{
+		border-color: #9ee6fa;
+		> [class^="fi-"], [class*=" fi-"]{
+			color: #9ee6fa;
+		}
+	}
+	&.caution{
+		border-color: #ea0611;
+		> [class^="fi-"], [class*=" fi-"]{
+			color: #ea0611;
+		}
+	}
+	&.important{
+		border-color: #ea3e4e;
+		> [class^="fi-"], [class*=" fi-"]{
+			color: #ea3e4e;
+		}
+	}
+	> [class^="fi-"], [class*=" fi-"]{
+		font-size: 40px;
+		position: absolute;
+		left: 15px;
+		top: 10px;
+	}
+}
 /** LAYOUT CLASSES **/
 .umi-header-row ,
 .body.row,
@@ -290,7 +356,7 @@ table {
 			width: 95px !important;
 		}
 		#vk_like{
-			width: 74px !important;
+			width: 76px !important;
 		}
 	}
 }
@@ -340,8 +406,8 @@ table {
 		height: 100%;
 		border-left: 1px solid #dfdfdf;
 		background: #f8f8f8;
-		padding: 20px;
-		padding-top: 67px;
+		padding: 67px 30px 20px 30px;
+		overflow: hidden;
 		& > span {
 			font-size: 15px;
 			color: #6b6b6b;
@@ -364,16 +430,21 @@ table {
 			}
 		}
 		li{
-			padding: 5px 0;
+			padding: 3px 0;
+			border-top: 1px solid #FFF;
+			border-bottom: 1px solid #E2E1E1;
+			&:first-child{
+				border-top: none;
+			}
 		}
 		a{
 			text-shadow: 0 1px 1px #FFF;
-			font-size: 13px;
-			font-weight: bold;
+			font-size: 14px;
 		}
 		&.article{
-			> ul{
+			div > ul{
 				>li{
+					border: none;
 					padding-top: 0;
 					>a{
 						font-size: 15px;
@@ -419,6 +490,7 @@ table {
 	.article{
 		ul{
 			margin-left: 30px;
+			margin-bottom: 20px;
 		}
 
 		a[name]{
@@ -486,6 +558,23 @@ table {
 .umi-breadcrumbs{
 	font-size: 12px;
 	margin-bottom: 15px;
+}
+
+.umi-to-top-button{
+	top: 46px;
+	position: absolute;
+	left: 0;
+	height: 100%;
+	background: #ECF4F8;
+	padding: 5px 8px;
+	display: none;
+	cursor: pointer;
+	color: #408bd1;
+}
+.is-scrolled{
+	.umi-to-top-button{
+		display: block;
+	}
 }
 
 .tab-content{
@@ -763,5 +852,13 @@ table {
 				margin-bottom: 0;
 			}
 		}
+	}
+}
+@media print{
+	.menu-icon, .footer, .disqus-area, .umi-side-nav, .umi-siblings-nav{
+		display: none;
+	}
+	.programlisting{
+		overflow: hidden;
 	}
 }

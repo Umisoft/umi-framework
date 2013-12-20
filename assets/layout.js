@@ -9,7 +9,6 @@ $(function() {
 
 	function correctHeight(){
 		var footerTopPosition = footer.offset().top - $(window).scrollTop();
-		console.log(footerTopPosition , $(window).height());
 		if(footerTopPosition < $(window).height()){
 			stickyNav[0].style.paddingBottom = $(window).height() - footerTopPosition + 'px';
 		} else{
@@ -39,14 +38,24 @@ $(function() {
 			}
 		});
 
-		window.onscroll = function() {
+		window.onscroll = function(e) {
 			correctHeight();
+			if($(window).scrollTop() > headerHeight){
+				stickyNav.addClass('is-scrolled');
+			} else{
+				stickyNav.removeClass('is-scrolled');
+			}
 		}
 
 		$(window).resize(function(){
 			if($('body').width() > 1100){
 				stickyNav.removeAttr('style');
 			}
+		});
+
+		stickyNav.on('click', '.umi-to-top-button', function(){
+			window.location.hash = '';
+			$('body').animate({scrollTop:0}, 50);
 		});
 	}
 
