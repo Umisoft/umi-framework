@@ -67,7 +67,7 @@ interface IAuthenticationFactory
      * @param array $options опции менеджера аутентификации
      * @param IAuthAdapter $adapter адаптер аутентификации
      * @param IAuthStorage $storage хранилище аутентификации
-     * @return mixed
+     * @return IAuthentication
      */
     public function createManager(array $options = [], IAuthAdapter $adapter = null, IAuthStorage $storage = null);
 }
