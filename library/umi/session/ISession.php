@@ -10,6 +10,8 @@
 namespace umi\session;
 
 use umi\session\entity\ns\ISessionNamespace;
+use umi\session\exception\OutOfBoundsException;
+use umi\session\exception\RuntimeException;
 
 /**
  * Сервис сессии.
@@ -20,6 +22,7 @@ interface ISession
      * Регистрирует пространство имен сессии.
      * @param string $name имя
      * @param array $validators валидаторы
+     * @throws RuntimeException если такое пространство имен уже было зарегистрировано
      * @return self
      */
     public function registerNamespace($name, array $validators = []);
@@ -34,6 +37,7 @@ interface ISession
     /**
      * Возвращает экземпляр ранее зарегистрированного пространства имен.
      * @param string $name имя
+     * @throws OutOfBoundsException если пространство имен с таким именем не зарегистрировано
      * @return ISessionNamespace
      */
     public function getNamespace($name);

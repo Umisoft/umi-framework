@@ -10,6 +10,7 @@
 namespace utest\session\func;
 
 use umi\session\exception\RuntimeException;
+use umi\session\ISession;
 use umi\session\ISessionManager;
 use utest\session\SessionTestCase;
 
@@ -36,6 +37,9 @@ class SessionTest extends SessionTestCase
 
     public function testMockSession()
     {
+        /**
+         * @var ISession $session
+         */
         $session = $this->getTestToolkit()->getService('umi\session\ISession');
         $session->registerNamespace('test');
 

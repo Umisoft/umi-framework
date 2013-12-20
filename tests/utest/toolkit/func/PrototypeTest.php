@@ -106,7 +106,7 @@ class PrototypeTest extends TestCase implements IFactory
         $this->assertInstanceOf(
             'utest\toolkit\mock\ConcreteMockService',
             $testService->concreteMockService,
-            'Ожидается, что конкретные реализации зарегестрированных абстрактных классов тулбокса были внедрены'
+            'Ожидается, что конкретные реализации зарегистрированных абстрактных классов тулбокса были внедрены'
         );
         $this->assertEquals(
             2,
@@ -168,7 +168,7 @@ class PrototypeTest extends TestCase implements IFactory
         $this->assertEquals(
             'injectedByPrototype',
             $testService->mockService->getName(),
-            'Ожидается, что в объект были внедрены зависимости, зарегестрированные в прототипе'
+            'Ожидается, что в объект были внедрены зависимости, зарегистрированные в прототипе'
         );
     }
 
