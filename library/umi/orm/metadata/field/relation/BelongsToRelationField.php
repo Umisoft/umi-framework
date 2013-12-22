@@ -34,12 +34,20 @@ class BelongsToRelationField extends BaseField
     use TObjectPersisterAware;
 
     /**
-     * Возвращает имя коллекции данных на которую выставлена связь
-     * @return string
+     * {@inheritdoc}
      */
     public function getTargetCollectionName()
     {
         return $this->targetCollectionName;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTargetCollection()
+    {
+        return $this->getCollectionManager()
+            ->getCollection($this->targetCollectionName);
     }
 
     /**
@@ -60,10 +68,8 @@ class BelongsToRelationField extends BaseField
                 'Value must be instance of IObject.'
             ));
         }
-        $targetCollection = $this->getCollectionManager()
-            ->getCollection($this->getTargetCollectionName());
 
-        if (!$targetCollection->contains($propertyValue)) {
+        if (!$this->getTargetCollection()->contains($propertyValue)) {
             throw new InvalidArgumentException($this->translate(
                 'Object from wrong collection is given.'
             ));
@@ -81,11 +87,7 @@ class BelongsToRelationField extends BaseField
             return null;
         }
 
-        $targetCollectionName = $this->getTargetCollectionName();
-        $targetCollection = $this->getCollectionManager()
-            ->getCollection($targetCollectionName);
-
-        return $targetCollection->getById($internalDbValue);
+        return $this->getTargetCollection()->getById($internalDbValue);
     }
 
     /**

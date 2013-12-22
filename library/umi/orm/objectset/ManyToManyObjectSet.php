@@ -9,11 +9,9 @@
 
 namespace umi\orm\objectset;
 
-use umi\orm\collection\ICollectionManagerAware;
 use umi\orm\collection\IHierarchicCollection;
 use umi\orm\collection\ILinkedHierarchicCollection;
 use umi\orm\collection\ISimpleCollection;
-use umi\orm\collection\TCollectionManagerAware;
 use umi\orm\exception\AlreadyExistentEntityException;
 use umi\orm\exception\InvalidArgumentException;
 use umi\orm\metadata\field\relation\ManyToManyRelationField;
@@ -22,10 +20,8 @@ use umi\orm\object\IObject;
 /**
  * Набор объектов для свойства типа relation с типом связи manyToMany.
  */
-class ManyToManyObjectSet extends ObjectSet implements IManyToManyObjectSet, ICollectionManagerAware
+class ManyToManyObjectSet extends ObjectSet implements IManyToManyObjectSet
 {
-
-    use TCollectionManagerAware;
 
     /**
      * @var IObject $object объект
@@ -234,8 +230,7 @@ class ManyToManyObjectSet extends ObjectSet implements IManyToManyObjectSet, ICo
      */
     protected function getBridgeCollection()
     {
-        return $this->getCollectionManager()
-            ->getCollection($this->field->getBridgeCollectionName());
+        return $this->field->getBridgeCollection();
     }
 
     /**

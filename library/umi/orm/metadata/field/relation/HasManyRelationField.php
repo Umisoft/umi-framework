@@ -35,6 +35,16 @@ class HasManyRelationField extends BaseField implements IRelationField, ICollect
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getTargetCollection()
+    {
+        return $this->getCollectionManager()
+            ->getCollection($this->targetCollectionName);
+    }
+
+
+    /**
      * Возвращает имя поля для связи с target-коллекцией
      * @return string
      */
@@ -76,12 +86,9 @@ class HasManyRelationField extends BaseField implements IRelationField, ICollect
      */
     public function preparePropertyValue(IObject $object, $internalDbValue)
     {
-        $collectionName = $this->getTargetCollectionName();
-        $targetCollection = $this->getCollectionManager()
-            ->getCollection($collectionName);
         $targetFieldName = $this->getTargetFieldName();
 
-        return $targetCollection->select()
+        return $this->getTargetCollection()->select()
             ->where($targetFieldName)
             ->equals($object->getId())
             ->result();

@@ -23,12 +23,9 @@ class HasOneRelationField extends HasManyRelationField implements IRelationField
      */
     public function preparePropertyValue(IObject $object, $internalDbValue)
     {
-        $collectionName = $this->getTargetCollectionName();
-        $targetCollection = $this->getCollectionManager()
-            ->getCollection($collectionName);
         $targetFieldName = $this->getTargetFieldName();
 
-        return $targetCollection->select()
+        return $this->getTargetCollection()->select()
             ->where($targetFieldName)
             ->equals($object->getId())
             ->limit(1)
