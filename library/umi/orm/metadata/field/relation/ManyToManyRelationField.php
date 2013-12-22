@@ -9,6 +9,7 @@
 
 namespace umi\orm\metadata\field\relation;
 
+use umi\orm\collection\ICollection;
 use umi\orm\collection\ICollectionManagerAware;
 use umi\orm\collection\TCollectionManagerAware;
 use umi\orm\exception\NotAllowedOperationException;
@@ -35,6 +36,15 @@ class ManyToManyRelationField extends BaseField implements IRelationField, IColl
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getTargetCollection()
+    {
+        return $this->getCollectionManager()
+            ->getCollection($this->targetCollectionName);
+    }
+
+    /**
      * Возвращает имя поля для связи с target-коллекцией
      * @return string
      */
@@ -50,6 +60,15 @@ class ManyToManyRelationField extends BaseField implements IRelationField, IColl
     public function getBridgeCollectionName()
     {
         return $this->bridgeCollectionName;
+    }
+
+    /**
+     * Возвращает имя коллекции, которая является мостом для связи c target-коллекцией
+     * @return ICollection
+     */
+    public function getBridgeCollection()
+    {
+        return $this->getCollectionManager()->getCollection($this->bridgeCollectionName);
     }
 
     /**

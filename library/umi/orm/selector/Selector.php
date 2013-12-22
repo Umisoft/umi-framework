@@ -16,8 +16,6 @@ use umi\i18n\ILocalizable;
 use umi\i18n\TLocalesAware;
 use umi\i18n\TLocalizable;
 use umi\orm\collection\ICollection;
-use umi\orm\collection\ICollectionManagerAware;
-use umi\orm\collection\TCollectionManagerAware;
 use umi\orm\exception\InvalidArgumentException;
 use umi\orm\exception\NonexistentEntityException;
 use umi\orm\metadata\field\IField;
@@ -39,12 +37,11 @@ use umi\orm\selector\condition\IFieldConditionGroup;
  * Инструмент для формирования выборок объектов из коллекции,
  * а так же связанных объектов.
  */
-class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionManagerAware, IMetadataManagerAware
+class Selector implements ISelector, ILocalizable, ILocalesAware, IMetadataManagerAware
 {
 
     use TLocalizable;
     use TLocalesAware;
-    use TCollectionManagerAware;
     use TMetadataManagerAware;
 
     /**
@@ -242,8 +239,7 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
         }
 
         $selectiveFields = [];
-        $collection = $this->getCollectionManager()
-            ->getCollection($relationField->getTargetCollectionName());
+        $collection = $relationField->getTargetCollection();
         $relatedMetadata = $collection->getMetadata();
         foreach ($fieldNames as $fieldName) {
             if ($relatedMetadata->getFieldExists($fieldName)) {
@@ -491,6 +487,9 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
         for ($i = 0; $i < count($pathInfo); $i++) {
             $fieldName = $pathInfo[$i];
 
+            /**
+             * @var IMetadata $metadata
+             */
             $metadata = $latestCollection->getMetadata();
             if (!$metadata->getFieldExists($fieldName)) {
                 throw new InvalidArgumentException($this->translate(
@@ -507,8 +506,7 @@ class Selector implements ISelector, ILocalizable, ILocalesAware, ICollectionMan
             }
 
             if ($field instanceof IRelationField) {
-                $latestCollection = $this->getCollectionManager()
-                    ->getCollection($field->getTargetCollectionName());
+                $latestCollection = $field->getTargetCollection();
                 $fieldSourceAlias .= self::ALIAS_SEPARATOR . $fieldName;
 
                 if (!isset($pathInfo[$i + 1])) {
