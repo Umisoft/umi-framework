@@ -61,11 +61,16 @@ trait TSessionAware
     /**
      * Возвращает экземпляр ранее зарегистрированного пространства имен.
      * @param string $name имя
+     * @param bool $autoRegister флаг авторегистрации пространства имен, если такого не существует
      * @throws OutOfBoundsException если пространство имен с таким именем не зарегистрировано
      * @return ISessionNamespace
      */
-    protected final function getSessionNamespace($name)
+    protected final function getSessionNamespace($name, $autoRegister = false)
     {
+        if ($autoRegister && !$this->hasSessionNamespace($name)) {
+            $this->registerSessionNamespace($name);
+        }
+
         return $this->getSessionService()
             ->getNamespace($name);
     }
