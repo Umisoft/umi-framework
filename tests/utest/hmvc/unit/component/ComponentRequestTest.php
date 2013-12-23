@@ -31,7 +31,7 @@ class ComponentRequestTest extends HMVCTestCase
 
     public function testRequestUri()
     {
-        $this->assertEquals('uri', $this->request->getRequestUri());
+        $this->assertEquals('uri', $this->request->getRequestURI());
         $this->assertNotEquals('uri', $this->request->getVar(IComponentRequest::HEADERS, 'REQUEST_URI'));
     }
 
