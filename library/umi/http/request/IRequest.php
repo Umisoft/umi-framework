@@ -59,12 +59,6 @@ interface IRequest
     public function getHost();
 
     /**
-     * Возвращает URI текущего сервера
-     * @return string
-     */
-    public function getHostURI();
-
-    /**
      * Возвращает версию протокола запроса.
      * @return int
      */

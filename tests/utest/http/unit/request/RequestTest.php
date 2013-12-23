@@ -82,9 +82,6 @@ class RequestTest extends HttpTestCase
         $this->request->getParams(IRequest::HEADERS)
             ->set('HTTP_HOST', 'example.com');
         $this->assertEquals('example.com', $this->request->getHost(), 'Ожиадается, что Request URI будет установлен.');
-
-        $this->assertEquals('https://example.com', $this->request->getHostURI());
-
     }
 
     public function testParamCollections()

@@ -61,7 +61,7 @@ class Router implements IRouter, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function assemble($name, array $params = [], array $options = [])
+    public function assemble($name, array $params = [])
     {
         if (!$name) {
             return $this->getBaseUrl();
@@ -80,7 +80,7 @@ class Router implements IRouter, ILocalizable
                 ));
             }
 
-            $url .= $routes[$name]->assemble($params, $options);
+            $url .= $routes[$name]->assemble($params);
             $routes = $routes[$name]->getSubRoutes();
         }
 

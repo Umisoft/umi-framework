@@ -27,10 +27,9 @@ interface IRouter
      * Собирает URL из параметров.
      * @param $name название маршрута, вида "first/second"
      * @param array $params параметры ассемблирования
-     * @param array $options опции асемблирования
      * @return string собранный URL
      */
-    public function assemble($name, array $params = [], array $options = []);
+    public function assemble($name, array $params = []);
 
     /**
      * Устанавливает базовый URL для маршрутизатора.

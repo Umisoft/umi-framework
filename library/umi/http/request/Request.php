@@ -58,14 +58,6 @@ class Request implements IRequest
     /**
      * {@inheritdoc}
      */
-    public function getHostURI()
-    {
-        return $this->getScheme() . '://' . $this->getHost();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getVersion()
     {
         $protocol = $this->getVar(self::HEADERS, "SERVER_PROTOCOL", 'CLI');
