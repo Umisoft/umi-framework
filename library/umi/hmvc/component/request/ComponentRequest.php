@@ -44,7 +44,7 @@ class ComponentRequest extends Request implements IComponentRequest
     /**
      * {@inheritdoc}
      */
-    public function getRequestUri()
+    public function getRequestURI()
     {
         return $this->uri;
     }
