@@ -18,7 +18,7 @@ use umi\hmvc\exception\RequiredDependencyException;
 trait TContextAware
 {
     /**
-     * @var IContext $_componentContext
+     * @var IContext $_componentContext контекст
      */
     private $_componentContext;
 
@@ -39,11 +39,20 @@ trait TContextAware
         $this->_componentContext = null;
     }
 
+    /**
+     * Проверяет, установлен ли контекст компонента.
+     * @return bool
+     */
     protected function hasContext()
     {
         return (bool) $this->_componentContext;
     }
 
+    /**
+     * Возвращает установленный контекст компонента.
+     * @return IContext
+     * @throws RequiredDependencyException если контекст не установлен
+     */
     protected function getContext()
     {
         if (!$this->_componentContext) {
