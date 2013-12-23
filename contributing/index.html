@@ -26,7 +26,7 @@
                     <ul class="left">
                         <li><a href="/">Описание</a></li>
                         <li><a href="/documentation">Документация</a></li>
-                        <li> <a href="/contributing" class="active">Участие в развитии</a></li>
+                        <li><a href="/contributing" class="active">Участие в развитии</a></li>
                     </ul>
                 </section>
             </nav>
@@ -34,28 +34,83 @@
     </div>
     <div class="body row">
         <div class="content columns small-12">
-            <h1>Участие в развитии</h1>
-            <p>
-                UMI.Framework распространяется бесплатно и с открытым исходным кодом. Это означает, что каждый может внести свой вклад в его развитие.
-                В настоящее время, исходный код UMI.Framework находится на Github, что упрощает возможность внесения своего вклада в проект.
-            </p>
-            <p>
-                <iframe src="http://ghbtns.com/github-btn.html?user=Umisoft&repo=umi-framework&type=fork&count=true"
-                        allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
-                <iframe src="http://ghbtns.com/github-btn.html?user=Umisoft&repo=umi-framework&type=watch&count=true"
-                        allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
-            </p>
 
-            <h1>Руководства для участников</h1>
-            <div class="alert-box warning">
-                <h3 class="title">Раздел в разработке.</h3>
-                <i class="fi-info"></i>
-                <p>Скоро мы обновим данный раздел.</p>
-            </div>
-            <h1>Лицензия</h1>
-            <p>
-                UMI.Framework является полностью бесплатным и распростроняется под действием лицензии <a href="/contributing/license.html">BSD 3-Clause</a>.
-            </p>
+            <section>
+                <h1>Участие в развитии</h1>
+
+                <p>
+                    UMI.Framework распространяется бесплатно и с открытым исходным кодом. Это означает, что каждый может
+                    внести свой вклад в его развитие.
+                    В настоящее время, исходный код UMI.Framework находится на Github, что упрощает возможность внесения
+                    своего вклада в проект.
+                </p>
+
+                <div class="alert-box warning">
+                    <h3 class="title">Раздел в разработке.</h3>
+                    <i class="fi-info"></i>
+
+                    <p>На данный момент раздел содержит неполную информацию.</p>
+                </div>
+
+                <p>
+                    <iframe src="http://ghbtns.com/github-btn.html?user=Umisoft&repo=umi-framework&type=fork&count=true"
+                            allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+                    <iframe src="http://ghbtns.com/github-btn.html?user=Umisoft&repo=umi-framework&type=watch&count=true"
+                            allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+                </p>
+            </section>
+
+            <section>
+                <h1>Руководства для участников</h1>
+                <p>
+                    В духе программного обеспечения с открытым исходным кодом,
+                    вы можете способствовать развитию UMI.Framework:
+                    сообщения об ошибках, патчи и полные компоненты - все одинаково важно.
+                </p>
+
+                <article>
+                    <header>
+                        <h2>Если вы хотите сообщить об ошибке:</h2>
+                    </header>
+                    <p>
+                        Итак, вы нашли то, что считаете ошибкой. Перед тем как опубликовать её, мы просим вас, чтобы вы
+                        убедились, что у вас действительно воспроизводится ошибка, проявив немного должной осмотрительности:
+                    </p>
+                    <ul>
+                        <li>Проверьте, не описан ли ваш случай в <a href="/documentation">документации</a></li>
+                        <li>Проверьте, не описан ли ваш случай в <a href="/api">API</a></li>
+                        <li>Напишите тест, воспроизводящий ошибку</li>
+                    </ul>
+                    <p>
+                        Выполнив эти пункты, вы сможете с большей увереностью сказать, что ситуация, воспроизводимая в
+                        вашем случае является ошибкой.
+                        Если в результате вы пришли к выводу, что ошибка действительно имеет место быть, то опубликуйте
+                        её в нашем <a href="https://github.com/Umisoft/umi-framework/issues">bug-трекере</a>.
+                    </p>
+                </article>
+
+                <article>
+                    <header>
+                        <h2>Если вы хотите исправить ошибку:</h2>
+                    </header>
+
+                    <ol>
+                        <li>Сделайте fork репозитория <a href="https://github.com/Umisoft/umi-framework">umi-framework</a></li>
+                        <li>Создайте локальную ветку для вашего fork-репозитория</li>
+                        <li>Зафиксируйте(commit) изменения в локальной ветке и выполните push в ваш fork-репозиторий</li>
+                        <li>Отправте нам ваш pull request с измениями, которые должны быть включены в основной репозиторий.</li>
+                    </ol>
+                </article>
+            </section>
+
+            <section>
+                <h1>Лицензия</h1>
+
+                <p>
+                    UMI.Framework является полностью бесплатным и распростроняется под действием лицензии <a
+                        href="/contributing/license.html">BSD 3-Clause</a>.
+                </p>
+            </section>
         </div>
     </div>
     <div class="for_footer"></div>
@@ -88,7 +143,8 @@
             <ul class="list-social">
                 <li>
                     <!-- Facebook -->
-                    <div class="fb-like" data-href="http://umi-framework.ru/" data-layout="button_count" data-action="like"
+                    <div class="fb-like" data-href="http://umi-framework.ru/" data-layout="button_count"
+                         data-action="like"
                          data-show-faces="true" data-share="false"></div>
                     <div id="fb-root"></div>
                     <script>(function (d, s, id) {
