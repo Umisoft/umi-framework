@@ -21,7 +21,7 @@ use umi\orm\manager\IObjectManagerAware;
 use umi\orm\manager\TObjectManagerAware;
 use umi\orm\metadata\field\relation\BelongsToRelationField;
 use umi\orm\object\IObject;
-use umi\orm\object\property\ICalculableProperty;
+use umi\orm\object\property\calculable\ICalculableProperty;
 use umi\validation\IValidationAware;
 use umi\validation\TValidationAware;
 

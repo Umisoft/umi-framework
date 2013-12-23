@@ -15,7 +15,7 @@ use umi\orm\metadata\field\special\CounterField;
 use umi\orm\metadata\field\special\MaterializedPathField;
 use umi\orm\metadata\field\string\StringField;
 use umi\orm\object\IObject;
-use umi\orm\object\property\ILocalizedProperty;
+use umi\orm\object\property\localized\ILocalizedProperty;
 use umi\orm\toolbox\factory\PropertyFactory;
 use utest\orm\ORMTestCase;
 
@@ -60,7 +60,7 @@ class PropertyFactoryTest extends ORMTestCase
          */
         $localizedProperty = $propertyFactory->createProperty($object, $localizedField, 'ru');
         $this->assertInstanceOf(
-            'umi\orm\object\property\ILocalizedProperty',
+            'umi\orm\object\property\localized\ILocalizedProperty',
             $localizedProperty,
             'Ожидается, что для локализованного поля будет создано локализованное свойство'
         );
@@ -68,14 +68,14 @@ class PropertyFactoryTest extends ORMTestCase
 
         $calculableProperty = $propertyFactory->createProperty($object, $calculableField);
         $this->assertInstanceOf(
-            'umi\orm\object\property\ICalculableProperty',
+            'umi\orm\object\property\calculable\ICalculableProperty',
             $calculableProperty,
             'Ожидается, что для вычисляемого поля будет создано вычисляемое свойство'
         );
 
         $counterProperty = $propertyFactory->createProperty($object, $counterField);
         $this->assertInstanceOf(
-            'umi\orm\object\property\ICounterProperty',
+            'umi\orm\object\property\calculable\ICounterProperty',
             $counterProperty,
             'Ожидается, что для поля-счетчика будет создано свойство-счетчик'
         );

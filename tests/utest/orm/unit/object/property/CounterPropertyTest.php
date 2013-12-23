@@ -11,7 +11,7 @@ namespace utest\orm\unit\object\property;
 
 use umi\orm\metadata\field\special\CounterField;
 use umi\orm\object\IObject;
-use umi\orm\object\property\CounterProperty;
+use umi\orm\object\property\calculable\CounterProperty;
 use utest\orm\ORMTestCase;
 
 /**

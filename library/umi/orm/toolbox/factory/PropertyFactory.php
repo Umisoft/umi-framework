@@ -14,9 +14,9 @@ use umi\orm\metadata\field\IField;
 use umi\orm\metadata\field\ILocalizableField;
 use umi\orm\metadata\field\special\CounterField;
 use umi\orm\object\IObject;
-use umi\orm\object\property\ICalculableProperty;
-use umi\orm\object\property\ICounterProperty;
-use umi\orm\object\property\ILocalizedProperty;
+use umi\orm\object\property\calculable\ICalculableProperty;
+use umi\orm\object\property\calculable\ICounterProperty;
+use umi\orm\object\property\localized\ILocalizedProperty;
 use umi\orm\object\property\IProperty;
 use umi\orm\object\property\IPropertyFactory;
 use umi\toolkit\factory\IFactory;
@@ -37,15 +37,15 @@ class PropertyFactory implements IPropertyFactory, IFactory
     /**
      * @var string $defaultCalculablePropertyClass класс свойства с вычисляемым значением
      */
-    public $defaultCalculablePropertyClass = 'umi\orm\object\property\CalculableProperty';
+    public $defaultCalculablePropertyClass = 'umi\orm\object\property\calculable\CalculableProperty';
     /**
      * @var string $defaultLocalizedPropertyClass класс локализованного свойства
      */
-    public $defaultLocalizedPropertyClass = 'umi\orm\object\property\LocalizedProperty';
+    public $defaultLocalizedPropertyClass = 'umi\orm\object\property\localized\LocalizedProperty';
     /**
      * @var string $defaultCounterPropertyClass класс свойства-счетчика
      */
-    public $defaultCounterPropertyClass = 'umi\orm\object\property\CounterProperty';
+    public $defaultCounterPropertyClass = 'umi\orm\object\property\calculable\CounterProperty';
 
     /**
      * {@inheritdoc}
@@ -103,7 +103,7 @@ class PropertyFactory implements IPropertyFactory, IFactory
     {
         $property = $this->getPrototype(
             $this->defaultLocalizedPropertyClass,
-            ['umi\orm\object\property\ILocalizedProperty']
+            ['umi\orm\object\property\localized\ILocalizedProperty']
         )
         ->createInstance([$object, $field, $localeId]);
 
@@ -121,7 +121,7 @@ class PropertyFactory implements IPropertyFactory, IFactory
     {
         $property = $this->getPrototype(
             $this->defaultCalculablePropertyClass,
-            ['umi\orm\object\property\ICalculableProperty']
+            ['umi\orm\object\property\calculable\ICalculableProperty']
         )
         ->createInstance([$object, $field]);
 
@@ -139,7 +139,7 @@ class PropertyFactory implements IPropertyFactory, IFactory
     {
         $property = $this->getPrototype(
             $this->defaultCounterPropertyClass,
-            ['umi\orm\object\property\ICounterProperty']
+            ['umi\orm\object\property\calculable\ICounterProperty']
         )
         ->createInstance([$object, $field]);
 

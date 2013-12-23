@@ -9,7 +9,6 @@
 
 namespace utest\toolkit\unit;
 
-use umi\config\entity\Config;
 use umi\spl\config\TConfigSupport;
 use umi\toolkit\factory\TFactory;
 use umi\toolkit\prototype\PrototypeFactory;
@@ -50,11 +49,6 @@ class ToolboxTest extends TestCase implements IToolbox
 
         $this->assertInstanceOf('umi\toolkit\exception\UnsupportedServiceException', $e);
     }
-
-
-
-
-
 
 }
 

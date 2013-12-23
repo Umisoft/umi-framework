@@ -10,7 +10,6 @@
 namespace utest;
 
 use ReflectionClass;
-use ReflectionProperty;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\IToolkit;
 use umi\toolkit\prototype\IPrototypeFactory;

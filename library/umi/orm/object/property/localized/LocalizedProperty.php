@@ -7,12 +7,13 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\orm\object\property;
+namespace umi\orm\object\property\localized;
 
 use umi\i18n\ILocalesAware;
 use umi\i18n\TLocalesAware;
 use umi\orm\metadata\field\IField;
 use umi\orm\object\IObject;
+use umi\orm\object\property\BaseProperty;
 
 /**
  * Класс свойства, имеющего локализацию

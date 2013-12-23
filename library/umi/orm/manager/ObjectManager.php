@@ -18,7 +18,7 @@ use umi\orm\metadata\field\ILocalizableField;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IObject;
 use umi\orm\object\IObjectFactory;
-use umi\orm\object\property\ILocalizedProperty;
+use umi\orm\object\property\localized\ILocalizedProperty;
 use umi\orm\persister\IObjectPersisterAware;
 use umi\orm\persister\TObjectPersisterAware;
 

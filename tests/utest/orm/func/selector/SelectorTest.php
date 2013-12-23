@@ -11,7 +11,6 @@ namespace utest\orm\func\selector;
 
 use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\IObject;
-use umi\orm\selector\ISelector;
 use umi\orm\selector\Selector;
 use utest\orm\mock\collections\Supervisor;
 use utest\orm\mock\collections\User;

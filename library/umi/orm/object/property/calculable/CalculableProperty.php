@@ -7,15 +7,16 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\orm\object\property;
+namespace umi\orm\object\property\calculable;
 
 use umi\orm\metadata\field\IField;
 use umi\orm\object\IObject;
+use umi\orm\object\property\BaseProperty;
 
 /**
- * Класс свойства счетчика.
+ * Класс свойства с вычисляемым значением
  */
-class CounterProperty extends CalculableProperty implements ICounterProperty
+class CalculableProperty extends BaseProperty implements ICalculableProperty
 {
 
     /**
@@ -32,21 +33,10 @@ class CounterProperty extends CalculableProperty implements ICounterProperty
     /**
      * {@inheritdoc}
      */
-    public function increment()
+    public function recalculate()
     {
-        $value = $this->getValue() + 1;
-        $this->setValue($value);
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function decrement()
-    {
-        $value = $this->getValue() - 1;
-        $this->setValue($value);
+        $this->isModified = true;
+        $this->object->setIsModified();
 
         return $this;
     }

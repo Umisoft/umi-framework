@@ -9,8 +9,6 @@
 
 namespace umi\form\binding;
 
-use umi\event\IEventObservant;
-
 /**
  * Интерфейс связывания данных формы и объекта.
  */
