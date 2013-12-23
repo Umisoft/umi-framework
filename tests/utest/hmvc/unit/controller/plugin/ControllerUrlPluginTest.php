@@ -41,13 +41,17 @@ class ControllerUrlPluginTestTest extends HMVCTestCase
             ]
         );
 
-
         $request = $this->getRequest('/additional');
         $request->getParams(IRequest::HEADERS)->set('HTTP_HOST', 'example.com');
-        $request->getParams(IRequest::HEADERS)->set('HTTPS', 'on');
+        $request->getParams(IRequest::HEADERS)->set('HTTPS', 'On');
         $request->setRouteParams(['param' => 'hello-world']);
 
         $this->urlController->setContext(new Context($component, $request));
+    }
+
+    public function tearDownFixtures()
+    {
+        unset($_SERVER['HTTPS']);
     }
 
     public function testURL()
