@@ -19,7 +19,7 @@ use umi\orm\metadata\field\relation\BelongsToRelationField;
 use umi\orm\metadata\field\special\MaterializedPathField;
 use umi\orm\object\IHierarchicObject;
 use umi\orm\object\IObject;
-use umi\orm\object\property\ICounterProperty;
+use umi\orm\object\property\calculable\ICounterProperty;
 
 /**
  * Базовый класс иерархической коллекции

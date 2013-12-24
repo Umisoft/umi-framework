@@ -12,7 +12,7 @@ namespace umi\orm\collection;
 use umi\orm\exception\NonexistentEntityException;
 use umi\orm\metadata\IObjectType;
 use umi\orm\object\IHierarchicObject;
-use umi\orm\object\property\ICounterProperty;
+use umi\orm\object\property\calculable\ICounterProperty;
 
 /**
  * Простая коллекция иерархических объектов.

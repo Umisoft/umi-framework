@@ -9,7 +9,6 @@
 
 namespace umi\orm\metadata;
 
-use umi\dbal\builder\ISelectBuilder;
 use umi\dbal\cluster\IDbCluster;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;

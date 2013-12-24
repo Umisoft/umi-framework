@@ -33,7 +33,8 @@ return [
         'user'                  => ['type'       => IField::TYPE_BELONGS_TO,
                                     'columnName' => 'user_id',
                                     'target'     => 'users_user'
-        ]
+        ],
+        'image'                 => ['type' => IField::TYPE_FILE, 'columnName' => 'image', 'sourcePath' => TESTS_ROOT . '/utest/orm/mock/files', 'sourceURI' => 'http://example.com']
     ],
     'types'      => [
         'base'           => [
@@ -54,7 +55,8 @@ return [
                 IObject::FIELD_VERSION,
                 'city',
                 'user',
-                'name'
+                'name',
+                'image'
             ],
         ],
         'legal_person'   => [

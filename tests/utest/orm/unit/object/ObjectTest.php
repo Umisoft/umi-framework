@@ -13,7 +13,7 @@ use umi\orm\collection\ICollectionFactory;
 use umi\orm\object\HierarchicObject;
 use umi\orm\object\IHierarchicObject;
 use umi\orm\object\IObject;
-use umi\orm\object\property\ILocalizedProperty;
+use umi\orm\object\property\localized\ILocalizedProperty;
 use umi\orm\toolbox\factory\PropertyFactory;
 use utest\orm\mock\collections\User;
 use utest\orm\ORMDbTestCase;
