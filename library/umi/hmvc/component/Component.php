@@ -186,6 +186,16 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
 
             return $this->callChildComponent($component, $context);
         } elseif (isset($matches[self::MATCH_CONTROLLER]) && !$context->getRouteResult()->getUnmatchedUrl()) {
+            if (!$this->getControllerFactory()->hasController($matches[self::MATCH_CONTROLLER])) {
+                return $this->callErrorController(
+                    new HttpNotFound($this->translate(
+                        'Controller "{name}" not found.',
+                        ['name' => $matches[self::MATCH_CONTROLLER]]
+                    )),
+                    $context
+                );
+            }
+
             $controller = $this->getControllerFactory()
                 ->createController($matches[self::MATCH_CONTROLLER]);
 
