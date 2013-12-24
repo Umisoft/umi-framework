@@ -22,7 +22,6 @@ class CounterPropertyTest extends ORMTestCase
 
     public function testCounterProperty()
     {
-
         /**
          * @var IObject $object
          */

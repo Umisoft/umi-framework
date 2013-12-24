@@ -7,19 +7,20 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\orm\object\property\calculable;
+namespace umi\orm\object\property\file;
 
 use umi\orm\object\property\IProperty;
 
 /**
- * Интерфейс для свойства с вычисляемым значением
+ * Интерфейс для свойства со значением типа файл.
  */
-interface ICalculableProperty extends IProperty
+interface IFileProperty extends IProperty
 {
-
     /**
-     * Заставляет пересчитать значение свойства заново при сохранении объекта.
+     * Помечает свойство как модифицированное и обновляет внутреннюю информацию.
+     * @internal
      * @return self
      */
-    public function recalculate();
+    public function update();
 }
+ 
