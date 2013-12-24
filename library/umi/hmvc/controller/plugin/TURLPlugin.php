@@ -5,11 +5,11 @@
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
+
 namespace umi\hmvc\controller\plugin;
 
 use umi\hmvc\component\request\IComponentRequest;
 use umi\hmvc\context\IContext;
-use umi\hmvc\exception\RuntimeException;
 
 /**
  * Помощник контроллера для генерации URL.
@@ -49,7 +49,7 @@ trait TURLPlugin
      * @param bool $useRequest использовать ли параметры из запроса
      * @return string
      */
-    protected function getAbsoluteUrl($route, array $parameters = [], $useRequest)
+    protected function getAbsoluteUrl($route, array $parameters = [], $useRequest = false)
     {
         $request = $this->getContext()->getRequest();
 

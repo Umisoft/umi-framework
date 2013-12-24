@@ -6,10 +6,10 @@
  * @copyright Copyright (c) 2007-2013 Umisoft ltd. (http://umisoft.ru/)
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
+
 namespace utest\hmvc\mock\controller\plugin;
 
 use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\component\response\IComponentResponse;
 use umi\hmvc\context\IContextAware;
 use umi\hmvc\context\TContextAware;
 use umi\hmvc\controller\IController;
