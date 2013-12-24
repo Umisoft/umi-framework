@@ -12,7 +12,6 @@ use umi\pagination\adapter\ArrayPaginationAdapter;
 use umi\pagination\Paginator;
 use umi\templating\exception\InvalidArgumentException;
 use umi\templating\extension\helper\type\pagination\PaginationHelperCollection;
-use umi\templating\extension\helper\type\paginator\PaginatorAllHelper;
 use utest\TestCase;
 
 /**

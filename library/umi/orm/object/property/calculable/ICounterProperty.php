@@ -7,7 +7,7 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\orm\object\property;
+namespace umi\orm\object\property\calculable;
 
 /**
  * Интерфейс свойства-счетчика.

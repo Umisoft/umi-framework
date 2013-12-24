@@ -9,7 +9,6 @@
 
 namespace utest\dbal\unit\builder;
 
-use Doctrine\DBAL\DriverManager;
 use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;
 use utest\dbal\DbalTestCase;

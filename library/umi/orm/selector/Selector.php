@@ -29,7 +29,7 @@ use umi\orm\metadata\IMetadata;
 use umi\orm\metadata\IMetadataManagerAware;
 use umi\orm\metadata\IObjectType;
 use umi\orm\metadata\TMetadataManagerAware;
-use umi\orm\object\property\ILocalizedProperty;
+use umi\orm\object\property\localized\ILocalizedProperty;
 use umi\orm\objectset\IObjectSet;
 use umi\orm\selector\condition\IFieldConditionGroup;
 

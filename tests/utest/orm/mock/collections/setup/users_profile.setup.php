@@ -52,6 +52,9 @@ return function (ICollectionDataSource $dataSource) {
     $tableScheme
         ->addColumn('org_name', Type::STRING)
         ->setNotnull(false);
+    $tableScheme
+        ->addColumn('image', Type::STRING)
+        ->setNotnull(false);
 
     $tableScheme->setPrimaryKey(['id']);
     $tableScheme->addUniqueIndex(['guid'], 'profile_guid');

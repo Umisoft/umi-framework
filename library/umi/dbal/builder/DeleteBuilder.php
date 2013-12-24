@@ -9,7 +9,6 @@
 
 namespace umi\dbal\builder;
 
-use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use umi\dbal\exception\RuntimeException;
 
 /**

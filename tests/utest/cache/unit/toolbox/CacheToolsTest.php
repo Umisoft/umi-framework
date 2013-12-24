@@ -9,7 +9,6 @@
 
 namespace utest\cache\unit\toolbox;
 
-use Doctrine\DBAL\Types\Type;
 use umi\cache\toolbox\CacheTools;
 use utest\cache\CacheTestCase;
 use utest\cache\mock\MockCacheAware;

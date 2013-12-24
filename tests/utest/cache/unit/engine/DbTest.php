@@ -9,7 +9,6 @@
 
 namespace utest\cache\unit\engine;
 
-use Doctrine\DBAL\Types\Type;
 use umi\cache\engine\Db;
 use utest\cache\CacheTestCase;
 
