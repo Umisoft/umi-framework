@@ -48,8 +48,7 @@ class Request implements IRequest
     }
 
     /**
-     * Возвращает имя хоста HTTP запроса.
-     * @return string
+     * {@inheritdoc}
      */
     public function getHost()
     {
@@ -78,7 +77,7 @@ class Request implements IRequest
     /**
      * {@inheritdoc}
      */
-    public function getRequestUri()
+    public function getRequestURI()
     {
         return $this->getVar(self::HEADERS, 'REQUEST_URI', '/');
     }

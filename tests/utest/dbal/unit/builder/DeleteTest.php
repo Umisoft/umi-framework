@@ -9,7 +9,6 @@
 
 namespace utest\dbal\unit\builder;
 
-use Doctrine\DBAL\Query\Expression\CompositeExpression;
 use umi\dbal\builder\DeleteBuilder;
 use umi\dbal\driver\IDialect;
 use umi\dbal\toolbox\factory\QueryBuilderFactory;

@@ -9,12 +9,10 @@
 
 namespace umi\form\binding;
 
-use umi\event\IEventObservant;
-
 /**
  * Интерфейс связывания данных формы и объекта.
  */
-interface IDataBinding extends IEventObservant
+interface IDataBinding
 {
     /**
      * Событие, бросаемое при изменении какого либо свойства объекта.

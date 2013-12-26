@@ -193,7 +193,10 @@ class ObjectSet implements IObjectSet, ILocalizable, ICollectionManagerAware
      */
     public function count()
     {
-        return iterator_count($this);
+        $count = iterator_count($this);
+        $this->rewind();
+
+        return $count;
     }
 
     /**

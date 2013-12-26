@@ -15,7 +15,7 @@ use umi\dbal\builder\IUpdateBuilder;
 use umi\orm\exception\NonexistentEntityException;
 use umi\orm\exception\UnexpectedValueException;
 use umi\orm\object\IObject;
-use umi\orm\object\property\ILocalizedProperty;
+use umi\orm\object\property\localized\ILocalizedProperty;
 use umi\orm\object\property\IProperty;
 
 /**

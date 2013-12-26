@@ -9,17 +9,28 @@
 
 namespace umi\orm\metadata\field\special;
 
+use umi\orm\exception\NotAllowedOperationException;
+use umi\orm\exception\RuntimeException;
+use umi\orm\exception\UnexpectedValueException;
 use umi\orm\metadata\field\BaseField;
-use umi\orm\metadata\field\IScalarField;
-use umi\orm\metadata\field\TScalarField;
+use umi\orm\object\IObject;
+use umi\orm\object\property\file\File;
+use umi\orm\object\property\file\IFileProperty;
 
 /**
  * Класс поля для файла.
  */
-class FileField extends BaseField implements IScalarField
+class FileField extends BaseField
 {
 
-    use TScalarField;
+    /**
+     * @var string $sourcePath абсолютный путь к директории, где хранятся файлы для этого поля
+     */
+    protected $sourcePath;
+    /**
+     * @var string $sourceURI абсолютный uri к директории с файлами
+     */
+    protected $sourceURI;
 
     /**
      * {@inheritdoc}
@@ -34,6 +45,63 @@ class FileField extends BaseField implements IScalarField
      */
     public function validateInputPropertyValue($propertyValue)
     {
-        return false; // TODO: not implemented
+        throw new NotAllowedOperationException($this->translate(
+            'Cannot set value for property "{name}".',
+            ['name' => $this->getName()]
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function preparePropertyValue(IObject $object, $internalDbValue)
+    {
+        /**
+         * @var IFileProperty $fileProperty
+         */
+        $fileProperty = $object->getProperty($this->getName());
+        return new File($fileProperty, $this->sourcePath, $this->sourceURI, $internalDbValue);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function prepareDbValue(IObject $object, $propertyValue)
+    {
+        $dbValue = null;
+        if ($propertyValue instanceof File) {
+
+            try {
+                $filePath = $propertyValue->getFileInfo()->getRealPath();
+                if ($filePath) {
+                    $dbValue = str_replace($this->sourcePath . '/', '', $filePath);
+                }
+            } catch(RuntimeException $e) {
+
+            }
+        }
+
+        return $dbValue;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function applyConfiguration(array $config)
+    {
+        if (!isset($config['sourcePath']) || !is_string($config['sourcePath'])) {
+            throw new UnexpectedValueException($this->translate(
+                'File field configuration should contain source path and path should be a string.'
+            ));
+        }
+        $this->sourcePath = $config['sourcePath'];
+
+        if (!isset($config['sourceURI']) || !is_string($config['sourceURI'])) {
+            throw new UnexpectedValueException($this->translate(
+                'File field configuration should contain directory URI and URI should be a string.'
+            ));
+        }
+        $this->sourceURI = $config['sourceURI'];
+
     }
 }

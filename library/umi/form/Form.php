@@ -10,6 +10,7 @@
 namespace umi\form;
 
 use umi\event\IEvent;
+use umi\event\IEventObservant;
 use umi\event\TEventObservant;
 use umi\form\binding\IDataBinding;
 use umi\form\fieldset\Fieldset;
@@ -19,7 +20,7 @@ use umi\i18n\TLocalizable;
 /**
  * Класс форм.
  */
-class Form extends Fieldset implements IForm, \Iterator, ILocalizable
+class Form extends Fieldset implements IEventObservant, IForm, \Iterator, ILocalizable
 {
 
     use TEventObservant;
@@ -32,7 +33,7 @@ class Form extends Fieldset implements IForm, \Iterator, ILocalizable
     /**
      * @var IDataBinding $bindObject биндинг объект
      */
-    protected $bindObject = null;
+    protected $bindObject;
 
     /**
      * Конструктор.
@@ -117,7 +118,10 @@ class Form extends Fieldset implements IForm, \Iterator, ILocalizable
         $this->setData($object->getData());
 
         $this->bindObject = $object;
-        $this->subscribeTo($this->bindObject);
+
+        if ($this->bindObject instanceof IEventObservant) {
+            $this->subscribeTo($this->bindObject);
+        }
 
         return $this;
     }

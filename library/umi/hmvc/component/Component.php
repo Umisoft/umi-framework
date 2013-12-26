@@ -154,7 +154,7 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     protected function route(IComponentRequest $request)
     {
         $result = $this->getRouter()
-            ->match($request->getRequestUri());
+            ->match($request->getRequestURI());
 
         $request->setRouteParams($result->getMatches());
 

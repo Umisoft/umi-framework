@@ -71,10 +71,10 @@ interface IRequest
     public function getContent();
 
     /**
-     * Возвращает запрошеный URL.
+     * Возвращает запрошеный URI.
      * @return string
      */
-    public function getRequestUri();
+    public function getRequestURI();
 
     /**
      * Возвращает реферера запроса.

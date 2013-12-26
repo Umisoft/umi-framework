@@ -219,4 +219,13 @@ class ObjectSetTest extends ORMDbTestCase
         }
         $this->assertEquals(5, $i, 'Неверно работает итератор (ожидается, что инкремент возрос до 5)');
     }
+
+    public function testFetchAfterCount()
+    {
+        $this->assertEquals(5, $this->objectsSet->count(), 'Ожидается что в ObjectSet всего 5 объектов');
+        $this->assertInstanceOf(
+            'umi\orm\object\IObject',
+            $this->objectsSet->fetch()
+        );
+    }
 }

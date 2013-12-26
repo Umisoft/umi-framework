@@ -11,7 +11,6 @@ namespace umi\hmvc\controller;
 
 use umi\hmvc\component\request\IComponentRequest;
 use umi\hmvc\component\response\IComponentResponse;
-use umi\hmvc\component\response\model\IDisplayModel;
 
 /**
  * Интерфейс контроллера.

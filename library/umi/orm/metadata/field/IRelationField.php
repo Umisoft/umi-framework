@@ -9,6 +9,8 @@
 
 namespace umi\orm\metadata\field;
 
+use umi\orm\collection\ICollection;
+
 /**
  * Интерфейс для полей связи.
  */
@@ -16,8 +18,14 @@ interface IRelationField extends IField
 {
 
     /**
-     * Возвращает имя коллекции данных на которую выставлена связь
+     * Возвращает имя коллекции на которую выставлена связь
      * @return string
      */
     public function getTargetCollectionName();
+
+    /**
+     * Возвращает коллекцию на которую выставлена связь
+     * @return ICollection
+     */
+    public function getTargetCollection();
 }

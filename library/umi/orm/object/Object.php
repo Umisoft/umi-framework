@@ -23,7 +23,7 @@ use umi\orm\metadata\field\ILocalizableField;
 use umi\orm\metadata\field\IRelationField;
 use umi\orm\metadata\field\relation\BelongsToRelationField;
 use umi\orm\metadata\IObjectType;
-use umi\orm\object\property\ILocalizedProperty;
+use umi\orm\object\property\localized\ILocalizedProperty;
 use umi\orm\object\property\IProperty;
 use umi\orm\object\property\IPropertyFactory;
 use umi\orm\persister\IObjectPersisterAware;

@@ -9,7 +9,6 @@
 
 namespace utest\dbal\unit\toolbox;
 
-use umi\config\entity\Config;
 use umi\dbal\toolbox\DbalTools;
 use utest\dbal\DbalTestCase;
 

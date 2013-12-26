@@ -75,14 +75,13 @@ class RequestTest extends HttpTestCase
             ->set('REQUEST_URI', '/example/page');
         $this->assertEquals(
             '/example/page',
-            $this->request->getRequestUri(),
+            $this->request->getRequestURI(),
             'Ожиадается, что Request URI будет установлен.'
         );
 
         $this->request->getParams(IRequest::HEADERS)
             ->set('HTTP_HOST', 'example.com');
         $this->assertEquals('example.com', $this->request->getHost(), 'Ожиадается, что Request URI будет установлен.');
-
     }
 
     public function testParamCollections()

@@ -51,7 +51,7 @@ class ToolkitTest extends TestCase
 
         $this->assertFalse(
             $this->toolkit->hasToolbox(MockTools::NAME),
-            'Ожидается, что тулбоксменеджер не содержит незарегестрированный тулбокс'
+            'Ожидается, что тулбоксменеджер не содержит незарегистрированный тулбокс'
         );
 
         $e = null;
@@ -62,7 +62,7 @@ class ToolkitTest extends TestCase
         $this->assertInstanceOf(
             'umi\toolkit\exception\UnexpectedValueException',
             $e,
-            'Ожидается исключение при попытке зарегестрировать тулбокс с некорректной конфигурацией'
+            'Ожидается исключение при попытке зарегистрировать тулбокс с некорректной конфигурацией'
         );
         $this->assertEquals('Cannot register toolbox. Invalid configuration.', $e->getMessage());
 
@@ -74,7 +74,7 @@ class ToolkitTest extends TestCase
         $this->assertInstanceOf(
             'umi\toolkit\exception\InvalidArgumentException',
             $e,
-            'Ожидается исключение при попытке зарегестрировать тулбокс с некорректной конфигурацией'
+            'Ожидается исключение при попытке зарегистрировать тулбокс с некорректной конфигурацией'
         );
         $this->assertEquals('Cannot register toolbox. Option "name" required.', $e->getMessage());
 
@@ -88,7 +88,7 @@ class ToolkitTest extends TestCase
         $this->assertInstanceOf(
             'umi\toolkit\exception\InvalidArgumentException',
             $e,
-            'Ожидается исключение при попытке зарегестрировать тулбокс с некорректной конфигурацией'
+            'Ожидается исключение при попытке зарегистрировать тулбокс с некорректной конфигурацией'
         );
         $this->assertEquals('Cannot register toolbox "MockTools". Option "class" required.', $e->getMessage());
 
@@ -102,7 +102,7 @@ class ToolkitTest extends TestCase
 
         $this->assertTrue(
             $this->toolkit->hasToolbox(MockTools::NAME),
-            'Ожидается, что тулбоксменеджер содержит зарегестрированный тулбокс'
+            'Ожидается, что тулбоксменеджер содержит зарегистрированный тулбокс'
         );
 
         $e = null;
@@ -113,7 +113,7 @@ class ToolkitTest extends TestCase
         $this->assertInstanceOf(
             'umi\toolkit\exception\AlreadyRegisteredException',
             $e,
-            'Ожидается исключение при повторной попытке зарегестрировать тулбокс'
+            'Ожидается исключение при повторной попытке зарегистрировать тулбокс'
         );
     }
 
@@ -127,7 +127,7 @@ class ToolkitTest extends TestCase
         $this->assertInstanceOf(
             'umi\toolkit\exception\UnexpectedValueException',
             $e,
-            'Ожидается исключение при попытке зарегестрировать тулбоксы с некорректной конфигурацией'
+            'Ожидается исключение при попытке зарегистрировать тулбоксы с некорректной конфигурацией'
         );
 
         $this->assertInstanceOf(
@@ -195,7 +195,7 @@ class ToolkitTest extends TestCase
         $this->assertInstanceOf(
             'umi\toolkit\exception\AlreadyRegisteredException',
             $e,
-            'Ожидается, что нельзя зарегестрировать сервис больше одного раза'
+            'Ожидается, что нельзя зарегистрировать сервис больше одного раза'
         );
 
         $e = null;
@@ -213,7 +213,7 @@ class ToolkitTest extends TestCase
         $this->assertInstanceOf(
             'umi\toolkit\exception\AlreadyRegisteredException',
             $e,
-            'Ожидается, что нельзя зарегестрировать инжектор больше одного раза'
+            'Ожидается, что нельзя зарегистрировать инжектор больше одного раза'
         );
     }
 
@@ -235,7 +235,7 @@ class ToolkitTest extends TestCase
         $this->assertInstanceOf(
             'umi\toolkit\exception\RuntimeException',
             $e,
-            'Ожидается, что нельзя получить сервис, зарегестрированный в тулбоксе, не реализующем интерфейс IToolbox'
+            'Ожидается, что нельзя получить сервис, зарегистрированный в тулбоксе, не реализующем интерфейс IToolbox'
         );
         $this->assertEquals('Cannot create toolbox "WrongTools".', $e->getMessage());
     }
@@ -253,13 +253,13 @@ class ToolkitTest extends TestCase
         $this->assertInstanceOf(
             'utest\toolkit\mock\MockService',
             $this->toolkit->getService('utest\toolkit\mock\IMockService'),
-            'Ожидается, что можно получить зарегестрированный сервис с дефолтной реализацией'
+            'Ожидается, что можно получить зарегистрированный сервис с дефолтной реализацией'
         );
 
         $this->assertInstanceOf(
             'utest\toolkit\mock\ConcreteMockService',
             $this->toolkit->getService('utest\toolkit\mock\IMockService', 'utest\toolkit\mock\ConcreteMockService'),
-            'Ожидается, что можно получить зарегестрированный сервис с указанной реализацией'
+            'Ожидается, что можно получить зарегистрированный сервис с указанной реализацией'
         );
     }
 

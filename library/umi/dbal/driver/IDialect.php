@@ -10,9 +10,6 @@
 namespace umi\dbal\driver;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use PDO;
 use umi\dbal\builder\IDeleteBuilder;
 use umi\dbal\builder\IInsertBuilder;
 use umi\dbal\builder\ISelectBuilder;

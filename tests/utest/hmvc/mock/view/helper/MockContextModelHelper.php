@@ -32,7 +32,7 @@ class MockContextModelHelper implements IContextAware
     public function __invoke()
     {
         $requestURI = $this->getContext()
-            ->getRequest()->getRequestUri();
+            ->getRequest()->getRequestURI();
 
         return 'URI: ' . $requestURI . '. Model: ' . $this->model->getVariable();
     }
