@@ -15,7 +15,7 @@ use umi\pagination\exception\UnexpectedValueException;
 use umi\pagination\IPaginator;
 use umi\pagination\Paginator;
 use utest\pagination\PaginationTestCase;
-use utest\pagination\mock\adapter\ArrayPaginationAdapter;
+use utest\pagination\mock\adapter\MockArrayPaginationAdapter;
 use utest\pagination\mock\adapter\TraversablePaginatorAdapter;
 use utest\pagination\mock\adapter\WrongPaginationAdapter;
 
@@ -32,7 +32,7 @@ class PaginatorTest extends PaginationTestCase
 
     public function setUp()
     {
-        $this->paginator = new Paginator(new ArrayPaginationAdapter(), 10);
+        $this->paginator = new Paginator(new MockArrayPaginationAdapter(), 10);
     }
 
     /**

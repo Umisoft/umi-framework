@@ -100,25 +100,17 @@ abstract class AwareTestCase extends TestCase
             } elseif (!$param->getClass()) {
                 $params[$name] = null;
             } else {
-                $params[$name] = $this->resolveParam(
-                    $param->getClass()
-                        ->getName()
+                $params[$name] = $this->getMock(
+                    $param->getClass()->getName(),
+                    [],
+                    [],
+                    '',
+                    false
                 );
             }
         }
 
         return $params;
-    }
-
-    /**
-     * Возвращает объект заданного класса или интерфейса.
-     * @param string $className
-     * @throws \RuntimeException
-     * @return mixed
-     */
-    protected function resolveParam($className)
-    {
-        throw new \RuntimeException(sprintf("Cannot create class '%s'.", $className));
     }
 
 }
