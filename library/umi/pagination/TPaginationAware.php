@@ -9,6 +9,7 @@
 
 namespace umi\pagination;
 
+use umi\pagination\adapter\IPaginationAdapter;
 use umi\pagination\exception\RequiredDependencyException;
 
 /**
@@ -17,7 +18,7 @@ use umi\pagination\exception\RequiredDependencyException;
 trait TPaginationAware
 {
     /**
-     * @var IPaginatorFactory $_paginationFactory фабрика
+     * @var IPaginatorFactory $_paginationFactory фабрика пагинаторов
      */
     private $_paginationFactory;
 
@@ -30,14 +31,34 @@ trait TPaginationAware
     }
 
     /**
-     * Создает пагинатор.
-     * Адаптер выбирается автоматически, на основе типа переданных параметров.
+     * Создает пагинатор,
+     * выбирая адаптер автоматически на основе типа переданных объектов.
      * @param mixed $objects объекты
      * @param int $itemsPerPage количество элементов на странице
-     * @throws RequiredDependencyException если инструменты не были установлены
      * @return IPaginator созданный пагинатор
      */
-    protected final function createPaginator($objects, $itemsPerPage)
+    protected final function createObjectPaginator($objects, $itemsPerPage)
+    {
+        return $this->getPaginatorFactory()->createObjectPaginator($objects, $itemsPerPage);
+    }
+
+    /**
+     * Создает пагинатор, используя заданный адаптер
+     * @param IPaginationAdapter $adapter адаптер
+     * @param int $itemsPerPage количество элементов на странице
+     * @return IPaginator созданный пагинатор
+     */
+    protected final function createPaginator(IPaginationAdapter $adapter, $itemsPerPage)
+    {
+        return $this->getPaginatorFactory()->createPaginator($adapter, $itemsPerPage);
+    }
+
+    /**
+     * Возвращает фабрику пагинаторов
+     * @throws RequiredDependencyException если фабрика не была установлена
+     * @return IPaginatorFactory
+     */
+    private function getPaginatorFactory()
     {
         if (!$this->_paginationFactory instanceof IPaginatorFactory) {
             throw new RequiredDependencyException(sprintf(
@@ -45,7 +66,6 @@ trait TPaginationAware
                 get_class($this)
             ));
         }
-
-        return $this->_paginationFactory->createPaginator($objects, $itemsPerPage);
+        return $this->_paginationFactory;
     }
 }

@@ -12,6 +12,7 @@ namespace umi\pagination;
 use umi\pagination\exception\InvalidArgumentException;
 use umi\pagination\toolbox\factory\PaginatorFactory;
 use umi\toolkit\exception\DomainException;
+use utest\pagination\mock\adapter\MockArrayPaginationAdapter;
 use utest\pagination\PaginationTestCase;
 
 /**
@@ -30,9 +31,22 @@ class PaginatorFactoryTest extends PaginationTestCase
         $this->resolveOptionalDependencies($this->factory);
     }
 
-    public function testPaginatorTools()
+    public function testCreateObjectPaginator()
     {
-        $paginator = $this->factory->createPaginator(['object1', 'object2'], 25);
+        $paginator = $this->factory->createObjectPaginator(['object1', 'object2'], 25);
+
+        $this->assertInstanceOf('umi\pagination\IPaginator', $paginator, 'Ожидается, что будет получен пагинатор.');
+        $this->assertEquals(
+            25,
+            $paginator->getItemsPerPage(),
+            'Ожидаетя, что количество элементов на странице будет задано верно.'
+        );
+    }
+
+    public function testCreatePaginator()
+    {
+        $mockArrayPaginatorAdapter = new MockArrayPaginationAdapter();
+        $paginator = $this->factory->createPaginator($mockArrayPaginatorAdapter, 25);
 
         $this->assertInstanceOf('umi\pagination\IPaginator', $paginator, 'Ожидается, что будет получен пагинатор.');
         $this->assertEquals(
@@ -48,7 +62,7 @@ class PaginatorFactoryTest extends PaginationTestCase
      */
     public function wrongPaginatorObject()
     {
-        $this->factory->createPaginator(new \StdClass(), 25);
+        $this->factory->createObjectPaginator(new \StdClass(), 25);
     }
 
     /**
@@ -58,6 +72,6 @@ class PaginatorFactoryTest extends PaginationTestCase
     public function wrongPaginatorClass()
     {
         $this->factory->paginatorClass = '\StdClass';
-        $this->factory->createPaginator(['object1', 'object2'], 25);
+        $this->factory->createObjectPaginator(['object1', 'object2'], 25);
     }
 }
