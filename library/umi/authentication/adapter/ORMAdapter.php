@@ -98,6 +98,6 @@ class ORMAdapter implements IAuthAdapter, ICollectionManagerAware, ILocalizable
      */
     public function checkPassword(IObject $user, $password)
     {
-        return $user->getValue($this->passwordField) === $password;
+        return $user->getProperty($this->passwordField)->getValue() === $password;
     }
 }
