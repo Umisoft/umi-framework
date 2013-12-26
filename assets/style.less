@@ -67,7 +67,7 @@ h1 {
 	margin-bottom: 10px;
 	&.large{
 		margin-top: 34px;
-		font-size: 34px;
+		font-size: 37px;
 		margin-bottom: 30px;
 	}
 }
@@ -284,7 +284,8 @@ table {
 		}
 		li{
 			a:not(.button){
-				padding: 0 25px;
+				padding: 0 18px;
+				font-size: 15px;
 			}
 		}
 	}
@@ -298,7 +299,7 @@ table {
 		.top-bar{
 			.name{
 				height: auto;
-				margin-bottom: 20px;
+				margin-bottom: 10px;
 				display: inline-block;
 				vertical-align: top;
 				h1{
@@ -357,6 +358,29 @@ table {
 		}
 		#vk_like{
 			width: 76px !important;
+		}
+	}
+}
+
+dl.variablelist{
+	dt{
+
+	}
+	dd{
+		margin-left: 20px;
+	}
+	p{
+		margin-bottom: 4px;
+	}
+	> dd{
+		margin-bottom: 30px;
+	}
+	dl.variablelist{
+		dt{
+			font-size: 0.9rem;
+		}
+		dd{
+			margin-bottom: 10px;
 		}
 	}
 }
@@ -626,19 +650,22 @@ table {
 }
 
 .icon.large{
-	width: 90px;
-	height: 87px;
+	width: 83px;
+	height: 93px;
 	margin: 0 auto 25px;
 	background: url("main_icons.png") no-repeat scroll;
 
 	&.hight_load{
-		background-position: -109px 0;
+		background-position: -90px 0;
+		width: 86px;
 	}
 	&.flexible{
-		background-position: -223px 0;
+		background-position: -180px 0;
+		width: 93px;
 	}
 	&.open-source{
-		background-position: -353px 0;
+		background-position: -275px 0;
+		width: 89px;
 	}
 }
 
@@ -743,7 +770,7 @@ table {
 
 .teaser{
 	margin-bottom: 30px;
-	h2{
+	h2, h3{
 		margin-bottom: 20px;
 	}
 }
