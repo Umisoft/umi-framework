@@ -39,13 +39,21 @@ class PaginatorFactory implements IPaginatorFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createPaginator($objects, $itemsPerPage)
+    public function createObjectPaginator($objects, $itemsPerPage)
+    {
+        return $this->createPaginator($this->createAdapter($objects), $itemsPerPage);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function createPaginator(IPaginationAdapter $adapter, $itemsPerPage)
     {
         return $this->getPrototype(
             $this->paginatorClass,
             ['umi\pagination\IPaginator']
         )
-            ->createInstance([$this->createAdapter($objects), $itemsPerPage]);
+            ->createInstance([$adapter, $itemsPerPage]);
     }
 
     /**

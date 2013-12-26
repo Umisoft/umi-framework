@@ -12,9 +12,9 @@ namespace utest\pagination\mock\adapter;
 use umi\pagination\adapter\IPaginationAdapter;
 
 /**
- * Мок пагинатор
+ * Мок-адаптер для пагинатора на основе простого массива
  */
-class ArrayPaginationAdapter implements IPaginationAdapter
+class MockArrayPaginationAdapter implements IPaginationAdapter
 {
 
     /**
@@ -28,8 +28,8 @@ class ArrayPaginationAdapter implements IPaginationAdapter
 
     /**
      * Возвращает список элементов для текущей страницы
+     * @param int $limit ограничение
      * @param int $offset смещение
-     * @param int $length количество элементов
      * @return array
      */
     public function getItems($limit, $offset)
