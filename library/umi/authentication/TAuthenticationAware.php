@@ -69,14 +69,16 @@ trait TAuthenticationAware
     }
 
     /**
-     * Возвращает менеджер авторизации.
-     * @param array $config конфигруация менеджера
+     * Создает менеджер аутентификации.
+     * @param array $options опции менеджера аутентификации
+     * @param IAuthAdapter $adapter адаптер аутентификации
+     * @param IAuthStorage $storage хранилище аутентификации
      * @return IAuthentication
      */
-    protected final function createAuthManager(array $config = [])
+    protected final function createAuthManager(array $options = [], IAuthAdapter $adapter = null, IAuthStorage $storage = null)
     {
         return $this->getAuthFactory()
-            ->createManager($config);
+            ->createManager($options, $adapter, $storage);
     }
 
     /**
