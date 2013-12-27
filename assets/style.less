@@ -4,7 +4,7 @@
 /** variables **/
 @footer-height: 171px;
 
-@umi_color: #038cd0;
+@umi_color: #408bd1;
 @link_color: #408bd1;
 @unlink_color: #6b6b6b;
 @button_color: #009ed8;
@@ -59,6 +59,10 @@ td, th{
 	}
 }
 
+h1, h2, h3, h4, h5, h6{
+	font-family: "Trebuchet MS";
+}
+
 h1 {
 	.no-gap;
 	color: #3F3F3F;
@@ -78,6 +82,8 @@ h2{
 
 h3{
 	font-size: 18px;
+	font-weight: bold;
+	letter-spacing: -1px;
 }
 
 h4{
@@ -276,6 +282,8 @@ table {
 			li>a{
 				color: @umi_color;
 				font-weight: bold;
+				font-size: 14px;
+				font-family: "Trebuchet MS";
 				&:hover, &.active{
 					background: #f0f0f0;
 					color: #6b6b6b;
@@ -622,6 +630,7 @@ dl.variablelist{
 	background: url("bg_footer.png") repeat scroll 0 0;
 	position: relative;
 	z-index: 3;
+	min-height: 171px;
 	.number {
 		margin-bottom: 10px;
 		span:first-child {
@@ -831,7 +840,7 @@ dl.variablelist{
 		font-size: 15px;
 	}
 }
-@media (max-width: 820px) {
+@media (max-width: 840px) {
 	.header .top-bar-section li a:not(.button) {
 		padding: 0 8px;
 	}
@@ -857,6 +866,9 @@ dl.variablelist{
 }
 @media (max-width: 700px) {
 	.header{
+		.top-bar .name h1 a{
+			width: 170px;
+		}
 		.logo{
 			margin-top: 10px;
 			display: inline-block;
@@ -871,12 +883,22 @@ dl.variablelist{
 }
 @media (max-width: 640px) {
 	.header{
+		.top-bar .name h1 a{
+			width: 195px;
+		}
 		&.main{
 			padding: 0;
 			.top-bar .name{
 				height: 44px;
 				margin-bottom: 0;
 			}
+		}
+	}
+}
+@media (min-width: 640px) {
+	.header .top-bar a:not(.button){
+		.icon{
+			margin-top: 12px;
 		}
 	}
 }
