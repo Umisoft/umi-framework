@@ -250,6 +250,24 @@ class PaginationHelpersTest extends TestCase
             'lastItemNumber'    => 20,
         ];
         $this->assertEquals($smallPagesContext, $this->helperCollection->sliding($paginator, 7));
+
+        $paginator = new Paginator(new ArrayPaginationAdapter(range(0, 39)), 10);
+        $paginator->setCurrentPage(4);
+        $smallPagesContext = [
+            'firstPage'         => 1,
+            'lastPage'          => 4,
+            'currentPage'       => 4,
+            'pagesCount'        => 4,
+            'itemsPerPage'      => 10,
+            'previousPage'      => 3,
+            'nextPage'          => null,
+            'pagesRange'        => range(1, 4),
+            'currentItemsCount' => 10,
+            'itemsCount'        => 40,
+            'firstItemNumber'   => 31,
+            'lastItemNumber'    => 40,
+        ];
+        $this->assertEquals($smallPagesContext, $this->helperCollection->sliding($paginator, 5));
     }
 
     public function testElasticPagination()

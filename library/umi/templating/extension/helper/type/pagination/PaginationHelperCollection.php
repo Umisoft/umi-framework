@@ -105,6 +105,8 @@ class PaginationHelperCollection
 
             return range(1, $rangeEnd);
         } elseif ($rangeStart >= $lastPossibleStart) {
+            $lastPossibleStart = $lastPossibleStart ?: 1;
+
             return range($lastPossibleStart, $pagesCount);
         } else {
             return range($rangeStart + 1, $rangeStart + $pagesCountInRange);
