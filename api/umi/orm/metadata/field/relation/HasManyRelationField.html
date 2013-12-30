@@ -156,7 +156,17 @@
                 </td>
                 <td class="last">
                     <a href="#method_getTargetCollectionName">getTargetCollectionName</a>()
-                    <p>Возвращает имя коллекции данных на которую выставлена связь</p>
+                    <p>Возвращает имя коллекции на которую выставлена связь</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getTargetCollection">getTargetCollection</a>()
+                    <p>Возвращает коллекцию на которую выставлена связь</p>
                 </td>
                 <td></td>
             </tr>
@@ -542,7 +552,7 @@
     <strong>getTargetCollectionName</strong>()</code>
     </h3>
     <div class="details">
-        <p>Возвращает имя коллекции данных на которую выставлена связь</p>
+        <p>Возвращает имя коллекции на которую выставлена связь</p>
         <p>
 </p>
         <div class="tags">
@@ -562,8 +572,34 @@
                     </div>
     </div>
 
+                <h3 id="method_getTargetCollection">
+        <div class="location">at line 40</div>
+        <code>            public            <a href="../../../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a>
+    <strong>getTargetCollection</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает коллекцию на которую выставлена связь</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../../../umi/orm/collection/ICollection.html"><abbr title="umi\orm\collection\ICollection">ICollection</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
                 <h3 id="method_getTargetFieldName">
-        <div class="location">at line 41</div>
+        <div class="location">at line 51</div>
         <code>            public            string
     <strong>getTargetFieldName</strong>()</code>
     </h3>
@@ -589,7 +625,7 @@
     </div>
 
                 <h3 id="method_getDataType">
-        <div class="location">at line 49</div>
+        <div class="location">at line 59</div>
         <code>            public            string
     <strong>getDataType</strong>()</code>
     </h3>
@@ -615,7 +651,7 @@ http://ru2.php.net/manual/en/function.gettype.php</p>
     </div>
 
                 <h3 id="method_validateInputPropertyValue">
-        <div class="location">at line 66</div>
+        <div class="location">at line 76</div>
         <code>            public            boolean
     <strong>validateInputPropertyValue</strong>($propertyValue)</code>
     </h3>
@@ -661,7 +697,7 @@ http://ru2.php.net/manual/en/function.gettype.php</p>
     </div>
 
                 <h3 id="method_preparePropertyValue">
-        <div class="location">at line 77</div>
+        <div class="location">at line 87</div>
         <code>            public            mixed
     <strong>preparePropertyValue</strong>(<a href="../../../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, $internalDbValue)</code>
     </h3>
@@ -704,7 +740,7 @@ http://ru2.php.net/manual/en/function.gettype.php</p>
     </div>
 
                 <h3 id="method_prepareDbValue">
-        <div class="location">at line 94</div>
+        <div class="location">at line 101</div>
         <code>            public            mixed
     <strong>prepareDbValue</strong>(<a href="../../../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a> $object, $propertyValue)</code>
     </h3>

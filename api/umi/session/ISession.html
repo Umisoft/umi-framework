@@ -105,7 +105,7 @@
         <h2>Details</h2>
 
                         <h3 id="method_registerNamespace">
-        <div class="location">at line 25</div>
+        <div class="location">at line 28</div>
         <code>            public            <a href="../../umi/session/ISession.html"><abbr title="umi\session\ISession">ISession</abbr></a>
     <strong>registerNamespace</strong>(string $name, array $validators = array())</code>
     </h3>
@@ -141,12 +141,21 @@
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если такое пространство имен уже было зарегистрировано</td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
 
                 <h3 id="method_hasNamespace">
-        <div class="location">at line 32</div>
+        <div class="location">at line 35</div>
         <code>            public            bool
     <strong>hasNamespace</strong>(string $name)</code>
     </h3>
@@ -182,7 +191,7 @@
     </div>
 
                 <h3 id="method_getNamespace">
-        <div class="location">at line 39</div>
+        <div class="location">at line 43</div>
         <code>            public            <a href="../../umi/session/entity/ns/ISessionNamespace.html"><abbr title="umi\session\entity\ns\ISessionNamespace">ISessionNamespace</abbr></a>
     <strong>getNamespace</strong>(string $name)</code>
     </h3>
@@ -213,12 +222,21 @@
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/OutOfBoundsException"><abbr title="OutOfBoundsException">OutOfBoundsException</abbr></a></td>
+                <td>если пространство имен с таким именем не зарегистрировано</td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
 
                 <h3 id="method_deleteNamespace">
-        <div class="location">at line 46</div>
+        <div class="location">at line 50</div>
         <code>            public            <a href="../../umi/session/entity/ns/ISessionNamespace.html"><abbr title="umi\session\entity\ns\ISessionNamespace">ISessionNamespace</abbr></a>
     <strong>deleteNamespace</strong>(string $name)</code>
     </h3>
@@ -255,7 +273,7 @@
     </div>
 
                 <h3 id="method_clearSession">
-        <div class="location">at line 52</div>
+        <div class="location">at line 56</div>
         <code>            public            <a href="../../umi/session/ISession.html"><abbr title="umi\session\ISession">ISession</abbr></a>
     <strong>clearSession</strong>()</code>
     </h3>
@@ -281,7 +299,7 @@
     </div>
 
                 <h3 id="method_setStorage">
-        <div class="location">at line 60</div>
+        <div class="location">at line 64</div>
         <code>            public            bool
     <strong>setStorage</strong>(string $type, array $options = array())</code>
     </h3>

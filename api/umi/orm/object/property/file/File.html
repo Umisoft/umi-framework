@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow, all" />
+        <title>umi\orm\object\property\file\File |     UMI.Framework | API
+</title>
+        	<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" />
+	<link rel="stylesheet" type="text/css" href="../../../../../css/umi-content.css" />
+                    </head>
+        <body id="class">
+            <div class="header">
+        <ul>
+            <li><a href="../../../../../classes.html">Classes</a></li>
+                            <li><a href="../../../../../namespaces.html">Namespaces</a></li>
+                        <li><a href="../../../../../interfaces.html">Interfaces</a></li>
+            <li><a href="../../../../../traits.html">Traits</a></li>
+            <li><a href="../../../../../doc-index.html">Index</a></li>
+            
+        </ul>
+
+        <div id="title"></div>
+
+            <div class="type">Class</div>
+    <h1><a href="../../../../../umi/orm/object/property/file.html">umi\orm\object\property\file</a>\File</h1>
+    </div>
+        <div class="content">
+                <p>    class
+    <strong>File</strong></p>
+
+            <div class="description">
+            <p>Значение свойства типа файл.</p>
+            <p>
+</p>
+        </div>
+    
+    
+    
+            <h2>Methods</h2>
+
+            <table>
+                    <tr>
+                <td class="type">
+                    
+                </td>
+                <td class="last">
+                    <a href="#method___construct">__construct</a>(<a href="../../../../../umi/orm/object/property/file/IFileProperty.html"><abbr title="umi\orm\object\property\file\IFileProperty">IFileProperty</abbr></a> $property, string $sourcePath, string $sourceURI, string|null $relativePath = null)
+                    <p>Конструктор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="http://php.net/SplFileInfo"><abbr title="SplFileInfo">SplFileInfo</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_getFileInfo">getFileInfo</a>()
+                    <p>Возвращает информацию о файле.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="umi\orm\object\property\file\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_setFilePath">setFilePath</a>(string $filePath)
+                    <p>Устанавливает путь к файлу.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    string
+                </td>
+                <td class="last">
+                    <a href="#method_getURI">getURI</a>()
+                    <p>Возвращает URI файла.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <abbr title="umi\orm\object\property\file\$this">$this</abbr>
+                </td>
+                <td class="last">
+                    <a href="#method_clear">clear</a>()
+                    <p>
+</p>
+                </td>
+                <td></td>
+            </tr>
+            </table>
+
+
+        <h2>Details</h2>
+
+                        <h3 id="method___construct">
+        <div class="location">at line 49</div>
+        <code>            public            
+    <strong>__construct</strong>(<a href="../../../../../umi/orm/object/property/file/IFileProperty.html"><abbr title="umi\orm\object\property\file\IFileProperty">IFileProperty</abbr></a> $property, string $sourcePath, string $sourceURI, string|null $relativePath = null)</code>
+    </h3>
+    <div class="details">
+        <p>Конструктор.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../../../../umi/orm/object/property/file/IFileProperty.html"><abbr title="umi\orm\object\property\file\IFileProperty">IFileProperty</abbr></a></td>
+                <td>$property</td>
+                <td>свойство, значением которого является файл</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$sourcePath</td>
+                <td>абсолютный путь к директории, где хранится файл</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$sourceURI</td>
+                <td>абсолютный uri к директории с файлом</td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$relativePath</td>
+                <td>путь к файлу относительного его директории</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getFileInfo">
+        <div class="location">at line 66</div>
+        <code>            public            <a href="http://php.net/SplFileInfo"><abbr title="SplFileInfo">SplFileInfo</abbr></a>
+    <strong>getFileInfo</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает информацию о файле.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="http://php.net/SplFileInfo"><abbr title="SplFileInfo">SplFileInfo</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если путь к файлу не был задан</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setFilePath">
+        <div class="location">at line 80</div>
+        <code>            public            <abbr title="umi\orm\object\property\file\$this">$this</abbr>
+    <strong>setFilePath</strong>(string $filePath)</code>
+    </h3>
+    <div class="details">
+        <p>Устанавливает путь к файлу.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>string</td>
+                <td>$filePath</td>
+                <td>путь к файлу</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="umi\orm\object\property\file\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/InvalidArgumentException"><abbr title="InvalidArgumentException">InvalidArgumentException</abbr></a></td>
+                <td>если файл не существует или находится не в заданной директории</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_getURI">
+        <div class="location">at line 113</div>
+        <code>            public            string
+    <strong>getURI</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>Возвращает URI файла.</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td>string</td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если путь к файлу не был задан</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+                <h3 id="method_clear">
+        <div class="location">at line 125</div>
+        <code>            public            <abbr title="umi\orm\object\property\file\$this">$this</abbr>
+    <strong>clear</strong>()</code>
+    </h3>
+    <div class="details">
+        <p>
+</p>
+        <p>
+</p>
+        <div class="tags">
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><abbr title="umi\orm\object\property\file\$this">$this</abbr></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+    
+            </div>
+            <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/" target="_top">Sami, the API Documentation Generator</a>.
+    </div>
+    </body>
+</html>

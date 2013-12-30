@@ -44,8 +44,18 @@
                     <a href="../../umi/pagination/IPaginator.html"><abbr title="umi\pagination\IPaginator">IPaginator</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_createPaginator">createPaginator</a>(mixed $objects, int $itemsPerPage)
+                    <a href="#method_createObjectPaginator">createObjectPaginator</a>(mixed $objects, int $itemsPerPage)
                     <p>Создает пагинатор.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../umi/pagination/IPaginator.html"><abbr title="umi\pagination\IPaginator">IPaginator</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_createPaginator">createPaginator</a>(<a href="../../umi/pagination/adapter/IPaginationAdapter.html"><abbr title="umi\pagination\adapter\IPaginationAdapter">IPaginationAdapter</abbr></a> $adapter, int $itemsPerPage)
+                    <p>Создает пагинатор на основе адаптера.</p>
                 </td>
                 <td></td>
             </tr>
@@ -54,10 +64,10 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method_createPaginator">
-        <div class="location">at line 24</div>
+                        <h3 id="method_createObjectPaginator">
+        <div class="location">at line 26</div>
         <code>            public            <a href="../../umi/pagination/IPaginator.html"><abbr title="umi\pagination\IPaginator">IPaginator</abbr></a>
-    <strong>createPaginator</strong>(mixed $objects, int $itemsPerPage)</code>
+    <strong>createObjectPaginator</strong>(mixed $objects, int $itemsPerPage)</code>
     </h3>
     <div class="details">
         <p>Создает пагинатор.</p>
@@ -70,6 +80,46 @@
                 <td>mixed</td>
                 <td>$objects</td>
                 <td>объекты</td>
+            </tr>
+                    <tr>
+                <td>int</td>
+                <td>$itemsPerPage</td>
+                <td>количество элементов на странице</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../umi/pagination/IPaginator.html"><abbr title="umi\pagination\IPaginator">IPaginator</abbr></a></td>
+            <td>созданный пагинатор</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_createPaginator">
+        <div class="location">at line 34</div>
+        <code>            public            <a href="../../umi/pagination/IPaginator.html"><abbr title="umi\pagination\IPaginator">IPaginator</abbr></a>
+    <strong>createPaginator</strong>(<a href="../../umi/pagination/adapter/IPaginationAdapter.html"><abbr title="umi\pagination\adapter\IPaginationAdapter">IPaginationAdapter</abbr></a> $adapter, int $itemsPerPage)</code>
+    </h3>
+    <div class="details">
+        <p>Создает пагинатор на основе адаптера.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="../../umi/pagination/adapter/IPaginationAdapter.html"><abbr title="umi\pagination\adapter\IPaginationAdapter">IPaginationAdapter</abbr></a></td>
+                <td>$adapter</td>
+                <td>адаптер</td>
             </tr>
                     <tr>
                 <td>int</td>
