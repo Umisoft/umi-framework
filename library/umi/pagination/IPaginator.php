@@ -10,6 +10,8 @@
 namespace umi\pagination;
 
 use umi\i18n\ILocalizable;
+use umi\pagination\exception\OutOfBoundsException;
+use umi\pagination\exception\UnexpectedValueException;
 
 /**
  * Интерфейс пагинатора.
@@ -32,6 +34,7 @@ interface IPaginator extends ILocalizable
     /**
      * Устанавливает номер текущей страницы.
      * @param int $page
+     * @throws OutOfBoundsException если такой номер страницы не возможен при заданных настройках
      */
     public function setCurrentPage($page);
 
@@ -49,6 +52,7 @@ interface IPaginator extends ILocalizable
 
     /**
      * Возвращает набор элементов на странице.
+     * @throws UnexpectedValueException при несоответсвии набора элементов заданным типам
      * @return array|\Traversable
      */
     public function getPageItems();
