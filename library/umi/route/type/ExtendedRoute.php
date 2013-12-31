@@ -49,7 +49,7 @@ class ExtendedRoute extends SimpleRoute
     public function assemble(array $params = [])
     {
         return preg_replace_callback(
-            '#(/?)\{(\S+?)\}#',
+            '#(/?)\{([^}]+)\}#S',
             function (array $matches) use ($params) {
                 $name = $matches[2];
                 $rule = $this->getRule($name);
@@ -89,7 +89,7 @@ class ExtendedRoute extends SimpleRoute
     public function getRegExpRoute($route)
     {
         return preg_replace_callback(
-            '#(/?)\{(\S+?)\}#',
+            '#(/?)\{([^}]+)\}#S',
             function (array $matches) {
                 $startMod = $matches[1];
                 $name = $matches[2];
