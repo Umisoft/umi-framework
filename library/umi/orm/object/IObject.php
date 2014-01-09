@@ -10,6 +10,7 @@
 namespace umi\orm\object;
 
 use ArrayAccess;
+use Iterator;
 use Serializable;
 use umi\orm\collection\IHierarchicCollection;
 use umi\orm\collection\ILinkedHierarchicCollection;
@@ -29,7 +30,7 @@ use umi\orm\object\property\IProperty;
  * Например: заказ, пользователь, баннер
  * Объект может иметь не ограниченное количество свойств, задаваемых его типом.
  */
-interface IObject extends ArrayAccess, Serializable
+interface IObject extends ArrayAccess, Serializable, Iterator
 {
     /**
      * Имя поля, используемого в качестве первичного ключа
