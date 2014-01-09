@@ -235,7 +235,7 @@ class ObjectTest extends ORMDbTestCase
 
         $this->assertEquals(
             ['isActive', 'login'],
-            array_keys($user->getProperties()),
+            array_keys($user->getLoadedProperties()),
             'Ожидается, что у объекта всего 2 загруженных свойств'
         );
         $this->assertCount(
