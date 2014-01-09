@@ -234,9 +234,15 @@ class ObjectTest extends ORMDbTestCase
         $user = $this->user;
 
         $this->assertEquals(
-            ['isActive', 'login'],
+            [
+                'password',
+                'height',
+                'rating',
+                IObject::FIELD_GUID,
+                IObject::FIELD_VERSION
+            ],
             array_keys($user->getLoadedProperties()),
-            'Ожидается, что у объекта всего 2 загруженных свойств'
+            'Ожидается, что у объекта загруженны те свойства, которым были хаданы начальнве значения'
         );
         $this->assertCount(
             14,
