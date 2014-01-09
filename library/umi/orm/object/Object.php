@@ -283,10 +283,7 @@ class Object implements IObject, ILocalizable, ILocalesAware, IObjectManagerAwar
     {
         $properties = [];
         foreach ($this->initialValues as $fullPropName => $internalValue) {
-
-            $propInfo = explode(ILocalizedProperty::LOCALE_SEPARATOR, $fullPropName);
-            $propName = $propInfo[0];
-            $localeId = isset($propInfo[1]) ? $propInfo[1] : null;
+            list ($propName, $localeId) = $this->splitFullPropName($fullPropName);
             $properties[$fullPropName] = $this->getProperty($propName, $localeId);
         }
 
@@ -693,6 +690,66 @@ class Object implements IObject, ILocalizable, ILocalesAware, IObjectManagerAwar
     public function offsetUnset($offset)
     {
         $this->setDefaultValue($offset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function current()
+    {
+        $currentFullPropName = key($this->initialValues);
+        list ($propName, $localeId) = $this->splitFullPropName($currentFullPropName);
+
+        return $this->getValue($propName, $localeId);
+    }
+    /**
+     * {@inheritdoc}
+     */
+    public function key()
+    {
+        return key($this->initialValues);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function next()
+    {
+        next($this->initialValues);
+        $nextFullPropName = key($this->initialValues);
+        list ($propName, $localeId) = $this->splitFullPropName($nextFullPropName);
+
+        return $this->getValue($propName, $localeId);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rewind()
+    {
+        reset($this->initialValues);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function valid()
+    {
+        return !is_null(key($this->initialValues));
+    }
+
+    /**
+     * Возвращает имя свойства и его локаль по полному имени свойства
+     * @param $fullPropName полное имя свойства
+     * @return array
+     */
+    protected function splitFullPropName($fullPropName)
+    {
+        $propInfo = explode(ILocalizedProperty::LOCALE_SEPARATOR, $fullPropName);
+        $propName = $propInfo[0];
+        $localeId = isset($propInfo[1]) ? $propInfo[1] : null;
+
+        return [$propName, $localeId];
     }
 
     /**

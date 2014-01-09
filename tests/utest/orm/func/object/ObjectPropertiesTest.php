@@ -100,6 +100,10 @@ class ObjectPropertiesTest extends ORMDbTestCase
                 $property
             );
         }
+
+        $blog->getValue('publishTime');
+
+        $this->assertTrue(in_array('publishTime', array_keys($blog->getLoadedProperties())));
     }
 }
  

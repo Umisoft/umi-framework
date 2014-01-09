@@ -476,4 +476,43 @@ class ObjectTest extends ORMDbTestCase
             'Ожидается исключение при попытке выполнить операции с выгруженным объектом'
         );
     }
+
+    public function testObjectIterator()
+    {
+        $values = [
+            'password'             => 'test_password',
+            'height'               => 182,
+            'rating'               => 7.2,
+            IObject::FIELD_GUID    => null,
+            IObject::FIELD_VERSION => 1
+        ];
+
+        $objectArray = [];
+        foreach ($this->user as $fullPropName => $propValue)
+        {
+            $objectArray[$fullPropName] = $propValue;
+        }
+
+        $this->assertEquals($values, $objectArray);
+    }
+
+    public function testHierarchicObjectIterator()
+    {
+
+        $values = [
+            'title#ru-RU' => 'ruTitle',
+            'title#en-US' => 'enTitle',
+            'publishTime' => '12-12-2012'
+        ];
+
+        $this->blog->setInitialValues($values);
+
+        $objectArray = [];
+        foreach ($this->blog as $fullPropName => $propValue)
+        {
+            $objectArray[$fullPropName] = $propValue;
+        }
+
+        $this->assertEquals($values, $objectArray);
+    }
 }
