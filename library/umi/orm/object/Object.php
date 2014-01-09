@@ -279,9 +279,18 @@ class Object implements IObject, ILocalizable, ILocalesAware, IObjectManagerAwar
     /**
      * {@inheritdoc}
      */
-    public function getProperties()
+    public function getLoadedProperties()
     {
-        return $this->properties;
+        $properties = [];
+        foreach ($this->initialValues as $fullPropName => $internalValue) {
+
+            $propInfo = explode(ILocalizedProperty::LOCALE_SEPARATOR, $fullPropName);
+            $propName = $propInfo[0];
+            $localeId = isset($propInfo[1]) ? $propInfo[1] : null;
+            $properties[$fullPropName] = $this->getProperty($propName, $localeId);
+        }
+
+        return $properties;
     }
 
     /**

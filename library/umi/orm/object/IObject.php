@@ -135,7 +135,7 @@ interface IObject extends ArrayAccess, Serializable
      * Возвращает список свойств, которые были загружены
      * @return IProperty[]
      */
-    public function getProperties();
+    public function getLoadedProperties();
 
     /**
      * Возвращает список модифицированных свойств объекта

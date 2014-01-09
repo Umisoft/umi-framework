@@ -70,10 +70,11 @@ return [
             'accessor'   => 'getOrder',
             'readOnly'   => true
         ],
-        IHierarchicObject::FIELD_HIERARCHY_LEVEL => ['type'       => IField::TYPE_LEVEL,
-                                                     'columnName' => 'level',
-                                                     'accessor'   => 'getLevel',
-                                                     'readOnly'   => true
+        IHierarchicObject::FIELD_HIERARCHY_LEVEL => [
+            'type'       => IField::TYPE_LEVEL,
+            'columnName' => 'level',
+            'accessor'   => 'getLevel',
+            'readOnly'   => true
         ],
         'title'                                  => [
             'type'          => IField::TYPE_TEXT,
@@ -85,16 +86,20 @@ return [
                 'ru-UA' => ['columnName' => 'title_ua']
             ]
         ],
-        'publishTime'                            => ['type' => IField::TYPE_DATE, 'columnName' => 'publish_time'],
-        'subscribers'                            => ['type'         => IField::TYPE_MANY_TO_MANY,
-                                                     'target'       => 'users_user',
-                                                     'bridge'       => 'blogs_blog_subscribers',
-                                                     'relatedField' => 'blog',
-                                                     'targetField'  => 'user'
+        'publishTime'                            => [
+            'type' => IField::TYPE_DATE, 'columnName' => 'publish_time'
         ],
-        'owner'                                  => ['type'       => IField::TYPE_BELONGS_TO,
-                                                     'columnName' => 'owner_id',
-                                                     'target'     => 'users_user'
+        'subscribers'                            => [
+            'type'         => IField::TYPE_MANY_TO_MANY,
+            'target'       => 'users_user',
+            'bridge'       => 'blogs_blog_subscribers',
+            'relatedField' => 'blog',
+            'targetField'  => 'user'
+        ],
+        'owner'                                  => [
+            'type'       => IField::TYPE_BELONGS_TO,
+            'columnName' => 'owner_id',
+            'target'     => 'users_user'
         ]
     ],
     'types'      => [
