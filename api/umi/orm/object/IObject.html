@@ -27,7 +27,7 @@
         <div class="content">
                 <p>    interface
     <strong>IObject</strong>        implements
-        <a href="http://php.net/ArrayAccess"><abbr title="ArrayAccess">ArrayAccess</abbr></a>, <a href="http://php.net/Serializable"><abbr title="Serializable">Serializable</abbr></a></p>
+        <a href="http://php.net/ArrayAccess"><abbr title="ArrayAccess">ArrayAccess</abbr></a>, <a href="http://php.net/Serializable"><abbr title="Serializable">Serializable</abbr></a>, <a href="http://php.net/Iterator"><abbr title="Iterator">Iterator</abbr></a></p>
 
             <div class="description">
             <p>Объект данных.</p>
@@ -212,7 +212,7 @@
                     <a href="../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>[]
                 </td>
                 <td class="last">
-                    <a href="#method_getProperties">getProperties</a>()
+                    <a href="#method_getLoadedProperties">getLoadedProperties</a>()
                     <p>Возвращает список свойств, которые были загружены</p>
                 </td>
                 <td></td>
@@ -473,7 +473,7 @@
         <h2>Details</h2>
 
                         <h3 id="method_setInitialValues">
-        <div class="location">at line 62</div>
+        <div class="location">at line 63</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>setInitialValues</strong>(array $initialValues)</code>
     </h3>
@@ -510,7 +510,7 @@
     </div>
 
                 <h3 id="method_getInitialValues">
-        <div class="location">at line 69</div>
+        <div class="location">at line 70</div>
         <code>            public            
     <strong>getInitialValues</strong>()</code>
     </h3>
@@ -526,7 +526,7 @@
     </div>
 
                 <h3 id="method_getCollectionName">
-        <div class="location">at line 75</div>
+        <div class="location">at line 76</div>
         <code>            public            string
     <strong>getCollectionName</strong>()</code>
     </h3>
@@ -552,7 +552,7 @@
     </div>
 
                 <h3 id="method_getCollection">
-        <div class="location">at line 81</div>
+        <div class="location">at line 82</div>
         <code>            public            <a href="../../../umi/orm/collection/ISimpleCollection.html"><abbr title="umi\orm\collection\ISimpleCollection">ISimpleCollection</abbr></a>|<a href="../../../umi/orm/collection/IHierarchicCollection.html"><abbr title="umi\orm\collection\IHierarchicCollection">IHierarchicCollection</abbr></a>|<a href="../../../umi/orm/collection/ILinkedHierarchicCollection.html"><abbr title="umi\orm\collection\ILinkedHierarchicCollection">ILinkedHierarchicCollection</abbr></a>
     <strong>getCollection</strong>()</code>
     </h3>
@@ -578,7 +578,7 @@
     </div>
 
                 <h3 id="method_getTypeName">
-        <div class="location">at line 87</div>
+        <div class="location">at line 88</div>
         <code>            public            string
     <strong>getTypeName</strong>()</code>
     </h3>
@@ -604,7 +604,7 @@
     </div>
 
                 <h3 id="method_getType">
-        <div class="location">at line 93</div>
+        <div class="location">at line 94</div>
         <code>            public            <a href="../../../umi/orm/metadata/IObjectType.html"><abbr title="umi\orm\metadata\IObjectType">IObjectType</abbr></a>
     <strong>getType</strong>()</code>
     </h3>
@@ -630,7 +630,7 @@
     </div>
 
                 <h3 id="method_getTypePath">
-        <div class="location">at line 99</div>
+        <div class="location">at line 100</div>
         <code>            public            string
     <strong>getTypePath</strong>()</code>
     </h3>
@@ -656,7 +656,7 @@
     </div>
 
                 <h3 id="method_getId">
-        <div class="location">at line 105</div>
+        <div class="location">at line 106</div>
         <code>            public            string|integer|null
     <strong>getId</strong>()</code>
     </h3>
@@ -681,7 +681,7 @@
     </div>
 
                 <h3 id="method_getGUID">
-        <div class="location">at line 111</div>
+        <div class="location">at line 112</div>
         <code>            public            string
     <strong>getGUID</strong>()</code>
     </h3>
@@ -707,7 +707,7 @@
     </div>
 
                 <h3 id="method_setGUID">
-        <div class="location">at line 118</div>
+        <div class="location">at line 119</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>setGUID</strong>(string $guid)</code>
     </h3>
@@ -744,7 +744,7 @@
     </div>
 
                 <h3 id="method_getVersion">
-        <div class="location">at line 124</div>
+        <div class="location">at line 125</div>
         <code>            public            int
     <strong>getVersion</strong>()</code>
     </h3>
@@ -770,7 +770,7 @@
     </div>
 
                 <h3 id="method_setVersion">
-        <div class="location">at line 132</div>
+        <div class="location">at line 133</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>setVersion</strong>(int $version)</code>
     </h3>
@@ -805,10 +805,10 @@
                     </div>
     </div>
 
-                <h3 id="method_getProperties">
-        <div class="location">at line 138</div>
+                <h3 id="method_getLoadedProperties">
+        <div class="location">at line 139</div>
         <code>            public            <a href="../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>[]
-    <strong>getProperties</strong>()</code>
+    <strong>getLoadedProperties</strong>()</code>
     </h3>
     <div class="details">
         <p>Возвращает список свойств, которые были загружены</p>
@@ -832,7 +832,7 @@
     </div>
 
                 <h3 id="method_getModifiedProperties">
-        <div class="location">at line 144</div>
+        <div class="location">at line 145</div>
         <code>            public            <a href="../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>[]
     <strong>getModifiedProperties</strong>()</code>
     </h3>
@@ -858,7 +858,7 @@
     </div>
 
                 <h3 id="method_getAllProperties">
-        <div class="location">at line 151</div>
+        <div class="location">at line 152</div>
         <code>            public            <a href="../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>[]
     <strong>getAllProperties</strong>()</code>
     </h3>
@@ -884,7 +884,7 @@
     </div>
 
                 <h3 id="method_hasProperty">
-        <div class="location">at line 159</div>
+        <div class="location">at line 160</div>
         <code>            public            bool
     <strong>hasProperty</strong>(string $propName, null|string $localeId = null)</code>
     </h3>
@@ -925,7 +925,7 @@
     </div>
 
                 <h3 id="method_getProperty">
-        <div class="location">at line 169</div>
+        <div class="location">at line 170</div>
         <code>            public            <a href="../../../umi/orm/object/property/IProperty.html"><abbr title="umi\orm\object\property\IProperty">IProperty</abbr></a>
     <strong>getProperty</strong>(string $propName, null|string $localeId = null)</code>
     </h3>
@@ -979,7 +979,7 @@
     </div>
 
                 <h3 id="method_getValue">
-        <div class="location">at line 180</div>
+        <div class="location">at line 181</div>
         <code>            public            mixed|null
     <strong>getValue</strong>(string $propName, null|string $localeId = null)</code>
     </h3>
@@ -1019,7 +1019,7 @@
     </div>
 
                 <h3 id="method_setDefaultValue">
-        <div class="location">at line 189</div>
+        <div class="location">at line 190</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>setDefaultValue</strong>(string $propName, null|string $localeId = null)</code>
     </h3>
@@ -1060,7 +1060,7 @@
     </div>
 
                 <h3 id="method_setValue">
-        <div class="location">at line 201</div>
+        <div class="location">at line 202</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>setValue</strong>(string $propName, mixed $value, null|string $localeId = null)</code>
     </h3>
@@ -1119,7 +1119,7 @@
     </div>
 
                 <h3 id="method_getIsNew">
-        <div class="location">at line 208</div>
+        <div class="location">at line 209</div>
         <code>            public            
     <strong>getIsNew</strong>()</code>
     </h3>
@@ -1135,7 +1135,7 @@
     </div>
 
                 <h3 id="method_getIsUnloaded">
-        <div class="location">at line 215</div>
+        <div class="location">at line 216</div>
         <code>            public            
     <strong>getIsUnloaded</strong>()</code>
     </h3>
@@ -1151,7 +1151,7 @@
     </div>
 
                 <h3 id="method_setIsNew">
-        <div class="location">at line 223</div>
+        <div class="location">at line 224</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>setIsNew</strong>($new = true)</code>
     </h3>
@@ -1187,7 +1187,7 @@
     </div>
 
                 <h3 id="method_getIsModified">
-        <div class="location">at line 230</div>
+        <div class="location">at line 231</div>
         <code>            public            
     <strong>getIsModified</strong>()</code>
     </h3>
@@ -1203,7 +1203,7 @@
     </div>
 
                 <h3 id="method_setIsModified">
-        <div class="location">at line 237</div>
+        <div class="location">at line 238</div>
         <code>            public            
     <strong>setIsModified</strong>()</code>
     </h3>
@@ -1219,7 +1219,7 @@
     </div>
 
                 <h3 id="method_setIsConsistent">
-        <div class="location">at line 244</div>
+        <div class="location">at line 245</div>
         <code>            public            
     <strong>setIsConsistent</strong>()</code>
     </h3>
@@ -1235,7 +1235,7 @@
     </div>
 
                 <h3 id="method_rollback">
-        <div class="location">at line 251</div>
+        <div class="location">at line 252</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>rollback</strong>()</code>
     </h3>
@@ -1261,7 +1261,7 @@
     </div>
 
                 <h3 id="method_validate">
-        <div class="location">at line 257</div>
+        <div class="location">at line 258</div>
         <code>            public            bool
     <strong>validate</strong>()</code>
     </h3>
@@ -1286,7 +1286,7 @@
     </div>
 
                 <h3 id="method_fullyLoad">
-        <div class="location">at line 265</div>
+        <div class="location">at line 266</div>
         <code>            public            
     <strong>fullyLoad</strong>($withLocalization = false)</code>
     </h3>
@@ -1322,7 +1322,7 @@
     </div>
 
                 <h3 id="method_getValidationErrors">
-        <div class="location">at line 271</div>
+        <div class="location">at line 272</div>
         <code>            public            array
     <strong>getValidationErrors</strong>()</code>
     </h3>
@@ -1347,7 +1347,7 @@
     </div>
 
                 <h3 id="method_clearValidationErrors">
-        <div class="location">at line 277</div>
+        <div class="location">at line 278</div>
         <code>            public            array
     <strong>clearValidationErrors</strong>()</code>
     </h3>
@@ -1373,7 +1373,7 @@
     </div>
 
                 <h3 id="method_addValidationError">
-        <div class="location">at line 286</div>
+        <div class="location">at line 287</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>addValidationError</strong>($propertyName, array $errors)</code>
     </h3>
@@ -1416,7 +1416,7 @@
     </div>
 
                 <h3 id="method_unload">
-        <div class="location">at line 293</div>
+        <div class="location">at line 294</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>unload</strong>()</code>
     </h3>
@@ -1441,7 +1441,7 @@
     </div>
 
                 <h3 id="method_reset">
-        <div class="location">at line 300</div>
+        <div class="location">at line 301</div>
         <code>            public            <a href="../../../umi/orm/object/IObject.html"><abbr title="umi\orm\object\IObject">IObject</abbr></a>
     <strong>reset</strong>()</code>
     </h3>
@@ -1466,7 +1466,7 @@
     </div>
 
                 <h3 id="method___set">
-        <div class="location">at line 308</div>
+        <div class="location">at line 309</div>
         <code>            public            
     <strong>__set</strong>($propName, $value)</code>
     </h3>
@@ -1499,7 +1499,7 @@
     </div>
 
                 <h3 id="method___get">
-        <div class="location">at line 316</div>
+        <div class="location">at line 317</div>
         <code>            public            mixed
     <strong>__get</strong>($propName)</code>
     </h3>
@@ -1536,7 +1536,7 @@
     </div>
 
                 <h3 id="method___isset">
-        <div class="location">at line 324</div>
+        <div class="location">at line 325</div>
         <code>            public            bool
     <strong>__isset</strong>($propName)</code>
     </h3>
@@ -1572,7 +1572,7 @@
     </div>
 
                 <h3 id="method___unset">
-        <div class="location">at line 330</div>
+        <div class="location">at line 331</div>
         <code>            public            
     <strong>__unset</strong>(string $propName)</code>
     </h3>
