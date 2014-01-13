@@ -11,6 +11,7 @@ namespace umi\session;
 
 use umi\event\TEventObservant;
 use umi\http\request\IRequest;
+use umi\session\exception\RuntimeException;
 use umi\session\TSessionAware;
 
 /**
@@ -34,14 +35,14 @@ class SessionManager implements ISessionManager, ISessionAware
      */
     public function __construct(IRequest $request)
     {
-        $isExist = (bool) $request->getVar(IRequest::COOKIE, $this->getName(), false);
+        $needSession = (bool) $request->getVar(IRequest::COOKIE, $this->getName(), false);
 
         switch (true) {
             case session_status() === PHP_SESSION_ACTIVE:
                 $this->status = self::STATUS_ACTIVE;
                 break;
 
-            case $isExist:
+            case $needSession:
                 $this->start();
                 break;
 
@@ -69,6 +70,12 @@ class SessionManager implements ISessionManager, ISessionAware
 
         $this->status = self::STATUS_ACTIVE;
         @session_start();
+
+        $sessionId = session_id();
+        if (empty($sessionId)) {
+            $error = error_get_last();
+            throw new RuntimeException(sprintf('Failed to start session: %s.', $error['message']));
+        }
 
         return true;
     }
