@@ -35,7 +35,7 @@ class SessionTest extends AuthenticationTestCase
          * @var ISession $session
          */
         $session = $this->getTestToolkit()->getService('umi\session\ISession');
-        $this->storage = new SessionStorage([], $session);
+        $this->storage = new SessionStorage($session);
         $this->resolveOptionalDependencies($this->storage);
     }
 
@@ -64,7 +64,7 @@ class SessionTest extends AuthenticationTestCase
          * @var ISession $session
          */
         $session = $this->getTestToolkit()->getService('umi\session\ISession');
-        $storage = new SessionStorage(['namespace' => 'auth'], $session);
+        $storage = new SessionStorage($session, ['namespace' => 'auth']);
         $this->resolveOptionalDependencies($storage);
 
         $storage->setIdentity(1);

@@ -9,6 +9,8 @@
 
 namespace umi\session;
 
+use umi\session\exception\RuntimeException;
+
 /**
  * Менеджер сессии.
  */
@@ -35,6 +37,7 @@ interface ISessionManager
 
     /**
      * Стартует сессию.
+     * @throws RuntimeException если не удалось стартовать сессию
      * @return bool
      */
     public function start();

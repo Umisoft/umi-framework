@@ -114,16 +114,11 @@ class Object implements IObject, ILocalizable, ILocalesAware, IObjectManagerAwar
             ));
         }
 
-        $initialValues = [];
-        foreach ($this->getAllProperties() as $property) {
-            $field = $property->getField();
-            if (!$field instanceof IRelationField || $field instanceof BelongsToRelationField) {
-                $initialValues[$property->getFullName()] = $property->getDbValue();
-            }
+        if ($this->collection && $this->type) {
+            $this->fullyLoad(true);
         }
-
         $data = [
-            $initialValues,
+            $this->initialValues,
             $this->getCollectionName(),
             $this->getTypeName()
         ];

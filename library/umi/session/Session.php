@@ -115,7 +115,7 @@ class Session implements ISession, ISessionEntityFactoryAware, ILocalizable
      */
     public function setStorage($type, array $options = [])
     {
-        $storage = $this->createSessionStorage($type);
+        $storage = $this->createSessionStorage($type, $options);
 
         /** @noinspection PhpParamsInspection */
 
