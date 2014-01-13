@@ -22,7 +22,7 @@ class ObjectSerializeTest extends ORMDbTestCase
      * @var IObject $blog
      */
     protected $blog;
-    protected $serialized = 'C:31:"umi\orm\object\HierarchicObject":512:{a:3:{i:0;a:17:{s:2:"id";s:1:"1";s:4:"guid";s:36:"9ee6745f-f40d-46d8-8043-d959594628ce";s:4:"type";s:15:"blogs_blog.base";s:7:"version";s:1:"2";s:6:"parent";N;s:5:"mpath";s:2:"#1";s:4:"slug";s:4:"blog";s:3:"uri";s:6:"//blog";s:10:"childCount";s:1:"0";s:5:"order";s:1:"1";s:5:"level";s:1:"0";s:11:"title#ru-RU";s:13:"russian title";s:11:"title#en-US";s:14:"american title";s:11:"title#en-GB";s:13:"british title";s:11:"title#ru-UA";N;s:11:"publishTime";N;s:5:"owner";s:1:"1";}i:1;s:10:"blogs_blog";i:2;s:4:"base";}}';
+    protected $serialized = 'C:31:"umi\orm\object\HierarchicObject":512:{a:3:{i:0;a:17:{s:2:"id";s:1:"1";s:4:"guid";s:36:"9ee6745f-f40d-46d8-8043-d959594628ce";s:4:"type";s:15:"blogs_blog.base";s:7:"version";s:1:"2";s:6:"parent";N;s:5:"mpath";s:2:"#1";s:4:"slug";s:4:"blog";s:3:"uri";s:6:"//blog";s:10:"childCount";s:1:"0";s:5:"order";s:1:"1";s:5:"level";s:1:"0";s:11:"title#ru-RU";s:13:"russian title";s:11:"title#en-US";s:14:"american title";s:11:"publishTime";N;s:5:"owner";s:1:"1";s:11:"title#en-GB";s:13:"british title";s:11:"title#ru-UA";N;}i:1;s:10:"blogs_blog";i:2;s:4:"base";}}';
     protected $guid = '9ee6745f-f40d-46d8-8043-d959594628ce';
 
     /**
@@ -196,5 +196,11 @@ WHERE (("blogs_blog"."id" = :value0))'
             'Ожидается, что после выгрузки всех объектов у ансериализованного объекта из базы '
             .'будут подгружаться только связи'
         );
+    }
+
+    public function testSerializeWithoutWakeUp()
+    {
+        $object = unserialize($this->serialized);
+        $this->assertEquals($this->serialized, serialize($object));
     }
 }
