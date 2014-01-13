@@ -9,7 +9,6 @@
 
 namespace umi\authentication\storage;
 
-use umi\authentication\exception\RuntimeException;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\session\entity\ns\ISessionNamespace;
@@ -40,11 +39,10 @@ class SessionStorage implements IAuthStorage, ILocalizable
 
     /**
      * Конструктор.
-     * @param array $config конфигурация
      * @param ISession $session
-     * @throws RuntimeException если имя пространства имен сессии не указано
+     * @param array $config конфигурация
      */
-    public function __construct(array $config = [], ISession $session)
+    public function __construct(ISession $session, array $config = [])
     {
         $namespace = empty($config['namespace']) ? self::SESSION_NAME : $config['namespace'];
 

@@ -7,7 +7,7 @@ use umi\orm\object\IObject;
 use umi\session\ISession;
 
 /**
- * Класс Session Storage
+ * Хранилище ORM-данных сессии
  */
 class ORMSessionStorage extends SessionStorage implements IObjectManagerAware
 {
@@ -15,10 +15,12 @@ class ORMSessionStorage extends SessionStorage implements IObjectManagerAware
 
     /**
      * Конструктор.
+     * @param ISession $session
+     * @param array $config конфигурация
      */
-    public function __construct(array $config = [], ISession $session)
+    public function __construct(ISession $session, array $config = [])
     {
-        parent::__construct($config, $session);
+        parent::__construct($session, $config);
 
         if ($this->hasIdentity()) {
             $this->wakeUpIdentity($this->getIdentity());
@@ -26,7 +28,7 @@ class ORMSessionStorage extends SessionStorage implements IObjectManagerAware
     }
 
     /**
-     * Восстанавливает пользователя в ORM
+     * Восстанавливает пользователя в ORM.
      * @param IObject $identity
      */
     protected function wakeUpIdentity(IObject $identity)
