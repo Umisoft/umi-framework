@@ -87,7 +87,8 @@ return [
             ]
         ],
         'publishTime'                            => [
-            'type' => IField::TYPE_DATE, 'columnName' => 'publish_time'
+            'type'       => IField::TYPE_DATE,
+            'columnName' => 'publish_time'
         ],
         'subscribers'                            => [
             'type'         => IField::TYPE_MANY_TO_MANY,

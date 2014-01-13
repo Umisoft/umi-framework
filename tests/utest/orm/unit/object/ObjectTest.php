@@ -242,7 +242,7 @@ class ObjectTest extends ORMDbTestCase
                 IObject::FIELD_VERSION
             ],
             array_keys($user->getLoadedProperties()),
-            'Ожидается, что у объекта загруженны те свойства, которым были хаданы начальнве значения'
+            'Ожидается, что у объекта загруженны те свойства, которым были заданы начальные значения'
         );
         $this->assertCount(
             14,
