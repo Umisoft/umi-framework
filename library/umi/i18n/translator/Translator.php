@@ -28,7 +28,7 @@ class Translator implements ITranslator, ILocalesAware, ILoggerAware
     use TConfigSupport;
 
     /**
-     * @var array|\Traversable $dictionaries словари в формате
+     * @var array $dictionaries словари в формате
      * [
      *    'dictionaryName' => [
      *        'localeID' => [

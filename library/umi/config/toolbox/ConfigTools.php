@@ -190,10 +190,12 @@ class ConfigTools implements IToolbox
      */
     protected function getConfigCacheEngine()
     {
+        $options = $this->configToArray($this->cache, true);
+
         return $this->getPrototype(
             $this->cacheServiceClass,
             ['umi\config\cache\IConfigCacheEngine']
         )
-            ->createSingleInstance($this->cache);
+            ->createSingleInstance([$options]);
     }
 }

@@ -9,7 +9,6 @@
 
 namespace umi\cache\engine;
 
-use Traversable;
 use umi\cache\exception\InvalidArgumentException;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
@@ -29,21 +28,12 @@ class Memcached implements ICacheEngine, ILocalizable
 
     /**
      * Конструктор.
-     * @param array|Traversable $servers список опций в формате [$host => ['port' => $port, 'weight' => $weight], ...]
+     * @param array $servers список опций в формате [$host => ['port' => $port, 'weight' => $weight], ...]
      * @throws InvalidArgumentException при неверных опциях
      */
-    public function __construct($servers = [])
+    public function __construct(array $servers = [])
     {
         $this->memcached = new \Memcached();
-
-        if ($servers instanceof Traversable) {
-            $servers = iterator_to_array($servers, true);
-        }
-        if (!is_array($servers)) {
-            throw new InvalidArgumentException($this->translate(
-                'Cache engine configuration should be an array or Traversable.'
-            ));
-        }
 
         foreach ($servers as $host => $options) {
             $this->addServer($host, $options);
@@ -109,21 +99,11 @@ class Memcached implements ICacheEngine, ILocalizable
     /**
      * Добавляет memcached-сервер в пул соединений.
      * @param string $host имя хоста memcached-сервера
-     * @param array|Traversable $options список опций в формате ['port' => $port, 'weight' => $weight]
+     * @param array $options список опций в формате ['port' => $port, 'weight' => $weight]
      * @throws InvalidArgumentException в случае некорректно заданных опций
      */
-    protected function addServer($host, $options = [])
+    protected function addServer($host, array $options = [])
     {
-
-        if ($options instanceof Traversable) {
-            $options = iterator_to_array($options, true);
-        }
-        if (!is_array($options)) {
-            throw new InvalidArgumentException($this->translate(
-                'Memcached server configuration should be an array or Traversable.'
-            ));
-        }
-
         $port = isset($options['port']) && !empty($options['port']) ? $options['port'] : 11211;
         $weight = isset($options['weight']) && !empty($options['weight']) ? $options['weight'] : 0;
 

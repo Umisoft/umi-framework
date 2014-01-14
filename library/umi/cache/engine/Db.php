@@ -9,7 +9,6 @@
 
 namespace umi\cache\engine;
 
-use Traversable;
 use umi\cache\exception\InvalidArgumentException;
 use umi\dbal\builder\DeleteBuilder;
 use umi\dbal\builder\InsertBuilder;
@@ -86,7 +85,7 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
 
     /**
      * Конструктор.
-     * @param array|Traversable $options список опций в формате:
+     * @param array $options список опций в формате:
      * [
      *        'table' => [
      *            'tableName' => $tableName,
@@ -97,7 +96,7 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
      *        'serverId' => $serverId
      * ]
      */
-    public function __construct($options)
+    public function __construct(array $options)
     {
 
         $this->options = $this->parseConfig($options);
@@ -235,28 +234,16 @@ class Db implements ICacheEngine, IDbClusterAware, ILocalizable
 
     /**
      * Проверяет и возвращает опции для настройки
-     * @param array|Traversable $options
+     * @param array $options
      * @throws InvalidArgumentException при неверных опциях
      * @return array
      */
-    protected function parseConfig($options)
+    protected function parseConfig(array $options)
     {
-        if ($options instanceof Traversable) {
-            $options = iterator_to_array($options, true);
-        }
-        if (!is_array($options)) {
-            throw new InvalidArgumentException($this->translate(
-                'Cache engine configuration should be an array or Traversable.'
-            ));
-        }
-
         if (!isset($options['table']) || empty($options['table'])) {
             throw new InvalidArgumentException($this->translate(
                 'Cannot find table settings in configuration.'
             ));
-        }
-        if ($options['table'] instanceof Traversable) {
-            $options['table'] = iterator_to_array($options['table'], true);
         }
 
         if (!is_array($options['table'])) {

@@ -104,10 +104,12 @@ class CacheTools implements IToolbox
             ));
         }
 
+        $options = $this->configToArray($this->options, true);
+
         return $this->getPrototype(
             $this->cacheEngineClasses[$this->type],
             ['umi\cache\engine\ICacheEngine']
         )
-            ->createSingleInstance([$this->options]);
+            ->createSingleInstance([$options]);
     }
 }
