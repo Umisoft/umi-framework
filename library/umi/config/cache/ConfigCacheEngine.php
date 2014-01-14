@@ -39,18 +39,12 @@ class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable, IConfigEnti
 
     /**
      * Конструктор.
-     * @param array|\Traversable $options конфигурация кеша
+     * @param array $options конфигурация кеша
      * @throws UnexpectedValueException если задана неверная конфигурация
      * @throws InvalidArgumentException если задана неверная конфигурация
      */
-    public function __construct($options)
+    public function __construct(array $options)
     {
-        try {
-            $options = $this->configToArray($options);
-        } catch (\InvalidArgumentException $e) {
-            throw new UnexpectedValueException('Dictionaries configuration should be an array or Traversable.', 0, $e);
-        }
-
         if (!isset($options[self::OPTION_DIRECTORY])) {
             throw new InvalidArgumentException($this->translate(
                 'Option "directory" is required.'
