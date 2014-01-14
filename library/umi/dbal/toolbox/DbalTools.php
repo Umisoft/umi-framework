@@ -176,7 +176,7 @@ class DbalTools implements IToolbox
 
     /**
      * Создает и конфигурирует сервер
-     * @param array $serverConfig конфигурация сервера
+     * @param array|\Traversable $serverConfig конфигурация сервера
      * @throws InvalidArgumentException если конфигурация не валидна
      * @return IServer
      */
@@ -256,9 +256,8 @@ class DbalTools implements IToolbox
 
     /**
      * Проверяет конфигурацию соединения с бд, передаваемую Doctrine DriverManager
-     * @param $connectionConfig
+     * @param array $connectionConfig
      * @throws InvalidArgumentException
-     * @return void
      */
     protected function validateConnectionConfig($connectionConfig)
     {

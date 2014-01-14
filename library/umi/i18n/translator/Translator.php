@@ -45,7 +45,7 @@ class Translator implements ITranslator, ILocalesAware, ILoggerAware
 
     /**
      * Конструктор.
-     * @param array $dictionaries конфигурация словарей в формате
+     * @param array|\Traversable $dictionaries конфигурация словарей в формате
      * [
      *    'dictionaryName' => [
      *        'localeID' => [

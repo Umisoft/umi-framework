@@ -50,7 +50,7 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
     /**
      * Конструктор.
      * @param ICollectionFactory $objectCollectionFactory
-     * @param array $collections конфигурация коллекций в формате
+     * @param array|\Traversable $collections конфигурация коллекций в формате
      * [
      *      'collectionName' => [
      *          'type' => 'simple',

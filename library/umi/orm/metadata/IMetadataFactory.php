@@ -20,7 +20,7 @@ interface IMetadataFactory
     /**
      * Создает metadata.
      * @param string $collectionName имя коллекции объектов, которую описывает metadata
-     * @param array $config конфигурация метаданных
+     * @param array|\Traversable $config конфигурация метаданных
      * @return IMetadata
      */
     public function create($collectionName, $config);
