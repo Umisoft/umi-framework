@@ -38,7 +38,7 @@ class I18nTools implements IToolbox
      */
     public $localesServiceClass = 'umi\i18n\LocalesService';
     /**
-     * @var array|\Traversable $translator конфигурация словарей транслятора
+     * @var array $translator конфигурация словарей транслятора
      */
     public $translatorDictionaries = [];
     /**
