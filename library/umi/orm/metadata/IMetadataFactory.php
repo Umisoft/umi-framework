@@ -9,7 +9,6 @@
 
 namespace umi\orm\metadata;
 
-use Traversable;
 use umi\orm\metadata\field\IField;
 
 /**
@@ -21,7 +20,7 @@ interface IMetadataFactory
     /**
      * Создает metadata.
      * @param string $collectionName имя коллекции объектов, которую описывает metadata
-     * @param array|Traversable $config конфигурация метаданных
+     * @param array $config конфигурация метаданных
      * @return IMetadata
      */
     public function create($collectionName, $config);

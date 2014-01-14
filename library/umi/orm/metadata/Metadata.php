@@ -9,10 +9,8 @@
 
 namespace umi\orm\metadata;
 
-use Traversable;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
-use umi\orm\exception\InvalidArgumentException;
 use umi\orm\exception\NonexistentEntityException;
 use umi\orm\exception\UnexpectedValueException;
 use umi\orm\metadata\field\IField;
@@ -63,12 +61,14 @@ class Metadata implements IMetadata, ILocalizable
     /**
      * Конструктор.
      * @param string $collectionName имя коллекции объектов, которую описывает metadata
-     * @param array|Traversable $config конфигурация метаданных коллекции
+     * @param array $config конфигурация метаданных коллекции
      * @param IMetadataFactory $metadataFactory фабрика сущностей метаданных
      */
-    public function __construct($collectionName, $config, IMetadataFactory $metadataFactory)
+    public function __construct($collectionName, array $config, IMetadataFactory $metadataFactory)
     {
-        $this->config = $this->getValidConfig($config);
+        $this->checkConfig($config);
+
+        $this->config = $config;
         $this->collectionName = $collectionName;
         $this->metadataFactory = $metadataFactory;
     }
@@ -346,25 +346,11 @@ class Metadata implements IMetadata, ILocalizable
 
     /**
      * Возвращает проверенную конфигурацию метаданных в виде массива.
-     * @param array|Traversable $config конфигурация метаданных
-     * @throws InvalidArgumentException если полученная конфигурация не соответствует ожидаемому типу
+     * @param array $config конфигурация метаданных
      * @throws UnexpectedValueException если структура конфигурации не соответсвует ожидаемой
-     * @return array
      */
-    protected function getValidConfig($config)
+    protected function checkConfig(array $config)
     {
-
-        if ($config instanceof Traversable) {
-            $config = iterator_to_array($config, true);
-        }
-        if (!is_array($config)) {
-            throw new InvalidArgumentException($this->translate(
-                'Metadata configuration should be an array or Traversable.'
-            ));
-        }
-
-        $config = $this->getConfigAsArray($config);
-
         if (!isset($config['dataSource']) || !is_array($config['dataSource'])) {
             throw new UnexpectedValueException($this->translate(
                 'Information about data source in metadata configuration should be an array or Traversable.'
@@ -380,28 +366,5 @@ class Metadata implements IMetadata, ILocalizable
                 'Information about fields in metadata configuration should be an array or Traversable.'
             ));
         }
-
-        return $config;
-
-    }
-
-    /**
-     * Возвращает конфигурацию, рекурсивно превращая ее в массив.
-     * @param array $config конфигурация
-     * @return array
-     */
-    private function getConfigAsArray(array $config)
-    {
-        foreach ($config as $key => $value) {
-            if ($value instanceof Traversable) {
-                $value = iterator_to_array($value, true);
-            }
-            if (is_array($value)) {
-                $value = $this->getConfigAsArray($value);
-            }
-            $config[$key] = $value;
-        }
-
-        return $config;
     }
 }

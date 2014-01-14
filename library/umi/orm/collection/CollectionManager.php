@@ -50,7 +50,7 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
     /**
      * Конструктор.
      * @param ICollectionFactory $objectCollectionFactory
-     * @param array|\Traversable $collections конфигурация коллекций в формате
+     * @param array $collections конфигурация коллекций в формате
      * [
      *      'collectionName' => [
      *          'type' => 'simple',
@@ -66,7 +66,7 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
         $this->objectCollectionFactory = $objectCollectionFactory;
 
         try {
-            $collections = $this->configToArray($collections, true);
+            $collections = $this->configToArray($collections);
         } catch (\InvalidArgumentException $e) {
             throw new UnexpectedValueException($this->translate(
                 'Invalid collections configuration.'
@@ -99,14 +99,14 @@ class CollectionManager implements ICollectionManager, ILocalizable, IMetadataMa
         }
 
         $config = $this->collections[$collectionName];
-        if ($config instanceof \Traversable) {
-            $config = iterator_to_array($config);
-        }
-        if (!is_array($config)) {
+
+        try {
+            $config = $this->configToArray($config, true);
+        } catch (\InvalidArgumentException $e) {
             throw new UnexpectedValueException($this->translate(
                 'Configuration for collection "{collection}" is not valid.',
                 ['collection' => $collectionName]
-            ));
+            ), 0, $e);
         }
 
         $metadata = $this->getMetadataManager()

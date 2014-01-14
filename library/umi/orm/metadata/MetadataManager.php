@@ -42,7 +42,7 @@ class MetadataManager implements IMetadataManager, ILocalizable
     /**
      * Конструктор.
      * @param IMetadataFactory $metadataFactory фабрика метаданных
-     * @param array|\Traversable $metadata конфигурация метаданных в формате
+     * @param array $metadata конфигурация метаданных в формате
      * [
      *      'collectionName' => [],
      *      ...

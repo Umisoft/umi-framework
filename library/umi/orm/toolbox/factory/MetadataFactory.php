@@ -97,6 +97,15 @@ class MetadataFactory implements IMetadataFactory, IFactory
      */
     public function create($collectionName, $config)
     {
+        try {
+            $config = $this->configToArray($config, true);
+        } catch (\InvalidArgumentException $e) {
+            throw new UnexpectedValueException($this->translate(
+                'Invalid metadata configuration for collection {collection}.',
+                ['collection' => $collectionName]
+            ), 0, $e);
+        }
+
         return $this->getPrototype(
             $this->metadataClassName,
             ['umi\orm\metadata\IMetadata']

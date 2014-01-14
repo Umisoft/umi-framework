@@ -9,7 +9,6 @@
 
 namespace utest\orm\unit\metadata;
 
-use umi\config\entity\Config;
 use umi\orm\metadata\field\IField;
 use umi\orm\metadata\IMetadata;
 use umi\orm\metadata\IObjectType;
@@ -21,11 +20,14 @@ class MetadataTest extends ORMTestCase
 {
 
     protected $metadataFactory;
-    protected $config = [];
+    /**
+     * @var IMetadata $metadata 
+     */
+    protected $metadata;
 
     protected function setUpFixtures()
     {
-        $this->config = [
+        $config = [
             'dataSource' => [
                 'sourceName' => 'source'
             ],
@@ -64,46 +66,12 @@ class MetadataTest extends ORMTestCase
         ];
         $this->metadataFactory = new MetadataFactory($this->getDbCluster());
         $this->resolveOptionalDependencies($this->metadataFactory);
-    }
-
-    public function testArrayMetadata()
-    {
-        $metadata = new Metadata('testCollection', $this->config, $this->metadataFactory);
-
-        $this->collectionDataSourceTest($metadata);
-        $this->fieldsTest($metadata);
-        $this->relatedFieldsTest($metadata);
-        $this->typesTest($metadata);
-        $this->findTypesTest($metadata);
-    }
-
-    public function testConfigMetadata()
-    {
-        $config = new Config($this->config);
-        $metadata = new Metadata('testCollection', $config, $this->metadataFactory);
-
-        $this->collectionDataSourceTest($metadata);
-        $this->fieldsTest($metadata);
-        $this->relatedFieldsTest($metadata);
-        $this->typesTest($metadata);
-        $this->findTypesTest($metadata);
+        
+        $this->metadata = new Metadata('testCollection', $config, $this->metadataFactory);
     }
 
     public function testWrongMetadata()
     {
-        $config = 'wrongConfig';
-
-        $e = null;
-        try {
-            new Metadata('testCollection', $config, $this->metadataFactory);
-        } catch (\Exception $e) {
-        }
-        $this->assertInstanceOf(
-            'umi\orm\exception\InvalidArgumentException',
-            $e,
-            'Ожидается исключение, если конфигурация метаданных задана не массивом'
-        );
-
         $config = [];
         $e = null;
         try {
@@ -140,32 +108,32 @@ class MetadataTest extends ORMTestCase
         );
     }
 
-    protected function collectionDataSourceTest(IMetadata $metadata)
+    public function collectionDataSourceTest()
     {
-        $this->assertInstanceOf('umi\orm\metadata\ICollectionDataSource', $metadata->getCollectionDataSource());
+        $this->assertInstanceOf('umi\orm\metadata\ICollectionDataSource', $this->metadata->getCollectionDataSource());
     }
 
-    protected function fieldsTest(IMetadata $metadata)
+    public function fieldsTest()
     {
         $this->assertEquals(
             ['field1', 'field2', 'field3'],
-            $metadata->getFieldsList(),
+            $this->metadata->getFieldsList(),
             'Неверный список полей метаданных'
         );
-        $this->assertTrue($metadata->getFieldExists('field1'), 'Ожидается, что поле field1 есть в метаданных.');
+        $this->assertTrue($this->metadata->getFieldExists('field1'), 'Ожидается, что поле field1 есть в метаданных.');
         $this->assertFalse(
-            $metadata->getFieldExists('nonExistentField'),
+            $this->metadata->getFieldExists('nonExistentField'),
             'Ожидается, что поле nonExistentField отсутствует в метаданных.'
         );
 
         $this->assertInstanceOf(
             'umi\orm\metadata\field\IField',
-            $metadata->getField('field1'),
+            $this->metadata->getField('field1'),
             'Ожидается, что при запросе поля будет возвращен IField'
         );
         $e = null;
         try {
-            $metadata->getField('nonExistentField');
+            $this->metadata->getField('nonExistentField');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -175,19 +143,19 @@ class MetadataTest extends ORMTestCase
         );
     }
 
-    protected function relatedFieldsTest(IMetadata $metadata)
+    public function relatedFieldsTest()
     {
 
         $this->assertEquals(
             'field1',
-            $metadata->getFieldByRelation('good', 'emarket.goodsImages')
+            $this->metadata->getFieldByRelation('good', 'emarket.goodsImages')
                 ->getName(),
             'Неверное имя поля, использующего поле good в коллекции emarket.goodsImages'
         );
 
         $e = null;
         try {
-            $metadata->getFieldByRelation('good', 'emarket.images');
+            $this->metadata->getFieldByRelation('good', 'emarket.images');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -198,14 +166,14 @@ class MetadataTest extends ORMTestCase
 
         $this->assertEquals(
             'field1',
-            $metadata->getFieldByTarget('image', 'fs.images')
+            $this->metadata->getFieldByTarget('image', 'fs.images')
                 ->getName(),
             'Неверное имя поля, которое имеет доступ к коллекции fs.images через поле image'
         );
 
         $e = null;
         try {
-            $metadata->getFieldByTarget('image', 'fileSystem.images');
+            $this->metadata->getFieldByTarget('image', 'fileSystem.images');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -215,27 +183,27 @@ class MetadataTest extends ORMTestCase
         );
     }
 
-    protected function typesTest(IMetadata $metadata)
+    public function typesTest()
     {
         $this->assertEquals(
             ['base', 'type1', 'type1.type2', 'type1.type3', 'type4'],
-            $metadata->getTypesList(),
+            $this->metadata->getTypesList(),
             'Неверный список типов метаданных'
         );
-        $this->assertTrue($metadata->getTypeExists('type1'), 'Ожидается, что тип type1 есть в метаданных.');
+        $this->assertTrue($this->metadata->getTypeExists('type1'), 'Ожидается, что тип type1 есть в метаданных.');
         $this->assertFalse(
-            $metadata->getTypeExists('nonExistentType'),
+            $this->metadata->getTypeExists('nonExistentType'),
             'Ожидается, что тип nonExistentType отсутствует в метаданных.'
         );
 
         $this->assertInstanceOf(
             'umi\orm\metadata\IObjectType',
-            $metadata->getType('type1'),
+            $this->metadata->getType('type1'),
             'Ожидается, что при запросе типа будет возвращен IObjectType'
         );
         $e = null;
         try {
-            $metadata->getType('nonExistentType');
+            $this->metadata->getType('nonExistentType');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -244,38 +212,38 @@ class MetadataTest extends ORMTestCase
             'Ожидается исключение при запросе несуществующего типа'
         );
 
-        $baseType = $metadata->getBaseType();
+        $baseType = $this->metadata->getBaseType();
         $this->assertEquals(IObjectType::BASE, $baseType->getName());
 
-        $this->assertEquals(['type1', 'type4'], $metadata->getChildTypesList());
-        $this->assertEquals(['type1.type2', 'type1.type3'], $metadata->getChildTypesList('type1'));
+        $this->assertEquals(['type1', 'type4'], $this->metadata->getChildTypesList());
+        $this->assertEquals(['type1.type2', 'type1.type3'], $this->metadata->getChildTypesList('type1'));
 
-        $this->assertEquals(['type1', 'type1.type2', 'type1.type3', 'type4'], $metadata->getDescendantTypesList());
-        $this->assertEquals(['type1', 'type4'], $metadata->getDescendantTypesList(IObjectType::BASE, 1));
+        $this->assertEquals(['type1', 'type1.type2', 'type1.type3', 'type4'], $this->metadata->getDescendantTypesList());
+        $this->assertEquals(['type1', 'type4'], $this->metadata->getDescendantTypesList(IObjectType::BASE, 1));
         $this->assertEquals(
             ['type1', 'type1.type2', 'type1.type3', 'type4'],
-            $metadata->getDescendantTypesList(IObjectType::BASE, 10)
+            $this->metadata->getDescendantTypesList(IObjectType::BASE, 10)
         );
-        $this->assertEquals(['type1.type2', 'type1.type3'], $metadata->getDescendantTypesList('type1', 1));
+        $this->assertEquals(['type1.type2', 'type1.type3'], $this->metadata->getDescendantTypesList('type1', 1));
 
         $this->assertInstanceOf(
             'umi\orm\metadata\IObjectType',
-            $metadata->getParentType('type1'),
+            $this->metadata->getParentType('type1'),
             'Ожидается, что IMetadata::getParentType() вернет IObjectType'
         );
         $this->assertInstanceOf(
             'umi\orm\metadata\IObjectType',
-            $metadata->getParentType('type1.type2'),
+            $this->metadata->getParentType('type1.type2'),
             'Ожидается, что IMetadata::getParentType() вернет IObjectType'
         );
         $this->assertNull(
-            $metadata->getParentType(IObjectType::BASE),
+            $this->metadata->getParentType(IObjectType::BASE),
             'Ожидается, что IMetadata::getParentType() вернет null для базового типа'
         );
 
         $e = null;
         try {
-            $metadata->getParentType('nonExistentType');
+            $this->metadata->getParentType('nonExistentType');
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -286,7 +254,7 @@ class MetadataTest extends ORMTestCase
 
         $e = null;
         try {
-            $metadata->getDescendantTypesList('nonExistentType', 1);
+            $this->metadata->getDescendantTypesList('nonExistentType', 1);
         } catch (\Exception $e) {
         }
         $this->assertInstanceOf(
@@ -296,32 +264,32 @@ class MetadataTest extends ORMTestCase
         );
     }
 
-    protected function findTypesTest(IMetadata $metadata)
+    public function findTypesTest()
     {
 
         $this->assertEquals(
             ['type1', 'type1.type2', 'type1.type3', 'type4', 'base'],
-            $metadata->getTypesByFields(['field1']),
+            $this->metadata->getTypesByFields(['field1']),
             'Ожидаются 5 типов, у которых есть поле field1'
         );
         $this->assertEquals(
             ['type1.type2', 'type1.type3', 'type1'],
-            $metadata->getTypesByFields(['field1'], 'type1'),
+            $this->metadata->getTypesByFields(['field1'], 'type1'),
             'Ожидаются 3 типа, начиная с type1, у которых есть поле field1'
         );
         $this->assertEquals(
             ['type1.type2', 'type1.type3'],
-            $metadata->getTypesByFields(['field3']),
+            $this->metadata->getTypesByFields(['field3']),
             'Ожидаются 2 типа, у которых есть поле field3'
         );
         $this->assertEquals(
             ['type4'],
-            $metadata->getTypesByFields(['field2', 'field1']),
+            $this->metadata->getTypesByFields(['field2', 'field1']),
             'Ожидается 1 тип, у которых есть поля field2 и field1'
         );
         $this->assertEquals(
             ['type1.type2', 'type1.type3'],
-            $metadata->getTypesByFields(['field1', 'field3']),
+            $this->metadata->getTypesByFields(['field1', 'field3']),
             'Ожидается 2 типа, у которых есть поля field2 и field3'
         );
     }
