@@ -36,6 +36,7 @@ use umi\route\IRouteAware;
 use umi\route\IRouter;
 use umi\route\result\IRouteResult;
 use umi\route\TRouteAware;
+use umi\spl\config\TConfigSupport;
 
 /**
  * Реализация MVC компонента системы.
@@ -48,6 +49,7 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     use TComponentRequestAware;
     use TComponentResponseAware;
     use TLocalizable;
+    use TConfigSupport;
 
     /**
      * @var array $options опции компонента
@@ -91,7 +93,8 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
             ));
         }
 
-        return $this->createHMVCComponent($this->options[self::OPTION_COMPONENTS][$name]);
+        $config = $this->configToArray($this->options[self::OPTION_COMPONENTS][$name]);
+        return $this->createHMVCComponent($config);
     }
 
     /**
@@ -101,6 +104,7 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     {
         if (!$this->router) {
             $config = isset($this->options[self::OPTION_ROUTES]) ? $this->options[self::OPTION_ROUTES] : [];
+            $config = $this->configToArray($config, true);
 
             return $this->router = $this->createRouter($config);
         }
@@ -301,6 +305,8 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     {
         if (!$this->controllerFactory) {
             $config = isset($this->options[self::OPTION_CONTROLLERS]) ? $this->options[self::OPTION_CONTROLLERS] : [];
+            $config = $this->configToArray($config, true);
+
             $controllerFactory = $this->createMvcControllerFactory($config);
 
             if ($controllerFactory instanceof IModelAware) {
@@ -321,6 +327,7 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     {
         if (!$this->modelFactory) {
             $config = isset($this->options[self::OPTION_MODELS]) ? $this->options[self::OPTION_MODELS] : [];
+            $config = $this->configToArray($config, true);
 
             return $this->modelFactory = $this->createMvcModelFactory($config);
         }
@@ -336,6 +343,7 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     {
         if (!$this->view) {
             $config = isset($this->options[self::OPTION_VIEW]) ? $this->options[self::OPTION_VIEW] : [];
+            $config = $this->configToArray($config, true);
 
             $view = $this->createMvcView($config);
 
