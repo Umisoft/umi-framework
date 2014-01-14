@@ -10,7 +10,6 @@
 namespace umi\dbal\toolbox;
 
 use Doctrine\DBAL\DriverManager;
-use Traversable;
 use umi\dbal\builder\IQueryBuilderFactory;
 use umi\dbal\cluster\IDbCluster;
 use umi\dbal\cluster\IDbClusterAware;
@@ -43,7 +42,7 @@ class DbalTools implements IToolbox
     use TToolbox;
 
     /**
-     * @var array|Traversable $servers конфигурация серверов, в формате:
+     * @var array $servers конфигурация серверов, в формате:
      * <pre><code>
      * [
      *    [
@@ -149,13 +148,9 @@ class DbalTools implements IToolbox
             [],
             [],
             function (IDbCluster $dbCluster) {
-                if ($this->servers instanceof Traversable) {
-                    $this->servers = iterator_to_array($this->servers, true);
-                }
-                if (is_array($this->servers)) {
-                    foreach ($this->servers as $serverConfig) {
-                        $dbCluster->addServer($this->configureServer($serverConfig));
-                    }
+                $this->servers = $this->configToArray($this->servers, true);
+                foreach ($this->servers as $serverConfig) {
+                    $dbCluster->addServer($this->configureServer($serverConfig));
                 }
             }
         );
@@ -181,15 +176,12 @@ class DbalTools implements IToolbox
 
     /**
      * Создает и конфигурирует сервер
-     * @param array|Traversable $serverConfig конфигурация сервера
+     * @param array $serverConfig конфигурация сервера
      * @throws InvalidArgumentException если конфигурация не валидна
      * @return IServer
      */
     protected function configureServer($serverConfig)
     {
-        if ($serverConfig instanceof Traversable) {
-            $serverConfig = iterator_to_array($serverConfig, true);
-        }
         $this->validateServerConfig($serverConfig);
 
         list($connection, $dialect) = $this->configureConnection($serverConfig['connection']);
@@ -206,24 +198,17 @@ class DbalTools implements IToolbox
 
     /**
      * Создает и конфигурирует драйвер БД
-     * @param array|Traversable $connectionConfig конфигурация драйвера
+     * @param array $connectionConfig конфигурация драйвера
      * @throws InvalidArgumentException если конфигурация не валидна
      * @return array [IConnection, IDialect]
      */
     protected function configureConnection($connectionConfig)
     {
-        if ($connectionConfig instanceof Traversable) {
-            $connectionConfig = iterator_to_array($connectionConfig, true);
-        }
-
         $this->validateConnectionConfig($connectionConfig);
 
         $options = [];
         if (isset($connectionConfig['options'])) {
             $options = $connectionConfig['options'];
-            if ($options instanceof Traversable) {
-                $options = iterator_to_array($options, true);
-            }
         }
 
         $options['driver'] = $connectionConfig['type'];
@@ -247,9 +232,8 @@ class DbalTools implements IToolbox
 
     /**
      * Проверяет конфигурацию сервера
-     * @param $config
-     * @throws InvalidArgumentException
-     * @return void
+     * @param array $config
+     * @throws InvalidArgumentException в случае неверной конфигурации
      */
     protected function validateServerConfig($config)
     {
@@ -295,7 +279,7 @@ class DbalTools implements IToolbox
         }
 
         if (isset($connectionConfig['options'])) {
-            if (!(is_array($connectionConfig['options']) || $connectionConfig['options'] instanceof Traversable)) {
+            if (!(is_array($connectionConfig['options']))) {
                 throw new InvalidArgumentException($this->translate(
                     'Db driver options should be an array or Traversable.'
                 ));
