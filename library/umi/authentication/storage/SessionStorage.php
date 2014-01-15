@@ -9,18 +9,18 @@
 
 namespace umi\authentication\storage;
 
-use umi\i18n\ILocalizable;
-use umi\i18n\TLocalizable;
+use umi\authentication\exception\RuntimeException;
 use umi\session\entity\ns\ISessionNamespace;
-use umi\session\ISession;
+use umi\session\ISessionAware;
+use umi\session\TSessionAware;
 
 /**
- * Класс хранилища в сессии для аутентификации.
+ * Класс хранилища характеристик субъекта аутентификации в сессии.
  */
-class SessionStorage implements IAuthStorage, ILocalizable
+class SessionStorage implements IAuthStorage, ISessionAware
 {
 
-    use TLocalizable;
+    use TSessionAware;
 
     /**
      * Название аттрибута в сессии
@@ -33,32 +33,31 @@ class SessionStorage implements IAuthStorage, ILocalizable
     const SESSION_NAME = 'authentication';
 
     /**
-     * @var ISessionNamespace $session сессия
+     * @var array $options опции хранилища
      */
-    private $session;
+    protected $options = [];
 
     /**
-     * Конструктор.
-     * @param ISession $session
-     * @param array $config конфигурация
+     * @var ISessionNamespace $sessionNamespace
      */
-    public function __construct(ISession $session, array $config = [])
+    private $sessionNamespace;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setOptions(array $options)
     {
-        $namespace = empty($config['namespace']) ? self::SESSION_NAME : $config['namespace'];
+        $this->options = $options;
 
-        if (!$session->hasNamespace($namespace)) {
-            $session->registerNamespace($namespace);
-        }
-
-        $this->session = $session->getNamespace($namespace);
+        return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setIdentity($object)
+    public function setIdentity($identity)
     {
-        $this->session->set(self::ATTRIBUTE_NAME, $object);
+        $this->getAuthSessionNamespace()->set(self::ATTRIBUTE_NAME, $identity);
 
         return $this;
     }
@@ -68,7 +67,15 @@ class SessionStorage implements IAuthStorage, ILocalizable
      */
     public function getIdentity()
     {
-        return $this->session->get(self::ATTRIBUTE_NAME);
+        $identity = $this->getAuthSessionNamespace()->get(self::ATTRIBUTE_NAME);
+
+        if (is_null($identity)) {
+            throw new RuntimeException(
+                'Authentication identity does not exist.'
+            );
+        }
+
+        return $identity;
     }
 
     /**
@@ -76,7 +83,7 @@ class SessionStorage implements IAuthStorage, ILocalizable
      */
     public function hasIdentity()
     {
-        return $this->session->has(self::ATTRIBUTE_NAME);
+        return $this->getAuthSessionNamespace()->has(self::ATTRIBUTE_NAME);
     }
 
     /**
@@ -84,8 +91,18 @@ class SessionStorage implements IAuthStorage, ILocalizable
      */
     public function clearIdentity()
     {
-        $this->session->del(self::ATTRIBUTE_NAME);
+        $this->getAuthSessionNamespace()->del(self::ATTRIBUTE_NAME);
 
         return $this;
+    }
+
+    protected function getAuthSessionNamespace()
+    {
+        if (!$this->sessionNamespace) {
+            $namespaceName = empty($this->options['namespace']) ? self::SESSION_NAME : $this->options['namespace'];
+            $this->sessionNamespace = $this->getSessionNamespace($namespaceName, true);
+        }
+
+        return $this->sessionNamespace;
     }
 }

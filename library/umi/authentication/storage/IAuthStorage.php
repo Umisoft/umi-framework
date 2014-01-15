@@ -9,32 +9,42 @@
 
 namespace umi\authentication\storage;
 
+use umi\authentication\exception\RuntimeException;
+
 /**
- * Класс storage для аутентификации.
+ * Интерфейс хранилища характеристик субъекта аутентификации.
  */
 interface IAuthStorage
 {
     /**
-     * Сохраняет объект
-     * @param mixed $object
+     * Устанавливает опции хранилища.
+     * @param array $options
      * @return self
      */
-    public function setIdentity($object);
+    public function setOptions(array $options);
 
     /**
-     * Возвращает объект
+     * Сохраняет характеристики субъекта аутентификации.
+     * @param mixed $identity
+     * @return self
+     */
+    public function setIdentity($identity);
+
+    /**
+     * Возвращает характеристики субъекта.
+     * @throws RuntimeException если не удалось загрузить характеристики
      * @return mixed
      */
     public function getIdentity();
 
     /**
-     * Проверяет существует ли сохраненный объект
+     * Проверяет, были ли сохранены характеристики субъекта аутентификации в хранилище.
      * @return bool
      */
     public function hasIdentity();
 
     /**
-     * Удаляет объект
+     * Удаляет характеристики субъекта аутентификации.
      * @return self
      */
     public function clearIdentity();

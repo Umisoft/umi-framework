@@ -10,7 +10,7 @@
 namespace umi\authentication\storage;
 
 /**
- * Класс простого хранилища для аутентификации.
+ * Класс простого хранилища для аутентификации, запоминает характеристики субъекта аутентификации в памяти.
  */
 class SimpleStorage implements IAuthStorage
 {
@@ -22,9 +22,17 @@ class SimpleStorage implements IAuthStorage
     /**
      * {@inheritdoc}
      */
-    public function setIdentity($object)
+    public function setOptions(array $options)
     {
-        $this->identity = $object;
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setIdentity($identity)
+    {
+        $this->identity = $identity;
 
         return $this;
     }
