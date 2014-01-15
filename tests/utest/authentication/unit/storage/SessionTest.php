@@ -31,18 +31,19 @@ class SessionTest extends AuthenticationTestCase
 
     public function setUpFixtures()
     {
-        /**
-         * @var ISession $session
-         */
-        $session = $this->getTestToolkit()->getService('umi\session\ISession');
-        $this->storage = new SessionStorage($session);
+        $this->storage = new SessionStorage();
         $this->resolveOptionalDependencies($this->storage);
     }
 
     public function testIdentity()
     {
-        $this->assertNull($this->storage->getIdentity(), 'Ожидается, что сессия пуста');
         $this->assertFalse($this->storage->hasIdentity(), 'Ожидается, что идентификатор не будет существовать');
+
+        $e = null;
+        try {
+            $this->storage->getIdentity();
+        } catch (\Exception $e) {}
+        $this->assertInstanceOf('umi\authentication\exception\RuntimeException', $e, 'Ожидается, что идентификатор не был сохранен в сессию');
 
         $this->assertSame(
             $this->storage,
@@ -55,20 +56,22 @@ class SessionTest extends AuthenticationTestCase
 
         $this->assertSame($this->storage, $this->storage->clearIdentity(), 'Ожидается, что будет возвращен $this');
         $this->assertFalse($this->storage->hasIdentity(), 'Ожидается, что идентификатор не будет существовать');
-        $this->assertNull($this->storage->getIdentity(), 'Ожидается, что сессия пуста');
+
     }
 
     public function testOptions()
     {
+
+        $storage = new SessionStorage();
+        $this->resolveOptionalDependencies($storage);
+        $storage->setOptions(['namespace' => 'auth']);
+
+        $storage->setIdentity(1);
+
         /**
          * @var ISession $session
          */
         $session = $this->getTestToolkit()->getService('umi\session\ISession');
-        $storage = new SessionStorage($session, ['namespace' => 'auth']);
-        $this->resolveOptionalDependencies($storage);
-
-        $storage->setIdentity(1);
-
         $ns = $session
             ->getNamespace('auth')
             ->toArray();

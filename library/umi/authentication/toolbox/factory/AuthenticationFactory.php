@@ -89,7 +89,8 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
                 $this->storageClasses[$type],
                 ['umi\authentication\storage\IAuthStorage']
             )
-            ->createInstance([$options]);
+            ->createInstance()
+            ->setOptions($options);
     }
 
     /**
