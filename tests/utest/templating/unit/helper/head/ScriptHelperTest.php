@@ -9,42 +9,42 @@
 
 namespace utest\templating\unit\helper\head;
 
-use umi\templating\extension\helper\type\head\style\StyleCollection;
-use umi\templating\extension\helper\type\head\style\StyleHelper;
+use umi\templating\extension\helper\type\head\script\ScriptCollection;
+use umi\templating\extension\helper\type\head\script\ScriptHelper;
 use utest\templating\TemplatingTestCase;
 
 /**
- * Тесты помошника вида скриптов.
+ * Тесты помощника вида скриптов.
  */
-class StyleHelperTest extends TemplatingTestCase
+class ScriptHelperTest extends TemplatingTestCase
 {
     /**
-     * @var StyleHelper $helper
+     * @var ScriptHelper $helper
      */
     protected $helper;
 
     public function setUpFixtures()
     {
-        $this->helper = new StyleHelper();
+        $this->helper = new ScriptHelper();
     }
 
     public function testBasic()
     {
         $helper = $this->helper;
         /**
-         * @var StyleCollection $collection
+         * @var ScriptCollection $collection
          */
         $collection = $helper();
 
-        $this->assertEmpty(
-            (string) $collection,
-            'Ожидается, что стилей выведенно не будет.'
-        );
-
         $this->assertInstanceOf(
-            'umi\templating\extension\helper\type\head\style\StyleCollection',
+            'umi\templating\extension\helper\type\head\script\ScriptCollection',
             $collection,
             'Ожидается, что будет получена коллекция скриптов.'
+        );
+
+        $this->assertEmpty(
+            (string) $collection,
+            'Ожидается, что скриптов выведенно не будет.'
         );
     }
 
@@ -52,36 +52,36 @@ class StyleHelperTest extends TemplatingTestCase
     {
         $helper = $this->helper;
         /**
-         * @var StyleCollection $collection
+         * @var ScriptCollection $collection
          */
         $collection = $helper();
 
         $this->assertSame(
             $collection,
-            $collection->appendFile('/style.css', 'text/mytype'),
+            $collection->appendFile('/script.js', 'text/mytype'),
             'Ожидается, что будет возвращен $this.'
         );
 
-        $scripts = '<link rel="stylesheet" type="text/mytype" href="/style.css" />';
+        $scripts = '<script type="text/mytype" src="/script.js"></script>';
 
         $this->assertEquals(
             $scripts,
             (string) $collection,
-            'Ожидается, что стили будут добавлены.'
+            'Ожидается, что скрипт будет добавлен.'
         );
 
         $this->assertSame(
             $collection,
-            $collection->prependFile('/style2.css', 'text/mytype'),
+            $collection->prependFile('/script2.js', 'text/mytype'),
             'Ожидается, что будет возвращен $this.'
         );
 
-        $scripts = '<link rel="stylesheet" type="text/mytype" href="/style2.css" />' . $scripts;
+        $scripts = '<script type="text/mytype" src="/script2.js"></script>' . $scripts;
 
         $this->assertEquals(
             $scripts,
             (string) $collection,
-            'Ожидается, что стили будут добавлены в начало.'
+            'Ожидается, что скрипт будет добавлен в начало.'
         );
     }
 
@@ -89,7 +89,7 @@ class StyleHelperTest extends TemplatingTestCase
     {
         $helper = $this->helper;
         /**
-         * @var StyleCollection $collection
+         * @var ScriptCollection $collection
          */
         $collection = $helper();
 
@@ -97,30 +97,30 @@ class StyleHelperTest extends TemplatingTestCase
 
         $this->assertSame(
             $collection,
-            $collection->appendStyle('content', 'text/mytype'),
+            $collection->appendScript('content', 'text/mytype'),
             'Ожидается, что будет возвращен $this.'
         );
 
-        $scripts .= '<style type="text/mytype">content</style>';
+        $scripts .= '<script type="text/mytype">content</script>';
 
         $this->assertEquals(
             $scripts,
             (string) $collection,
-            'Ожидается, что стили будут добавлены в конец.'
+            'Ожидается, что скрипт будет добавлен в конец.'
         );
 
         $this->assertSame(
             $collection,
-            $collection->prependStyle('content2', 'text/mytype'),
+            $collection->prependScript('content2', 'text/mytype'),
             'Ожидается, что будет возвращен $this.'
         );
 
-        $scripts = '<style type="text/mytype">content2</style>' . $scripts;
+        $scripts = '<script type="text/mytype">content2</script>' . $scripts;
 
         $this->assertEquals(
             $scripts,
             (string) $collection,
-            'Ожидается, что стили будут добавлены в начало.'
+            'Ожидается, что скрипт будет добавлен в начало.'
         );
     }
 }

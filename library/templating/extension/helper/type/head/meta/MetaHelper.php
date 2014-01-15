@@ -10,7 +10,7 @@
 namespace umi\templating\extension\helper\type\head\meta;
 
 /**
- * Помошник вида для отображения мета информации.
+ * Помощник шаблонов для отображения мета информации.
  */
 class MetaHelper
 {

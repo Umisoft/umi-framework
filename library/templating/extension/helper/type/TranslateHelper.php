@@ -14,7 +14,7 @@ use umi\i18n\TLocalizable;
 use umi\i18n\translator\ITranslator;
 
 /**
- * Помошник вида для перевода сообщений.
+ * Помощник шаблонов для перевода сообщений.
  */
 class TranslateHelper implements ILocalizable
 {

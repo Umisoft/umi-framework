@@ -10,7 +10,7 @@
 namespace umi\templating\extension\helper\collection;
 
 /**
- * Интерфейс коллекции помощников вида.
+ * Интерфейс коллекции помощников шаблонов.
  */
 interface IHelperCollection
 {

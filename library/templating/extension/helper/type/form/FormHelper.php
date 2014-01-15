@@ -10,13 +10,13 @@
 namespace umi\templating\extension\helper\type\form;
 
 /**
- * Помошник вида для вывода форм.
+ * Помощник шаблонов для вывода форм.
  */
 class FormHelper
 {
 
     /**
-     * Возвращает коллекцию помошников вида.
+     * Возвращает коллекцию помощников шаблонов.
      * @return FormHelperCollection
      */
     public function __invoke()

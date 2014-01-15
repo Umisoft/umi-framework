@@ -17,7 +17,7 @@ use umi\templating\extension\helper\type\form\FormHelperCollection;
 use utest\templating\TemplatingTestCase;
 
 /**
- * Тесты помошников вида для форм.
+ * Тесты помощников вида для форм.
  */
 class FormHelperTest extends TemplatingTestCase
 {
@@ -100,7 +100,7 @@ class FormHelperTest extends TemplatingTestCase
         $this->assertInstanceOf(
             'umi\templating\extension\helper\type\form\FormHelperCollection',
             $this->getFormHelperCollection(),
-            'Ожидается, что вернется коллекция помошников вида.'
+            'Ожидается, что вернется коллекция помощников вида.'
         );
     }
 

@@ -10,7 +10,7 @@
 namespace umi\templating\extension\helper\type\head\style;
 
 /**
- * Помошник вида для отображения стилей.
+ * Помощник шаблонов для отображения стилей.
  */
 class StyleHelper
 {

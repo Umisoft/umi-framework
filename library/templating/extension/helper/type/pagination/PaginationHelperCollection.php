@@ -11,12 +11,12 @@ use umi\pagination\IPaginator;
 use umi\templating\exception\InvalidArgumentException;
 
 /**
- * Коллекция помощников вида для пагинатора.
+ * Коллекция помощников шаблонов для пагинатора.
  */
 class PaginationHelperCollection
 {
     /**
-     * Помощник вида для пагинатора со стилем вывода "ALL".
+     * Помощник шаблонов для пагинатора со стилем вывода "ALL".
      */
     public function all(IPaginator $paginator)
     {
@@ -26,7 +26,7 @@ class PaginationHelperCollection
     }
 
     /**
-     * Помощник вида для пагинатора со стилем вывода "ELASTIC".
+     * Помощник шаблонов для пагинатора со стилем вывода "ELASTIC".
      */
     public function elastic(IPaginator $paginator, $pagesCountInRange)
     {
@@ -38,7 +38,7 @@ class PaginationHelperCollection
     }
 
     /**
-     * Помощник вида для пагинатора со стилем вывода "JUMPING".
+     * Помощник шаблонов для пагинатора со стилем вывода "JUMPING".
      */
     public function jumping(IPaginator $paginator, $pagesCountInRange)
     {
@@ -50,7 +50,7 @@ class PaginationHelperCollection
     }
 
     /**
-     * Помощник вида для пагинатора со стилем вывода "SLIDING".
+     * Помощник шаблонов для пагинатора со стилем вывода "SLIDING".
      */
     public function sliding(IPaginator $paginator, $pagesCountInRange)
     {

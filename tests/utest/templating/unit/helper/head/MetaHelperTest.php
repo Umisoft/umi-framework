@@ -14,7 +14,7 @@ use umi\templating\extension\helper\type\head\meta\MetaHelper;
 use utest\templating\TemplatingTestCase;
 
 /**
- * Тесты помошника вида скриптов.
+ * Тесты помощника вида скриптов.
  */
 class MetaHelperTest extends TemplatingTestCase
 {

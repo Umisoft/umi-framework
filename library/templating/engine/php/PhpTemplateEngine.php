@@ -50,10 +50,10 @@ class PhpTemplateEngine extends BaseTemplateEngine implements ILocalizable
     }
 
     /**
-     * Magic method: вызывает помошник вида.
-     * @param string $name имя помошника вида
+     * Magic method: вызывает помощник шаблонов.
+     * @param string $name имя помощника шаблонов
      * @param array $arguments аргументы
-     * @throws RuntimeException если коллекция помощников вида не была внедрена
+     * @throws RuntimeException если коллекция помощников шаблонов не была внедрена
      * @return string
      */
     public function callHelper($name, array $arguments)

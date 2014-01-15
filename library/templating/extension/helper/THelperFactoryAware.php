@@ -32,7 +32,7 @@ trait THelperFactoryAware
 
     /**
      * Создает помощник для шаблонов.
-     * @param string $class класс помощника вида
+     * @param string $class класс помощника шаблонов
      * @throws RequiredDependencyException если фабрика не была внедрена
      * @return callable
      */

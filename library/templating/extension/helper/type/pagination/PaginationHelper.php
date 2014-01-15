@@ -9,7 +9,7 @@
 namespace umi\templating\extension\helper\type\pagination;
 
 /**
- * Помощник вида для отображения постраничной навигации.
+ * Помощник шаблонов для отображения постраничной навигации.
  */
 class PaginationHelper
 {

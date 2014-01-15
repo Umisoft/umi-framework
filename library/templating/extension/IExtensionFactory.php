@@ -23,7 +23,7 @@ interface IExtensionFactory
     public function createHelperCollection();
 
     /**
-     * Создает коллекцию помощников вида по умолчанию.
+     * Создает коллекцию помощников шаблонов по умолчанию.
      * @return IHelperCollection
      */
     public function getDefaultHelperCollection();

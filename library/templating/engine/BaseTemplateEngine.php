@@ -22,7 +22,7 @@ abstract class BaseTemplateEngine implements ITemplateEngine, ILocalizable
     use TLocalizable;
 
     /**
-     * @var string $extension [optional] расширение фалов шаблона
+     * @var string $extension [optional] расширение файлов шаблонов
      */
     protected $fileExtension;
     /**

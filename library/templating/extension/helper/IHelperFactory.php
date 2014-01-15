@@ -10,13 +10,13 @@
 namespace umi\templating\extension\helper;
 
 /**
- * Интерфейс фабрики для создания помощников вида.
+ * Интерфейс фабрики для создания помощников шаблонов.
  */
 interface IHelperFactory
 {
     /**
      * Создает помощник для шаблонов.
-     * @param string $class класс помощника вида
+     * @param string $class класс помощника шаблонов
      * @return callable
      */
     public function createHelper($class);

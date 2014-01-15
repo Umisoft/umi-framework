@@ -10,7 +10,7 @@
 namespace umi\templating\extension\helper\type\head\script;
 
 /**
- * Помошник вида для отображения скриптов.
+ * Помощник шаблонов для отображения скриптов.
  */
 class ScriptHelper
 {

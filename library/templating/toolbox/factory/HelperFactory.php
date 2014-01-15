@@ -16,7 +16,7 @@ use umi\toolkit\factory\TFactory;
 use umi\toolkit\prototype\IPrototype;
 
 /**
- * Фабрика помощников вида.
+ * Фабрика помощников шаблонов.
  */
 class HelperFactory implements IHelperFactory, IFactory
 {

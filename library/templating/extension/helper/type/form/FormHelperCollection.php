@@ -19,7 +19,7 @@ use umi\form\IForm;
 use umi\templating\exception\InvalidArgumentException;
 
 /**
- * Помошник вида для генерации textarea элемента формы.
+ * Элементы формы.
  */
 class FormHelperCollection
 {
@@ -46,7 +46,7 @@ class FormHelperCollection
     }
 
     /**
-     * Генерирует элемент формы. Выбирает нужный помошник вида
+     * Генерирует элемент формы. Выбирает нужный помощник шаблонов
      * в зависимости от типа элемента.
      * @param IElement $element элемент формы
      * @throws InvalidArgumentException если элемент не может быть выведен.
@@ -69,7 +69,7 @@ class FormHelperCollection
     }
 
     /**
-     * Генерирует элемент формы. Выбирает нужный помошник вида
+     * Генерирует элемент формы. Выбирает нужный помощник шаблонов
      * в зависимости от типа элемента.
      * @param IMultiElement $element элемент формы
      * @return string сгенерированный тэг
