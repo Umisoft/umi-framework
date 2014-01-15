@@ -30,7 +30,7 @@
         <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a></p>
 
             <div class="description">
-            <p>Класс простого хранилища для аутентификации.</p>
+            <p>Класс простого хранилища для аутентификации, запоминает характеристики субъекта аутентификации в памяти.</p>
             <p>
 </p>
         </div>
@@ -45,8 +45,18 @@
                     <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_setIdentity">setIdentity</a>(mixed $object)
-                    <p>Сохраняет объект</p>
+                    <a href="#method_setOptions">setOptions</a>(array $options)
+                    <p>Устанавливает опции хранилища.</p>
+                </td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td class="type">
+                    <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
+                </td>
+                <td class="last">
+                    <a href="#method_setIdentity">setIdentity</a>(mixed $identity)
+                    <p>Сохраняет характеристики субъекта аутентификации.</p>
                 </td>
                 <td></td>
             </tr>
@@ -56,7 +66,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_getIdentity">getIdentity</a>()
-                    <p>Возвращает объект</p>
+                    <p>Возвращает характеристики субъекта.</p>
                 </td>
                 <td></td>
             </tr>
@@ -66,7 +76,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_hasIdentity">hasIdentity</a>()
-                    <p>Проверяет существует ли сохраненный объект</p>
+                    <p>Проверяет, были ли сохранены характеристики субъекта аутентификации в хранилище.</p>
                 </td>
                 <td></td>
             </tr>
@@ -76,7 +86,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_clearIdentity">clearIdentity</a>()
-                    <p>Удаляет объект</p>
+                    <p>Удаляет характеристики субъекта аутентификации.</p>
                 </td>
                 <td></td>
             </tr>
@@ -85,13 +95,50 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method_setIdentity">
+                        <h3 id="method_setOptions">
         <div class="location">at line 25</div>
         <code>            public            <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
-    <strong>setIdentity</strong>(mixed $object)</code>
+    <strong>setOptions</strong>(array $options)</code>
     </h3>
     <div class="details">
-        <p>Сохраняет объект</p>
+        <p>Устанавливает опции хранилища.</p>
+        <p>
+</p>
+        <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table>
+                    <tr>
+                <td>array</td>
+                <td>$options</td>
+                <td>
+</td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table>
+        <tr>
+            <td><a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+                <h3 id="method_setIdentity">
+        <div class="location">at line 33</div>
+        <code>            public            <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
+    <strong>setIdentity</strong>(mixed $identity)</code>
+    </h3>
+    <div class="details">
+        <p>Сохраняет характеристики субъекта аутентификации.</p>
         <p>
 </p>
         <div class="tags">
@@ -100,7 +147,7 @@
                     <table>
                     <tr>
                 <td>mixed</td>
-                <td>$object</td>
+                <td>$identity</td>
                 <td>
 </td>
             </tr>
@@ -123,12 +170,12 @@
     </div>
 
                 <h3 id="method_getIdentity">
-        <div class="location">at line 35</div>
+        <div class="location">at line 43</div>
         <code>            public            mixed
     <strong>getIdentity</strong>()</code>
     </h3>
     <div class="details">
-        <p>Возвращает объект</p>
+        <p>Возвращает характеристики субъекта.</p>
         <p>
 </p>
         <div class="tags">
@@ -144,17 +191,26 @@
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если не удалось загрузить характеристики</td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
 
                 <h3 id="method_hasIdentity">
-        <div class="location">at line 43</div>
+        <div class="location">at line 51</div>
         <code>            public            bool
     <strong>hasIdentity</strong>()</code>
     </h3>
     <div class="details">
-        <p>Проверяет существует ли сохраненный объект</p>
+        <p>Проверяет, были ли сохранены характеристики субъекта аутентификации в хранилище.</p>
         <p>
 </p>
         <div class="tags">
@@ -175,12 +231,12 @@
     </div>
 
                 <h3 id="method_clearIdentity">
-        <div class="location">at line 51</div>
+        <div class="location">at line 59</div>
         <code>            public            <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
     <strong>clearIdentity</strong>()</code>
     </h3>
     <div class="details">
-        <p>Удаляет объект</p>
+        <p>Удаляет характеристики субъекта аутентификации.</p>
         <p>
 </p>
         <div class="tags">

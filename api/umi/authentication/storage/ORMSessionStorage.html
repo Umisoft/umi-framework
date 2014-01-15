@@ -30,7 +30,7 @@
         <a href="../../../umi/orm/manager/IObjectManagerAware.html"><abbr title="umi\orm\manager\IObjectManagerAware">IObjectManagerAware</abbr></a></p>
 
             <div class="description">
-            <p>Класс Session Storage</p>
+            <p>Хранилище ORM-данных сессии</p>
             <p>
 </p>
         </div>
@@ -63,21 +63,21 @@
             <table>
                     <tr>
                 <td class="type">
-                    
+                    <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method___construct">__construct</a>(array $config = array(), <a href="../../../umi/session/ISession.html"><abbr title="umi\session\ISession">ISession</abbr></a> $session)
-                    <p>Конструктор.</p>
+                    <a href="#method_setOptions">setOptions</a>(array $options)
+                    <p>Устанавливает опции хранилища.</p>
                 </td>
-                <td></td>
+                <td><small>from&nbsp;<a href="../../../umi/authentication/storage/SessionStorage.html#method_setOptions"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a></small></td>
             </tr>
                     <tr>
                 <td class="type">
                     <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
                 </td>
                 <td class="last">
-                    <a href="#method_setIdentity">setIdentity</a>(mixed $object)
-                    <p>Сохраняет объект</p>
+                    <a href="#method_setIdentity">setIdentity</a>(mixed $identity)
+                    <p>Сохраняет характеристики субъекта аутентификации.</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/authentication/storage/SessionStorage.html#method_setIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a></small></td>
             </tr>
@@ -87,9 +87,9 @@
                 </td>
                 <td class="last">
                     <a href="#method_getIdentity">getIdentity</a>()
-                    <p>Возвращает объект</p>
+                    <p>Возвращает характеристики субъекта.</p>
                 </td>
-                <td><small>from&nbsp;<a href="../../../umi/authentication/storage/SessionStorage.html#method_getIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a></small></td>
+                <td></td>
             </tr>
                     <tr>
                 <td class="type">
@@ -97,7 +97,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_hasIdentity">hasIdentity</a>()
-                    <p>Проверяет существует ли сохраненный объект</p>
+                    <p>Проверяет, были ли сохранены характеристики субъекта аутентификации в хранилище.</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/authentication/storage/SessionStorage.html#method_hasIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a></small></td>
             </tr>
@@ -107,7 +107,7 @@
                 </td>
                 <td class="last">
                     <a href="#method_clearIdentity">clearIdentity</a>()
-                    <p>Удаляет объект</p>
+                    <p>Удаляет характеристики субъекта аутентификации.</p>
                 </td>
                 <td><small>from&nbsp;<a href="../../../umi/authentication/storage/SessionStorage.html#method_clearIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a></small></td>
             </tr>
@@ -116,13 +116,13 @@
 
         <h2>Details</h2>
 
-                        <h3 id="method___construct">
-        <div class="location">at line 19</div>
-        <code>            public            
-    <strong>__construct</strong>(array $config = array(), <a href="../../../umi/session/ISession.html"><abbr title="umi\session\ISession">ISession</abbr></a> $session)</code>
+                        <h3 id="method_setOptions">
+        <div class="location">in <a href="../../../umi/authentication/storage/SessionStorage.html#method_setOptions"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a> at line 48</div>
+        <code>            public            <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
+    <strong>setOptions</strong>(array $options)</code>
     </h3>
     <div class="details">
-        <p>Конструктор.</p>
+        <p>Устанавливает опции хранилища.</p>
         <p>
 </p>
         <div class="tags">
@@ -131,39 +131,35 @@
                     <table>
                     <tr>
                 <td>array</td>
-                <td>$config</td>
-                <td>конфигурация</td>
-            </tr>
-                    <tr>
-                <td><a href="../../../umi/session/ISession.html"><abbr title="umi\session\ISession">ISession</abbr></a></td>
-                <td>$session</td>
+                <td>$options</td>
                 <td>
 </td>
             </tr>
             </table>
 
             
-            
-                            <h4>Exceptions</h4>
+                            <h4>Return Value</h4>
 
                     <table>
-                    <tr>
-                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
-                <td>если имя пространства имен сессии не указано</td>
-            </tr>
-            </table>
+        <tr>
+            <td><a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a></td>
+            <td>
+</td>
+        </tr>
+    </table>
 
+            
             
                     </div>
     </div>
 
                 <h3 id="method_setIdentity">
-        <div class="location">in <a href="../../../umi/authentication/storage/SessionStorage.html#method_setIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a> at line 61</div>
+        <div class="location">in <a href="../../../umi/authentication/storage/SessionStorage.html#method_setIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a> at line 58</div>
         <code>            public            <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
-    <strong>setIdentity</strong>(mixed $object)</code>
+    <strong>setIdentity</strong>(mixed $identity)</code>
     </h3>
     <div class="details">
-        <p>Сохраняет объект</p>
+        <p>Сохраняет характеристики субъекта аутентификации.</p>
         <p>
 </p>
         <div class="tags">
@@ -172,7 +168,7 @@
                     <table>
                     <tr>
                 <td>mixed</td>
-                <td>$object</td>
+                <td>$identity</td>
                 <td>
 </td>
             </tr>
@@ -195,12 +191,12 @@
     </div>
 
                 <h3 id="method_getIdentity">
-        <div class="location">in <a href="../../../umi/authentication/storage/SessionStorage.html#method_getIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a> at line 71</div>
+        <div class="location">at line 21</div>
         <code>            public            mixed
     <strong>getIdentity</strong>()</code>
     </h3>
     <div class="details">
-        <p>Возвращает объект</p>
+        <p>Возвращает характеристики субъекта.</p>
         <p>
 </p>
         <div class="tags">
@@ -216,17 +212,26 @@
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table>
+                    <tr>
+                <td><a href="http://php.net/RuntimeException"><abbr title="RuntimeException">RuntimeException</abbr></a></td>
+                <td>если не удалось загрузить характеристики</td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
 
                 <h3 id="method_hasIdentity">
-        <div class="location">in <a href="../../../umi/authentication/storage/SessionStorage.html#method_hasIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a> at line 79</div>
+        <div class="location">in <a href="../../../umi/authentication/storage/SessionStorage.html#method_hasIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a> at line 84</div>
         <code>            public            bool
     <strong>hasIdentity</strong>()</code>
     </h3>
     <div class="details">
-        <p>Проверяет существует ли сохраненный объект</p>
+        <p>Проверяет, были ли сохранены характеристики субъекта аутентификации в хранилище.</p>
         <p>
 </p>
         <div class="tags">
@@ -247,12 +252,12 @@
     </div>
 
                 <h3 id="method_clearIdentity">
-        <div class="location">in <a href="../../../umi/authentication/storage/SessionStorage.html#method_clearIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a> at line 87</div>
+        <div class="location">in <a href="../../../umi/authentication/storage/SessionStorage.html#method_clearIdentity"><abbr title="umi\authentication\storage\SessionStorage">SessionStorage</abbr></a> at line 92</div>
         <code>            public            <a href="../../../umi/authentication/storage/IAuthStorage.html"><abbr title="umi\authentication\storage\IAuthStorage">IAuthStorage</abbr></a>
     <strong>clearIdentity</strong>()</code>
     </h3>
     <div class="details">
-        <p>Удаляет объект</p>
+        <p>Удаляет характеристики субъекта аутентификации.</p>
         <p>
 </p>
         <div class="tags">
