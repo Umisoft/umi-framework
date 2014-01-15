@@ -4,8 +4,9 @@
 	"type": "library",
     "license": "BSD-3-Clause",
 	"minimum-stability": "stable",
+	"homepage": "http://umi-framework.ru/",
 	"autoload": {
-		"psr-0": {
+		"psr-4": {
 			"umi\\": "library/"
 		}
 	},

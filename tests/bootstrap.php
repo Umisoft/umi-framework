@@ -22,7 +22,7 @@ if (!defined('TESTS_CONFIGURATION')) {
 }
 
 if (!defined('LIBRARY_PATH')) {
-    define('LIBRARY_PATH', dirname(TESTS_ROOT) . '/library/umi');
+    define('LIBRARY_PATH', dirname(TESTS_ROOT) . '/library');
 }
 
 $loader = require_once($vendorDir . '/autoload.php');
