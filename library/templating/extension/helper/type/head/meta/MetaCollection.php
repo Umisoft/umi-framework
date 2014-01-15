@@ -24,7 +24,7 @@ class MetaCollection extends BaseParamCollection
     /**
      * @var string $charset кодировка
      */
-    protected $charset;
+    protected static $charset;
 
     /**
      * Добавляет мета http-equiv параметр в конец списка параметров.
@@ -77,7 +77,7 @@ class MetaCollection extends BaseParamCollection
      */
     public function setCharset($charset)
     {
-        $this->charset = $charset;
+        self::$charset = $charset;
 
         return $this;
     }
@@ -90,8 +90,8 @@ class MetaCollection extends BaseParamCollection
     {
         $result = '';
 
-        if ($this->charset) {
-            $result .= '<meta charset="' . $this->charset . '" />'; //todo: HTML5 only?
+        if (self::$charset) {
+            $result .= '<meta charset="' . self::$charset . '" />'; //todo: HTML5 only?
         }
 
         foreach (self::$params as $param) {
