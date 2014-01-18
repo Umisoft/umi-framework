@@ -9,23 +9,23 @@
 
 namespace utest\hmvc\mock\toolbox;
 
-use umi\hmvc\IMVCLayerAware;
-use umi\hmvc\TMVCLayerAware;
+use umi\hmvc\IMVCEntityFactoryAware;
+use umi\hmvc\TMVCEntityFactoryAware;
 use utest\IMockAware;
 
 /**
  * Mock-class для aware интерфейса.
  */
-class MockMVCLayerAware implements IMockAware, IMVCLayerAware
+class MockMVCEntityFactoryAware implements IMockAware, IMVCEntityFactoryAware
 {
-    use TMVCLayerAware;
+    use TMVCEntityFactoryAware;
 
     /**
      * {@inheritdoc}
      */
     public function getService()
     {
-        return $this->_mvcLayerFactory;
+        return $this->_MVCEntityFactory;
     }
 }
  

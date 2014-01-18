@@ -11,9 +11,10 @@ namespace umi\hmvc\toolbox\factory;
 
 use umi\hmvc\component\IComponent;
 use umi\hmvc\component\response\IComponentResponseFactory;
-use umi\hmvc\controller\IController;
-use umi\hmvc\controller\IControllerFactory;
 use umi\hmvc\exception\OutOfBoundsException;
+use umi\hmvc\exception\RuntimeException;
+use umi\hmvc\macros\IMacros;
+use umi\hmvc\macros\IMacrosFactory;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
 use umi\toolkit\factory\IFactory;
@@ -21,16 +22,17 @@ use umi\toolkit\factory\TFactory;
 use umi\toolkit\prototype\IPrototype;
 
 /**
- * Фабрика контроллеров MVC-компонента.
+ * Фабрика макросов для компонента.
  */
-class ControllerFactory implements IControllerFactory, IFactory, IModelAware
+class MacrosFactory implements IMacrosFactory, IFactory, IModelAware
 {
+
     use TFactory;
 
     /**
-     * @var array $controllersList список контроллеров
+     * @var array $macrosList список макросов компонента
      */
-    protected $controllersList = [];
+    protected $macrosList = [];
     /**
      * @var IModelFactory $modelFactory фабрика моделей
      */
@@ -48,40 +50,40 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
      * Конструктор.
      * @param IComponent $component
      * @param IComponentResponseFactory $responseFactory фабрика результатов работы компонента
-     * @param array $controllerList список контроллеров в формате ['controllerName' => 'controllerClassName', ...]
+     * @param array $macrosList список макросов в формате ['macrosName' => 'macrosClassName', ...]
      */
-    public function __construct(IComponent $component, IComponentResponseFactory $responseFactory, array $controllerList)
+    public function __construct(IComponent $component, IComponentResponseFactory $responseFactory, array $macrosList)
     {
         $this->component = $component;
         $this->responseFactory = $responseFactory;
-        $this->controllersList = $controllerList;
+        $this->macrosList = $macrosList;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createController($name, $args = [])
+    public function createMacros($name, $args = [])
     {
-        if (!$this->hasController($name)) {
+        if (!$this->hasMacros($name)) {
             throw new OutOfBoundsException($this->translate(
-                'Cannot create "{name}" controller. Controller not registered.',
+                'Cannot create "{name}" macros. Macros is not registered.',
                 ['name' => $name]
             ));
         }
 
-        $controller = $this->createControllerByClass($this->controllersList[$name], $args);
-        $controller->setComponent($this->component);
-        $controller->setComponentResponseFactory($this->responseFactory);
+        $macros = $this->createMacrosByClass($this->macrosList[$name], $args);
+        $macros->setComponent($this->component);
+        $macros->setComponentResponseFactory($this->responseFactory);
 
-        return $controller;
+        return $macros;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasController($name)
+    public function hasMacros($name)
     {
-        return isset($this->controllersList[$name]);
+        return isset($this->macrosList[$name]);
     }
 
     /**
@@ -93,19 +95,28 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
     }
 
     /**
-     * Создает контроллер заданного класса.
-     * @param string $class класс контроллера
+     * Создает макрос заданного класса.
+     * @param string $class класс макроса
      * @param array $args аргументы конструктора
-     * @return IController
+     * @return IMacros
      */
-    protected function createControllerByClass($class, $args = [])
+    protected function createMacrosByClass($class, $args = [])
     {
-        $controller = $this->getPrototype(
-                $class,
-                ['umi\hmvc\controller\IController'],
-                function (IPrototype $prototype)
-                {
-                    $prototype->registerConstructorDependency(
+        $macros = $this->getPrototype(
+            $class,
+            ['umi\hmvc\macros\IMacros'],
+            function (IPrototype $prototype) use ($class)
+            {
+                /** @noinspection PhpParamsInspection */
+                if (!is_callable($prototype->getPrototypeInstance())) {
+                    throw new RuntimeException(
+                        $this->translate(
+                            'Macros "{class}" should be callable.',
+                            ['class' => $class]
+                        )
+                    );
+                }
+                $prototype->registerConstructorDependency(
                     'umi\hmvc\model\IModel',
                     function ($concreteClassName) {
                         if ($this->modelFactory) {
@@ -115,15 +126,15 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
                         return null;
                     }
                 );
-                }
-            )
+            }
+        )
             ->createInstance($args);
 
-        if ($controller instanceof IModelAware) {
-            $controller->setModelFactory($this->modelFactory);
+        if ($macros instanceof IModelAware) {
+            $macros->setModelFactory($this->modelFactory);
         }
 
-        return $controller;
+        return $macros;
     }
-
 }
+ 

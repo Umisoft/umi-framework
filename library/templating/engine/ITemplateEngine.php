@@ -9,30 +9,24 @@
 
 namespace umi\templating\engine;
 
-use umi\templating\extension\adapter\IExtensionAdapter;
-
 /**
  * Интерфейс шаблонизатора.
  */
 interface ITemplateEngine
 {
-    /** Директория расположения шаблонов */
-    const OPTION_DIRECTORY = 'directory';
-    /** Расширение файлов шаблонов */
-    const OPTION_EXTENSION = 'extension';
 
     /**
-     * Устанавливает расширение шаблонизатора.
-     * @param IExtensionAdapter $adapter
+     * Устанавливает опции шаблонизатора.
+     * @param array $options опции
      * @return self
      */
-    public function setExtensionAdapter(IExtensionAdapter $adapter);
+    public function setOptions(array $options);
 
     /**
      * Отображает заданный шаблон используя переменные.
-     * @param string $template имя шаблона
+     * @param string $templateName имя шаблона
      * @param array $variables переменные
      * @return string отображение
      */
-    public function render($template, array $variables = []);
+    public function render($templateName, array $variables = []);
 }

@@ -9,7 +9,7 @@
 
 namespace utest\hmvc\unit\toolbox\factory;
 
-use umi\hmvc\component\response\IComponentResponse;
+use umi\hmvc\component\response\IHTTPComponentResponse;
 use umi\hmvc\exception\OutOfBoundsException;
 use umi\hmvc\toolbox\factory\ControllerFactory;
 use umi\hmvc\toolbox\factory\ModelFactory;
@@ -46,7 +46,7 @@ class ControllerFactoryTest extends HMVCTestCase
         $this->assertInstanceOf('umi\hmvc\controller\IController', $controller);
 
         $response = $controller($this->getRequest('/'));
-        if (!$response instanceof IComponentResponse) {
+        if (!$response instanceof IHTTPComponentResponse) {
             throw new \Exception('Invalid mock model controller.');
         }
 

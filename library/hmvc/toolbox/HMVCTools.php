@@ -9,20 +9,15 @@
 
 namespace umi\hmvc\toolbox;
 
-use umi\hmvc\component\IComponentAware;
-use umi\hmvc\component\IComponentFactory;
-use umi\hmvc\component\request\IComponentRequestAware;
-use umi\hmvc\component\request\IComponentRequestFactory;
-use umi\hmvc\component\response\IComponentResponseAware;
-use umi\hmvc\component\response\IComponentResponseFactory;
-use umi\hmvc\IMVCLayerAware;
-use umi\hmvc\IMVCLayerFactory;
+use umi\hmvc\dispatcher\IDispatcher;
+use umi\hmvc\IMVCEntityFactoryAware;
+use umi\hmvc\IMVCEntityFactory;
 use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
 
 /**
- * Инструменты для создания Hierarchy Model-TemplateView-Controller архитектуры приложений.
+ * Инструменты для создания иерархической MVC-структуры приложений.
  */
 class HMVCTools implements IToolbox
 {
@@ -34,21 +29,13 @@ class HMVCTools implements IToolbox
     use TToolbox;
 
     /**
-     * @var string $componentResponseFactoryClass фабрика результатов работы компонента
+     * @var string $MVCEntityFactoryClass фабрика сущностей компонента MVC
      */
-    public $componentResponseFactoryClass = 'umi\hmvc\toolbox\factory\ComponentResponseFactory';
+    public $MVCEntityFactoryClass = 'umi\hmvc\toolbox\factory\MVCEntityFactory';
     /**
-     * @var string $componentResponseFactoryClass фабрика результатов работы компонента
+     * @var string $dispatcherClass класс диспетчера MVC-компонентов
      */
-    public $componentRequestFactoryClass = 'umi\hmvc\toolbox\factory\ComponentRequestFactory';
-    /**
-     * @var string $mvcFactoryClass фабрика MVC слоев
-     */
-    public $mvcLayerFactoryClass = 'umi\hmvc\toolbox\factory\MVCLayerFactory';
-    /**
-     * @var string $componentFactoryClass фабрика MVC компонентов
-     */
-    public $componentFactoryClass = 'umi\hmvc\toolbox\factory\ComponentFactory';
+    public $dispatcherClass = 'umi\hmvc\dispatcher\Dispatcher';
 
     /**
      * Конструктор.
@@ -56,27 +43,9 @@ class HMVCTools implements IToolbox
     public function __construct()
     {
         $this->registerFactory(
-            'componentResponse',
-            $this->componentResponseFactoryClass,
-            ['umi\hmvc\component\response\IComponentResponseFactory']
-        );
-
-        $this->registerFactory(
-            'componentRequest',
-            $this->componentRequestFactoryClass,
-            ['umi\hmvc\component\request\IComponentRequestFactory']
-        );
-
-        $this->registerFactory(
-            'mvcLayer',
-            $this->mvcLayerFactoryClass,
-            ['umi\hmvc\IMVCLayerFactory']
-        );
-
-        $this->registerFactory(
-            'component',
-            $this->componentFactoryClass,
-            ['umi\hmvc\component\IComponentFactory']
+            'MVCEntityFactory',
+            $this->MVCEntityFactoryClass,
+            ['umi\hmvc\IMVCEntityFactory']
         );
     }
 
@@ -86,10 +55,10 @@ class HMVCTools implements IToolbox
     public function getService($serviceInterfaceName, $concreteClassName)
     {
         switch ($serviceInterfaceName) {
-            case 'umi\hmvc\component\IComponentFactory':
-                return $this->getComponentFactory();
-            case 'umi\hmvc\component\request\IComponentRequestFactory':
-                return $this->getComponentRequestFactory();
+            case 'umi\hmvc\IMVCEntityFactory':
+                return $this->getMVCEntityFactory();
+            case 'umi\hmvc\dispatcher\IDispatcher':
+                return $this->getDispatcher();
         }
         throw new UnsupportedServiceException($this->translate(
             'Toolbox "{name}" does not support service "{interface}".',
@@ -102,56 +71,31 @@ class HMVCTools implements IToolbox
      */
     public function injectDependencies($object)
     {
-        if ($object instanceof IMVCLayerAware) {
-            $object->setMvcFactory($this->getMVCFactory());
+        if ($object instanceof IMVCEntityFactoryAware) {
+            $object->setMVCEntityFactory($this->getMVCEntityFactory());
         }
-
-        if ($object instanceof IComponentAware) {
-            $object->setHMVCComponentFactory($this->getComponentFactory());
-        }
-
-        if ($object instanceof IComponentResponseAware) {
-            $object->setComponentResponseFactory($this->getComponentResponseFactory());
-        }
-
-        if ($object instanceof IComponentRequestAware) {
-            $object->setComponentRequestFactory($this->getComponentRequestFactory());
-        }
-    }
-
-    /**
-     * Возвращает фабрику для создания MVC компонентов.
-     * @return IComponentFactory
-     */
-    protected function getComponentFactory()
-    {
-        return $this->getFactory('component');
-    }
-
-    /**
-     * Возвращает фабрику HTTP запросов компонента.
-     * @return IComponentRequestFactory
-     */
-    protected function getComponentRequestFactory()
-    {
-        return $this->getFactory('componentRequest');
-    }
-
-    /**
-     * Возвращает фабрику результатов работы компонента.
-     * @return IComponentResponseFactory
-     */
-    protected function getComponentResponseFactory()
-    {
-        return $this->getFactory('componentResponse');
     }
 
     /**
      * Возвращает фабрику MVC слоев.
-     * @return IMVCLayerFactory
+     * @return IMVCEntityFactory
      */
-    protected function getMVCFactory()
+    protected function getMVCEntityFactory()
     {
-        return $this->getFactory('mvcLayer');
+        return $this->getFactory('MVCEntityFactory');
     }
+
+    /**
+     * Возвращает диспетчер MVC-компонентов.
+     * @return IDispatcher
+     */
+    protected function getDispatcher()
+    {
+        return $this->getPrototype(
+            $this->dispatcherClass,
+            ['umi\hmvc\dispatcher\IDispatcher']
+        )
+            ->createSingleInstance();
+    }
+
 }

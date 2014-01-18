@@ -9,7 +9,7 @@
 
 namespace utest\hmvc\mock\controller;
 
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\hmvc\controller\type\BaseController;
 
 /**
@@ -20,9 +20,9 @@ class MockRenderController extends BaseController
     /**
      * {@inheritdoc}
      */
-    public function __invoke(IComponentRequest $request)
+    public function __invoke(IHTTPComponentRequest $request)
     {
-        $data = $request->getVar(IComponentRequest::ROUTE, 'data', 'mock');
+        $data = $request->getVar(IHTTPComponentRequest::ROUTE, 'data', 'mock');
 
         return $this->createDisplayResponse(
             'result',

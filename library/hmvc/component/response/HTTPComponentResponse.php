@@ -9,17 +9,42 @@
 
 namespace umi\hmvc\component\response;
 
+use umi\hmvc\component\IComponent;
 use umi\http\response\Response;
 
 /**
- * Реузльтат работы компонента.
+ * Реузльтат работы контроллера.
  */
-class ComponentResponse extends Response implements IComponentResponse
+class HTTPComponentResponse extends Response implements IHTTPComponentResponse
 {
+
     /**
      * @var bool $isProcessable статус доступности для обработки
      */
     protected $isProcessable = true;
+    /**
+     * @var IComponent $component
+     */
+    private $component;
+
+    /**
+     * Конструктор.
+     * @param IComponent $component
+     */
+    public function __construct(IComponent $component)
+    {
+        $this->component = $component;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function stopProcessing()
+    {
+        $this->isProcessable = false;
+
+        return $this;
+    }
 
     /**
      * {@inheritdoc}
@@ -32,10 +57,8 @@ class ComponentResponse extends Response implements IComponentResponse
     /**
      * {@inheritdoc}
      */
-    public function stopProcessing()
+    public function getComponent()
     {
-        $this->isProcessable = false;
-
-        return $this;
+        return $this->component;
     }
 }

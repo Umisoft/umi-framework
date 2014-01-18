@@ -9,12 +9,10 @@
 
 namespace umi\hmvc\component\response\model;
 
-use umi\spl\container\IContainer;
-
 /**
  * Интерфейс для обертки результата работы контроллера.
  */
-interface IDisplayModel extends IContainer
+interface IDisplayModel
 {
     /**
      * Устанавливает код ответа для результата.
@@ -43,8 +41,8 @@ interface IDisplayModel extends IContainer
     public function getVariables();
 
     /**
-     * Возвращает шаблон для результата.
+     * Возвращает имя шаблона для результата.
      * @return string
      */
-    public function getTemplate();
+    public function getTemplateName();
 }

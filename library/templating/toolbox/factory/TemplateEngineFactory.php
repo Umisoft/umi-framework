@@ -9,6 +9,7 @@
 
 namespace umi\templating\toolbox\factory;
 
+use umi\templating\engine\ITemplateEngine;
 use umi\templating\engine\ITemplateEngineFactory;
 use umi\templating\exception\OutOfBoundsException;
 use umi\toolkit\factory\IFactory;
@@ -22,18 +23,24 @@ class TemplateEngineFactory implements ITemplateEngineFactory, IFactory
     use TFactory;
 
     /**
-     * @var string $engines классы существующих шаблонизаторов и сериализаторов
+     * @var string $engineClasses классы существующих шаблонизаторов
      */
     public $engineClasses = [
-        self::PHP_ENGINE  => 'umi\templating\engine\php\PhpTemplateEngine',
-        self::TWIG_ENGINE => 'umi\templating\engine\twig\TwigTemplateEngine',
+        self::PHP_ENGINE => 'umi\templating\engine\php\PhpTemplateEngine',
+        self::TWIG_ENGINE => 'umi\templating\engine\twig\TwigTemplateEngine'
     ];
+
+    /**
+     * @var array $initializers
+     */
+    protected $initializers = [];
 
     /**
      * {@inheritdoc}
      */
     public function createTemplateEngine($type, array $options = [])
     {
+
         if (!isset($this->engineClasses[$type])) {
             throw new OutOfBoundsException($this->translate(
                 'Cannot create template engine "{type}". Template engine "{type}" is not registered.',
@@ -43,11 +50,40 @@ class TemplateEngineFactory implements ITemplateEngineFactory, IFactory
             ));
         }
 
-        return $this->getPrototype(
+        /**
+         * @var ITemplateEngine $engine
+         */
+        $engine = $this->getPrototype(
                 $this->engineClasses[$type],
                 ['umi\templating\engine\ITemplateEngine']
             )
-            ->createInstance([$options]);
+            ->createInstance();
+
+        $engine->setOptions($options);
+
+        if (isset($this->initializers[$type])) {
+            $this->initializers[$type]($engine);
+        }
+
+        return $engine;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setInitializer($type, callable $initializer)
+    {
+        if (!isset($this->engineClasses[$type])) {
+            throw new OutOfBoundsException($this->translate(
+                'Cannot set initializer for template engine "{type}". Template engine "{type}" is not registered.',
+                [
+                    'type' => $type
+                ]
+            ));
+        }
+
+        $this->initializers[$type] = $initializer;
+
+        return $this;
     }
 }
- 

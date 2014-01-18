@@ -37,7 +37,7 @@ class PhpTemplateEngine extends BaseTemplateEngine implements ILocalizable
     public function __construct(array $options)
     {
         parent::__construct($options);
-        $this->baseDirectory = isset($options[self::OPTION_DIRECTORY]) ? $options[self::OPTION_DIRECTORY] : '';
+        $this->baseDirectory = isset($options[self::OPTION_TEMPLATE_DIRECTORY]) ? $options[self::OPTION_TEMPLATE_DIRECTORY] : '';
     }
 
     /**

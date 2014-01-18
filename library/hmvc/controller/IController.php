@@ -9,8 +9,10 @@
 
 namespace umi\hmvc\controller;
 
-use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\component\response\IComponentResponse;
+use umi\hmvc\component\IComponent;
+use umi\hmvc\component\request\IHTTPComponentRequest;
+use umi\hmvc\component\response\IHTTPComponentResponse;
+use umi\hmvc\component\response\IComponentResponseFactory;
 
 /**
  * Интерфейс контроллера.
@@ -19,8 +21,21 @@ interface IController
 {
     /**
      * Вызывает контроллер. Передает в контроллер HTTP запрос.
-     * @param IComponentRequest $request HTTP запрос
-     * @return IComponentResponse результат работы контроллера
+     * @param IHTTPComponentRequest $request HTTP запрос
+     * @return IHTTPComponentResponse результат работы контроллера
      */
-    public function __invoke(IComponentRequest $request);
+    public function __invoke(IHTTPComponentRequest $request);
+
+    /**
+     * Внедряет компонент, к которому принадлежит контроллер.
+     * @param IComponent $component
+     * @return self
+     */
+    public function setComponent(IComponent $component);
+
+    /**
+     * Устанавливает фабрику для создания результатов работы компонента.
+     * @param IComponentResponseFactory $factory фабрика
+     */
+    public function setComponentResponseFactory(IComponentResponseFactory $factory);
 }

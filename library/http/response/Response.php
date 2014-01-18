@@ -18,7 +18,7 @@ use umi\http\response\header\IHeaderCollection;
 class Response implements IResponse
 {
     /**
-     * @var string $content данные ответа
+     * @var mixed $content данные ответа
      */
     protected $content;
     /**
@@ -28,21 +28,16 @@ class Response implements IResponse
     /**
      * @var IHeaderCollection $headers
      */
-    protected $headers;
-
-    /**
-     * Конструктор.
-     */
-    public function __construct()
-    {
-        $this->headers = new HeaderCollection();
-    }
+    private $headers;
 
     /**
      * {@inheritdoc}
      */
     public function getHeaders()
     {
+        if (!$this->headers) {
+            $this->headers = new HeaderCollection();
+        }
         return $this->headers;
     }
 
@@ -91,8 +86,7 @@ class Response implements IResponse
 
         try {
             http_response_code($this->code);
-            $this->getHeaders()
-                ->send();
+            $this->getHeaders()->send();
             echo $this->getContent();
         } catch (\Exception $e) {
             http_response_code($oldResponseCode);

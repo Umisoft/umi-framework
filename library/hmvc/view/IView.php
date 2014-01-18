@@ -9,22 +9,24 @@
 
 namespace umi\hmvc\view;
 
-use umi\hmvc\component\response\IComponentResponse;
+use umi\hmvc\component\response\IHTTPComponentResponse;
 
 /**
  * Интерфейс отображения.
  */
 interface IView
 {
-    /** Тип шаблонизатора для рендеринга. */
+    /**
+     * Тип шаблонизатора для рендеринга.
+     */
     const OPTION_TYPE = 'type';
 
     /**
      * Производит рендеринг результата работы контроллера. Возвращает результат
      * отображения в виде результата работы компонента.
-     * @param string $template
-     * @param array $params
-     * @return IComponentResponse результат работы компонента
+     * @param string $templateName имя шаблона
+     * @param array $params параметры для шаблонизации.
+     * @return IHTTPComponentResponse результат работы компонента
      */
-    public function render($template, array $params = []);
+    public function render($templateName, array $params = []);
 }

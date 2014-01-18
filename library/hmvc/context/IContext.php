@@ -9,7 +9,7 @@
 namespace umi\hmvc\context;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\route\result\IRouteResult;
 
 /**
@@ -19,7 +19,7 @@ interface IContext
 {
     /**
      * Возвращает HTTP запрос компонента из контекста.
-     * @return IComponentRequest
+     * @return IHTTPComponentRequest
      */
     public function getRequest();
 

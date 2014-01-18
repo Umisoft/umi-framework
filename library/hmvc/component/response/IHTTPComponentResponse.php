@@ -9,12 +9,13 @@
 
 namespace umi\hmvc\component\response;
 
+use umi\hmvc\component\IComponent;
 use umi\http\response\IResponse;
 
 /**
  * Результат работы компонента.
  */
-interface IComponentResponse extends IResponse
+interface IHTTPComponentResponse extends IResponse
 {
     /**
      * Останавливает обработку результата родительскими компонентами.
@@ -27,4 +28,10 @@ interface IComponentResponse extends IResponse
      * @return bool
      */
     public function isProcessable();
+
+    /**
+     * Возвращает компонент.
+     * @return IComponent
+     */
+    public function getComponent();
 }

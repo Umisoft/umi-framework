@@ -9,7 +9,7 @@
 
 namespace utest\hmvc\fixture\component1\controller;
 
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\hmvc\controller\type\BaseController;
 
 /**
@@ -20,9 +20,9 @@ class ResponseController extends BaseController
     /**
      * {@inheritdoc}
      */
-    public function __invoke(IComponentRequest $request)
+    public function __invoke(IHTTPComponentRequest $request)
     {
-        $ex = $request->getVar(IComponentRequest::ROUTE, 'route');
+        $ex = $request->getVar(IHTTPComponentRequest::ROUTE, 'route');
 
         return $this->createPlainResponse($ex);
     }

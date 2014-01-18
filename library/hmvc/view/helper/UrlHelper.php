@@ -9,7 +9,7 @@
 
 namespace umi\hmvc\view\helper;
 
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\hmvc\context\IContextAware;
 use umi\hmvc\context\TContextAware;
 use umi\hmvc\exception\RuntimeException;
@@ -34,6 +34,8 @@ class UrlHelper implements IContextAware, ILocalizable
      */
     public function __invoke($name, array $params = [], $useRequestParams = false)
     {
+        return $name;
+
         if ($useRequestParams) {
             $request = $this->getContext()
                 ->getRequest();
@@ -44,7 +46,7 @@ class UrlHelper implements IContextAware, ILocalizable
                 ));
             }
 
-            $routeParams = $request->getParams(IComponentRequest::ROUTE)->toArray();
+            $routeParams = $request->getParams(IHTTPComponentRequest::ROUTE)->toArray();
 
             $params += $routeParams;
         }

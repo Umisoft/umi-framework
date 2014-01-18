@@ -9,30 +9,30 @@
 
 namespace utest\hmvc\unit\component;
 
-use umi\hmvc\component\request\ComponentRequest;
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\request\HTTPComponentRequest;
+use umi\hmvc\component\request\IHTTPComponentRequest;
 use utest\hmvc\HMVCTestCase;
 
 /**
- * Class ComponentRequest
+ * Class HTTPComponentRequest
  */
 class ComponentRequestTest extends HMVCTestCase
 {
     /**
-     * @var IComponentRequest $request
+     * @var IHTTPComponentRequest $request
      */
     private $request;
 
     public function setUpFixtures()
     {
-        $this->request = new ComponentRequest('uri');
+        $this->request = new HTTPComponentRequest('uri');
         $this->resolveOptionalDependencies($this->request);
     }
 
     public function testRequestUri()
     {
         $this->assertEquals('uri', $this->request->getRequestURI());
-        $this->assertNotEquals('uri', $this->request->getVar(IComponentRequest::HEADERS, 'REQUEST_URI'));
+        $this->assertNotEquals('uri', $this->request->getVar(IHTTPComponentRequest::HEADERS, 'REQUEST_URI'));
     }
 
     public function testRouteParams()
@@ -44,7 +44,7 @@ class ComponentRequestTest extends HMVCTestCase
 
         $this->assertEquals(
             ['params'],
-            $this->request->getParams(IComponentRequest::ROUTE)
+            $this->request->getParams(IHTTPComponentRequest::ROUTE)
                 ->toArray()
         );
     }

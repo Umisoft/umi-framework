@@ -9,25 +9,26 @@
 
 namespace umi\hmvc\component\request;
 
+use umi\hmvc\component\IComponent;
 use umi\http\request\Request;
 
 /**
  * HTTP запрос компонента.
  */
-class ComponentRequest extends Request implements IComponentRequest
+class HTTPComponentRequest extends Request implements IHTTPComponentRequest
 {
     /**
-     * @var string $uri URI
+     * @var IComponent $component
      */
-    private $uri;
+    private $component;
 
     /**
      * Конструктор.
-     * @param string $uri
+     * @param IComponent $component
      */
-    public function __construct($uri)
+    public function __construct(IComponent $component)
     {
-        $this->uri = $uri;
+        $this->component = $component;
     }
 
     /**
@@ -44,8 +45,9 @@ class ComponentRequest extends Request implements IComponentRequest
     /**
      * {@inheritdoc}
      */
-    public function getRequestURI()
+    public function getComponent()
     {
-        return $this->uri;
+        return $this->component;
     }
+
 }

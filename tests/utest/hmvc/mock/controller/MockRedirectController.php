@@ -8,7 +8,7 @@
  */
 namespace utest\hmvc\mock\controller;
 
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\hmvc\controller\type\BaseController;
 
 /**
@@ -20,7 +20,7 @@ class MockRedirectController extends BaseController
     /**
      * {@inheritdoc}
      */
-    public function __invoke(IComponentRequest $request)
+    public function __invoke(IHTTPComponentRequest $request)
     {
         return $this->createRedirectResponse('/mock_url', 303);
     }

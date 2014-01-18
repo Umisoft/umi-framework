@@ -11,10 +11,6 @@ namespace umi\templating\toolbox;
 
 use umi\templating\engine\ITemplateEngineAware;
 use umi\templating\engine\ITemplateEngineFactory;
-use umi\templating\extension\adapter\IExtensionAdapterAware;
-use umi\templating\extension\adapter\IExtensionAdapterFactory;
-use umi\templating\extension\IExtensionFactory;
-use umi\templating\extension\IExtensionFactoryAware;
 use umi\toolkit\exception\UnsupportedServiceException;
 use umi\toolkit\toolbox\IToolbox;
 use umi\toolkit\toolbox\TToolbox;
@@ -34,14 +30,6 @@ class TemplatingTools implements IToolbox
      * @var string $templatingFactoryClass класс фабрики шаблонизаторов
      */
     public $templateEngineFactoryClass = 'umi\templating\toolbox\factory\TemplateEngineFactory';
-    /**
-     * @var string $extensionFactoryClass класс фабрики для создания расширений шаблонизатора
-     */
-    public $extensionFactoryClass = 'umi\templating\toolbox\factory\ExtensionFactory';
-    /**
-     * @var string $extensionAdapterFactoryClass класс фабрики для создания адаптеров для расширения шаблонизатора
-     */
-    public $extensionAdapterFactoryClass = 'umi\templating\toolbox\factory\ExtensionAdapterFactory';
 
     /**
      * Конструктор.
@@ -53,18 +41,6 @@ class TemplatingTools implements IToolbox
             $this->templateEngineFactoryClass,
             ['umi\templating\engine\ITemplateEngineFactory']
         );
-
-        $this->registerFactory(
-            'extension',
-            $this->extensionFactoryClass,
-            ['umi\templating\extension\IExtensionFactory']
-        );
-
-        $this->registerFactory(
-            'extensionAdapter',
-            $this->extensionAdapterFactoryClass,
-            ['umi\templating\extension\adapter\IExtensionAdapterFactory']
-        );
     }
 
     /**
@@ -75,11 +51,8 @@ class TemplatingTools implements IToolbox
         switch ($serviceInterfaceName) {
             case 'umi\templating\engine\ITemplateEngineFactory':
                 return $this->getTemplateEngineFactory();
-            case 'umi\templating\extension\IExtensionFactory':
-                return $this->getExtensionFactory();
-            case 'umi\templating\extension\adapter\IExtensionAdapterFactory':
-                return $this->getExtensionAdapterFactory();
         }
+
         throw new UnsupportedServiceException($this->translate(
             'Toolbox "{name}" does not support service "{interface}".',
             ['name' => self::NAME, 'interface' => $serviceInterfaceName]
@@ -91,14 +64,6 @@ class TemplatingTools implements IToolbox
      */
     public function injectDependencies($object)
     {
-        if ($object instanceof IExtensionAdapterAware) {
-            $object->setTemplatingExtensionAdapterFactory($this->getExtensionAdapterFactory());
-        }
-
-        if ($object instanceof IExtensionFactoryAware) {
-            $object->setTemplatingExtensionFactory($this->getExtensionFactory());
-        }
-
         if ($object instanceof ITemplateEngineAware) {
             $object->setTemplateEngineFactory($this->getTemplateEngineFactory());
         }
@@ -111,24 +76,6 @@ class TemplatingTools implements IToolbox
     protected function getTemplateEngineFactory()
     {
         return $this->getFactory('engine');
-    }
-
-    /**
-     * Возвращает фабрику для создания расширений шаблонизаторов.
-     * @return IExtensionFactory
-     */
-    protected function getExtensionFactory()
-    {
-        return $this->getFactory('extension');
-    }
-
-    /**
-     * Возвращает фабрику адаптеров для подключения расширений шаблонизаторов.
-     * @return IExtensionAdapterFactory
-     */
-    protected function getExtensionAdapterFactory()
-    {
-        return $this->getFactory('extensionAdapter');
     }
 }
  

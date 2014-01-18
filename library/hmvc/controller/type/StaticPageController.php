@@ -9,7 +9,7 @@
 
 namespace umi\hmvc\controller\type;
 
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\request\IHTTPComponentRequest;
 
 /**
  * Абстрактный базовый класс контроллера статических страниц.
@@ -24,7 +24,7 @@ abstract class StaticPageController extends BaseController
     /**
      * {@inheritdoc}
      */
-    public function __invoke(IComponentRequest $request)
+    public function __invoke(IHTTPComponentRequest $request)
     {
         return $this->createDisplayResponse($this->template, []);
     }

@@ -8,7 +8,7 @@
 
 namespace umi\hmvc\controller\plugin;
 
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\hmvc\context\IContext;
 
 /**
@@ -36,7 +36,7 @@ trait TURLPlugin
         if ($useRequest) {
             $request = $this->getContext()->getRequest();
 
-            $parameters += $request->getParams(IComponentRequest::ROUTE)->toArray();
+            $parameters += $request->getParams(IHTTPComponentRequest::ROUTE)->toArray();
         }
 
         return $router->assemble($route, $parameters) ?: '/';

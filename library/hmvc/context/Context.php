@@ -10,7 +10,7 @@ namespace umi\hmvc\context;
 
 use umi\route\result\IRouteResult;
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\request\IHTTPComponentRequest;
 
 /**
  * Контекст работы компонента.
@@ -18,7 +18,7 @@ use umi\hmvc\component\request\IComponentRequest;
 class Context implements IContext
 {
     /**
-     * @var IComponentRequest $request
+     * @var IHTTPComponentRequest $request
      */
     private $request;
     /**
@@ -34,9 +34,9 @@ class Context implements IContext
      * Конструктор.
      * @param IComponent $component
      * @param IRouteResult $routeResult
-     * @param IComponentRequest $request
+     * @param IHTTPComponentRequest $request
      */
-    public function __construct(IComponent $component, IComponentRequest $request, IRouteResult $routeResult = null)
+    public function __construct(IComponent $component, IHTTPComponentRequest $request, IRouteResult $routeResult = null)
     {
         $this->component = $component;
         $this->routeResult = $routeResult;

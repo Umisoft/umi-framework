@@ -8,7 +8,7 @@
  */
 namespace utest\hmvc\unit\controller;
 
-use umi\hmvc\component\response\IComponentResponse;
+use umi\hmvc\component\response\IHTTPComponentResponse;
 use utest\hmvc\HMVCTestCase;
 use utest\hmvc\mock\controller\MockRedirectController;
 
@@ -33,7 +33,7 @@ class ControllerTest extends HMVCTestCase
         $this->resolveOptionalDependencies($controller);
 
         /**
-         * @var IComponentResponse $response
+         * @var IHTTPComponentResponse $response
          */
         $response = $controller($this->getRequest('/'));
 

@@ -10,14 +10,14 @@
 namespace umi\hmvc;
 
 /**
- * Интерфейс для внедрения возможности создания MVC слоев.
+ * Интерфейс для внедрения фабрики сущностей компонента MVC.
  */
-interface IMVCLayerAware
+interface IMVCEntityFactoryAware
 {
     /**
      * Устанавливает фабрику MVC сущностей.
-     * @param IMVCLayerFactory $factory фабрика
+     * @param IMVCEntityFactory $factory фабрика
      */
-    public function setMvcFactory(IMVCLayerFactory $factory);
+    public function setMVCEntityFactory(IMVCEntityFactory $factory);
 }
  

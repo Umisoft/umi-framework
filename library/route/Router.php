@@ -99,6 +99,7 @@ class Router implements IRouter, ILocalizable
     protected function matchRoutes(array $routes, $url, IRouteResultBuilder $resultBuilder)
     {
         foreach ($routes as $name => $route) {
+
             if (false === ($matchedLength = $route->match($url))) {
                 continue;
             }

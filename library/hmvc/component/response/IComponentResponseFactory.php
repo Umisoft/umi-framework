@@ -16,7 +16,7 @@ interface IComponentResponseFactory
 {
     /**
      * Создает результат работы компонента.
-     * @return IComponentResponse
+     * @return IHTTPComponentResponse
      */
     public function createComponentResponse();
 }

@@ -16,18 +16,17 @@ use umi\spl\container\TPropertyAccess;
 /**
  * Реализация обертки для результата работы контроллера.
  */
-class DisplayModel implements IDisplayModel, \ArrayAccess
+class DisplayModel implements IDisplayModel
 {
-    use TArrayAccess;
 
     /**
      * @var int $code код ответа
      */
     protected $code = IResponse::SUCCESS;
     /**
-     * @var string $template шаблон
+     * @var string $templateName имя шаблона
      */
-    protected $template;
+    protected $templateName;
     /**
      * @var array $variables переменные
      */
@@ -35,51 +34,15 @@ class DisplayModel implements IDisplayModel, \ArrayAccess
 
     /**
      * Конструктор.
-     * @param string $template имя шаблона
+     * @param string $templateName имя шаблона
      * @param array $variables переменные шаблона
      * @param int $code HTTP код ответа
      */
-    public function __construct($template, array $variables = [], $code = 200)
+    public function __construct($templateName, array $variables = [], $code = 200)
     {
-        $this->template = $template;
+        $this->templateName = $templateName;
         $this->variables = $variables;
         $this->code = $code;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function get($attribute)
-    {
-        return $this->has($attribute) ? $this->variables[$attribute] : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function set($attribute, $value)
-    {
-        $this->variables[$attribute] = $value;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function has($attribute)
-    {
-        return isset($this->variables[$attribute]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function del($attribute)
-    {
-        unset($this->variables[$attribute]);
-
-        return $this;
     }
 
     /**
@@ -121,8 +84,8 @@ class DisplayModel implements IDisplayModel, \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public final function getTemplate()
+    public final function getTemplateName()
     {
-        return $this->template;
+        return $this->templateName;
     }
 }

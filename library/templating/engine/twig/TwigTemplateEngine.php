@@ -9,63 +9,97 @@
 
 namespace umi\templating\engine\twig;
 
+use Twig_Environment;
+use Twig_Extension;
+use Twig_Loader_Filesystem;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
-use umi\templating\engine\BaseTemplateEngine;
-use umi\templating\extension\adapter\IExtensionAdapter;
+use umi\templating\engine\ITemplateEngine;
 
 /**
  * Twig шаблонизатор.
  */
-class TwigTemplateEngine extends BaseTemplateEngine implements ILocalizable
+class TwigTemplateEngine implements ITemplateEngine, ILocalizable
 {
+    /**
+     * Директория расположения шаблонов
+     */
+    const OPTION_TEMPLATE_DIRECTORY = 'directory';
+    /**
+     * Расширение файлов шаблонов
+     */
+    const OPTION_TEMPLATE_FILE_EXTENSION = 'extension';
+
     use TLocalizable;
 
     /**
-     * @var \Twig_Environment $twigEnv окружение шаблонизатора Twig
+     * @var array $options опции
      */
-    protected $twigEnvironment;
+    protected $options = [];
+    /**
+     * @var Twig_Environment $environment окружение шаблонизатора Twig
+     */
+    private $environment;
 
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $options)
+    public function setOptions(array $options)
     {
-        parent::__construct($options);
-
-        $baseDirectory = isset($options[self::OPTION_DIRECTORY]) ? $options[self::OPTION_DIRECTORY] : '';
-        $twigLoader = new \Twig_Loader_Filesystem($baseDirectory);
-
-        $this->twigEnvironment = new \Twig_Environment($twigLoader);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setExtensionAdapter(IExtensionAdapter $adapter)
-    {
-        parent::setExtensionAdapter($adapter);
-
-        foreach ($adapter->getRegisteredHelperCollection() as $collectionName) {
-            $this->twigEnvironment->addExtension(
-                new TwigHelperExtension(
-                    $collectionName,
-                    $adapter->getHelperCollection($collectionName)
-                )
-            );
-        }
-
+        $this->options = $options;
         return $this;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function render($template, array $arguments = [])
+    public function render($templateName, array $arguments = [])
     {
-        return $this->twigEnvironment->render(
-            $this->getTemplateFilename($template),
+        return $this->getEnvironment()->render(
+            $this->getTemplateFilename($templateName),
             $arguments
         );
     }
+
+    /**
+     * Добавляет расширение.
+     * @param Twig_Extension $extension
+     * @return $this
+     */
+    public function addExtension(Twig_Extension $extension)
+    {
+        $this->getEnvironment()->addExtension($extension);
+
+        return $this;
+    }
+
+    /**
+     * Возвращает конфигурацию Twig.
+     * @return Twig_Environment
+     */
+    protected function getEnvironment()
+    {
+        if (!$this->environment) {
+            $baseDirectory = isset($this->options[self::OPTION_TEMPLATE_DIRECTORY]) ? $this->options[self::OPTION_TEMPLATE_DIRECTORY] : '';
+            $twigLoader = new Twig_Loader_Filesystem($baseDirectory);
+            $this->environment = new Twig_Environment($twigLoader);
+        }
+
+        return $this->environment;
+    }
+
+    /**
+     * Возрващает имя файла шаблона по имени шаблона.
+     * @param string $templateName имя шаблона
+     * @return string
+     */
+    protected function getTemplateFilename($templateName)
+    {
+        if (isset($this->options[self::OPTION_TEMPLATE_FILE_EXTENSION])) {
+            $templateName .= '.' . $this->options[self::OPTION_TEMPLATE_FILE_EXTENSION];
+        }
+
+        return $templateName;
+    }
+
 }

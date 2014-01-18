@@ -16,13 +16,10 @@ return [
     'name'     => HMVCTools::NAME,
     'class'    => __NAMESPACE__ . '\HMVCTools',
     'awareInterfaces' => [
-        'umi\hmvc\IMVCLayerAware',
-        'umi\hmvc\component\IComponentAware',
-        'umi\hmvc\component\response\IComponentResponseAware',
-        'umi\hmvc\component\request\IComponentRequestAware',
+        'umi\hmvc\IMVCEntityFactoryAware'
     ],
     'services' => [
-        'umi\hmvc\component\IComponentFactory',
-        'umi\hmvc\component\request\IComponentRequestFactory'
+        'umi\hmvc\IMVCEntityFactory',
+        'umi\hmvc\dispatcher\IDispatcher'
     ]
 ];

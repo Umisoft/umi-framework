@@ -7,13 +7,23 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\component\response;
+namespace umi\hmvc\macros;
+
+use umi\hmvc\component\IComponent;
+use umi\hmvc\component\response\IComponentResponseFactory;
 
 /**
- * Интерфейс для внедрения возможности создания результата работы компонента.
+ * Интерфейс макроса.
  */
-interface IComponentResponseAware
+interface IMacros
 {
+    /**
+     * Внедряет компонент, к которому принадлежит контроллер.
+     * @param IComponent $component
+     * @return self
+     */
+    public function setComponent(IComponent $component);
+
     /**
      * Устанавливает фабрику для создания результатов работы компонента.
      * @param IComponentResponseFactory $factory фабрика

@@ -9,20 +9,29 @@
 
 namespace umi\hmvc\component\request;
 
+use umi\hmvc\component\IComponent;
 use umi\http\request\IRequest;
 
 /**
  * Интерфейс HTTP запроса компонента.
  */
-interface IComponentRequest extends IRequest
+interface IHTTPComponentRequest extends IRequest
 {
-    /** HTTP контейнер - ROUTE */
+    /**
+     * HTTP контейнер - ROUTE
+     */
     const ROUTE = 'route';
 
     /**
-     * Устанавливает параметры маршрутизации для HTTP запроса компонента.
-     * @param array $params параметры маршрутизации
+     * Устанавливает параметры маршрута, соответствующего HTTP запросу к компоненту.
+     * @param array $params параметры маршрута
      * @return self
      */
     public function setRouteParams(array $params);
+
+    /**
+     * Возвращает компонент.
+     * @return IComponent
+     */
+    public function getComponent();
 }

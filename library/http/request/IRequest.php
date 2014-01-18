@@ -86,17 +86,17 @@ interface IRequest
 
     /**
      * Возвращает переменную из параметров.
-     * @param string $container имя контейнера параметров
+     * @param string $containerType тип контейнера параметров
      * @param string $name имя параметра
      * @param mixed $default значение по умолчанию
      * @return mixed значение из GET
      */
-    public function getVar($container, $name, $default = null);
+    public function getVar($containerType, $name, $default = null);
 
     /**
-     * Возвращает контейнер GET параметров.
-     * @param string $container имя контейнера параметров
+     * Возвращает контейнер параметров.
+     * @param string $containerType тип контейнера параметров
      * @return IParamCollection коллекция параметров
      */
-    public function getParams($container);
+    public function getParams($containerType);
 }

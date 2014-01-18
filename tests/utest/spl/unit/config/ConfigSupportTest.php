@@ -45,7 +45,7 @@ class ConfigSupportTest extends TestCase
             ]
         ];
 
-        $result = $this->diffConfigOptions($options, $default);
+        $result = $this->mergeConfigOptions($options, $default);
         $actualResult = $this->configToArray($result, true);
 
         $expectedResult = [

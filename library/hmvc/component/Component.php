@@ -9,45 +9,28 @@
 
 namespace umi\hmvc\component;
 
-use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\component\request\IComponentRequestAware;
-use umi\hmvc\component\request\TComponentRequestAware;
-use umi\hmvc\component\response\IComponentResponse;
-use umi\hmvc\component\response\IComponentResponseAware;
-use umi\hmvc\component\response\TComponentResponseAware;
-use umi\hmvc\context\Context;
-use umi\hmvc\context\IContext;
-use umi\hmvc\context\IContextAware;
-use umi\hmvc\controller\IController;
 use umi\hmvc\controller\IControllerFactory;
-use umi\hmvc\component\response\model\IDisplayModel;
-use umi\hmvc\exception\http\HttpNotFound;
 use umi\hmvc\exception\OutOfBoundsException;
-use umi\hmvc\exception\RuntimeException;
-use umi\hmvc\exception\UnexpectedValueException;
-use umi\hmvc\IMVCLayerAware;
+use umi\hmvc\IMVCEntityFactoryAware;
+use umi\hmvc\macros\IMacrosFactory;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
-use umi\hmvc\TMVCLayerAware;
+use umi\hmvc\TMVCEntityFactoryAware;
 use umi\hmvc\view\IView;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\route\IRouteAware;
 use umi\route\IRouter;
-use umi\route\result\IRouteResult;
 use umi\route\TRouteAware;
 use umi\spl\config\TConfigSupport;
 
 /**
  * Реализация MVC компонента системы.
  */
-class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAware, IComponentRequestAware, IComponentResponseAware, ILocalizable
+class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILocalizable
 {
-    use TMVCLayerAware;
-    use TComponentAware;
+    use TMVCEntityFactoryAware;
     use TRouteAware;
-    use TComponentRequestAware;
-    use TComponentResponseAware;
     use TLocalizable;
     use TConfigSupport;
 
@@ -63,6 +46,10 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
      * @var IControllerFactory $controllerFactory фабрика контроллеров
      */
     private $controllerFactory;
+    /**
+     * @var IMacrosFactory $macrosFactory фабрика макросов
+     */
+    private $macrosFactory;
     /**
      * @var IModelFactory $modelFactory фабрика моделей
      */
@@ -84,6 +71,14 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     /**
      * {@inheritdoc}
      */
+    public function hasChildComponent($name)
+    {
+        return isset($this->options[self::OPTION_COMPONENTS][$name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getChildComponent($name)
     {
         if (!$this->hasChildComponent($name)) {
@@ -94,7 +89,7 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
         }
 
         $config = $this->configToArray($this->options[self::OPTION_COMPONENTS][$name]);
-        return $this->createHMVCComponent($config);
+        return $this->createMVCComponent($config);
     }
 
     /**
@@ -115,237 +110,45 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     /**
      * {@inheritdoc}
      */
-    public function execute(IComponentRequest $request)
+    public function hasController($controllerName)
     {
-        $this->processRequest($request);
-
-        $context = new Context(
-            $this,
-            $request,
-            $this->route($request)
-        );
-
-        $response = $this->dispatch($context);
-
-        if ($response->isProcessable()) {
-            $this->processResponse($response, $request);
-        }
-
-        return $response;
+        return $this->getControllerFactory()->hasController($controllerName);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function call($name, IComponentRequest $request)
+    public function getController($controllerName, array $args = [])
     {
-        $context = new Context($this, $request);
-
-        $controller = $this->getControllerFactory()
-            ->createController($name);
-
-        return $this->callController(
-            $controller,
-            $context
-        );
+        return $this->getControllerFactory()->createController($controllerName, $args);
     }
 
     /**
-     * Выполняет маршрутизацию запроса.
-     * @param IComponentRequest $request HTTP запрос
-     * @return IRouteResult результат маршрутизации
+     * {@inheritdoc}
      */
-    protected function route(IComponentRequest $request)
+    public function hasMacros($macrosName)
     {
-        $result = $this->getRouter()
-            ->match($request->getRequestURI());
-
-        $request->setRouteParams($result->getMatches());
-
-        return $result;
+        return $this->getMacrosFactory()->hasMacros($macrosName);
     }
 
     /**
-     * Выполняет отправку запроса на выполнение в контроллер, либо в дочерний компонент.
-     *
-     * @param IContext $context контекст работы компонента
-     * @return IComponentResponse результат работы компонента
+     * {@inheritdoc}
      */
-    protected function dispatch(IContext $context)
+    public function getMacros($macrosName, array $args = [])
     {
-        $matches = $context->getRouteResult()->getMatches();
-
-        if (isset($matches[self::MATCH_COMPONENT])) {
-            if (!$this->hasChildComponent($matches[self::MATCH_COMPONENT])) {
-                return $this->callErrorController(
-                    new HttpNotFound($this->translate(
-                        'Child component "{name}" not found.',
-                        ['name' => $matches[self::MATCH_COMPONENT]]
-                    )),
-                    $context
-                );
-            }
-
-            $component = $this->getChildComponent($matches[self::MATCH_COMPONENT]);
-
-            return $this->callChildComponent($component, $context);
-        } elseif (isset($matches[self::MATCH_CONTROLLER]) && !$context->getRouteResult()->getUnmatchedUrl()) {
-            if (!$this->getControllerFactory()->hasController($matches[self::MATCH_CONTROLLER])) {
-                return $this->callErrorController(
-                    new HttpNotFound($this->translate(
-                        'Controller "{name}" not found.',
-                        ['name' => $matches[self::MATCH_CONTROLLER]]
-                    )),
-                    $context
-                );
-            }
-
-            $controller = $this->getControllerFactory()
-                ->createController($matches[self::MATCH_CONTROLLER]);
-
-            return $this->callController($controller, $context);
-        } else {
-            return $this->callErrorController(
-                new HttpNotFound($this->translate(
-                    'URL not found by router.'
-                )),
-                $context
-            );
-        }
+        return $this->getMacrosFactory()->createMacros($macrosName, $args);
     }
 
     /**
-     * Вызывает дочерний компонент.
-     * @param IComponent $component компонент
-     * @param IContext $context контекст родительского компонента
-     * @return IComponentResponse
+     * {@inheritdoc}
      */
-    protected function callChildComponent($component, IContext $context)
-    {
-        /**
-         * @var IRouter $router
-         */
-        $router = $component->getRouter();
-        $router->setBaseUrl($context->getRouteResult()->getMatchedUrl());
-
-        $componentRequest = $this->createComponentRequest($context->getRouteResult()->getUnmatchedUrl());
-
-        try {
-            return $component->execute($componentRequest);
-        } catch (\Exception $e) {
-            return $this->callErrorController($e, $context);
-        }
-    }
-
-    /**
-     * Вызывает контроллер компонента.
-     *
-     * @param IController $controller контроллер
-     * @param IContext $context контекст вызова контроллера
-     * @return IComponentResponse
-     */
-    protected function callController(IController $controller, IContext $context)
-    {
-        try {
-            if ($controller instanceof IContextAware) {
-                $controller->setContext($context);
-            }
-
-            $result = $controller($context->getRequest());
-
-            if ($controller instanceof IContextAware) {
-                $controller->clearContext();
-            }
-
-            if (!$result instanceof IComponentResponse) {
-                throw new UnexpectedValueException($this->translate(
-                    'Controller "{controller}" returns unexpected value. Instance of IComponentResponse expected.',
-                    ['controller' => get_class($controller)]
-                ));
-            }
-
-            return $this->render($result, $context);
-        } catch (\Exception $exception) {
-            return $this->callErrorController($exception, $context);
-        }
-    }
-
-    /**
-     * Проверяет, существует ли дочерний компонент с заданным именем.
-     * @param string $name имя компонента
-     * @return bool
-     */
-    protected function hasChildComponent($name)
-    {
-        return isset($this->options[self::OPTION_COMPONENTS][$name]);
-    }
-
-    /**
-     * Обрабатывает результат работы дочернего компонента.
-     * @param IComponentResponse $response результат работы компонента
-     * @param IComponentRequest $request запрос компонента
-     */
-    protected function processResponse(IComponentResponse &$response, IComponentRequest $request)
-    {
-    }
-
-    /**
-     * Обрабатывает запрос компонента.
-     * @param IComponentRequest $request запрос к компоненту
-     */
-    protected function processRequest(IComponentRequest &$request)
-    {
-    }
-
-    /**
-     * Возвращает фабрику контроллеров компонента.
-     * @return IControllerFactory
-     */
-    protected function getControllerFactory()
-    {
-        if (!$this->controllerFactory) {
-            $config = isset($this->options[self::OPTION_CONTROLLERS]) ? $this->options[self::OPTION_CONTROLLERS] : [];
-            $config = $this->configToArray($config, true);
-
-            $controllerFactory = $this->createMvcControllerFactory($config);
-
-            if ($controllerFactory instanceof IModelAware) {
-                $controllerFactory->setModelFactory($this->getModelsFactory());
-            }
-
-            return $this->controllerFactory = $controllerFactory;
-        }
-
-        return $this->controllerFactory;
-    }
-
-    /**
-     * Возвращает фабрику моделей компонента.
-     * @return IModelFactory
-     */
-    protected function getModelsFactory()
-    {
-        if (!$this->modelFactory) {
-            $config = isset($this->options[self::OPTION_MODELS]) ? $this->options[self::OPTION_MODELS] : [];
-            $config = $this->configToArray($config, true);
-
-            return $this->modelFactory = $this->createMvcModelFactory($config);
-        }
-
-        return $this->modelFactory;
-    }
-
-    /**
-     * Возвращает слой отображения для компонента.
-     * @return IView
-     */
-    protected function getView()
+    public function getView()
     {
         if (!$this->view) {
             $config = isset($this->options[self::OPTION_VIEW]) ? $this->options[self::OPTION_VIEW] : [];
             $config = $this->configToArray($config, true);
 
-            $view = $this->createMvcView($config);
+            $view = $this->createMVCView($config);
 
             if ($view instanceof IModelAware) {
                 $view->setModelFactory($this->getModelsFactory());
@@ -358,68 +161,63 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     }
 
     /**
-     * Вызывает error controller компонента если зарегистрирован.
-     * @param \Exception $exception исключение для обработки error controller
-     * @param IContext $context контекст вызова
-     * @throws \Exception если error controller не зарегистрирован
-     * @return IComponentResponse
+     * Возвращает фабрику контроллеров компонента.
+     * @return IControllerFactory
      */
-    protected function callErrorController(\Exception $exception, IContext $context)
+    protected function getControllerFactory()
     {
-        if (!$this->getControllerFactory()
-            ->hasController(self::ERROR_CONTROLLER)
-        ) {
-            throw $exception;
+        if (!$this->controllerFactory) {
+            $controllerList = isset($this->options[self::OPTION_CONTROLLERS]) ? $this->options[self::OPTION_CONTROLLERS] : [];
+            $controllerList = $this->configToArray($controllerList, true);
+
+            $controllerFactory = $this->createMVCControllerFactory($this, $controllerList);
+
+            if ($controllerFactory instanceof IModelAware) {
+                $controllerFactory->setModelFactory($this->getModelsFactory());
+            }
+
+            return $this->controllerFactory = $controllerFactory;
         }
 
-        $controller = $this->getControllerFactory()
-            ->createController(self::ERROR_CONTROLLER, [$exception]);
-
-        $result = $controller($context->getRequest());
-
-        return $this->render($result, $context);
+        return $this->controllerFactory;
     }
 
     /**
-     * Выполняет рендеринг результата при необходимости.
-     * @param IComponentResponse $response
-     * @param IContext $context контекст работы компонента
-     * @throws RuntimeException в случае ошибки шаблонизации
-     * @return IComponentResponse
+     * Возвращает фабрику макросов компонента.
+     * @return IMacrosFactory
      */
-    protected function render(IComponentResponse $response, IContext $context)
+    protected function getMacrosFactory()
     {
-        $content = $response->getContent();
+        if (!$this->macrosFactory) {
+            $macrosList = isset($this->options[self::OPTION_MACROS]) ? $this->options[self::OPTION_MACROS] : [];
+            $macrosList = $this->configToArray($macrosList, true);
 
-        if ($content instanceof IDisplayModel) {
-            $view = $this->getView();
+            $macrosFactory = $this->createMVCMacrosFactory($this, $macrosList);
 
-            if ($view instanceof IContextAware) {
-                $view->setContext($context);
+            if ($macrosFactory instanceof IModelAware) {
+                $macrosFactory->setModelFactory($this->getModelsFactory());
             }
 
-            try {
-                $content = $view->render($content->getTemplate(), $content->getVariables());
-            } catch (\Exception $e) {
-                throw new RuntimeException(
-                    $this->translate(
-                        'Cannot render template "{template}".',
-                        [
-                            'template' => $content->getTemplate()
-                        ]
-                    ),
-                    0,
-                    $e
-                );
-            }
-
-            $response->setContent($content);
-
-            if ($view instanceof IContextAware) {
-                $view->clearContext();
-            }
+            return $this->macrosFactory = $macrosFactory;
         }
 
-        return $response;
+        return $this->macrosFactory;
     }
+
+    /**
+     * Возвращает фабрику моделей компонента.
+     * @return IModelFactory
+     */
+    protected function getModelsFactory()
+    {
+        if (!$this->modelFactory) {
+            $config = isset($this->options[self::OPTION_MODELS]) ? $this->options[self::OPTION_MODELS] : [];
+            $config = $this->configToArray($config, true);
+
+            return $this->modelFactory = $this->createMVCModelFactory($config);
+        }
+
+        return $this->modelFactory;
+    }
+
 }

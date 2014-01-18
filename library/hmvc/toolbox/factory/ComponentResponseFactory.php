@@ -9,6 +9,7 @@
 
 namespace umi\hmvc\toolbox\factory;
 
+use umi\hmvc\component\IComponent;
 use umi\hmvc\component\response\IComponentResponseFactory;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
@@ -23,7 +24,21 @@ class ComponentResponseFactory implements IComponentResponseFactory, IFactory
     /**
      * @var string $componentResponseClass класс результата работы компонента
      */
-    public $componentResponseClass = 'umi\hmvc\component\response\ComponentResponse';
+    public $componentResponseClass = 'umi\hmvc\component\response\HTTPComponentResponse';
+
+    /**
+     * @var IComponent $component компонент
+     */
+    protected $component;
+
+    /**
+     * Конструктор.
+     * @param IComponent $component
+     */
+    public function __construct(IComponent $component)
+    {
+        $this->component = $component;
+    }
 
     /**
      * {@inheritdoc}
@@ -32,8 +47,8 @@ class ComponentResponseFactory implements IComponentResponseFactory, IFactory
     {
         return $this->getPrototype(
                 $this->componentResponseClass,
-                ['umi\hmvc\component\response\IComponentResponse']
+                ['umi\hmvc\component\response\IHTTPComponentResponse']
             )
-            ->createInstance();
+            ->createInstance([$this->component]);
     }
 }

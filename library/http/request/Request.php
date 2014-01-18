@@ -97,34 +97,33 @@ class Request implements IRequest
     /**
      * {@inheritdoc}
      */
-    public function getVar($container, $name, $default = null)
+    public function getVar($containerType, $name, $default = null)
     {
-        return $this->getParams($container)
+        return $this->getParams($containerType)
             ->get($name, $default);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getParams($container)
+    public function getParams($containerType)
     {
-        if (!isset($this->paramCollectionInstances[$container])) {
-            $this->paramCollectionInstances[$container] = $this->createContainer($container);
+        if (!isset($this->paramCollectionInstances[$containerType])) {
+            $this->paramCollectionInstances[$containerType] = $this->createContainer($containerType);
         }
 
-        return $this->paramCollectionInstances[$container];
+        return $this->paramCollectionInstances[$containerType];
     }
 
     /**
      * Возвращает коллекцию параметров определенного типа.
-     * todo: мб в фабрику коллекции параметров?
-     * @param string $container тип контейнера
+     * @param string $containerType тип контейнера
      * @return IParamCollection коллекция параметров выбранного типа
      * @throws RuntimeException если тип не задан в контейнере классов
      */
-    protected function createContainer($container)
+    protected function createContainer($containerType)
     {
-        switch ($container) {
+        switch ($containerType) {
             case self::GET:
                 $params = & $_GET;
                 break;

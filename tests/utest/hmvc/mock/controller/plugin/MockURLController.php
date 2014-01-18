@@ -9,7 +9,9 @@
 
 namespace utest\hmvc\mock\controller\plugin;
 
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\component\IComponent;
+use umi\hmvc\component\request\IHTTPComponentRequest;
+use umi\hmvc\component\response\IComponentResponseFactory;
 use umi\hmvc\context\IContextAware;
 use umi\hmvc\context\TContextAware;
 use umi\hmvc\controller\IController;
@@ -26,7 +28,17 @@ class MockURLController implements IController, IContextAware
     /**
      * {@inheritdoc}
      */
-    public function __invoke(IComponentRequest $request)
+    public function setComponent(IComponent $component) {}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setComponentResponseFactory(IComponentResponseFactory $factory) {}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __invoke(IHTTPComponentRequest $request)
     {
         throw new \Exception('It is mock controller. Use specific methods.');
     }

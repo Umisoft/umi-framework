@@ -29,7 +29,7 @@ class ControllerResultTest extends TestCase
 
     public function testBasic()
     {
-        $this->assertEquals('template', $this->result->getTemplate());
+        $this->assertEquals('template', $this->result->getTemplateName());
 
         $this->assertEquals(['variable' => 'value'], $this->result->getVariables());
         $this->assertSame($this->result, $this->result->setVariables(['test' => 'val']));
