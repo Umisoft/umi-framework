@@ -47,7 +47,6 @@ trait TMVCEntityFactoryAware
         return $this->getMVCEntityFactory()
             ->createControllerFactory(
                 $component,
-                $this->getMVCEntityFactory()->createResponseFactory($component),
                 $controllerList
             );
     }
@@ -63,7 +62,6 @@ trait TMVCEntityFactoryAware
         return $this->getMVCEntityFactory()
             ->createMacrosFactory(
                 $component,
-                $this->getMVCEntityFactory()->createResponseFactory($component),
                 $macrosList
             );
     }

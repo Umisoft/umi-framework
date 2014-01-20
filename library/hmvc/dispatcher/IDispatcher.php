@@ -28,7 +28,6 @@ interface IDispatcher
      * Обрабатывает http-запрос с помощью указанного MVC-компонента.
      * @param IComponent $component начальный компонент
      * @param IRequest $request
-     * @return IHTTPComponentResponse
      */
     public function dispatchRequest(IComponent $component, IRequest $request);
 

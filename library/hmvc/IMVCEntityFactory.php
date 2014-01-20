@@ -11,7 +11,6 @@ namespace umi\hmvc;
 
 use umi\hmvc\component\IComponent;
 use umi\hmvc\component\request\IHTTPComponentRequest;
-use umi\hmvc\component\response\IComponentResponseFactory;
 use umi\hmvc\controller\IControllerFactory;
 use umi\hmvc\macros\IMacrosFactory;
 use umi\hmvc\model\IModelFactory;
@@ -26,20 +25,18 @@ interface IMVCEntityFactory
     /**
      * Создает фабрику контроллеров для компонента.
      * @param IComponent $component
-     * @param IComponentResponseFactory $responseFactory фабрика результатов работы компонента
      * @param array $controllerList список контроллеров в формате ['controllerName' => 'controllerClassName', ...]
      * @return IControllerFactory
      */
-    public function createControllerFactory(IComponent $component, IComponentResponseFactory $responseFactory, array $controllerList);
+    public function createControllerFactory(IComponent $component, array $controllerList);
 
     /**
      * Создает фабрику макросов для компонента.
      * @param IComponent $component
-     * @param IComponentResponseFactory $responseFactory фабрика результатов работы компонента
      * @param array $macrosList список макросов в формате ['macrosName' => 'macrosClassName', ...]
      * @return IMacrosFactory
      */
-    public function createMacrosFactory(IComponent $component, IComponentResponseFactory $responseFactory, array $macrosList);
+    public function createMacrosFactory(IComponent $component, array $macrosList);
 
     /**
      * Создает фабрику моделей.
@@ -69,10 +66,4 @@ interface IMVCEntityFactory
      */
     public function createComponentRequest(IComponent $component);
 
-    /**
-     * Создает фабрику результатов работы компонента.
-     * @param IComponent $component
-     * @return IComponentResponseFactory
-     */
-    public function createResponseFactory(IComponent $component);
 }

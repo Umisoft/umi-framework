@@ -12,7 +12,6 @@ namespace umi\hmvc\controller;
 use umi\hmvc\component\IComponent;
 use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\hmvc\component\response\IHTTPComponentResponse;
-use umi\hmvc\component\response\IComponentResponseFactory;
 
 /**
  * Интерфейс контроллера.
@@ -32,10 +31,4 @@ interface IController
      * @return self
      */
     public function setComponent(IComponent $component);
-
-    /**
-     * Устанавливает фабрику для создания результатов работы компонента.
-     * @param IComponentResponseFactory $factory фабрика
-     */
-    public function setComponentResponseFactory(IComponentResponseFactory $factory);
 }

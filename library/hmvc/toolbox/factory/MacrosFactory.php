@@ -41,21 +41,15 @@ class MacrosFactory implements IMacrosFactory, IFactory, IModelAware
      * @var IComponent $component компонент
      */
     protected $component;
-    /**
-     * @var IComponentResponseFactory $responseFactory фабрика результатов работы компонента
-     */
-    protected $responseFactory;
 
     /**
      * Конструктор.
      * @param IComponent $component
-     * @param IComponentResponseFactory $responseFactory фабрика результатов работы компонента
      * @param array $macrosList список макросов в формате ['macrosName' => 'macrosClassName', ...]
      */
-    public function __construct(IComponent $component, IComponentResponseFactory $responseFactory, array $macrosList)
+    public function __construct(IComponent $component, array $macrosList)
     {
         $this->component = $component;
-        $this->responseFactory = $responseFactory;
         $this->macrosList = $macrosList;
     }
 
@@ -73,7 +67,6 @@ class MacrosFactory implements IMacrosFactory, IFactory, IModelAware
 
         $macros = $this->createMacrosByClass($this->macrosList[$name], $args);
         $macros->setComponent($this->component);
-        $macros->setComponentResponseFactory($this->responseFactory);
 
         return $macros;
     }

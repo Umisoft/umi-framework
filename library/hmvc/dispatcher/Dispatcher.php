@@ -15,11 +15,9 @@ use SplStack;
 use umi\hmvc\component\IComponent;
 use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\hmvc\component\response\IHTTPComponentResponse;
-use umi\hmvc\component\response\model\IDisplayModel;
 use umi\hmvc\controller\IController;
 use umi\hmvc\exception\http\HttpNotFound;
 use umi\hmvc\exception\InvalidArgumentException;
-use umi\hmvc\exception\RuntimeException;
 use umi\hmvc\exception\UnexpectedValueException;
 use umi\hmvc\IMVCEntityFactoryAware;
 use umi\hmvc\macros\IMacros;
@@ -48,9 +46,9 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
         $routePath = rtrim(parse_url($request->getRequestURI(), PHP_URL_PATH), '/');
 
         try {
-            return $this->processRequest($component, $routePath, $callStack);
+            return $this->processRequest($component, $routePath, $callStack)->send();
         } catch (Exception $e) {
-            return $this->processError($e, $callStack);
+            return $this->processError($e, $callStack)->send();
         }
 
     }
@@ -151,7 +149,7 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
             ));
         }
 
-        return $this->render($macrosResponse);
+        return $macrosResponse;
     }
 
     /**
@@ -232,41 +230,7 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
             ));
         }
 
-        return $this->render($componentResponse);
-    }
-
-    /**
-     * Выполняет рендеринг результата при необходимости.
-     * @param IHTTPComponentResponse $response
-     * @throws RuntimeException
-     * @return IHTTPComponentResponse
-     */
-    protected function render(IHTTPComponentResponse $response)
-    {
-        $content = $response->getContent();
-
-        if ($content instanceof IDisplayModel) {
-            $view = $response->getComponent()->getView();
-
-            try {
-                $content = $view->render($content->getTemplateName(), $content->getVariables());
-            } catch (Exception $e) {
-                throw new RuntimeException(
-                    $this->translate(
-                        'Cannot render template "{template}".',
-                        [
-                            'template' => $content->getTemplateName()
-                        ]
-                    ),
-                    0,
-                    $e
-                );
-            }
-
-            $response->setContent($content);
-        }
-
-        return $response;
+        return $componentResponse;
     }
 
     /**

@@ -24,10 +24,5 @@ interface IMacros
      */
     public function setComponent(IComponent $component);
 
-    /**
-     * Устанавливает фабрику для создания результатов работы компонента.
-     * @param IComponentResponseFactory $factory фабрика
-     */
-    public function setComponentResponseFactory(IComponentResponseFactory $factory);
 }
  

@@ -10,7 +10,6 @@
 namespace umi\hmvc\toolbox\factory;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\response\IComponentResponseFactory;
 use umi\hmvc\controller\IController;
 use umi\hmvc\controller\IControllerFactory;
 use umi\hmvc\exception\OutOfBoundsException;
@@ -26,7 +25,6 @@ use umi\toolkit\prototype\IPrototype;
 class ControllerFactory implements IControllerFactory, IFactory, IModelAware
 {
     use TFactory;
-
     /**
      * @var array $controllersList список контроллеров
      */
@@ -39,21 +37,15 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
      * @var IComponent $component компонент
      */
     protected $component;
-    /**
-     * @var IComponentResponseFactory $responseFactory фабрика результатов работы компонента
-     */
-    protected $responseFactory;
 
     /**
      * Конструктор.
      * @param IComponent $component
-     * @param IComponentResponseFactory $responseFactory фабрика результатов работы компонента
      * @param array $controllerList список контроллеров в формате ['controllerName' => 'controllerClassName', ...]
      */
-    public function __construct(IComponent $component, IComponentResponseFactory $responseFactory, array $controllerList)
+    public function __construct(IComponent $component, array $controllerList)
     {
         $this->component = $component;
-        $this->responseFactory = $responseFactory;
         $this->controllersList = $controllerList;
     }
 
@@ -71,7 +63,6 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
 
         $controller = $this->createControllerByClass($this->controllersList[$name], $args);
         $controller->setComponent($this->component);
-        $controller->setComponentResponseFactory($this->responseFactory);
 
         return $controller;
     }

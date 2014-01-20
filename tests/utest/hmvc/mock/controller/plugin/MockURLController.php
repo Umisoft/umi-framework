@@ -33,7 +33,7 @@ class MockURLController implements IController, IContextAware
     /**
      * {@inheritdoc}
      */
-    public function setComponentResponseFactory(IComponentResponseFactory $factory) {}
+    public function setHTTPComponentResponse(IComponentResponseFactory $response) {}
 
     /**
      * {@inheritdoc}

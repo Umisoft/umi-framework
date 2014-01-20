@@ -10,10 +10,7 @@
 namespace umi\hmvc\toolbox\factory;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\response\IComponentResponseFactory;
 use umi\hmvc\IMVCEntityFactory;
-use umi\hmvc\view\extension\IViewExtensionFactory;
-use umi\hmvc\view\extension\IViewExtensionFactoryAware;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
 
@@ -60,25 +57,25 @@ class MVCEntityFactory implements IMVCEntityFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createControllerFactory(IComponent $component, IComponentResponseFactory $responseFactory, array $controllerList)
+    public function createControllerFactory(IComponent $component, array $controllerList)
     {
         return $this->getPrototype(
                 $this->controllerFactoryClass,
                 ['umi\hmvc\controller\IControllerFactory']
             )
-            ->createInstance([$component, $responseFactory, $controllerList]);
+            ->createInstance([$component, $controllerList]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function createMacrosFactory(IComponent $component, IComponentResponseFactory $responseFactory, array $macrosList)
+    public function createMacrosFactory(IComponent $component, array $macrosList)
     {
         return $this->getPrototype(
             $this->macrosFactoryClass,
             ['umi\hmvc\macros\IMacrosFactory']
         )
-            ->createInstance([$component, $responseFactory, $macrosList]);
+            ->createInstance([$component, $macrosList]);
     }
 
     /**
@@ -98,17 +95,11 @@ class MVCEntityFactory implements IMVCEntityFactory, IFactory
      */
     public function createView(array $options)
     {
-        $view = $this->getPrototype(
+        return $this->getPrototype(
                 $this->viewClass,
                 ['umi\hmvc\view\IView']
             )
             ->createInstance([$options]);
-
-        if ($view instanceof IViewExtensionFactoryAware) {
-            $view->setViewExtensionFactory($this->createViewExtensionFactory());
-        }
-
-        return $view;
     }
 
     /**
@@ -138,28 +129,4 @@ class MVCEntityFactory implements IMVCEntityFactory, IFactory
             ->createInstance([$component]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createResponseFactory(IComponent $component)
-    {
-        return $this->getPrototype(
-            $this->componentResponseFactoryClass,
-            ['umi\hmvc\component\response\IComponentResponseFactory']
-        )
-            ->createInstance([$component]);
-    }
-
-    /**
-     * Создает фабрику расширений для View
-     * @return IViewExtensionFactory
-     */
-    protected function createViewExtensionFactory()
-    {
-        return $this->getPrototype(
-            $this->viewExtensionFactoryClass,
-            ['umi\hmvc\view\extension\IViewExtensionFactory']
-        )
-            ->createInstance();
-    }
 }

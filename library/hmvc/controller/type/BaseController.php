@@ -9,17 +9,16 @@
 namespace umi\hmvc\controller\type;
 
 use umi\hmvc\component\IComponent;
+use umi\hmvc\component\response\HTTPComponentResponse;
 use umi\hmvc\component\response\IHTTPComponentResponse;
-use umi\hmvc\component\response\IComponentResponseFactory;
-use umi\hmvc\component\response\model\DisplayModel;
 use umi\hmvc\controller\IController;
 use umi\hmvc\exception\RequiredDependencyException;
+use umi\hmvc\view\content\Content;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 
 /**
- * Абстрактный базовый класс контроллера.
- * Реализует helper методы для контроллеров.
+ * Базовый класс контроллера.
  */
 abstract class BaseController implements IController, ILocalizable
 {
@@ -29,10 +28,6 @@ abstract class BaseController implements IController, ILocalizable
      * @var IComponent $component компонент, которому принадлежит контроллер
      */
     private $component;
-    /**
-     * @var IComponentResponseFactory $responseFactory
-     */
-    private $responseFactory;
 
     /**
      * {@inheritdoc}
@@ -41,14 +36,6 @@ abstract class BaseController implements IController, ILocalizable
     {
         $this->component = $component;
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setComponentResponseFactory(IComponentResponseFactory $factory)
-    {
-        $this->responseFactory = $factory;
     }
 
     /**
@@ -74,8 +61,7 @@ abstract class BaseController implements IController, ILocalizable
      */
     protected function createPlainResponse($content, $code = 200)
     {
-        return $this->getComponentResponseFactory()
-            ->createComponentResponse()
+        return $this->createHTTPComponentResponse()
             ->setCode($code)
             ->setContent($content);
     }
@@ -91,10 +77,9 @@ abstract class BaseController implements IController, ILocalizable
      */
     protected function createDisplayResponse($template, array $variables)
     {
-        return $this->getComponentResponseFactory()
-            ->createComponentResponse()
+        return $this->createHTTPComponentResponse()
                 ->setContent(
-                    new DisplayModel($template, $variables)
+                    new Content($this->getComponent()->getView(), $template, $variables)
                 );
     }
 
@@ -106,29 +91,21 @@ abstract class BaseController implements IController, ILocalizable
      */
     protected function createRedirectResponse($url, $code = 301)
     {
-        $response = $this->getComponentResponseFactory()
-            ->createComponentResponse();
-
+        $response = $this->createHTTPComponentResponse();
         $response->setCode($code)
-                 ->getHeaders()
-                    ->setHeader('Location', $url);
+             ->getHeaders()
+                ->setHeader('Location', $url);
 
         return $response;
     }
 
     /**
-     * Возвращает фабрику для HTTP ответов компонента.
-     * @return IComponentResponseFactory
+     * Возвращает HTTP ответ компонента.
      * @throws RequiredDependencyException если фабрика не была внедрена
+     * @return IHTTPComponentResponse
      */
-    private function getComponentResponseFactory()
+    protected function createHTTPComponentResponse()
     {
-        if (!$this->responseFactory) {
-            throw new RequiredDependencyException(
-                sprintf('Component response factory is not injected in controller "%s".', __CLASS__)
-            );
-        }
-
-        return $this->responseFactory;
+        return new HTTPComponentResponse($this->getComponent());
     }
 }
