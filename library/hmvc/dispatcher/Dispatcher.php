@@ -20,6 +20,7 @@ use umi\hmvc\controller\IController;
 use umi\hmvc\dispatcher\macros\MacrosRequest;
 use umi\hmvc\exception\http\HttpNotFound;
 use umi\hmvc\exception\InvalidArgumentException;
+use umi\hmvc\exception\RuntimeException;
 use umi\hmvc\exception\UnexpectedValueException;
 use umi\hmvc\IMVCEntityFactoryAware;
 use umi\hmvc\macros\IMacros;
@@ -39,9 +40,13 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     use TMVCEntityFactoryAware;
 
     /**
-     * @var array $renderError информация об ошибке рендеринга
+     * @var Exception $controllerViewRenderError исключение рендеринга
      */
-    protected $controllerViewRenderErrorInfo = [];
+    protected $controllerViewRenderError;
+    /**
+     * @var IHTTPComponentRequest $currentHTTPComponentRequest обрабатываемый контекст
+     */
+    private $currentHTTPComponentRequest;
 
     /**
      * {@inheritdoc}
@@ -62,15 +67,9 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
 
         $content = (string) $response->getContent();
 
-        if ($this->controllerViewRenderErrorInfo) {
-            /**
-             * @var IHTTPComponentRequest $failureRequest
-             * @var Exception $e
-             */
-            list ($failureRequest, $e) = $this->controllerViewRenderErrorInfo;
-            $this->controllerViewRenderErrorInfo = [];
-
-            $this->processError($e, $failureRequest->getCallStack());
+        if ($e = $this->controllerViewRenderError) {
+            $this->controllerViewRenderError = null;
+            $this->processError($e, $this->getCurrentHTTPComponentRequest()->getCallStack());
             return;
         }
 
@@ -81,9 +80,9 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     /**
      * {@inheritdoc}
      */
-    public function reportControllerViewRenderError(IHTTPComponentRequest $request, Exception $e)
+    public function reportControllerViewRenderError(Exception $e)
     {
-        $this->controllerViewRenderErrorInfo = [$request, $e];
+        $this->controllerViewRenderError = $e;
 
         return $this;
     }
@@ -99,9 +98,37 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
         try {
             return $this->processMacros($component, $macrosPath, $args, $callStack);
         } catch (Exception $e) {
-            return $this->processMacrosError($this->createMacrosRequest($component, clone $callStack), $e);
+            $macrosRequest = $this->createMacrosRequest($component);
+            $macrosRequest->setCallStack(clone $callStack);
+
+            return $this->processMacrosError($macrosRequest, $e);
         }
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCurrentHTTPComponentRequest(IHTTPComponentRequest $request)
+    {
+        $this->currentHTTPComponentRequest = $request;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCurrentHTTPComponentRequest()
+    {
+        if (!$this->currentHTTPComponentRequest) {
+            throw new RuntimeException(
+                'Current HTTP Component request is unknown.'
+            );
+        }
+
+        return $this->currentHTTPComponentRequest;
+    }
+
 
     /**
      * Возвращает результат работы макроса.
@@ -135,7 +162,9 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
         }
 
         $macros = $component->getMacros($macrosName);
-        $macros->setMacrosRequest($this->createMacrosRequest($component, clone $callStack));
+        $macrosRequest = $this->createMacrosRequest($component);
+        $macrosRequest->setCallStack(clone $callStack);
+        $macros->setMacrosRequest($macrosRequest);
 
         return $this->callMacros($macros, $args);
     }
@@ -198,10 +227,16 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
      */
     protected function processRequest(IComponent $component, $routePath, SplStack $callStack, $matchedRoutePath = '') {
 
-        $callStack->push($component);
-
         $routeResult = $component->getRouter()->match($routePath);
         $routeMatches = $routeResult->getMatches();
+
+        $componentRequest = $this->createComponentRequest($component);
+        $callStack->push($componentRequest);
+
+        $componentRequest
+            ->setRouteParams($routeMatches)
+            ->setBaseUrl($matchedRoutePath)
+            ->setCallStack(clone $callStack);
 
         if (isset($routeMatches[IComponent::MATCH_COMPONENT])) {
 
@@ -216,8 +251,8 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
             }
 
             $childComponent = $component->getChildComponent($routeMatches[IComponent::MATCH_COMPONENT]);
-
             $matchedRoutePath .= $routeResult->getMatchedUrl();
+
             return $this->processRequest($childComponent, $routeResult->getUnmatchedUrl(), $callStack, $matchedRoutePath);
 
         } elseif (isset($routeMatches[IComponent::MATCH_CONTROLLER]) && !$routeResult->getUnmatchedUrl()) {
@@ -230,16 +265,12 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
                 );
             }
 
-            $componentRequest = $this->createComponentRequest($component, clone $callStack)
-                ->setRouteParams($routeMatches)
-                ->setBaseUrl($matchedRoutePath);
-
             $controller = $component->getController($routeMatches[IComponent::MATCH_CONTROLLER]);
             $controller->setHTTPComponentRequest($componentRequest);
 
             $componentResponse = $this->callController($controller);
 
-            return $this->processResponse($componentRequest, $componentResponse, $callStack);
+            return $this->processResponse($componentResponse, $callStack);
 
 
         } else {
@@ -260,27 +291,28 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     protected function processError(Exception $e, SplStack $callStack)
     {
         /**
-         * @var IComponent $component
+         * @var IHTTPComponentRequest $request
          */
-        foreach ($callStack as $component) {
+        foreach ($callStack as $request) {
+
+            $component = $request->getComponent();
             if (!$component->hasController(IComponent::ERROR_CONTROLLER)) {
                 continue;
             }
 
             $errorController = $component->getController(IComponent::ERROR_CONTROLLER);
-            $componentRequest = $this->createComponentRequest($component, clone $callStack);
-            $errorController->setHTTPComponentRequest($componentRequest);
+            $errorController->setHTTPComponentRequest($request);
 
             try {
                 $errorResponse = $this->callController($errorController, [$e]);
-                $layoutResponse = $this->processResponse($componentRequest, $errorResponse, $callStack);
+                $layoutResponse = $this->processResponse($errorResponse, $callStack);
             } catch (Exception $e) {
                 continue;
             }
             $content = (string) $layoutResponse->getContent();
-            if ($this->controllerViewRenderErrorInfo) {
-                list (, $renderException) = $this->controllerViewRenderErrorInfo;
-                throw $renderException;
+
+            if ($this->controllerViewRenderError) {
+                throw $this->controllerViewRenderError;
             }
 
             $layoutResponse
@@ -317,18 +349,20 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
 
     /**
      * Обрабатывает результат запроса по всему стеку вызова компонентов.
-     * @param IHTTPComponentRequest $request
      * @param IHTTPComponentResponse $response
      * @param SplStack $callStack
      * @return IHTTPComponentResponse
      */
-    protected function processResponse(IHTTPComponentRequest $request, IHTTPComponentResponse $response, SplStack $callStack)
+    protected function processResponse(IHTTPComponentResponse $response, SplStack $callStack)
     {
         /**
-         * @var IComponent $component
+         * @var IHTTPComponentRequest $request
          */
-        foreach ($callStack as $component) {
+        foreach ($callStack as $request) {
             if ($response->isProcessable()) {
+
+                $component = $request->getComponent();
+
                 if (!$component->hasController(IComponent::LAYOUT_CONTROLLER)) {
                     continue;
                 }
@@ -343,25 +377,23 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     }
 
     /**
-     * Создает контекст http-вызова компонента
+     * Создает контекст http-вызова компонента.
      * @param IComponent $component
-     * @param SplStack $callStack
      * @return IHTTPComponentRequest
      */
-    protected function createComponentRequest(IComponent $component, SplStack $callStack)
+    protected function createComponentRequest(IComponent $component)
     {
-        return new HTTPComponentRequest($component, $this, $callStack);
+        return new HTTPComponentRequest($component, $this);
     }
 
     /**
-     * Создает контекст вызова макроса
+     * Создает контекст вызова макроса.
      * @param IComponent $component
-     * @param SplStack $callStack
      * @return IHTTPComponentRequest
      */
-    protected function createMacrosRequest(IComponent $component, SplStack $callStack)
+    protected function createMacrosRequest(IComponent $component)
     {
-        return new MacrosRequest($component, $this, $callStack);
+        return new MacrosRequest($component, $this);
     }
 
 }

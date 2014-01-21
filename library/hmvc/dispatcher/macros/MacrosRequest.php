@@ -13,6 +13,7 @@ use SplStack;
 use umi\hmvc\component\IComponent;
 use umi\hmvc\dispatcher\IDispatchContext;
 use umi\hmvc\dispatcher\IDispatcher;
+use umi\hmvc\exception\RuntimeException;
 
 /**
  * Контекст вызова макроса
@@ -28,21 +29,29 @@ class MacrosRequest implements IDispatchContext
      */
     protected $dispatcher;
     /**
-     * @var SplStack $callStack стек вызова компонентов
+     * @var SplStack $callStack стек вызова компонента
      */
-    protected $callStack;
+    private $callStack;
 
     /**
      * Конструктор.
      * @param IComponent $component
      * @param IDispatcher $dispatcher диспетчер компонентов
-     * @param SplStack $callStack стек вызова компонентов
      */
-    public function __construct(IComponent $component, IDispatcher $dispatcher, SplStack $callStack)
+    public function __construct(IComponent $component, IDispatcher $dispatcher)
     {
         $this->component = $component;
         $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCallStack(SplStack $callStack)
+    {
         $this->callStack = $callStack;
+
+        return $this;
     }
 
     /**
@@ -66,6 +75,11 @@ class MacrosRequest implements IDispatchContext
      */
     public function getCallStack()
     {
+        if (!$this->callStack) {
+            throw new RuntimeException(
+                'Call stack is unknown.'
+            );
+        }
         return $this->callStack;
     }
 

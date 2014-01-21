@@ -12,6 +12,7 @@ namespace umi\hmvc\dispatcher\http;
 use SplStack;
 use umi\hmvc\component\IComponent;
 use umi\hmvc\dispatcher\IDispatcher;
+use umi\hmvc\exception\RuntimeException;
 use umi\http\request\Request;
 
 /**
@@ -28,25 +29,23 @@ class HTTPComponentRequest extends Request implements IHTTPComponentRequest
      */
     protected $dispatcher;
     /**
-     * @var SplStack $callStack стек вызова компонентов
-     */
-    protected $callStack;
-    /**
      * @var string $baseUrl базовый URL запроса к компоненту
      */
     protected $baseUrl = '';
+    /**
+     * @var SplStack $callStack стек вызова компонентов
+     */
+    private $callStack;
 
     /**
      * Конструктор.
      * @param IComponent $component
      * @param IDispatcher $dispatcher диспетчер компонентов
-     * @param SplStack $callStack стек вызова компонентов
      */
-    public function __construct(IComponent $component, IDispatcher $dispatcher, SplStack $callStack)
+    public function __construct(IComponent $component, IDispatcher $dispatcher)
     {
         $this->component = $component;
         $this->dispatcher = $dispatcher;
-        $this->callStack = $callStack;
     }
 
     /**
@@ -66,6 +65,16 @@ class HTTPComponentRequest extends Request implements IHTTPComponentRequest
     public function setBaseUrl($baseUrl)
     {
         $this->baseUrl = $baseUrl;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCallStack(SplStack $callStack)
+    {
+        $this->callStack = $callStack;
 
         return $this;
     }
@@ -99,6 +108,11 @@ class HTTPComponentRequest extends Request implements IHTTPComponentRequest
      */
     public function getCallStack()
     {
+        if (!$this->callStack) {
+            throw new RuntimeException(
+                'Call stack is unknown.'
+            );
+        }
         return $this->callStack;
     }
 

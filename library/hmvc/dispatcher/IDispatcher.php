@@ -13,6 +13,7 @@ use Exception;
 use umi\hmvc\component\IComponent;
 use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
 use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
+use umi\hmvc\exception\RuntimeException;
 use umi\http\request\IRequest;
 
 /**
@@ -35,11 +36,10 @@ interface IDispatcher
 
     /**
      * Сохраняет ошибку рендеринга результата работы контроллера.
-     * @param IHTTPComponentRequest $request
      * @param Exception $e
      * @return self
      */
-    public function reportControllerViewRenderError(IHTTPComponentRequest $request, Exception $e);
+    public function reportControllerViewRenderError(Exception $e);
 
     /**
      * Формирует результат макроса с учетом произошедшей исключительной ситуации.
@@ -51,13 +51,27 @@ interface IDispatcher
     public function processMacrosError(IDispatchContext $macrosRequest, Exception $e);
 
     /**
-     * Обрабатывает вызов макроса
+     * Обрабатывает вызов макроса.
      * @param IComponent $component начальный компонент
      * @param $macrosPath путь макроса
      * @param array $args аргументы вызова макроса
      * @return IHTTPComponentResponse
      */
     public function dispatchMacros(IComponent $component, $macrosPath, array $args = []);
+
+    /**
+     * Устанавливает обрабатываемый контекст.
+     * @param IHTTPComponentRequest $request
+     * @return self
+     */
+    public function setCurrentHTTPComponentRequest(IHTTPComponentRequest $request);
+
+    /**
+     * Возвращает обрабатываемый контекст.
+     * @throws RuntimeException если контекст не был установлен
+     * @return IHTTPComponentRequest
+     */
+    public function getCurrentHTTPComponentRequest();
 
 }
  

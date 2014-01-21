@@ -11,12 +11,20 @@ namespace umi\hmvc\dispatcher;
 
 use SplStack;
 use umi\hmvc\component\IComponent;
+use umi\hmvc\exception\RuntimeException;
 
 /**
  * Интерфейс контекста диспетчеризации MVC-компонентов.
  */
 interface IDispatchContext
 {
+    /**
+     * Устанавливает стек вызова компонента.
+     * @param SplStack $callStack
+     * @return self
+     */
+    public function setCallStack(SplStack $callStack);
+
     /**
      * Возвращает компонент контекста.
      * @return IComponent
@@ -30,7 +38,8 @@ interface IDispatchContext
     public function getDispatcher();
 
     /**
-     * Возвращает стек вызова компонентов.
+     * Возвращает стек вызова компонента.
+     * @throws RuntimeException если стек не был установлен.
      * @return SplStack
      */
     public function getCallStack();

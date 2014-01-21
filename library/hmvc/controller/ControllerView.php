@@ -54,8 +54,8 @@ class ControllerView implements IView
      */
     public function __toString()
     {
+        $this->request->getDispatcher()->setCurrentHTTPComponentRequest($this->request);
         try {
-            $this->variables['context'] = $this->request;
             return $this->request->getComponent()->getViewRenderer()->render($this->templateName, $this->variables);
         } catch (\Exception $e) {
 
@@ -65,7 +65,7 @@ class ControllerView implements IView
                 $e
             );
 
-            $this->request->getDispatcher()->reportControllerViewRenderError($this->request, $exception);
+            $this->request->getDispatcher()->reportControllerViewRenderError($exception);
             return $e->getMessage();
         }
     }
