@@ -8,7 +8,7 @@
 
 namespace umi\hmvc\controller\plugin;
 
-use umi\hmvc\component\request\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
 use umi\hmvc\context\IContext;
 
 /**

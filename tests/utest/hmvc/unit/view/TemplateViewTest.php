@@ -10,7 +10,7 @@ namespace utest\hmvc\unit\view;
 use umi\hmvc\context\Context;
 use umi\hmvc\toolbox\factory\ModelFactory;
 use umi\hmvc\toolbox\factory\ViewExtensionFactory;
-use umi\hmvc\view\View;
+use umi\hmvc\view\ViewRenderer;
 use utest\hmvc\HMVCTestCase;
 
 /**
@@ -19,13 +19,13 @@ use utest\hmvc\HMVCTestCase;
 class TemplateViewTest extends HMVCTestCase
 {
     /**
-     * @var View $view
+     * @var ViewRenderer $view
      */
     protected $view;
 
     public function setUpFixtures()
     {
-        $this->view = new View([
+        $this->view = new ViewRenderer([
             'type' => 'php',
             'directory' => self::DIRECTORY . '/fixture/view',
             'extension' => 'phtml',
@@ -53,7 +53,7 @@ class TemplateViewTest extends HMVCTestCase
 
     public function testContextAndModels()
     {
-        $this->view = new View([
+        $this->view = new ViewRenderer([
             'type' => 'php',
             'directory' => self::DIRECTORY . '/fixture/view',
             'extension' => 'phtml',

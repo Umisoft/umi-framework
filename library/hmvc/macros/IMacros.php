@@ -9,20 +9,20 @@
 
 namespace umi\hmvc\macros;
 
-use umi\hmvc\component\IComponent;
-use umi\hmvc\component\response\IComponentResponseFactory;
+use umi\hmvc\dispatcher\IDispatchContext;
 
 /**
  * Интерфейс макроса.
  */
 interface IMacros
 {
+
     /**
-     * Внедряет компонент, к которому принадлежит контроллер.
-     * @param IComponent $component
+     * Внедряет контекст вызова макроса.
+     * @param IDispatchContext $macrosRequest
      * @return self
      */
-    public function setComponent(IComponent $component);
+    public function setMacrosRequest(IDispatchContext $macrosRequest);
 
 }
  

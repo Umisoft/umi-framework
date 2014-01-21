@@ -10,10 +10,9 @@
 namespace umi\hmvc\macros;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\response\HTTPComponentResponse;
-use umi\hmvc\component\response\IHTTPComponentResponse;
+use umi\hmvc\dispatcher\IDispatchContext;
 use umi\hmvc\exception\RequiredDependencyException;
-use umi\hmvc\view\content\Content;
+use umi\hmvc\view\IView;
 
 /**
  * Базовая реализация макроса компонента.
@@ -21,18 +20,34 @@ use umi\hmvc\view\content\Content;
 abstract class BaseMacros implements IMacros
 {
     /**
-     * @var IComponent $component компонент, которому принадлежит контроллер
+     * @var IDispatchContext $macrosRequest контекст вызова макроса
      */
-    private $component;
+    private $macrosRequest;
 
     /**
      * {@inheritdoc}
      */
-    public function setComponent(IComponent $component)
+    public function setMacrosRequest(IDispatchContext $macrosRequest)
     {
-        $this->component = $component;
+        $this->macrosRequest = $macrosRequest;
 
         return $this;
+    }
+
+    /**
+     * Возвращает контекст вызова макроса.
+     * @throws RequiredDependencyException если контекст не был установлен
+     * @return IDispatchContext
+     */
+    protected function getMacrosRequest()
+    {
+        if (!$this->macrosRequest) {
+            throw new RequiredDependencyException(
+                sprintf('Context is not injected in macros "%s".', get_class($this))
+            );
+        }
+
+        return $this->macrosRequest;
     }
 
     /**
@@ -42,49 +57,20 @@ abstract class BaseMacros implements IMacros
      */
     protected function getComponent()
     {
-        if (!$this->component) {
-            throw new RequiredDependencyException(
-                sprintf('Component is not injected in controller "%s".', __CLASS__)
-            );
-        }
-
-        return $this->component;
-    }
-
-    /**
-     * Создает результат работы макроса, не требующий шаблонизации.
-     * @param string $content содержимое ответа
-     * @return IHTTPComponentResponse
-     */
-    protected function createPlainResponse($content)
-    {
-        return $this->createMacrosResult()
-            ->setContent($content);
+        return $this->getMacrosRequest()->getComponent();
     }
 
     /**
      * Создает результат работы макроса, требующий шаблонизации.
-     * @param string $template имя шаблона
+     * @param string $templateName имя шаблона
      * @param array $variables переменные
-     * @return IHTTPComponentResponse
+     * @return IView
      */
-    protected function createDisplayResponse($template, array $variables)
+    protected function createResult($templateName, array $variables)
     {
-        return $this->createMacrosResult()
-            ->setContent(
-                new Content($this->getComponent()->getView(), $template, $variables)
-            );
+        return new MacrosView($this->getMacrosRequest(), $templateName, $variables);
     }
 
-    /**
-     * Возвращает фабрику для результатов работы макроса.
-     * @throws RequiredDependencyException если фабрика не была внедрена
-     * @return IHTTPComponentResponse
-     */
-    private function createMacrosResult()
-    {
-        return new HTTPComponentResponse($this->getComponent());
-    }
 
 }
 

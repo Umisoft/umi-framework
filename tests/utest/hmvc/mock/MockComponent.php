@@ -61,6 +61,6 @@ class MockComponent implements IComponent, IRouteAware, IMVCEntityFactoryAware
     /**
      * {@inheritdoc}
      */
-    public function getView() {}
+    public function getViewRenderer() {}
 
 }

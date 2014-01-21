@@ -6,14 +6,13 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\controller\type;
+namespace umi\hmvc\controller;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\response\HTTPComponentResponse;
-use umi\hmvc\component\response\IHTTPComponentResponse;
-use umi\hmvc\controller\IController;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\HTTPComponentResponse;
+use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use umi\hmvc\exception\RequiredDependencyException;
-use umi\hmvc\view\content\Content;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 
@@ -25,32 +24,39 @@ abstract class BaseController implements IController, ILocalizable
     use TLocalizable;
 
     /**
-     * @var IComponent $component компонент, которому принадлежит контроллер
+     * @var IHTTPComponentRequest $request
      */
-    private $component;
+    private $request;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setComponent(IComponent $component)
+    public function setHTTPComponentRequest(IHTTPComponentRequest $request)
     {
-        $this->component = $component;
+        $this->request = $request;
+
         return $this;
     }
 
     /**
+     * Возвращает контекст вызова контроллера.
+     * @throws RequiredDependencyException если запрос не был установлен
+     * @return IHTTPComponentRequest
+     */
+    protected function getHTTPComponentRequest()
+    {
+        if (!$this->request) {
+            throw new RequiredDependencyException(
+                sprintf('HTTP component request is not injected in controller "%s".', get_class($this))
+            );
+        }
+        return $this->request;
+    }
+
+    /**
      * Возвращает компонент, которому принадлежит контроллер.
-     * @throws RequiredDependencyException если контроллер не был установлен
      * @return IComponent
      */
     protected function getComponent()
     {
-        if (!$this->component) {
-            throw new RequiredDependencyException(
-                sprintf('Component is not injected in controller "%s".', __CLASS__)
-            );
-        }
-        return $this->component;
+        return $this->getHTTPComponentRequest()->getComponent();
     }
 
     /**
@@ -71,16 +77,16 @@ abstract class BaseController implements IController, ILocalizable
 
      * Этот ответ пройдет через View слой компонента.
 
-     * @param string $template имя шаблона
+     * @param string $templateName имя шаблона
      * @param array $variables переменные
      * @return IHTTPComponentResponse
      */
-    protected function createDisplayResponse($template, array $variables)
+    protected function createDisplayResponse($templateName, array $variables)
     {
         return $this->createHTTPComponentResponse()
-                ->setContent(
-                    new Content($this->getComponent()->getView(), $template, $variables)
-                );
+            ->setContent(
+                new ControllerView($this->getHTTPComponentRequest(), $templateName, $variables)
+            );
     }
 
     /**

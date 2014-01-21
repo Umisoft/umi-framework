@@ -44,6 +44,13 @@ interface IResponse
     public function getHeaders();
 
     /**
+     * Выставляет коллекцию заголовков ответа.
+     * @param IHeaderCollection $headers
+     * @return self
+     */
+    public function setHeaders(IHeaderCollection $headers);
+
+    /**
      * Устанавливает данные ответа.
      * @param mixed $data
      * @return self

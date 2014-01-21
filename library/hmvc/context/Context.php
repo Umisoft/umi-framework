@@ -10,7 +10,7 @@ namespace umi\hmvc\context;
 
 use umi\route\result\IRouteResult;
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\request\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
 
 /**
  * Контекст работы компонента.

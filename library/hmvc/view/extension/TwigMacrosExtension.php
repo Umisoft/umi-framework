@@ -60,7 +60,7 @@ class TwigMacrosExtension extends Twig_Extension
             $args = func_get_args();
             $macrosPath = array_shift($args);
 
-            return $this->dispatcher->dispatchMacros($this->component, $macrosPath, $args)->getContent();
+            return $this->dispatcher->dispatchMacros($this->component, $macrosPath, $args);
         };
 
         $macrosFunction = new Twig_SimpleFunction(

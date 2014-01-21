@@ -10,7 +10,7 @@
 namespace utest\hmvc;
 
 use umi\hmvc\component\Component;
-use umi\hmvc\component\request\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
 use umi\hmvc\toolbox\factory\ComponentRequestFactory;
 use utest\http\THttpSupport;
 use utest\route\TRouteSupport;

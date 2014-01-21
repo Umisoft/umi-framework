@@ -31,7 +31,7 @@ class ComponentRequestFactoryTest extends HMVCTestCase
     public function testCreateRequest()
     {
         $request = $this->factory->createComponentRequest('url');
-        $this->assertInstanceOf('umi\hmvc\component\request\IComponentRequest', $request);
+        $this->assertInstanceOf('umi\hmvc\dispatcher\http\IComponentRequest', $request);
         $this->assertEquals('url', $request->getRequestUri());
     }
 }

@@ -7,26 +7,26 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\view\content;
+namespace umi\hmvc\controller;
 
-use umi\hmvc\exception\RuntimeException;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
+use umi\hmvc\exception\ViewRenderException;
 use umi\hmvc\view\IView;
 use umi\spl\container\TArrayAccess;
 use umi\spl\container\TPropertyAccess;
-use umi\spl\error\ErrorHandler;
 
 /**
- * Содержимое результата работы макроса или контроллера, требующее шаблонизации.
+ * Содержимое результата работы контроллера, требующее шаблонизации.
  */
-class Content implements IContent
+class ControllerView implements IView
 {
     use TArrayAccess;
     use TPropertyAccess;
 
     /**
-     * @var IView $view
+     * @var IHTTPComponentRequest $request
      */
-    protected $view;
+    protected $request;
     /**
      * @var string $templateName имя шаблона
      */
@@ -38,13 +38,13 @@ class Content implements IContent
 
     /**
      * Конструктор.
-     * @param IView $view
+     * @param IHTTPComponentRequest $request контекст вызова контроллера
      * @param string $templateName имя шаблона
      * @param array $variables переменные шаблона
      */
-    public function __construct(IView $view, $templateName, array $variables = [])
+    public function __construct(IHTTPComponentRequest $request, $templateName, array $variables = [])
     {
-        $this->view = $view;
+        $this->request = $request;
         $this->templateName = $templateName;
         $this->variables = $variables;
     }
@@ -55,15 +55,18 @@ class Content implements IContent
     public function __toString()
     {
         try {
-            return $this->view->render($this->templateName, $this->variables);
+            $this->variables['context'] = $this->request;
+            return $this->request->getComponent()->getViewRenderer()->render($this->templateName, $this->variables);
         } catch (\Exception $e) {
-            $exception = new RuntimeException(
+
+            $exception = new ViewRenderException(
                 sprintf('Cannot render template "%s".', $this->templateName),
                 0,
                 $e
             );
 
-            return ErrorHandler::toStringException($exception);
+            $this->request->getDispatcher()->reportControllerViewRenderError($this->request, $exception);
+            return $e->getMessage();
         }
     }
 

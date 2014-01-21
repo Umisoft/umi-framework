@@ -10,8 +10,8 @@
 namespace utest\hmvc\mock\controller\plugin;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\request\IHTTPComponentRequest;
-use umi\hmvc\component\response\IComponentResponseFactory;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IComponentResponseFactory;
 use umi\hmvc\context\IContextAware;
 use umi\hmvc\context\TContextAware;
 use umi\hmvc\controller\IController;
@@ -24,11 +24,6 @@ class MockURLController implements IController, IContextAware
 {
     use TContextAware;
     use TURLPlugin;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setComponent(IComponent $component) {}
 
     /**
      * {@inheritdoc}

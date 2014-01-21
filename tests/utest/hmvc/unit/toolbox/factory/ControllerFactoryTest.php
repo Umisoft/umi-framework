@@ -9,7 +9,7 @@
 
 namespace utest\hmvc\unit\toolbox\factory;
 
-use umi\hmvc\component\response\IHTTPComponentResponse;
+use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use umi\hmvc\exception\OutOfBoundsException;
 use umi\hmvc\toolbox\factory\ControllerFactory;
 use umi\hmvc\toolbox\factory\ModelFactory;

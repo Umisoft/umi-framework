@@ -9,7 +9,7 @@
 
 namespace umi\hmvc\view\helper;
 
-use umi\hmvc\component\request\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
 use umi\hmvc\context\IContextAware;
 use umi\hmvc\context\TContextAware;
 use umi\hmvc\exception\RuntimeException;

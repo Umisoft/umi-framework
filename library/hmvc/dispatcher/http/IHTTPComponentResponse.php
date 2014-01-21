@@ -7,7 +7,7 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\component\response;
+namespace umi\hmvc\dispatcher\http;
 
 use umi\hmvc\component\IComponent;
 use umi\http\response\IResponse;

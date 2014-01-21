@@ -38,7 +38,18 @@ class Response implements IResponse
         if (!$this->headers) {
             $this->headers = new HeaderCollection();
         }
+
         return $this->headers;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setHeaders(IHeaderCollection $headers)
+    {
+        $this->headers = $headers;
+
+        return $this;
     }
 
     /**

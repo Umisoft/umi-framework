@@ -10,21 +10,14 @@
 namespace umi\hmvc\view;
 
 /**
- * Интерфейс отображения.
+ * Отображение результата работы макроса или контроллера, которое может автоматически рендериться в строку.
  */
-interface IView
+interface IView extends \ArrayAccess
 {
     /**
-     * Тип шаблонизатора для рендеринга.
+     * Возвращает контент в виде строки.
+     * @return string
      */
-    const OPTION_TYPE = 'type';
-
-    /**
-     * Производит рендеринг результата работы контроллера. Возвращает результат
-     * отображения в виде результата работы компонента.
-     * @param string $templateName имя шаблона
-     * @param array $params параметры для шаблонизации.
-     * @return string результат рендеринга
-     */
-    public function render($templateName, array $params = []);
+    public function __toString();
 }
+ 

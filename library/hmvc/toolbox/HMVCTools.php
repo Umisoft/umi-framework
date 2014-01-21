@@ -95,7 +95,7 @@ class HMVCTools implements IToolbox
             $this->dispatcherClass,
             ['umi\hmvc\dispatcher\IDispatcher']
         )
-            ->createSingleInstance();
+            ->createInstance();
     }
 
 }

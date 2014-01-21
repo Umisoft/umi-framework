@@ -9,8 +9,10 @@
 
 namespace umi\hmvc\dispatcher;
 
+use Exception;
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\response\IHTTPComponentResponse;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use umi\http\request\IRequest;
 
 /**
@@ -30,6 +32,23 @@ interface IDispatcher
      * @param IRequest $request
      */
     public function dispatchRequest(IComponent $component, IRequest $request);
+
+    /**
+     * Сохраняет ошибку рендеринга результата работы контроллера.
+     * @param IHTTPComponentRequest $request
+     * @param Exception $e
+     * @return self
+     */
+    public function reportControllerViewRenderError(IHTTPComponentRequest $request, Exception $e);
+
+    /**
+     * Формирует результат макроса с учетом произошедшей исключительной ситуации.
+     * @param IDispatchContext $macrosRequest контекст вызова макроса
+     * @param Exception $e
+     * @throws Exception если исключительная ситуация не была обработана
+     * @return string
+     */
+    public function processMacrosError(IDispatchContext $macrosRequest, Exception $e);
 
     /**
      * Обрабатывает вызов макроса

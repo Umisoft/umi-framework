@@ -31,6 +31,6 @@ class ComponentResponseFactoryTest extends HMVCTestCase
     public function testCreateComponent()
     {
         $response = $this->factory->createComponentResponse();
-        $this->assertInstanceOf('umi\hmvc\component\response\IComponentResponse', $response);
+        $this->assertInstanceOf('umi\hmvc\dispatcher\http\IComponentResponse', $response);
     }
 }

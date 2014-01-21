@@ -9,9 +9,9 @@
 
 namespace utest\hmvc\unit\controller;
 
-use umi\hmvc\component\response\IHTTPComponentResponse;
+use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use umi\hmvc\controller\IController;
-use umi\hmvc\component\response\model\IDisplayModel;
+use umi\hmvc\dispatcher\http\model\IDisplayModel;
 use utest\hmvc\HMVCTestCase;
 use utest\hmvc\mock\controller\MockStaticPageController;
 

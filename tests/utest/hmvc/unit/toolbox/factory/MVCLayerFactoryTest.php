@@ -36,7 +36,7 @@ class MVCLayerFactoryTest extends HMVCTestCase
         $mf = $this->factory->createModelFactory([]);
         $this->assertInstanceOf('umi\hmvc\model\IModelFactory', $mf);
 
-        $view = $this->factory->createView([]);
+        $view = $this->factory->createViewRenderer([]);
         $this->assertInstanceOf('umi\hmvc\view\IView', $view);
     }
 }

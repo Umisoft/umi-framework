@@ -9,7 +9,7 @@
 
 namespace umi\hmvc\controller\type;
 
-use umi\hmvc\component\request\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
 
 /**
  * Абстрактный базовый класс контроллера статических страниц.

@@ -26,9 +26,9 @@ class MVCEntityFactory implements IMVCEntityFactory, IFactory
      */
     public $modelFactoryClass = 'umi\hmvc\toolbox\factory\ModelFactory';
     /**
-     * @var string $viewClass класс сервиса отображения
+     * @var string $viewRendererClass класс рендерера шаблонов
      */
-    public $viewClass = 'umi\hmvc\view\View';
+    public $viewRendererClass = 'umi\hmvc\view\ViewRenderer';
     /**
      * @var string $controllerFactoryClass класс фабрики контроллеров
      */
@@ -45,10 +45,6 @@ class MVCEntityFactory implements IMVCEntityFactory, IFactory
      * @var string $componentClass MVC компонент по умолчанию
      */
     public $componentClass = 'umi\hmvc\component\Component';
-    /**
-     * @var string $componentResponseClass класс результата работы компонента
-     */
-    public $componentRequestClass = 'umi\hmvc\component\request\HTTPComponentRequest';
     /**
      * @var string $componentResponseFactoryClass фабрика результатов работы компонента
      */
@@ -93,11 +89,11 @@ class MVCEntityFactory implements IMVCEntityFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createView(array $options)
+    public function createViewRenderer(array $options)
     {
         return $this->getPrototype(
-                $this->viewClass,
-                ['umi\hmvc\view\IView']
+                $this->viewRendererClass,
+                ['umi\hmvc\view\IViewRenderer']
             )
             ->createInstance([$options]);
     }
@@ -115,18 +111,6 @@ class MVCEntityFactory implements IMVCEntityFactory, IFactory
             ['umi\hmvc\component\IComponent']
         )
             ->createInstance([$options]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createComponentRequest(IComponent $component)
-    {
-        return $this->getPrototype(
-            $this->componentRequestClass,
-            ['umi\hmvc\component\request\IHTTPComponentRequest']
-        )
-            ->createInstance([$component]);
     }
 
 }

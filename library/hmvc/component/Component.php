@@ -16,7 +16,7 @@ use umi\hmvc\macros\IMacrosFactory;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
 use umi\hmvc\TMVCEntityFactoryAware;
-use umi\hmvc\view\IView;
+use umi\hmvc\view\IViewRenderer;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\route\IRouteAware;
@@ -55,9 +55,9 @@ class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILoc
      */
     private $modelFactory;
     /**
-     * @var IView $view слой отображения
+     * @var IViewRenderer $viewRenderer рендерер шаблонов
      */
-    private $view;
+    private $viewRenderer;
 
     /**
      * Конструктор.
@@ -142,22 +142,22 @@ class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILoc
     /**
      * {@inheritdoc}
      */
-    public function getView()
+    public function getViewRenderer()
     {
-        if (!$this->view) {
+        if (!$this->viewRenderer) {
             $config = isset($this->options[self::OPTION_VIEW]) ? $this->options[self::OPTION_VIEW] : [];
             $config = $this->configToArray($config, true);
 
-            $view = $this->createMVCView($config);
+            $viewRenderer = $this->createMVCViewRenderer($config);
 
-            if ($view instanceof IModelAware) {
-                $view->setModelFactory($this->getModelsFactory());
+            if ($viewRenderer instanceof IModelAware) {
+                $viewRenderer->setModelFactory($this->getModelsFactory());
             }
 
-            return $this->view = $view;
+            return $this->viewRenderer = $viewRenderer;
         }
 
-        return $this->view;
+        return $this->viewRenderer;
     }
 
     /**

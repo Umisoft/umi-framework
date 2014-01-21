@@ -7,15 +7,15 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\component\request;
+namespace umi\hmvc\dispatcher\http;
 
-use umi\hmvc\component\IComponent;
+use umi\hmvc\dispatcher\IDispatchContext;
 use umi\http\request\IRequest;
 
 /**
  * Интерфейс HTTP запроса компонента.
  */
-interface IHTTPComponentRequest extends IRequest
+interface IHTTPComponentRequest extends IRequest, IDispatchContext
 {
     /**
      * HTTP контейнер - ROUTE
@@ -30,8 +30,17 @@ interface IHTTPComponentRequest extends IRequest
     public function setRouteParams(array $params);
 
     /**
-     * Возвращает компонент.
-     * @return IComponent
+     * Устанавливает базовый URL запроса к компоненту.
+     * @param string $baseUrl базовый URL запроса к компоненту
+     * @return self
      */
-    public function getComponent();
+    public function setBaseUrl($baseUrl);
+
+    /**
+     * Возвращает базовый URL запроса к компоненту.
+     * @return string
+     */
+    public function getBaseUrl();
+
 }
+

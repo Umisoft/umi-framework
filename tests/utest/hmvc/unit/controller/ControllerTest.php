@@ -8,7 +8,7 @@
  */
 namespace utest\hmvc\unit\controller;
 
-use umi\hmvc\component\response\IHTTPComponentResponse;
+use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use utest\hmvc\HMVCTestCase;
 use utest\hmvc\mock\controller\MockRedirectController;
 

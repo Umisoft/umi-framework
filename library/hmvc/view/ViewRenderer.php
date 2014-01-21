@@ -14,9 +14,9 @@ use umi\templating\engine\ITemplateEngineAware;
 use umi\templating\engine\TTemplateEngineAware;
 
 /**
- * Слой отображения.
+ * Класс для рендеринга шаблона.
  */
-class View implements IView, ITemplateEngineAware
+class ViewRenderer implements IViewRenderer, ITemplateEngineAware
 {
     use TTemplateEngineAware;
 

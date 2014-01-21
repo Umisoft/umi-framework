@@ -10,11 +10,10 @@
 namespace umi\hmvc;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\hmvc\controller\IControllerFactory;
 use umi\hmvc\macros\IMacrosFactory;
 use umi\hmvc\model\IModelFactory;
-use umi\hmvc\view\IView;
+use umi\hmvc\view\IViewRenderer;
 
 /**
  * Интерфейс для создания сущностей, используемых в компоненте MVC.
@@ -46,11 +45,11 @@ interface IMVCEntityFactory
     public function createModelFactory(array $options);
 
     /**
-     * Создает слой отображения.
+     * Создает рендерер шаблонов.
      * @param array $options опции
-     * @return IView
+     * @return IViewRenderer
      */
-    public function createView(array $options);
+    public function createViewRenderer(array $options);
 
     /**
      * Создает MVC компонент.
@@ -58,12 +57,5 @@ interface IMVCEntityFactory
      * @return IComponent
      */
     public function createComponent(array $options);
-
-    /**
-     * Создает HTTP запрос для компонента.
-     * @param IComponent $component
-     * @return IHTTPComponentRequest
-     */
-    public function createComponentRequest(IComponent $component);
 
 }

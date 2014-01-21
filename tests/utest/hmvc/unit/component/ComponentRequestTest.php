@@ -9,8 +9,8 @@
 
 namespace utest\hmvc\unit\component;
 
-use umi\hmvc\component\request\HTTPComponentRequest;
-use umi\hmvc\component\request\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\HTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
 use utest\hmvc\HMVCTestCase;
 
 /**

@@ -10,12 +10,11 @@
 namespace umi\hmvc;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\request\IHTTPComponentRequest;
 use umi\hmvc\controller\IControllerFactory;
 use umi\hmvc\exception\RequiredDependencyException;
 use umi\hmvc\macros\IMacrosFactory;
 use umi\hmvc\model\IModelFactory;
-use umi\hmvc\view\IView;
+use umi\hmvc\view\IViewRenderer;
 
 /**
  * Трейт для внедрения возможости создания сущностей для компонента MVC.
@@ -78,14 +77,14 @@ trait TMVCEntityFactoryAware
     }
 
     /**
-     * Создает слой отображения.
+     * Создает рендерер шаблонов.
      * @param array $options опции
-     * @return IView
+     * @return IViewRenderer
      */
-    protected final function createMVCView(array $options)
+    protected final function createMVCViewRenderer(array $options)
     {
         return $this->getMVCEntityFactory()
-            ->createView($options);
+            ->createViewRenderer($options);
     }
 
     /**
@@ -97,17 +96,6 @@ trait TMVCEntityFactoryAware
     {
         return $this->getMVCEntityFactory()
             ->createComponent($options);
-    }
-
-    /**
-     * Создает HTTP запрос для компонента.
-     * @param IComponent $component
-     * @return IHTTPComponentRequest
-     */
-    protected final function createMVCComponentRequest(IComponent $component)
-    {
-        return $this->getMVCEntityFactory()
-            ->createComponentRequest($component);
     }
 
     /**

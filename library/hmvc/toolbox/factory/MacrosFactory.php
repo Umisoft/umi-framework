@@ -10,7 +10,6 @@
 namespace umi\hmvc\toolbox\factory;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\response\IComponentResponseFactory;
 use umi\hmvc\exception\OutOfBoundsException;
 use umi\hmvc\exception\RuntimeException;
 use umi\hmvc\macros\IMacros;
@@ -65,10 +64,7 @@ class MacrosFactory implements IMacrosFactory, IFactory, IModelAware
             ));
         }
 
-        $macros = $this->createMacrosByClass($this->macrosList[$name], $args);
-        $macros->setComponent($this->component);
-
-        return $macros;
+        return $this->createMacrosByClass($this->macrosList[$name], $args);
     }
 
     /**
@@ -91,6 +87,7 @@ class MacrosFactory implements IMacrosFactory, IFactory, IModelAware
      * Создает макрос заданного класса.
      * @param string $class класс макроса
      * @param array $args аргументы конструктора
+     * @throws RuntimeException если макрос не callable
      * @return IMacros
      */
     protected function createMacrosByClass($class, $args = [])

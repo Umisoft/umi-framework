@@ -13,15 +13,18 @@ use Exception;
 use SplDoublyLinkedList;
 use SplStack;
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\request\IHTTPComponentRequest;
-use umi\hmvc\component\response\IHTTPComponentResponse;
+use umi\hmvc\dispatcher\http\HTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use umi\hmvc\controller\IController;
+use umi\hmvc\dispatcher\macros\MacrosRequest;
 use umi\hmvc\exception\http\HttpNotFound;
 use umi\hmvc\exception\InvalidArgumentException;
 use umi\hmvc\exception\UnexpectedValueException;
 use umi\hmvc\IMVCEntityFactoryAware;
 use umi\hmvc\macros\IMacros;
 use umi\hmvc\TMVCEntityFactoryAware;
+use umi\hmvc\view\IView;
 use umi\http\request\IRequest;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
@@ -36,6 +39,11 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     use TMVCEntityFactoryAware;
 
     /**
+     * @var array $renderError информация об ошибке рендеринга
+     */
+    protected $controllerViewRenderErrorInfo = [];
+
+    /**
      * {@inheritdoc}
      */
     public function dispatchRequest(IComponent $component, IRequest $request)
@@ -46,11 +54,38 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
         $routePath = rtrim(parse_url($request->getRequestURI(), PHP_URL_PATH), '/');
 
         try {
-            return $this->processRequest($component, $routePath, $callStack)->send();
+            $response = $this->processRequest($component, $routePath, $callStack);
         } catch (Exception $e) {
-            return $this->processError($e, $callStack)->send();
+            $this->processError($e, $callStack);
+            return;
         }
 
+        $content = (string) $response->getContent();
+
+        if ($this->controllerViewRenderErrorInfo) {
+            /**
+             * @var IHTTPComponentRequest $failureRequest
+             * @var Exception $e
+             */
+            list ($failureRequest, $e) = $this->controllerViewRenderErrorInfo;
+            $this->controllerViewRenderErrorInfo = [];
+
+            $this->processError($e, $failureRequest->getCallStack());
+            return;
+        }
+
+        $response->setContent($content);
+        $response->send();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reportControllerViewRenderError(IHTTPComponentRequest $request, Exception $e)
+    {
+        $this->controllerViewRenderErrorInfo = [$request, $e];
+
+        return $this;
     }
 
     /**
@@ -64,7 +99,7 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
         try {
             return $this->processMacros($component, $macrosPath, $args, $callStack);
         } catch (Exception $e) {
-            return $this->processMacrosError($e, $callStack);
+            return $this->processMacrosError($this->createMacrosRequest($component, clone $callStack), $e);
         }
     }
 
@@ -100,18 +135,17 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
         }
 
         $macros = $component->getMacros($macrosName);
+        $macros->setMacrosRequest($this->createMacrosRequest($component, clone $callStack));
+
         return $this->callMacros($macros, $args);
     }
 
     /**
-     * Формирует результат макроса с учетом произошедшей исключительной ситуации.
-     * @param Exception $e
-     * @param SplStack $callStack
-     * @throws Exception если исключительная ситуация не была обработана
-     * @return IHTTPComponentResponse
+     * {@inheritdoc}
      */
-    protected function processMacrosError(Exception $e, SplStack $callStack)
+    public function processMacrosError(IDispatchContext $macrosRequest, Exception $e)
     {
+        $callStack = $macrosRequest->getCallStack();
         /**
          * @var IComponent $component
          */
@@ -121,13 +155,14 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
             }
 
             $errorMacros = $component->getMacros(IComponent::ERROR_MACROS);
+            $errorMacros->setMacrosRequest($this->createMacrosRequest($component, clone $callStack));
 
             try {
-                return $this->callMacros($errorMacros, [$e]);
+                return (string) $this->callMacros($errorMacros, [$e]);
             } catch (Exception $e) { }
         }
 
-        throw $e;
+        return $e->getMessage();
     }
 
     /**
@@ -135,21 +170,21 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
      * @param IMacros $macros
      * @param array $args
      * @throws UnexpectedValueException если макрос вернул неверный результат
-     * @return IHTTPComponentResponse
+     * @return IView|string
      */
     protected function callMacros(IMacros $macros, array $args)
     {
         /** @noinspection PhpParamsInspection */
-        $macrosResponse = call_user_func_array($macros, $args);
+        $macrosResult = call_user_func_array($macros, $args);
 
-        if (!$macrosResponse instanceof IHTTPComponentResponse) {
+        if (!$macrosResult instanceof IView && !is_string($macrosResult)) {
             throw new UnexpectedValueException($this->translate(
-                'Macros "{macros}" returns unexpected value. Instance of IHTTPComponentResponse expected.',
+                'Macros "{macros}" returns unexpected value. String or instance of IView expected.',
                 ['macros' => get_class($macros)]
             ));
         }
 
-        return $macrosResponse;
+        return $macrosResult;
     }
 
     /**
@@ -157,10 +192,11 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
      * @param IComponent $component
      * @param string $routePath запрос для маршрутизации
      * @param SplStack $callStack
+     * @param string $matchedRoutePath обработанная часть начального маршрута
      * @throws HttpNotFound если невозможно сформировать результат.
      * @return IHTTPComponentResponse
      */
-    protected function processRequest(IComponent $component, $routePath, SplStack $callStack) {
+    protected function processRequest(IComponent $component, $routePath, SplStack $callStack, $matchedRoutePath = '') {
 
         $callStack->push($component);
 
@@ -181,7 +217,8 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
 
             $childComponent = $component->getChildComponent($routeMatches[IComponent::MATCH_COMPONENT]);
 
-            return $this->processRequest($childComponent, $routeResult->getUnmatchedUrl(), $callStack);
+            $matchedRoutePath .= $routeResult->getMatchedUrl();
+            return $this->processRequest($childComponent, $routeResult->getUnmatchedUrl(), $callStack, $matchedRoutePath);
 
         } elseif (isset($routeMatches[IComponent::MATCH_CONTROLLER]) && !$routeResult->getUnmatchedUrl()) {
             if (!$component->hasController($routeMatches[IComponent::MATCH_CONTROLLER])) {
@@ -193,12 +230,14 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
                 );
             }
 
+            $componentRequest = $this->createComponentRequest($component, clone $callStack)
+                ->setRouteParams($routeMatches)
+                ->setBaseUrl($matchedRoutePath);
+
             $controller = $component->getController($routeMatches[IComponent::MATCH_CONTROLLER]);
+            $controller->setHTTPComponentRequest($componentRequest);
 
-            $componentRequest = $this->createMVCComponentRequest($component);
-            $componentRequest->setRouteParams($routeMatches);
-
-            $componentResponse = $this->callController($controller, $componentRequest);
+            $componentResponse = $this->callController($controller);
 
             return $this->processResponse($componentRequest, $componentResponse, $callStack);
 
@@ -213,15 +252,58 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     }
 
     /**
+     * Формирует результат запроса с учетом произошедшей исключительной ситуации.
+     * @param Exception $e произошедшая исключительная ситуация
+     * @param SplStack $callStack
+     * @throws Exception если не удалось обработать исключительную ситуацию
+     */
+    protected function processError(Exception $e, SplStack $callStack)
+    {
+        /**
+         * @var IComponent $component
+         */
+        foreach ($callStack as $component) {
+            if (!$component->hasController(IComponent::ERROR_CONTROLLER)) {
+                continue;
+            }
+
+            $errorController = $component->getController(IComponent::ERROR_CONTROLLER);
+            $componentRequest = $this->createComponentRequest($component, clone $callStack);
+            $errorController->setHTTPComponentRequest($componentRequest);
+
+            try {
+                $errorResponse = $this->callController($errorController, [$e]);
+                $layoutResponse = $this->processResponse($componentRequest, $errorResponse, $callStack);
+            } catch (Exception $e) {
+                continue;
+            }
+            $content = (string) $layoutResponse->getContent();
+            if ($this->controllerViewRenderErrorInfo) {
+                list (, $renderException) = $this->controllerViewRenderErrorInfo;
+                throw $renderException;
+            }
+
+            $layoutResponse
+                ->setContent($content)
+                ->send();
+
+            return;
+        }
+
+        throw $e;
+    }
+
+    /**
      * Вызывает контроллер компонента.
      * @param IController $controller контроллер
-     * @param IHTTPComponentRequest $componentRequest
+     * @param array $args параметры вызова контроллера
      * @throws UnexpectedValueException если контроллер вернул неожиданный результат
      * @return IHTTPComponentResponse
      */
-    protected function callController(IController $controller, IHTTPComponentRequest $componentRequest)
+    protected function callController(IController $controller, array $args = [])
     {
-        $componentResponse = $controller($componentRequest);
+        /** @noinspection PhpParamsInspection */
+        $componentResponse = call_user_func_array($controller, $args);
 
         if (!$componentResponse instanceof IHTTPComponentResponse) {
             throw new UnexpectedValueException($this->translate(
@@ -252,7 +334,8 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
                 }
 
                 $layoutController = $component->getController(IComponent::LAYOUT_CONTROLLER, [$response]);
-                $response = $this->callController($layoutController, $request);
+                $layoutController->setHTTPComponentRequest($request);
+                $response = $this->callController($layoutController);
             }
         }
 
@@ -260,32 +343,25 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     }
 
     /**
-     * Формирует результат запроса с учетом произошедшей исключительной ситуации.
-     * @param Exception $e произошедшая исключительная ситуация
+     * Создает контекст http-вызова компонента
+     * @param IComponent $component
      * @param SplStack $callStack
-     * @throws Exception если не удалось обработать исключительную ситуацию
-     * @return IHTTPComponentResponse
+     * @return IHTTPComponentRequest
      */
-    protected function processError(Exception $e, SplStack $callStack)
+    protected function createComponentRequest(IComponent $component, SplStack $callStack)
     {
-        /**
-         * @var IComponent $component
-         */
-        foreach ($callStack as $component) {
-            if (!$component->hasController(IComponent::ERROR_CONTROLLER)) {
-                continue;
-            }
+        return new HTTPComponentRequest($component, $this, $callStack);
+    }
 
-            $errorController = $component->getController(IComponent::ERROR_CONTROLLER, [$e]);
-            $componentRequest = $this->createMVCComponentRequest($component);
-
-            try {
-                $errorResponse = $this->callController($errorController, $componentRequest);
-                return $this->processResponse($componentRequest, $errorResponse, $callStack);
-            } catch (Exception $e) { }
-        }
-
-        throw $e;
+    /**
+     * Создает контекст вызова макроса
+     * @param IComponent $component
+     * @param SplStack $callStack
+     * @return IHTTPComponentRequest
+     */
+    protected function createMacrosRequest(IComponent $component, SplStack $callStack)
+    {
+        return new MacrosRequest($component, $this, $callStack);
     }
 
 }

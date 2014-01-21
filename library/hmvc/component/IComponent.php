@@ -13,7 +13,7 @@ use umi\hmvc\controller\IController;
 use umi\hmvc\exception\OutOfBoundsException;
 use umi\hmvc\exception\RuntimeException;
 use umi\hmvc\macros\IMacros;
-use umi\hmvc\view\IView;
+use umi\hmvc\view\IViewRenderer;
 use umi\route\IRouter;
 
 /**
@@ -123,9 +123,9 @@ interface IComponent
     public function getMacros($macrosName, array $args = []);
 
     /**
-     * Возвращает слой отображения для компонента.
-     * @return IView
+     * Возвращает рендерер шаблонов компонента.
+     * @return IViewRenderer
      */
-    public function getView();
+    public function getViewRenderer();
 
 }

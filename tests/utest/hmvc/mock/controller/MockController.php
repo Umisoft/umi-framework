@@ -9,8 +9,8 @@
 
 namespace utest\hmvc\mock\controller;
 
-use umi\hmvc\component\request\IHTTPComponentRequest;
-use umi\hmvc\controller\type\BaseController;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
+use umi\hmvc\controller\BaseController;
 
 /**
  * Mock controller.

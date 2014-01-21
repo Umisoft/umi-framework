@@ -8,8 +8,8 @@
  */
 namespace utest\hmvc\unit\controller;
 
-use umi\hmvc\component\response\model\DisplayModel;
-use umi\hmvc\component\response\model\IDisplayModel;
+use umi\hmvc\dispatcher\http\model\DisplayModel;
+use umi\hmvc\dispatcher\http\model\IDisplayModel;
 use utest\TestCase;
 
 /**
