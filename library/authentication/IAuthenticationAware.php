@@ -11,7 +11,6 @@ namespace umi\authentication;
 
 /**
  * Интерфейс для внедрения поддержки авторизации.
- *
  */
 interface IAuthenticationAware
 {

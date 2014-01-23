@@ -17,7 +17,6 @@ return [
     'class' => __NAMESPACE__ . '\AuthenticationTools',
     'awareInterfaces' => [
         'umi\authentication\IAuthenticationAware',
-        'umi\authentication\result\IAuthenticationResultAware',
     ],
     'services' => [
         'umi\authentication\IAuthenticationFactory'

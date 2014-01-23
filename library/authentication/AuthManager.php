@@ -21,15 +21,8 @@ use umi\i18n\TLocalizable;
 /**
  * Класс менеджера аутентификации.
  */
-class Authentication implements IAuthentication, ILocalizable
+class AuthManager implements IAuthManager, ILocalizable
 {
-    const OPTION_HASH_METHOD = 'hashMethod';
-    const OPTION_HASH_SALT = 'hashSalt';
-
-    const HASH_NONE = 'none';
-    const HASH_SHA1 = 'sha1';
-    const HASH_MD5 = 'md5';
-    const HASH_CRYPT = 'crypt';
 
     use TLocalizable;
 
@@ -40,8 +33,7 @@ class Authentication implements IAuthentication, ILocalizable
     /**
      * @var string $hashSalt соль для хэширования пароля
      */
-    protected $hashSalt;
-
+    protected $hashSalt = '';
     /**
      * @var IAuthAdapter $adapter провайдер авторизации
      */
@@ -59,8 +51,12 @@ class Authentication implements IAuthentication, ILocalizable
      */
     public function __construct(array $options, IAuthAdapter $adapter, IAuthStorage $storage)
     {
-        $this->hashMethod = isset($options[self::OPTION_HASH_METHOD]) ? $options[self::OPTION_HASH_METHOD] : $this->hashMethod;
-        $this->hashSalt = isset($options[self::OPTION_HASH_SALT]) ? $options[self::OPTION_HASH_SALT] : $this->hashSalt;
+        if (isset($options[self::OPTION_HASH_METHOD])) {
+            $this->hashMethod = $options[self::OPTION_HASH_METHOD];
+        }
+        if (isset($options[self::OPTION_HASH_SALT])) {
+            $this->hashSalt = $options[self::OPTION_HASH_SALT];
+        }
 
         $this->adapter = $adapter;
         $this->storage = $storage;
@@ -103,7 +99,7 @@ class Authentication implements IAuthentication, ILocalizable
 
         $result = $this->adapter->authenticate(
             $username,
-            $this->hashPassword($password)
+            $this->getPasswordHash($password)
         );
 
         if ($result->isSuccessful()) {
@@ -131,7 +127,13 @@ class Authentication implements IAuthentication, ILocalizable
         return $this;
     }
 
-    protected function hashPassword($password)
+    /**
+     * Возвращает хэш пароля.
+     * @param string $password
+     * @throws RuntimeException
+     * @return string
+     */
+    protected function getPasswordHash($password)
     {
         switch ($this->hashMethod) {
             case self::HASH_NONE:

@@ -13,6 +13,7 @@ use umi\authentication\adapter\IAuthAdapter;
 use umi\authentication\exception\InvalidArgumentException;
 use umi\authentication\exception\OutOfBoundsException;
 use umi\authentication\IAuthenticationFactory;
+use umi\authentication\IAuthManager;
 use umi\authentication\storage\IAuthStorage;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
@@ -53,19 +54,31 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
     ];
 
     /**
-     * @var array $adapter адаптер аутентификации по умолчанию
+     * @var array $defaultAdapter настройки адаптера аутентификации по умолчанию
      */
     public $defaultAdapter = [
         'type'    => self::ADAPTER_SIMPLE,
         'options' => []
     ];
     /**
-     * @var array $storage хранилище аутентификации по умолчанию
+     * @var array $defaultStorage настройки хранилища аутентификации по умолчанию
      */
     public $defaultStorage = [
         'type'    => self::STORAGE_SIMPLE,
         'options' => []
     ];
+    /**
+     * @var array $defaultAuthManager настройки менеджера аутентификации по умолчанию
+     */
+    public $defaultAuthManager = [
+        IAuthManager::OPTION_HASH_METHOD => IAuthManager::HASH_NONE,
+        IAuthManager::OPTION_HASH_SALT => ''
+    ];
+
+    /**
+     * @var IAuthManager $defaultAuthManagerInstance менеджер аутентификации с настройками по умолчанию
+     */
+    private $defaultAuthManagerInstance;
 
     /**
      * {@inheritdoc}
@@ -147,26 +160,36 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createManager(array $options = [], IAuthAdapter $adapter = null, IAuthStorage $storage = null)
+    public function createAuthManager(IAuthAdapter $adapter, IAuthStorage $storage, array $options = [])
     {
-        if (!$adapter) {
-            $adapterType = isset($this->defaultAdapter['type']) ? $this->defaultAdapter['type'] : null;
-            $adapterOptions = isset($this->defaultAdapter['options']) ? $this->defaultAdapter['options'] : [];
-
-            $adapter = $this->createAdapter($adapterType, $adapterOptions);
-        }
-
-        if (!$storage) {
-            $storageType = isset($this->defaultStorage['type']) ? $this->defaultStorage['type'] : null;
-            $storageOptions = isset($this->defaultStorage['options']) ? $this->defaultStorage['options'] : [];
-
-            $storage = $this->createStorage($storageType, $storageOptions);
-        }
-
         return $this->getPrototype(
                 $this->managerClass,
-                ['umi\authentication\IAuthentication']
+                ['umi\authentication\IAuthManager']
             )
             ->createInstance([$options, $adapter, $storage]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDefaultAuthManager()
+    {
+        if (!$this->defaultAuthManagerInstance) {
+            $authManagerOptions = $this->configToArray($this->defaultAuthManager, true);
+
+            $adapterOptions = $this->configToArray($this->defaultAdapter['options'], true);
+            $adapter = $this->createAdapter($this->defaultAdapter['type'], $adapterOptions);
+
+            $storageOptions = $this->configToArray($this->defaultStorage['options'], true);
+            $storage = $this->createStorage($this->defaultStorage['type'], $storageOptions);
+
+            $this->defaultAuthManagerInstance = $this->getPrototype(
+                $this->managerClass,
+                ['umi\authentication\IAuthManager']
+            )
+                ->createSingleInstance([$authManagerOptions, $adapter, $storage]);
+        }
+
+        return $this->defaultAuthManagerInstance;
     }
 }

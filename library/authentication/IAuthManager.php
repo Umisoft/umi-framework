@@ -16,8 +16,16 @@ use umi\authentication\storage\IAuthStorage;
 /**
  * Интерфейс менеджера аутентификации.
  */
-interface IAuthentication
+interface IAuthManager
 {
+    const OPTION_HASH_METHOD = 'hashMethod';
+    const OPTION_HASH_SALT = 'hashSalt';
+
+    const HASH_NONE = 'none';
+    const HASH_SHA1 = 'sha1';
+    const HASH_MD5 = 'md5';
+    const HASH_CRYPT = 'crypt';
+
     /**
      * @return IAuthStorage
      */
