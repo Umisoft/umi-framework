@@ -55,6 +55,10 @@ class ObjectType implements IObjectType, ILocalizable
         $this->metadata = $metadata;
         if (isset($config['objectClass'])) {
             $this->objectClassName = strval($config['objectClass']);
+        } else {
+            if ($parentType = $metadata->getParentType($this->name)) {
+                $this->objectClassName = $parentType->getObjectClass();
+            }
         }
 
         if (isset($config['fields'])) {
