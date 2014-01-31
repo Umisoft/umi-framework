@@ -37,7 +37,7 @@ class AuthFactoryTest extends AuthenticationTestCase
     {
         $this->assertInstanceOf(
             'umi\authentication\Authentication',
-            $this->auth->createManager(),
+            $this->auth->createAuthManager(),
             'Ожидается, что менеджер будет получен.'
         );
 

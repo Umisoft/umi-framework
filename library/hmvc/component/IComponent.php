@@ -9,8 +9,12 @@
 
 namespace umi\hmvc\component;
 
-use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\component\response\IComponentResponse;
+use umi\acl\manager\IACLManager;
+use umi\hmvc\controller\IController;
+use umi\hmvc\exception\OutOfBoundsException;
+use umi\hmvc\exception\RuntimeException;
+use umi\hmvc\macros\IMacros;
+use umi\hmvc\view\IViewRenderer;
 use umi\route\IRouter;
 
 /**
@@ -18,24 +22,79 @@ use umi\route\IRouter;
  */
 interface IComponent
 {
-    /** Опция, для конфигурирования роутера */
-    const OPTION_ROUTES = 'routes';
-    /** Опция, для конфигурирования моделей */
-    const OPTION_MODELS = 'models';
-    /** Опция, для конфигурирования отображения */
-    const OPTION_VIEW = 'view';
-    /** Опция, для конфигурирования контроллеров */
-    const OPTION_CONTROLLERS = 'controllers';
-    /** Опция, для конфигурирования дочерних компонентов */
-    const OPTION_COMPONENTS = 'components';
+    /**
+     * Разделитель пути компонента
+     */
+    const PATH_SEPARATOR = '.';
 
-    /** Имя параметра маршрута, для передачи управления дочернему компоненту */
+    /**
+     * Опция для конфигурирования класса компонента
+     */
+    const OPTION_CLASS = 'componentClass';
+    /**
+     * Опция для конфигурирования маршрутизатора
+     */
+    const OPTION_ROUTES = 'routes';
+    /**
+     * Опция для конфигурирования моделей
+     */
+    const OPTION_MODELS = 'models';
+    /**
+     * Опция для конфигурирования отображения
+     */
+    const OPTION_VIEW = 'view';
+    /**
+     * Опция для конфигурирования контроллеров
+     */
+    const OPTION_CONTROLLERS = 'controllers';
+    /**
+     * Опция для конфигурирования макросов
+     */
+    const OPTION_MACROS = 'macros';
+    /**
+     * Опция для конфигурирования дочерних компонентов
+     */
+    const OPTION_COMPONENTS = 'components';
+    /**
+     * Опция для конфигурирования ACL
+     */
+    const OPTION_ACL = 'acl';
+
+    /**
+     * Имя параметра маршрута, для передачи управления дочернему компоненту
+     */
     const MATCH_COMPONENT = 'component';
-    /** Имя параметра маршрута, для передачи управления контроллеру */
+    /**
+     * Имя параметра маршрута, для передачи управления контроллеру
+     */
     const MATCH_CONTROLLER = 'controller';
 
-    /** Имя контроллера для обработки исключений */
+    /**
+     * Имя контроллера для обработки исключений
+     */
     const ERROR_CONTROLLER = 'error';
+    /**
+     * Контроллер для отображения сетки компонента
+     */
+    const LAYOUT_CONTROLLER = 'layout';
+
+    /**
+     * Имя макроса для отображения ошибок работы макросов
+     */
+    const ERROR_MACROS = 'error';
+
+    /**
+     * Возвращает иерархический путь компонента.
+     * @return string
+     */
+    public function getPath();
+
+    /**
+     * Проверяет, существует ли дочерний компонент с заданным именем.
+     * @param string $name имя компонента
+     * @return bool
+     */
+    public function hasChildComponent($name);
 
     /**
      * Возвращает дочерний MVC компонент.
@@ -51,17 +110,48 @@ interface IComponent
     public function getRouter();
 
     /**
-     * Выполняет HTTP запрос.
-     * @param IComponentRequest $request запрос
-     * @return IComponentResponse
+     * Проверяет, существует ли контроллер в компоненте.
+     * @param string $controllerName имя контроллера
+     * @return bool
      */
-    public function execute(IComponentRequest $request);
+    public function hasController($controllerName);
 
     /**
-     * Выполняет запрос заданным контроллером.
-     * @param string $controller имя контроллера
-     * @param IComponentRequest $request HTTP запрос
-     * @return IComponentResponse
+     * Возвращает контроллер компонента.
+     * @param string $controllerName имя контроллера
+     * @param array $args аргументы для создания контроллера
+     * @throws OutOfBoundsException если контроллер не существует
+     * @return IController
      */
-    public function call($controller, IComponentRequest $request);
+    public function getController($controllerName, array $args = []);
+
+    /**
+     * Проверяет, существует ли макрос в компоненте.
+     * @param string $macrosName имя макроса
+     * @return bool
+     */
+    public function hasMacros($macrosName);
+
+    /**
+     * Возвращает макрос компонента.
+     * @param string $macrosName имя макроса
+     * @param array $params параметры вызова макроса
+     * @throws OutOfBoundsException если макрос не существует
+     * @throws RuntimeException если макрос не callable
+     * @return IMacros
+     */
+    public function getMacros($macrosName, array $params = []);
+
+    /**
+     * Возвращает рендерер шаблонов компонента.
+     * @return IViewRenderer
+     */
+    public function getViewRenderer();
+
+    /**
+     * Возвращает ACL-менеджер компонента.
+     * @return IACLManager
+     */
+    public function getACLManager();
+
 }

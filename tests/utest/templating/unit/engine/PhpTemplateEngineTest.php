@@ -28,8 +28,8 @@ class PhpTemplateEngineTest extends TemplatingTestCase
     public function setUpFixtures()
     {
         $this->view = new PhpTemplateEngine([
-            ITemplateEngine::OPTION_DIRECTORY => __DIR__ . '/data/php',
-            ITemplateEngine::OPTION_EXTENSION => 'phtml',
+            ITemplateEngine::OPTION_TEMPLATE_DIRECTORY => __DIR__ . '/data/php',
+            ITemplateEngine::OPTION_TEMPLATE_FILE_EXTENSION => 'phtml',
 
         ]);
 

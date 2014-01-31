@@ -10,7 +10,7 @@
 namespace utest\hmvc;
 
 use umi\hmvc\component\Component;
-use umi\hmvc\component\request\IComponentRequest;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
 use umi\hmvc\toolbox\factory\ComponentRequestFactory;
 use utest\http\THttpSupport;
 use utest\route\TRouteSupport;
@@ -46,7 +46,7 @@ abstract class HMVCTestCase extends TestCase
     /**
      * @param string $url
      * @param array $params
-     * @return IComponentRequest
+     * @return IHTTPComponentRequest
      */
     protected function getRequest($url, array $params = [])
     {

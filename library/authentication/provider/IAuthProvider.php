@@ -16,7 +16,6 @@ interface IAuthProvider
 {
     /**
      * Возвращает данные авторизации для адаптера
-     * @internal
      * @return array|bool [имя пользователя, пароль], либо false если данные не существуют
      */
     public function getCredentials();

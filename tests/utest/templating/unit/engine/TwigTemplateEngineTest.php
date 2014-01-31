@@ -28,8 +28,8 @@ class TwigTemplateEngineTest extends TemplatingTestCase
     public function setUpFixtures()
     {
         $this->view = new TwigTemplateEngine([
-            ITemplateEngine::OPTION_DIRECTORY => __DIR__ . '/data/twig',
-            ITemplateEngine::OPTION_EXTENSION => 'twig',
+            ITemplateEngine::OPTION_TEMPLATE_DIRECTORY => __DIR__ . '/data/twig',
+            ITemplateEngine::OPTION_TEMPLATE_FILE_EXTENSION => 'twig',
         ]);
         $this->resolveOptionalDependencies($this->view);
     }

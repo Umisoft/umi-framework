@@ -37,7 +37,7 @@ class PhpTemplateEngine extends BaseTemplateEngine implements ILocalizable
     public function __construct(array $options)
     {
         parent::__construct($options);
-        $this->baseDirectory = isset($options[self::OPTION_DIRECTORY]) ? $options[self::OPTION_DIRECTORY] : '';
+        $this->baseDirectory = isset($options[self::OPTION_TEMPLATE_DIRECTORY]) ? $options[self::OPTION_TEMPLATE_DIRECTORY] : '';
     }
 
     /**
@@ -50,10 +50,10 @@ class PhpTemplateEngine extends BaseTemplateEngine implements ILocalizable
     }
 
     /**
-     * Magic method: вызывает помошник вида.
-     * @param string $name имя помошника вида
+     * Magic method: вызывает помощник шаблонов.
+     * @param string $name имя помощника шаблонов
      * @param array $arguments аргументы
-     * @throws RuntimeException если коллекция помощников вида не была внедрена
+     * @throws RuntimeException если коллекция помощников шаблонов не была внедрена
      * @return string
      */
     public function callHelper($name, array $arguments)

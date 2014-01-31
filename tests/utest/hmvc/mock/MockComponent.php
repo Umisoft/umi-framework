@@ -10,29 +10,32 @@
 namespace utest\hmvc\mock;
 
 use umi\hmvc\component\IComponent;
-use umi\hmvc\component\IComponentAware;
-use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\component\response\IComponentResponseAware;
-use umi\hmvc\component\response\TComponentResponseAware;
-use umi\hmvc\component\TComponentAware;
+use umi\hmvc\IMVCEntityFactoryAware;
+use umi\hmvc\TMVCEntityFactoryAware;
 use umi\route\IRouteAware;
 use umi\route\TRouteAware;
 
 /**
  * Class MockComponent
  */
-class MockComponent implements IComponent, IRouteAware, IComponentAware, IComponentResponseAware
+class MockComponent implements IComponent, IRouteAware, IMVCEntityFactoryAware
 {
     use TRouteAware;
-    use TComponentAware;
-    use TComponentResponseAware;
+    use TMVCEntityFactoryAware;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasChildComponent($name) {
+        return false;
+    }
 
     /**
      * {@inheritdoc}
      */
     public function getChildComponent($name)
     {
-        return $this->createHMVCComponent([]);
+        return $this->createMVCComponent([]);
     }
 
     /**
@@ -46,16 +49,18 @@ class MockComponent implements IComponent, IRouteAware, IComponentAware, ICompon
     /**
      * {@inheritdoc}
      */
-    public function execute(IComponentRequest $request)
-    {
-        return $this->createComponentResponse();
+    public function hasController($controllerName) {
+        return false;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function call($controller, IComponentRequest $request)
-    {
-        return $this->createComponentResponse();
-    }
+    public function getController($controllerName, array $args = []) {}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getViewRenderer() {}
+
 }

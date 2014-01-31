@@ -10,7 +10,7 @@
 namespace umi\authentication\exception;
 
 /**
- * Исключения, связанные с работой валидаторов
+ * Исключения, связанные с работой аутентификации.
  */
 interface IException
 {

@@ -48,13 +48,13 @@ trait TConfigSupport
     }
 
     /**
-     * Производит рекурсивный diff указанных опций с опциями по умолчанию.
+     * Производит рекурсивное слияние указанных опций с опциями по умолчанию.
      * @param array $options массив опций
      * @param array $default массив опций по умолчанию
      * @throws UnexpectedValueException если какая-либо из опций по-умолчанию и желаемая опция различного типа
      * @return array
      */
-    protected function diffConfigOptions(array $options, array $default)
+    protected function mergeConfigOptions(array $options, array $default)
     {
         $result = [];
 
@@ -79,12 +79,18 @@ trait TConfigSupport
 
                 if (is_array($defaultValue)) {
                     $value = $this->configToArray($value);
-                    $value = $this->diffConfigOptions($value, $defaultValue);
+                    $value = $this->mergeConfigOptions($value, $defaultValue);
                     $result[$name] = array_merge($defaultValue, $value);
                 } else {
                     $result[$name] = $value;
                 }
             } else {
+                $result[$name] = $value;
+            }
+        }
+
+        foreach ($default as $name => $value) {
+            if (!isset($options[$name])) {
                 $result[$name] = $value;
             }
         }

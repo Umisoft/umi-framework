@@ -9,8 +9,8 @@
 
 namespace utest\hmvc\mock\controller;
 
-use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\controller\type\BaseController;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
+use umi\hmvc\controller\BaseController;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\TModelAware;
 use utest\hmvc\mock\model\MockBaseModel;
@@ -39,7 +39,7 @@ class MockModelController extends BaseController implements IModelAware
     /**
      * {@inheritdoc}
      */
-    public function __invoke(IComponentRequest $request)
+    public function __invoke(IHTTPComponentRequest $request)
     {
         /**
          * @var MockBaseModel $model2 модель

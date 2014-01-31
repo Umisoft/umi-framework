@@ -25,7 +25,7 @@ interface IRouter
 
     /**
      * Собирает URL из параметров.
-     * @param $name название маршрута, вида "first/second"
+     * @param string $name имя маршрута, вида "first/second"
      * @param array $params параметры ассемблирования
      * @return string собранный URL
      */

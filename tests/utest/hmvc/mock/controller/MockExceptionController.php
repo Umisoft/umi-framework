@@ -9,8 +9,8 @@
 
 namespace utest\hmvc\mock\controller;
 
-use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\controller\type\BaseController;
+use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
+use umi\hmvc\controller\BaseController;
 use umi\hmvc\exception\http\HttpException;
 
 /**
@@ -21,7 +21,7 @@ class MockExceptionController extends BaseController
     /**
      * {@inheritdoc}
      */
-    public function __invoke(IComponentRequest $request)
+    public function __invoke(IHTTPComponentRequest $request)
     {
         throw new HttpException(401, 'Http exception thrown.');
     }

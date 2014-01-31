@@ -131,7 +131,7 @@ abstract class BaseCollection
             $result = array_shift($all);
 
             if (!$object = $result) {
-                throw new RuntimeException($this->translate(
+                throw new NonexistentEntityException($this->translate(
                     'Cannot get object with GUID "{guid}" from collection "{collection}".',
                     ['guid' => $guid, 'collection' => $this->getName()]
                 ));

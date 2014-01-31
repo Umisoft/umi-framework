@@ -57,17 +57,23 @@ interface IAuthenticationFactory
     /**
      * Создает провайдер аутентификации.
      * @param string $type тип провайдера
-     * @param array $options опции провайдера
+     * @param array $constructorArgs аргументы конструктора провайдера
      * @return IAuthProvider
      */
-    public function createProvider($type, array $options = []);
+    public function createProvider($type, array $constructorArgs = []);
 
     /**
      * Создает менеджер аутентификации.
-     * @param array $options опции менеджера аутентификации
      * @param IAuthAdapter $adapter адаптер аутентификации
      * @param IAuthStorage $storage хранилище аутентификации
-     * @return IAuthentication
+     * @param array $options опции менеджера аутентификации
+     * @return IAuthManager
      */
-    public function createManager(array $options = [], IAuthAdapter $adapter = null, IAuthStorage $storage = null);
+    public function createAuthManager(IAuthAdapter $adapter, IAuthStorage $storage, array $options = []);
+
+    /**
+     * Возвращает менеджер аутентификации с натройками по умолчанию.
+     * @return IAuthManager
+     */
+    public function getDefaultAuthManager();
 }

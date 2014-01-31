@@ -9,22 +9,15 @@
 
 namespace umi\hmvc\view;
 
-use umi\hmvc\component\response\IComponentResponse;
-
 /**
- * Интерфейс отображения.
+ * Отображение результата работы макроса или контроллера, которое может автоматически рендериться в строку.
  */
-interface IView
+interface IView extends \ArrayAccess
 {
-    /** Тип шаблонизатора для рендеринга. */
-    const OPTION_TYPE = 'type';
-
     /**
-     * Производит рендеринг результата работы контроллера. Возвращает результат
-     * отображения в виде результата работы компонента.
-     * @param string $template
-     * @param array $params
-     * @return IComponentResponse результат работы компонента
+     * Возвращает контент в виде строки.
+     * @return string
      */
-    public function render($template, array $params = []);
+    public function __toString();
 }
+ 

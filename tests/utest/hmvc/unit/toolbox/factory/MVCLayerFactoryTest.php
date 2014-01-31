@@ -9,7 +9,7 @@
 
 namespace utest\hmvc\unit\toolbox\factory;
 
-use umi\hmvc\toolbox\factory\MVCLayerFactory;
+use umi\hmvc\toolbox\factory\MVCEntityFactory;
 use utest\hmvc\HMVCTestCase;
 
 /**
@@ -18,13 +18,13 @@ use utest\hmvc\HMVCTestCase;
 class MVCLayerFactoryTest extends HMVCTestCase
 {
     /**
-     * @var MVCLayerFactory $factory
+     * @var MVCEntityFactory $factory
      */
     private $factory;
 
     public function setUpFixtures()
     {
-        $this->factory = new MVCLayerFactory();
+        $this->factory = new MVCEntityFactory();
         $this->resolveOptionalDependencies($this->factory);
     }
 
@@ -36,7 +36,7 @@ class MVCLayerFactoryTest extends HMVCTestCase
         $mf = $this->factory->createModelFactory([]);
         $this->assertInstanceOf('umi\hmvc\model\IModelFactory', $mf);
 
-        $view = $this->factory->createView([]);
+        $view = $this->factory->createViewRenderer([]);
         $this->assertInstanceOf('umi\hmvc\view\IView', $view);
     }
 }

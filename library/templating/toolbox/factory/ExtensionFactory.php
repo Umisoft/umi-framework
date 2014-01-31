@@ -31,6 +31,7 @@ class ExtensionFactory implements IExtensionFactory, IFactory
      */
     public $helperCollection = [
         'headMeta'   => 'umi\templating\extension\helper\type\head\meta\MetaHelper',
+        'headTitle'  => 'umi\templating\extension\helper\type\head\title\TitleHelper',
         'headScript' => 'umi\templating\extension\helper\type\head\script\ScriptHelper',
         'headStyle'  => 'umi\templating\extension\helper\type\head\style\StyleHelper',
 

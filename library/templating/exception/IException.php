@@ -10,7 +10,7 @@
 namespace umi\templating\exception;
 
 /**
- * Исключения, связанные с работой компонентов TemplateView.
+ * Исключения, связанные с работой шаблонизации.
  */
 interface IException
 {

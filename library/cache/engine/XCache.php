@@ -21,7 +21,7 @@ class XCache implements ICacheEngine
     public function add($key, $value, $ttl = 0)
     {
         if (!xcache_isset($key)) {
-            return xcache_set($key, $value);
+            return xcache_set($key, $value, $ttl);
         }
 
         return false;
@@ -32,7 +32,7 @@ class XCache implements ICacheEngine
      */
     public function set($key, $value, $ttl = 0)
     {
-        return xcache_set($key, $value);
+        return xcache_set($key, $value, $ttl);
     }
 
     /**

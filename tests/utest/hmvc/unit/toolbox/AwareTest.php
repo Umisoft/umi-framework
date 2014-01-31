@@ -49,7 +49,7 @@ class AwareTest extends AwareTestCase
 
         $this->successfulInjectionTest(
             'utest\hmvc\mock\toolbox\MockComponentRequestAware',
-            'umi\hmvc\component\request\IComponentRequestFactory'
+            'umi\hmvc\dispatcher\http\IComponentRequestFactory'
         );
     }
 
@@ -63,7 +63,7 @@ class AwareTest extends AwareTestCase
 
         $this->successfulInjectionTest(
             'utest\hmvc\mock\toolbox\MockComponentResponseAware',
-            'umi\hmvc\component\response\IComponentResponseFactory'
+            'umi\hmvc\dispatcher\http\IComponentResponseFactory'
         );
     }
 

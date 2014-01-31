@@ -9,52 +9,51 @@
 
 namespace umi\hmvc\component;
 
-use umi\hmvc\component\request\IComponentRequest;
-use umi\hmvc\component\request\IComponentRequestAware;
-use umi\hmvc\component\request\TComponentRequestAware;
-use umi\hmvc\component\response\IComponentResponse;
-use umi\hmvc\component\response\IComponentResponseAware;
-use umi\hmvc\component\response\TComponentResponseAware;
-use umi\hmvc\context\Context;
-use umi\hmvc\context\IContext;
-use umi\hmvc\context\IContextAware;
-use umi\hmvc\controller\IController;
+use umi\acl\IACLAware;
+use umi\acl\manager\IACLManager;
+use umi\acl\TACLAware;
 use umi\hmvc\controller\IControllerFactory;
-use umi\hmvc\component\response\model\IDisplayModel;
-use umi\hmvc\exception\http\HttpNotFound;
 use umi\hmvc\exception\OutOfBoundsException;
-use umi\hmvc\exception\RuntimeException;
-use umi\hmvc\exception\UnexpectedValueException;
-use umi\hmvc\IMVCLayerAware;
+use umi\hmvc\IMVCEntityFactoryAware;
+use umi\hmvc\macros\IMacrosFactory;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
-use umi\hmvc\TMVCLayerAware;
-use umi\hmvc\view\IView;
+use umi\hmvc\TMVCEntityFactoryAware;
+use umi\hmvc\view\IViewRenderer;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\route\IRouteAware;
 use umi\route\IRouter;
-use umi\route\result\IRouteResult;
 use umi\route\TRouteAware;
 use umi\spl\config\TConfigSupport;
 
 /**
  * Реализация MVC компонента системы.
  */
-class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAware, IComponentRequestAware, IComponentResponseAware, ILocalizable
+class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILocalizable, IACLAware
 {
-    use TMVCLayerAware;
-    use TComponentAware;
+    use TMVCEntityFactoryAware;
     use TRouteAware;
-    use TComponentRequestAware;
-    use TComponentResponseAware;
     use TLocalizable;
     use TConfigSupport;
+    use TACLAware;
 
+    /**
+     * @var string $path иерархический путь компонента
+     */
+    protected $path;
+    /**
+     * @var string $name имя компонента
+     */
+    protected $name;
     /**
      * @var array $options опции компонента
      */
-    private $options;
+    protected $options;
+    /**
+     * @var IComponent[] $children дочерние компоненты
+     */
+    private $children = [];
     /**
      * @var IRouter $router роутер компонента
      */
@@ -64,21 +63,49 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
      */
     private $controllerFactory;
     /**
+     * @var IMacrosFactory $macrosFactory фабрика макросов
+     */
+    private $macrosFactory;
+    /**
      * @var IModelFactory $modelFactory фабрика моделей
      */
     private $modelFactory;
     /**
-     * @var IView $view слой отображения
+     * @var IViewRenderer $viewRenderer рендерер шаблонов
      */
-    private $view;
+    private $viewRenderer;
+    /**
+     * @var IACLManager $aclManager менеджер ACL
+     */
+    private $aclManager;
 
     /**
      * Конструктор.
+     * @param string $name имя компонента
+     * @param string $path иерархический путь компонента
      * @param array $options опции
      */
-    public function __construct(array $options = [])
+    public function __construct($name, $path, array $options = [])
     {
+        $this->name = $name;
+        $this->path = $path;
         $this->options = $options;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasChildComponent($name)
+    {
+        return isset($this->options[self::OPTION_COMPONENTS][$name]);
     }
 
     /**
@@ -86,6 +113,10 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
      */
     public function getChildComponent($name)
     {
+        if (isset($this->children[$name])) {
+            return $this->children[$name];
+        }
+
         if (!$this->hasChildComponent($name)) {
             throw new OutOfBoundsException($this->translate(
                 'Cannot create child component "{name}". Component has not registered.',
@@ -94,7 +125,9 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
         }
 
         $config = $this->configToArray($this->options[self::OPTION_COMPONENTS][$name]);
-        return $this->createHMVCComponent($config);
+        $component = $this->createMVCComponent($name, $this->path . self::PATH_SEPARATOR . $name, $config);
+
+        return $this->children[$name] = $component;
     }
 
     /**
@@ -115,186 +148,70 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     /**
      * {@inheritdoc}
      */
-    public function execute(IComponentRequest $request)
+    public function hasController($controllerName)
     {
-        $this->processRequest($request);
-
-        $context = new Context(
-            $this,
-            $request,
-            $this->route($request)
-        );
-
-        $response = $this->dispatch($context);
-
-        if ($response->isProcessable()) {
-            $this->processResponse($response, $request);
-        }
-
-        return $response;
+        return $this->getControllerFactory()->hasController($controllerName);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function call($name, IComponentRequest $request)
+    public function getController($controllerName, array $args = [])
     {
-        $context = new Context($this, $request);
-
-        $controller = $this->getControllerFactory()
-            ->createController($name);
-
-        return $this->callController(
-            $controller,
-            $context
-        );
+        return $this->getControllerFactory()->createController($controllerName, $args);
     }
 
     /**
-     * Выполняет маршрутизацию запроса.
-     * @param IComponentRequest $request HTTP запрос
-     * @return IRouteResult результат маршрутизации
+     * {@inheritdoc}
      */
-    protected function route(IComponentRequest $request)
+    public function hasMacros($macrosName)
     {
-        $result = $this->getRouter()
-            ->match($request->getRequestURI());
-
-        $request->setRouteParams($result->getMatches());
-
-        return $result;
+        return $this->getMacrosFactory()->hasMacros($macrosName);
     }
 
     /**
-     * Выполняет отправку запроса на выполнение в контроллер, либо в дочерний компонент.
-     *
-     * @param IContext $context контекст работы компонента
-     * @return IComponentResponse результат работы компонента
+     * {@inheritdoc}
      */
-    protected function dispatch(IContext $context)
+    public function getMacros($macrosName, array $params = [])
     {
-        $matches = $context->getRouteResult()->getMatches();
+        return $this->getMacrosFactory()->createMacros($macrosName, $params);
+    }
 
-        if (isset($matches[self::MATCH_COMPONENT])) {
-            if (!$this->hasChildComponent($matches[self::MATCH_COMPONENT])) {
-                return $this->callErrorController(
-                    new HttpNotFound($this->translate(
-                        'Child component "{name}" not found.',
-                        ['name' => $matches[self::MATCH_COMPONENT]]
-                    )),
-                    $context
-                );
+    /**
+     * {@inheritdoc}
+     */
+    public function getViewRenderer()
+    {
+        if (!$this->viewRenderer) {
+            $config = isset($this->options[self::OPTION_VIEW]) ? $this->options[self::OPTION_VIEW] : [];
+            $config = $this->configToArray($config, true);
+
+            $viewRenderer = $this->createMVCViewRenderer($config);
+
+            if ($viewRenderer instanceof IModelAware) {
+                $viewRenderer->setModelFactory($this->getModelsFactory());
             }
 
-            $component = $this->getChildComponent($matches[self::MATCH_COMPONENT]);
-
-            return $this->callChildComponent($component, $context);
-        } elseif (isset($matches[self::MATCH_CONTROLLER]) && !$context->getRouteResult()->getUnmatchedUrl()) {
-            if (!$this->getControllerFactory()->hasController($matches[self::MATCH_CONTROLLER])) {
-                return $this->callErrorController(
-                    new HttpNotFound($this->translate(
-                        'Controller "{name}" not found.',
-                        ['name' => $matches[self::MATCH_CONTROLLER]]
-                    )),
-                    $context
-                );
-            }
-
-            $controller = $this->getControllerFactory()
-                ->createController($matches[self::MATCH_CONTROLLER]);
-
-            return $this->callController($controller, $context);
-        } else {
-            return $this->callErrorController(
-                new HttpNotFound($this->translate(
-                    'URL not found by router.'
-                )),
-                $context
-            );
+            return $this->viewRenderer = $viewRenderer;
         }
+
+        return $this->viewRenderer;
     }
 
     /**
-     * Вызывает дочерний компонент.
-     * @param IComponent $component компонент
-     * @param IContext $context контекст родительского компонента
-     * @return IComponentResponse
+     * {@inheritdoc}
      */
-    protected function callChildComponent($component, IContext $context)
+    public function getACLManager()
     {
-        /**
-         * @var IRouter $router
-         */
-        $router = $component->getRouter();
-        $router->setBaseUrl($context->getRouteResult()->getMatchedUrl());
+        if (!$this->aclManager) {
 
-        $componentRequest = $this->createComponentRequest($context->getRouteResult()->getUnmatchedUrl());
+            $config = isset($this->options[self::OPTION_ACL]) ? $this->options[self::OPTION_ACL] : [];
+            $config = $this->configToArray($config, true);
 
-        try {
-            return $component->execute($componentRequest);
-        } catch (\Exception $e) {
-            return $this->callErrorController($e, $context);
+            $this->aclManager = $this->getACLFactory()->createACLManager($config);
         }
-    }
 
-    /**
-     * Вызывает контроллер компонента.
-     *
-     * @param IController $controller контроллер
-     * @param IContext $context контекст вызова контроллера
-     * @return IComponentResponse
-     */
-    protected function callController(IController $controller, IContext $context)
-    {
-        try {
-            if ($controller instanceof IContextAware) {
-                $controller->setContext($context);
-            }
-
-            $result = $controller($context->getRequest());
-
-            if ($controller instanceof IContextAware) {
-                $controller->clearContext();
-            }
-
-            if (!$result instanceof IComponentResponse) {
-                throw new UnexpectedValueException($this->translate(
-                    'Controller "{controller}" returns unexpected value. Instance of IComponentResponse expected.',
-                    ['controller' => get_class($controller)]
-                ));
-            }
-
-            return $this->render($result, $context);
-        } catch (\Exception $exception) {
-            return $this->callErrorController($exception, $context);
-        }
-    }
-
-    /**
-     * Проверяет, существует ли дочерний компонент с заданным именем.
-     * @param string $name имя компонента
-     * @return bool
-     */
-    protected function hasChildComponent($name)
-    {
-        return isset($this->options[self::OPTION_COMPONENTS][$name]);
-    }
-
-    /**
-     * Обрабатывает результат работы дочернего компонента.
-     * @param IComponentResponse $response результат работы компонента
-     * @param IComponentRequest $request запрос компонента
-     */
-    protected function processResponse(IComponentResponse &$response, IComponentRequest $request)
-    {
-    }
-
-    /**
-     * Обрабатывает запрос компонента.
-     * @param IComponentRequest $request запрос к компоненту
-     */
-    protected function processRequest(IComponentRequest &$request)
-    {
+        return $this->aclManager;
     }
 
     /**
@@ -304,10 +221,10 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     protected function getControllerFactory()
     {
         if (!$this->controllerFactory) {
-            $config = isset($this->options[self::OPTION_CONTROLLERS]) ? $this->options[self::OPTION_CONTROLLERS] : [];
-            $config = $this->configToArray($config, true);
+            $controllerList = isset($this->options[self::OPTION_CONTROLLERS]) ? $this->options[self::OPTION_CONTROLLERS] : [];
+            $controllerList = $this->configToArray($controllerList, true);
 
-            $controllerFactory = $this->createMvcControllerFactory($config);
+            $controllerFactory = $this->createMVCControllerFactory($this, $controllerList);
 
             if ($controllerFactory instanceof IModelAware) {
                 $controllerFactory->setModelFactory($this->getModelsFactory());
@@ -320,6 +237,28 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
     }
 
     /**
+     * Возвращает фабрику макросов компонента.
+     * @return IMacrosFactory
+     */
+    protected function getMacrosFactory()
+    {
+        if (!$this->macrosFactory) {
+            $macrosList = isset($this->options[self::OPTION_MACROS]) ? $this->options[self::OPTION_MACROS] : [];
+            $macrosList = $this->configToArray($macrosList, true);
+
+            $macrosFactory = $this->createMVCMacrosFactory($this, $macrosList);
+
+            if ($macrosFactory instanceof IModelAware) {
+                $macrosFactory->setModelFactory($this->getModelsFactory());
+            }
+
+            return $this->macrosFactory = $macrosFactory;
+        }
+
+        return $this->macrosFactory;
+    }
+
+    /**
      * Возвращает фабрику моделей компонента.
      * @return IModelFactory
      */
@@ -329,97 +268,10 @@ class Component implements IComponent, IMVCLayerAware, IComponentAware, IRouteAw
             $config = isset($this->options[self::OPTION_MODELS]) ? $this->options[self::OPTION_MODELS] : [];
             $config = $this->configToArray($config, true);
 
-            return $this->modelFactory = $this->createMvcModelFactory($config);
+            return $this->modelFactory = $this->createMVCModelFactory($config);
         }
 
         return $this->modelFactory;
     }
 
-    /**
-     * Возвращает слой отображения для компонента.
-     * @return IView
-     */
-    protected function getView()
-    {
-        if (!$this->view) {
-            $config = isset($this->options[self::OPTION_VIEW]) ? $this->options[self::OPTION_VIEW] : [];
-            $config = $this->configToArray($config, true);
-
-            $view = $this->createMvcView($config);
-
-            if ($view instanceof IModelAware) {
-                $view->setModelFactory($this->getModelsFactory());
-            }
-
-            return $this->view = $view;
-        }
-
-        return $this->view;
-    }
-
-    /**
-     * Вызывает error controller компонента если зарегистрирован.
-     * @param \Exception $exception исключение для обработки error controller
-     * @param IContext $context контекст вызова
-     * @throws \Exception если error controller не зарегистрирован
-     * @return IComponentResponse
-     */
-    protected function callErrorController(\Exception $exception, IContext $context)
-    {
-        if (!$this->getControllerFactory()
-            ->hasController(self::ERROR_CONTROLLER)
-        ) {
-            throw $exception;
-        }
-
-        $controller = $this->getControllerFactory()
-            ->createController(self::ERROR_CONTROLLER, [$exception]);
-
-        $result = $controller($context->getRequest());
-
-        return $this->render($result, $context);
-    }
-
-    /**
-     * Выполняет рендеринг результата при необходимости.
-     * @param IComponentResponse $response
-     * @param IContext $context контекст работы компонента
-     * @throws RuntimeException в случае ошибки шаблонизации
-     * @return IComponentResponse
-     */
-    protected function render(IComponentResponse $response, IContext $context)
-    {
-        $content = $response->getContent();
-
-        if ($content instanceof IDisplayModel) {
-            $view = $this->getView();
-
-            if ($view instanceof IContextAware) {
-                $view->setContext($context);
-            }
-
-            try {
-                $content = $view->render($content->getTemplate(), $content->getVariables());
-            } catch (\Exception $e) {
-                throw new RuntimeException(
-                    $this->translate(
-                        'Cannot render template "{template}".',
-                        [
-                            'template' => $content->getTemplate()
-                        ]
-                    ),
-                    0,
-                    $e
-                );
-            }
-
-            $response->setContent($content);
-
-            if ($view instanceof IContextAware) {
-                $view->clearContext();
-            }
-        }
-
-        return $response;
-    }
 }

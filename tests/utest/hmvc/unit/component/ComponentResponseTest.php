@@ -9,8 +9,8 @@
 
 namespace utest\hmvc\unit\component;
 
-use umi\hmvc\component\response\ComponentResponse;
-use umi\hmvc\component\response\IComponentResponse;
+use umi\hmvc\dispatcher\http\HTTPComponentResponse;
+use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use utest\hmvc\HMVCTestCase;
 
 /**
@@ -19,13 +19,13 @@ use utest\hmvc\HMVCTestCase;
 class ComponentResponseTest extends HMVCTestCase
 {
     /**
-     * @var IComponentResponse $response
+     * @var IHTTPComponentResponse $response
      */
     private $response;
 
     public function setUpFixtures()
     {
-        $this->response = new ComponentResponse();
+        $this->response = new HTTPComponentResponse();
         $this->resolveOptionalDependencies($this->response);
     }
 

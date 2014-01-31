@@ -9,6 +9,8 @@
 
 namespace umi\templating\engine;
 
+use umi\templating\exception\OutOfBoundsException;
+
 /**
  * Интерфейс фабрики шаблонизаторов.
  */
@@ -23,7 +25,17 @@ interface ITemplateEngineFactory
      * Создает шаблонизатор заданного типа.
      * @param string $type тип шаблонизатора
      * @param array $options опции шаблонизатора
+     * @throws OutOfBoundsException если заданный тип шаблонизатора не зарегистрирован
      * @return ITemplateEngine
      */
     public function createTemplateEngine($type, array $options = []);
+
+    /**
+     * Устанавливает инициализатор для указанного типа шаблонизатора.
+     * @param string $type тип шаблонизатора
+     * @param callable $initializer инициализатор, в который передается экземпляр шаблонизатора после его создания
+     * @throws OutOfBoundsException если заданный тип шаблонизатора не зарегистрирован
+     * @return $this
+     */
+    public function setInitializer($type, callable $initializer);
 }

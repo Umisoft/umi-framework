@@ -209,7 +209,7 @@ class Prototype implements IPrototype, ILoggerAware, ILocalizable
     public function setOptions($object, array $options)
     {
         if (!empty($this->options) && !empty($options)) {
-            $overrideOptions = $this->diffConfigOptions($options, $this->options);
+            $overrideOptions = $this->mergeConfigOptions($options, $this->options);
             foreach ($overrideOptions as $optionName => $value) {
                 $object->{$optionName} = $value;
             }

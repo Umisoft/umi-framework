@@ -35,7 +35,7 @@ interface IResponse
     /**
      * Код ответа - переадресация.
      */
-    const REDIRECT = 301;
+    const REDIRECT_PERMANENT = 301;
 
     /**
      * Возвращает коллекцию заголовков ответа.
@@ -44,15 +44,22 @@ interface IResponse
     public function getHeaders();
 
     /**
+     * Выставляет коллекцию заголовков ответа.
+     * @param IHeaderCollection $headers
+     * @return self
+     */
+    public function setHeaders(IHeaderCollection $headers);
+
+    /**
      * Устанавливает данные ответа.
-     * @param string $data
+     * @param mixed $data
      * @return self
      */
     public function setContent($data);
 
     /**
      * Возвращает данные ответа.
-     * @return string
+     * @return mixed
      */
     public function getContent();
 

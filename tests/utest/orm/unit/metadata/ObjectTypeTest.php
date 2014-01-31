@@ -40,6 +40,10 @@ class ObjectTypeTest extends ORMTestCase
      * @var IObjectType $subtype2
      */
     protected $subtype2;
+    /**
+     * @var IObjectType $subtype5
+     */
+    protected $subtype5;
 
     protected function setUpFixtures()
     {
@@ -89,7 +93,18 @@ class ObjectTypeTest extends ORMTestCase
                 ],
                 'subtype2' => [
                     'fields' => ['id', 'guid', 'test1', 'test2']
-                ]
+                ],
+                'subtype3' => [
+                    'objectClass' => 'Subtype3Class',
+                    'fields' => ['id']
+                ],
+                'subtype3.subtype4' => [
+                    'fields' => ['id']
+                ],
+                'subtype3.subtype4.subtype5' => [
+                    'fields' => ['id']
+                ],
+                'wrongType' => []
             ]
         ];
 
@@ -101,6 +116,7 @@ class ObjectTypeTest extends ORMTestCase
         $this->baseType = new ObjectType('base', $this->config['types']['base'], $this->metadata);
         $this->subtype1 = new ObjectType('subtype1', $this->config['types']['subtype1'], $this->metadata);
         $this->subtype2 = new ObjectType('subtype2', $this->config['types']['subtype2'], $this->metadata);
+        $this->subtype5 = new ObjectType('subtype3.subtype4.subtype5', $this->config['types']['subtype3.subtype4.subtype5'], $this->metadata);
     }
 
     public function testWrongTypeConfig()
@@ -141,6 +157,11 @@ class ObjectTypeTest extends ORMTestCase
             'User',
             $this->subtype1->getObjectClass(),
             'Ожидается, что у типа subtype1 имя класса "User"'
+        );
+        $this->assertEquals(
+            'Subtype3Class',
+            $this->subtype5->getObjectClass(),
+            'Ожидается, что у типа subtype5 унаследованное от родителя имя класса "Subtype3Class"'
         );
     }
 

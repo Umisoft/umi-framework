@@ -103,28 +103,28 @@ class ORMTools implements IToolbox
         $this->dbCluster = $dbCluster;
 
         $this->registerFactory(
-            'objectCollectionFactory',
+            'objectCollection',
             $this->collectionFactoryClass,
             ['umi\orm\collection\ICollectionFactory']
         );
         $this->registerFactory(
-            'selectorFactory',
+            'selector',
             $this->selectorFactoryClass,
             ['umi\orm\selector\ISelectorFactory']
         );
         $this->registerFactory(
-            'metadataFactory',
+            'metadata',
             $this->metadataFactoryClass,
             ['umi\orm\metadata\IMetadataFactory']
         );
         $this->registerFactory('objectFactory', $this->objectFactoryClass, ['umi\orm\object\IObjectFactory']);
         $this->registerFactory(
-            'propertyFactory',
+            'property',
             $this->propertyFactoryClass,
             ['umi\orm\object\property\IPropertyFactory']
         );
         $this->registerFactory(
-            'objectSetFactory',
+            'objectSet',
             $this->objectSetFactoryClass,
             ['umi\orm\objectset\IObjectSetFactory']
         );
@@ -237,7 +237,7 @@ class ORMTools implements IToolbox
      */
     protected function getObjectCollectionFactory()
     {
-        return $this->getFactory('objectCollectionFactory', [$this->getSelectorFactory()]);
+        return $this->getFactory('objectCollection', [$this->getSelectorFactory()]);
     }
 
     /**
@@ -246,7 +246,7 @@ class ORMTools implements IToolbox
      */
     protected function getSelectorFactory()
     {
-        return $this->getFactory('selectorFactory', [$this->getObjectSetFactory()]);
+        return $this->getFactory('selector', [$this->getObjectSetFactory()]);
     }
 
     /**
@@ -255,7 +255,7 @@ class ORMTools implements IToolbox
      */
     protected function getMetadataFactory()
     {
-        return $this->getFactory('metadataFactory', [$this->dbCluster]);
+        return $this->getFactory('metadata', [$this->dbCluster]);
     }
 
     /**
@@ -264,7 +264,7 @@ class ORMTools implements IToolbox
      */
     protected function getObjectFactory()
     {
-        return $this->getFactory('objectFactory', [$this->getPropertyFactory()]);
+        return $this->getFactory('object', [$this->getPropertyFactory()]);
     }
 
     /**
@@ -273,7 +273,7 @@ class ORMTools implements IToolbox
      */
     protected function getPropertyFactory()
     {
-        return $this->getFactory('propertyFactory');
+        return $this->getFactory('property');
     }
 
     /**
@@ -282,6 +282,6 @@ class ORMTools implements IToolbox
      */
     protected function getObjectSetFactory()
     {
-        return $this->getFactory('objectSetFactory');
+        return $this->getFactory('objectSet');
     }
 }

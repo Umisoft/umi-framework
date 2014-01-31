@@ -87,11 +87,11 @@ class ConfigIO implements IConfigIO, ILocalizable, IConfigCacheEngineAware
     public function read($alias)
     {
         if ($this->hasConfigCacheEngine()) {
-            $files = $this->getFilesByAlias($alias);
-            $time = filemtime($files[0]);
+
+            $time = 0;
 
             foreach ($this->getFilesByAlias($alias) as $file) {
-                if (filemtime($file) > $time) {
+                if (is_file($file) && filemtime($file) > $time) {
                     $time = filemtime($file);
                 }
             }

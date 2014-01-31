@@ -92,6 +92,6 @@ class ModelFactory implements IModelFactory, IFactory
                     $prototypeInstance->setModelFactory($this);
                 }
             }
-        )->createInstance($args);
+        )->createSingleInstance($args);
     }
 }

@@ -9,9 +9,11 @@
 
 namespace umi\hmvc\toolbox\factory;
 
+use umi\hmvc\component\IComponent;
 use umi\hmvc\controller\IController;
 use umi\hmvc\controller\IControllerFactory;
 use umi\hmvc\exception\OutOfBoundsException;
+use umi\hmvc\exception\RuntimeException;
 use umi\hmvc\model\IModelAware;
 use umi\hmvc\model\IModelFactory;
 use umi\toolkit\factory\IFactory;
@@ -19,12 +21,11 @@ use umi\toolkit\factory\TFactory;
 use umi\toolkit\prototype\IPrototype;
 
 /**
- * Фабрика контроллеров.
+ * Фабрика контроллеров MVC-компонента.
  */
 class ControllerFactory implements IControllerFactory, IFactory, IModelAware
 {
     use TFactory;
-
     /**
      * @var array $controllersList список контроллеров
      */
@@ -33,14 +34,20 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
      * @var IModelFactory $modelFactory фабрика моделей
      */
     protected $modelFactory;
+    /**
+     * @var IComponent $component компонент
+     */
+    protected $component;
 
     /**
      * Конструктор.
-     * @param array $options опции
+     * @param IComponent $component
+     * @param array $controllerList список контроллеров в формате ['controllerName' => 'controllerClassName', ...]
      */
-    public function __construct(array $options)
+    public function __construct(IComponent $component, array $controllerList)
     {
-        $this->controllersList = $options;
+        $this->component = $component;
+        $this->controllersList = $controllerList;
     }
 
     /**
@@ -55,7 +62,10 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
             ));
         }
 
-        return $this->createControllerByClass($this->controllersList[$name], $args);
+        $controller = $this->createControllerByClass($this->controllersList[$name], $args);
+        $controller->setName($name);
+
+        return $controller;
     }
 
     /**
@@ -78,6 +88,7 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
      * Создает контроллер заданного класса.
      * @param string $class класс контроллера
      * @param array $args аргументы конструктора
+     * @throws RuntimeException если контроллер не callable
      * @return IController
      */
     protected function createControllerByClass($class, $args = [])
@@ -85,8 +96,18 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
         $controller = $this->getPrototype(
                 $class,
                 ['umi\hmvc\controller\IController'],
-                function (IPrototype $prototype)
+                function (IPrototype $prototype) use ($class)
                 {
+                    /** @noinspection PhpParamsInspection */
+                    if (!is_callable($prototype->getPrototypeInstance())) {
+                        throw new RuntimeException(
+                            $this->translate(
+                                'Controller "{class}" should be callable.',
+                                ['class' => $class]
+                            )
+                        );
+                    }
+
                     $prototype->registerConstructorDependency(
                     'umi\hmvc\model\IModel',
                     function ($concreteClassName) {

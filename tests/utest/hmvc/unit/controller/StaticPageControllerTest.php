@@ -9,9 +9,9 @@
 
 namespace utest\hmvc\unit\controller;
 
-use umi\hmvc\component\response\IComponentResponse;
+use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use umi\hmvc\controller\IController;
-use umi\hmvc\component\response\model\IDisplayModel;
+use umi\hmvc\dispatcher\http\model\IDisplayModel;
 use utest\hmvc\HMVCTestCase;
 use utest\hmvc\mock\controller\MockStaticPageController;
 
@@ -35,7 +35,7 @@ class StaticPageControllerTest extends HMVCTestCase
     {
         $controller = $this->controller;
         /**
-         * @var IComponentResponse $response
+         * @var IHTTPComponentResponse $response
          */
         $response = $controller($this->getRequest('/'));
 
@@ -45,7 +45,7 @@ class StaticPageControllerTest extends HMVCTestCase
          * @var IDisplayModel $content
          */
         $content = $response->getContent();
-        $this->assertEquals('mock', $content->getTemplate());
+        $this->assertEquals('mock', $content->getTemplateName());
         $this->assertEmpty($content->getVariables());
     }
 

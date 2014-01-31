@@ -16,12 +16,9 @@ return [
     'name'    => TemplatingTools::NAME,
     'class'        => __NAMESPACE__ . '\TemplatingTools',
     'awareInterfaces' => [
-        'umi\templating\engine\ITemplateEngineAware',
-        'umi\templating\extension\IExtensionAware',
+        'umi\templating\engine\ITemplateEngineAware'
     ],
     'services' => [
-        'umi\templating\engine\ITemplateEngineFactory',
-        'umi\templating\extension\IExtensionFactory',
-        'umi\templating\extension\adapter\IExtensionAdapterFactory',
+        'umi\templating\engine\ITemplateEngineFactory'
     ]
 ];

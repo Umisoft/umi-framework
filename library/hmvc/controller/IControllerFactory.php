@@ -9,6 +9,8 @@
 
 namespace umi\hmvc\controller;
 
+use umi\hmvc\exception\OutOfBoundsException;
+
 /**
  * Интерфейс фабрики контроллеров.
  */
@@ -18,6 +20,7 @@ interface IControllerFactory
      * Создает контроллер по символическому имени.
      * @param string $name имя контроллера
      * @param array $args аргументы для создания контроллера
+     * @throws OutOfBoundsException если контроллер не существует
      * @return IController
      */
     public function createController($name, $args = []);

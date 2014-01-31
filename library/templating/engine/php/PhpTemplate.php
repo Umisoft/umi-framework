@@ -66,8 +66,8 @@ class PhpTemplate
     }
 
     /**
-     * Magic method: вызывает помошник вида.
-     * @param string $name имя помощника вида
+     * Magic method: вызывает помощник шаблонов.
+     * @param string $name имя помощника шаблонов
      * @param array $arguments аргументы
      * @return string
      */
