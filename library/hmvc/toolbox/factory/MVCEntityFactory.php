@@ -101,7 +101,7 @@ class MVCEntityFactory implements IMVCEntityFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createComponent(array $options)
+    public function createComponent($name, $path, array $options)
     {
         $componentClass = isset($options['componentClass']) ? $options['componentClass'] : $this->componentClass;
         unset($options['componentClass']);
@@ -110,7 +110,7 @@ class MVCEntityFactory implements IMVCEntityFactory, IFactory
             $componentClass,
             ['umi\hmvc\component\IComponent']
         )
-            ->createInstance([$options]);
+            ->createInstance([$name, $path, $options]);
     }
 
 }

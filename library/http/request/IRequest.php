@@ -89,7 +89,7 @@ interface IRequest
      * @param string $containerType тип контейнера параметров
      * @param string $name имя параметра
      * @param mixed $default значение по умолчанию
-     * @return mixed значение из GET
+     * @return mixed
      */
     public function getVar($containerType, $name, $default = null);
 

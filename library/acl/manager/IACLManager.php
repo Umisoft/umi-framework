@@ -19,8 +19,17 @@ interface IACLManager
 {
 
     /**
+     * Алиас, задающий все ресурсы
+     */
+    const RESOURCE_ALL = '*';
+    /**
+     * Алиас, задающий все операции
+     */
+    const OPERATION_ALL = '*';
+
+    /**
      * Добавляет роль.
-     * @param $roleName имя роли
+     * @param string $roleName имя роли
      * @param array $parentRoleNames список имен родительских ролей
      * @throws RuntimeException если невозможно добавить роль
      * @return self
@@ -29,44 +38,34 @@ interface IACLManager
 
     /**
      * Добавляет ресурс.
-     * @param $resourceName имя ресурса
-     * @param array $operations список доступных операций над ресурсом
+     * @param string $resourceName имя ресурса
      * @return self
      */
-    public function addResource($resourceName, array $operations = []);
+    public function addResource($resourceName);
 
     /**
      * Проверяет, существует ли роль.
-     * @param $roleName имя роли
+     * @param string $roleName имя роли
      * @return bool
      */
     public function hasRole($roleName);
 
     /**
      * Проверяет, существует ли ресурс.
-     * @param $resourceName имя ресурса
+     * @param string $resourceName имя ресурса
      * @return bool
      */
     public function hasResource($resourceName);
 
     /**
-     * Проверяет существует ли операция над ресурсом.
-     * @param $resourceName имя ресурса
-     * @param $operationName имя операции
-     * @return bool
-     */
-    public function hasResourceOperation($resourceName, $operationName);
-
-    /**
-     * Выставляет для роли разрешенные для ресурса операции.
-     * Если операции не указаны, разрешения выставляются на все.
+     * Устанавливает разрешения для операции над ресурсом.
      * @param string $roleName имя роли
      * @param string $resourceName имя ресурса
-     * @param array $operations список разрешенных операций
-     * @throws NonexistentEntityException если роль, ресурс или операция не существуют
+     * @param string $operationName имя операции
+     * @param callable $assertion дополнительная динамическая проверка разрешения
      * @return $this
      */
-    public function allow($roleName, $resourceName, array $operations = []);
+    public function allow($roleName, $resourceName = self::RESOURCE_ALL, $operationName = self::OPERATION_ALL, callable $assertion = null);
 
     /**
      * Проверяет разрешение на операцию над ресурсом для роли.
@@ -76,7 +75,7 @@ interface IACLManager
      * @throws NonexistentEntityException если роль, ресурс или операция не существуют
      * @return bool
      */
-    public function isAllowed($roleName, $resourceName, $operationName);
+    public function isAllowed($roleName, $resourceName = self::RESOURCE_ALL, $operationName = self::OPERATION_ALL);
 
 }
  

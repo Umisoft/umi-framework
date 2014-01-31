@@ -14,11 +14,6 @@ namespace umi\authentication\provider;
  */
 class SimpleProvider implements IAuthProvider
 {
-    /** Опция для установки имени пользователя */
-    const OPTION_USERNAME = 'username';
-    /** Опция для установки пароля */
-    const OPTION_PASSWORD = 'password';
-
     /**
      * @var string $username имя пользователя
      */
@@ -28,10 +23,15 @@ class SimpleProvider implements IAuthProvider
      */
     protected $password = '';
 
-    public function __construct(array $options = [])
+    /**
+     * Конструктор.
+     * @param string $login
+     * @param string $password
+     */
+    public function __construct($login, $password)
     {
-        $this->username = isset($options[self::OPTION_USERNAME]) ? $options[self::OPTION_USERNAME] : $this->username;
-        $this->password = isset($options[self::OPTION_PASSWORD]) ? $options[self::OPTION_PASSWORD] : $this->password;
+        $this->username = $login;
+        $this->password = $password;
     }
 
     /**
@@ -39,10 +39,6 @@ class SimpleProvider implements IAuthProvider
      */
     public function getCredentials()
     {
-        if ($this->username && $this->password) {
-            return [$this->username, $this->password];
-        } else {
-            return false;
-        }
+        return [$this->username, $this->password];
     }
 }

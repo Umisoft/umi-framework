@@ -7,18 +7,16 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\dispatcher\macros;
+namespace umi\hmvc\dispatcher;
 
 use SplStack;
 use umi\hmvc\component\IComponent;
-use umi\hmvc\dispatcher\IDispatchContext;
-use umi\hmvc\dispatcher\IDispatcher;
 use umi\hmvc\exception\RuntimeException;
 
 /**
- * Контекст вызова макроса
+ * Контекст диспетчеризации MVC-компонентов.
  */
-class MacrosRequest implements IDispatchContext
+class DispatchContext implements IDispatchContext
 {
     /**
      * @var IComponent $component
@@ -28,6 +26,14 @@ class MacrosRequest implements IDispatchContext
      * @var IDispatcher $dispatcher диспетчер компонентов
      */
     protected $dispatcher;
+    /**
+     * @var string $baseUrl базовый URL запроса к компоненту
+     */
+    protected $baseUrl = '';
+    /**
+     * @var array $routeParams параметры маршрутизации
+     */
+    protected $routeParams = [];
     /**
      * @var SplStack $callStack стек вызова компонента
      */
@@ -83,6 +89,40 @@ class MacrosRequest implements IDispatchContext
         return $this->callStack;
     }
 
-}
+    /**
+     * {@inheritdoc}
+     */
+    public function setRouteParams(array $params)
+    {
+        $this->routeParams = $params;
 
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getRouteParams()
+    {
+        return $this->routeParams;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setBaseUrl($baseUrl)
+    {
+        $this->baseUrl = $baseUrl;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBaseUrl()
+    {
+        return $this->baseUrl;
+    }
+}
  

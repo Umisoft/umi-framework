@@ -28,7 +28,9 @@ class ACLManager implements IACLManager, ILocalizable
     /**
      * @var array $resources список ресурсов
      */
-    protected $resources = [];
+    protected $resources = [
+        self::RESOURCE_ALL => null
+    ];
     /**
      * @var array $rules правила разрешений
      */
@@ -50,15 +52,17 @@ class ACLManager implements IACLManager, ILocalizable
 
         foreach ($parentRoleNames as $parentRoleName) {
 
-            throw new NonexistentEntityException(
-                $this->translate(
-                    'Cannot add role "{name}". Parent role {parentName} does not exist.',
-                    [
-                        'name' => $roleName,
-                        'parentName' => $parentRoleName
-                    ]
-                )
-            );
+            if (!$this->hasRole($parentRoleName)) {
+                throw new NonexistentEntityException(
+                    $this->translate(
+                        'Cannot add role "{name}". Parent role {parentName} does not exist.',
+                        [
+                            'name' => $roleName,
+                            'parentName' => $parentRoleName
+                        ]
+                    )
+                );
+            }
         }
 
         $this->roles[$roleName] = $parentRoleNames;
@@ -69,7 +73,7 @@ class ACLManager implements IACLManager, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function addResource($resourceName, array $operations = [])
+    public function addResource($resourceName)
     {
         if ($this->hasResource($resourceName)) {
             throw new AlreadyExistentEntityException(
@@ -79,8 +83,7 @@ class ACLManager implements IACLManager, ILocalizable
                 )
             );
         }
-
-        $this->resources[$resourceName] = array_fill_keys($operations, 1);
+        $this->resources[$resourceName] = null;
 
         return $this;
     }
@@ -98,21 +101,13 @@ class ACLManager implements IACLManager, ILocalizable
      */
     public function hasResource($resourceName)
     {
-        return isset($this->resources[$resourceName]);
+        return array_key_exists($resourceName, $this->resources);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function hasResourceOperation($resourceName, $operationName)
-    {
-        return isset($this->resources[$resourceName][$operationName]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function allow($roleName, $resourceName, array $operations = [])
+    public function allow($roleName, $resourceName = self::RESOURCE_ALL, $operationName = self::OPERATION_ALL, callable $assertion = null)
     {
         if (!$this->hasRole($roleName)) {
             throw new NonexistentEntityException(
@@ -123,7 +118,7 @@ class ACLManager implements IACLManager, ILocalizable
             );
         }
 
-        if (!$this->hasResource($resourceName)) {
+        if ($this->hasResource($resourceName)) {
             throw new NonexistentEntityException(
                 $this->translate(
                     'Cannot set rule. Resource "{name}" is unknown.',
@@ -132,29 +127,14 @@ class ACLManager implements IACLManager, ILocalizable
             );
         }
 
-        foreach ($operations as $operationName) {
-            if (!$this->hasResourceOperation($resourceName, $operationName)) {
-                throw new NonexistentEntityException(
-                    $this->translate(
-                        'Cannot set rule. Operation "{operation}" for resource "{resource}" is unknown.',
-                        [
-                            'operation' => $operationName,
-                            'resource' => $resourceName
-                        ]
-                    )
-                );
-            }
-        }
-
-        if (!$operations) {
-            $operations = $this->resources[$resourceName];
-        }
-
         if (!isset($this->rules[$roleName])) {
             $this->rules[$roleName] = [];
         }
+        if (!isset($this->rules[$roleName][$resourceName])) {
+            $this->rules[$roleName][$resourceName] = [];
+        }
 
-        $this->rules[$roleName][$resourceName] = $operations;
+        $this->rules[$roleName][$resourceName][$operationName] = $assertion ?: true;
 
         return $this;
     }
@@ -162,7 +142,7 @@ class ACLManager implements IACLManager, ILocalizable
     /**
      * {@inheritdoc}
      */
-    public function isAllowed($roleName, $resourceName, $operationName)
+    public function isAllowed($roleName, $resourceName = self::RESOURCE_ALL, $operationName = self::OPERATION_ALL)
     {
         if (!$this->hasRole($roleName)) {
             throw new NonexistentEntityException(
@@ -182,18 +162,6 @@ class ACLManager implements IACLManager, ILocalizable
             );
         }
 
-        if (!$this->hasResourceOperation($resourceName, $operationName)) {
-            throw new NonexistentEntityException(
-                $this->translate(
-                    'Cannot check permission. Operation "{operation}" for resource "{resource}" is unknown.',
-                    [
-                        'operation' => $operationName,
-                        'resource' => $resourceName
-                    ]
-                )
-            );
-        }
-
         return $this->hasPermission($roleName, $resourceName, $operationName);
     }
 
@@ -206,7 +174,26 @@ class ACLManager implements IACLManager, ILocalizable
      */
     protected function hasPermission($roleName, $resourceName, $operationName)
     {
+
+        if (isset($this->rules[$roleName][self::RESOURCE_ALL])) {
+            if (isset($this->rules[$roleName][self::RESOURCE_ALL][self::OPERATION_ALL])) {
+                $assertion = $this->rules[$roleName][self::RESOURCE_ALL][self::OPERATION_ALL];
+            } elseif ($this->rules[$roleName][self::RESOURCE_ALL][$operationName]) {
+                $assertion = $this->rules[$roleName][self::RESOURCE_ALL][$operationName];
+            }
+
+            if (isset($assertion) && $assertion !== true) {
+                return $assertion($this, $roleName, $resourceName, $operationName);
+            }
+        }
+
         if (isset($this->rules[$roleName][$resourceName][$operationName])) {
+
+            $assertion = $this->rules[$roleName][$resourceName][$operationName];
+            if ($assertion !== true) {
+                return $assertion($this, $roleName, $resourceName, $operationName);
+            }
+
             return true;
         }
 

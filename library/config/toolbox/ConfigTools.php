@@ -53,9 +53,9 @@ class ConfigTools implements IToolbox
      */
     public $cacheServiceClass = 'umi\config\cache\ConfigCacheEngine';
     /**
-     * @var bool $hasCache использовать ли кэш?
+     * @var bool $useCache использовать ли кэш?
      */
-    public $hasCache = false;
+    public $useCache = false;
     /**
      * @var array $cache настройки для механизма кэширования
      */
@@ -123,7 +123,7 @@ class ConfigTools implements IToolbox
             $object->setConfigEntityFactory($this->getConfigEntityFactory());
         }
 
-        if ($this->hasCache && $object instanceof IConfigCacheEngineAware) {
+        if ($this->useCache && $object instanceof IConfigCacheEngineAware) {
             $object->setConfigCacheEngine($this->getConfigCacheEngine());
         }
     }

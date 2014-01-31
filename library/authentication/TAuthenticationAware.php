@@ -59,13 +59,13 @@ trait TAuthenticationAware
     /**
      * Возвращает сконфигурированный провайдер.
      * @param string $type тип провайдера
-     * @param array $options опции
+     * @param array $constructorArgs аргументы конструктора провайдера
      * @return IAuthProvider
      */
-    protected final function createAuthProvider($type, array $options = [])
+    protected final function createAuthProvider($type, array $constructorArgs = [])
     {
         return $this->getAuthFactory()
-            ->createProvider($type, $options);
+            ->createProvider($type, $constructorArgs);
     }
 
     /**

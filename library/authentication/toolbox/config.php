@@ -19,6 +19,7 @@ return [
         'umi\authentication\IAuthenticationAware',
     ],
     'services' => [
-        'umi\authentication\IAuthenticationFactory'
+        'umi\authentication\IAuthenticationFactory',
+        'umi\authentication\IAuthManager'
     ]
 ];

@@ -20,11 +20,11 @@ interface IMacrosFactory
     /**
      * Создает макрос по имени.
      * @param string $name имя макроса
-     * @param array $args аргументы конструктора
+     * @param array $params параметры вызова макроса
      * @throws OutOfBoundsException если макрос не существует
      * @return IMacros
      */
-    public function createMacros($name, $args = []);
+    public function createMacros($name, $params = []);
 
     /**
      * Проверяет существует ли макрос.

@@ -18,7 +18,9 @@ use umi\i18n\translator\ITranslator;
  */
 class TranslateHelper implements ILocalizable
 {
-    /** Словарь по умолчанию */
+    /**
+     * Словарь по умолчанию
+     */
     const DICTIONARY_DEFAULT = 'application';
 
     /**

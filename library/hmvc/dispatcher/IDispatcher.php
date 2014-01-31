@@ -11,9 +11,11 @@ namespace umi\hmvc\dispatcher;
 
 use Exception;
 use umi\hmvc\component\IComponent;
-use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
+use umi\hmvc\controller\IController;
 use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use umi\hmvc\exception\RuntimeException;
+use umi\hmvc\macros\IMacros;
+use umi\hmvc\view\IView;
 use umi\http\request\IRequest;
 
 /**
@@ -25,7 +27,13 @@ interface IDispatcher
     /**
      * Разделитель пути для вызова макроса
      */
-    const MACROS_PATH_SEPARATOR = '.';
+    const MACROS_URI_SEPARATOR = '/';
+
+    /**
+     * Возвращает текущий HTTP-запрос.
+     * @return IRequest
+     */
+    public function getCurrentRequest();
 
     /**
      * Обрабатывает http-запрос с помощью указанного MVC-компонента.
@@ -35,43 +43,35 @@ interface IDispatcher
     public function dispatchRequest(IComponent $component, IRequest $request);
 
     /**
-     * Сохраняет ошибку рендеринга результата работы контроллера.
+     * Обрабатывает ошибку рендеринга.
      * @param Exception $e
-     * @return self
-     */
-    public function reportControllerViewRenderError(Exception $e);
-
-    /**
-     * Формирует результат макроса с учетом произошедшей исключительной ситуации.
-     * @param IDispatchContext $macrosRequest контекст вызова макроса
-     * @param Exception $e
-     * @throws Exception если исключительная ситуация не была обработана
+     * @param IDispatchContext $failureContext контекст, в котором произошла ошибка
+     * @param IController|IMacros $viewOwner
      * @return string
      */
-    public function processMacrosError(IDispatchContext $macrosRequest, Exception $e);
+    public function reportViewRenderError(Exception $e, IDispatchContext $failureContext, $viewOwner);
 
     /**
      * Обрабатывает вызов макроса.
-     * @param IComponent $component начальный компонент
-     * @param $macrosPath путь макроса
-     * @param array $args аргументы вызова макроса
-     * @return IHTTPComponentResponse
+     * @param string $macrosURI путь макроса
+     * @param array $params параметры вызова макроса
+     * @return string|IView
      */
-    public function dispatchMacros(IComponent $component, $macrosPath, array $args = []);
+    public function executeMacros($macrosURI, array $params = []);
 
     /**
-     * Устанавливает обрабатываемый контекст.
-     * @param IHTTPComponentRequest $request
-     * @return self
+     * Переключает обрабатываемый контекст.
+     * @param IDispatchContext $context
+     * @return IDispatchContext|null предыдущий обрабатываемый контескт
      */
-    public function setCurrentHTTPComponentRequest(IHTTPComponentRequest $request);
+    public function switchCurrentContext(IDispatchContext $context);
 
     /**
-     * Возвращает обрабатываемый контекст.
+     * Возвращает текущий контекст.
      * @throws RuntimeException если контекст не был установлен
-     * @return IHTTPComponentRequest
+     * @return IDispatchContext
      */
-    public function getCurrentHTTPComponentRequest();
+    public function getCurrentContext();
 
 }
  

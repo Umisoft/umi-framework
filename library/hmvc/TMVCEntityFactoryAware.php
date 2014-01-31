@@ -89,13 +89,15 @@ trait TMVCEntityFactoryAware
 
     /**
      * Создает HMVC компонент.
+     * @param string $name имя компонента
+     * @param string $path иерархический путь компонента
      * @param array $options конфигурация
      * @return IComponent
      */
-    protected final function createMVCComponent(array $options)
+    protected final function createMVCComponent($name, $path, array $options)
     {
         return $this->getMVCEntityFactory()
-            ->createComponent($options);
+            ->createComponent($name, $path, $options);
     }
 
     /**

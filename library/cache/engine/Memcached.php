@@ -46,7 +46,7 @@ class Memcached implements ICacheEngine, ILocalizable
      */
     public function add($key, $value, $ttl = 0)
     {
-        $expiration = $ttl > 0 ? $ttl + time() : 0;
+        $expiration = $ttl > 0 ? $ttl + time() : null;
 
         return $this->memcached->add($key, $value, $expiration);
     }
@@ -56,7 +56,7 @@ class Memcached implements ICacheEngine, ILocalizable
      */
     public function set($key, $value, $ttl = 0)
     {
-        $expiration = $ttl > 0 ? $ttl + time() : 0;
+        $expiration = $ttl > 0 ? $ttl + time() : null;
 
         return $this->memcached->set($key, $value, $expiration);
     }

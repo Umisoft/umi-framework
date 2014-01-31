@@ -12,14 +12,15 @@ namespace umi\hmvc\dispatcher;
 use Exception;
 use SplDoublyLinkedList;
 use SplStack;
+use umi\authentication\IAuthenticationAware;
+use umi\authentication\TAuthenticationAware;
+use umi\hmvc\acl\IACLResource;
+use umi\hmvc\acl\IACLRoleProvider;
 use umi\hmvc\component\IComponent;
-use umi\hmvc\dispatcher\http\HTTPComponentRequest;
-use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
 use umi\hmvc\dispatcher\http\IHTTPComponentResponse;
 use umi\hmvc\controller\IController;
-use umi\hmvc\dispatcher\macros\MacrosRequest;
+use umi\hmvc\exception\http\HttpForbidden;
 use umi\hmvc\exception\http\HttpNotFound;
-use umi\hmvc\exception\InvalidArgumentException;
 use umi\hmvc\exception\RuntimeException;
 use umi\hmvc\exception\UnexpectedValueException;
 use umi\hmvc\IMVCEntityFactoryAware;
@@ -29,32 +30,53 @@ use umi\hmvc\view\IView;
 use umi\http\request\IRequest;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
+use umi\route\result\IRouteResult;
 
 /**
  * Диспетчер MVC-компонентов.
  */
-class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
+class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware, IAuthenticationAware
 {
 
     use TLocalizable;
     use TMVCEntityFactoryAware;
+    use TAuthenticationAware;
 
     /**
-     * @var Exception $controllerViewRenderError исключение рендеринга
+     * @var array $controllerViewRenderErrorInfo информация об исключение рендеринга
      */
-    protected $controllerViewRenderError;
+    protected $controllerViewRenderErrorInfo = [];
     /**
-     * @var IHTTPComponentRequest $currentHTTPComponentRequest обрабатываемый контекст
+     * @var IRequest $currentRequest обрабатываемый HTTP-запрос
      */
-    private $currentHTTPComponentRequest;
+    protected $currentRequest;
+    /**
+     * @var IComponent $initialComponent начальный компонент HTTP-запроса
+     */
+    protected $initialComponent;
+
+    /**
+     * @var IDispatchContext $currentContext текущий контекст
+     */
+    private $currentContext;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCurrentRequest()
+    {
+        return $this->currentRequest;
+    }
 
     /**
      * {@inheritdoc}
      */
     public function dispatchRequest(IComponent $component, IRequest $request)
     {
-        $callStack = new SplStack();
-        $callStack->setIteratorMode(SplDoublyLinkedList::IT_MODE_LIFO | SplDoublyLinkedList::IT_MODE_DELETE);
+        $this->currentRequest = $request;
+        $this->initialComponent = $component;
+
+        $callStack = $this->createCallStack();
 
         $routePath = rtrim(parse_url($request->getRequestURI(), PHP_URL_PATH), '/');
 
@@ -67,9 +89,15 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
 
         $content = (string) $response->getContent();
 
-        if ($e = $this->controllerViewRenderError) {
-            $this->controllerViewRenderError = null;
-            $this->processError($e, $this->getCurrentHTTPComponentRequest()->getCallStack());
+        if ($this->controllerViewRenderErrorInfo) {
+            /**
+             * @var Exception $e
+             * @var IDispatchContext $failureContext
+             */
+            list ($e, $failureContext) = $this->controllerViewRenderErrorInfo;
+            $this->controllerViewRenderErrorInfo = [];
+
+            $this->processError($e, $failureContext->getCallStack());
             return;
         }
 
@@ -80,114 +108,96 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     /**
      * {@inheritdoc}
      */
-    public function reportControllerViewRenderError(Exception $e)
+    public function reportViewRenderError(Exception $e, IDispatchContext $failureContext, $viewOwner)
     {
-        $this->controllerViewRenderError = $e;
+        if ($viewOwner instanceof IMacros) {
+            return $this->processMacrosError($e, $failureContext);
+        }
 
-        return $this;
+        $this->controllerViewRenderErrorInfo = [$e, $failureContext];
+
+        return $e->getMessage();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function dispatchMacros(IComponent $component, $macrosPath, array $args = [])
+    public function executeMacros($macrosURI, array $params = [])
     {
-        $callStack = new SplStack();
-        $callStack->setIteratorMode(SplDoublyLinkedList::IT_MODE_LIFO | SplDoublyLinkedList::IT_MODE_DELETE);
+
+        list ($component, $callStack, $componentURI) = $this->resolveMacrosContext($macrosURI);
 
         try {
-            return $this->processMacros($component, $macrosPath, $args, $callStack);
+            $macros = $this->dispatchMacros($component, $macrosURI, $params, $callStack, $componentURI);
+
+            return $this->invokeMacros($macros);
+
         } catch (Exception $e) {
-            $macrosRequest = $this->createMacrosRequest($component);
-            $macrosRequest->setCallStack(clone $callStack);
 
-            return $this->processMacrosError($macrosRequest, $e);
+            $context = $this->createDispatchContext($component);
+            $context->setCallStack(clone $callStack);
+
+            return $this->processMacrosError($e, $context);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setCurrentHTTPComponentRequest(IHTTPComponentRequest $request)
+    public function switchCurrentContext(IDispatchContext $context)
     {
-        $this->currentHTTPComponentRequest = $request;
+        $previousContext = $this->currentContext;
+        $this->currentContext = $context;
 
-        return $this;
+        return $previousContext;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCurrentHTTPComponentRequest()
+    public function getCurrentContext()
     {
-        if (!$this->currentHTTPComponentRequest) {
+        if (!$this->currentContext) {
             throw new RuntimeException(
-                'Current HTTP Component request is unknown.'
+                'Current dispatch context is unknown.'
             );
         }
 
-        return $this->currentHTTPComponentRequest;
-    }
-
-
-    /**
-     * Возвращает результат работы макроса.
-     * @param IComponent $component начальный компонент поиска
-     * @param string $macrosPath путь к макросу
-     * @param array $args
-     * @param SplStack $callStack
-     * @throws InvalidArgumentException если задан неверный путь макроса
-     * @return IHTTPComponentResponse
-     */
-    protected function processMacros(IComponent $component, $macrosPath, array $args, SplStack $callStack)
-    {
-        $callStack->push($component);
-
-        $macrosPathInfo = explode(self::MACROS_PATH_SEPARATOR, $macrosPath);
-
-        if (!$macrosPathInfo) {
-            throw new InvalidArgumentException(
-                $this->translate(
-                    'Invalid macros path "{path}".',
-                    ['path' => $macrosPath]
-                )
-            );
-        }
-
-        $macrosName = array_pop($macrosPathInfo);
-
-        while ($childComponentName = array_shift($macrosPathInfo)) {
-            $component = $component->getChildComponent($childComponentName);
-            $callStack->push($component);
-        }
-
-        $macros = $component->getMacros($macrosName);
-        $macrosRequest = $this->createMacrosRequest($component);
-        $macrosRequest->setCallStack(clone $callStack);
-        $macros->setMacrosRequest($macrosRequest);
-
-        return $this->callMacros($macros, $args);
+        return $this->currentContext;
     }
 
     /**
-     * {@inheritdoc}
+     * Формирует результат макроса с учетом произошедшей исключительной ситуации.
+     * @param Exception $e
+     * @param IDispatchContext $context контекст вызова макроса
+     * @throws Exception если исключительная ситуация не была обработана
+     * @return string
      */
-    public function processMacrosError(IDispatchContext $macrosRequest, Exception $e)
+    protected function processMacrosError(Exception $e, IDispatchContext $context)
     {
-        $callStack = $macrosRequest->getCallStack();
+        $callStack = $context->getCallStack();
         /**
-         * @var IComponent $component
+         * @var IDispatchContext $context
          */
-        foreach ($callStack as $component) {
+        foreach ($callStack as $context) {
+
+            $component = $context->getComponent();
             if (!$component->hasMacros(IComponent::ERROR_MACROS)) {
                 continue;
             }
 
-            $errorMacros = $component->getMacros(IComponent::ERROR_MACROS);
-            $errorMacros->setMacrosRequest($this->createMacrosRequest($component, clone $callStack));
+            $errorMacros = $component->getMacros(
+                IComponent::ERROR_MACROS,
+                ['exception' => $e]
+            );
+
+            $context = $this->createDispatchContext($component);
+            $context->setCallStack(clone $callStack);
+
+            $errorMacros->setContext($context);
 
             try {
-                return (string) $this->callMacros($errorMacros, [$e]);
+                return (string) $this->invokeMacros($errorMacros);
             } catch (Exception $e) { }
         }
 
@@ -195,16 +205,49 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     }
 
     /**
+     * Диспетчеризирует вызов макроса.
+     * @param IComponent $component компонент для поиска
+     * @param string $macrosURI путь макроса относительно компонента
+     * @param array $params параметры вызова макроса
+     * @param SplStack $callStack стек вызова компонентов
+     * @param string $matchedMacrosURI известная часть пути вызова макроса
+     * @return IMacros
+     */
+    protected function dispatchMacros(IComponent $component, $macrosURI, array $params, SplStack $callStack, $matchedMacrosURI = '')
+    {
+        $routeResult = $component->getRouter()->match($macrosURI);
+        $routeMatches = $routeResult->getMatches();
+
+        $context = $this->createDispatchContext($component);
+        $callStack->push($context);
+
+        $context
+            ->setRouteParams($routeMatches)
+            ->setBaseUrl($matchedMacrosURI)
+            ->setCallStack(clone $callStack);
+
+        if (isset($routeMatches[IComponent::MATCH_COMPONENT]) && $component->hasChildComponent($routeMatches[IComponent::MATCH_COMPONENT])) {
+
+            $childComponent = $component->getChildComponent($routeMatches[IComponent::MATCH_COMPONENT]);
+            $matchedMacrosURI .= $routeResult->getMatchedUrl();
+
+            return $this->dispatchMacros($childComponent, $routeResult->getUnmatchedUrl(), $params, $callStack, $matchedMacrosURI);
+
+        } else {
+            return $component->getMacros(ltrim($macrosURI, self::MACROS_URI_SEPARATOR), $params)
+                ->setContext($context);
+        }
+    }
+
+    /**
      * Вызывает макрос.
      * @param IMacros $macros
-     * @param array $args
      * @throws UnexpectedValueException если макрос вернул неверный результат
      * @return IView|string
      */
-    protected function callMacros(IMacros $macros, array $args)
+    protected function invokeMacros(IMacros $macros)
     {
-        /** @noinspection PhpParamsInspection */
-        $macrosResult = call_user_func_array($macros, $args);
+        $macrosResult = $macros();
 
         if (!$macrosResult instanceof IView && !is_string($macrosResult)) {
             throw new UnexpectedValueException($this->translate(
@@ -223,55 +266,29 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
      * @param SplStack $callStack
      * @param string $matchedRoutePath обработанная часть начального маршрута
      * @throws HttpNotFound если невозможно сформировать результат.
+     * @throws HttpForbidden если доступ к ресурсу не разрешен.
      * @return IHTTPComponentResponse
      */
-    protected function processRequest(IComponent $component, $routePath, SplStack $callStack, $matchedRoutePath = '') {
-
+    protected function processRequest(IComponent $component, $routePath, SplStack $callStack, $matchedRoutePath = '')
+    {
         $routeResult = $component->getRouter()->match($routePath);
         $routeMatches = $routeResult->getMatches();
 
-        $componentRequest = $this->createComponentRequest($component);
-        $callStack->push($componentRequest);
+        $context = $this->createDispatchContext($component);
+        $callStack->push($context);
 
-        $componentRequest
+        $context
             ->setRouteParams($routeMatches)
             ->setBaseUrl($matchedRoutePath)
             ->setCallStack(clone $callStack);
 
         if (isset($routeMatches[IComponent::MATCH_COMPONENT])) {
 
-            if (!$component->hasChildComponent($routeMatches[IComponent::MATCH_COMPONENT])) {
-
-                throw new HttpNotFound(
-                    $this->translate(
-                        'Child component "{name}" not found.',
-                        ['name' => $routeMatches[IComponent::MATCH_COMPONENT]]
-                    )
-                );
-            }
-
-            $childComponent = $component->getChildComponent($routeMatches[IComponent::MATCH_COMPONENT]);
-            $matchedRoutePath .= $routeResult->getMatchedUrl();
-
-            return $this->processRequest($childComponent, $routeResult->getUnmatchedUrl(), $callStack, $matchedRoutePath);
+            return $this->processChildComponentRequest($component, $routeResult, $callStack, $matchedRoutePath);
 
         } elseif (isset($routeMatches[IComponent::MATCH_CONTROLLER]) && !$routeResult->getUnmatchedUrl()) {
-            if (!$component->hasController($routeMatches[IComponent::MATCH_CONTROLLER])) {
-                throw new HttpNotFound(
-                    $this->translate(
-                        'Controller "{name}" not found.',
-                        ['name' => $routeMatches[IComponent::MATCH_CONTROLLER]]
-                    )
-                );
-            }
 
-            $controller = $component->getController($routeMatches[IComponent::MATCH_CONTROLLER]);
-            $controller->setHTTPComponentRequest($componentRequest);
-
-            $componentResponse = $this->callController($controller);
-
-            return $this->processResponse($componentResponse, $callStack);
-
+            return $this->processControllerRequest($component, $context, $callStack, $routeMatches);
 
         } else {
             throw new HttpNotFound(
@@ -291,28 +308,31 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     protected function processError(Exception $e, SplStack $callStack)
     {
         /**
-         * @var IHTTPComponentRequest $request
+         * @var IDispatchContext $context
          */
-        foreach ($callStack as $request) {
+        foreach ($callStack as $context) {
 
-            $component = $request->getComponent();
+            $component = $context->getComponent();
             if (!$component->hasController(IComponent::ERROR_CONTROLLER)) {
                 continue;
             }
 
-            $errorController = $component->getController(IComponent::ERROR_CONTROLLER);
-            $errorController->setHTTPComponentRequest($request);
+            $errorController = $component->getController(IComponent::ERROR_CONTROLLER, [$e])
+                ->setContext($context)
+                ->setRequest($this->currentRequest);
+
 
             try {
-                $errorResponse = $this->callController($errorController, [$e]);
+                $errorResponse = $this->invokeController($errorController);
                 $layoutResponse = $this->processResponse($errorResponse, $callStack);
             } catch (Exception $e) {
                 continue;
             }
             $content = (string) $layoutResponse->getContent();
 
-            if ($this->controllerViewRenderError) {
-                throw $this->controllerViewRenderError;
+            if ($this->controllerViewRenderErrorInfo) {
+                list ($renderException) = $this->controllerViewRenderErrorInfo;
+                throw $renderException;
             }
 
             $layoutResponse
@@ -326,16 +346,45 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     }
 
     /**
+     * Проверяет наличие разрешений на ресурс
+     * @param IComponent $component компонент, которому принадлежит ресурс.
+     * @param IACLResource $resource ресурс
+     * @return bool
+     */
+    protected function checkPermissions(IComponent $component, IACLResource $resource)
+    {
+        $authManager = $this->getDefaultAuthManager();
+        if (!$authManager->isAuthenticated()) {
+            return false;
+        }
+
+        $identity = $authManager->getStorage()->getIdentity();
+
+        if (!$identity instanceof IACLRoleProvider) {
+            return false;
+        }
+
+        $aclManager = $component->getACLManager();
+
+        foreach ($identity->getRoles($component) as $roleName) {
+            if ($aclManager->isAllowed($roleName, $resource->getACLResourceName(), 'execute')) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }
+
+    /**
      * Вызывает контроллер компонента.
      * @param IController $controller контроллер
-     * @param array $args параметры вызова контроллера
      * @throws UnexpectedValueException если контроллер вернул неожиданный результат
      * @return IHTTPComponentResponse
      */
-    protected function callController(IController $controller, array $args = [])
+    protected function invokeController(IController $controller)
     {
-        /** @noinspection PhpParamsInspection */
-        $componentResponse = call_user_func_array($controller, $args);
+        $componentResponse = $controller();
 
         if (!$componentResponse instanceof IHTTPComponentResponse) {
             throw new UnexpectedValueException($this->translate(
@@ -356,20 +405,21 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     protected function processResponse(IHTTPComponentResponse $response, SplStack $callStack)
     {
         /**
-         * @var IHTTPComponentRequest $request
+         * @var IDispatchContext $context
          */
-        foreach ($callStack as $request) {
+        foreach ($callStack as $context) {
             if ($response->isProcessable()) {
 
-                $component = $request->getComponent();
+                $component = $context->getComponent();
 
                 if (!$component->hasController(IComponent::LAYOUT_CONTROLLER)) {
                     continue;
                 }
 
-                $layoutController = $component->getController(IComponent::LAYOUT_CONTROLLER, [$response]);
-                $layoutController->setHTTPComponentRequest($request);
-                $response = $this->callController($layoutController);
+                $layoutController = $component->getController(IComponent::LAYOUT_CONTROLLER, [$response])
+                    ->setContext($context)
+                    ->setRequest($this->currentRequest);
+                $response = $this->invokeController($layoutController);
             }
         }
 
@@ -377,24 +427,149 @@ class Dispatcher implements IDispatcher, ILocalizable, IMVCEntityFactoryAware
     }
 
     /**
-     * Создает контекст http-вызова компонента.
+     * Создает контекст вызова компонента.
      * @param IComponent $component
-     * @return IHTTPComponentRequest
+     * @return IDispatchContext
      */
-    protected function createComponentRequest(IComponent $component)
+    protected function createDispatchContext(IComponent $component)
     {
-        return new HTTPComponentRequest($component, $this);
+        return new DispatchContext($component, $this);
     }
 
     /**
-     * Создает контекст вызова макроса.
+     * Возвращает результат работы дочернего компонента.
      * @param IComponent $component
-     * @return IHTTPComponentRequest
+     * @param IRouteResult $routeResult
+     * @param SplStack $callStack
+     * @param string $matchedRoutePath
+     * @throws HttpForbidden если дочерний компонент не существует
+     * @throws HttpNotFound если доступ к дочернему компоненту не разрешен
+     * @return IHTTPComponentResponse
      */
-    protected function createMacrosRequest(IComponent $component)
+    private function processChildComponentRequest(IComponent $component, IRouteResult $routeResult, SplStack $callStack, $matchedRoutePath)
     {
-        return new MacrosRequest($component, $this);
+        $routeMatches = $routeResult->getMatches();
+        if (!$component->hasChildComponent($routeMatches[IComponent::MATCH_COMPONENT])) {
+
+            throw new HttpNotFound(
+                $this->translate(
+                    'Child component "{name}" not found.',
+                    ['name' => $routeMatches[IComponent::MATCH_COMPONENT]]
+                )
+            );
+        }
+
+        /**
+         * @var IComponent|IACLResource $childComponent
+         */
+        $childComponent = $component->getChildComponent($routeMatches[IComponent::MATCH_COMPONENT]);
+
+        if ($childComponent instanceof IACLResource && !$this->checkPermissions($component, $childComponent)) {
+
+            throw new HttpForbidden(
+                $this->translate(
+                    'Cannot execute component "{path}". Access denied.',
+                    ['path' => $childComponent->getPath()]
+                )
+            );
+        }
+
+        $matchedRoutePath .= $routeResult->getMatchedUrl();
+
+        return $this->processRequest($childComponent, $routeResult->getUnmatchedUrl(), $callStack, $matchedRoutePath);
     }
+
+    /**
+     * Возвращает результат работы контроллера компонента.
+     * @param IComponent $component
+     * @param IDispatchContext $context
+     * @param SplStack $callStack
+     * @param array $routeMatches
+     * @throws HttpForbidden
+     * @throws HttpNotFound
+     * @return IHTTPComponentResponse
+     */
+    private function processControllerRequest(IComponent $component, IDispatchContext $context, SplStack $callStack, array $routeMatches)
+    {
+        if (!$component->hasController($routeMatches[IComponent::MATCH_CONTROLLER])) {
+            throw new HttpNotFound(
+                $this->translate(
+                    'Controller "{name}" not found.',
+                    ['name' => $routeMatches[IComponent::MATCH_CONTROLLER]]
+                )
+            );
+        }
+
+        /**
+         * @var IController|IACLResource $controller
+         */
+        $controller = $component->getController($routeMatches[IComponent::MATCH_CONTROLLER])
+            ->setContext($context)
+            ->setRequest($this->currentRequest);
+
+        if ($controller instanceof IACLResource && !$this->checkPermissions($component, $controller)) {
+            throw new HttpForbidden(
+                $this->translate(
+                    'Cannot execute controller "{name}" for component "{path}". Access denied.',
+                    [
+                        'name' => $controller->getName(),
+                        'path' => $component->getPath()
+                    ]
+                )
+            );
+        }
+
+        $componentResponse = $this->invokeController($controller);
+
+        return $this->processResponse($componentResponse, $callStack);
+    }
+
+    /**
+     * Возвращает информацию о контексте вызова макроса.
+     * @param string $macrosURI путь макроса
+     * @throws RuntimeException если контекст не существует
+     * @return array
+     */
+    private function resolveMacrosContext(&$macrosURI)
+    {
+        if (strpos($macrosURI, self::MACROS_URI_SEPARATOR) !== 0) {
+            if (!$this->currentContext) {
+                throw new RuntimeException(
+                    $this->translate(
+                        'Context for executing macros "{macros}" is unknown.',
+                        ['macros' => $macrosURI]
+                    )
+                );
+            }
+
+            $macrosURI = self::MACROS_URI_SEPARATOR . $macrosURI;
+
+            return [
+                $this->currentContext->getComponent(),
+                clone $this->currentContext->getCallStack(),
+                $this->currentContext->getBaseUrl()
+            ];
+        }
+
+        return [
+            $this->initialComponent,
+            $this->createCallStack(),
+            ''
+        ];
+    }
+
+    /**
+     * Создает пустой стек вызова.
+     * @return SplStack
+     */
+    private function createCallStack()
+    {
+        $callStack = new SplStack();
+        $callStack->setIteratorMode(SplDoublyLinkedList::IT_MODE_LIFO | SplDoublyLinkedList::IT_MODE_DELETE);
+
+        return $callStack;
+    }
+
 
 }
  

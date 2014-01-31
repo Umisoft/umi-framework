@@ -9,7 +9,7 @@
 namespace utest\authentication\unit;
 
 use umi\authentication\adapter\SimpleAdapter as SimpleAdapter;
-use umi\authentication\Authentication;
+use umi\authentication\AuthManager;
 use umi\authentication\exception\RuntimeException;
 use umi\authentication\provider\SimpleProvider as SimpleProvider;
 use umi\authentication\result\IAuthResult;
@@ -23,7 +23,7 @@ use utest\authentication\mock\provider\Wrong;
 class AuthenticationTest extends AuthenticationTestCase
 {
     /**
-     * @var Authentication $adapter
+     * @var AuthManager $adapter
      */
     protected $auth;
 
@@ -32,7 +32,7 @@ class AuthenticationTest extends AuthenticationTestCase
         $adapter = new SimpleAdapter([SimpleAdapter::OPTION_ALLOWED_LIST => ['root' => 'root']]);
         $this->resolveOptionalDependencies($adapter);
 
-        $this->auth = new Authentication(
+        $this->auth = new AuthManager(
             [],
             $adapter,
             new SimpleStorage()
@@ -120,10 +120,10 @@ class AuthenticationTest extends AuthenticationTestCase
         ]);
         $this->resolveOptionalDependencies($adapter);
 
-        $auth = new Authentication(
+        $auth = new AuthManager(
             [
-                Authentication::OPTION_HASH_METHOD => Authentication::HASH_MD5,
-                Authentication::OPTION_HASH_SALT   => 'salt',
+                AuthManager::OPTION_HASH_METHOD => AuthManager::HASH_MD5,
+                AuthManager::OPTION_HASH_SALT   => 'salt',
             ],
             $adapter,
             new SimpleStorage()
@@ -146,9 +146,9 @@ class AuthenticationTest extends AuthenticationTestCase
      */
     public function wrongHashMethod()
     {
-        $auth = new Authentication(
+        $auth = new AuthManager(
             [
-                Authentication::OPTION_HASH_METHOD => 'wrong'
+                AuthManager::OPTION_HASH_METHOD => 'wrong'
             ],
             new SimpleAdapter([]),
             new SimpleStorage()

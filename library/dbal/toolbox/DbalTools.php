@@ -100,12 +100,12 @@ class DbalTools implements IToolbox
     public function __construct()
     {
         $this->registerFactory(
-            'serverFactory',
+            'server',
             $this->serverFactoryClass,
             ['umi\dbal\cluster\server\IServerFactory']
         );
         $this->registerFactory(
-            'queryBuilderFactory',
+            'queryBuilder',
             $this->queryBuilderFactoryClass,
             ['umi\dbal\builder\IQueryBuilderFactory']
         );
@@ -157,21 +157,21 @@ class DbalTools implements IToolbox
     }
 
     /**
-     * Возвращает фабрику построителей запросов БД
+     * Возвращает фабрику построителей запросов БД.
      * @return IQueryBuilderFactory
      */
     protected function getQueryBuilderFactory()
     {
-        return $this->getFactory('queryBuilderFactory');
+        return $this->getFactory('queryBuilder');
     }
 
     /**
-     * Возвращает фабрику серверов кластера
+     * Возвращает фабрику серверов кластера.
      * @return IServerFactory
      */
     protected function getServerFactory()
     {
-        return $this->getFactory('serverFactory', [$this->getQueryBuilderFactory()]);
+        return $this->getFactory('server', [$this->getQueryBuilderFactory()]);
     }
 
     /**

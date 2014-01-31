@@ -43,7 +43,7 @@ class HMVCTools implements IToolbox
     public function __construct()
     {
         $this->registerFactory(
-            'MVCEntityFactory',
+            'MVCEntity',
             $this->MVCEntityFactoryClass,
             ['umi\hmvc\IMVCEntityFactory']
         );
@@ -82,7 +82,7 @@ class HMVCTools implements IToolbox
      */
     protected function getMVCEntityFactory()
     {
-        return $this->getFactory('MVCEntityFactory');
+        return $this->getFactory('MVCEntity');
     }
 
     /**

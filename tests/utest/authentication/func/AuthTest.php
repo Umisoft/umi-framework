@@ -9,7 +9,7 @@
 namespace utest\authentication\func;
 
 use umi\authentication\adapter\SimpleAdapter;
-use umi\authentication\IAuthentication;
+use umi\authentication\IAuthManager;
 use umi\authentication\IAuthenticationFactory;
 use umi\authentication\provider\SimpleProvider;
 use umi\toolkit\factory\TFactory;
@@ -21,7 +21,7 @@ use utest\authentication\AuthenticationTestCase;
 class AuthTest extends AuthenticationTestCase
 {
     /**
-     * @var IAuthentication $auth
+     * @var IAuthManager $auth
      */
     protected $auth;
 
@@ -42,7 +42,7 @@ class AuthTest extends AuthenticationTestCase
 
         $storage = $authenticationFactory->createStorage(IAuthenticationFactory::STORAGE_SIMPLE);
 
-        $this->auth = $authenticationFactory->createManager([], $adapter, $storage);
+        $this->auth = $authenticationFactory->createAuthManager([], $adapter, $storage);
     }
 
     public function testFailureAuth()

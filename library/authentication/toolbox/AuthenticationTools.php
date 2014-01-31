@@ -20,7 +20,9 @@ use umi\toolkit\toolbox\TToolbox;
  */
 class AuthenticationTools implements IToolbox
 {
-    /** Имя набора инструментов */
+    /**
+     * Имя набора инструментов
+     */
     const NAME = 'authentication';
 
     use TToolbox;
@@ -50,6 +52,9 @@ class AuthenticationTools implements IToolbox
         switch ($serviceInterfaceName) {
             case 'umi\authentication\IAuthenticationFactory':
                 return $this->getAuthenticationFactory();
+            case 'umi\authentication\IAuthManager':
+                return $this->getAuthenticationFactory()
+                    ->getDefaultAuthManager();
         }
         throw new UnsupportedServiceException($this->translate(
             'Toolbox "{name}" does not support service "{interface}".',

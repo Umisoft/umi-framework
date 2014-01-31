@@ -9,51 +9,49 @@
 
 namespace umi\hmvc\view\helper;
 
-use umi\hmvc\dispatcher\http\IHTTPComponentRequest;
-use umi\hmvc\context\IContextAware;
-use umi\hmvc\context\TContextAware;
-use umi\hmvc\exception\RuntimeException;
-use umi\i18n\ILocalizable;
-use umi\i18n\TLocalizable;
+use umi\hmvc\dispatcher\IDispatcher;
+use umi\http\request\IRequest;
 
 /**
  * Помощник вида для генерации URL по маршрутам компонента.
  */
-class UrlHelper implements IContextAware, ILocalizable
+class UrlHelper
 {
-    use TContextAware;
-    use TLocalizable;
+    /**
+     * @var IDispatcher $dispatcher
+     */
+    protected $dispatcher;
 
     /**
-     * Возвращает маршрут.
-     * @param string $name имя маршрута
-     * @param array $params параметры
-     * @param bool $useRequestParams использовать ли параметры из запроса
-     * @throws RuntimeException
+     * Конструктор.
+     * @param IDispatcher $dispatcher диспетчер компонентов
+     */
+    public function __construct(IDispatcher $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
+    /**
+     * Формирует url для маршрута относительно HTTP-запроса к компоненту
+     * @param string $routeName имя маршрута
+     * @param array $params
+     * @param bool $useQuery использовать ли GET-параметры текущего HTTP-запроса
      * @return string
      */
-    public function __invoke($name, array $params = [], $useRequestParams = false)
+    public function __invoke($routeName, $params = [], $useQuery = false)
     {
-        return $name;
+        $context = $this->dispatcher->getCurrentContext();
+        $baseUrl = $context->getBaseUrl();
 
-        if ($useRequestParams) {
-            $request = $this->getContext()
-                ->getRequest();
+        $url = $baseUrl . $context->getComponent()->getRouter()->assemble($routeName, $params) ? : '/';
 
-            if (!$request) {
-                throw new RuntimeException($this->translate(
-                    'Cannot get request from context.'
-                ));
+        if ($useQuery) {
+            $getParams = $this->dispatcher->getCurrentRequest()->getParams(IRequest::GET)->toArray();
+            if($getParams) {
+                $url .= '?' . http_build_query($getParams);
             }
-
-            $routeParams = $request->getParams(IHTTPComponentRequest::ROUTE)->toArray();
-
-            $params += $routeParams;
         }
 
-        $router = $this->getContext()
-            ->getComponent()->getRouter();
-
-        return $router->assemble($name, $params) ? : '/';
+        return $url;
     }
 }

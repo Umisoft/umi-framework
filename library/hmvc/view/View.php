@@ -7,22 +7,28 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\hmvc\macros;
+namespace umi\hmvc\view;
 
+use Serializable;
+use umi\hmvc\controller\IController;
 use umi\hmvc\dispatcher\IDispatchContext;
 use umi\hmvc\exception\ViewRenderException;
-use umi\hmvc\view\IView;
+use umi\hmvc\macros\IMacros;
 use umi\spl\container\TArrayAccess;
 use umi\spl\container\TPropertyAccess;
 
 /**
- * Содержимое результата работы макроса, требующее шаблонизации.
+ * Содержимое результата работы макроса или контроллера, требующее шаблонизации.
  */
-class MacrosView implements IView
+class View implements IView, Serializable
 {
     use TArrayAccess;
     use TPropertyAccess;
 
+    /**
+     * @var IController|IMacros $viewOwner
+     */
+    protected $viewOwner;
     /**
      * @var IDispatchContext $context контекст вызова макроса
      */
@@ -35,15 +41,21 @@ class MacrosView implements IView
      * @var array $variables переменные
      */
     protected $variables = [];
+    /**
+     * @var string $renderedResult результат рендеринга View
+     */
+    protected $renderedResult;
 
     /**
      * Конструктор.
+     * @param IController|IMacros $viewOwner
      * @param IDispatchContext $context контекст вызова макроса
      * @param string $templateName имя шаблона
      * @param array $variables переменные шаблона
      */
-    public function __construct(IDispatchContext $context, $templateName, array $variables = [])
+    public function __construct($viewOwner, IDispatchContext $context, $templateName, array $variables = [])
     {
+        $this->viewOwner = $viewOwner;
         $this->context = $context;
         $this->templateName = $templateName;
         $this->variables = $variables;
@@ -54,18 +66,52 @@ class MacrosView implements IView
      */
     public function __toString()
     {
-        try {
-            return $this->context->getComponent()->getViewRenderer()->render($this->templateName, $this->variables);
-        } catch (\Exception $e) {
+        if (is_string($this->renderedResult)) {
+            return $this->renderedResult;
+        }
 
+        $dispatcher = $this->context->getDispatcher();
+        $previousContext = $dispatcher->switchCurrentContext($this->context);
+
+        try {
+            $result = $this->context->getComponent()->getViewRenderer()->render($this->templateName, $this->variables);
+
+            if ($previousContext) {
+                $dispatcher->switchCurrentContext($previousContext);
+            }
+
+            return $result;
+        } catch (\Exception $e) {
             $exception = new ViewRenderException(
                 sprintf('Cannot render template "%s".', $this->templateName),
                 0,
                 $e
             );
 
-            return $this->context->getDispatcher()->processMacrosError($this->context, $exception);
+            $result = $dispatcher->reportViewRenderError($exception, $this->context, $this->viewOwner);
+
+            if ($previousContext) {
+                $dispatcher->switchCurrentContext($previousContext);
+            }
+
+            return $result;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize()
+    {
+        return serialize((string) $this);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        $this->renderedResult = unserialize($serialized);
     }
 
     /**

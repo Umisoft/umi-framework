@@ -14,7 +14,6 @@ use umi\config\entity\IConfigSource;
 use umi\config\entity\ISeparateConfigSource;
 use umi\config\exception\InvalidArgumentException;
 use umi\config\exception\RuntimeException;
-use umi\config\exception\UnexpectedValueException;
 use umi\i18n\ILocalizable;
 use umi\i18n\TLocalizable;
 use umi\spl\config\TConfigSupport;
@@ -25,7 +24,9 @@ use umi\spl\config\TConfigSupport;
  */
 class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable, IConfigEntityFactoryAware
 {
-    /** Директория с кэшем */
+    /**
+     * Директория с кэшем
+     */
     const OPTION_DIRECTORY = 'directory';
 
     use TLocalizable;
@@ -40,17 +41,38 @@ class ConfigCacheEngine implements IConfigCacheEngine, ILocalizable, IConfigEnti
     /**
      * Конструктор.
      * @param array $options конфигурация кеша
-     * @throws UnexpectedValueException если задана неверная конфигурация
      * @throws InvalidArgumentException если задана неверная конфигурация
+     * @throws RuntimeException если не удалось сконфигурировать кеш
      */
     public function __construct(array $options)
     {
         if (!isset($options[self::OPTION_DIRECTORY])) {
             throw new InvalidArgumentException($this->translate(
-                'Option "directory" is required.'
+                'Option "{option}" is required.',
+                ['option' => self::OPTION_DIRECTORY]
             ));
         }
+
         $this->directory = $options[self::OPTION_DIRECTORY];
+
+        if (!is_dir($this->directory)) {
+
+            if (!mkdir($this->directory, 0777, true)) {
+                $error = error_get_last();
+
+                throw new RuntimeException($this->translate(
+                    'Cannot create config cache directory "{directory}": ' . $error['message'],
+                    ['directory' => $this->directory]
+                ));
+            }
+        }
+
+        if (!is_writable($this->directory)) {
+            throw new RuntimeException($this->translate(
+                'Config cache directory "{directory}" is not writable.',
+                ['directory' => $this->directory]
+            ));
+        }
     }
 
     /**
@@ -128,7 +150,7 @@ FILE;
     {
         $source = $config->getSource();
 
-        array_walk(
+        array_walk_recursive(
             $source,
             function ($value) {
                 if ($value instanceof ISeparateConfigSource) {
@@ -147,7 +169,7 @@ FILE;
 
         $source = $config->getSource();
 
-        array_walk(
+        array_walk_recursive(
             $source,
             function ($value) {
                 if ($value instanceof ISeparateConfigSource) {

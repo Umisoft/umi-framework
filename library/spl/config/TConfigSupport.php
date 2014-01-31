@@ -89,6 +89,12 @@ trait TConfigSupport
             }
         }
 
+        foreach ($default as $name => $value) {
+            if (!isset($options[$name])) {
+                $result[$name] = $value;
+            }
+        }
+
         return $result;
     }
 

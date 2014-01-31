@@ -57,10 +57,10 @@ interface IAuthenticationFactory
     /**
      * Создает провайдер аутентификации.
      * @param string $type тип провайдера
-     * @param array $options опции провайдера
+     * @param array $constructorArgs аргументы конструктора провайдера
      * @return IAuthProvider
      */
-    public function createProvider($type, array $options = []);
+    public function createProvider($type, array $constructorArgs = []);
 
     /**
      * Создает менеджер аутентификации.

@@ -29,6 +29,10 @@ class TwigTemplateEngine implements ITemplateEngine, ILocalizable
      * Расширение файлов шаблонов
      */
     const OPTION_TEMPLATE_FILE_EXTENSION = 'extension';
+    /**
+     * Опции окружения Twig
+     */
+    const OPTION_ENVIRONMENT = 'environment';
 
     use TLocalizable;
 
@@ -81,8 +85,14 @@ class TwigTemplateEngine implements ITemplateEngine, ILocalizable
     {
         if (!$this->environment) {
             $baseDirectory = isset($this->options[self::OPTION_TEMPLATE_DIRECTORY]) ? $this->options[self::OPTION_TEMPLATE_DIRECTORY] : '';
+
+            $environmentOptions = [];
+            if (isset($this->options[self::OPTION_ENVIRONMENT]) && is_array($this->options[self::OPTION_ENVIRONMENT])) {
+                $environmentOptions = $this->options[self::OPTION_ENVIRONMENT];
+            }
+
             $twigLoader = new Twig_Loader_Filesystem($baseDirectory);
-            $this->environment = new Twig_Environment($twigLoader);
+            $this->environment = new Twig_Environment($twigLoader, $environmentOptions);
         }
 
         return $this->environment;

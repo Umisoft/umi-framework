@@ -9,6 +9,7 @@
 
 namespace umi\hmvc\component;
 
+use umi\acl\manager\IACLManager;
 use umi\hmvc\controller\IController;
 use umi\hmvc\exception\OutOfBoundsException;
 use umi\hmvc\exception\RuntimeException;
@@ -22,29 +23,42 @@ use umi\route\IRouter;
 interface IComponent
 {
     /**
-     * Опция, для конфигурирования роутера
+     * Разделитель пути компонента
+     */
+    const PATH_SEPARATOR = '.';
+
+    /**
+     * Опция для конфигурирования класса компонента
+     */
+    const OPTION_CLASS = 'componentClass';
+    /**
+     * Опция для конфигурирования маршрутизатора
      */
     const OPTION_ROUTES = 'routes';
     /**
-     * Опция, для конфигурирования моделей
+     * Опция для конфигурирования моделей
      */
     const OPTION_MODELS = 'models';
     /**
-     * Опция, для конфигурирования отображения
+     * Опция для конфигурирования отображения
      */
     const OPTION_VIEW = 'view';
     /**
-     * Опция, для конфигурирования контроллеров
+     * Опция для конфигурирования контроллеров
      */
     const OPTION_CONTROLLERS = 'controllers';
     /**
-     * Опция, для конфигурирования макросов
+     * Опция для конфигурирования макросов
      */
     const OPTION_MACROS = 'macros';
     /**
-     * Опция, для конфигурирования дочерних компонентов
+     * Опция для конфигурирования дочерних компонентов
      */
     const OPTION_COMPONENTS = 'components';
+    /**
+     * Опция для конфигурирования ACL
+     */
+    const OPTION_ACL = 'acl';
 
     /**
      * Имя параметра маршрута, для передачи управления дочернему компоненту
@@ -68,6 +82,12 @@ interface IComponent
      * Имя макроса для отображения ошибок работы макросов
      */
     const ERROR_MACROS = 'error';
+
+    /**
+     * Возвращает иерархический путь компонента.
+     * @return string
+     */
+    public function getPath();
 
     /**
      * Проверяет, существует ли дочерний компонент с заданным именем.
@@ -115,17 +135,23 @@ interface IComponent
     /**
      * Возвращает макрос компонента.
      * @param string $macrosName имя макроса
-     * @param array $args аргументы для создания макроса
+     * @param array $params параметры вызова макроса
      * @throws OutOfBoundsException если макрос не существует
      * @throws RuntimeException если макрос не callable
      * @return IMacros
      */
-    public function getMacros($macrosName, array $args = []);
+    public function getMacros($macrosName, array $params = []);
 
     /**
      * Возвращает рендерер шаблонов компонента.
      * @return IViewRenderer
      */
     public function getViewRenderer();
+
+    /**
+     * Возвращает ACL-менеджер компонента.
+     * @return IACLManager
+     */
+    public function getACLManager();
 
 }

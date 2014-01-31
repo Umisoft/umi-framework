@@ -13,6 +13,7 @@ use umi\hmvc\component\IComponent;
 use umi\hmvc\dispatcher\IDispatchContext;
 use umi\hmvc\exception\RequiredDependencyException;
 use umi\hmvc\view\IView;
+use umi\hmvc\view\View;
 
 /**
  * Базовая реализация макроса компонента.
@@ -20,16 +21,16 @@ use umi\hmvc\view\IView;
 abstract class BaseMacros implements IMacros
 {
     /**
-     * @var IDispatchContext $macrosRequest контекст вызова макроса
+     * @var IDispatchContext $context контекст вызова макроса
      */
-    private $macrosRequest;
+    private $context;
 
     /**
      * {@inheritdoc}
      */
-    public function setMacrosRequest(IDispatchContext $macrosRequest)
+    public function setContext(IDispatchContext $context)
     {
-        $this->macrosRequest = $macrosRequest;
+        $this->context = $context;
 
         return $this;
     }
@@ -39,15 +40,15 @@ abstract class BaseMacros implements IMacros
      * @throws RequiredDependencyException если контекст не был установлен
      * @return IDispatchContext
      */
-    protected function getMacrosRequest()
+    protected function getContext()
     {
-        if (!$this->macrosRequest) {
+        if (!$this->context) {
             throw new RequiredDependencyException(
                 sprintf('Context is not injected in macros "%s".', get_class($this))
             );
         }
 
-        return $this->macrosRequest;
+        return $this->context;
     }
 
     /**
@@ -57,7 +58,7 @@ abstract class BaseMacros implements IMacros
      */
     protected function getComponent()
     {
-        return $this->getMacrosRequest()->getComponent();
+        return $this->getContext()->getComponent();
     }
 
     /**
@@ -68,7 +69,7 @@ abstract class BaseMacros implements IMacros
      */
     protected function createResult($templateName, array $variables)
     {
-        return new MacrosView($this->getMacrosRequest(), $templateName, $variables);
+        return new View($this, $this->getContext(), $templateName, $variables);
     }
 
 

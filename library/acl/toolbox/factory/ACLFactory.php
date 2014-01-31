@@ -12,18 +12,15 @@ namespace umi\acl\toolbox\factory;
 use umi\acl\exception\UnexpectedValueException;
 use umi\acl\IACLFactory;
 use umi\acl\manager\IACLManager;
-use umi\i18n\ILocalizable;
-use umi\i18n\TLocalizable;
 use umi\toolkit\factory\IFactory;
 use umi\toolkit\factory\TFactory;
 
 /**
  * Фабрика для сущностей ACL.
  */
-class ACLFactory implements IACLFactory, IFactory, ILocalizable
+class ACLFactory implements IACLFactory, IFactory
 {
     use TFactory;
-    use TLocalizable;
 
     /**
      * @var string $aclManagerClass класс менеджера ACL
@@ -72,7 +69,7 @@ class ACLFactory implements IACLFactory, IFactory, ILocalizable
     /**
      * Конфигурирует роли.
      * @param IACLManager $aclManager
-     * @param $rolesConfig
+     * @param array $rolesConfig
      * @throws UnexpectedValueException
      */
     private function configureACLRoles(IACLManager $aclManager, $rolesConfig)
@@ -103,7 +100,7 @@ class ACLFactory implements IACLFactory, IFactory, ILocalizable
     /**
      * Конфигурирует ресурсы и операции над ними.
      * @param IACLManager $aclManager
-     * @param $resourcesConfig
+     * @param array $resourcesConfig
      * @throws UnexpectedValueException
      */
     private function configureACLResources(IACLManager $aclManager, $resourcesConfig)
@@ -116,18 +113,8 @@ class ACLFactory implements IACLFactory, IFactory, ILocalizable
             );
         }
 
-        foreach ($resourcesConfig as $resourceName => $operations) {
-
-            if (!is_array($operations)) {
-                throw new UnexpectedValueException(
-                    $this->translate(
-                        'Operations configuration for resource "{resource}" should be an array.',
-                        ['resource' => $resourceName]
-                    )
-                );
-            }
-
-            $aclManager->addResource($resourceName, $operations);
+        foreach ($resourcesConfig as $resourceName) {
+            $aclManager->addResource($resourceName);
         }
     }
 

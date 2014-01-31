@@ -53,9 +53,11 @@ interface IMVCEntityFactory
 
     /**
      * Создает MVC компонент.
+     * @param string $name имя компонента
+     * @param string $path иерархический путь компонента
      * @param array $options конфигурация
      * @return IComponent
      */
-    public function createComponent(array $options);
+    public function createComponent($name, $path, array $options);
 
 }

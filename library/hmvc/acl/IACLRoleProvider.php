@@ -7,7 +7,9 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\acl\role;
+namespace umi\hmvc\acl;
+
+use umi\hmvc\component\IComponent;
 
 /**
  * Интерфейс субъекта, которому назначены роли.
@@ -15,9 +17,10 @@ namespace umi\acl\role;
 interface IACLRoleProvider
 {
     /**
-     * Возвращает список имен назначенных ролей.
+     * Возвращает список имен назначенных ролей для указанного клмпонента.
+     * @param IComponent $component
      * @return string[]
      */
-    public function getRoles();
+    public function getRoles(IComponent $component);
 }
  

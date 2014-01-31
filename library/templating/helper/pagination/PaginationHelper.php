@@ -6,18 +6,21 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\templating\extension\helper\type\pagination;
+namespace umi\templating\helper\pagination;
 
 use umi\pagination\IPaginator;
 use umi\templating\exception\InvalidArgumentException;
 
 /**
- * Коллекция помощников шаблонов для пагинатора.
+ * Коллекция помощников шаблонов для постраничной навигации.
  */
-class PaginationHelperCollection
+class PaginationHelper
 {
+
     /**
-     * Помощник шаблонов для пагинатора со стилем вывода "ALL".
+     * Помощник шаблонов для постраничной навигации с выводом всех страниц.
+     * @param IPaginator $paginator
+     * @return array
      */
     public function all(IPaginator $paginator)
     {
@@ -27,7 +30,10 @@ class PaginationHelperCollection
     }
 
     /**
-     * Помощник шаблонов для пагинатора со стилем вывода "ELASTIC".
+     * Помощник шаблонов для постраничной навигации со стилем вывода "ELASTIC".
+     * @param IPaginator $paginator
+     * @param int $pagesCountInRange количество страниц в ряду
+     * @return array
      */
     public function elastic(IPaginator $paginator, $pagesCountInRange)
     {
@@ -39,7 +45,10 @@ class PaginationHelperCollection
     }
 
     /**
-     * Помощник шаблонов для пагинатора со стилем вывода "JUMPING".
+     * Помощник шаблонов для постраничной навигации со стилем вывода "JUMPING".
+     * @param IPaginator $paginator
+     * @param int $pagesCountInRange количество страниц в ряду
+     * @return array
      */
     public function jumping(IPaginator $paginator, $pagesCountInRange)
     {
@@ -51,7 +60,10 @@ class PaginationHelperCollection
     }
 
     /**
-     * Помощник шаблонов для пагинатора со стилем вывода "SLIDING".
+     * Помощник шаблонов для постраничной навигации со стилем вывода "SLIDING".
+     * @param IPaginator $paginator
+     * @param int $pagesCountInRange количество страниц в ряду
+     * @return array
      */
     public function sliding(IPaginator $paginator, $pagesCountInRange)
     {

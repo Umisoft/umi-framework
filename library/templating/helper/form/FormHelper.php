@@ -7,7 +7,7 @@
  * @license   http://umi-framework.ru/license/bsd-3 BSD-3 License
  */
 
-namespace umi\templating\extension\helper\type\form;
+namespace umi\templating\helper\form;
 
 use umi\form\element\Button;
 use umi\form\element\IElement;
@@ -19,9 +19,9 @@ use umi\form\IForm;
 use umi\templating\exception\InvalidArgumentException;
 
 /**
- * Элементы формы.
+ * Помощник шаблонов для вывода форм.
  */
-class FormHelperCollection
+class FormHelper
 {
 
     /**

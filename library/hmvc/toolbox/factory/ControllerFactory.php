@@ -63,6 +63,7 @@ class ControllerFactory implements IControllerFactory, IFactory, IModelAware
         }
 
         $controller = $this->createControllerByClass($this->controllersList[$name], $args);
+        $controller->setName($name);
 
         return $controller;
     }

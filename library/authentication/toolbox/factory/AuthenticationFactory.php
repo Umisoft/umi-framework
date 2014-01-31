@@ -28,7 +28,7 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
     /**
      * @var string $managerClass класс менеджера аутентификации
      */
-    public $managerClass = 'umi\authentication\Authentication';
+    public $managerClass = 'umi\authentication\AuthManager';
     /**
      * @var array $storageClasses классы хранилищ аутентификации
      */
@@ -135,7 +135,7 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
     /**
      * {@inheritdoc}
      */
-    public function createProvider($type, array $options = [])
+    public function createProvider($type, array $constructorArgs = [])
     {
         if (!$type) {
             throw new InvalidArgumentException($this->translate(
@@ -154,7 +154,7 @@ class AuthenticationFactory implements IAuthenticationFactory, IFactory
                 $this->providerClasses[$type],
                 ['umi\authentication\provider\IAuthProvider']
             )
-            ->createInstance([$options]);
+            ->createInstance($constructorArgs);
     }
 
     /**

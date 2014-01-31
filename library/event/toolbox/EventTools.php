@@ -38,7 +38,7 @@ class EventTools implements IToolbox
     public function __construct()
     {
         $this->registerFactory(
-            'eventFactory',
+            'event',
             $this->eventFactoryClass,
             ['umi\event\IEventFactory']
         );
@@ -75,7 +75,7 @@ class EventTools implements IToolbox
      */
     protected function getEventFactory()
     {
-        return $this->getFactory('eventFactory');
+        return $this->getFactory('event');
     }
 
 }

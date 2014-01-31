@@ -43,5 +43,31 @@ interface IDispatchContext
      * @return SplStack
      */
     public function getCallStack();
+
+    /**
+     * Устанавливает параметры маршрута, соответствующего HTTP запросу к компоненту.
+     * @param array $params параметры маршрута
+     * @return self
+     */
+    public function setRouteParams(array $params);
+
+    /**
+     * Возвращает параметры маршрута, соответствующего HTTP запросу к компоненту.
+     * @return array
+     */
+    public function getRouteParams();
+
+    /**
+     * Устанавливает базовый URL запроса к компоненту.
+     * @param string $baseUrl базовый URL запроса к компоненту
+     * @return self
+     */
+    public function setBaseUrl($baseUrl);
+
+    /**
+     * Возвращает базовый URL запроса к компоненту.
+     * @return string
+     */
+    public function getBaseUrl();
 }
  

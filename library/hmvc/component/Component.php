@@ -9,6 +9,9 @@
 
 namespace umi\hmvc\component;
 
+use umi\acl\IACLAware;
+use umi\acl\manager\IACLManager;
+use umi\acl\TACLAware;
 use umi\hmvc\controller\IControllerFactory;
 use umi\hmvc\exception\OutOfBoundsException;
 use umi\hmvc\IMVCEntityFactoryAware;
@@ -27,17 +30,30 @@ use umi\spl\config\TConfigSupport;
 /**
  * Реализация MVC компонента системы.
  */
-class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILocalizable
+class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILocalizable, IACLAware
 {
     use TMVCEntityFactoryAware;
     use TRouteAware;
     use TLocalizable;
     use TConfigSupport;
+    use TACLAware;
 
+    /**
+     * @var string $path иерархический путь компонента
+     */
+    protected $path;
+    /**
+     * @var string $name имя компонента
+     */
+    protected $name;
     /**
      * @var array $options опции компонента
      */
-    private $options;
+    protected $options;
+    /**
+     * @var IComponent[] $children дочерние компоненты
+     */
+    private $children = [];
     /**
      * @var IRouter $router роутер компонента
      */
@@ -58,14 +74,30 @@ class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILoc
      * @var IViewRenderer $viewRenderer рендерер шаблонов
      */
     private $viewRenderer;
+    /**
+     * @var IACLManager $aclManager менеджер ACL
+     */
+    private $aclManager;
 
     /**
      * Конструктор.
+     * @param string $name имя компонента
+     * @param string $path иерархический путь компонента
      * @param array $options опции
      */
-    public function __construct(array $options = [])
+    public function __construct($name, $path, array $options = [])
     {
+        $this->name = $name;
+        $this->path = $path;
         $this->options = $options;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**
@@ -81,6 +113,10 @@ class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILoc
      */
     public function getChildComponent($name)
     {
+        if (isset($this->children[$name])) {
+            return $this->children[$name];
+        }
+
         if (!$this->hasChildComponent($name)) {
             throw new OutOfBoundsException($this->translate(
                 'Cannot create child component "{name}". Component has not registered.',
@@ -89,7 +125,9 @@ class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILoc
         }
 
         $config = $this->configToArray($this->options[self::OPTION_COMPONENTS][$name]);
-        return $this->createMVCComponent($config);
+        $component = $this->createMVCComponent($name, $this->path . self::PATH_SEPARATOR . $name, $config);
+
+        return $this->children[$name] = $component;
     }
 
     /**
@@ -134,9 +172,9 @@ class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILoc
     /**
      * {@inheritdoc}
      */
-    public function getMacros($macrosName, array $args = [])
+    public function getMacros($macrosName, array $params = [])
     {
-        return $this->getMacrosFactory()->createMacros($macrosName, $args);
+        return $this->getMacrosFactory()->createMacros($macrosName, $params);
     }
 
     /**
@@ -158,6 +196,22 @@ class Component implements IComponent, IMVCEntityFactoryAware, IRouteAware, ILoc
         }
 
         return $this->viewRenderer;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getACLManager()
+    {
+        if (!$this->aclManager) {
+
+            $config = isset($this->options[self::OPTION_ACL]) ? $this->options[self::OPTION_ACL] : [];
+            $config = $this->configToArray($config, true);
+
+            $this->aclManager = $this->getACLFactory()->createACLManager($config);
+        }
+
+        return $this->aclManager;
     }
 
     /**

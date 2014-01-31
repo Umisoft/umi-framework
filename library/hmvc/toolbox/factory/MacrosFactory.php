@@ -55,16 +55,19 @@ class MacrosFactory implements IMacrosFactory, IFactory, IModelAware
     /**
      * {@inheritdoc}
      */
-    public function createMacros($name, $args = [])
+    public function createMacros($name, $params = [])
     {
         if (!$this->hasMacros($name)) {
             throw new OutOfBoundsException($this->translate(
-                'Cannot create "{name}" macros. Macros is not registered.',
-                ['name' => $name]
+                'Cannot create "{name}" macros. Macros is not registered in component "{component}".',
+                [
+                    'name' => $name,
+                    'component' => $this->component->getPath()
+                ]
             ));
         }
 
-        return $this->createMacrosByClass($this->macrosList[$name], $args);
+        return $this->createMacrosByClass($this->macrosList[$name], $params);
     }
 
     /**
@@ -86,11 +89,11 @@ class MacrosFactory implements IMacrosFactory, IFactory, IModelAware
     /**
      * Создает макрос заданного класса.
      * @param string $class класс макроса
-     * @param array $args аргументы конструктора
+     * @param array $params параметры вызова макроса
      * @throws RuntimeException если макрос не callable
      * @return IMacros
      */
-    protected function createMacrosByClass($class, $args = [])
+    protected function createMacrosByClass($class, $params = [])
     {
         $macros = $this->getPrototype(
             $class,
@@ -118,7 +121,7 @@ class MacrosFactory implements IMacrosFactory, IFactory, IModelAware
                 );
             }
         )
-            ->createInstance($args);
+            ->createInstance([], $params);
 
         if ($macros instanceof IModelAware) {
             $macros->setModelFactory($this->modelFactory);

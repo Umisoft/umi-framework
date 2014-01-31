@@ -19,7 +19,7 @@ return [
         'umi\config\entity\factory\IConfigEntityFactoryAware',
         'umi\config\io\IConfigIOAware',
         'umi\config\io\IConfigAliasResolverAware',
-        'umi\config\io\IConfigCacheEngineAware',
+        'umi\config\cache\IConfigCacheEngineAware',
     ],
     'services' => [
         'umi\config\io\IConfigIO'

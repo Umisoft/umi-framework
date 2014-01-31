@@ -37,7 +37,7 @@ class ACLTools implements IToolbox
     public function __construct()
     {
         $this->registerFactory(
-            'ACLFactory',
+            'acl',
             $this->aclFactoryClass,
             ['umi\acl\IACLFactory']
         );
@@ -59,7 +59,7 @@ class ACLTools implements IToolbox
      */
     protected function getACLFactory()
     {
-        return $this->getFactory('ACLFactory');
+        return $this->getFactory('acl');
     }
 }
 

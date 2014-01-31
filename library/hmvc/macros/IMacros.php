@@ -10,19 +10,25 @@
 namespace umi\hmvc\macros;
 
 use umi\hmvc\dispatcher\IDispatchContext;
+use umi\hmvc\view\IView;
 
 /**
  * Интерфейс макроса.
  */
 interface IMacros
 {
+    /**
+     * Вызывает макрос.
+     * @return IView|string
+     */
+    public function __invoke();
 
     /**
      * Внедряет контекст вызова макроса.
-     * @param IDispatchContext $macrosRequest
+     * @param IDispatchContext $context
      * @return self
      */
-    public function setMacrosRequest(IDispatchContext $macrosRequest);
+    public function setContext(IDispatchContext $context);
 
 }
  

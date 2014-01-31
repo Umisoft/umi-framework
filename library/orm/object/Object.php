@@ -127,9 +127,7 @@ class Object implements IObject, ILocalizable, ILocalesAware, IObjectManagerAwar
     }
 
     /**
-     * Создает объект из строки
-     * @param string $serialized строковое представление объекта
-     * @return $this
+     * {@inheritdoc}
      */
     public function unserialize($serialized)
     {

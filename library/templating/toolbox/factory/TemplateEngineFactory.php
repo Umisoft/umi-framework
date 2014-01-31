@@ -31,6 +31,14 @@ class TemplateEngineFactory implements ITemplateEngineFactory, IFactory
     ];
 
     /**
+     * @var array $defaultOptions опции шаблонизаторов по умолчанию
+     */
+    public $defaultOptions = [
+        self::PHP_ENGINE => [],
+        self::TWIG_ENGINE => []
+    ];
+
+    /**
      * @var array $initializers
      */
     protected $initializers = [];
@@ -59,7 +67,11 @@ class TemplateEngineFactory implements ITemplateEngineFactory, IFactory
             )
             ->createInstance();
 
-        $engine->setOptions($options);
+        if (isset($this->defaultOptions[$type])) {
+            $options = $this->mergeConfigOptions($options, $this->defaultOptions[$type]);
+        }
+
+        $engine->setOptions($this->configToArray($options, true));
 
         if (isset($this->initializers[$type])) {
             $this->initializers[$type]($engine);
