@@ -37,7 +37,7 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
     use TLoggerAware;
     use TLocalizable;
     use TPrototypeAware {
-        TPrototypeAware::getPrototype as public;
+        TPrototypeAware::getPrototype as getPrototypeInternal;
     }
 
     /**
@@ -312,6 +312,13 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
 
         return null;
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function getPrototype($className, array $contracts = [], callable $prototypeInitializer = null) {
+        return $this->getPrototypeInternal($className, $contracts, $prototypeInitializer);
+    }
 
     /**
      * Возвращает экземляр набора инструментов
@@ -456,4 +463,5 @@ class Toolkit implements IToolkit, ILoggerAware, ILocalizable
     {
         return $this;
     }
+    
 }
